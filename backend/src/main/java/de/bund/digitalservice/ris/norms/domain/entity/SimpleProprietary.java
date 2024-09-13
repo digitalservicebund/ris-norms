@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class SimpleProprietary {
+
   private final Node node;
 
   /**
@@ -31,9 +32,10 @@ public class SimpleProprietary {
    * @return the optional value of @start in {@link LocalDate}
    */
   public Optional<LocalDate> getStart() {
-    return NodeParser.getValueFromExpression("./@start", node)
-        .map(LocalDate::parse)
-        .or(this::getAb);
+    return NodeParser
+      .getValueFromExpression("./@start", node)
+      .map(LocalDate::parse)
+      .or(this::getAb);
   }
 
   /**
@@ -64,15 +66,15 @@ public class SimpleProprietary {
   }
 
   private Optional<LocalDate> getEndOrBis(final String attributeName) {
-    return NodeParser.getValueFromExpression("./@%s".formatted(attributeName), node)
-        .map(
-            m -> {
-              if (m.equals("unbestimmt")) {
-                return LocalDate.MAX;
-              } else {
-                return LocalDate.parse(m);
-              }
-            });
+    return NodeParser
+      .getValueFromExpression("./@%s".formatted(attributeName), node)
+      .map(m -> {
+        if (m.equals("unbestimmt")) {
+          return LocalDate.MAX;
+        } else {
+          return LocalDate.parse(m);
+        }
+      });
   }
 
   /**

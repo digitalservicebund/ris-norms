@@ -17,9 +17,10 @@ public class UpdateModResponseMapper {
    * @return A new {@link UpdateModResponseSchema} instance.
    */
   public static UpdateModResponseSchema fromResult(final UpdateModUseCase.Result result) {
-    return UpdateModResponseSchema.builder()
-        .amendingNormXml(result.amendingNormXml())
-        .targetNormZf0Xml(result.targetNormZf0Xml())
-        .build();
+    return UpdateModResponseSchema
+      .builder()
+      .amendingNormXml(result.amendingNormXml())
+      .targetNormZf0Xml(result.targetNormZf0Xml())
+      .build();
   }
 }

@@ -17,11 +17,12 @@ public class TimeBoundaryMapper {
    * @return A new {@link TimeBoundarySchema} instance mapped from the input {@link TimeBoundary}.
    */
   public static TimeBoundarySchema fromUseCaseData(final TimeBoundary timeBoundary) {
-    return TimeBoundarySchema.builder()
-        .date(timeBoundary.getEventRef().getDate().orElse(null))
-        .eventRefEid(timeBoundary.getEventRefEid().orElse(null))
-        .temporalGroupEid(timeBoundary.getTemporalGroupEid().orElse(null))
-        .build();
+    return TimeBoundarySchema
+      .builder()
+      .date(timeBoundary.getEventRef().getDate().orElse(null))
+      .eventRefEid(timeBoundary.getEventRefEid().orElse(null))
+      .temporalGroupEid(timeBoundary.getTemporalGroupEid().orElse(null))
+      .build();
   }
 
   /**
@@ -31,14 +32,17 @@ public class TimeBoundaryMapper {
    * @return A new {@link TimeBoundarySchema} instance mapped from the input {@link TimeBoundary}.
    */
   public static List<TimeBoundaryChangeData> fromResponseSchema(
-      final List<TimeBoundarySchema> timeBoundaries) {
-    return timeBoundaries.stream()
-        .map(
-            timeBoundary ->
-                TimeBoundaryChangeData.builder()
-                    .date(timeBoundary.getDate())
-                    .eid(timeBoundary.getEventRefEid())
-                    .build())
-        .toList();
+    final List<TimeBoundarySchema> timeBoundaries
+  ) {
+    return timeBoundaries
+      .stream()
+      .map(timeBoundary ->
+        TimeBoundaryChangeData
+          .builder()
+          .date(timeBoundary.getDate())
+          .eid(timeBoundary.getEventRefEid())
+          .build()
+      )
+      .toList();
   }
 }

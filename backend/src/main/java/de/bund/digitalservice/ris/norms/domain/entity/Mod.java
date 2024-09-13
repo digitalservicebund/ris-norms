@@ -22,6 +22,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode
 public class Mod {
+
   private final Node node;
 
   private static final String REF_XPATH = "./ref";
@@ -61,7 +62,9 @@ public class Mod {
    */
   public String getMandatoryOldText() {
     return NodeParser.getValueFromMandatoryNodeFromExpression(
-        "normalize-space(./quotedText[1])", this.node);
+      "normalize-space(./quotedText[1])",
+      this.node
+    );
   }
 
   /**
@@ -70,9 +73,10 @@ public class Mod {
    * @param replacementText the text that should be replaced by this modification
    */
   public void setOldText(String replacementText) {
-    NodeParser.getNodeFromExpression("./quotedText[1]", this.node)
-        .orElseThrow()
-        .setTextContent(replacementText);
+    NodeParser
+      .getNodeFromExpression("./quotedText[1]", this.node)
+      .orElseThrow()
+      .setTextContent(replacementText);
   }
 
   /**
@@ -99,11 +103,12 @@ public class Mod {
    * @param newHref - the new ELI + eId of the target law
    */
   public void setTargetRefHref(final String newHref) {
-    NodeParser.getNodeFromExpression(REF_XPATH, this.node)
-        .orElseThrow()
-        .getAttributes()
-        .getNamedItem("href")
-        .setNodeValue(newHref);
+    NodeParser
+      .getNodeFromExpression(REF_XPATH, this.node)
+      .orElseThrow()
+      .getAttributes()
+      .getNamedItem("href")
+      .setNodeValue(newHref);
   }
 
   /**
@@ -121,11 +126,12 @@ public class Mod {
    * @param newFrom - the new ELI + eId of the target law
    */
   public void setTargetRrefFrom(final String newFrom) {
-    NodeParser.getNodeFromExpression(RREF_XPATH, this.node)
-        .orElseThrow()
-        .getAttributes()
-        .getNamedItem("from")
-        .setNodeValue(newFrom);
+    NodeParser
+      .getNodeFromExpression(RREF_XPATH, this.node)
+      .orElseThrow()
+      .getAttributes()
+      .getNamedItem("from")
+      .setNodeValue(newFrom);
   }
 
   /**
@@ -134,8 +140,9 @@ public class Mod {
    * @param newContent - the replacing text
    */
   public void setNewText(final String newContent) {
-    final Node newContentNode =
-        NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
+    final Node newContentNode = NodeParser
+      .getNodeFromExpression("./quotedText[2]", this.node)
+      .orElseThrow();
     newContentNode.setTextContent(newContent);
   }
 
@@ -180,8 +187,10 @@ public class Mod {
    * @return is it using a quotedText structure
    */
   public boolean usesQuotedText() {
-    final Optional<Node> newContentNode =
-        NodeParser.getNodeFromExpression("./quotedText", this.node);
+    final Optional<Node> newContentNode = NodeParser.getNodeFromExpression(
+      "./quotedText",
+      this.node
+    );
     return newContentNode.isPresent();
   }
 
@@ -191,8 +200,10 @@ public class Mod {
    * @return is it using a quotedStructure
    */
   public boolean usesQuotedStructure() {
-    final Optional<Node> newContentNode =
-        NodeParser.getNodeFromExpression("./quotedStructure", this.node);
+    final Optional<Node> newContentNode = NodeParser.getNodeFromExpression(
+      "./quotedStructure",
+      this.node
+    );
     return newContentNode.isPresent();
   }
 
@@ -221,11 +232,12 @@ public class Mod {
    * @param destinationUpTo - the UpTo attribute that should be updated
    */
   public void setTargetRrefUpTo(final String destinationUpTo) {
-    NodeParser.getNodeFromExpression(RREF_XPATH, this.node)
-        .orElseThrow()
-        .getAttributes()
-        .getNamedItem("upTo")
-        .setNodeValue(destinationUpTo);
+    NodeParser
+      .getNodeFromExpression(RREF_XPATH, this.node)
+      .orElseThrow()
+      .getAttributes()
+      .getNamedItem("upTo")
+      .setNodeValue(destinationUpTo);
   }
 
   /**

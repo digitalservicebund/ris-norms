@@ -49,8 +49,10 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(final AnnouncementNotFoundException e) {
     log.error("AnnouncementNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.NOT_FOUND
+    );
     problemDetail.setProperty("eli", e.getEli());
     return problemDetail;
   }
@@ -65,10 +67,13 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final ValidationException e) {
     log.error("ValidationException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
-    Arrays.stream(e.getFields())
-        .forEach(field -> problemDetail.setProperty(field.getKey().getName(), field.getValue()));
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
+    Arrays
+      .stream(e.getFields())
+      .forEach(field -> problemDetail.setProperty(field.getKey().getName(), field.getValue()));
     return problemDetail;
   }
 
@@ -94,8 +99,10 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(NormNotFoundException.class)
   public ProblemDetail handleException(final NormNotFoundException e) {
     log.error("NormNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.NOT_FOUND
+    );
     problemDetail.setProperty("eli", e.getEli());
     return problemDetail;
   }
@@ -110,8 +117,10 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(final ArticleNotFoundException e) {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.NOT_FOUND
+    );
     problemDetail.setProperty("eli", e.getEli());
     problemDetail.setProperty("eid", e.getEid());
     return problemDetail;
@@ -127,8 +136,10 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(final ElementNotFoundException e) {
     log.error("ElementNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.NOT_FOUND
+    );
     problemDetail.setProperty("eli", e.getEli());
     problemDetail.setProperty("eid", e.getEid());
     return problemDetail;
@@ -144,10 +155,13 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(
-      final LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException e) {
+    final LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException e
+  ) {
     log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.NOT_FOUND
+    );
     problemDetail.setProperty("eli", e.getEli());
     problemDetail.setProperty("articleType", e.getType());
     return problemDetail;
@@ -163,8 +177,10 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final MandatoryNodeNotFoundException e) {
     log.error("MandatoryNodeNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
     problemDetail.setProperty("xpath", e.getXpath());
     if (StringUtils.isNotEmpty(e.getEli())) {
       problemDetail.setProperty("eli", e.getEli());
@@ -185,7 +201,8 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ProblemDetail handleException(
-      final LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e) {
+    final LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e
+  ) {
     log.error("UnsupportedElementTypeException: {}", e.getMessage(), e);
     return ProblemDetailFactory.createProblemDetail(e, HttpStatus.BAD_REQUEST);
   }
@@ -200,8 +217,10 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final NormExistsAlreadyException e) {
     log.error("NormExistsAlreadyException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
     problemDetail.setProperty("eli", e.getEli());
     return problemDetail;
   }
@@ -216,8 +235,10 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final ActiveModDestinationNormNotFoundException e) {
     log.error("ActiveModDestinationNormNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
     problemDetail.setProperty("eli", e.getEli());
     problemDetail.setProperty("destinationEli", e.getDestinationEli());
     return problemDetail;
@@ -234,8 +255,10 @@ public class NormsAppExceptionHandler {
   public ProblemDetail handleException(final NotAXmlFileException e) {
     log.error("NotAXmlFileException: {}", e.getMessage(), e);
 
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
     problemDetail.setProperty("fileName", e.getFileName());
     problemDetail.setProperty("contentType", e.getContentType());
     return problemDetail;
@@ -252,8 +275,10 @@ public class NormsAppExceptionHandler {
   public ProblemDetail handleException(final LdmlDeNotValidException e) {
     log.error("LdmlDeNotValidException: {}", e.getMessage(), e);
 
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
     problemDetail.setProperty("errors", e.getErrors());
     return problemDetail;
   }
@@ -269,8 +294,10 @@ public class NormsAppExceptionHandler {
   public ProblemDetail handleException(final LdmlDeSchematronException e) {
     log.error("LdmlDeSchematronException: {}", e.getMessage(), e);
 
-    final ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
     problemDetail.setProperty("errors", e.getErrors());
     return problemDetail;
   }

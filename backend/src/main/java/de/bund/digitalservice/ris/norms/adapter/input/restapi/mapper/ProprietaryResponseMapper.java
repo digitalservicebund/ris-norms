@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * ProprietaryFrameSchema}.
  */
 public class ProprietaryResponseMapper {
+
   // Private constructor to hide the implicit public one and prevent instantiation
   private ProprietaryResponseMapper() {}
 
@@ -22,20 +23,23 @@ public class ProprietaryResponseMapper {
    * @return Converted data
    */
   public static ProprietaryFrameSchema fromProprietary(
-      Proprietary proprietary, final LocalDate date) {
-    return ProprietaryFrameSchema.builder()
-        .fna(proprietary.getFna(date).orElse(null))
-        .art(proprietary.getArt(date).orElse(null))
-        .typ(proprietary.getTyp(date).orElse(null))
-        .subtyp(proprietary.getSubtyp(date).orElse(null))
-        .bezeichnungInVorlage(proprietary.getBezeichnungInVorlage(date).orElse(null))
-        .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
-        .staat(proprietary.getStaat(date).orElse(null))
-        .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
-        .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
-        .ressort(proprietary.getRessort(date).orElse(null))
-        .organisationsEinheit(proprietary.getOrganisationsEinheit(date).orElse(null))
-        .build();
+    Proprietary proprietary,
+    final LocalDate date
+  ) {
+    return ProprietaryFrameSchema
+      .builder()
+      .fna(proprietary.getFna(date).orElse(null))
+      .art(proprietary.getArt(date).orElse(null))
+      .typ(proprietary.getTyp(date).orElse(null))
+      .subtyp(proprietary.getSubtyp(date).orElse(null))
+      .bezeichnungInVorlage(proprietary.getBezeichnungInVorlage(date).orElse(null))
+      .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
+      .staat(proprietary.getStaat(date).orElse(null))
+      .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
+      .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
+      .ressort(proprietary.getRessort(date).orElse(null))
+      .organisationsEinheit(proprietary.getOrganisationsEinheit(date).orElse(null))
+      .build();
   }
 
   /**
@@ -48,9 +52,13 @@ public class ProprietaryResponseMapper {
    * @return Converted data
    */
   public static ProprietarySingleElementSchema fromProprietarySingleElement(
-      Proprietary proprietary, final String eid, final LocalDate date) {
-    return ProprietarySingleElementSchema.builder()
-        .artDerNorm(proprietary.getArtDerNorm(date, eid).orElse(null))
-        .build();
+    Proprietary proprietary,
+    final String eid,
+    final LocalDate date
+  ) {
+    return ProprietarySingleElementSchema
+      .builder()
+      .artDerNorm(proprietary.getArtDerNorm(date, eid).orElse(null))
+      .build();
   }
 }

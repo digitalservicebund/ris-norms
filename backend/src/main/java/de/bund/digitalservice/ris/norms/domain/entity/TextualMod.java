@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class TextualMod {
+
   private final Node node;
 
   /**
@@ -63,19 +64,18 @@ public class TextualMod {
   }
 
   private Node getOrCreateDestinationNode() {
-    return NodeParser.getNodeFromExpression("./destination", this.node)
-        .orElseGet(
-            () -> {
-              var newElement = getNode().getOwnerDocument().createElement("akn:destination");
-              newElement.setAttribute(
-                  "eId",
-                  new EId(this.getEid().orElseThrow())
-                      .addPart(new EIdPart("destination", "1"))
-                      .value());
-              newElement.setAttribute("GUID", UUID.randomUUID().toString());
-              getNode().appendChild(newElement);
-              return newElement;
-            });
+    return NodeParser
+      .getNodeFromExpression("./destination", this.node)
+      .orElseGet(() -> {
+        var newElement = getNode().getOwnerDocument().createElement("akn:destination");
+        newElement.setAttribute(
+          "eId",
+          new EId(this.getEid().orElseThrow()).addPart(new EIdPart("destination", "1")).value()
+        );
+        newElement.setAttribute("GUID", UUID.randomUUID().toString());
+        getNode().appendChild(newElement);
+        return newElement;
+      });
   }
 
   /**
@@ -108,25 +108,25 @@ public class TextualMod {
    * @return The force eid of the modification
    */
   public Optional<String> getForcePeriodEid() {
-    return NodeParser.getValueFromExpression("./force/@period", this.node)
-        .map(Href::new)
-        .flatMap(Href::getEId);
+    return NodeParser
+      .getValueFromExpression("./force/@period", this.node)
+      .map(Href::new)
+      .flatMap(Href::getEId);
   }
 
   private Node getOrCreateForceNode() {
-    return NodeParser.getNodeFromExpression("./force", getNode())
-        .orElseGet(
-            () -> {
-              var newElement = getNode().getOwnerDocument().createElement("akn:force");
-              newElement.setAttribute(
-                  "eId",
-                  new EId(this.getEid().orElseThrow())
-                      .addPart(new EIdPart("gelzeitnachw", "1"))
-                      .value());
-              newElement.setAttribute("GUID", UUID.randomUUID().toString());
-              getNode().appendChild(newElement);
-              return newElement;
-            });
+    return NodeParser
+      .getNodeFromExpression("./force", getNode())
+      .orElseGet(() -> {
+        var newElement = getNode().getOwnerDocument().createElement("akn:force");
+        newElement.setAttribute(
+          "eId",
+          new EId(this.getEid().orElseThrow()).addPart(new EIdPart("gelzeitnachw", "1")).value()
+        );
+        newElement.setAttribute("GUID", UUID.randomUUID().toString());
+        getNode().appendChild(newElement);
+        return newElement;
+      });
   }
 
   /**
@@ -136,11 +136,12 @@ public class TextualMod {
    */
   public void setForcePeriodEid(final String periodEid) {
     getOrCreateForceNode()
-        .getAttributes()
-        .getNamedItem("period")
-        .setNodeValue(
-            periodEid == null
-                ? ""
-                : new Href.Builder().setEId(periodEid).buildInternalReference().value());
+      .getAttributes()
+      .getNamedItem("period")
+      .setNodeValue(
+        periodEid == null
+          ? ""
+          : new Href.Builder().setEId(periodEid).buildInternalReference().value()
+      );
   }
 }

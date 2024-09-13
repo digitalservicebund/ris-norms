@@ -9,5 +9,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class ProprietarySingleElementSchema {
+
   private String artDerNorm;
 }

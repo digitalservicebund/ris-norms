@@ -66,8 +66,10 @@ public record CharacterRange(String characterRange) {
    * @return the text-content of the range
    */
   public String findTextInNode(Node node) {
-    var text =
-        getNodesInRange(node).stream().map(Node::getTextContent).collect(Collectors.joining());
+    var text = getNodesInRange(node)
+      .stream()
+      .map(Node::getTextContent)
+      .collect(Collectors.joining());
     node.normalize();
     return text;
   }
@@ -89,25 +91,27 @@ public record CharacterRange(String characterRange) {
     // text before selection
     if (start != 0) {
       textNode
-          .getParentNode()
-          .insertBefore(
-              textNode.getOwnerDocument().createTextNode(textContent.substring(0, start)),
-              textNode);
+        .getParentNode()
+        .insertBefore(
+          textNode.getOwnerDocument().createTextNode(textContent.substring(0, start)),
+          textNode
+        );
     }
 
     // selected text
     final var rangeTextContent = textContent.substring(start, Math.min(textContent.length(), end));
-    final var rangeNode =
-        textNode
-            .getParentNode()
-            .insertBefore(textNode.getOwnerDocument().createTextNode(rangeTextContent), textNode);
+    final var rangeNode = textNode
+      .getParentNode()
+      .insertBefore(textNode.getOwnerDocument().createTextNode(rangeTextContent), textNode);
 
     // text after selection
     if (end < textContent.length()) {
       textNode
-          .getParentNode()
-          .insertBefore(
-              textNode.getOwnerDocument().createTextNode(textContent.substring(end)), textNode);
+        .getParentNode()
+        .insertBefore(
+          textNode.getOwnerDocument().createTextNode(textContent.substring(end)),
+          textNode
+        );
     }
 
     textNode.getParentNode().removeChild(textNode);
@@ -127,14 +131,20 @@ public record CharacterRange(String characterRange) {
   public List<Node> getNodesInRange(Node node) throws IndexOutOfBoundsException {
     if (node.getTextContent().length() < getStart()) {
       throw new IndexOutOfBoundsException(
-          "Start (%d) is after the end of the text content (length: %d)."
-              .formatted(getStart(), node.getTextContent().length()));
+        "Start (%d) is after the end of the text content (length: %d).".formatted(
+            getStart(),
+            node.getTextContent().length()
+          )
+      );
     }
 
     if (node.getTextContent().length() < getEnd()) {
       throw new IndexOutOfBoundsException(
-          "End (%d) is after the end of the text content (length: %d)."
-              .formatted(getEnd(), node.getTextContent().length()));
+        "End (%d) is after the end of the text content (length: %d).".formatted(
+            getEnd(),
+            node.getTextContent().length()
+          )
+      );
     }
 
     if (getStart() == 0 && getEnd() == node.getTextContent().length()) {
@@ -154,11 +164,10 @@ public record CharacterRange(String characterRange) {
         for (Node childNode : NodeParser.nodeListToList(node.getChildNodes())) {
           int textContentLength = childNode.getTextContent().length();
           if (start < textContentLength) {
-            var newRange =
-                new Builder()
-                    .start(Math.max(0, start))
-                    .end(Math.min(textContentLength, end))
-                    .build();
+            var newRange = new Builder()
+              .start(Math.max(0, start))
+              .end(Math.min(textContentLength, end))
+              .build();
 
             nodesInRange.addAll(newRange.getNodesInRange(childNode));
           }
@@ -172,15 +181,18 @@ public record CharacterRange(String characterRange) {
         }
 
         throw new IndexOutOfBoundsException(
-            "Expected end (%d) to be <= 0 after iterating all child nodes.".formatted(end));
+          "Expected end (%d) to be <= 0 after iterating all child nodes.".formatted(end)
+        );
       }
-      default ->
-          throw new UnsupportedOperationException("Unsupported node type: " + node.getNodeType());
+      default -> throw new UnsupportedOperationException(
+        "Unsupported node type: " + node.getNodeType()
+      );
     }
   }
 
   /** Builder for creating a new {@link CharacterRange}. */
   public static class Builder {
+
     private int start;
     private int end;
 

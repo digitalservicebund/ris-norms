@@ -11,7 +11,6 @@ import java.util.Optional;
  * the corresponding ZF0 versions of the target law.
  */
 public interface UpdateModUseCase {
-
   /**
    * Updates an amending command of an amending law and also updates the corresponding ZF0 version
    * of the affected target laws.
@@ -36,24 +35,34 @@ public interface UpdateModUseCase {
    *     Default: false
    */
   record Query(
+    String eli,
+    String eid,
+    String refersTo,
+    String timeBoundaryEid,
+    String destinationHref,
+    String destinationUpTo,
+    String newContent,
+    boolean dryRun
+  ) {
+    public Query(
       String eli,
       String eid,
       String refersTo,
       String timeBoundaryEid,
       String destinationHref,
       String destinationUpTo,
-      String newContent,
-      boolean dryRun) {
-    public Query(
-        String eli,
-        String eid,
-        String refersTo,
-        String timeBoundaryEid,
-        String destinationHref,
-        String destinationUpTo,
-        String newContent) {
+      String newContent
+    ) {
       this(
-          eli, eid, refersTo, timeBoundaryEid, destinationHref, destinationUpTo, newContent, false);
+        eli,
+        eid,
+        refersTo,
+        timeBoundaryEid,
+        destinationHref,
+        destinationUpTo,
+        newContent,
+        false
+      );
     }
   }
 

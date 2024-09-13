@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 /** UseCase for creating a new {@link Announcement}. */
 public interface CreateAnnouncementUseCase {
-
   /**
    * Creates a new {@link Announcement} based on the provided norm xml file.
    *

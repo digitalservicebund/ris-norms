@@ -12,9 +12,18 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class UpdateModRequestSchema {
 
-  @NotNull private String refersTo;
-  @Nullable private String timeBoundaryEid;
-  @NotNull private String destinationHref;
-  @Nullable private String destinationUpTo;
-  @NotNull private String newContent;
+  @NotNull
+  private String refersTo;
+
+  @Nullable
+  private String timeBoundaryEid;
+
+  @NotNull
+  private String destinationHref;
+
+  @Nullable
+  private String destinationUpTo;
+
+  @NotNull
+  private String newContent;
 }

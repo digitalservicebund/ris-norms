@@ -8,7 +8,6 @@ import java.util.Optional;
  * should provide functionality to update a norm using the specified command.
  */
 public interface UpdateNormPort {
-
   /**
    * Updates a {@link Norm} based on the provided data in the command.
    *

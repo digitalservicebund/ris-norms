@@ -18,6 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Eli {
+
   private String agent;
   private String year;
   private String naturalIdentifier;
@@ -27,10 +28,11 @@ public class Eli {
   private String subtype;
 
   public Eli(String eli) {
-    Matcher matcher =
-        Pattern.compile(
-                "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)/(?<subtype>[^/.]+)(\\.xml)?")
-            .matcher(eli);
+    Matcher matcher = Pattern
+      .compile(
+        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)/(?<subtype>[^/.]+)(\\.xml)?"
+      )
+      .matcher(eli);
 
     if (!matcher.matches()) {
       throw new IllegalArgumentException("Invalid Eli");
@@ -46,19 +48,21 @@ public class Eli {
   }
 
   public String getValue() {
-    return "eli/bund/"
-        + agent
-        + "/"
-        + year
-        + "/"
-        + naturalIdentifier
-        + "/"
-        + pointInTime
-        + "/"
-        + version
-        + "/"
-        + language
-        + "/"
-        + subtype;
+    return (
+      "eli/bund/" +
+      agent +
+      "/" +
+      year +
+      "/" +
+      naturalIdentifier +
+      "/" +
+      pointInTime +
+      "/" +
+      version +
+      "/" +
+      language +
+      "/" +
+      subtype
+    );
   }
 }

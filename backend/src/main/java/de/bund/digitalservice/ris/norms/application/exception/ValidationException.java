@@ -41,36 +41,49 @@ public class ValidationException extends RuntimeException implements NormsAppExc
   @Getter
   public enum ErrorType {
     META_MOD_NOT_FOUND(
-        "/errors/meta-mod-not-found", "Did not find a textual mod with eId %s in the norm %s"),
+      "/errors/meta-mod-not-found",
+      "Did not find a textual mod with eId %s in the norm %s"
+    ),
     ELI_NOT_IN_HREF(
-        "/errors/eli-not-in-href", "The destinationHref with value %s does not contain a eli"),
+      "/errors/eli-not-in-href",
+      "The destinationHref with value %s does not contain a eli"
+    ),
     SOURCE_HREF_IN_META_MOD_MISSING(
-        "/errors/source-href-in-meta-mod-missing",
-        "Did not find source href for textual mod with eId %s"),
+      "/errors/source-href-in-meta-mod-missing",
+      "Did not find source href for textual mod with eId %s"
+    ),
     TARGET_NODE_NOT_PRESENT(
-        "/errors/target-node-not-present",
-        "Target node with eid %s not present in ZF0 norm with eli %s."),
+      "/errors/target-node-not-present",
+      "Target node with eid %s not present in ZF0 norm with eli %s."
+    ),
     TARGET_UPTO_NODE_NOT_PRESENT(
-        "/errors/target-upto-node-not-present",
-        "Target upTo node with eid %s not present in ZF0 norm with eli %s."),
+      "/errors/target-upto-node-not-present",
+      "Target upTo node with eid %s not present in ZF0 norm with eli %s."
+    ),
     TARGET_AND_UPTO_NODES_NOT_SIBLINGS(
-        "/errors/target-and-upto-nodes-not-siblings",
-        "Target node with eid %s and target upTo node with eid %s are not siblings in ZF0 norm with eli %s."),
+      "/errors/target-and-upto-nodes-not-siblings",
+      "Target node with eid %s and target upTo node with eid %s are not siblings in ZF0 norm with eli %s."
+    ),
     TARGET_NODE_AFTER_UPTO_NODE(
-        "/errors/target-node-before-upto-node",
-        "Target node with eid %s does not appear before target upTo node with eid %s in ZF0 norm with eli %s."),
+      "/errors/target-node-before-upto-node",
+      "Target node with eid %s does not appear before target upTo node with eid %s in ZF0 norm with eli %s."
+    ),
     CHARACTER_RANGE_NOT_PRESENT(
-        "/errors/character-range-not-present",
-        "In the destination href with value %s of passive mod with eId %s within ZF0 norm with eli %s, the character range not present."),
+      "/errors/character-range-not-present",
+      "In the destination href with value %s of passive mod with eId %s within ZF0 norm with eli %s, the character range not present."
+    ),
     CHARACTER_RANGE_INVALID_FORMAT(
-        "/errors/character-range-with-invalid-format",
-        "The character range %s of passive mod with eId %s within ZF0 norm with eli %s has invalid format."),
+      "/errors/character-range-with-invalid-format",
+      "The character range %s of passive mod with eId %s within ZF0 norm with eli %s has invalid format."
+    ),
     CHARACTER_RANGE_NOT_RESOLVE_TARGET(
-        "/errors/character-range-not-resolve-to-target",
-        "The character range %s of passive mod with eId %s within ZF0 norm with eli %s does not resolve to the targeted text to be replaced."),
+      "/errors/character-range-not-resolve-to-target",
+      "The character range %s of passive mod with eId %s within ZF0 norm with eli %s does not resolve to the targeted text to be replaced."
+    ),
     CHARACTER_RANGE_NOT_WITHIN_NODE_RANGE(
-        "/errors/character-range-not-within-node-range",
-        "The character range %s of passive mod with eId %s within ZF0 norm with eli %s is not within the target node.");
+      "/errors/character-range-not-within-node-range",
+      "The character range %s of passive mod with eId %s within ZF0 norm with eli %s is not within the target node."
+    );
 
     private final String type;
     private final String message;

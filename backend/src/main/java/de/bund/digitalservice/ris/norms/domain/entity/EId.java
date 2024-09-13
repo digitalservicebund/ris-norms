@@ -84,40 +84,43 @@ public record EId(String value) {
       return Optional.empty();
     }
 
-    var newEIdPart =
-        new EIdPart(eIdPartType.get().getName(), findEIdPosition(node, eIdPartType.get()));
+    var newEIdPart = new EIdPart(
+      eIdPartType.get().getName(),
+      findEIdPosition(node, eIdPartType.get())
+    );
 
     return parentEId
-        .map(eId -> eId.addPart(newEIdPart))
-        .or(() -> Optional.of(new EId(newEIdPart.value())));
+      .map(eId -> eId.addPart(newEIdPart))
+      .or(() -> Optional.of(new EId(newEIdPart.value())));
   }
 
   private static String findEIdPosition(Node node, EIdPartType eIdPartType) {
-    if (node.getNodeName().equals("akn:li")
-        && node.getParentNode().getNodeName().equals("akn:ol")) {
+    if (
+      node.getNodeName().equals("akn:li") && node.getParentNode().getNodeName().equals("akn:ol")
+    ) {
       return node.getAttributes().getNamedItem("value").getNodeValue().replace(".", "");
     }
 
-    return NodeParser.getValueFromExpression("./num/marker/@name", node)
-        .orElseGet(
-            () -> {
-              var position = 1;
-              var previousSibling = node.getPreviousSibling();
-              while (previousSibling != null) {
-                var eId = EId.fromNode(previousSibling);
+    return NodeParser
+      .getValueFromExpression("./num/marker/@name", node)
+      .orElseGet(() -> {
+        var position = 1;
+        var previousSibling = node.getPreviousSibling();
+        while (previousSibling != null) {
+          var eId = EId.fromNode(previousSibling);
 
-                if (eId.isPresent()) {
-                  var previousSiblingEIdType = eId.get().getParts().getLast().getType();
+          if (eId.isPresent()) {
+            var previousSiblingEIdType = eId.get().getParts().getLast().getType();
 
-                  if (previousSiblingEIdType.equals(eIdPartType.getName())) {
-                    position++;
-                  }
-                }
+            if (previousSiblingEIdType.equals(eIdPartType.getName())) {
+              position++;
+            }
+          }
 
-                previousSibling = previousSibling.getPreviousSibling();
-              }
+          previousSibling = previousSibling.getPreviousSibling();
+        }
 
-              return "%d".formatted(position);
-            });
+        return "%d".formatted(position);
+      });
   }
 }

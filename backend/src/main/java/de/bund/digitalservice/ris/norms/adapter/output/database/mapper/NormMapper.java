@@ -27,10 +27,11 @@ public class NormMapper {
    * @return A new {@link NormDto} mapped from the input {@link Norm}.
    */
   public static NormDto mapToDto(final Norm norm) {
-    return NormDto.builder()
-        .xml(XmlMapper.toString(norm.getDocument()))
-        .eli(norm.getEli())
-        .guid(norm.getGuid())
-        .build();
+    return NormDto
+      .builder()
+      .xml(XmlMapper.toString(norm.getDocument()))
+      .eli(norm.getEli())
+      .guid(norm.getGuid())
+      .build();
   }
 }

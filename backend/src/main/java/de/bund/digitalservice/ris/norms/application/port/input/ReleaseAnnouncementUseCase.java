@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * {@link Norm}s.
  */
 public interface ReleaseAnnouncementUseCase {
-
   /**
    * Releases an {@link Announcement} and the corresponding {@link Norm}s based on the provided
    * query.

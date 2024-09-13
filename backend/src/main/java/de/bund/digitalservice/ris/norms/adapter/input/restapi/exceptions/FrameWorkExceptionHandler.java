@@ -36,10 +36,13 @@ public class FrameWorkExceptionHandler {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ProblemDetail handleHttpMessageNotReadableException(
-      final HttpMessageNotReadableException e) {
+    final HttpMessageNotReadableException e
+  ) {
     log.error("HttpMessageNotReadableException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+      HttpStatus.BAD_REQUEST,
+      e.getMessage()
+    );
     problemDetail.setType(URI.create("/errors/http-message-not-readable-exception"));
     return problemDetail;
   }
@@ -54,19 +57,22 @@ public class FrameWorkExceptionHandler {
   @ExceptionHandler(HandlerMethodValidationException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ProblemDetail handleHandlerMethodValidationException(
-      final HandlerMethodValidationException e) {
-
-    final List<String> validationErrors =
-        e.getAllValidationResults().stream()
-            .flatMap(validationResults -> validationResults.getResolvableErrors().stream())
-            .map(MessageSourceResolvable::getDefaultMessage)
-            .toList();
+    final HandlerMethodValidationException e
+  ) {
+    final List<String> validationErrors = e
+      .getAllValidationResults()
+      .stream()
+      .flatMap(validationResults -> validationResults.getResolvableErrors().stream())
+      .map(MessageSourceResolvable::getDefaultMessage)
+      .toList();
 
     final String concatenatedValidationErrors = String.join(";", validationErrors);
     log.error("HandlerMethodValidationException: {}", concatenatedValidationErrors, e);
 
-    final ProblemDetail problemDetail =
-        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, concatenatedValidationErrors);
+    final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+      HttpStatus.BAD_REQUEST,
+      concatenatedValidationErrors
+    );
     problemDetail.setTitle("Input validation error");
     problemDetail.setType(URI.create("/errors/input-validation-error"));
     return problemDetail;
@@ -83,8 +89,10 @@ public class FrameWorkExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final NoSuchElementException e) {
     log.error("A value necessary for the operation was not found: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
+    final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+      HttpStatus.UNPROCESSABLE_ENTITY,
+      e.getMessage()
+    );
     problemDetail.setType(URI.create("/errors/necessary-value-missing"));
     return problemDetail;
   }
@@ -101,9 +109,10 @@ public class FrameWorkExceptionHandler {
   public ProblemDetail handleTypeMismatchException(final MethodArgumentTypeMismatchException e) {
     log.error("Type mismatch: {}", e.getMessage(), e);
     final String invalidValue = e.getValue() != null ? e.getValue().toString() : "Unknown";
-    ProblemDetail problemDetail =
-        ProblemDetail.forStatusAndDetail(
-            HttpStatus.BAD_REQUEST, "Invalid request parameter: %s".formatted(invalidValue));
+    ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+      HttpStatus.BAD_REQUEST,
+      "Invalid request parameter: %s".formatted(invalidValue)
+    );
     problemDetail.setTitle("Parameter Binding Error");
     problemDetail.setType(URI.create("/errors/parameter-binding-error"));
     return problemDetail;
@@ -119,8 +128,10 @@ public class FrameWorkExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ProblemDetail handleException(final Exception e) {
     log.error("Internal server error: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail =
-        ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+    final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+      HttpStatus.INTERNAL_SERVER_ERROR,
+      e.getMessage()
+    );
     problemDetail.setType(URI.create("/errors/internal-server-error"));
     return problemDetail;
   }
@@ -142,7 +153,8 @@ public class FrameWorkExceptionHandler {
    */
   @ExceptionHandler(AsyncRequestNotUsableException.class)
   public ResponseEntity<Object> handleAsyncRequestNotUsableException(
-      AsyncRequestNotUsableException e) {
+    AsyncRequestNotUsableException e
+  ) {
     log.debug("Async request was not usable: ", e);
     return null;
   }

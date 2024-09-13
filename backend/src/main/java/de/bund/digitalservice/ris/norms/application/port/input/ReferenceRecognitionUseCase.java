@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * the xml representation of a {@link Norm}.
  */
 public interface ReferenceRecognitionUseCase {
-
   /**
    * Runs the regex pattern recognition for references in the norm by the given ELI and updates the
    * XML of it in the DB.

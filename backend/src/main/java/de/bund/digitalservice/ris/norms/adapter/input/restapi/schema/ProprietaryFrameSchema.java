@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class ProprietaryFrameSchema {
+
   private String fna;
   private String art;
   private String typ;

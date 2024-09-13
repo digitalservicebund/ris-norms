@@ -71,9 +71,9 @@ class NodeParserTest {
 
   @Test
   void nodeListToListMultipleElements() {
-    Node node =
-        XmlMapper.toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
-            .getFirstChild();
+    Node node = XmlMapper
+      .toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
+      .getFirstChild();
     var nodes = NodeParser.nodeListToList(node.getChildNodes());
     assertThat(nodes).hasSize(2);
   }
@@ -87,11 +87,12 @@ class NodeParserTest {
 
   @ParameterizedTest
   @CsvSource(
-      """
-      //act/@name
-      //*:act/@name
-      //Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act/@name
-      """)
+    """
+    //act/@name
+    //*:act/@name
+    //Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act/@name
+    """
+  )
   void xPathsWorkWithoutNamespaceAwareness(String xPath) {
     var norm = NormFixtures.loadFromDisk("NormWithMods.xml", false);
     Node node = norm.getDocument();
@@ -101,11 +102,12 @@ class NodeParserTest {
 
   @ParameterizedTest
   @CsvSource(
-      """
-      //act/@name
-      //*:act/@name
-      //Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act/@name
-      """)
+    """
+    //act/@name
+    //*:act/@name
+    //Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act/@name
+    """
+  )
   void xPathsWorkWithNamespaceAwareness(String xPath) {
     var norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
     Node node = norm.getDocument();
@@ -117,9 +119,10 @@ class NodeParserTest {
   void xPathsWorkWithNamespaceDoesNotMatchInDocumentWithDifferentNamespace() {
     var norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
     Node node = norm.getDocument();
-    Optional<String> result =
-        NodeParser.getValueFromExpression(
-            "//Q{http://Inhaltsdaten.LegalDocML.de/1.5/}act/@name", node);
+    Optional<String> result = NodeParser.getValueFromExpression(
+      "//Q{http://Inhaltsdaten.LegalDocML.de/1.5/}act/@name",
+      node
+    );
     assertThat(result).isEmpty();
   }
 }

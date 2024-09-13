@@ -10,14 +10,16 @@ class EventRefTest {
 
   @Test
   void getDate() {
-    final EventRef eventRef =
-        EventRef.builder()
-            .node(
-                XmlMapper.toNode(
-                    """
-                        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2017-03-15" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
-                           """))
-            .build();
+    final EventRef eventRef = EventRef
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+          <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2017-03-15" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+             """
+        )
+      )
+      .build();
 
     // then
     assertThat(eventRef.getDate()).contains(LocalDate.parse("2017-03-15"));
@@ -25,14 +27,16 @@ class EventRefTest {
 
   @Test
   void getDateEmpty() {
-    final EventRef eventRef =
-        EventRef.builder()
-            .node(
-                XmlMapper.toNode(
-                    """
-                        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
-                                           """))
-            .build();
+    final EventRef eventRef = EventRef
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+          <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                             """
+        )
+      )
+      .build();
 
     // then
     assertThat(eventRef.getDate()).isEmpty();

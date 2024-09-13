@@ -34,8 +34,10 @@ public interface LoadElementsByTypeFromNormUseCase {
   }
 
   /** Indicates that at least one of the requested types is not supported. */
-  class UnsupportedElementTypeException extends IllegalArgumentException
-      implements NormsAppException {
+  class UnsupportedElementTypeException
+    extends IllegalArgumentException
+    implements NormsAppException {
+
     public UnsupportedElementTypeException(String message) {
       super(message);
     }

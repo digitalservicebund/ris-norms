@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AnnouncementRepository extends JpaRepository<AnnouncementDto, UUID> {
-
   /**
    * Finds a {@link AnnouncementDto} by its norms ELI (European Legislation Identifier).
    *

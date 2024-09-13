@@ -42,15 +42,16 @@ public interface UpdateProprietaryFrameFromNormUseCase {
    * @param organisationsEinheit - "Organisationseinheit"
    */
   record Metadata(
-      String fna,
-      String art,
-      String typ,
-      String subtyp,
-      String bezeichnungInVorlage,
-      String artDerNorm,
-      String staat,
-      String beschliessendesOrgan,
-      Boolean qualifizierterMehrheit,
-      String ressort,
-      String organisationsEinheit) {}
+    String fna,
+    String art,
+    String typ,
+    String subtyp,
+    String bezeichnungInVorlage,
+    String artDerNorm,
+    String staat,
+    String beschliessendesOrgan,
+    Boolean qualifizierterMehrheit,
+    String ressort,
+    String organisationsEinheit
+  ) {}
 }

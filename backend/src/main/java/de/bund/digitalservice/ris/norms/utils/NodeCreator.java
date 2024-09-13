@@ -52,7 +52,10 @@ public class NodeCreator {
    * @return the newly created element
    */
   public static Element createElementWithStaticEidAndGuidNoAppend(
-      final String tagName, final String eidPartName, final Node parentNode) {
+    final String tagName,
+    final String eidPartName,
+    final Node parentNode
+  ) {
     var newElement = parentNode.getOwnerDocument().createElement(tagName);
     newElement.setAttribute("eId", EId.fromMandatoryNode(parentNode) + "_" + eidPartName);
     newElement.setAttribute("GUID", UUID.randomUUID().toString());

@@ -8,6 +8,7 @@ import lombok.Getter;
 /** The given xml is not a schematron-valid LDML.de 1.6 document. */
 @Getter
 public class LdmlDeSchematronException extends RuntimeException implements NormsAppException {
+
   private final List<ValidationError> errors;
 
   /**
@@ -29,5 +30,5 @@ public class LdmlDeSchematronException extends RuntimeException implements Norms
    * @param eId the eId of the node that causes the error
    */
   public record ValidationError(String type, String xPath, String details, String eId)
-      implements Serializable {}
+    implements Serializable {}
 }

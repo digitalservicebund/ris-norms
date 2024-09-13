@@ -26,10 +26,12 @@ import org.w3c.dom.Node;
  */
 @Service
 public class ElementService
-    implements LoadElementFromNormUseCase,
-        LoadElementHtmlFromNormUseCase,
-        LoadElementHtmlAtDateFromNormUseCase,
-        LoadElementsByTypeFromNormUseCase {
+  implements
+    LoadElementFromNormUseCase,
+    LoadElementHtmlFromNormUseCase,
+    LoadElementHtmlAtDateFromNormUseCase,
+    LoadElementsByTypeFromNormUseCase {
+
   private final LoadNormPort loadNormPort;
   private final XsltTransformationService xsltTransformationService;
   private final TimeMachineService timeMachineService;
@@ -77,9 +79,10 @@ public class ElementService
   }
 
   public ElementService(
-      LoadNormPort loadNormPort,
-      XsltTransformationService xsltTransformationService,
-      TimeMachineService timeMachineService) {
+    LoadNormPort loadNormPort,
+    XsltTransformationService xsltTransformationService,
+    TimeMachineService timeMachineService
+  ) {
     this.loadNormPort = loadNormPort;
     this.xsltTransformationService = xsltTransformationService;
     this.timeMachineService = timeMachineService;
@@ -89,43 +92,46 @@ public class ElementService
   public Node loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
     final var xPath = getXPathForEid(query.eid());
 
-    final var norm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+    final var norm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
-    return NodeParser.getNodeFromExpression(xPath, norm.getDocument())
-        .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
+    return NodeParser
+      .getNodeFromExpression(xPath, norm.getDocument())
+      .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
   }
 
   @Override
   public String loadElementHtmlFromNorm(final LoadElementHtmlFromNormUseCase.Query query) {
-    final var normXml =
-        XmlMapper.toString(
-            loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid())));
+    final var normXml = XmlMapper.toString(
+      loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid()))
+    );
 
     return xsltTransformationService.transformLegalDocMlToHtml(
-        new TransformLegalDocMlToHtmlUseCase.Query(normXml, false, false));
+      new TransformLegalDocMlToHtmlUseCase.Query(normXml, false, false)
+    );
   }
 
   @Override
   public String loadElementHtmlAtDateFromNorm(
-      final LoadElementHtmlAtDateFromNormUseCase.Query query) {
-    var norm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+    final LoadElementHtmlAtDateFromNormUseCase.Query query
+  ) {
+    var norm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     norm =
-        timeMachineService.applyPassiveModifications(
-            new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()));
+    timeMachineService.applyPassiveModifications(
+      new ApplyPassiveModificationsUseCase.Query(norm, query.atDate())
+    );
 
-    final var element =
-        NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument())
-            .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
+    final var element = NodeParser
+      .getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument())
+      .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
 
     return xsltTransformationService.transformLegalDocMlToHtml(
-        new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false, false));
+      new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false, false)
+    );
   }
 
   @Override
@@ -133,35 +139,36 @@ public class ElementService
     // No need to do anything if no types are requested
     if (query.elementType().isEmpty()) return List.of();
 
-    final var combinedXPaths =
-        String.join(
-            "|",
-            query.elementType().stream().map(label -> ElementType.fromLabel(label).xPath).toList());
+    final var combinedXPaths = String.join(
+      "|",
+      query.elementType().stream().map(label -> ElementType.fromLabel(label).xPath).toList()
+    );
 
-    final var norm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+    final var norm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     // Source EIDs from passive mods
-    final var passiveModsDestinationEids =
-        getDestinationEidsFromPassiveMods(
-            norm.getMeta()
-                .getAnalysis()
-                .map(Analysis::getPassiveModifications)
-                .orElse(Collections.emptyList()),
-            query.amendedBy());
+    final var passiveModsDestinationEids = getDestinationEidsFromPassiveMods(
+      norm
+        .getMeta()
+        .getAnalysis()
+        .map(Analysis::getPassiveModifications)
+        .orElse(Collections.emptyList()),
+      query.amendedBy()
+    );
 
-    return NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream()
-        .filter( // filter by "amendedBy")
-            element -> {
-              // no amending law -> all elements are fine
-              if (query.amendedBy() == null) return true;
+    return NodeParser
+      .getNodesFromExpression(combinedXPaths, norm.getDocument())
+      .stream()
+      .filter(element -> { // filter by "amendedBy")
+        // no amending law -> all elements are fine
+        if (query.amendedBy() == null) return true;
 
-              var eId = EId.fromNode(element).map(EId::value).orElseThrow();
-              return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
-            })
-        .toList();
+        var eId = EId.fromNode(element).map(EId::value).orElseThrow();
+        return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
+      })
+      .toList();
   }
 
   private String getXPathForEid(String eid) {
@@ -169,22 +176,20 @@ public class ElementService
   }
 
   private List<String> getDestinationEidsFromPassiveMods(
-      List<TextualMod> mods, @Nullable String amendedBy) {
-    return mods.stream()
-        .filter(
-            passiveMod -> {
-              if (amendedBy == null) return true;
+    List<TextualMod> mods,
+    @Nullable String amendedBy
+  ) {
+    return mods
+      .stream()
+      .filter(passiveMod -> {
+        if (amendedBy == null) return true;
 
-              return passiveMod
-                  .getSourceHref()
-                  .flatMap(Href::getEli)
-                  .orElseThrow()
-                  .equals(amendedBy);
-            })
-        .map(TextualMod::getDestinationHref)
-        .flatMap(Optional::stream)
-        .map(Href::getEId)
-        .flatMap(Optional::stream)
-        .toList();
+        return passiveMod.getSourceHref().flatMap(Href::getEli).orElseThrow().equals(amendedBy);
+      })
+      .map(TextualMod::getDestinationHref)
+      .flatMap(Optional::stream)
+      .map(Href::getEId)
+      .flatMap(Optional::stream)
+      .toList();
   }
 }

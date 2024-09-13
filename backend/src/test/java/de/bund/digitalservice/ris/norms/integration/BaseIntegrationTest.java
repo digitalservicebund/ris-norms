@@ -25,8 +25,9 @@ import org.testcontainers.utility.DockerImageName;
  */
 @DirtiesContext
 @SpringBootTest(
-    webEnvironment = WebEnvironment.RANDOM_PORT,
-    properties = "spring.flyway.locations=classpath:db/migration")
+  webEnvironment = WebEnvironment.RANDOM_PORT,
+  properties = "spring.flyway.locations=classpath:db/migration"
+)
 @AutoConfigureDataJpa
 @AutoConfigureMockMvc
 @Testcontainers(disabledWithoutDocker = true)
@@ -34,28 +35,29 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class BaseIntegrationTest {
 
   @Container
-  static final PostgreSQLContainer<?> postgreSQLContainer =
-      new PostgreSQLContainer<>("postgres:15")
-          .withDatabaseName("postgres")
-          .withUsername("postgres")
-          .withPassword("pass");
+  static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15")
+    .withDatabaseName("postgres")
+    .withUsername("postgres")
+    .withPassword("pass");
 
   @Container
-  static final GenericContainer<?> redis =
-      new GenericContainer<>(DockerImageName.parse("cgr.dev/chainguard/redis"))
-          .withExposedPorts(6379);
+  static final GenericContainer<?> redis = new GenericContainer<>(
+    DockerImageName.parse("cgr.dev/chainguard/redis")
+  )
+    .withExposedPorts(6379);
 
   @DynamicPropertySource
   static void registerDynamicProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
     registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     registry.add(
-        "spring.datasource.url",
-        () ->
-            "jdbc:postgresql://localhost:%d/%s"
-                .formatted(
-                    postgreSQLContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
-                    postgreSQLContainer.getDatabaseName()));
+      "spring.datasource.url",
+      () ->
+        "jdbc:postgresql://localhost:%d/%s".formatted(
+            postgreSQLContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
+            postgreSQLContainer.getDatabaseName()
+          )
+    );
 
     registry.add("spring.data.redis.host", redis::getHost);
     registry.add("spring.data.redis.port", () -> redis.getMappedPort(6379).toString());

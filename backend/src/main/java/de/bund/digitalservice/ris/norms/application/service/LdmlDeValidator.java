@@ -34,12 +34,14 @@ import org.xml.sax.SAXParseException;
 /** Validators for LDML.de XML files. */
 @Service
 public class LdmlDeValidator {
+
   private final Resource schematronXslt;
   private final Resource xsdSchema;
 
   public LdmlDeValidator(
-      @Value("classpath:schema/fixtures/legalDocML.de.xsl") Resource schematronXslt,
-      @Value("classpath:schema/fixtures/ldml1.6_ds_regelungstext.xsd") Resource xsdSchema) {
+    @Value("classpath:schema/fixtures/legalDocML.de.xsl") Resource schematronXslt,
+    @Value("classpath:schema/fixtures/ldml1.6_ds_regelungstext.xsd") Resource xsdSchema
+  ) {
     this.schematronXslt = schematronXslt;
     this.xsdSchema = xsdSchema;
   }
@@ -68,37 +70,39 @@ public class LdmlDeValidator {
     factory.setIgnoringElementContentWhitespace(true);
 
     List<SAXParseException> parsingExceptions = new ArrayList<>();
-    ErrorHandler errorHandler =
-        new ErrorHandler() {
-          @Override
-          public void warning(SAXParseException exception) {
-            parsingExceptions.add(exception);
-          }
+    ErrorHandler errorHandler = new ErrorHandler() {
+      @Override
+      public void warning(SAXParseException exception) {
+        parsingExceptions.add(exception);
+      }
 
-          @Override
-          public void error(SAXParseException exception) {
-            parsingExceptions.add(exception);
-          }
+      @Override
+      public void error(SAXParseException exception) {
+        parsingExceptions.add(exception);
+      }
 
-          @Override
-          public void fatalError(SAXParseException exception) {
-            parsingExceptions.add(exception);
-          }
-        };
+      @Override
+      public void fatalError(SAXParseException exception) {
+        parsingExceptions.add(exception);
+      }
+    };
 
     var result = XmlMapper.toDocument(ldmlDeString, factory, errorHandler);
 
     if (!parsingExceptions.isEmpty()) {
       throw new LdmlDeNotValidException(
-          parsingExceptions.stream()
-              .map(
-                  e ->
-                      new LdmlDeNotValidException.ValidationError(
-                          URI.create(e.getMessage().split(":")[0]),
-                          e.getLineNumber(),
-                          e.getColumnNumber(),
-                          e.getMessage()))
-              .toList());
+        parsingExceptions
+          .stream()
+          .map(e ->
+            new LdmlDeNotValidException.ValidationError(
+              URI.create(e.getMessage().split(":")[0]),
+              e.getLineNumber(),
+              e.getColumnNumber(),
+              e.getMessage()
+            )
+          )
+          .toList()
+      );
     }
 
     return Norm.builder().document(result).build();
@@ -135,46 +139,51 @@ public class LdmlDeValidator {
       throw new XmlProcessingException("Result is not a document.", null);
     }
 
-    var failedAsserts =
-        resultDoc.getElementsByTagNameNS("http://purl.oclc.org/dsdl/svrl", "failed-assert");
+    var failedAsserts = resultDoc.getElementsByTagNameNS(
+      "http://purl.oclc.org/dsdl/svrl",
+      "failed-assert"
+    );
     // successful-reports are often used for warnings, and do not indicate that an assert was not
     // failed
-    var successfulReports =
-        resultDoc.getElementsByTagNameNS("http://purl.oclc.org/dsdl/svrl", "successful-report");
+    var successfulReports = resultDoc.getElementsByTagNameNS(
+      "http://purl.oclc.org/dsdl/svrl",
+      "successful-report"
+    );
 
     if (failedAsserts.getLength() > 0 || successfulReports.getLength() > 0) {
       var failedAssertMessages = NodeParser.nodeListToList(failedAsserts).stream();
       var successfulReportMessages = NodeParser.nodeListToList(successfulReports).stream();
 
-      var errors =
-          Stream.concat(failedAssertMessages, successfulReportMessages)
-              .map(
-                  node -> {
-                    // The location includes an XPath with expanded QNames
-                    // (Q{namespace}<localPart>).
-                    var xPath = node.getAttributes().getNamedItem("location").getNodeValue();
+      var errors = Stream
+        .concat(failedAssertMessages, successfulReportMessages)
+        .map(node -> {
+          // The location includes an XPath with expanded QNames
+          // (Q{namespace}<localPart>).
+          var xPath = node.getAttributes().getNamedItem("location").getNodeValue();
 
-                    // Find the eId of the node responsible for this problem. Sometimes the location
-                    // points to an attribute, so we might need to move up in the element tree to
-                    // find the eId.
-                    List<Node> eIdNodes =
-                        NodeParser.getNodesFromExpression(
-                            xPath + "/ancestor-or-self::*/@eId", norm.getDocument());
-                    String eId =
-                        eIdNodes.stream()
-                            .map(Node::getNodeValue)
-                            .reduce("", (a, b) -> a.length() > b.length() ? a : b);
+          // Find the eId of the node responsible for this problem. Sometimes the location
+          // points to an attribute, so we might need to move up in the element tree to
+          // find the eId.
+          List<Node> eIdNodes = NodeParser.getNodesFromExpression(
+            xPath + "/ancestor-or-self::*/@eId",
+            norm.getDocument()
+          );
+          String eId = eIdNodes
+            .stream()
+            .map(Node::getNodeValue)
+            .reduce("", (a, b) -> a.length() > b.length() ? a : b);
 
-                    return new LdmlDeSchematronException.ValidationError(
-                        "/errors/ldml-de-not-schematron-valid/%s/%s"
-                            .formatted(
-                                node.getLocalName(),
-                                node.getAttributes().getNamedItem("id").getNodeValue()),
-                        xPath,
-                        node.getTextContent(),
-                        eId);
-                  })
-              .toList();
+          return new LdmlDeSchematronException.ValidationError(
+            "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(
+                node.getLocalName(),
+                node.getAttributes().getNamedItem("id").getNodeValue()
+              ),
+            xPath,
+            node.getTextContent(),
+            eId
+          );
+        })
+        .toList();
 
       throw new LdmlDeSchematronException(errors);
     }

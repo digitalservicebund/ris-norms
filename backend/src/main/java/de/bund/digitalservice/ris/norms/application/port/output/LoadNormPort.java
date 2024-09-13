@@ -9,7 +9,6 @@ import java.util.Optional;
  * the specified command.
  */
 public interface LoadNormPort {
-
   /**
    * Loads a {@link Norm} based on the provided ELI specified in the command.
    *

@@ -35,10 +35,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AnnouncementService
-    implements LoadAllAnnouncementsUseCase,
-        LoadAnnouncementByNormEliUseCase,
-        LoadTargetNormsAffectedByAnnouncementUseCase,
-        CreateAnnouncementUseCase {
+  implements
+    LoadAllAnnouncementsUseCase,
+    LoadAnnouncementByNormEliUseCase,
+    LoadTargetNormsAffectedByAnnouncementUseCase,
+    CreateAnnouncementUseCase {
+
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final LoadNormPort loadNormPort;
@@ -47,12 +49,13 @@ public class AnnouncementService
   private final LdmlDeValidator ldmlDeValidator;
 
   public AnnouncementService(
-      LoadAllAnnouncementsPort loadAllAnnouncementsPort,
-      LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
-      LoadNormPort loadNormPort,
-      LoadZf0Service loadZf0Service,
-      UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
-      LdmlDeValidator ldmlDeValidator) {
+    LoadAllAnnouncementsPort loadAllAnnouncementsPort,
+    LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
+    LoadNormPort loadNormPort,
+    LoadZf0Service loadZf0Service,
+    UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
+    LdmlDeValidator ldmlDeValidator
+  ) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.loadNormPort = loadNormPort;
@@ -69,41 +72,43 @@ public class AnnouncementService
   @Override
   public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
     return loadAnnouncementByNormEliPort
-        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-        .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
+      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
+      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
   }
 
   @Override
   public List<Norm> loadTargetNormsAffectedByAnnouncement(
-      LoadTargetNormsAffectedByAnnouncementUseCase.Query query) {
+    LoadTargetNormsAffectedByAnnouncementUseCase.Query query
+  ) {
     final Norm amendingNorm =
-        this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
-            .getNorm();
+      this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
+        .getNorm();
 
-    return amendingNorm.getArticles().stream()
-        .filter(
-            article ->
-                article.getRefersTo().isPresent()
-                    && !article.getRefersTo().get().equals("geltungszeitregel"))
-        .map(
-            article -> {
-              final Norm targetLaw =
-                  loadNormPort
-                      .loadNorm(new LoadNormPort.Command(article.getMandatoryAffectedDocumentEli()))
-                      .orElseThrow(
-                          () ->
-                              new NormNotFoundException(article.getMandatoryAffectedDocumentEli()));
-              return loadZf0Service.loadOrCreateZf0(
-                  new LoadZf0UseCase.Query(amendingNorm, targetLaw, true));
-            })
-        .toList();
+    return amendingNorm
+      .getArticles()
+      .stream()
+      .filter(article ->
+        article.getRefersTo().isPresent() &&
+        !article.getRefersTo().get().equals("geltungszeitregel")
+      )
+      .map(article -> {
+        final Norm targetLaw = loadNormPort
+          .loadNorm(new LoadNormPort.Command(article.getMandatoryAffectedDocumentEli()))
+          .orElseThrow(() -> new NormNotFoundException(article.getMandatoryAffectedDocumentEli()));
+        return loadZf0Service.loadOrCreateZf0(
+          new LoadZf0UseCase.Query(amendingNorm, targetLaw, true)
+        );
+      })
+      .toList();
   }
 
   @Override
   public Announcement createAnnouncement(CreateAnnouncementUseCase.Query query) throws IOException {
     if (query.file().isEmpty() || !"text/xml".equals(query.file().getContentType())) {
       throw new NotAXmlFileException(
-          query.file().getOriginalFilename(), query.file().getContentType());
+        query.file().getOriginalFilename(),
+        query.file().getContentType()
+      );
     }
 
     var xmlString = IOUtils.toString(query.file().getInputStream(), Charset.defaultCharset());
@@ -116,22 +121,24 @@ public class AnnouncementService
 
     var norm = Norm.builder().document(XmlMapper.toDocument(xmlString)).build();
 
-    var activeMods =
-        norm.getMeta().getAnalysis().map(Analysis::getActiveModifications).orElseGet(List::of);
-    var activeModDestinationElis =
-        activeMods.stream()
-            .map(TextualMod::getDestinationHref)
-            .flatMap(Optional::stream)
-            .map(Href::getEli)
-            .flatMap(Optional::stream)
-            .collect(Collectors.toSet());
+    var activeMods = norm
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getActiveModifications)
+      .orElseGet(List::of);
+    var activeModDestinationElis = activeMods
+      .stream()
+      .map(TextualMod::getDestinationHref)
+      .flatMap(Optional::stream)
+      .map(Href::getEli)
+      .flatMap(Optional::stream)
+      .collect(Collectors.toSet());
 
-    activeModDestinationElis.forEach(
-        eli -> {
-          if (loadNormPort.loadNorm(new LoadNormPort.Command(eli)).isEmpty()) {
-            throw new ActiveModDestinationNormNotFoundException(norm.getEli(), eli);
-          }
-        });
+    activeModDestinationElis.forEach(eli -> {
+      if (loadNormPort.loadNorm(new LoadNormPort.Command(eli)).isEmpty()) {
+        throw new ActiveModDestinationNormNotFoundException(norm.getEli(), eli);
+      }
+    });
 
     if (loadNormPort.loadNorm(new LoadNormPort.Command(norm.getEli())).isPresent()) {
       throw new NormExistsAlreadyException(norm.getEli());
@@ -139,7 +146,8 @@ public class AnnouncementService
 
     var announcement = Announcement.builder().norm(norm).build();
     updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
-        new UpdateOrSaveAnnouncementPort.Command(announcement));
+      new UpdateOrSaveAnnouncementPort.Command(announcement)
+    );
 
     return announcement;
   }

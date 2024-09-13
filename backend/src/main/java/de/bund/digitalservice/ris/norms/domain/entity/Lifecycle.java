@@ -21,8 +21,10 @@ public class Lifecycle {
    * @return the list of {@link EventRef}
    */
   public List<EventRef> getEventRefs() {
-    return NodeParser.getNodesFromExpression("./eventRef", node).stream()
-        .map(EventRef::new)
-        .toList();
+    return NodeParser
+      .getNodesFromExpression("./eventRef", node)
+      .stream()
+      .map(EventRef::new)
+      .toList();
   }
 }

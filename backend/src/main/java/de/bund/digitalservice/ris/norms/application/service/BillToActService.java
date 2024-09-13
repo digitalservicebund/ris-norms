@@ -43,16 +43,17 @@ public class BillToActService implements BillToActUseCase {
     Element akomaNtoso = (Element) document.getElementsByTagName("akn:akomaNtoso").item(0);
     akomaNtoso.setAttribute("xmlns:akn", "http://Inhaltsdaten.LegalDocML.de/1.6/");
     akomaNtoso.setAttribute(
-        "xsi:schemaLocation",
-        "http://Metadaten.LegalDocML.de/1.6/ "
-            + ROOT_DIR
-            + "/"
-            + SCHEMA
-            + "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ "
-            + ROOT_DIR
-            + "/"
-            + SCHEMA
-            + "/legalDocML.de-regelungstextverkuendungsfassung.xsd");
+      "xsi:schemaLocation",
+      "http://Metadaten.LegalDocML.de/1.6/ " +
+      ROOT_DIR +
+      "/" +
+      SCHEMA +
+      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ " +
+      ROOT_DIR +
+      "/" +
+      SCHEMA +
+      "/legalDocML.de-regelungstextverkuendungsfassung.xsd"
+    );
   }
 
   private void updateBillToAct() {
@@ -61,12 +62,12 @@ public class BillToActService implements BillToActUseCase {
     final Node newChildFragment = parentNode.getOwnerDocument().createDocumentFragment();
     var newElement = parentNode.getOwnerDocument().createElement("akn:act");
     newElement.setAttribute("name", "regelungstext");
-    NodeParser.nodeListToList(bill.getChildNodes())
-        .forEach(
-            child -> {
-              final Node importedChild = parentNode.getOwnerDocument().importNode(child, true);
-              newElement.appendChild(importedChild);
-            });
+    NodeParser
+      .nodeListToList(bill.getChildNodes())
+      .forEach(child -> {
+        final Node importedChild = parentNode.getOwnerDocument().importNode(child, true);
+        newElement.appendChild(importedChild);
+      });
     newChildFragment.appendChild(newElement);
     parentNode.insertBefore(newChildFragment, bill);
     parentNode.removeChild(bill);
@@ -74,16 +75,26 @@ public class BillToActService implements BillToActUseCase {
 
   private void rewriteFbrWork() {
     // (3) Rewrite FRBRWork
-    Element fRBRthis =
-        (Element) NodeParser.getMandatoryNodeFromExpression("//FRBRWork/FRBRthis", document);
-    Element fRBRuri =
-        (Element) NodeParser.getMandatoryNodeFromExpression("//FRBRWork/FRBRuri", document);
-    Element fRBRdate =
-        (Element) NodeParser.getMandatoryNodeFromExpression("//FRBRWork/FRBRdate", document);
-    Element fRBRname =
-        (Element) NodeParser.getMandatoryNodeFromExpression("//FRBRWork/FRBRname", document);
-    Element fRBRnumber =
-        (Element) NodeParser.getMandatoryNodeFromExpression("//FRBRWork/FRBRnumber", document);
+    Element fRBRthis = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//FRBRWork/FRBRthis",
+      document
+    );
+    Element fRBRuri = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//FRBRWork/FRBRuri",
+      document
+    );
+    Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//FRBRWork/FRBRdate",
+      document
+    );
+    Element fRBRname = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//FRBRWork/FRBRname",
+      document
+    );
+    Element fRBRnumber = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//FRBRWork/FRBRnumber",
+      document
+    );
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
@@ -91,40 +102,43 @@ public class BillToActService implements BillToActUseCase {
     String num = fRBRnumber.getAttribute(VALUE);
 
     fRBRthis.setAttribute(
-        VALUE, ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num + "/regelungstext-1");
+      VALUE,
+      ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num + "/regelungstext-1"
+    );
     fRBRuri.setAttribute(VALUE, ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num);
     fRBRdate.setAttribute("name", "verkuendungsfassung");
     fRBRname.setAttribute(VALUE, "bgbl-1");
   }
 
   private void rewriteFbrExpression() {
-    Element fRBRExpression =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression("//identification/FRBRExpression", document);
-    Element fRBRthis =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRthis", document);
-    Element fRBRuri =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRuri", document);
-    Element fRBRdate =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRdate", document);
-    Element fRBRVersionNumber =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRversionNumber", document);
-    Element fRBRlanguage =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRlanguage", document);
-    Element fRBRNumber =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRWork/FRBRnumber", document);
+    Element fRBRExpression = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression",
+      document
+    );
+    Element fRBRthis = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRthis",
+      document
+    );
+    Element fRBRuri = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRuri",
+      document
+    );
+    Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRdate",
+      document
+    );
+    Element fRBRVersionNumber = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRversionNumber",
+      document
+    );
+    Element fRBRlanguage = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRlanguage",
+      document
+    );
+    Element fRBRNumber = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRWork/FRBRnumber",
+      document
+    );
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
@@ -132,62 +146,65 @@ public class BillToActService implements BillToActUseCase {
     String versionNumber = fRBRVersionNumber.getAttribute(VALUE);
 
     fRBRthis.setAttribute(
-        VALUE,
-        ELI_BUND_BGBL_1
-            + verkuendungsDate.getYear()
-            + "/"
-            + num
-            + "/"
-            + verkuendungsDate
-            + "/"
-            + versionNumber
-            + "/"
-            + fRBRlanguage.getAttribute("language")
-            + "/regelungstext-1");
+      VALUE,
+      ELI_BUND_BGBL_1 +
+      verkuendungsDate.getYear() +
+      "/" +
+      num +
+      "/" +
+      verkuendungsDate +
+      "/" +
+      versionNumber +
+      "/" +
+      fRBRlanguage.getAttribute("language") +
+      "/regelungstext-1"
+    );
     fRBRuri.setAttribute(
-        VALUE,
-        ELI_BUND_BGBL_1
-            + verkuendungsDate.getYear()
-            + "/"
-            + num
-            + "/"
-            + verkuendungsDate
-            + "/"
-            + versionNumber
-            + "/"
-            + fRBRlanguage.getAttribute("language"));
+      VALUE,
+      ELI_BUND_BGBL_1 +
+      verkuendungsDate.getYear() +
+      "/" +
+      num +
+      "/" +
+      verkuendungsDate +
+      "/" +
+      versionNumber +
+      "/" +
+      fRBRlanguage.getAttribute("language")
+    );
     fRBRdate.setAttribute("name", "verkuendung");
 
-    Element fRBROldCurrentVersion =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
-                document);
-    Element fRBROldNextVersion =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
-                document);
+    Element fRBROldCurrentVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
+      document
+    );
+    Element fRBROldNextVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
+      document
+    );
 
     final Node newChildFragment = fRBROldCurrentVersion.getOwnerDocument().createDocumentFragment();
-    Element fRBRNewPredecessorVersion =
-        fRBROldCurrentVersion.getOwnerDocument().createElement(AKN_FRBRALIAS);
+    Element fRBRNewPredecessorVersion = fRBROldCurrentVersion
+      .getOwnerDocument()
+      .createElement(AKN_FRBRALIAS);
     fRBRNewPredecessorVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-1");
     fRBRNewPredecessorVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewPredecessorVersion.setAttribute("name", "vorherige-version-id");
     fRBRNewPredecessorVersion.setAttribute(VALUE, fRBROldCurrentVersion.getAttribute(VALUE));
     newChildFragment.appendChild(fRBRNewPredecessorVersion);
 
-    Element fRBRNewCurrentVersion =
-        fRBROldCurrentVersion.getOwnerDocument().createElement(AKN_FRBRALIAS);
+    Element fRBRNewCurrentVersion = fRBROldCurrentVersion
+      .getOwnerDocument()
+      .createElement(AKN_FRBRALIAS);
     fRBRNewCurrentVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-2");
     fRBRNewCurrentVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewCurrentVersion.setAttribute("name", "aktuelle-version-id");
     fRBRNewCurrentVersion.setAttribute(VALUE, fRBROldCurrentVersion.getAttribute(VALUE));
     newChildFragment.appendChild(fRBRNewCurrentVersion);
 
-    Element fRBRNewFutureVersion =
-        fRBROldCurrentVersion.getOwnerDocument().createElement(AKN_FRBRALIAS);
+    Element fRBRNewFutureVersion = fRBROldCurrentVersion
+      .getOwnerDocument()
+      .createElement(AKN_FRBRALIAS);
     fRBRNewFutureVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-3");
     fRBRNewFutureVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewFutureVersion.setAttribute("name", "nachfolgende-version-id");
@@ -200,32 +217,34 @@ public class BillToActService implements BillToActUseCase {
   }
 
   private void rewriteFbrManifestation() {
-    Element fRBRManifestationThis =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRManifestation/FRBRthis", document);
-    Element fRBRManifestationUri =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRManifestation/FRBRuri", document);
+    Element fRBRManifestationThis = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRManifestation/FRBRthis",
+      document
+    );
+    Element fRBRManifestationUri = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRManifestation/FRBRuri",
+      document
+    );
 
-    Element fRBRExpressionThis =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//identification/FRBRExpression/FRBRthis", document);
+    Element fRBRExpressionThis = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRthis",
+      document
+    );
 
     fRBRManifestationThis.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
     fRBRManifestationUri.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
   }
 
   private void addNecessaryMetaData() {
-    Element date =
-        (Element) NodeParser.getMandatoryNodeFromExpression("//FRBRExpression/FRBRdate", document);
+    Element date = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//FRBRExpression/FRBRdate",
+      document
+    );
 
-    Element meta =
-        (Element)
-            NodeParser.getMandatoryNodeFromExpression(
-                "//meta/proprietary/legalDocML.de_metadaten", document);
+    Element meta = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//meta/proprietary/legalDocML.de_metadaten",
+      document
+    );
 
     if (NodeParser.getNodeFromExpression("./fna", meta).isEmpty()) {
       Element fna = document.createElement("meta:fna");

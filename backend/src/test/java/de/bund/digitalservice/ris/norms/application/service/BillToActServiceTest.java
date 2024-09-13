@@ -11,6 +11,7 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 
 class BillToActServiceTest {
+
   final BillToActService underTest = new BillToActService();
 
   @Test
@@ -22,10 +23,10 @@ class BillToActServiceTest {
     Norm result = underTest.convert(new BillToActUseCase.Query(norm));
 
     // then
-    final Diff diff =
-        DiffBuilder.compare(Input.from(norm.getDocument()))
-            .withTest(Input.from(result.getDocument()))
-            .build();
+    final Diff diff = DiffBuilder
+      .compare(Input.from(norm.getDocument()))
+      .withTest(Input.from(result.getDocument()))
+      .build();
     assertThat(diff.hasDifferences()).isFalse();
   }
 
@@ -39,15 +40,15 @@ class BillToActServiceTest {
     Norm result = underTest.convert(new BillToActUseCase.Query(norm));
 
     // then
-    final Diff diff =
-        DiffBuilder.compare(Input.from(expectedResult.getDocument()))
-            .withTest(Input.from(result.getDocument()))
-            .normalizeWhitespace()
-            .withAttributeFilter(
-                attribute ->
-                    !attribute.getName().equals("GUID")
-                        && !attribute.getOwnerElement().getNodeName().equals("akn:FRBRalias"))
-            .build();
+    final Diff diff = DiffBuilder
+      .compare(Input.from(expectedResult.getDocument()))
+      .withTest(Input.from(result.getDocument()))
+      .normalizeWhitespace()
+      .withAttributeFilter(attribute ->
+        !attribute.getName().equals("GUID") &&
+        !attribute.getOwnerElement().getNodeName().equals("akn:FRBRalias")
+      )
+      .build();
     System.out.println(diff.fullDescription());
     assertThat(diff.hasDifferences()).isFalse();
   }

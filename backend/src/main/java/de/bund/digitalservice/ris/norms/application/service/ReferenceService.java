@@ -22,6 +22,7 @@ import org.w3c.dom.Text;
 @Service
 @Slf4j
 public class ReferenceService implements ReferenceRecognitionUseCase {
+
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
 
@@ -32,22 +33,20 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
 
   @Override
   public String findAndCreateReferences(Query query) {
-    final Norm loadedNorm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+    final Norm loadedNorm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     if (loadedNorm.getMods().stream().anyMatch(Mod::containsRef)) {
       return XmlMapper.toString(loadedNorm.getDocument());
     }
 
     loadedNorm
-        .getMods()
-        .forEach(
-            mod -> {
-              mod.getSecondQuotedText().ifPresent(this::findAndCreateReferencesInNode);
-              mod.getQuotedStructure().ifPresent(this::findAndCreateReferencesInNode);
-            });
+      .getMods()
+      .forEach(mod -> {
+        mod.getSecondQuotedText().ifPresent(this::findAndCreateReferencesInNode);
+        mod.getQuotedStructure().ifPresent(this::findAndCreateReferencesInNode);
+      });
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(loadedNorm));
 
@@ -55,44 +54,52 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
   }
 
   private void findAndCreateReferencesInNode(final Node node) {
-    NodeParser.nodeListToList(node.getChildNodes())
-        .forEach(
-            child -> {
-              final short nodeType = child.getNodeType();
-              if (nodeType == Node.TEXT_NODE) {
-                final String originalText = child.getTextContent();
-                if (originalText != null
-                    && !originalText.trim().isEmpty()
-                    && !child.getParentNode().getNodeName().equals("akn:num")) {
+    NodeParser
+      .nodeListToList(node.getChildNodes())
+      .forEach(child -> {
+        final short nodeType = child.getNodeType();
+        if (nodeType == Node.TEXT_NODE) {
+          final String originalText = child.getTextContent();
+          if (
+            originalText != null &&
+            !originalText.trim().isEmpty() &&
+            !child.getParentNode().getNodeName().equals("akn:num")
+          ) {
+            final String cleanedText = originalText.trim().replaceAll("\\s+", " ");
+            // Create mapping to original indexes
+            final List<Integer> originalIndexMapping = createOriginalIndexMapping(
+              originalText,
+              cleanedText
+            );
 
-                  final String cleanedText = originalText.trim().replaceAll("\\s+", " ");
-                  // Create mapping to original indexes
-                  final List<Integer> originalIndexMapping =
-                      createOriginalIndexMapping(originalText, cleanedText);
+            final List<MatchInfo> matches = findReferences(cleanedText);
 
-                  final List<MatchInfo> matches = findReferences(cleanedText);
+            // Adjust match indices to original text and retrieve original matched text
+            final List<MatchInfo> adjustedMatches = adjustMatchesToOriginalText(
+              matches,
+              originalIndexMapping,
+              originalText
+            );
 
-                  // Adjust match indices to original text and retrieve original matched text
-                  final List<MatchInfo> adjustedMatches =
-                      adjustMatchesToOriginalText(matches, originalIndexMapping, originalText);
-
-                  replaceMatchesWithNewNodes(
-                      child.getParentNode(), child, adjustedMatches, originalText);
-                }
-              } else if (nodeType == Node.ELEMENT_NODE) {
-                findAndCreateReferencesInNode(child);
-              }
-            });
+            replaceMatchesWithNewNodes(child.getParentNode(), child, adjustedMatches, originalText);
+          }
+        } else if (nodeType == Node.ELEMENT_NODE) {
+          findAndCreateReferencesInNode(child);
+        }
+      });
   }
 
   private static List<Integer> createOriginalIndexMapping(
-      final String originalText, final String cleanedText) {
+    final String originalText,
+    final String cleanedText
+  ) {
     final List<Integer> mapping = new ArrayList<>();
     int originalIndex = 0;
     for (char character : cleanedText.toCharArray()) {
       // Move originalIndex forward until it matches the current cleanedText character
-      while (originalIndex < originalText.length()
-          && originalText.charAt(originalIndex) != character) {
+      while (
+        originalIndex < originalText.length() && originalText.charAt(originalIndex) != character
+      ) {
         originalIndex++;
       }
       mapping.add(originalIndex);
@@ -104,24 +111,24 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
   private List<MatchInfo> findReferences(final String text) {
     final Pattern pattern = Pattern.compile(REFERENCE_REGEX);
     return pattern
-        .matcher(text)
-        .results()
-        .map(match -> new MatchInfo(match.group(), match.start(), match.end() - 1))
-        .toList();
+      .matcher(text)
+      .results()
+      .map(match -> new MatchInfo(match.group(), match.start(), match.end() - 1))
+      .toList();
   }
 
   private static List<MatchInfo> adjustMatchesToOriginalText(
-      final List<MatchInfo> matches,
-      final List<Integer> originalIndexMapping,
-      final String originalText) {
+    final List<MatchInfo> matches,
+    final List<Integer> originalIndexMapping,
+    final String originalText
+  ) {
     final List<MatchInfo> adjustedMatches = new ArrayList<>();
 
     for (MatchInfo match : matches) {
       final int originalStart = originalIndexMapping.get(match.start());
-      final int originalEnd =
-          (match.end() < originalIndexMapping.size())
-              ? originalIndexMapping.get(match.end())
-              : originalIndexMapping.getLast();
+      final int originalEnd = (match.end() < originalIndexMapping.size())
+        ? originalIndexMapping.get(match.end())
+        : originalIndexMapping.getLast();
 
       // Extract the exact match from the original text
       final String originalMatchedText = originalText.substring(originalStart, originalEnd + 1);
@@ -133,11 +140,11 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
   }
 
   private static void replaceMatchesWithNewNodes(
-      final Node parent,
-      final Node textNodeToReplace,
-      final List<MatchInfo> matches,
-      final String originalText) {
-
+    final Node parent,
+    final Node textNodeToReplace,
+    final List<MatchInfo> matches,
+    final String originalText
+  ) {
     int currentPositionInText = 0;
     int refCounter = 1;
 
@@ -156,9 +163,11 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
 
       // The matched text, replace with new element
       final String matchedText = originalText.substring(match.start(), match.end() + 1);
-      final Element newElement =
-          NodeCreator.createElementWithStaticEidAndGuidNoAppend(
-              "akn:ref", "ref-" + refCounter, parent);
+      final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
+        "akn:ref",
+        "ref-" + refCounter,
+        parent
+      );
       newElement.setAttribute("href", "");
       newElement.setTextContent(matchedText);
       newChildFragment.appendChild(newElement);
@@ -186,5 +195,5 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
   // editing. Only copy the regex that drops out of that tool over here and do not manipulate the
   // regex here.
   static final String REFERENCE_REGEX =
-      "(?:Anhang(?: \\w+(?: Teil \\w+(?: Buchstabe \\w+(?: Unterabsatz \\w+(?: Satz \\w+)?)?)?)?)?|Anlage(?: \\w+)?(?:(?:.*?) vom \\d+\\. (?:.*?) \\d+)?(?: \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\))?|Artikel(?:s)? \\w+(?: Nummer \\w+(?: Absatz \\w+)?)? der Verordnung vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)|Artikel(?:s)? \\w+(?: Nummer \\w+(?: (?:Abs(?:atz|.)?) \\w+)?)?(?: (?:Abs(?:atz|.)?) \\w+(?: Satz \\d+(?: und \\d+)?)?)? des (?:G|(?:.*?)g)esetzes(?: vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\))?|Artikel \\w+(?: (?:Abs(?:atz|.)?) \\d+(?: (?:und|oder) \\d+)?(?: (?:Unterabs|S)atz \\d+(?: (?:und|oder) \\d+)?(?: [a-zA-Z]+ Gedankenstrich)?| Buchstabe \\w+(?: Satz \\w+)?)?| Buchstabe \\w+| Nummer \\d+(?: Satz \\d+)?)?|(?<!§)§ \\w+(?: (?:(?:Abs(?:atz|.) (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: Satz (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: (?:Nummer|Nr.) (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: Buchstabe \\w+(?: Satz \\w+)?| Satz \\w+(?: Buchstabe \\w+)?)?| Buchstabe \\w+)?| (?:Nummer|Nr.) (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: Satz (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: (?:Nummer|Nr.) \\w+| Buchstabe \\w+)?| Buchstabe \\w+(?: Satz \\w+| und \\w+)?)?| Buchstabe \\w+)?)|Nummer \\w+(?: Satz \\w+(?: und \\w+| Buchstabe \\w+(?: Satz \\w+)?)?)?|Satz \\w+)| in der Fassung der Bekanntmachung)?(?:(?:.*?) vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)| des (?:.*?)(?:-G|g)esetzes)?|§§ (\\w+), (\\w+) (?:des ((?:.*?)gesetz(?:es)?)|der (?:.*?)ordnung)|Richtlinie(?: \\(EU\\))? \\d+\\/\\d+(?:\\/EG|\\/EWG)?|Richtlinien(?: \\(EU\\))? \\d+\\/\\d+(?:\\/EG|\\/EWG)? und \\d+\\/\\d+(?:\\/EG|\\/EWG)?|(?:(?:[a-zA-ZüöäÜÄÖ]*?)v|V)erordnung \\((?:EG|EU)\\)(?: Nr.)? \\d+\\/\\d+(?:(?:.*?) \\(ABl\\. L \\w+ vom \\d+\\.\\d+\\.\\d+\\, S\\. \\d+\\))?|(?:Verordnungen|und|,) \\((?:EG|EU|EWG)\\)(?: Nr.)? \\d+\\/\\d+|(?:[a-z0-9A-Z\\-üöäßÜÖÄ]+(?: und [a-z0-9A-Z\\-üöäßÜÖÄ]+)?)?(?:[gG]esetz|[vV]erordnung|Protokoll zum|ordnung)(?:.*?) vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)(?: in der Fassung des § \\d+ Abs\\. \\d+ des (?:.*?)gesetzes vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)|, (?:die|das)(?: zuletzt)? durch Artikel \\d+(?: Absatz \\d+)? (?:des Gesetzes|der Verordnung) vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\))?(?: geändert worden ist)?)";
+    "(?:Anhang(?: \\w+(?: Teil \\w+(?: Buchstabe \\w+(?: Unterabsatz \\w+(?: Satz \\w+)?)?)?)?)?|Anlage(?: \\w+)?(?:(?:.*?) vom \\d+\\. (?:.*?) \\d+)?(?: \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\))?|Artikel(?:s)? \\w+(?: Nummer \\w+(?: Absatz \\w+)?)? der Verordnung vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)|Artikel(?:s)? \\w+(?: Nummer \\w+(?: (?:Abs(?:atz|.)?) \\w+)?)?(?: (?:Abs(?:atz|.)?) \\w+(?: Satz \\d+(?: und \\d+)?)?)? des (?:G|(?:.*?)g)esetzes(?: vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\))?|Artikel \\w+(?: (?:Abs(?:atz|.)?) \\d+(?: (?:und|oder) \\d+)?(?: (?:Unterabs|S)atz \\d+(?: (?:und|oder) \\d+)?(?: [a-zA-Z]+ Gedankenstrich)?| Buchstabe \\w+(?: Satz \\w+)?)?| Buchstabe \\w+| Nummer \\d+(?: Satz \\d+)?)?|(?<!§)§ \\w+(?: (?:(?:Abs(?:atz|.) (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: Satz (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: (?:Nummer|Nr.) (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: Buchstabe \\w+(?: Satz \\w+)?| Satz \\w+(?: Buchstabe \\w+)?)?| Buchstabe \\w+)?| (?:Nummer|Nr.) (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: Satz (?:\\w+(?: (?:und|bis|oder) \\w+)?)(?: (?:Nummer|Nr.) \\w+| Buchstabe \\w+)?| Buchstabe \\w+(?: Satz \\w+| und \\w+)?)?| Buchstabe \\w+)?)|Nummer \\w+(?: Satz \\w+(?: und \\w+| Buchstabe \\w+(?: Satz \\w+)?)?)?|Satz \\w+)| in der Fassung der Bekanntmachung)?(?:(?:.*?) vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)| des (?:.*?)(?:-G|g)esetzes)?|§§ (\\w+), (\\w+) (?:des ((?:.*?)gesetz(?:es)?)|der (?:.*?)ordnung)|Richtlinie(?: \\(EU\\))? \\d+\\/\\d+(?:\\/EG|\\/EWG)?|Richtlinien(?: \\(EU\\))? \\d+\\/\\d+(?:\\/EG|\\/EWG)? und \\d+\\/\\d+(?:\\/EG|\\/EWG)?|(?:(?:[a-zA-ZüöäÜÄÖ]*?)v|V)erordnung \\((?:EG|EU)\\)(?: Nr.)? \\d+\\/\\d+(?:(?:.*?) \\(ABl\\. L \\w+ vom \\d+\\.\\d+\\.\\d+\\, S\\. \\d+\\))?|(?:Verordnungen|und|,) \\((?:EG|EU|EWG)\\)(?: Nr.)? \\d+\\/\\d+|(?:[a-z0-9A-Z\\-üöäßÜÖÄ]+(?: und [a-z0-9A-Z\\-üöäßÜÖÄ]+)?)?(?:[gG]esetz|[vV]erordnung|Protokoll zum|ordnung)(?:.*?) vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)(?: in der Fassung des § \\d+ Abs\\. \\d+ des (?:.*?)gesetzes vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\)|, (?:die|das)(?: zuletzt)? durch Artikel \\d+(?: Absatz \\d+)? (?:des Gesetzes|der Verordnung) vom \\d+\\. (?:.*?) \\d+ \\((?:R|B)GBl\\.(?: \\d+)? I(?:I)? (?:S\\. \\w+(?:, \\d+)?(?:\\; \\d+ I S\\. \\d+)?|Nr\\. \\d+)\\))?(?: geändert worden ist)?)";
 }

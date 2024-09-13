@@ -9,7 +9,6 @@ import java.util.List;
  * system.
  */
 public interface LoadAllAnnouncementsUseCase {
-
   /**
    * Loads all {@link Announcement}s available in the system.
    *

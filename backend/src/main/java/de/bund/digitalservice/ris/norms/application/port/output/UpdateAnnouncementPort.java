@@ -8,7 +8,6 @@ import java.util.Optional;
  * interface should provide functionality to update an announcement using the specified command.
  */
 public interface UpdateAnnouncementPort {
-
   /**
    * Updates a {@link Announcement} based on the provided data in the command.
    *

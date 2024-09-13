@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 /** Controller for norm-related actions. */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/articles")
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/articles"
+)
 public class ArticleController {
 
   private final LoadNormUseCase loadNormUseCase;
@@ -31,12 +32,13 @@ public class ArticleController {
   private final LoadZf0UseCase loadZf0UseCase;
 
   public ArticleController(
-      LoadNormUseCase loadNormUseCase,
-      LoadArticlesFromNormUseCase loadArticlesFromNormUseCase,
-      LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      LoadArticleHtmlUseCase loadArticleHtmlUseCase,
-      LoadZf0UseCase loadZf0UseCase) {
+    LoadNormUseCase loadNormUseCase,
+    LoadArticlesFromNormUseCase loadArticlesFromNormUseCase,
+    LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
+    TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+    LoadArticleHtmlUseCase loadArticleHtmlUseCase,
+    LoadZf0UseCase loadZf0UseCase
+  ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadArticlesFromNormUseCase = loadArticlesFromNormUseCase;
     this.loadSpecificArticlesXmlFromNormUseCase = loadSpecificArticlesXmlFromNormUseCase;
@@ -61,39 +63,35 @@ public class ArticleController {
    *     <p>Returns HTTP 200 (OK) and the norm if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ArticleResponseSchema>> getArticles(
-      final Eli eli,
-      @RequestParam final Optional<String> amendedBy,
-      @RequestParam final Optional<String> amendedAt) {
+    final Eli eli,
+    @RequestParam final Optional<String> amendedBy,
+    @RequestParam final Optional<String> amendedAt
+  ) {
+    final var query = new LoadArticlesFromNormUseCase.Query(
+      eli.getValue(),
+      amendedBy.orElse(null),
+      amendedAt.orElse(null)
+    );
 
-    final var query =
-        new LoadArticlesFromNormUseCase.Query(
-            eli.getValue(), amendedBy.orElse(null), amendedAt.orElse(null));
+    final var articlesWithZf0 = loadArticlesFromNormUseCase
+      .loadArticlesFromNorm(query)
+      .stream()
+      .map(article -> {
+        final var targetLawZf0 = article
+          .getAffectedDocumentEli()
+          .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
+          .map(targetLaw -> {
+            final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+            return new LoadZf0UseCase.Query(norm, targetLaw, true);
+          })
+          .map(loadZf0UseCase::loadOrCreateZf0)
+          .orElse(null);
 
-    final var articlesWithZf0 =
-        loadArticlesFromNormUseCase.loadArticlesFromNorm(query).stream()
-            .map(
-                article -> {
-                  final var targetLawZf0 =
-                      article
-                          .getAffectedDocumentEli()
-                          .map(
-                              eliTargetLaw ->
-                                  loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-                          .map(
-                              targetLaw -> {
-                                final var norm =
-                                    loadNormUseCase.loadNorm(
-                                        new LoadNormUseCase.Query(eli.getValue()));
-                                return new LoadZf0UseCase.Query(norm, targetLaw, true);
-                              })
-                          .map(loadZf0UseCase::loadOrCreateZf0)
-                          .orElse(null);
-
-                  return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
-                })
-            .toList();
+        return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
+      })
+      .toList();
 
     return ResponseEntity.ok(articlesWithZf0);
   }
@@ -113,20 +111,23 @@ public class ArticleController {
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found or the norm doesn't contain
    *     articles of that type
    */
-  @GetMapping(produces = {TEXT_HTML_VALUE})
+  @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getArticlesRender(
-      final Eli eli, @RequestParam(required = false, name = "refersTo") final String refersTo) {
-    String articles =
-        loadSpecificArticlesXmlFromNormUseCase
-            .loadSpecificArticlesXmlFromNorm(
-                new LoadSpecificArticlesXmlFromNormUseCase.Query(eli.getValue(), refersTo))
-            .stream()
-            .map(
-                xml ->
-                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                            new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false))
-                        + "\n")
-            .reduce("", String::concat);
+    final Eli eli,
+    @RequestParam(required = false, name = "refersTo") final String refersTo
+  ) {
+    String articles = loadSpecificArticlesXmlFromNormUseCase
+      .loadSpecificArticlesXmlFromNorm(
+        new LoadSpecificArticlesXmlFromNormUseCase.Query(eli.getValue(), refersTo)
+      )
+      .stream()
+      .map(xml ->
+        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
+          ) +
+        "\n"
+      )
+      .reduce("", String::concat);
 
     String divWrapped = "<div>\n" + articles + "</div>\n";
 
@@ -146,28 +147,28 @@ public class ArticleController {
    *     <p>Returns HTTP 200 (OK) and the norm if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(
-      path = "/{eid}",
-      produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(path = "/{eid}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ArticleResponseSchema> getArticle(
-      final Eli eli, @PathVariable final String eid) {
+    final Eli eli,
+    @PathVariable final String eid
+  ) {
     final var eliValue = eli.getValue();
 
     final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliValue));
 
-    final var foundArticle =
-        norm.getArticles().stream()
-            .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-            .findFirst()
-            .orElseThrow(() -> new ArticleNotFoundException(eliValue, eid));
+    final var foundArticle = norm
+      .getArticles()
+      .stream()
+      .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+      .findFirst()
+      .orElseThrow(() -> new ArticleNotFoundException(eliValue, eid));
 
-    final var targetLawZf0 =
-        foundArticle
-            .getAffectedDocumentEli()
-            .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-            .map(targetLaw -> new LoadZf0UseCase.Query(norm, targetLaw, true))
-            .map(loadZf0UseCase::loadOrCreateZf0)
-            .orElse(null);
+    final var targetLawZf0 = foundArticle
+      .getAffectedDocumentEli()
+      .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
+      .map(targetLaw -> new LoadZf0UseCase.Query(norm, targetLaw, true))
+      .map(loadZf0UseCase::loadOrCreateZf0)
+      .orElse(null);
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper
     return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(foundArticle, targetLawZf0));
@@ -188,11 +189,12 @@ public class ArticleController {
    *     <p>Returns HTTP 200 (OK) and the rendered HTML if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(
-      path = "/{eid}",
-      produces = {TEXT_HTML_VALUE})
+  @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getArticleRender(
-      final Eli eli, @PathVariable final String eid, @RequestParam Optional<Instant> atIsoDate) {
+    final Eli eli,
+    @PathVariable final String eid,
+    @RequestParam Optional<Instant> atIsoDate
+  ) {
     var query = new LoadArticleHtmlUseCase.Query(eli.getValue(), eid, atIsoDate.orElse(null));
     var articleHtml = loadArticleHtmlUseCase.loadArticleHtml(query);
     return ResponseEntity.ok(articleHtml);

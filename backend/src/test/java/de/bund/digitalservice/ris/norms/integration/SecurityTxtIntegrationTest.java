@@ -13,10 +13,12 @@ class SecurityTxtIntegrationTest extends BaseIntegrationTest {
 
   @Test
   void shouldExposeSecurityTxt(@Autowired MockMvc mvc) throws Exception {
-    mvc.perform(get("/.well-known/security.txt"))
-        .andExpectAll(
-            status().isOk(),
-            header().stringValues("Content-Type", MediaType.TEXT_PLAIN.toString()),
-            content().string(containsString("Contact: ")));
+    mvc
+      .perform(get("/.well-known/security.txt"))
+      .andExpectAll(
+        status().isOk(),
+        header().stringValues("Content-Type", MediaType.TEXT_PLAIN.toString()),
+        content().string(containsString("Contact: "))
+      );
   }
 }

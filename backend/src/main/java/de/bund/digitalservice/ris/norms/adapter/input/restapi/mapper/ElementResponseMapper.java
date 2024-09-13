@@ -10,14 +10,15 @@ import org.w3c.dom.Node;
 
 /** Mapper class for converting between {@link Node} and {@link ElementResponseSchema}. */
 public class ElementResponseMapper {
+
   // Private constructor to hide the implicit public one and prevent instantiation
   private ElementResponseMapper() {}
 
-  private static final Map<String, String> staticNodeTitles =
-      Map.ofEntries(
-          Map.entry(ElementService.ElementType.PREFACE.name(), "Dokumentenkopf"),
-          Map.entry(ElementService.ElementType.PREAMBLE.name(), "Eingangsformel"),
-          Map.entry(ElementService.ElementType.CONCLUSIONS.name(), "Schlussteil"));
+  private static final Map<String, String> staticNodeTitles = Map.ofEntries(
+    Map.entry(ElementService.ElementType.PREFACE.name(), "Dokumentenkopf"),
+    Map.entry(ElementService.ElementType.PREAMBLE.name(), "Eingangsformel"),
+    Map.entry(ElementService.ElementType.CONCLUSIONS.name(), "Schlussteil")
+  );
 
   private static String getNodeType(Node node) {
     return node.getNodeName().replace("akn:", "");
@@ -30,9 +31,11 @@ public class ElementResponseMapper {
 
     if (staticNodeTitles.containsKey(nodeTypeName)) {
       title = staticNodeTitles.get(nodeTypeName);
-    } else if (Set.of(
-            "ARTICLE", "BOOK", "PART", "CHAPTER", "SECTION", "SUBSECTION", "TITLE", "SUBTITLE")
-        .contains(nodeTypeName)) {
+    } else if (
+      Set
+        .of("ARTICLE", "BOOK", "PART", "CHAPTER", "SECTION", "SUBSECTION", "TITLE", "SUBTITLE")
+        .contains(nodeTypeName)
+    ) {
       var num = NodeParser.getValueFromExpression("./num", node).orElse("").strip();
       var heading = NodeParser.getValueFromExpression("./heading", node).orElse("").strip();
       title = (num + " " + heading).strip();
@@ -50,10 +53,11 @@ public class ElementResponseMapper {
    * @return A new {@link ElementResponseSchema} instance mapped from the input.
    */
   public static ElementResponseSchema fromElementNode(final Node node) {
-    return ElementResponseSchema.builder()
-        .title(getNodeTitle(node))
-        .eid(EId.fromNode(node).map(EId::value).orElseThrow())
-        .type(getNodeType(node))
-        .build();
+    return ElementResponseSchema
+      .builder()
+      .title(getNodeTitle(node))
+      .eid(EId.fromNode(node).map(EId::value).orElseThrow())
+      .type(getNodeType(node))
+      .build();
   }
 }

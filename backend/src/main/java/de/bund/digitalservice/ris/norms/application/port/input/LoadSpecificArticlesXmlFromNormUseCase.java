@@ -11,7 +11,6 @@ import lombok.Getter;
  * query.
  */
 public interface LoadSpecificArticlesXmlFromNormUseCase {
-
   /**
    * Retrieves articles of a specific type based on the provided query.
    *
@@ -33,6 +32,7 @@ public interface LoadSpecificArticlesXmlFromNormUseCase {
   /** Indicates that the Norm was found but does not include articles of that type. */
   @Getter
   class ArticleOfTypeNotFoundException extends RuntimeException implements NormsAppException {
+
     private final String eli;
     private final String type;
 

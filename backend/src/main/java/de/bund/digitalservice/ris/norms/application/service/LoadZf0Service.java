@@ -23,9 +23,10 @@ public class LoadZf0Service implements LoadZf0UseCase {
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
   public LoadZf0Service(
-      final UpdateNormService updateNormService,
-      final LoadNormByGuidPort loadNormByGuidPort,
-      final UpdateOrSaveNormPort updateOrSaveNormPort) {
+    final UpdateNormService updateNormService,
+    final LoadNormByGuidPort loadNormByGuidPort,
+    final UpdateOrSaveNormPort updateOrSaveNormPort
+  ) {
     this.updateNormService = updateNormService;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -33,27 +34,30 @@ public class LoadZf0Service implements LoadZf0UseCase {
 
   @Override
   public Norm loadOrCreateZf0(Query query) {
-
     final Norm amendingNorm = query.amendingLaw();
     final Norm targetNorm = query.targetLaw();
 
     final UUID uuid = targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId();
-    final Optional<Norm> optionalZf0LawDB =
-        loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(uuid));
+    final Optional<Norm> optionalZf0LawDB = loadNormByGuidPort.loadNormByGuid(
+      new LoadNormByGuidPort.Command(uuid)
+    );
 
     if (optionalZf0LawDB.isPresent()) {
       return optionalZf0LawDB.get();
     }
 
-    final Norm zf0Norm =
-        Norm.builder().document(DocumentUtils.cloneDocument(targetNorm.getDocument())).build();
+    final Norm zf0Norm = Norm
+      .builder()
+      .document(DocumentUtils.cloneDocument(targetNorm.getDocument()))
+      .build();
 
     final String announcementDateAmendingLaw = amendingNorm.getMeta().getFRBRWork().getFBRDate();
 
     updateFRBRExpression(zf0Norm, targetNorm, announcementDateAmendingLaw);
     updateFRBRManifestation(zf0Norm, announcementDateAmendingLaw);
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNorm.getEli()));
+      new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNorm.getEli())
+    );
 
     if (query.persistZf0()) {
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
@@ -62,15 +66,22 @@ public class LoadZf0Service implements LoadZf0UseCase {
   }
 
   private void updateFRBRExpression(
-      final Norm zf0Norm, final Norm targetNorm, final String announcementDateAmendingLaw) {
+    final Norm zf0Norm,
+    final Norm targetNorm,
+    final String announcementDateAmendingLaw
+  ) {
     final FRBRExpression frbrExpression = zf0Norm.getMeta().getFRBRExpression();
 
     // 1.FRBRalias (vorherige-version-id / aktuelle-version-id / nachfolgende-version-id)
-    final UUID previousVersionId =
-        targetNorm.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId();
+    final UUID previousVersionId = targetNorm
+      .getMeta()
+      .getFRBRExpression()
+      .getFRBRaliasCurrentVersionId();
     frbrExpression.setFRBRaliasPreviousVersionId(previousVersionId);
-    final UUID currentVersionId =
-        targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId();
+    final UUID currentVersionId = targetNorm
+      .getMeta()
+      .getFRBRExpression()
+      .getFRBRaliasNextVersionId();
     frbrExpression.setFRBRaliasCurrentVersionId(currentVersionId);
     frbrExpression.setFRBRaliasNextVersionId(UUID.randomUUID());
 
@@ -84,7 +95,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
   }
 
   private void updateFRBRManifestation(
-      final Norm zf0Norm, final String announcementDateAmendingLaw) {
+    final Norm zf0Norm,
+    final String announcementDateAmendingLaw
+  ) {
     final FRBRManifestation frbrManifestation = zf0Norm.getMeta().getFRBRManifestation();
 
     // 1.replace date of eli parts

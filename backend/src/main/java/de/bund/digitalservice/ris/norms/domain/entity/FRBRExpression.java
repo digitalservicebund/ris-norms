@@ -26,9 +26,9 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public Optional<UUID> getFRBRaliasPreviousVersionId() {
-    return NodeParser.getValueFromExpression(
-            "./FRBRalias[@name='vorherige-version-id']/@value", getNode())
-        .map(UUID::fromString);
+    return NodeParser
+      .getValueFromExpression("./FRBRalias[@name='vorherige-version-id']/@value", getNode())
+      .map(UUID::fromString);
   }
 
   /**
@@ -37,19 +37,21 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasPreviousVersionId(final UUID uuid) {
-    NodeParser.getNodeFromExpression("./FRBRalias[@name='vorherige-version-id']", getNode())
-        .orElseGet(
-            () -> {
-              final Element newElement =
-                  NodeCreator.createElementWithEidAndGuid("akn:FRBRalias", getNode());
-              newElement.setAttribute("name", "vorherige-version-id");
-              newElement.setAttribute(VALUE_ATTIBUTE, uuid.toString());
-              getNode().appendChild(newElement);
-              return newElement;
-            })
-        .getAttributes()
-        .getNamedItem(VALUE_ATTIBUTE)
-        .setNodeValue(uuid.toString());
+    NodeParser
+      .getNodeFromExpression("./FRBRalias[@name='vorherige-version-id']", getNode())
+      .orElseGet(() -> {
+        final Element newElement = NodeCreator.createElementWithEidAndGuid(
+          "akn:FRBRalias",
+          getNode()
+        );
+        newElement.setAttribute("name", "vorherige-version-id");
+        newElement.setAttribute(VALUE_ATTIBUTE, uuid.toString());
+        getNode().appendChild(newElement);
+        return newElement;
+      })
+      .getAttributes()
+      .getNamedItem(VALUE_ATTIBUTE)
+      .setNodeValue(uuid.toString());
   }
 
   /**
@@ -59,8 +61,11 @@ public class FRBRExpression extends FRBR {
    */
   public UUID getFRBRaliasCurrentVersionId() {
     return UUID.fromString(
-        NodeParser.getValueFromMandatoryNodeFromExpression(
-            "./FRBRalias[@name='aktuelle-version-id']/@value", getNode()));
+      NodeParser.getValueFromMandatoryNodeFromExpression(
+        "./FRBRalias[@name='aktuelle-version-id']/@value",
+        getNode()
+      )
+    );
   }
 
   /**
@@ -69,10 +74,11 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasCurrentVersionId(final UUID uuid) {
-    NodeParser.getMandatoryNodeFromExpression("./FRBRalias[@name='aktuelle-version-id']", getNode())
-        .getAttributes()
-        .getNamedItem(VALUE_ATTIBUTE)
-        .setNodeValue(uuid.toString());
+    NodeParser
+      .getMandatoryNodeFromExpression("./FRBRalias[@name='aktuelle-version-id']", getNode())
+      .getAttributes()
+      .getNamedItem(VALUE_ATTIBUTE)
+      .setNodeValue(uuid.toString());
   }
 
   /**
@@ -82,8 +88,11 @@ public class FRBRExpression extends FRBR {
    */
   public UUID getFRBRaliasNextVersionId() {
     return UUID.fromString(
-        NodeParser.getValueFromMandatoryNodeFromExpression(
-            "./FRBRalias[@name='nachfolgende-version-id']/@value", getNode()));
+      NodeParser.getValueFromMandatoryNodeFromExpression(
+        "./FRBRalias[@name='nachfolgende-version-id']/@value",
+        getNode()
+      )
+    );
   }
 
   /**
@@ -92,10 +101,10 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasNextVersionId(final UUID uuid) {
-    NodeParser.getMandatoryNodeFromExpression(
-            "./FRBRalias[@name='nachfolgende-version-id']", getNode())
-        .getAttributes()
-        .getNamedItem(VALUE_ATTIBUTE)
-        .setNodeValue(uuid.toString());
+    NodeParser
+      .getMandatoryNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .getAttributes()
+      .getNamedItem(VALUE_ATTIBUTE)
+      .setNodeValue(uuid.toString());
   }
 }

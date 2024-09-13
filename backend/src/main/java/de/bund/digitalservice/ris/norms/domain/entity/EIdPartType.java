@@ -60,9 +60,7 @@ public enum EIdPartType {
   FRBRAUTHOR("frbrauthor", List.of("akn:FRBRauthor")),
   FRBRCOUNTRY("frbrcountry", List.of("akn:FRBRcountry")),
   FRBRDATE("frbrdate", List.of("akn:FRBRdate")),
-  FRBRERSIONNUMBER(
-      "frbrersionnumber",
-      List.of("akn:FRBRversionNumber")), // TODO: (Malte Laukötter, 2024-08-28) change to
+  FRBRERSIONNUMBER("frbrersionnumber", List.of("akn:FRBRversionNumber")), // TODO: (Malte Laukötter, 2024-08-28) change to
   // "frbrversionnumber" for LDML.de 1.7
   FRBREXPRESSION("frbrexpression", List.of("akn:FRBRExpression")),
   FRBRFORMAT("frbrformat", List.of("akn:FRBRformat")),
@@ -139,11 +137,7 @@ public enum EIdPartType {
   UNTERGL("untergl", List.of("akn:list")),
   UTITEL("utitel", List.of("akn:subtitle")),
   VERWEIS("verweis", List.of("akn:documentRef")),
-  ZAEHLBEZ(
-      "zaehlbez",
-      List.of(
-          "akn:marker")) // TODO: (Malte Laukötter, 2024-08-28) change to "marker" for LDML.de 1.7
-;
+  ZAEHLBEZ("zaehlbez", List.of("akn:marker")); // TODO: (Malte Laukötter, 2024-08-28) change to "marker" for LDML.de 1.7
 
   /** Name for the part type to use in the eId. */
   private final String name;
@@ -168,14 +162,17 @@ public enum EIdPartType {
       return Optional.of(forAknArticle(aknElement));
     }
 
-    return Arrays.stream(EIdPartType.values())
-        .filter(partType -> partType.aknElements.contains(aknElement.getNodeName()))
-        .findFirst();
+    return Arrays
+      .stream(EIdPartType.values())
+      .filter(partType -> partType.aknElements.contains(aknElement.getNodeName()))
+      .findFirst();
   }
 
   private static EIdPartType forAknArticle(Node aknArticleElement) {
-    var isInQuotedStructure =
-        NodeParser.getNodeFromExpression("ancestor::quotedStructure", aknArticleElement);
+    var isInQuotedStructure = NodeParser.getNodeFromExpression(
+      "ancestor::quotedStructure",
+      aknArticleElement
+    );
 
     var refersToAttribute = aknArticleElement.getAttributes().getNamedItem("refersTo");
     var typ = Optional.ofNullable(refersToAttribute).map(Node::getNodeValue).orElse("");
@@ -189,21 +186,23 @@ public enum EIdPartType {
       return EIdPartType.PARA;
     }
 
-    var form =
-        NodeParser.getValueFromExpression(
-            "//akomaNtoso/*/meta/proprietary/legalDocML.de_metadaten/form", aknArticleElement);
+    var form = NodeParser.getValueFromExpression(
+      "//akomaNtoso/*/meta/proprietary/legalDocML.de_metadaten/form",
+      aknArticleElement
+    );
 
     if (form.isEmpty()) {
       throw new IllegalArgumentException(
-          "Could not determine expected eId for akn:article node. No meta:form found.");
+        "Could not determine expected eId for akn:article node. No meta:form found."
+      );
     }
 
     switch (form.get()) {
-        // SCH-00570-000 (second part)
+      // SCH-00570-000 (second part)
       case "eingebundene-stammform" -> {
         return EIdPartType.PARA;
       }
-        // SCH-00570-010
+      // SCH-00570-010
       case "mantelform" -> {
         return EIdPartType.ART;
       }
@@ -216,10 +215,11 @@ public enum EIdPartType {
         // SCH-00570-000 (first part)
         return EIdPartType.PARA;
       }
-      default ->
-          throw new IllegalArgumentException(
-              "Could not determine expected eId for akn:article node. Unexpected form (%s)"
-                  .formatted(form));
+      default -> throw new IllegalArgumentException(
+        "Could not determine expected eId for akn:article node. Unexpected form (%s)".formatted(
+            form
+          )
+      );
     }
   }
 }

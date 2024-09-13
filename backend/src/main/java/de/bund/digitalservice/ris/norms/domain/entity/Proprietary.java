@@ -17,6 +17,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Proprietary {
+
   private final Node node;
 
   /**
@@ -25,8 +26,9 @@ public class Proprietary {
    * @return an optional with a {@link MetadatenDe}
    */
   public Optional<MetadatenDe> getMetadatenDe() {
-    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten", node)
-        .map(MetadatenDe::new);
+    return NodeParser
+      .getNodeFromExpression("./legalDocML.de_metadaten", node)
+      .map(MetadatenDe::new);
   }
 
   /**
@@ -35,15 +37,14 @@ public class Proprietary {
    * @return the retrieved {@link MetadatenDe} or the newly created one.
    */
   public MetadatenDe getOrCreateMetadatenDe() {
-    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten", node)
-        .map(MetadatenDe::new)
-        .orElseGet(
-            () -> {
-              final var newElement =
-                  NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
-              newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.6/");
-              return new MetadatenDe(newElement);
-            });
+    return NodeParser
+      .getNodeFromExpression("./legalDocML.de_metadaten", node)
+      .map(MetadatenDe::new)
+      .orElseGet(() -> {
+        final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
+        newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.6/");
+        return new MetadatenDe(newElement);
+      });
   }
 
   /**
@@ -52,8 +53,9 @@ public class Proprietary {
    * @return an optional with a {@link MetadatenDs}
    */
   public Optional<MetadatenDs> getMetadatenDs() {
-    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
-        .map(MetadatenDs::new);
+    return NodeParser
+      .getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
+      .map(MetadatenDs::new);
   }
 
   /**
@@ -62,15 +64,14 @@ public class Proprietary {
    * @return the retrieved {@link MetadatenDs} or the newly created one.
    */
   public MetadatenDs getOrCreateMetadatenDs() {
-    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
-        .map(MetadatenDs::new)
-        .orElseGet(
-            () -> {
-              final var newElement =
-                  NodeCreator.createElement("meta:legalDocML.de_metadaten_ds", node);
-              newElement.setAttribute("xmlns:meta", "http://DS.Metadaten.LegalDocML.de/1.6/");
-              return new MetadatenDs(newElement);
-            });
+    return NodeParser
+      .getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
+      .map(MetadatenDs::new)
+      .orElseGet(() -> {
+        final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten_ds", node);
+        newElement.setAttribute("xmlns:meta", "http://DS.Metadaten.LegalDocML.de/1.6/");
+        return new MetadatenDs(newElement);
+      });
   }
 
   /**
@@ -91,8 +92,8 @@ public class Proprietary {
    */
   public Optional<String> getFna(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.FNA, date))
-        .or(this::getFna);
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.FNA, date))
+      .or(this::getFna);
   }
 
   private Optional<String> getArt() {
@@ -108,8 +109,8 @@ public class Proprietary {
    */
   public Optional<String> getArt(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART, date))
-        .or(this::getArt);
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART, date))
+      .or(this::getArt);
   }
 
   private Optional<String> getTyp() {
@@ -125,8 +126,8 @@ public class Proprietary {
    */
   public Optional<String> getTyp(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.TYP, date))
-        .or(this::getTyp);
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.TYP, date))
+      .or(this::getTyp);
   }
 
   /**
@@ -148,7 +149,7 @@ public class Proprietary {
    */
   public Optional<String> getBezeichnungInVorlage(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BEZEICHNUNG_IN_VORLAGE, date));
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BEZEICHNUNG_IN_VORLAGE, date));
   }
 
   /**
@@ -160,7 +161,7 @@ public class Proprietary {
    */
   public Optional<String> getArtDerNorm(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART_DER_NORM, date));
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART_DER_NORM, date));
   }
 
   /**
@@ -173,8 +174,9 @@ public class Proprietary {
    */
   public Optional<String> getArtDerNorm(final LocalDate date, final String eid) {
     return getMetadatenDs()
-        .flatMap(
-            m -> m.getSingleElementSimpleMetadatum(Einzelelement.Metadata.ART_DER_NORM, eid, date));
+      .flatMap(m ->
+        m.getSingleElementSimpleMetadatum(Einzelelement.Metadata.ART_DER_NORM, eid, date)
+      );
   }
 
   /**
@@ -198,7 +200,7 @@ public class Proprietary {
    */
   public Optional<String> getBeschliessendesOrgan(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN, date));
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN, date));
   }
 
   /**
@@ -210,11 +212,11 @@ public class Proprietary {
    */
   public Optional<Boolean> getQualifizierteMehrheit(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(
-            m ->
-                m.getAttributeOfSimpleMetadatumAt(
-                        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, date)
-                    .map(Boolean::parseBoolean));
+      .flatMap(m ->
+        m
+          .getAttributeOfSimpleMetadatumAt(MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, date)
+          .map(Boolean::parseBoolean)
+      );
   }
 
   /**
@@ -237,6 +239,6 @@ public class Proprietary {
    */
   public Optional<String> getOrganisationsEinheit(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ORGANISATIONS_EINHEIT, date));
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ORGANISATIONS_EINHEIT, date));
   }
 }

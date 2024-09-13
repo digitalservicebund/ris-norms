@@ -29,8 +29,13 @@ public class MandatoryNodeNotFoundException extends RuntimeException implements 
 
   public MandatoryNodeNotFoundException(String xpath, String nodeName, String normEli) {
     super(
-        String.format(
-            "Element with xpath '%s' not found in '%s' of norm '%s'", xpath, nodeName, normEli));
+      String.format(
+        "Element with xpath '%s' not found in '%s' of norm '%s'",
+        xpath,
+        nodeName,
+        normEli
+      )
+    );
     this.xpath = xpath;
     this.eli = normEli;
     this.node = nodeName;

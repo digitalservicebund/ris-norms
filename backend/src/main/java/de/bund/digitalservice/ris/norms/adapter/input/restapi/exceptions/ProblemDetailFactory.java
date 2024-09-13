@@ -19,6 +19,7 @@ import org.springframework.http.ProblemDetail;
  * because that exception has many different types.
  */
 public class ProblemDetailFactory {
+
   /**
    * Creates a {@link ProblemDetail} instance for the given exception and HTTP status. The {@link
    * ProblemDetail} is populated with information from a predefined mapping based on the exception
@@ -30,7 +31,9 @@ public class ProblemDetailFactory {
    *     type, title, and detailed message.
    */
   public static ProblemDetail createProblemDetail(
-      final NormsAppException e, final HttpStatus status) {
+    final NormsAppException e,
+    final HttpStatus status
+  ) {
     final ProblemMapping problemMapping = ProblemMapping.getInstance(e.getClass());
     final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
     if (e instanceof ValidationException validationException) {
@@ -45,59 +48,75 @@ public class ProblemDetailFactory {
   @Getter
   private enum ProblemMapping {
     NORM_NOT_FOUND(
-        NormNotFoundException.class, URI.create("/errors/norm-not-found"), "Norm not found"),
+      NormNotFoundException.class,
+      URI.create("/errors/norm-not-found"),
+      "Norm not found"
+    ),
     ARTICLE_NOT_FOUND(
-        ArticleNotFoundException.class,
-        URI.create("/errors/article-not-found"),
-        "Article not found"),
+      ArticleNotFoundException.class,
+      URI.create("/errors/article-not-found"),
+      "Article not found"
+    ),
     ARTICLE_OF_TYPE_NOT_FOUND(
-        LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class,
-        URI.create("/errors/article-of-type-not-found"),
-        "Article of specific type not found"),
+      LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class,
+      URI.create("/errors/article-of-type-not-found"),
+      "Article of specific type not found"
+    ),
     ANNOUNCEMENT_NOT_FOUND(
-        AnnouncementNotFoundException.class,
-        URI.create("/errors/announcement-not-found"),
-        "Announcement not found"),
+      AnnouncementNotFoundException.class,
+      URI.create("/errors/announcement-not-found"),
+      "Announcement not found"
+    ),
     ELEMENT_NOT_FOUND(
-        ElementNotFoundException.class,
-        URI.create("/errors/element-not-found"),
-        "Element not found"),
+      ElementNotFoundException.class,
+      URI.create("/errors/element-not-found"),
+      "Element not found"
+    ),
     MANDATORY_NODE_NOT_FOUND(
-        MandatoryNodeNotFoundException.class,
-        URI.create("/errors/mandatory-node-not-found"),
-        "Mandatory node not found"),
+      MandatoryNodeNotFoundException.class,
+      URI.create("/errors/mandatory-node-not-found"),
+      "Mandatory node not found"
+    ),
     INVALID_UPDATE(
-        InvalidUpdateException.class,
-        URI.create("/errors/invalidate-update"),
-        "Invalid update operation"),
+      InvalidUpdateException.class,
+      URI.create("/errors/invalidate-update"),
+      "Invalid update operation"
+    ),
     XML_PROCESSING_ERROR(
-        XmlProcessingException.class,
-        URI.create("/errors/xml-processing-error"),
-        "XML processing error"),
+      XmlProcessingException.class,
+      URI.create("/errors/xml-processing-error"),
+      "XML processing error"
+    ),
     UNSUPPORTED_ELEMENT_TYPE(
-        LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class,
-        URI.create("/errors/unsupported-element-type"),
-        "Unsupported element type"),
+      LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class,
+      URI.create("/errors/unsupported-element-type"),
+      "Unsupported element type"
+    ),
     NORM_EXISTS_ALREADY(
-        NormExistsAlreadyException.class,
-        URI.create("/errors/norm-exists-already"),
-        "Norm exists already"),
+      NormExistsAlreadyException.class,
+      URI.create("/errors/norm-exists-already"),
+      "Norm exists already"
+    ),
     ACTIVE_MOD_DESTINATION_NORM_NOT_FOUND(
-        ActiveModDestinationNormNotFoundException.class,
-        URI.create("/errors/active-mod/destination/norm-not-found"),
-        "Destination norm not found"),
+      ActiveModDestinationNormNotFoundException.class,
+      URI.create("/errors/active-mod/destination/norm-not-found"),
+      "Destination norm not found"
+    ),
     NOT_A_XML_FILE(
-        NotAXmlFileException.class,
-        URI.create("/errors/not-a-xml-file"),
-        "The provided file is not a xml file"),
+      NotAXmlFileException.class,
+      URI.create("/errors/not-a-xml-file"),
+      "The provided file is not a xml file"
+    ),
     LDML_DE_NOT_VALID(
-        LdmlDeNotValidException.class,
-        LdmlDeNotValidException.TYPE,
-        "The provided xml is not a valid LDML.de 1.6 document"),
+      LdmlDeNotValidException.class,
+      LdmlDeNotValidException.TYPE,
+      "The provided xml is not a valid LDML.de 1.6 document"
+    ),
     LDML_DE_SCHEMATRON_EXCEPTION(
-        LdmlDeSchematronException.class,
-        URI.create("/errors/ldml-de-not-schematron-valid"),
-        "The provided xml is not a schematron-valid LDML.de 1.6 document"),
+      LdmlDeSchematronException.class,
+      URI.create("/errors/ldml-de-not-schematron-valid"),
+      "The provided xml is not a schematron-valid LDML.de 1.6 document"
+    ),
     VALIDATION_ERROR(ValidationException.class, null, "Validation error");
 
     /**
@@ -113,7 +132,8 @@ public class ProblemDetailFactory {
         }
       }
       throw new IllegalArgumentException(
-          "No matching ProblemMapping found for class: " + clazz.getName());
+        "No matching ProblemMapping found for class: " + clazz.getName()
+      );
     }
 
     private final Class<? extends NormsAppException> clazz;

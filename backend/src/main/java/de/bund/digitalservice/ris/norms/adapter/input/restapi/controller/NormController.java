@@ -31,7 +31,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}")
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}"
+)
 public class NormController {
 
   private final LoadNormUseCase loadNormUseCase;
@@ -44,14 +45,15 @@ public class NormController {
   private final UpdateModsUseCase updateModsUseCase;
 
   public NormController(
-      LoadNormUseCase loadNormUseCase,
-      LoadNormXmlUseCase loadNormXmlUseCase,
-      LoadZf0UseCase loadZf0UseCase,
-      UpdateNormXmlUseCase updateNormXmlUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
-      UpdateModUseCase updateModUseCase,
-      UpdateModsUseCase updateModsUseCase) {
+    LoadNormUseCase loadNormUseCase,
+    LoadNormXmlUseCase loadNormXmlUseCase,
+    LoadZf0UseCase loadZf0UseCase,
+    UpdateNormXmlUseCase updateNormXmlUseCase,
+    TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+    ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
+    UpdateModUseCase updateModUseCase,
+    UpdateModsUseCase updateModsUseCase
+  ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.loadZf0UseCase = loadZf0UseCase;
@@ -74,7 +76,7 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) and the norm if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<NormResponseSchema> getNorm(final Eli eli) {
     var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
@@ -92,10 +94,11 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) and the norm's xml if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(produces = {APPLICATION_XML_VALUE})
+  @GetMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormXml(final Eli eli) {
     return ResponseEntity.ok(
-        loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue())));
+      loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
+    );
   }
 
   /**
@@ -113,27 +116,35 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) and the norm as rendered html.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(produces = {TEXT_HTML_VALUE})
+  @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getNormRender(
-      final Eli eli,
-      @RequestParam(defaultValue = "false") boolean showMetadata,
-      @RequestParam Optional<Instant> atIsoDate) {
+    final Eli eli,
+    @RequestParam(defaultValue = "false") boolean showMetadata,
+    @RequestParam Optional<Instant> atIsoDate
+  ) {
     if (atIsoDate.isPresent()) {
       var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
       norm =
-          applyPassiveModificationsUseCase.applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.get()));
+      applyPassiveModificationsUseCase.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.get())
+      );
 
       return ResponseEntity.ok(
-          this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-              new TransformLegalDocMlToHtmlUseCase.Query(
-                  XmlMapper.toString(norm.getDocument()), showMetadata, false)));
+        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(
+              XmlMapper.toString(norm.getDocument()),
+              showMetadata,
+              false
+            )
+          )
+      );
     }
 
     var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()));
     var legalDocHtml =
-        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false));
+      this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+          new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false)
+        );
 
     return ResponseEntity.ok(legalDocHtml);
   }
@@ -151,12 +162,11 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) with the saved XML as response payload.
    *     <p>Returns HTTP 404 (Not Found) if the amending law is not found.
    */
-  @PutMapping(
-      consumes = {APPLICATION_XML_VALUE},
-      produces = {APPLICATION_XML_VALUE})
+  @PutMapping(consumes = { APPLICATION_XML_VALUE }, produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> updateAmendingLaw(final Eli eli, @RequestBody String xml) {
-    var updatedAmendingLaw =
-        updateNormXmlUseCase.updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml));
+    var updatedAmendingLaw = updateNormXmlUseCase.updateNormXml(
+      new UpdateNormXmlUseCase.Query(eli.getValue(), xml)
+    );
 
     return ResponseEntity.ok(updatedAmendingLaw);
   }
@@ -175,26 +185,28 @@ public class NormController {
    *     found.
    */
   @PutMapping(
-      path = "/mods/{eid}",
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/mods/{eid}",
+    consumes = { APPLICATION_JSON_VALUE },
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<UpdateModResponseSchema> updateMod(
-      final Eli eli,
-      @PathVariable final String eid,
-      @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
-      @RequestParam(defaultValue = "false") final Boolean dryRun) {
-
-    var result =
-        updateModUseCase.updateMod(
-            new UpdateModUseCase.Query(
-                eli.getValue(),
-                eid,
-                updateModRequestSchema.getRefersTo(),
-                updateModRequestSchema.getTimeBoundaryEid(),
-                updateModRequestSchema.getDestinationHref(),
-                updateModRequestSchema.getDestinationUpTo(),
-                updateModRequestSchema.getNewContent(),
-                dryRun));
+    final Eli eli,
+    @PathVariable final String eid,
+    @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
+    @RequestParam(defaultValue = "false") final Boolean dryRun
+  ) {
+    var result = updateModUseCase.updateMod(
+      new UpdateModUseCase.Query(
+        eli.getValue(),
+        eid,
+        updateModRequestSchema.getRefersTo(),
+        updateModRequestSchema.getTimeBoundaryEid(),
+        updateModRequestSchema.getDestinationHref(),
+        updateModRequestSchema.getDestinationUpTo(),
+        updateModRequestSchema.getNewContent(),
+        dryRun
+      )
+    );
 
     return ResponseEntity.ok(UpdateModResponseMapper.fromResult(result));
   }
@@ -212,26 +224,31 @@ public class NormController {
    *     found.
    */
   @PatchMapping(
-      path = "/mods",
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/mods",
+    consumes = { APPLICATION_JSON_VALUE },
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<UpdateModsResponseSchema> updateMods(
-      final Eli eli,
-      @RequestBody @Valid @NotEmpty
-          final Map<String, UpdateModsRequestSchema.ModUpdate> updateModsRequestSchema,
-      @RequestParam(defaultValue = "false") final Boolean dryRun) {
-
-    final var result =
-        updateModsUseCase.updateMods(
-            new UpdateModsUseCase.Query(
-                eli.getValue(),
-                updateModsRequestSchema.entrySet().stream()
-                    .map(
-                        entry ->
-                            new UpdateModsUseCase.NewModData(
-                                entry.getKey(), entry.getValue().timeBoundaryEid()))
-                    .toList(),
-                dryRun));
+    final Eli eli,
+    @RequestBody @Valid @NotEmpty final Map<
+      String,
+      UpdateModsRequestSchema.ModUpdate
+    > updateModsRequestSchema,
+    @RequestParam(defaultValue = "false") final Boolean dryRun
+  ) {
+    final var result = updateModsUseCase.updateMods(
+      new UpdateModsUseCase.Query(
+        eli.getValue(),
+        updateModsRequestSchema
+          .entrySet()
+          .stream()
+          .map(entry ->
+            new UpdateModsUseCase.NewModData(entry.getKey(), entry.getValue().timeBoundaryEid())
+          )
+          .toList(),
+        dryRun
+      )
+    );
 
     return ResponseEntity.ok(UpdateModsResponseMapper.fromResult(result));
   }
@@ -247,15 +264,14 @@ public class NormController {
    *     if no zf0 exists yet.
    * @return A {@link ResponseEntity} containing the retrieved zf0 norm's xml.
    */
-  @GetMapping(
-      path = "/zf0",
-      produces = {APPLICATION_XML_VALUE})
+  @GetMapping(path = "/zf0", produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormZf0Xml(final Eli eli, @RequestParam String amendingNormEli) {
     var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
     var amendingNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendingNormEli));
 
-    var zf0Norm =
-        loadZf0UseCase.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm, true));
+    var zf0Norm = loadZf0UseCase.loadOrCreateZf0(
+      new LoadZf0UseCase.Query(amendingNorm, targetNorm, true)
+    );
 
     return ResponseEntity.ok(XmlMapper.toString(zf0Norm.getDocument()));
   }
