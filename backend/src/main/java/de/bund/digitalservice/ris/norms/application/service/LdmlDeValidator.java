@@ -51,19 +51,13 @@ public class LdmlDeValidator {
    * @return The parsed norm (namespace-aware)
    * @throws LdmlDeNotValidException The document is not valid according to the XSD-Schema
    */
-  public Norm parseAndValidate(String ldmlDeString) throws LdmlDeNotValidException {
-    Source schemaSource = null;
-    try {
-      schemaSource = new StreamSource(xsdSchema.getInputStream());
-      schemaSource.setSystemId(xsdSchema.getURL().toString());
-    } catch (IOException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
-
+  public Norm parseAndValidate(String ldmlDeString) {
     Schema schema = null;
     try {
+      Source schemaSource = new StreamSource(xsdSchema.getInputStream());
+      schemaSource.setSystemId(xsdSchema.getURL().toString());
       schema = SchemaFactory.newDefaultInstance().newSchema(schemaSource);
-    } catch (SAXException e) {
+    } catch (IOException | SAXException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
 
@@ -104,17 +98,16 @@ public class LdmlDeValidator {
    * Validate the norm against the schematron rules. Throws if a rule is not fulfilled.
    *
    * @param norm the norm to validate
-   * @throws IOException The schematron file couldn't be read
    * @throws XmlProcessingException A problem occurred during the processing of the XML
    * @throws LdmlDeSchematronException A Schematron rule is violated
    */
-  public void validateSchematron(Norm norm) throws IOException {
-    Source xsltSource = new StreamSource(schematronXslt.getInputStream());
-    xsltSource.setSystemId(schematronXslt.getURL().toString());
+  public void validateSchematron(Norm norm) {
     Transformer transformer = null;
     try {
+      Source xsltSource = new StreamSource(schematronXslt.getInputStream());
+      xsltSource.setSystemId(schematronXslt.getURL().toString());
       transformer = new TransformerFactoryImpl().newTransformer(xsltSource);
-    } catch (TransformerConfigurationException e) {
+    } catch (IOException | TransformerConfigurationException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
 
@@ -153,7 +146,7 @@ public class LdmlDeValidator {
 
                     // Find the eId of the node responsible for this problem. Sometimes the location
                     // points to an attribute, so we might need to move up in the element tree to
-                    // find the xPath.
+                    // find the eId.
                     List<Node> eIdNodes =
                         NodeParser.getNodesFromExpression(
                             xPath + "/ancestor-or-self::*/@eId", norm.getDocument());
