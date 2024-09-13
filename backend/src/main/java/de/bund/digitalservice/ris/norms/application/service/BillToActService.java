@@ -22,6 +22,7 @@ public class BillToActService implements BillToActUseCase {
   private static final String ELI_BUND_BGBL_1 = "eli/bund/bgbl-1/";
   public static final String VALUE = "value";
   public static final String AKN_FRBRALIAS = "akn:FRBRalias";
+  public static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
 
   private Document document;
 
@@ -106,7 +107,7 @@ public class BillToActService implements BillToActUseCase {
       ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num + "/regelungstext-1"
     );
     fRBRuri.setAttribute(VALUE, ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num);
-    fRBRdate.setAttribute("name", "verkuendungsfassung");
+    fRBRdate.setAttribute("name", VERKUENDUNGSFASSUNG);
     fRBRname.setAttribute(VALUE, "bgbl-1");
   }
 
@@ -241,32 +242,55 @@ public class BillToActService implements BillToActUseCase {
       document
     );
 
-    Element meta = (Element) NodeParser.getMandatoryNodeFromExpression(
+    if (NodeParser.getNodeFromExpression("//meta/proprietary", document).isEmpty()) {
+      Element parent = (Element) NodeParser.getMandatoryNodeFromExpression("//act/meta", document);
+      Element proprietary = document.createElement("akn:proprietary");
+      proprietary.setAttribute("eId", "meta-1_proprietary-1");
+      proprietary.setAttribute("GUID", UUID.randomUUID().toString());
+      proprietary.setAttribute("source", "attributsemantik-noch-undefiniert");
+
+      Element legalDocMlDeMetadaten = document.createElement("meta:legalDocML.de_metadaten");
+      legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.6/");
+      proprietary.appendChild(legalDocMlDeMetadaten);
+
+      parent.appendChild(proprietary);
+    }
+
+    Element dsCustomMeta = (Element) NodeParser.getMandatoryNodeFromExpression(
       "//meta/proprietary/legalDocML.de_metadaten",
       document
     );
 
-    if (NodeParser.getNodeFromExpression("./fna", meta).isEmpty()) {
+    if (NodeParser.getNodeFromExpression("./fassung", dsCustomMeta).isEmpty()) {
+      Element fassung = document.createElement("meta:fassung");
+      fassung.setTextContent(VERKUENDUNGSFASSUNG);
+      dsCustomMeta.appendChild(fassung);
+    } else {
+      Element fassung = (Element) NodeParser.getMandatoryNodeFromExpression(
+        "./fassung",
+        dsCustomMeta
+      );
+      fassung.setTextContent(VERKUENDUNGSFASSUNG);
+    }
+
+    if (NodeParser.getNodeFromExpression("./fna", dsCustomMeta).isEmpty()) {
       Element fna = document.createElement("meta:fna");
       fna.appendChild(document.createTextNode("nicht-vorhanden"));
-      meta.appendChild(fna);
+      dsCustomMeta.appendChild(fna);
     }
-    if (NodeParser.getNodeFromExpression("./gesta", meta).isEmpty()) {
+    if (NodeParser.getNodeFromExpression("./gesta", dsCustomMeta).isEmpty()) {
       Element gesta = document.createElement("meta:gesta");
       gesta.appendChild(document.createTextNode("nicht-vorhanden"));
-      meta.appendChild(gesta);
+      dsCustomMeta.appendChild(gesta);
     }
-    if (NodeParser.getNodeFromExpression("./federfuehrung", meta).isEmpty()) {
+    if (NodeParser.getNodeFromExpression("./federfuehrung", dsCustomMeta).isEmpty()) {
       Element federfuehrung = document.createElement("meta:federfuehrung");
       Element federfuehrend = document.createElement("meta:federfuehrend");
       federfuehrend.setAttribute("ab", date.getAttribute("date"));
       federfuehrend.setAttribute("bis", "unbestimmt");
       federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
       federfuehrung.appendChild(federfuehrend);
-      meta.appendChild(federfuehrung);
+      dsCustomMeta.appendChild(federfuehrung);
     }
-
-    Element fassung = (Element) NodeParser.getMandatoryNodeFromExpression("./fassung", meta);
-    fassung.setTextContent("verkuendungsfassung");
   }
 }

@@ -132,13 +132,6 @@
                 </akn:temporalGroup>
             </akn:temporalData>
             <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
-            <akn:proprietary eId="meta-1_proprietary-1"
-                             GUID="9c1ed277-7e18-4efe-9a9d-dfaed6513c81"
-                             source="attributsemantik-noch-undefiniert">
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
-                    <meta:fassung>entwurfsfassung</meta:fassung>
-                </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
         </akn:meta>
         <!-- Dokumentenkopf Regelungstext -->
         <akn:preface eId="einleitung-1" GUID="b9ea4366-f08a-462a-8b2b-4f75c80281de">
