@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * for the "mini-cycle"
  */
 public interface BillToActUseCase {
-
   /**
    * Converts a bill to an act.
    *

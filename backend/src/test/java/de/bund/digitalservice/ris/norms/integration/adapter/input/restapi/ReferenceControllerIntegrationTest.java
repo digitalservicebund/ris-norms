@@ -17,9 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 class ReferenceControllerIntegrationTest extends BaseIntegrationTest {
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-  @Autowired private NormRepository normRepository;
+  @Autowired
+  private NormRepository normRepository;
 
   @AfterEach
   void cleanUp() {
@@ -33,21 +35,22 @@ class ReferenceControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
-        .andExpect(jsonPath("status").value(404))
-        .andExpect(
-            jsonPath("detail")
-                .value(
-                    "Norm with eli eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1 does not exist"))
-        .andExpect(
-            jsonPath("instance")
-                .value(
-                    "/api/v1/references/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1"))
-        .andExpect(
-            jsonPath("eli").value("eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1"));
+      .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+      .andExpect(jsonPath("title").value("Norm not found"))
+      .andExpect(jsonPath("status").value(404))
+      .andExpect(
+        jsonPath("detail")
+          .value(
+            "Norm with eli eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1 does not exist"
+          )
+      )
+      .andExpect(
+        jsonPath("instance")
+          .value("/api/v1/references/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1")
+      )
+      .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1"));
   }
 
   @Test
@@ -59,9 +62,9 @@ class ReferenceControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isOk())
-        .andExpect(content().xml(XmlMapper.toString(norm.getDocument())));
+      .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
+      .andExpect(status().isOk())
+      .andExpect(content().xml(XmlMapper.toString(norm.getDocument())));
   }
 
   @Test
@@ -73,32 +76,40 @@ class ReferenceControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isOk())
-        .andExpect(
-            xpath("//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[1]/@eId")
-                .string("hauptteil-1_para-2_überschrift-1_ref-1"))
-        .andExpect(
-            xpath(
-                    "//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[1]/text()")
-                .string("§ 5"))
-        .andExpect(
-            xpath("//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[2]/@eId")
-                .string("hauptteil-1_para-2_überschrift-1_ref-2"))
-        .andExpect(
-            xpath(
-                    "//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[2]/text()")
-                .string(
-                    "Verordnung (EG) Nr.\n"
-                        + "                                                        1035/2001"))
-        .andExpect(
-            xpath(
-                    "//quotedText[@eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2']/ref/@eId")
-                .string(
-                    "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2_ref-1"))
-        .andExpect(
-            xpath(
-                    "//quotedText[@eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2']/ref/text()")
-                .string("§ 9 Absatz 1 Satz 2"));
+      .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
+      .andExpect(status().isOk())
+      .andExpect(
+        xpath("//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[1]/@eId")
+          .string("hauptteil-1_para-2_überschrift-1_ref-1")
+      )
+      .andExpect(
+        xpath("//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[1]/text()")
+          .string("§ 5")
+      )
+      .andExpect(
+        xpath("//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[2]/@eId")
+          .string("hauptteil-1_para-2_überschrift-1_ref-2")
+      )
+      .andExpect(
+        xpath("//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[2]/text()")
+          .string(
+            "Verordnung (EG) Nr.\n" +
+            "                                                        1035/2001"
+          )
+      )
+      .andExpect(
+        xpath(
+          "//quotedText[@eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2']/ref/@eId"
+        )
+          .string(
+            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2_ref-1"
+          )
+      )
+      .andExpect(
+        xpath(
+          "//quotedText[@eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2']/ref/text()"
+        )
+          .string("§ 9 Absatz 1 Satz 2")
+      );
   }
 }

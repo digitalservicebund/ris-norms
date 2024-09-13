@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
  * command.
  */
 public interface UpdateOrSaveAnnouncementPort {
-
   /**
    * Updates or saves a {@link Announcement} based on the provided data in the command.
    *

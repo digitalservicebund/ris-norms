@@ -9,7 +9,6 @@ import java.util.Set;
  * given date.
  */
 public interface ApplyPassiveModificationsUseCase {
-
   /**
    * Applies the passive modifications of the norm. Only applies "aenderungsbefehl-ersetzen".
    *

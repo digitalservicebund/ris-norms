@@ -15,22 +15,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ReleaseService implements ReleaseAnnouncementUseCase {
+
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final UpdateAnnouncementPort updateAnnouncementPort;
 
   public ReleaseService(
-      LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
-      UpdateAnnouncementPort updateAnnouncementPort) {
+    LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
+    UpdateAnnouncementPort updateAnnouncementPort
+  ) {
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.updateAnnouncementPort = updateAnnouncementPort;
   }
 
   @Override
   public Announcement releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
-    var announcement =
-        loadAnnouncementByNormEliPort
-            .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-            .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
+    var announcement = loadAnnouncementByNormEliPort
+      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
+      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
 
     announcement.setReleasedByDocumentalistAt(Instant.now());
 

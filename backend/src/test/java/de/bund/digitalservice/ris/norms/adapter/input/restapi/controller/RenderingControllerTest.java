@@ -29,9 +29,15 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(RenderingController.class)
 @Import(SecurityConfig.class)
 class RenderingControllerTest {
-  @Autowired private MockMvc mockMvc;
-  @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+
+  @Autowired
+  private MockMvc mockMvc;
+
+  @MockBean
+  private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+
+  @MockBean
+  private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   @Nested
   class getHtmlPreview {
@@ -39,398 +45,437 @@ class RenderingControllerTest {
     @Test
     void itThrowsXmlProcessingException() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenThrow(new XmlProcessingException("Error message", null));
+        .thenThrow(new XmlProcessingException("Error message", null));
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .accept(MediaType.TEXT_HTML)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
+        .perform(
+          post("/api/v1/renderings")
+            .accept(MediaType.TEXT_HTML)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
 
-                                                              {
-                                          "norm": "<law>original-law</law>"
-                                        }
-                                        """))
-          .andExpect(status().isInternalServerError())
-          .andExpect(jsonPath("type").value("/errors/xml-processing-error"))
-          .andExpect(jsonPath("title").value("XML processing error"))
-          .andExpect(jsonPath("status").value(500))
-          .andExpect(jsonPath("detail").value("Error message"))
-          .andExpect(jsonPath("instance").value("/api/v1/renderings"));
+                                    {
+                "norm": "<law>original-law</law>"
+              }
+              """
+            )
+        )
+        .andExpect(status().isInternalServerError())
+        .andExpect(jsonPath("type").value("/errors/xml-processing-error"))
+        .andExpect(jsonPath("title").value("XML processing error"))
+        .andExpect(jsonPath("status").value(500))
+        .andExpect(jsonPath("detail").value("Error message"))
+        .andExpect(jsonPath("instance").value("/api/v1/renderings"));
     }
 
     @Test
     void getHtmlPreviewWithShowMetadataTrue() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
+        .thenReturn("<html></html>");
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .queryParam("showMetadata", "true")
-                  .accept(MediaType.TEXT_HTML)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
+        .perform(
+          post("/api/v1/renderings")
+            .queryParam("showMetadata", "true")
+            .accept(MediaType.TEXT_HTML)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
 
-                                              {
-                          "norm": "<law>original-law</law>"
-                        }
-                        """))
-          .andExpect(status().isOk())
-          .andExpect(content().string("<html></html>"));
+                                    {
+                "norm": "<law>original-law</law>"
+              }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().string("<html></html>"));
 
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              argThat(
-                  query ->
-                      query
-                          .norm()
-                          .getDocument()
-                          .getFirstChild()
-                          .getTextContent()
-                          .equals("original-law")));
+        .applyPassiveModifications(
+          argThat(query ->
+            query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+          )
+        );
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(
-              new TransformLegalDocMlToHtmlUseCase.Query(
-                  "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
-                  true,
-                  false));
+        .transformLegalDocMlToHtml(
+          new TransformLegalDocMlToHtmlUseCase.Query(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
+            true,
+            false
+          )
+        );
     }
 
     @Test
     void getHtmlPreviewWithShowMetadataFalse() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
+        .thenReturn("<html></html>");
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .queryParam("showMetadata", "false")
-                  .accept(MediaType.TEXT_HTML)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                          {
-                            "norm": "<law>original-law</law>"
-                          }
-                          """))
-          .andExpect(status().isOk())
-          .andExpect(content().string("<html></html>"));
+        .perform(
+          post("/api/v1/renderings")
+            .queryParam("showMetadata", "false")
+            .accept(MediaType.TEXT_HTML)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+              {
+                "norm": "<law>original-law</law>"
+              }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().string("<html></html>"));
 
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              argThat(
-                  query ->
-                      query
-                          .norm()
-                          .getDocument()
-                          .getFirstChild()
-                          .getTextContent()
-                          .equals("original-law")));
+        .applyPassiveModifications(
+          argThat(query ->
+            query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+          )
+        );
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(
-              new TransformLegalDocMlToHtmlUseCase.Query(
-                  "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
-                  false,
-                  false));
+        .transformLegalDocMlToHtml(
+          new TransformLegalDocMlToHtmlUseCase.Query(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
+            false,
+            false
+          )
+        );
     }
 
     @Test
     void getHtmlPreviewForDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
+        .thenReturn("<html></html>");
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .queryParam("showMetadata", "true")
-                  .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
-                  .accept(MediaType.TEXT_HTML)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                          {
-                            "norm": "<law>original-law</law>"
-                          }
-                          """))
-          .andExpect(status().isOk())
-          .andExpect(content().string("<html></html>"));
+        .perform(
+          post("/api/v1/renderings")
+            .queryParam("showMetadata", "true")
+            .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
+            .accept(MediaType.TEXT_HTML)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+              {
+                "norm": "<law>original-law</law>"
+              }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().string("<html></html>"));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(
-              new TransformLegalDocMlToHtmlUseCase.Query(
-                  "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
-                  true,
-                  false));
+        .transformLegalDocMlToHtml(
+          new TransformLegalDocMlToHtmlUseCase.Query(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
+            true,
+            false
+          )
+        );
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              AdditionalMatchers.and(
-                  argThat(query -> query.date().equals(Instant.parse("2024-01-01T00:00:00.0Z"))),
-                  AdditionalMatchers.and(
-                      argThat(query -> query.customNorms().isEmpty()),
-                      argThat(
-                          query ->
-                              query
-                                  .norm()
-                                  .getDocument()
-                                  .getFirstChild()
-                                  .getTextContent()
-                                  .equals("original-law")))));
+        .applyPassiveModifications(
+          AdditionalMatchers.and(
+            argThat(query -> query.date().equals(Instant.parse("2024-01-01T00:00:00.0Z"))),
+            AdditionalMatchers.and(
+              argThat(query -> query.customNorms().isEmpty()),
+              argThat(query ->
+                query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+              )
+            )
+          )
+        );
     }
 
     @Test
     void getHtmlPreviewForCurrentDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
+        .thenReturn("<html></html>");
 
       Instant instantBefore = Instant.now();
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .accept(MediaType.TEXT_HTML)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                          {
-                            "norm": "<law>original-law</law>"
-                          }
-                          """))
-          .andExpect(status().isOk())
-          .andExpect(content().string("<html></html>"));
+        .perform(
+          post("/api/v1/renderings")
+            .accept(MediaType.TEXT_HTML)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+              {
+                "norm": "<law>original-law</law>"
+              }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().string("<html></html>"));
 
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              argThat(
-                  query ->
-                      query.date().isAfter(instantBefore) && query.date().isBefore(Instant.now())));
+        .applyPassiveModifications(
+          argThat(query ->
+            query.date().isAfter(instantBefore) && query.date().isBefore(Instant.now())
+          )
+        );
     }
 
     @Test
     void getHtmlPreviewForDateWithCustomNorms() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
+        .thenReturn("<html></html>");
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .queryParam("showMetadata", "false")
-                  .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
-                  .accept(MediaType.TEXT_HTML)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                          {
-                            "norm": "<law>original-law</law>",
-                            "customNorms": ["<law>amending-law</law>"]
-                          }
-                          """))
-          .andExpect(status().isOk())
-          .andExpect(content().string("<html></html>"));
+        .perform(
+          post("/api/v1/renderings")
+            .queryParam("showMetadata", "false")
+            .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
+            .accept(MediaType.TEXT_HTML)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+              {
+                "norm": "<law>original-law</law>",
+                "customNorms": ["<law>amending-law</law>"]
+              }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().string("<html></html>"));
 
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              argThat(
-                  query ->
-                      query
-                          .customNorms()
-                          .iterator()
-                          .next()
-                          .getDocument()
-                          .getFirstChild()
-                          .getTextContent()
-                          .equals("amending-law")));
+        .applyPassiveModifications(
+          argThat(query ->
+            query
+              .customNorms()
+              .iterator()
+              .next()
+              .getDocument()
+              .getFirstChild()
+              .getTextContent()
+              .equals("amending-law")
+          )
+        );
     }
 
     @Test
     void getHtmlPreviewWithSnippetTrue() throws Exception {
-
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
+        .thenReturn("<html></html>");
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .queryParam("snippet", "true")
-                  .accept(MediaType.TEXT_HTML)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                                       {
-                                          "norm": "<law>original-law</law>"
-                                        }
-                                        """))
-          .andExpect(status().isOk())
-          .andExpect(content().string("<html></html>"));
+        .perform(
+          post("/api/v1/renderings")
+            .queryParam("snippet", "true")
+            .accept(MediaType.TEXT_HTML)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+              {
+                 "norm": "<law>original-law</law>"
+               }
+               """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().string("<html></html>"));
 
       verify(applyPassiveModificationsUseCase, times(0)).applyPassiveModifications(any());
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(
-              new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, true));
+        .transformLegalDocMlToHtml(
+          new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, true)
+        );
     }
   }
 
   @Nested
   class getXmlPreview {
+
     @Test
     void getXmlPreviewForCurrentDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
 
       Instant instantBefore = Instant.now();
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .accept(MediaType.APPLICATION_XML_VALUE)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                                        {
-                                          "norm": "<law>original-law</law>"
-                                        }
-                                      """))
-          .andExpect(status().isOk())
-          .andExpect(
-              content()
-                  .string(
-                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>"));
+        .perform(
+          post("/api/v1/renderings")
+            .accept(MediaType.APPLICATION_XML_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+                {
+                  "norm": "<law>original-law</law>"
+                }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(
+          content()
+            .string(
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>"
+            )
+        );
 
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              AdditionalMatchers.and(
-                  argThat(
-                      query ->
-                          query.date().isAfter(instantBefore)
-                              && query.date().isBefore(Instant.now())),
-                  AdditionalMatchers.and(
-                      argThat(query -> query.customNorms().isEmpty()),
-                      argThat(
-                          query ->
-                              query
-                                  .norm()
-                                  .getDocument()
-                                  .getFirstChild()
-                                  .getTextContent()
-                                  .equals("original-law")))));
+        .applyPassiveModifications(
+          AdditionalMatchers.and(
+            argThat(query ->
+              query.date().isAfter(instantBefore) && query.date().isBefore(Instant.now())
+            ),
+            AdditionalMatchers.and(
+              argThat(query -> query.customNorms().isEmpty()),
+              argThat(query ->
+                query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+              )
+            )
+          )
+        );
     }
 
     @Test
     void getXmlPreviewForDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
-                  .accept(MediaType.APPLICATION_XML_VALUE)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                                        {
-                                          "norm": "<law>original-law</law>"
-                                        }
-                                      """))
-          .andExpect(status().isOk())
-          .andExpect(
-              content()
-                  .string(
-                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>"));
+        .perform(
+          post("/api/v1/renderings")
+            .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
+            .accept(MediaType.APPLICATION_XML_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+                {
+                  "norm": "<law>original-law</law>"
+                }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(
+          content()
+            .string(
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>"
+            )
+        );
 
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              AdditionalMatchers.and(
-                  argThat(query -> query.date().equals(Instant.parse("2024-01-01T00:00:00.0Z"))),
-                  AdditionalMatchers.and(
-                      argThat(query -> query.customNorms().isEmpty()),
-                      argThat(
-                          query ->
-                              query
-                                  .norm()
-                                  .getDocument()
-                                  .getFirstChild()
-                                  .getTextContent()
-                                  .equals("original-law")))));
+        .applyPassiveModifications(
+          AdditionalMatchers.and(
+            argThat(query -> query.date().equals(Instant.parse("2024-01-01T00:00:00.0Z"))),
+            AdditionalMatchers.and(
+              argThat(query -> query.customNorms().isEmpty()),
+              argThat(query ->
+                query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+              )
+            )
+          )
+        );
     }
 
     @Test
     void getXmlPreviewForDateWithCustomNorms() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(
-              Norm.builder()
-                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-                  .build());
+        .thenReturn(
+          Norm
+            .builder()
+            .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+            .build()
+        );
 
       mockMvc
-          .perform(
-              post("/api/v1/renderings")
-                  .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
-                  .accept(MediaType.APPLICATION_XML_VALUE)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      """
-                                          {
-                                            "norm": "<law>original-law</law>",
-                                            "customNorms": ["<law>amending-law</law>"]
-                                          }
-                                      """))
-          .andExpect(status().isOk())
-          .andExpect(
-              content()
-                  .string(
-                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>"));
+        .perform(
+          post("/api/v1/renderings")
+            .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
+            .accept(MediaType.APPLICATION_XML_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              """
+                  {
+                    "norm": "<law>original-law</law>",
+                    "customNorms": ["<law>amending-law</law>"]
+                  }
+              """
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(
+          content()
+            .string(
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>"
+            )
+        );
 
       verify(applyPassiveModificationsUseCase, times(1))
-          .applyPassiveModifications(
-              argThat(
-                  query ->
-                      query
-                          .customNorms()
-                          .iterator()
-                          .next()
-                          .getDocument()
-                          .getFirstChild()
-                          .getTextContent()
-                          .equals("amending-law")));
+        .applyPassiveModifications(
+          argThat(query ->
+            query
+              .customNorms()
+              .iterator()
+              .next()
+              .getDocument()
+              .getFirstChild()
+              .getTextContent()
+              .equals("amending-law")
+          )
+        );
     }
   }
 }

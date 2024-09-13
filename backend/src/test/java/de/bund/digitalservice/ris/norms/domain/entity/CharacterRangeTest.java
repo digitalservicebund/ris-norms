@@ -11,6 +11,7 @@ public class CharacterRangeTest {
 
   @Nested
   class isEndGreaterEqualsStart {
+
     @Test
     void itShouldDetectStartIsGreaterThanEnd() {
       // given
@@ -32,6 +33,7 @@ public class CharacterRangeTest {
 
   @Nested
   class getStart {
+
     @Test
     void itShouldReturnStart() {
       // given //when
@@ -53,6 +55,7 @@ public class CharacterRangeTest {
 
   @Nested
   class getEnd {
+
     @Test
     void itShouldReturnEnd() {
       // given //when
@@ -92,16 +95,18 @@ public class CharacterRangeTest {
 
   @Nested
   class findTextInNode {
+
     @Test
     void itShouldReturnTextOfASimpleTextNode() {
       // given //when
-      var textInRange =
-          new CharacterRange("9-13")
-              .findTextInNode(
-                  XmlMapper.toNode(
-                      """
-                          <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple text of which we want to find a part.</akn:p>
-                          """));
+      var textInRange = new CharacterRange("9-13")
+        .findTextInNode(
+          XmlMapper.toNode(
+            """
+            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple text of which we want to find a part.</akn:p>
+            """
+          )
+        );
 
       // then
       assertThat(textInRange).isEqualTo("text");
@@ -110,13 +115,14 @@ public class CharacterRangeTest {
     @Test
     void itShouldReturnTextOfANestedNode() {
       // given //when
-      var textInRange =
-          new CharacterRange("9-13")
-              .findTextInNode(
-                  XmlMapper.toNode(
-                      """
-                          <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
-                          """));
+      var textInRange = new CharacterRange("9-13")
+        .findTextInNode(
+          XmlMapper.toNode(
+            """
+            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
+            """
+          )
+        );
 
       // then
       assertThat(textInRange).isEqualTo("text");
@@ -125,13 +131,14 @@ public class CharacterRangeTest {
     @Test
     void itShouldReturnTextSpanningMultipleNodes() {
       // given //when
-      var textInRange =
-          new CharacterRange("2-16")
-              .findTextInNode(
-                  XmlMapper.toNode(
-                      """
-                          <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
-                          """));
+      var textInRange = new CharacterRange("2-16")
+        .findTextInNode(
+          XmlMapper.toNode(
+            """
+            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
+            """
+          )
+        );
 
       // then
       assertThat(textInRange).isEqualTo("simple text of");
@@ -140,14 +147,15 @@ public class CharacterRangeTest {
 
   @Nested
   class getNodesInRange {
+
     @Test
     void itShouldFindRangeInAText() {
       // given //when
-      var node =
-          XmlMapper.toNode(
-              """
-                  <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple text of which we want to find a part.</akn:p>
-                  """);
+      var node = XmlMapper.toNode(
+        """
+        <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple text of which we want to find a part.</akn:p>
+        """
+      );
       var nodesInRange = new CharacterRange("9-13").getNodesInRange(node);
 
       // then
@@ -157,10 +165,11 @@ public class CharacterRangeTest {
       nodesInRange.getFirst().setTextContent("foo");
 
       assertThat(XmlMapper.toString(node))
-          .isEqualToIgnoringWhitespace(
-              """
-                  <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-1">A simple foo of which we want to find a part.</akn:p>
-                  """);
+        .isEqualToIgnoringWhitespace(
+          """
+          <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-1">A simple foo of which we want to find a part.</akn:p>
+          """
+        );
     }
 
     @Test
@@ -168,10 +177,10 @@ public class CharacterRangeTest {
       // given //when
       var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml", true);
 
-      var n2 =
-          NodeParser.getNodeFromExpression(
-              "//*[@eId='hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1']",
-              norm.getDocument());
+      var n2 = NodeParser.getNodeFromExpression(
+        "//*[@eId='hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1']",
+        norm.getDocument()
+      );
 
       var nodesInRange = new CharacterRange("101-118").getNodesInRange(n2.get());
 
@@ -185,11 +194,11 @@ public class CharacterRangeTest {
     @Test
     void itShouldFindRangeInANestedNode() {
       // given //when
-      var node =
-          XmlMapper.toNode(
-              """
-                  <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
-                  """);
+      var node = XmlMapper.toNode(
+        """
+        <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
+        """
+      );
       var nodesInRange = new CharacterRange("9-13").getNodesInRange(node);
 
       // then
@@ -198,24 +207,25 @@ public class CharacterRangeTest {
 
       assertThat(firstNode.getTextContent()).isEqualTo("text");
       firstNode
-          .getParentNode()
-          .replaceChild(firstNode.getOwnerDocument().createTextNode("foo"), firstNode);
+        .getParentNode()
+        .replaceChild(firstNode.getOwnerDocument().createTextNode("foo"), firstNode);
 
       assertThat(XmlMapper.toString(node))
-          .isEqualToIgnoringWhitespace(
-              """
-                  <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-1">A simple foo of which we want to find a part.</akn:p>
-                  """);
+        .isEqualToIgnoringWhitespace(
+          """
+          <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-1">A simple foo of which we want to find a part.</akn:p>
+          """
+        );
     }
 
     @Test
     void itShouldFindRangeSpanningMultipleNodes() {
       // given //when
-      var document =
-          XmlMapper.toNode(
-              """
-                  <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
-                  """);
+      var document = XmlMapper.toNode(
+        """
+        <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
+        """
+      );
       var nodesInRange = new CharacterRange("2-16").getNodesInRange(document);
 
       // then
@@ -226,20 +236,22 @@ public class CharacterRangeTest {
 
       var firstNode = nodesInRange.getFirst();
       firstNode
-          .getParentNode()
-          .insertBefore(firstNode.getOwnerDocument().createTextNode("new text"), firstNode);
+        .getParentNode()
+        .insertBefore(firstNode.getOwnerDocument().createTextNode("new text"), firstNode);
       nodesInRange.forEach(node -> node.getParentNode().removeChild(node));
 
       assertThat(XmlMapper.toString(document))
-          .isEqualToIgnoringWhitespace(
-              """
-                  <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-1">A new text which we want to find a part.</akn:p>
-                  """);
+        .isEqualToIgnoringWhitespace(
+          """
+          <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-1">A new text which we want to find a part.</akn:p>
+          """
+        );
     }
   }
 
   @Nested
   class Builder {
+
     @Test
     void itShouldCreateCharacterCount() {
       // given // when

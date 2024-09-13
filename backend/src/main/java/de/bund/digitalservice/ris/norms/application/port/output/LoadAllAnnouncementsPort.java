@@ -5,7 +5,6 @@ import java.util.List;
 
 /** Port interface for loading all {@link Announcement}s from the storage. */
 public interface LoadAllAnnouncementsPort {
-
   /**
    * Loads all {@link Announcement}s available in the system.
    *

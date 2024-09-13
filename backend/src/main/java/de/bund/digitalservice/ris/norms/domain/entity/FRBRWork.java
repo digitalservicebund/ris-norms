@@ -23,11 +23,9 @@ public class FRBRWork extends FRBR {
   public Optional<String> getFRBRname() {
     Optional<String> fRBRname = NodeParser.getValueFromExpression("./FRBRname/@value", getNode());
 
-    return fRBRname.map(
-        s ->
-            s.replace("bgbl-1", "BGBl. I")
-                .replace("bgbl-2", "BGBl. II")
-                .replace("banz-at", "BAnz AT"));
+    return fRBRname.map(s ->
+      s.replace("bgbl-1", "BGBl. I").replace("bgbl-2", "BGBl. II").replace("banz-at", "BAnz AT")
+    );
   }
 
   /**

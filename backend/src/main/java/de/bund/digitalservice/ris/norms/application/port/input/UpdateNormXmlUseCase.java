@@ -9,7 +9,6 @@ import java.util.Optional;
  * query.
  */
 public interface UpdateNormXmlUseCase {
-
   /**
    * Updates a xml representation of {@link Norm} based on the provided query.
    *

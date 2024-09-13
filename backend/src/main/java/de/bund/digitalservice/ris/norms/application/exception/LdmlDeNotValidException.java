@@ -9,6 +9,7 @@ import lombok.Getter;
 /** The given xml is not a valid LDML.de 1.6 document. */
 @Getter
 public class LdmlDeNotValidException extends RuntimeException implements NormsAppException {
+
   private final List<ValidationError> errors;
   public static final URI TYPE = URI.create("/errors/ldml-de-not-valid");
 
@@ -26,7 +27,7 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
    * @param detail the error message
    */
   public record ValidationError(URI type, int lineNumber, int columnNumber, String detail)
-      implements Serializable {
+    implements Serializable {
     public ValidationError(URI type, int lineNumber, int columnNumber, String detail) {
       this.type = URI.create(LdmlDeNotValidException.TYPE + "/").resolve(type);
       this.lineNumber = lineNumber;

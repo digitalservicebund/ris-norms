@@ -10,7 +10,6 @@ import java.util.Optional;
  * specified command.
  */
 public interface LoadAnnouncementByNormEliPort {
-
   /**
    * Loads a {@link Announcement} based on the provided ELI specified in the command.
    *

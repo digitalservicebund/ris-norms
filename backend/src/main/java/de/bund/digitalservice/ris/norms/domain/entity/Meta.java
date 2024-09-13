@@ -14,8 +14,9 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class Meta {
+
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
-      "attributsemantik-noch-undefiniert";
+    "attributsemantik-noch-undefiniert";
 
   private static final String SOURCE_ATTIBUTE = "source";
 
@@ -28,7 +29,8 @@ public class Meta {
    */
   public FRBRWork getFRBRWork() {
     return new FRBRWork(
-        NodeParser.getMandatoryNodeFromExpression("./identification/FRBRWork", node));
+      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRWork", node)
+    );
   }
 
   /**
@@ -38,7 +40,8 @@ public class Meta {
    */
   public FRBRExpression getFRBRExpression() {
     return new FRBRExpression(
-        NodeParser.getMandatoryNodeFromExpression("./identification/FRBRExpression", node));
+      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRExpression", node)
+    );
   }
 
   /**
@@ -48,7 +51,8 @@ public class Meta {
    */
   public FRBRManifestation getFRBRManifestation() {
     return new FRBRManifestation(
-        NodeParser.getMandatoryNodeFromExpression("./identification/FRBRManifestation", node));
+      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRManifestation", node)
+    );
   }
 
   /**
@@ -100,12 +104,11 @@ public class Meta {
    */
   public Analysis getOrCreateAnalysis() {
     return getAnalysis()
-        .orElseGet(
-            () -> {
-              final var newElement = NodeCreator.createElementWithEidAndGuid("akn:analysis", node);
-              newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-              return new Analysis(newElement);
-            });
+      .orElseGet(() -> {
+        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:analysis", node);
+        newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+        return new Analysis(newElement);
+      });
   }
 
   /**
@@ -114,14 +117,13 @@ public class Meta {
    * @return the akn:proprietary element of the norm
    */
   public Proprietary getOrCreateProprietary() {
-    return NodeParser.getNodeFromExpression("./proprietary", node)
-        .map(Proprietary::new)
-        .orElseGet(
-            () -> {
-              final var newElement =
-                  NodeCreator.createElementWithEidAndGuid("akn:proprietary", node);
-              newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-              return new Proprietary(newElement);
-            });
+    return NodeParser
+      .getNodeFromExpression("./proprietary", node)
+      .map(Proprietary::new)
+      .orElseGet(() -> {
+        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:proprietary", node);
+        newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+        return new Proprietary(newElement);
+      });
   }
 }

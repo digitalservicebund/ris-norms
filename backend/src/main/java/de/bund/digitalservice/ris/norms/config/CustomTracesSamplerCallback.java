@@ -10,14 +10,16 @@ import org.springframework.stereotype.Component;
 /** Custom filter for sentry traces. Removes all traces for the actuator endpoints. */
 @Component
 public class CustomTracesSamplerCallback implements TracesSamplerCallback {
+
   @Override
   public @Nullable Double sample(@NotNull SamplingContext context) {
     if (context.getCustomSamplingContext() == null) {
       return null;
     }
 
-    ServerHttpRequest request =
-        (ServerHttpRequest) context.getCustomSamplingContext().get("request");
+    ServerHttpRequest request = (ServerHttpRequest) context
+      .getCustomSamplingContext()
+      .get("request");
 
     if (request == null) {
       return null;

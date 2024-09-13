@@ -26,8 +26,9 @@ public class RenderingController {
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   public RenderingController(
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
+    TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+    ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase
+  ) {
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
@@ -44,20 +45,22 @@ public class RenderingController {
    *     HTML gets rendered and returned. If no date is provided the current date is used.
    * @return A {@link ResponseEntity} containing the HTML rendering of the law document.
    */
-  @PostMapping(
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {TEXT_HTML_VALUE})
+  @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getHtmlPreview(
-      @RequestBody final PreviewRequestSchema previewRequestSchema,
-      @RequestParam(defaultValue = "false") boolean showMetadata,
-      @RequestParam(defaultValue = "false") boolean snippet,
-      @RequestParam Optional<Instant> atIsoDate) {
+    @RequestBody final PreviewRequestSchema previewRequestSchema,
+    @RequestParam(defaultValue = "false") boolean showMetadata,
+    @RequestParam(defaultValue = "false") boolean snippet,
+    @RequestParam Optional<Instant> atIsoDate
+  ) {
     return ResponseEntity.ok(
-        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(
-                snippet ? previewRequestSchema.getNorm() : render(previewRequestSchema, atIsoDate),
-                showMetadata,
-                snippet)));
+      this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+          new TransformLegalDocMlToHtmlUseCase.Query(
+            snippet ? previewRequestSchema.getNorm() : render(previewRequestSchema, atIsoDate),
+            showMetadata,
+            snippet
+          )
+        )
+    );
   }
 
   /**
@@ -70,27 +73,28 @@ public class RenderingController {
    *     HTML gets rendered and returned. If no date is provided the current date is used.
    * @return A {@link ResponseEntity} containing the HTML rendering of the law document.
    */
-  @PostMapping(
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_XML_VALUE})
+  @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getXMLPreview(
-      @RequestBody final PreviewRequestSchema previewRequestSchema,
-      @RequestParam Optional<Instant> atIsoDate) {
+    @RequestBody final PreviewRequestSchema previewRequestSchema,
+    @RequestParam Optional<Instant> atIsoDate
+  ) {
     return ResponseEntity.ok(render(previewRequestSchema, atIsoDate));
   }
 
   private String render(PreviewRequestSchema previewRequestSchema, Optional<Instant> atIsoDate) {
-    final var norm =
-        Norm.builder().document(XmlMapper.toDocument(previewRequestSchema.getNorm())).build();
-    final Set<Norm> customNorms =
-        previewRequestSchema.getCustomNorms().stream()
-            .map(xml -> new Norm(XmlMapper.toDocument(xml)))
-            .collect(Collectors.toSet());
+    final var norm = Norm
+      .builder()
+      .document(XmlMapper.toDocument(previewRequestSchema.getNorm()))
+      .build();
+    final Set<Norm> customNorms = previewRequestSchema
+      .getCustomNorms()
+      .stream()
+      .map(xml -> new Norm(XmlMapper.toDocument(xml)))
+      .collect(Collectors.toSet());
 
-    Norm normWithAppliedModifications =
-        applyPassiveModificationsUseCase.applyPassiveModifications(
-            new ApplyPassiveModificationsUseCase.Query(
-                norm, atIsoDate.orElse(Instant.now()), customNorms));
+    Norm normWithAppliedModifications = applyPassiveModificationsUseCase.applyPassiveModifications(
+      new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.orElse(Instant.now()), customNorms)
+    );
 
     return XmlMapper.toString(normWithAppliedModifications.getDocument());
   }

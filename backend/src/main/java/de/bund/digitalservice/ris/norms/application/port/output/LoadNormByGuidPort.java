@@ -9,7 +9,6 @@ import java.util.UUID;
  * this interface should provide functionality to load a norm using the specified command.
  */
 public interface LoadNormByGuidPort {
-
   /**
    * Loads a {@link Norm} based on the provided GUID specified in the command.
    *

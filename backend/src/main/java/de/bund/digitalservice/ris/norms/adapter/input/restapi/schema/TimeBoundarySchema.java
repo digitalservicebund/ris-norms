@@ -14,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class TimeBoundarySchema {
+
   @NotNull(message = "Date must not be null")
   private LocalDate date;
 

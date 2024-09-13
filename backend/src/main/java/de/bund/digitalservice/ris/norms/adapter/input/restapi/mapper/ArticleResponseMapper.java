@@ -21,12 +21,15 @@ public class ArticleResponseMapper {
    * @return A new {@link ArticleResponseSchema} instance mapped from the input {@link Article}.
    */
   public static ArticleResponseSchema fromNormArticle(
-      final Article article, final @Nullable Norm targetLawZf0) {
+    final Article article,
+    final @Nullable Norm targetLawZf0
+  ) {
     return new ArticleResponseSchema(
-        article.getEnumeration().orElse(null),
-        article.getEid().orElse(null),
-        article.getHeading().orElse(null),
-        article.getAffectedDocumentEli().orElse(null),
-        Optional.ofNullable(targetLawZf0).map(Norm::getEli).orElse(null));
+      article.getEnumeration().orElse(null),
+      article.getEid().orElse(null),
+      article.getHeading().orElse(null),
+      article.getAffectedDocumentEli().orElse(null),
+      Optional.ofNullable(targetLawZf0).map(Norm::getEli).orElse(null)
+    );
   }
 }

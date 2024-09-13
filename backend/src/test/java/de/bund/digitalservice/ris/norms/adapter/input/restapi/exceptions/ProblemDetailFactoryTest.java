@@ -15,14 +15,17 @@ class ProblemDetailFactoryTest {
 
   @Nested
   class CreateProblemDetail {
+
     @Test
     void createProblemDetailNormNotFound() {
       // given
       NormNotFoundException normNotFoundException = new NormNotFoundException("some/eli");
 
       // when
-      ProblemDetail problemDetail =
-          ProblemDetailFactory.createProblemDetail(normNotFoundException, HttpStatus.NOT_FOUND);
+      ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+        normNotFoundException,
+        HttpStatus.NOT_FOUND
+      );
 
       // then
       assertThat(problemDetail).isNotNull();
@@ -38,11 +41,10 @@ class ProblemDetailFactoryTest {
       NormsAppException normNotFoundException = new UndefinedNormsException();
 
       // when/then
-      assertThatThrownBy(
-              () ->
-                  ProblemDetailFactory.createProblemDetail(
-                      normNotFoundException, HttpStatus.NOT_FOUND))
-          .isInstanceOf(IllegalArgumentException.class);
+      assertThatThrownBy(() ->
+          ProblemDetailFactory.createProblemDetail(normNotFoundException, HttpStatus.NOT_FOUND)
+        )
+        .isInstanceOf(IllegalArgumentException.class);
     }
 
     static class UndefinedNormsException extends RuntimeException implements NormsAppException {

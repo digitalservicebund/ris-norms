@@ -12,7 +12,6 @@ import java.util.Optional;
  * target the same norm.
  */
 public interface UpdateModsUseCase {
-
   /**
    * Updates amending commands of an amending law and also updates the corresponding ZF0 version of
    * the affected target law.

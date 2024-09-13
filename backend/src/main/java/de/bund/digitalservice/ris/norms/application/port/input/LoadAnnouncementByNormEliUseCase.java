@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
  * interface should provide functionality to load an {@link Announcement} based on a given query.
  */
 public interface LoadAnnouncementByNormEliUseCase {
-
   /**
    * Retrieves an {@link Announcement} based on the provided query.
    *

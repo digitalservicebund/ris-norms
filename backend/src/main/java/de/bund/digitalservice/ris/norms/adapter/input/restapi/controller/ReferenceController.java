@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 /** Controller for references actions. */
 @RestController
 @RequestMapping(
-    "/api/v1/references/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}")
+  "/api/v1/references/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}"
+)
 public class ReferenceController {
 
   private final ReferenceRecognitionUseCase referenceRecognitionUseCase;
@@ -29,10 +30,12 @@ public class ReferenceController {
    *     <p>Returns HTTP 200 (OK) and the updated norm's xml if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @PostMapping(produces = {APPLICATION_XML_VALUE})
+  @PostMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> findReferencesInNorm(final Eli eli) {
     return ResponseEntity.ok(
-        referenceRecognitionUseCase.findAndCreateReferences(
-            new ReferenceRecognitionUseCase.Query(eli.getValue())));
+      referenceRecognitionUseCase.findAndCreateReferences(
+        new ReferenceRecognitionUseCase.Query(eli.getValue())
+      )
+    );
   }
 }

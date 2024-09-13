@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class UpdateModsResponseSchema {
+
   /** The xml of the amending norm. */
   private String amendingNormXml;
 

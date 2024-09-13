@@ -6,18 +6,20 @@ import ch.qos.logback.core.read.ListAppender;
 import java.util.List;
 
 public class MemoryAppender extends ListAppender<ILoggingEvent> {
+
   public void reset() {
     this.list.clear();
   }
 
   public boolean contains(String string, Level level) {
     return this.list.stream()
-        .anyMatch(event -> event.toString().contains(string) && event.getLevel().equals(level));
+      .anyMatch(event -> event.toString().contains(string) && event.getLevel().equals(level));
   }
 
   public int countEventsForLogger(String loggerName) {
-    return (int)
-        this.list.stream().filter(event -> event.getLoggerName().contains(loggerName)).count();
+    return (int) this.list.stream()
+      .filter(event -> event.getLoggerName().contains(loggerName))
+      .count();
   }
 
   public List<ILoggingEvent> search(String string) {
@@ -26,8 +28,8 @@ public class MemoryAppender extends ListAppender<ILoggingEvent> {
 
   public List<ILoggingEvent> search(String string, Level level) {
     return this.list.stream()
-        .filter(event -> event.toString().contains(string) && event.getLevel().equals(level))
-        .toList();
+      .filter(event -> event.toString().contains(string) && event.getLevel().equals(level))
+      .toList();
   }
 
   public int getSize() {

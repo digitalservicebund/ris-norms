@@ -13,11 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 class SessionIntegrationTest extends BaseIntegrationTest {
 
-  @Autowired private RedisTemplate<String, String> redisTemplate;
+  @Autowired
+  private RedisTemplate<String, String> redisTemplate;
 
   @Test
   void sessionShouldBePersistedToRedis(@Autowired MockMvc mvc) throws Exception {
-
     final Set<String> keysBefore = redisTemplate.keys("*");
     assertThat(keysBefore).isEmpty();
 
@@ -29,17 +29,19 @@ class SessionIntegrationTest extends BaseIntegrationTest {
 
   @Test
   void setCookieHeaderShouldBePresentInResponse(@Autowired MockMvc mvc) throws Exception {
-
-    final HttpServletResponse response =
-        mvc.perform(get("/actuator/health")).andExpect(status().isOk()).andReturn().getResponse();
+    final HttpServletResponse response = mvc
+      .perform(get("/actuator/health"))
+      .andExpect(status().isOk())
+      .andReturn()
+      .getResponse();
 
     final String setCookieHeader = response.getHeader("Set-Cookie");
     assertThat(setCookieHeader)
-        .isNotNull()
-        .contains("SESSION=")
-        .contains("; Max-Age=43200")
-        .contains("; Expires=")
-        .contains("; HttpOnly")
-        .contains("; SameSite=Lax");
+      .isNotNull()
+      .contains("SESSION=")
+      .contains("; Max-Age=43200")
+      .contains("; Expires=")
+      .contains("; HttpOnly")
+      .contains("; SameSite=Lax");
   }
 }

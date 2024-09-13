@@ -47,7 +47,10 @@ public class XmlMapper {
    * @return the resulting {@link Document}
    */
   public static Document toDocument(
-      String xmlText, DocumentBuilderFactory factory, ErrorHandler errorHandler) {
+    String xmlText,
+    DocumentBuilderFactory factory,
+    ErrorHandler errorHandler
+  ) {
     try {
       // XXE vulnerability hardening, cf. https://www.sonarsource.com/blog/secure-xml-processor/
       factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
@@ -89,8 +92,8 @@ public class XmlMapper {
 
     try {
       new TransformerFactoryImpl()
-          .newTransformer()
-          .transform(new DOMSource(node), new StreamResult(writer));
+        .newTransformer()
+        .transform(new DOMSource(node), new StreamResult(writer));
     } catch (TransformerException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }

@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 /** Interface representing the use case for transforming a LegalDocML.de XML to HTML. */
 public interface TransformLegalDocMlToHtmlUseCase {
-
   /**
    * Provides a html representation of a LegalDocML.de law.
    *

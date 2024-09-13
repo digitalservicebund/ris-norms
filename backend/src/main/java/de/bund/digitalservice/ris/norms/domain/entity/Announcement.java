@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 public class Announcement {
+
   private Instant releasedByDocumentalistAt;
 
   private Norm norm;

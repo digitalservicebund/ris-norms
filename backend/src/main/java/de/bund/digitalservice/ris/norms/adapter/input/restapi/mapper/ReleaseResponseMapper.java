@@ -23,11 +23,14 @@ public class ReleaseResponseMapper {
    *     Announcement}.
    */
   public static ReleaseResponseSchema fromAnnouncement(
-      final Announcement announcement, final List<Norm> affectedNorms) {
-    return ReleaseResponseSchema.builder()
-        .amendingLawEli(announcement.getNorm().getEli())
-        .releaseAt(announcement.getReleasedByDocumentalistAt())
-        .zf0Elis(affectedNorms.stream().map(Norm::getEli).toList())
-        .build();
+    final Announcement announcement,
+    final List<Norm> affectedNorms
+  ) {
+    return ReleaseResponseSchema
+      .builder()
+      .amendingLawEli(announcement.getNorm().getEli())
+      .releaseAt(announcement.getReleasedByDocumentalistAt())
+      .zf0Elis(affectedNorms.stream().map(Norm::getEli).toList())
+      .build();
   }
 }

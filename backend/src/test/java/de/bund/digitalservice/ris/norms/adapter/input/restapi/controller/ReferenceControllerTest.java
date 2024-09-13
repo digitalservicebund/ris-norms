@@ -24,9 +24,11 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import(SecurityConfig.class)
 class ReferenceControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-  @MockBean private ReferenceRecognitionUseCase referenceRecognitionUseCase;
+  @MockBean
+  private ReferenceRecognitionUseCase referenceRecognitionUseCase;
 
   @Test
   void itReturnsXml() throws Exception {
@@ -38,9 +40,9 @@ class ReferenceControllerTest {
 
     // When // Then
     mockMvc
-        .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isOk())
-        .andExpect(content().string(xml));
+      .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
+      .andExpect(status().isOk())
+      .andExpect(content().string(xml));
   }
 
   @Test
@@ -49,11 +51,11 @@ class ReferenceControllerTest {
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     // When
     when(referenceRecognitionUseCase.findAndCreateReferences(any()))
-        .thenThrow(new NormNotFoundException("Norm not found"));
+      .thenThrow(new NormNotFoundException("Norm not found"));
 
     // When // Then
     mockMvc
-        .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isNotFound());
+      .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
+      .andExpect(status().isNotFound());
   }
 }

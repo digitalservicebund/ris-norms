@@ -33,16 +33,17 @@ public class BillToActService implements BillToActUseCase {
     Element akomaNtoso = (Element) document.getElementsByTagName("akn:akomaNtoso").item(0);
     akomaNtoso.setAttribute("xmlns:akn", "http://Inhaltsdaten.LegalDocML.de/1.6/");
     akomaNtoso.setAttribute(
-        "xsi:schemaLocation",
-        "http://Metadaten.LegalDocML.de/1.6/ "
-            + ROOT_DIR
-            + "/"
-            + SCHEMA
-            + "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ "
-            + ROOT_DIR
-            + "/"
-            + SCHEMA
-            + "/legalDocML.de-regelungstextverkuendungsfassung.xsd");
+      "xsi:schemaLocation",
+      "http://Metadaten.LegalDocML.de/1.6/ " +
+      ROOT_DIR +
+      "/" +
+      SCHEMA +
+      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ " +
+      ROOT_DIR +
+      "/" +
+      SCHEMA +
+      "/legalDocML.de-regelungstextverkuendungsfassung.xsd"
+    );
   }
 
   private void updateBillToAct() {
@@ -51,12 +52,12 @@ public class BillToActService implements BillToActUseCase {
     final Node newChildFragment = parentNode.getOwnerDocument().createDocumentFragment();
     var newElement = parentNode.getOwnerDocument().createElement("akn:act");
     newElement.setAttribute("name", "regelungstext");
-    NodeParser.nodeListToList(bill.getChildNodes())
-        .forEach(
-            child -> {
-              final Node importedChild = parentNode.getOwnerDocument().importNode(child, true);
-              newElement.appendChild(importedChild);
-            });
+    NodeParser
+      .nodeListToList(bill.getChildNodes())
+      .forEach(child -> {
+        final Node importedChild = parentNode.getOwnerDocument().importNode(child, true);
+        newElement.appendChild(importedChild);
+      });
     newChildFragment.appendChild(newElement);
     parentNode.insertBefore(newChildFragment, bill);
     parentNode.removeChild(bill);

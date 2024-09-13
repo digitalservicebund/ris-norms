@@ -30,7 +30,9 @@ import lombok.Setter;
 @Table(name = "announcements")
 public class AnnouncementDto {
 
-  @Id @GeneratedValue private UUID id;
+  @Id
+  @GeneratedValue
+  private UUID id;
 
   @Column(name = "released_by_documentalist_at")
   private Instant releasedByDocumentalistAt;

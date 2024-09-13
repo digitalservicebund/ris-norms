@@ -16,10 +16,11 @@ public class AnnouncementMapper {
    * @return A new {@link Announcement} mapped from the input {@link AnnouncementDto}.
    */
   public static Announcement mapToDomain(final AnnouncementDto announcementDto) {
-    return Announcement.builder()
-        .releasedByDocumentalistAt(announcementDto.getReleasedByDocumentalistAt())
-        .norm(NormMapper.mapToDomain(announcementDto.getNormDto()))
-        .build();
+    return Announcement
+      .builder()
+      .releasedByDocumentalistAt(announcementDto.getReleasedByDocumentalistAt())
+      .norm(NormMapper.mapToDomain(announcementDto.getNormDto()))
+      .build();
   }
 
   /**
@@ -29,9 +30,10 @@ public class AnnouncementMapper {
    * @return A new {@link AnnouncementDto} mapped from the input {@link Announcement}.
    */
   public static AnnouncementDto mapToDto(final Announcement announcement) {
-    return AnnouncementDto.builder()
-        .releasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt())
-        .normDto(NormMapper.mapToDto(announcement.getNorm()))
-        .build();
+    return AnnouncementDto
+      .builder()
+      .releasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt())
+      .normDto(NormMapper.mapToDto(announcement.getNorm()))
+      .build();
   }
 }

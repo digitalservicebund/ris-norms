@@ -9,15 +9,19 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.UrlResource;
 
 public class NormFixtures {
-  private static final LdmlDeValidator ldmlDeValidator =
-      new LdmlDeValidator(
-          new UrlResource(
-              Objects.requireNonNull(
-                  LdmlDeValidator.class.getResource("/schema/fixtures/legalDocML.de.xsl"))),
-          new UrlResource(
-              Objects.requireNonNull(
-                  LdmlDeValidator.class.getResource(
-                      "/schema/fixtures/ldml1.6_ds_regelungstext.xsd"))));
+
+  private static final LdmlDeValidator ldmlDeValidator = new LdmlDeValidator(
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource("/schema/fixtures/legalDocML.de.xsl")
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource("/schema/fixtures/ldml1.6_ds_regelungstext.xsd")
+      )
+    )
+  );
 
   public static Norm loadFromDisk(final String fileName) {
     return loadFromDisk(fileName, false);
@@ -38,8 +42,9 @@ public class NormFixtures {
   private static String loadNormFile(final String fileName) {
     try {
       return IOUtils.toString(
-          Objects.requireNonNull(NormFixtures.class.getResourceAsStream(fileName)),
-          StandardCharsets.UTF_8);
+        Objects.requireNonNull(NormFixtures.class.getResourceAsStream(fileName)),
+        StandardCharsets.UTF_8
+      );
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

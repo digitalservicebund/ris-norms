@@ -23,22 +23,23 @@ import org.springframework.web.bind.annotation.RestController;
 /** Retrieve proprietary data of a {@link Norm}. */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/proprietary")
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/proprietary"
+)
 public class ProprietaryController {
 
   private final LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
   private final UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase;
-  private final UpdateProprietarySingleElementFromNormUseCase
-      updateProprietarySingleElementFromNormUseCase;
+  private final UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase;
 
   public ProprietaryController(
-      LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase,
-      UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase,
-      UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase) {
+    LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase,
+    UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase,
+    UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase
+  ) {
     this.loadProprietaryFromNormUseCase = loadProprietaryFromNormUseCase;
     this.updateProprietaryFrameFromNormUseCase = updateProprietaryFrameFromNormUseCase;
     this.updateProprietarySingleElementFromNormUseCase =
-        updateProprietarySingleElementFromNormUseCase;
+    updateProprietarySingleElementFromNormUseCase;
   }
 
   /**
@@ -49,15 +50,14 @@ public class ProprietaryController {
    * @param atDate the time boundary at which to return the metadata
    * @return the specific metadata returned in the form of {@link ProprietaryFrameSchema}
    */
-  @GetMapping(
-      path = "/{atDate}",
-      produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(path = "/{atDate}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietaryFrameSchema> getProprietaryAtDate(
-      final Eli eli, @PathVariable final LocalDate atDate) {
-
-    var proprietary =
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-            new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
+    final Eli eli,
+    @PathVariable final LocalDate atDate
+  ) {
+    var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+      new LoadProprietaryFromNormUseCase.Query(eli.getValue())
+    );
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
   }
@@ -73,31 +73,34 @@ public class ProprietaryController {
    * @return the specific metadata updated in the form of {@link ProprietaryFrameSchema}
    */
   @PutMapping(
-      path = "/{atDate}",
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/{atDate}",
+    consumes = { APPLICATION_JSON_VALUE },
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<ProprietaryFrameSchema> updateProprietaryAtDate(
-      final Eli eli,
-      @PathVariable final LocalDate atDate,
-      @RequestBody ProprietaryFrameSchema proprietaryFrameSchema) {
-
-    var proprietary =
-        updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(
-            new UpdateProprietaryFrameFromNormUseCase.Query(
-                eli.getValue(),
-                atDate,
-                new UpdateProprietaryFrameFromNormUseCase.Metadata(
-                    proprietaryFrameSchema.getFna(),
-                    proprietaryFrameSchema.getArt(),
-                    proprietaryFrameSchema.getTyp(),
-                    proprietaryFrameSchema.getSubtyp(),
-                    proprietaryFrameSchema.getBezeichnungInVorlage(),
-                    proprietaryFrameSchema.getArtDerNorm(),
-                    proprietaryFrameSchema.getStaat(),
-                    proprietaryFrameSchema.getBeschliessendesOrgan(),
-                    proprietaryFrameSchema.getQualifizierteMehrheit(),
-                    proprietaryFrameSchema.getRessort(),
-                    proprietaryFrameSchema.getOrganisationsEinheit())));
+    final Eli eli,
+    @PathVariable final LocalDate atDate,
+    @RequestBody ProprietaryFrameSchema proprietaryFrameSchema
+  ) {
+    var proprietary = updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(
+      new UpdateProprietaryFrameFromNormUseCase.Query(
+        eli.getValue(),
+        atDate,
+        new UpdateProprietaryFrameFromNormUseCase.Metadata(
+          proprietaryFrameSchema.getFna(),
+          proprietaryFrameSchema.getArt(),
+          proprietaryFrameSchema.getTyp(),
+          proprietaryFrameSchema.getSubtyp(),
+          proprietaryFrameSchema.getBezeichnungInVorlage(),
+          proprietaryFrameSchema.getArtDerNorm(),
+          proprietaryFrameSchema.getStaat(),
+          proprietaryFrameSchema.getBeschliessendesOrgan(),
+          proprietaryFrameSchema.getQualifizierteMehrheit(),
+          proprietaryFrameSchema.getRessort(),
+          proprietaryFrameSchema.getOrganisationsEinheit()
+        )
+      )
+    );
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
   }
@@ -111,18 +114,19 @@ public class ProprietaryController {
    * @param atDate the time boundary at which to return the metadata
    * @return the specific metadata returned in the form of {@link ProprietarySingleElementSchema}
    */
-  @GetMapping(
-      path = "/{eid}/{atDate}",
-      produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(path = "/{eid}/{atDate}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietarySingleElementSchema> getProprietaryAtDate(
-      final Eli eli, @PathVariable final String eid, @PathVariable final LocalDate atDate) {
-
-    var proprietary =
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-            new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
+    final Eli eli,
+    @PathVariable final String eid,
+    @PathVariable final LocalDate atDate
+  ) {
+    var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+      new LoadProprietaryFromNormUseCase.Query(eli.getValue())
+    );
 
     return ResponseEntity.ok(
-        ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate));
+      ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate)
+    );
   }
 
   /**
@@ -137,25 +141,30 @@ public class ProprietaryController {
    * @return the specific metadata returned in the form of {@link ProprietarySingleElementSchema}
    */
   @PutMapping(
-      path = "/{eid}/{atDate}",
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/{eid}/{atDate}",
+    consumes = { APPLICATION_JSON_VALUE },
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<ProprietarySingleElementSchema> updateProprietaryAtDate(
-      final Eli eli,
-      @PathVariable final String eid,
-      @PathVariable final LocalDate atDate,
-      @RequestBody ProprietarySingleElementSchema proprietarySchema) {
-
+    final Eli eli,
+    @PathVariable final String eid,
+    @PathVariable final LocalDate atDate,
+    @RequestBody ProprietarySingleElementSchema proprietarySchema
+  ) {
     var proprietary =
-        updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
-            new UpdateProprietarySingleElementFromNormUseCase.Query(
-                eli.getValue(),
-                eid,
-                atDate,
-                new UpdateProprietarySingleElementFromNormUseCase.Metadata(
-                    proprietarySchema.getArtDerNorm())));
+      updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
+        new UpdateProprietarySingleElementFromNormUseCase.Query(
+          eli.getValue(),
+          eid,
+          atDate,
+          new UpdateProprietarySingleElementFromNormUseCase.Metadata(
+            proprietarySchema.getArtDerNorm()
+          )
+        )
+      );
 
     return ResponseEntity.ok(
-        ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate));
+      ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate)
+    );
   }
 }

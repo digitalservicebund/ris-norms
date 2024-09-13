@@ -35,11 +35,14 @@ public record Href(String value) {
       return Optional.empty();
     }
 
-    return Optional.of(
-            Arrays.stream(value().split("/"))
-                .limit(NUMBER_OF_ELI_PARTS)
-                .collect(Collectors.joining("/")))
-        .map(Href::removeFileExtension);
+    return Optional
+      .of(
+        Arrays
+          .stream(value().split("/"))
+          .limit(NUMBER_OF_ELI_PARTS)
+          .collect(Collectors.joining("/"))
+      )
+      .map(Href::removeFileExtension);
   }
 
   /**
@@ -103,12 +106,13 @@ public record Href(String value) {
     }
 
     return Optional.of(
-        new CharacterRange(
-            Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_CHARACTER_RANGE])));
+      new CharacterRange(Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_CHARACTER_RANGE]))
+    );
   }
 
   /** Builder for creating a new {@link Href}. */
   public static class Builder {
+
     private String eli;
     private String eId;
     private CharacterRange characterRange;
