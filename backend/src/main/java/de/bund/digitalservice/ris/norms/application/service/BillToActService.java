@@ -20,6 +20,8 @@ public class BillToActService implements BillToActUseCase {
   private static final String ROOT_DIR = "../../..";
   private static final String SCHEMA = "Grammatiken";
   private static final String ELI_BUND_BGBL_1 = "eli/bund/bgbl-1/";
+  public static final String VALUE = "value";
+  public static final String AKN_FRBRALIAS = "akn:FRBRalias";
 
   private Document document;
 
@@ -85,13 +87,13 @@ public class BillToActService implements BillToActUseCase {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
 
-    String num = fRBRnumber.getAttribute("value");
+    String num = fRBRnumber.getAttribute(VALUE);
 
     fRBRthis.setAttribute(
-        "value", ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num + "/regelungstext-1");
-    fRBRuri.setAttribute("value", ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num);
+        VALUE, ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num + "/regelungstext-1");
+    fRBRuri.setAttribute(VALUE, ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num);
     fRBRdate.setAttribute("name", "verkuendungsfassung");
-    fRBRname.setAttribute("value", "bgbl-1");
+    fRBRname.setAttribute(VALUE, "bgbl-1");
   }
 
   private void rewriteFbrExpression() {
@@ -125,11 +127,11 @@ public class BillToActService implements BillToActUseCase {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
-    String num = fRBRNumber.getAttribute("value");
-    String versionNumber = fRBRVersionNumber.getAttribute("value");
+    String num = fRBRNumber.getAttribute(VALUE);
+    String versionNumber = fRBRVersionNumber.getAttribute(VALUE);
 
     fRBRthis.setAttribute(
-        "value",
+        VALUE,
         ELI_BUND_BGBL_1
             + verkuendungsDate.getYear()
             + "/"
@@ -142,7 +144,7 @@ public class BillToActService implements BillToActUseCase {
             + fRBRlanguage.getAttribute("language")
             + "/regelungstext-1");
     fRBRuri.setAttribute(
-        "value",
+        VALUE,
         ELI_BUND_BGBL_1
             + verkuendungsDate.getYear()
             + "/"
@@ -168,27 +170,27 @@ public class BillToActService implements BillToActUseCase {
 
     final Node newChildFragment = fRBROldCurrentVersion.getOwnerDocument().createDocumentFragment();
     Element fRBRNewPredecessorVersion =
-        fRBROldCurrentVersion.getOwnerDocument().createElement("akn:FRBRalias");
+        fRBROldCurrentVersion.getOwnerDocument().createElement(AKN_FRBRALIAS);
     fRBRNewPredecessorVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-1");
     fRBRNewPredecessorVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewPredecessorVersion.setAttribute("name", "vorherige-version-id");
-    fRBRNewPredecessorVersion.setAttribute("value", fRBROldCurrentVersion.getAttribute("value"));
+    fRBRNewPredecessorVersion.setAttribute(VALUE, fRBROldCurrentVersion.getAttribute(VALUE));
     newChildFragment.appendChild(fRBRNewPredecessorVersion);
 
     Element fRBRNewCurrentVersion =
-        fRBROldCurrentVersion.getOwnerDocument().createElement("akn:FRBRalias");
+        fRBROldCurrentVersion.getOwnerDocument().createElement(AKN_FRBRALIAS);
     fRBRNewCurrentVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-2");
     fRBRNewCurrentVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewCurrentVersion.setAttribute("name", "aktuelle-version-id");
-    fRBRNewCurrentVersion.setAttribute("value", fRBROldCurrentVersion.getAttribute("value"));
+    fRBRNewCurrentVersion.setAttribute(VALUE, fRBROldCurrentVersion.getAttribute(VALUE));
     newChildFragment.appendChild(fRBRNewCurrentVersion);
 
     Element fRBRNewFutureVersion =
-        fRBROldCurrentVersion.getOwnerDocument().createElement("akn:FRBRalias");
+        fRBROldCurrentVersion.getOwnerDocument().createElement(AKN_FRBRALIAS);
     fRBRNewFutureVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-3");
     fRBRNewFutureVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewFutureVersion.setAttribute("name", "nachfolgende-version-id");
-    fRBRNewFutureVersion.setAttribute("value", UUID.randomUUID().toString());
+    fRBRNewFutureVersion.setAttribute(VALUE, UUID.randomUUID().toString());
     newChildFragment.appendChild(fRBRNewFutureVersion);
 
     fRBRExpression.insertBefore(newChildFragment, fRBROldCurrentVersion);
@@ -211,7 +213,7 @@ public class BillToActService implements BillToActUseCase {
             NodeParser.getMandatoryNodeFromExpression(
                 "//identification/FRBRExpression/FRBRthis", document);
 
-    fRBRManifestationThis.setAttribute("value", fRBRExpressionThis.getAttribute("value") + ".xml");
-    fRBRManifestationUri.setAttribute("value", fRBRExpressionThis.getAttribute("value") + ".xml");
+    fRBRManifestationThis.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
+    fRBRManifestationUri.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
   }
 }
