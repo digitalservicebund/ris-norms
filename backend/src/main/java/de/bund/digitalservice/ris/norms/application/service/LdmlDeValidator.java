@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -88,7 +89,16 @@ public class LdmlDeValidator {
     var result = XmlMapper.toDocument(ldmlDeString, factory, errorHandler);
 
     if (!parsingExceptions.isEmpty()) {
-      throw new LdmlDeNotValidException(parsingExceptions);
+      throw new LdmlDeNotValidException(
+          parsingExceptions.stream()
+              .map(
+                  e ->
+                      new LdmlDeNotValidException.ValidationError(
+                          URI.create(e.getMessage().split(":")[0]),
+                          e.getLineNumber(),
+                          e.getColumnNumber(),
+                          e.getMessage()))
+              .toList());
     }
 
     return Norm.builder().document(result).build();

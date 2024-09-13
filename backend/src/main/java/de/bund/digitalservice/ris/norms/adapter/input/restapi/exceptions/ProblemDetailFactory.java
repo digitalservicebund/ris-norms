@@ -92,7 +92,7 @@ public class ProblemDetailFactory {
         "The provided file is not a xml file"),
     LDML_DE_NOT_VALID(
         LdmlDeNotValidException.class,
-        URI.create("/errors/ldml-de-not-valid"),
+        LdmlDeNotValidException.TYPE,
         "The provided xml is not a valid LDML.de 1.6 document"),
     LDML_DE_SCHEMATRON_EXCEPTION(
         LdmlDeSchematronException.class,
