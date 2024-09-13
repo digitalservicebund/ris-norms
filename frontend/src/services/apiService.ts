@@ -1,3 +1,4 @@
+import { getFallbackError } from "@/lib/errorResponseMapper"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
 import type { Router } from "vue-router"
 
@@ -76,6 +77,21 @@ export const useApiFetch = createFetch({
           error: null,
         }
       }
+
+      // In the useFetch implementation, `fetchContext.error` is the only thing
+      // that will be provided to the UI by default. This is only an error
+      // object though and access to the response data of an error is not possible.
+      //
+      // There is an option to replace the normal `data` property returned by
+      // useFetch with the error response, but that would mean that `data` can
+      // have different contents depending on the success/failure of the request,
+      // and would require lots of type checking wherever we need to access
+      // the response data.
+      //
+      // Since we're only ever interested in the data and never the error object,
+      // we'll replace the `fetchContext.error` with the response data so we can
+      // access it in the UI.
+      fetchContext.error = fetchContext.data ?? getFallbackError()
 
       return fetchContext
     },

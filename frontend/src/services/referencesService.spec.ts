@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { ref } from "vue"
 
-describe("useFetchReferences", () => {
+describe("useGetReferences", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -36,21 +36,20 @@ describe("useFetchReferences", () => {
   })
 
   it("handles 404 response correctly", async () => {
-    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValueOnce(
-      new Response(null, {
-        status: 404,
-        statusText: "Norm could not be found by its ELI.",
-      }),
-    )
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockResolvedValue(
+        new Response('{"type":"/errors/example"}', { status: 404 }),
+      )
 
     const { useGetReferences } = await import("./referencesService")
     const eli = "some-eli"
-    const { error, isFinished } = useGetReferences(ref(eli))
+    const { error } = useGetReferences(eli).json()
 
-    await vi.waitUntil(() => isFinished.value)
+    await vi.waitFor(() =>
+      expect(error.value).toEqual({ type: "/errors/example" }),
+    )
 
-    expect(error.value).toBeInstanceOf(Error)
-    expect(error.value.message).toBe("Norm could not be found by its ELI.")
     expect(fetchSpy).toHaveBeenCalledWith(
       `/api/v1/references/${eli}`,
       expect.objectContaining({

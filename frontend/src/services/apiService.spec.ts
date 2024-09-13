@@ -107,4 +107,32 @@ describe("useApiFetch", () => {
     expect(fetchSpy).toHaveBeenCalled()
     expect(error.value).to.be.null
   })
+
+  test("replaces the exception in case of an error with the response data", async () => {
+    vi.spyOn(window, "fetch").mockResolvedValue(
+      new Response('{"type":"/errors/example"}', { status: 404 }),
+    )
+
+    const { useApiFetch } = await import("@/services/apiService")
+
+    const { error } = useApiFetch("/example", { immediate: true }).json()
+
+    await vi.waitFor(() => {
+      expect(error.value).toEqual({ type: "/errors/example" })
+    })
+  })
+
+  test("replaces the exception with a fallback error if the response does not contain data", async () => {
+    vi.spyOn(window, "fetch").mockResolvedValue(
+      new Response(null, { status: 404 }),
+    )
+
+    const { useApiFetch } = await import("@/services/apiService")
+
+    const { error } = useApiFetch("/example", { immediate: true }).json()
+
+    await vi.waitFor(() => {
+      expect(error.value).toEqual({ type: "__fallback__" })
+    })
+  })
 })
