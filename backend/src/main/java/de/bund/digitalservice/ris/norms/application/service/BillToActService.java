@@ -21,7 +21,7 @@ public class BillToActService implements BillToActUseCase {
   private static final String SCHEMA = "Grammatiken";
   private static final String ELI_BUND_BGBL_1 = "eli/bund/bgbl-1/";
 
-  Document document;
+  private Document document;
 
   @Override
   public Norm convert(Query query) {
@@ -31,6 +31,7 @@ public class BillToActService implements BillToActUseCase {
     updateBillToAct();
     rewriteFbrWork();
     rewriteFbrExpression();
+    rewriteFbrManifestation();
 
     return new Norm(document);
   }
@@ -193,5 +194,24 @@ public class BillToActService implements BillToActUseCase {
     fRBRExpression.insertBefore(newChildFragment, fRBROldCurrentVersion);
     fRBRExpression.removeChild(fRBROldCurrentVersion);
     fRBRExpression.removeChild(fRBROldNextVersion);
+  }
+
+  private void rewriteFbrManifestation() {
+    Element fRBRManifestationThis =
+        (Element)
+            NodeParser.getMandatoryNodeFromExpression(
+                "//identification/FRBRManifestation/FRBRthis", document);
+    Element fRBRManifestationUri =
+        (Element)
+            NodeParser.getMandatoryNodeFromExpression(
+                "//identification/FRBRManifestation/FRBRuri", document);
+
+    Element fRBRExpressionThis =
+        (Element)
+            NodeParser.getMandatoryNodeFromExpression(
+                "//identification/FRBRExpression/FRBRthis", document);
+
+    fRBRManifestationThis.setAttribute("value", fRBRExpressionThis.getAttribute("value") + ".xml");
+    fRBRManifestationUri.setAttribute("value", fRBRExpressionThis.getAttribute("value") + ".xml");
   }
 }
