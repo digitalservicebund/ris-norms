@@ -31,13 +31,13 @@ The `type` field always starts with `/errors/`. Therefore, all errors are URLs r
 
 The `instance` field is filled with the api call URI that triggered the exception.
 
-Both `title` and `details` are written in english.
+Both `title` and `detail` are written in english.
 
 Only the `type` field is required. All other fields are optional.
 
 In general at least `type`, `instance` and `title` should be filled out to help with debugging. Also, all additional
 information that is required for writing a good error message should be provided as additional fields (extension
-members). For this it might be helpful to write a `details` message and provide all variables used in it as additional
+members). For this it might be helpful to write a `detail` message and provide all variables used in it as additional
 fields.
 
 ### Multiple error messages in one response
@@ -65,7 +65,7 @@ that can be used when needed and may not be used for other purposes:
 ### Displaying messages for the user
 
 To create messages to display to the user the `type` must be used in combination with the other fields. The `title`
-and `details` may not be parsed or used for the translation.
+and `detail` may not be parsed or used for the translation.
 
 ### Examples
 
@@ -75,7 +75,7 @@ Example error response for NormNotFound:
 {
  "type": "/errors/norm-not-found",
  "title": "Norm not found.",
- "details": "The requested norm (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1) could not be found.",
+ "detail": "The requested norm (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1) could not be found.",
  "instance": "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
  "eli": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
 }
@@ -91,7 +91,7 @@ Example error response for validation:
  "errors": [{
     "type": "/errors/norm-not-valid/quoted-structure/target-and-up-to-are-not-siblings"
     "title": "Target node und upTo node are not siblings",
-    "details": "Target node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-2 and target upTo node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-1.",
+    "detail": "Target node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-2 and target upTo node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-1.",
     "eid": "hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1_rref-1",
     "hrefEid": "hauptteil-1_buch-2_kapitel-1_para-3_abs-2"
     "upToEid": "hauptteil-1_buch-2_kapitel-1_para-3_abs-3",
@@ -114,13 +114,13 @@ Example error response for an invalid json object:
     "pointer": "/fna",
     "type": "/errors/proprietary-frame-schema-not-valid/fna-does-not-exist",
     "title": "FNA does not exist.",
-    "details": "FNA \"48\" does not exist.",
+    "detail": "FNA \"48\" does not exist.",
     "instance": "uri/to/api/call"
  }, {
     "pointer": "/ressort",
     "type": "/errors/proprietary-frame-schema-not-valid/ressort-does-not-exist",
     "title": "Ressort does not exist.",
-    "details": "Ressort \"Bundesministerium für GIFs und Memes\" does not exist.",
+    "detail": "Ressort \"Bundesministerium für GIFs und Memes\" does not exist.",
     "instance": "uri/to/api/call"
  }]
 }

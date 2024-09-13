@@ -154,7 +154,7 @@ export const errorMessages = {
 
   "/errors/input-validation-error": (e: ErrorResponse) => ({
     title: "Eingabefehler",
-    message: `Fehler bei den eingehenden Daten: ${e.details}.`,
+    message: `Fehler bei den eingehenden Daten: ${e.detail}`,
   }),
 
   "/errors/parameter-binding-error": (
@@ -188,11 +188,8 @@ export const errorMessages = {
     message: `Die Datei ${e.fileName} ist keine XML-Datei. Der Inhaltstyp ist ${e.contentType}.`,
   }),
 
-  "/errors/ldml-de-not-valid": (e: ErrorResponse) => {
-    const errorResponse = e as ErrorResponse<{ errors: string[] }>
-    return {
-      title: "Invalides LDML.de-Datei",
-      message: `Das LDML.de 1.6-Dokument ist nicht gültig. Fehler: ${errorResponse.errors?.join("; ")}.`,
-    }
-  },
+  "/errors/ldml-de-not-valid": () => ({
+    title: "Invalide LDML.de-Datei",
+    message: `Das LDML.de 1.6-Dokument ist nicht gültig.`,
+  }),
 } satisfies ErrorResponseMapping

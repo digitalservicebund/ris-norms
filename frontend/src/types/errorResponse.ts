@@ -18,7 +18,7 @@ export type ErrorResponse<ExtensionFields extends object = object> = {
    * Details of the error. This is intended for debugging purposes and should
    * not be parsed or displayed in the UI.
    */
-  details?: string
+  detail?: string
 
   /**
    * Instance of the error. This can be used for matching errors to specific
