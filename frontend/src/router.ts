@@ -26,7 +26,7 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/AmendingLaws.vue"),
       },
       {
-        path: "/amending-laws/upload-announcement",
+        path: "upload",
         name: "UploadAnnouncement",
         component: () => import("@/views/UploadAnnouncement.vue"),
       },
