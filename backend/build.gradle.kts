@@ -167,7 +167,18 @@ tasks {
 spotless {
     java {
         removeUnusedImports()
-        googleJavaFormat()
+        prettier(
+            mapOf(
+                "prettier" to "3.0.3",
+                "prettier-plugin-java" to "2.3.0",
+            ),
+        ).config(
+            mapOf(
+                "parser" to "java",
+                "printWidth" to 100,
+                "plugins" to listOf("prettier-plugin-java"),
+            ),
+        )
     }
 
     kotlinGradle {
