@@ -7,31 +7,31 @@ export const errorMessages = {
     e: ErrorResponse<{ eid: string; eli: string }>,
   ) => ({
     title: "Paragraph nicht gefunden",
-    message: `Paragraph mit eId ${e.eid} in Norm ${e.eli} existiert nicht.`,
+    message: `Paragraph mit eId "${e.eid}" in Norm "${e.eli}" existiert nicht.`,
   }),
 
   "/errors/article-of-type-not-found": (
     e: ErrorResponse<{ eli: string; articleType: string }>,
   ) => ({
     title: "Paragraph nicht gefunden",
-    message: `Paragraph vom Typ ${e.articleType} in der Norm ${e.eli} existiert nicht.`,
+    message: `Paragraph vom Typ "${e.articleType}" in der Norm "${e.eli}" existiert nicht.`,
   }),
 
   "/errors/norm-not-found": (e: ErrorResponse<{ eli: string }>) => ({
     title: "Norm nicht gefunden",
-    message: `Die Norm ${e.eli} existiert nicht.`,
+    message: `Die Norm "${e.eli}" existiert nicht.`,
   }),
 
   "/errors/announcement-not-found": (e: ErrorResponse<{ eli: string }>) => ({
     title: "Verkündung nicht gefunden",
-    message: `Verkündung ${e.eli} existiert nicht.`,
+    message: `Verkündung "${e.eli}" existiert nicht.`,
   }),
 
   "/errors/element-not-found": (
     e: ErrorResponse<{ eli: string; eid: string }>,
   ) => ({
     title: "Element nicht gefunden",
-    message: `Element mit eId ${e.eid} in Norm ${e.eli} existiert nicht.`,
+    message: `Element mit eId "${e.eid}" in Norm "${e.eli}" existiert nicht.`,
   }),
 
   "/errors/invalidate-update": () => ({
@@ -46,7 +46,7 @@ export const errorMessages = {
     message: `Das ${
       e.nodeName ? `Element "${e.nodeName}"` : "Element"
     } mit dem XML-Pfad "${e.xpath}" konnte${
-      e.eli ? ` in der Norm mit ELI ${e.eli}` : ""
+      e.eli ? ` in der Norm "${e.eli}"` : ""
     } nicht gefunden werden.`,
   }),
 
@@ -59,7 +59,7 @@ export const errorMessages = {
     e: ErrorResponse<{ elementType: string }>,
   ) => ({
     title: "Elementtyp nicht unterstützt",
-    message: `Das Element mit dem Typ ${e.elementType} wird nicht unterstützt.`,
+    message: `Das Element mit dem Typ "${e.elementType}" wird nicht unterstützt.`,
   }),
 
   "/errors/meta-mod-not-found": (
@@ -130,7 +130,7 @@ export const errorMessages = {
     e: ErrorResponse<{ characterRange: string; eId: string; eli: string }>,
   ) => ({
     title: "Ungültiges Format des Zeichenbereichs",
-    message: `Der angegebene Zeichenbereich "${e.characterRange}" des Änderungsbefehls mit der eId "${e.eId}" in der Vorab-Fassung (ZF0) "${e.eli} hat kein gültiges Format.`,
+    message: `Der angegebene Zeichenbereich "${e.characterRange}" des Änderungsbefehls mit der eId "${e.eId}" in der Vorab-Fassung (ZF0) "${e.eli}" hat kein gültiges Format.`,
   }),
 
   "/errors/character-range-not-resolve-to-target": (
@@ -171,21 +171,21 @@ export const errorMessages = {
 
   "/errors/norm-exists-already": (e: ErrorResponse<{ eli: string }>) => ({
     title: "Norm existiert bereits",
-    message: `Norm ${e.eli} existiert bereits.`,
+    message: `Norm "${e.eli}" existiert bereits.`,
   }),
 
   "/errors/active-mod/destination/norm-not-found": (
     e: ErrorResponse<{ eli: string; destinationEli: string }>,
   ) => ({
     title: "Zielnorm nicht gefunden",
-    message: `Die Zielnorm ${e.destinationEli} für die Norm ${e.eli} wurde nicht gefunden.`,
+    message: `Die Zielnorm "${e.destinationEli}" für die Norm "${e.eli}" wurde nicht gefunden.`,
   }),
 
   "/errors/not-a-xml-file": (
     e: ErrorResponse<{ fileName: string; contentType: string }>,
   ) => ({
     title: "Ungültige Datei",
-    message: `Die Datei ${e.fileName} ist keine XML-Datei. Der Inhaltstyp ist ${e.contentType}.`,
+    message: `Die Datei "${e.fileName}" ist keine XML-Datei. Der Inhaltstyp ist "${e.contentType}".`,
   }),
 
   "/errors/ldml-de-not-valid": () => ({
