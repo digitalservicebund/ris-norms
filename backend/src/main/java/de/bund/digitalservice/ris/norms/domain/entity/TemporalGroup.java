@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -19,8 +18,8 @@ public class TemporalGroup {
    *
    * @return The eId of the temporal group
    */
-  public Optional<String> getEid() {
-    return EId.fromNode(getNode()).map(EId::value);
+  public String getEid() {
+    return EId.fromNode(getNode()).value();
   }
 
   /**

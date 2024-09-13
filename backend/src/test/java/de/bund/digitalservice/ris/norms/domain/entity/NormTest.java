@@ -918,8 +918,7 @@ class NormTest {
     // old one still there
     assertThat(timeBoundaries.get(0).getEventRef().getDate())
         .contains(LocalDate.parse("2023-12-30"));
-    assertThat(timeBoundaries.get(0).getEventRefEid().get())
-        .contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(timeBoundaries.get(0).getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-2");
     assertThat(
             timeBoundaries
                 .get(0)
@@ -940,7 +939,7 @@ class NormTest {
                 .getNamedItem("GUID")
                 .getNodeValue())
         .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
-    assertThat(timeBoundaries.get(0).getTimeIntervalEid().get())
+    assertThat(timeBoundaries.get(0).getTimeIntervalEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
     assertThat(
             timeBoundaries
@@ -968,13 +967,12 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
-        .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
+        .contains("#" + timeBoundaries.get(0).getEventRefEid());
 
     // new one added
     assertThat(timeBoundaries.get(1).getEventRef().getDate())
         .contains(LocalDate.parse("2024-01-02"));
-    assertThat(timeBoundaries.get(1).getEventRefEid().get())
-        .contains("meta-1_lebzykl-1_ereignis-3");
+    assertThat(timeBoundaries.get(1).getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-3");
     assertThat(
             timeBoundaries
                 .get(1)
@@ -995,7 +993,7 @@ class NormTest {
                 .getNamedItem("GUID")
                 .getNodeValue())
         .isNotEmpty();
-    assertThat(timeBoundaries.get(1).getTimeIntervalEid().get())
+    assertThat(timeBoundaries.get(1).getTimeIntervalEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
     assertThat(
             timeBoundaries
@@ -1023,7 +1021,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
-        .contains("#" + timeBoundaries.get(1).getEventRefEid().get());
+        .contains("#" + timeBoundaries.get(1).getEventRefEid());
   }
 
   @Test
@@ -1071,8 +1069,7 @@ class NormTest {
     assertThat(timeBoundaries).hasSize(1);
     assertThat(timeBoundaries.get(0).getEventRef().getDate())
         .contains(LocalDate.parse("2023-12-30"));
-    assertThat(timeBoundaries.get(0).getEventRefEid().get())
-        .contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(timeBoundaries.get(0).getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-2");
     assertThat(
             timeBoundaries
                 .get(0)
@@ -1093,7 +1090,7 @@ class NormTest {
                 .getNamedItem("GUID")
                 .getNodeValue())
         .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
-    assertThat(timeBoundaries.get(0).getTimeIntervalEid().get())
+    assertThat(timeBoundaries.get(0).getTimeIntervalEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
     assertThat(
             timeBoundaries
@@ -1121,7 +1118,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
-        .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
+        .contains("#" + timeBoundaries.get(0).getEventRefEid());
   }
 
   @Test

@@ -169,7 +169,7 @@ class ArticleControllerTest {
       when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
           .thenReturn(
               norm.getArticles().stream()
-                  .filter(article -> article.getEid().get().equals("hauptteil-1_para-20"))
+                  .filter(article -> article.getEid().equals("hauptteil-1_para-20"))
                   .toList());
 
       // When
@@ -201,7 +201,7 @@ class ArticleControllerTest {
       when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
           .thenReturn(
               norm.getArticles().stream()
-                  .filter(article -> article.getEid().get().equals("hauptteil-1_para-1"))
+                  .filter(article -> article.getEid().equals("hauptteil-1_para-1"))
                   .toList());
 
       // When

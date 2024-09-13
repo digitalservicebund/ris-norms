@@ -1015,10 +1015,10 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // When / Then
       mockMvc
           .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z")
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2025-03-01T00:00:00.000Z")
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isOk())
-          .andExpect(content().string(containsString("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")))
+          .andExpect(content().string(containsString("§ 9 Absatz 1 Satz 2, Absatz 2, 3 oder 4")))
           .andExpect(content().string(not(containsString("§ 9 Abs. 1 Satz 2, Abs. 2"))));
     }
 

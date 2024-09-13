@@ -91,7 +91,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                                   ValidationException.ErrorType.SOURCE_HREF_IN_META_MOD_MISSING,
                                   Pair.of(
                                       ValidationException.FieldName.EID,
-                                      passiveModification.getEid().orElse(""))));
+                                      passiveModification.getEid())));
 
               Norm amendingLaw;
               if (customNorms.containsKey(sourceEli)) {
@@ -102,7 +102,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
               var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);
               return amendingLaw.getMods().stream()
-                  .filter(mod -> mod.getEid().equals(sourceEid))
+                  .filter(mod -> sourceEid.isPresent() && sourceEid.get().equals(mod.getEid()))
                   .map(
                       mod ->
                           new ModData(

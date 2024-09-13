@@ -90,7 +90,7 @@ class TimeBoundaryServiceTest {
       // handle 1st time boundary
       assertThat(timeBoundaries.getFirst().getEventRef().getDate())
           .contains(LocalDate.parse("2023-12-30"));
-      assertThat(timeBoundaries.getFirst().getEventRefEid().get())
+      assertThat(timeBoundaries.getFirst().getEventRefEid())
           .contains("meta-1_lebzykl-1_ereignis-2");
       assertThat(
               timeBoundaries
@@ -112,7 +112,7 @@ class TimeBoundaryServiceTest {
                   .getNamedItem("GUID")
                   .getNodeValue())
           .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
-      assertThat(timeBoundaries.getFirst().getTimeIntervalEid().get())
+      assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
           .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
       assertThat(
               timeBoundaries
@@ -140,13 +140,12 @@ class TimeBoundaryServiceTest {
                   .getAttributes()
                   .getNamedItem("start")
                   .getNodeValue())
-          .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
+          .contains("#" + timeBoundaries.get(0).getEventRefEid());
 
       // handle 2nd time boundary
       assertThat(timeBoundaries.get(1).getEventRef().getDate())
           .contains(LocalDate.parse("2024-01-01"));
-      assertThat(timeBoundaries.get(1).getEventRefEid().get())
-          .contains("meta-1_lebzykl-1_ereignis-3");
+      assertThat(timeBoundaries.get(1).getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-3");
       assertThat(
               timeBoundaries
                   .get(1)
@@ -167,7 +166,7 @@ class TimeBoundaryServiceTest {
                   .getNamedItem("GUID")
                   .getNodeValue())
           .contains("fdfaeef0-0300-4e5b-9e8b-14d2162bfb00");
-      assertThat(timeBoundaries.get(1).getTimeIntervalEid().get())
+      assertThat(timeBoundaries.get(1).getTimeIntervalEid())
           .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
       assertThat(
               timeBoundaries
@@ -195,7 +194,7 @@ class TimeBoundaryServiceTest {
                   .getAttributes()
                   .getNamedItem("start")
                   .getNodeValue())
-          .contains("#" + timeBoundaries.get(1).getEventRefEid().get());
+          .contains("#" + timeBoundaries.get(1).getEventRefEid());
     }
 
     @Test

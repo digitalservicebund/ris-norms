@@ -52,7 +52,7 @@ public class ElementResponseMapper {
   public static ElementResponseSchema fromElementNode(final Node node) {
     return ElementResponseSchema.builder()
         .title(getNodeTitle(node))
-        .eid(EId.fromNode(node).map(EId::value).orElseThrow())
+        .eid(EId.fromNode(node).value())
         .type(getNodeType(node))
         .build();
   }

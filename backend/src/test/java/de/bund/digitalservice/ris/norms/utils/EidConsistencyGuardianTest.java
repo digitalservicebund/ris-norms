@@ -188,9 +188,9 @@ class EidConsistencyGuardianTest {
         """
                     <root>
             <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-                         <akn:p>
-                             <akn:ref></akn:ref>
-                             <akn:ref></akn:ref>
+                         <akn:p eId="some-id">
+                             <akn:ref eId="some-id"></akn:ref>
+                             <akn:ref eId="some-id"></akn:ref>
                          </akn:p>
                       </akn:meta>
                     </root>

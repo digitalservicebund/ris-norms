@@ -32,8 +32,8 @@ public class Mod {
    *
    * @return The eId of the mod
    */
-  public Optional<String> getEid() {
-    return EId.fromNode(getNode()).map(EId::value);
+  public String getEid() {
+    return EId.fromNode(getNode()).value();
   }
 
   /**
@@ -239,7 +239,7 @@ public class Mod {
     final Node refNode = NodeParser.getNodeFromExpression(REF_XPATH, this.node).orElseThrow();
 
     final Element rrefElement = NodeCreator.createElement("akn:rref", this.node);
-    rrefElement.setAttribute("eId", EId.fromMandatoryNode(refNode).value());
+    rrefElement.setAttribute("eId", EId.fromNode(refNode).value());
     rrefElement.setAttribute("from", destinationFrom);
     rrefElement.setAttribute("upTo", destinationUpTo);
 
@@ -258,7 +258,7 @@ public class Mod {
     final Node rrefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node).orElseThrow();
 
     final Element refElement = NodeCreator.createElement("akn:ref", this.node);
-    refElement.setAttribute("eId", EId.fromMandatoryNode(rrefNode).value());
+    refElement.setAttribute("eId", EId.fromNode(rrefNode).value());
     refElement.setAttribute("href", destinationHref);
 
     refElement.setTextContent(rrefNode.getTextContent());

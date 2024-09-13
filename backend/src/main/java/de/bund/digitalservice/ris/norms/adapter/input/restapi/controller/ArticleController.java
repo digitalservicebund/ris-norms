@@ -157,7 +157,7 @@ public class ArticleController {
 
     final var foundArticle =
         norm.getArticles().stream()
-            .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+            .filter(article -> article.getEid().equals(eid))
             .findFirst()
             .orElseThrow(() -> new ArticleNotFoundException(eliValue, eid));
 

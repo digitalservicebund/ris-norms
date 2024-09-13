@@ -38,7 +38,7 @@ public class UpdateNormService
                     .equals(Optional.of(sourceNormEli)))
         .forEach(
             passiveModification -> {
-              norm.deleteByEId(passiveModification.getEid().orElseThrow());
+              norm.deleteByEId(passiveModification.getEid());
 
               final var temporalGroup =
                   passiveModification
@@ -95,7 +95,7 @@ public class UpdateNormService
               final var temporalGroup =
                   norm.addTimeBoundary(startDate.get(), EventRefType.AMENDMENT);
               amendingNormTemporalGroupEidsToNormTemporalGroupEids.put(
-                  forcePeriodEid, temporalGroup.getEid().orElseThrow());
+                  forcePeriodEid, temporalGroup.getEid());
             });
 
     // create the passive modifications
@@ -165,7 +165,7 @@ public class UpdateNormService
 
     // Edit mod in meta
     amendingNorm.getMods().stream()
-        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
+        .filter(mod -> mod.getEid().equals(query.eId()))
         .findFirst()
         .ifPresent(
             inTextMod -> {

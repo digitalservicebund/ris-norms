@@ -24,7 +24,7 @@ public class ArticleResponseMapper {
       final Article article, final @Nullable Norm targetLawZf0) {
     return new ArticleResponseSchema(
         article.getEnumeration().orElse(null),
-        article.getEid().orElse(null),
+        article.getEid(),
         article.getHeading().orElse(null),
         article.getAffectedDocumentEli().orElse(null),
         Optional.ofNullable(targetLawZf0).map(Norm::getEli).orElse(null));
