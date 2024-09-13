@@ -140,19 +140,11 @@
                              GUID="9c1ed277-7e18-4efe-9a9d-dfaed6513c81"
                              source="attributsemantik-noch-undefiniert">
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
-                    <meta:typ>gesetz</meta:typ>
-                    <meta:form>stammform</meta:form>
-                    <meta:fassung>entwurfsfassung</meta:fassung>
-                    <meta:art>regelungstext</meta:art>
-                    <meta:initiant>bundesregierung</meta:initiant>
-                    <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+                    <meta:fassung>verkuendungsfassung</meta:fassung>
                     <meta:fna>nicht-vorhanden</meta:fna>
-                    <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
                     <meta:gesta>nicht-vorhanden</meta:gesta>
-                    <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                     <meta:federfuehrung>
-                        <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                        <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
+                        <meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz</meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
             </akn:proprietary>

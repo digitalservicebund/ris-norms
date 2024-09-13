@@ -34,6 +34,7 @@ public class BillToActService implements BillToActUseCase {
     rewriteFbrWork();
     rewriteFbrExpression();
     rewriteFbrManifestation();
+    addNecessaryMetaData();
 
     return new Norm(document);
   }
@@ -215,5 +216,38 @@ public class BillToActService implements BillToActUseCase {
 
     fRBRManifestationThis.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
     fRBRManifestationUri.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
+  }
+
+  private void addNecessaryMetaData() {
+    Element date =
+        (Element) NodeParser.getMandatoryNodeFromExpression("//FRBRExpression/FRBRdate", document);
+
+    Element meta =
+        (Element)
+            NodeParser.getMandatoryNodeFromExpression(
+                "//meta/proprietary/legalDocML.de_metadaten", document);
+
+    if (NodeParser.getNodeFromExpression("./fna", meta).isEmpty()) {
+      Element fna = document.createElement("meta:fna");
+      fna.appendChild(document.createTextNode("nicht-vorhanden"));
+      meta.appendChild(fna);
+    }
+    if (NodeParser.getNodeFromExpression("./gesta", meta).isEmpty()) {
+      Element gesta = document.createElement("meta:gesta");
+      gesta.appendChild(document.createTextNode("nicht-vorhanden"));
+      meta.appendChild(gesta);
+    }
+    if (NodeParser.getNodeFromExpression("./federfuehrung", meta).isEmpty()) {
+      Element federfuehrung = document.createElement("meta:federfuehrung");
+      Element federfuehrend = document.createElement("meta:federfuehrend");
+      federfuehrend.setAttribute("ab", date.getAttribute("date"));
+      federfuehrend.setAttribute("bis", "unbestimmt");
+      federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
+      federfuehrung.appendChild(federfuehrend);
+      meta.appendChild(federfuehrung);
+    }
+
+    Element fassung = (Element) NodeParser.getMandatoryNodeFromExpression("./fassung", meta);
+    fassung.setTextContent("verkuendungsfassung");
   }
 }
