@@ -14,7 +14,7 @@ COPY backend .
 
 RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
-RUN ./gradlew build --profile -x integrationTest -x test -x spotlessMisc
+RUN ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
 
 FROM cgr.dev/chainguard/jre:latest
 COPY --from=backend /backend/build/libs/ris-norms-backend-*.jar /app/app.jar
