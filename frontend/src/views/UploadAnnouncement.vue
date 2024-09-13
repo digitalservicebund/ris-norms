@@ -1,11 +1,22 @@
 <script lang="ts" setup>
-import { ref } from "vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
+import { useElementId } from "@/composables/useElementId"
+import { useErrorMessage } from "@/composables/useErrorMessage"
+import { isErrorResponse } from "@/lib/errorResponseMapper"
+import { ErrorResponse } from "@/types/errorResponse"
+import { Norm } from "@/types/norm"
 import Button from "primevue/button"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import FileUpload, {
+  FileUploadErrorEvent,
+  FileUploadUploadEvent,
+} from "primevue/fileupload"
+import Message from "primevue/message"
+import { useToast } from "primevue/usetoast"
+import { computed, ref, useTemplateRef } from "vue"
+import { useRouter } from "vue-router"
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -14,90 +25,133 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   },
 ])
 
-const errorMessage = ref<string>(
-  "Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          InaccessibleError Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          InaccessibleError Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          InaccessibleError Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          InaccessibleError Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          InaccessibleError Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          InaccessibleError Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible Error Description !ERROR=0 File, Record, or Device Busy or\n" +
-    "          Inaccessible",
+const { add: addToast } = useToast()
+
+const router = useRouter()
+
+/* -------------------------------------------------- *
+ * File upload                                        *
+ * -------------------------------------------------- */
+
+const uploadElement =
+  useTemplateRef<InstanceType<typeof FileUpload>>("fileUpload")
+
+const isLoading = ref(false)
+
+const error = ref<ErrorResponse | true>()
+
+const errorMessage = useErrorMessage(error)
+
+const errorList = computed(() =>
+  isErrorResponse(error.value)
+    ? JSON.stringify(error.value.errors, undefined, 2)
+    : undefined,
 )
+
+async function upload() {
+  uploadElement.value?.upload()
+}
+
+function onBeginUpload() {
+  isLoading.value = true
+  error.value = undefined
+}
+
+function onUploaded(event: FileUploadUploadEvent) {
+  isLoading.value = false
+
+  try {
+    const responseData: Norm = JSON.parse(event.xhr.responseText)
+
+    if (responseData.eli) {
+      router.push(`/amending-laws/${responseData.eli}`)
+    } else throw new Error()
+
+    addToast({
+      summary: "Verkündung erfolgreich hochgeladen",
+      detail: "Sie können mit der Arbeit an der neuen Verkündung beginnen.",
+      severity: "success",
+      life: 10000,
+    })
+  } catch {
+    // Failed to parse the response = show generic error
+    error.value = true
+  }
+}
+
+function onUploadError(event: FileUploadErrorEvent) {
+  isLoading.value = false
+
+  try {
+    const responseData = JSON.parse(event.xhr.responseText)
+    error.value = responseData
+  } catch {
+    // Failed to parse the error response = show generic error
+    error.value = true
+  }
+}
+
+const { errorListId } = useElementId()
 </script>
 
 <template>
-  <RisHeader
-    class="col-span-2"
-    :back-destination="{ name: 'Home' }"
-    :breadcrumbs="breadcrumbs"
-  />
+  <RisHeader :back-destination="{ name: 'Home' }" :breadcrumbs="breadcrumbs" />
 
-  <div class="flex min-h-screen flex-col bg-gray-100 p-24">
-    <h1 class="ds-heading-02-reg mb-8">Verkündung Manuell Hinzufügen</h1>
-    <div
-      class="mx-auto my-64 flex w-full flex-col items-center sm:w-4/5 md:w-3/4 lg:w-3/5"
-    >
-      <span class="ds-body-01-reg mb-8 text-center">
-        Importieren Sie eine XML-Datei, um die Verkündung hinzuzufügen
+  <div class="flex flex-col bg-gray-100 p-24 pb-64">
+    <h1 class="ris-heading2-regular mb-64">Upload</h1>
+
+    <div class="mx-auto flex w-full max-w-[640px] flex-col items-center gap-24">
+      <span class="ris-body1-regular text-center">
+        Importieren Sie eine XML-Datei, um die Verkündung hinzuzufügen.
       </span>
+
       <div
-        class="my-24 w-full rounded-lg border-2 border-dashed border-blue-500 bg-white p-48 text-center"
+        class="flex w-full flex-col items-center gap-24 rounded-lg border-2 border-dashed border-blue-500 bg-white p-48"
       >
-        <div
-          class="flex w-full flex-col items-center justify-center space-y-20"
-        >
-          <Button label="Choose to upload" severity="primary" />
-          <div>regelungstext.xml</div>
-          <Button label="Hochladen" severity="secondary" />
-        </div>
+        <FileUpload
+          ref="fileUpload"
+          :disabled="isLoading"
+          :multiple="false"
+          accept="application/xml, text/xml"
+          invalid-file-type-message="{0} ist keine XML-Datei."
+          mode="basic"
+          name="file"
+          url="/api/v1/announcements"
+          @before-upload="onBeginUpload()"
+          @error="onUploadError"
+          @upload="onUploaded"
+        />
+
+        <Button
+          :loading="isLoading"
+          label="Hochladen"
+          severity="secondary"
+          @click="upload()"
+        />
       </div>
 
-      <!--      this would actually me a message component-->
-      <RisErrorCallout class="min-w-lg mb-64 w-full max-w-4xl" error="" />
+      <Message v-if="errorMessage" severity="error" class="w-full">
+        <p class="ris-label1-bold mb-6 mt-4">{{ errorMessage.title }}</p>
+        <p v-if="errorMessage.message" class="ris-label1-regular">
+          {{ errorMessage.message }}
+        </p>
+      </Message>
 
-      <div class="min-w-lg w-full max-w-4xl">
-        <div class="flex justify-end">
-          <p class="ris-link2-regular inline-flex items-center gap-4">
-            <RisCopyableLabel
-              text="In die Zwischenablage kopieren"
-              :value="errorMessage"
-              name="In die Zwischenablage kopieren"
-            />
-          </p>
-        </div>
-        <span class="mb-4 block max-h-208 overflow-auto bg-white p-20">
-          {{ errorMessage }}
-        </span>
+      <div v-if="errorList" class="flex w-full flex-col gap-8">
+        <RisCopyableLabel
+          text="In die Zwischenablage kopieren"
+          :value="errorList"
+          class="ml-auto"
+        />
+
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label :for="errorListId" class="sr-only">Fehlerliste</label>
+        <output
+          :id="errorListId"
+          class="block w-full overflow-auto whitespace-pre bg-white p-16 font-mono text-sm"
+        >
+          {{ errorList }}
+        </output>
       </div>
     </div>
   </div>
