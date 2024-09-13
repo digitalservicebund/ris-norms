@@ -8,8 +8,11 @@ const angie = require("@digitalservice4germany/angie")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{html,vue,js,ts}"],
+
   presets: [RisUiPreset],
+
   plugins: [RisUiPlugin, angie],
+
   theme: {
     extend: {
       colors: {
@@ -107,8 +110,21 @@ module.exports = {
           },
         },
       },
+
+      fontFamily: {
+        mono: [
+          "ui-monospace",
+          "Cascadia Code",
+          "Source Code Pro",
+          "Menlo",
+          "Consolas",
+          "DejaVu Sans Mono",
+          "monospace",
+        ],
+      },
     },
   },
+
   safelist: [
     // classes used dynamically by useModHighlightClasses
     {
