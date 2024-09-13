@@ -1,4 +1,5 @@
-import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
+import "@digitalservicebund/ris-ui/fonts.css"
+import { RisUiLocale, RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
 import "@digitalservicebund/ris-ui/primevue/style.css"
 import * as Sentry from "@sentry/vue"
 import PrimeVue from "primevue/config"
@@ -16,6 +17,7 @@ const app = createApp(App)
 app.use(PrimeVue, {
   pt: RisUiTheme,
   unstyled: true,
+  locale: RisUiLocale.deDE,
 })
 
 app.use(ToastService)
