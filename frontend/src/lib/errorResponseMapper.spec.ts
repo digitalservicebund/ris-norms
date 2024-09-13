@@ -1,6 +1,10 @@
 import { ErrorResponse } from "@/types/errorResponse"
 import { describe, expect, test, vi } from "vitest"
-import { isErrorResponse, mapErrorResponse } from "./errorResponseMapper"
+import {
+  getFallbackError,
+  isErrorResponse,
+  mapErrorResponse,
+} from "./errorResponseMapper"
 
 vi.mock("@/lib/errorMessages", () => ({
   errorMessages: {
@@ -38,6 +42,12 @@ describe("isErrorResponse", () => {
     const candidate = "example"
     const result = isErrorResponse(candidate)
     expect(result).toBe(false)
+  })
+})
+
+describe("getFallbackError", () => {
+  test("returns a fallback error", () => {
+    expect(getFallbackError()).toEqual({ type: "__fallback__" })
   })
 })
 

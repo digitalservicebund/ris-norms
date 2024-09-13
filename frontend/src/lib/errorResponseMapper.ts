@@ -24,6 +24,15 @@ export function isErrorResponse(
 }
 
 /**
+ * Returns a fallback error message. Useful when you want to handle all errors
+ * as if they were returned from the API, even if they may come from different
+ * sources or have a different format.
+ */
+export function getFallbackError(): ErrorResponse {
+  return { type: "__fallback__" }
+}
+
+/**
  * For any backend error response, maps the technical details of that response
  * to a human-readable message in the UI.
  *
