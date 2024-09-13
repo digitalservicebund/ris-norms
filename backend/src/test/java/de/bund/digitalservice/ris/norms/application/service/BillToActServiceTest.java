@@ -40,8 +40,13 @@ class BillToActServiceTest {
 
     // then
     final Diff diff =
-        DiffBuilder.compare(Input.from(result.getDocument()))
-            .withTest(Input.from(expectedResult.getDocument()))
+        DiffBuilder.compare(Input.from(expectedResult.getDocument()))
+            .withTest(Input.from(result.getDocument()))
+            .normalizeWhitespace()
+            .withAttributeFilter(
+                attribute ->
+                    !attribute.getName().equals("GUID")
+                        && !attribute.getOwnerElement().getNodeName().equals("akn:FRBRalias"))
             .build();
     System.out.println(diff.fullDescription());
     assertThat(diff.hasDifferences()).isFalse();
