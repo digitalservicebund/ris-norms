@@ -104,34 +104,6 @@
                                     value="xml"/>
                 </akn:FRBRManifestation>
             </akn:identification>
-            <akn:lifecycle eId="meta-1_lebzykl-1"
-                           GUID="1a131e23-8160-4b79-af5a-7e5bd1013c18"
-                           source="attributsemantik-noch-undefiniert">
-                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
-                              GUID="46659cc1-cbca-42e4-99e1-c7581987207d"
-                              date="0001-01-01"
-                              source="attributsemantik-noch-undefiniert"
-                              refersTo="ausfertigung-mit-noch-unbekanntem-datum"
-                              type="generation"/>
-                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
-                              GUID="e2b7c970-fc8c-480f-88c5-7a7a60782203"
-                              date="0001-01-01"
-                              source="attributsemantik-noch-undefiniert"
-                              refersTo="inkrafttreten-mit-noch-unbekanntem-datum"
-                              type="generation"/>
-            </akn:lifecycle>
-            <akn:temporalData eId="meta-1_geltzeiten-1"
-                              GUID="7ad3d4c8-38ee-4876-9df1-1693052b8180"
-                              source="attributsemantik-noch-undefiniert">
-                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
-                                   GUID="f5e452d6-670a-4597-8a92-262ba91e9d57">
-                    <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
-                                      GUID="6a6dbaf2-e9bc-4a33-bf0c-d258ee854c91"
-                                      start="#meta-1_lebzykl-1_ereignis-2"
-                                      refersTo="geltungszeit"/>
-                </akn:temporalGroup>
-            </akn:temporalData>
-            <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
         </akn:meta>
         <!-- Dokumentenkopf Regelungstext -->
         <akn:preface eId="einleitung-1" GUID="b9ea4366-f08a-462a-8b2b-4f75c80281de">

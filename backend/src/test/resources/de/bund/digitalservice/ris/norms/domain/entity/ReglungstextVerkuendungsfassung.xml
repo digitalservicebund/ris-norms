@@ -36,7 +36,7 @@
                                    value="c1abac53-71c7-42ab-89d5-915f17149bdf"/>
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
                                   GUID="816a0769-ad49-464b-a6f8-4cc115228901"
-                                  date="2018-12-18"
+                                  date="2018-12-19"
                                   name="verkuendungsfassung"/>
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
                                     GUID="c0998d01-41d8-4085-b35a-83fae9533d08"
@@ -58,10 +58,10 @@
                                     GUID="3a12b168-0506-4e49-8470-58c1f24c9261">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
                                   GUID="4442144b-5010-4c66-afe5-861eafaa21bc"
-                                  value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1"/>
+                                  value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu/regelungstext-1"/>
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
                                  GUID="e09e3313-06b4-4051-9fc3-034beb0bcd7d"
-                                 value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu"/>
+                                 value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu"/>
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
                                    GUID="2896ccde-2f7d-4a33-8bb3-4b1ad6283b3c"
                                    name="vorherige-version-id"
@@ -79,7 +79,7 @@
                                     href="recht.bund.de/institution/bundestag"/>
                     <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
                                   GUID="301ccaf5-7f18-4149-967a-7bb4edf15ac4"
-                                  date="2018-12-18"
+                                  date="2018-12-19"
                                   name="verkuendung"/>
                     <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
                                       GUID="d236da21-6b95-4406-be19-9092611fa0c7"
@@ -92,13 +92,13 @@
                                        GUID="373e3ec4-85e4-47a1-a9d6-93ac3ed0aaa1">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                                   GUID="6f5c4b79-a67b-4e44-a4ca-2b1604fa3832"
-                                  value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1.xml"/>
+                                  value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu/regelungstext-1.xml"/>
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                                  GUID="bea2fea9-1074-4056-a3ad-f99025e5bc5b"
-                                 value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1.xml"/>
+                                 value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu/regelungstext-1.xml"/>
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                                   GUID="88ecd90c-d7fb-4e9c-ba13-ebbc743ab399"
-                                  date="2018-12-18"
+                                  date="2018-12-19"
                                   name="generierung"/>
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
                                     GUID="1b630833-ee65-4293-ad2d-a509fda3d9e8"
@@ -113,29 +113,15 @@
                            source="attributsemantik-noch-undefiniert">
                 <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
                               GUID="46659cc1-cbca-42e4-99e1-c7581987207d"
-                              date="0001-01-01"
+                              date="2018-12-19"
                               source="attributsemantik-noch-undefiniert"
-                              refersTo="ausfertigung-mit-noch-unbekanntem-datum"
-                              type="generation"/>
-                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
-                              GUID="e2b7c970-fc8c-480f-88c5-7a7a60782203"
-                              date="0001-01-01"
-                              source="attributsemantik-noch-undefiniert"
-                              refersTo="inkrafttreten-mit-noch-unbekanntem-datum"
+                              refersTo="ausfertigung"
                               type="generation"/>
             </akn:lifecycle>
             <akn:temporalData eId="meta-1_geltzeiten-1"
                               GUID="7ad3d4c8-38ee-4876-9df1-1693052b8180"
                               source="attributsemantik-noch-undefiniert">
-                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
-                                   GUID="f5e452d6-670a-4597-8a92-262ba91e9d57">
-                    <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
-                                      GUID="6a6dbaf2-e9bc-4a33-bf0c-d258ee854c91"
-                                      start="#meta-1_lebzykl-1_ereignis-2"
-                                      refersTo="geltungszeit"/>
-                </akn:temporalGroup>
             </akn:temporalData>
-            <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
             <akn:proprietary eId="meta-1_proprietary-1"
                              GUID="9c1ed277-7e18-4efe-9a9d-dfaed6513c81"
                              source="attributsemantik-noch-undefiniert">
@@ -144,7 +130,7 @@
                     <meta:fna>nicht-vorhanden</meta:fna>
                     <meta:gesta>nicht-vorhanden</meta:gesta>
                     <meta:federfuehrung>
-                        <meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz</meta:federfuehrend>
+                        <meta:federfuehrend ab="2018-12-19" bis="unbestimmt">Bundesministerium der Justiz</meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
             </akn:proprietary>
