@@ -20,14 +20,14 @@ public class BillToActService implements BillToActUseCase {
   private static final String ROOT_DIR = "../../..";
   private static final String SCHEMA = "Grammatiken";
   private static final String ELI_BUND_BGBL_1 = "eli/bund/bgbl-1/";
-  public static final String VALUE = "value";
-  public static final String AKN_FRBRALIAS = "akn:FRBRalias";
-  public static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
-  public static final String META_PROPRIETARY_SECTION = "//meta/proprietary";
-  public static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
+  private static final String VALUE = "value";
+  private static final String AKN_FRBRALIAS = "akn:FRBRalias";
+  private static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
+  private static final String META_PROPRIETARY_SECTION = "//meta/proprietary";
+  private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
     "attributsemantik-noch-undefiniert";
-  public static final String SOURCE = "source";
-  public static final String YYYY_MM_DD = "yyyy-MM-dd";
+  private static final String SOURCE = "source";
+  private static final String YYYY_MM_DD = "yyyy-MM-dd";
 
   @Override
   public Norm convert(Query query) {
