@@ -28,6 +28,7 @@ public class BillToActService implements BillToActUseCase {
     "attributsemantik-noch-undefiniert";
   private static final String SOURCE = "source";
   private static final String YYYY_MM_DD = "yyyy-MM-dd";
+  private static final String FRBREXPRESSION_FRBRDATE = "//identification/FRBRExpression/FRBRdate";
 
   @Override
   public Norm convert(Query query) {
@@ -82,23 +83,23 @@ public class BillToActService implements BillToActUseCase {
   private void rewriteFbrWork(Document document) {
     // (3) Rewrite FRBRWork
     final Element fRBRthis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//FRBRWork/FRBRthis",
+      "//identification/FRBRWork/FRBRthis",
       document
     );
     final Element fRBRuri = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//FRBRWork/FRBRuri",
+      "//identification/FRBRWork/FRBRuri",
       document
     );
     final Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//FRBRWork/FRBRdate",
+      "//identification/FRBRWork/FRBRdate",
       document
     );
     final Element fRBRname = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//FRBRWork/FRBRname",
+      "//identification/FRBRWork/FRBRname",
       document
     );
     final Element fRBRnumber = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//FRBRWork/FRBRnumber",
+      "//identification/FRBRWork/FRBRnumber",
       document
     );
 
@@ -133,7 +134,7 @@ public class BillToActService implements BillToActUseCase {
       document
     );
     final Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRdate",
+      FRBREXPRESSION_FRBRDATE,
       document
     );
     final Element fRBRVersionNumber = (Element) NodeParser.getMandatoryNodeFromExpression(
@@ -277,7 +278,7 @@ public class BillToActService implements BillToActUseCase {
     );
 
     final Element fRBRExpressionDate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRdate",
+      FRBREXPRESSION_FRBRDATE,
       document
     );
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
@@ -293,7 +294,7 @@ public class BillToActService implements BillToActUseCase {
 
   private void addNecessaryMetaData(Document document) {
     final Element date = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//FRBRExpression/FRBRdate",
+      FRBREXPRESSION_FRBRDATE,
       document
     );
 
@@ -373,7 +374,7 @@ public class BillToActService implements BillToActUseCase {
       );
       final Node lifecycleFragment = parentNode.getOwnerDocument().createDocumentFragment();
       final Element verkuendungsDate = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//FRBRExpression/FRBRdate",
+        FRBREXPRESSION_FRBRDATE,
         document
       );
       final String verkuendungsDateString = verkuendungsDate.getAttribute("date");
