@@ -35,8 +35,8 @@ import org.xml.sax.SAXParseException;
 @Service
 public class LdmlDeValidator {
 
-  private final Resource schematronXslt;
   private final Resource xsdSchema;
+  private final Transformer schematronValidationTransformer;
 
   public LdmlDeValidator(
     @Value("classpath:/LegalDocML.de/1.6/schema/legalDocML.de.xsl") Resource schematronXslt,
@@ -44,8 +44,16 @@ public class LdmlDeValidator {
       "classpath:/LegalDocML.de/1.6/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
     ) Resource xsdSchema
   ) {
-    this.schematronXslt = schematronXslt;
     this.xsdSchema = xsdSchema;
+
+    try {
+      Source xsltSource = new StreamSource(schematronXslt.getInputStream());
+      xsltSource.setSystemId(schematronXslt.getURL().toString());
+      this.schematronValidationTransformer =
+      new TransformerFactoryImpl().newTransformer(xsltSource);
+    } catch (IOException | TransformerConfigurationException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
   }
 
   /**
@@ -118,20 +126,11 @@ public class LdmlDeValidator {
    * @throws LdmlDeSchematronException A Schematron rule is violated
    */
   public void validateSchematron(Norm norm) {
-    Transformer transformer = null;
-    try {
-      Source xsltSource = new StreamSource(schematronXslt.getInputStream());
-      xsltSource.setSystemId(schematronXslt.getURL().toString());
-      transformer = new TransformerFactoryImpl().newTransformer(xsltSource);
-    } catch (IOException | TransformerConfigurationException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
-
     Source xmlSource = new DOMSource(norm.getDocument());
 
     var result = new DOMResult();
     try {
-      transformer.transform(xmlSource, result);
+      schematronValidationTransformer.transform(xmlSource, result);
     } catch (TransformerException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
