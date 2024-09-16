@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -127,8 +127,7 @@ public class LdmlDeValidator {
       throw new XmlProcessingException(e.getMessage(), e);
     }
 
-    String xmlText = XmlMapper.toString(norm.getDocument());
-    Source xmlSource = new StreamSource(new ByteArrayInputStream(xmlText.getBytes()));
+    Source xmlSource = new DOMSource(norm.getDocument());
 
     var result = new DOMResult();
     try {
