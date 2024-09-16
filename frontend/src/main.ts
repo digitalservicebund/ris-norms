@@ -4,6 +4,7 @@ import "@digitalservicebund/ris-ui/primevue/style.css"
 import * as Sentry from "@sentry/vue"
 import PrimeVue from "primevue/config"
 import ToastService from "primevue/toastservice"
+import ConfirmationService from "primevue/confirmationservice"
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./router"
@@ -21,6 +22,7 @@ app.use(PrimeVue, {
 })
 
 app.use(ToastService)
+app.use(ConfirmationService)
 
 if (import.meta.env.PROD && import.meta.env.E2E_TESTS_RUNNING !== "true") {
   Sentry.init({

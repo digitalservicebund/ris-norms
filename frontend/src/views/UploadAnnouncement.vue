@@ -13,10 +13,14 @@ import FileUpload, {
   FileUploadErrorEvent,
   FileUploadUploadEvent,
 } from "primevue/fileupload"
+import ConfirmDialog from "primevue/confirmdialog"
+import { useConfirm } from "primevue/useconfirm"
+import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"
 import Message from "primevue/message"
 import { useToast } from "primevue/usetoast"
 import { computed, ref, useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
+import { useForceUploadFile } from "@/services/uploadService"
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -47,6 +51,12 @@ const errorList = computed(() =>
     ? JSON.stringify(error.value.errors, undefined, 2)
     : undefined,
 )
+
+const chosenFile = ref<File | null>(null)
+
+function onFileChoosing(event: { files: File[] }) {
+  chosenFile.value = event.files[0]
+}
 
 async function upload() {
   uploadElement.value?.upload()
@@ -84,7 +94,11 @@ function onUploadError(event: FileUploadErrorEvent) {
 
   try {
     const responseData = JSON.parse(event.xhr.responseText)
-    error.value = responseData
+    if (responseData.type === "/errors/norm-exists-already") {
+      showConfirmForceUpload()
+    } else {
+      error.value = responseData
+    }
   } catch {
     // Failed to parse the error response = show generic error
     error.value = true
@@ -92,6 +106,67 @@ function onUploadError(event: FileUploadErrorEvent) {
 }
 
 const { errorListId } = useElementId()
+
+const confirm = useConfirm()
+
+const showConfirmForceUpload = () => {
+  confirm.require({
+    header: "Verkündung existiert bereits",
+    message:
+      "Diese Verkündung befindet sich bereits im System. Möchten Sie die bestehende Verkündung überschreiben?",
+    acceptProps: {
+      label: "Überschreiben",
+      severity: "secondary",
+      autofocus: false,
+    },
+    rejectProps: {
+      label: "Abbrechen",
+      severity: "primary",
+      autofocus: true,
+    },
+    acceptClass: "w-full",
+    rejectClass: "w-full",
+    accept: () => {
+      forceUpload()
+    },
+    reject: () => {
+      resetUploadPage()
+    },
+  })
+}
+
+async function forceUpload() {
+  if (!chosenFile.value) return
+  isLoading.value = true
+
+  const { data, error } = await useForceUploadFile(chosenFile.value)
+
+  if (data.value) {
+    addToast({
+      summary: "Verkündung erfolgreich hochgeladen",
+      detail: "Sie können mit der Arbeit an der neuen Verkündung beginnen.",
+      severity: "success",
+      life: 10000,
+    })
+    if (data.value.eli) {
+      await router.push(`/amending-laws/${data.value.eli}`)
+    }
+  } else if (error.value) {
+    addToast({
+      summary: "Fehler beim Überschreiben",
+      detail: "Das Überschreiben der Verkündung ist fehlgeschlagen.",
+      severity: "error",
+      life: 10000,
+    })
+  }
+
+  isLoading.value = false
+}
+
+function resetUploadPage() {
+  error.value = undefined
+  isLoading.value = false
+}
 </script>
 
 <template>
@@ -117,6 +192,7 @@ const { errorListId } = useElementId()
           mode="basic"
           name="file"
           url="/api/v1/announcements"
+          @select="onFileChoosing"
           @before-upload="onBeginUpload()"
           @error="onUploadError"
           @upload="onUploaded"
@@ -155,4 +231,9 @@ const { errorListId } = useElementId()
       </div>
     </div>
   </div>
+  <ConfirmDialog>
+    <template #icon>
+      <IcBaselineErrorOutline class="text-red-800" />
+    </template>
+  </ConfirmDialog>
 </template>

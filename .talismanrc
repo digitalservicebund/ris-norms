@@ -15,6 +15,8 @@ fileignoreconfig:
     checksum: 79dcfe570176f7ad6b8341bd0b358b2676355b34ba654c29ae267d54a03f7e64
   - filename: docker-compose.yaml
     checksum: 252e8ac97929919d356866e02d9d9a0641d466cbe81e4555af54172b0c0bbdc2
+  - filename: ldml-extension/fixtures/*.xml
+    ignore_detectors: [filecontent]
   - filename: doc/adr/0009-renovate.md
     checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
   - filename: backend/src/main/resources/db/data/R__004_2024_108_2024-03-27_Wachstumschancengesetz.sql
@@ -22,7 +24,7 @@ fileignoreconfig:
   - filename: backend/src/main/resources/db/data/R__006_2024_108_2024-03-27_Wachstumschancengesetz-Part-3.sql
     checksum: 342f813d7e24fccf4ac7d60f66b19bbd637dc45b334bd77d2d349df5726aac1f
   - filename: frontend/src/main.ts
-    checksum: 99e9768f0261d8fa4b41df347e17806aaa97bbaebbd9a4a9c15033afbb07cd47
+    checksum: 837828b28bdbd4b3ab2dd446da9e11dc472aef7f29474a6d686fcdee9404fd6e
   - filename: LegalDocML.de/1.6/README.md
     checksum: 31ca5ac82d9becf89c8045fc58983b026719a20ab521e76b7ecc69ad49c0188a
   - filename: LegalDocML.de/*/fixtures/*.xml
