@@ -38,7 +38,9 @@ test("uploads a new norm successfully and redirects to the new norm", async ({
   ).toBeVisible()
 })
 
-test("shows an error if the uploaded norm already exists", async ({ page }) => {
+test("shows a confirmation dialog if the uploaded norm already exists", async ({
+  page,
+}) => {
   await page.goto("/amending-laws/upload")
 
   await page.locator("input[type=file]").setInputFiles([
@@ -51,7 +53,29 @@ test("shows an error if the uploaded norm already exists", async ({ page }) => {
 
   await page.getByRole("button", { name: "Hochladen" }).click()
 
-  await expect(page.getByText("Norm existiert bereits")).toBeVisible()
+  await expect(page.getByText("Verkündung existiert bereits")).toBeVisible()
+})
+
+test("Closes the confirmation dialog for a forced upload when user chooses not to overwrite", async ({
+  page,
+}) => {
+  await page.goto("/amending-laws/upload")
+
+  await page.locator("input[type=file]").setInputFiles([
+    {
+      buffer: Buffer.from(normWithModsXml),
+      mimeType: "text/xml",
+      name: "amendingLaw",
+    },
+  ])
+
+  await page.getByRole("button", { name: "Hochladen" }).click()
+
+  await expect(page.getByText("Verkündung existiert bereits")).toBeVisible()
+  await page.getByRole("button", { name: "Abbrechen" }).click()
+  await expect(
+    page.getByText("Verkündung erfolgreich hochgeladen"),
+  ).toBeHidden()
 })
 
 test("shows an error if the uploaded norm is not an XML file", async ({
