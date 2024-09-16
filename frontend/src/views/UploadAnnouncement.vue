@@ -135,8 +135,6 @@ const showConfirmForceUpload = () => {
   })
 }
 
-const uploadUrl = ref("/api/v1/announcements")
-
 async function forceUpload() {
   if (!chosenFile.value) return
   isLoading.value = true
@@ -168,7 +166,6 @@ async function forceUpload() {
 function resetUploadPage() {
   error.value = undefined
   isLoading.value = false
-  uploadUrl.value = "/api/v1/announcements"
 }
 </script>
 
@@ -194,7 +191,7 @@ function resetUploadPage() {
           invalid-file-type-message="{0} ist keine XML-Datei."
           mode="basic"
           name="file"
-          :url="uploadUrl"
+          url="/api/v1/announcements"
           @select="onFileChoosing"
           @before-upload="onBeginUpload()"
           @error="onUploadError"
