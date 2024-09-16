@@ -13,12 +13,14 @@ public class NormFixtures {
   private static final LdmlDeValidator ldmlDeValidator = new LdmlDeValidator(
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource("/schema/fixtures/legalDocML.de.xsl")
+        LdmlDeValidator.class.getResource("/LegalDocML.de/1.6/schema/legalDocML.de.xsl")
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource("/schema/fixtures/ldml1.6_ds_regelungstext.xsd")
+        LdmlDeValidator.class.getResource(
+            "/LegalDocML.de/1.6/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
+          )
       )
     )
   );

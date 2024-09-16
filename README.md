@@ -20,13 +20,16 @@ This is a mono-repository containing
 
 - [`./backend`](./backend) - The backend service
 - [`./frontend`](./frontend) - The main browser-based entry point for users of _RIS-norms_
-- [`./ldml-extension`](./ldml-extension) - Extensions to the [LegalDocDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) schema
+- [`./LegalDocML.de`](./LegalDocML.de) - The LegalDocML.de schema files, examples and our extensions to
+  the [LegalDocDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) schema
 - [`./regex`](./regex/) - A utility for creating regex schemas
 
 Each of the above has its own `README.md` with more.
 
 ## Sample Data
-- [`./ldml-samples`](./ldml-samples/) contains files in the [LegalDocML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) format for testing and reference purposes
+
+- [`./LegalDocML.de`](./LegalDocML.de/) contains files in
+  the [LegalDocML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) format for testing and reference purposes
 
 ## Documentation
 - [`./doc`](./doc) contains information on
