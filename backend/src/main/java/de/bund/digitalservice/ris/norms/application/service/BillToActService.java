@@ -249,11 +249,18 @@ public class BillToActService implements BillToActUseCase {
       proprietary.setAttribute("GUID", UUID.randomUUID().toString());
       proprietary.setAttribute("source", "attributsemantik-noch-undefiniert");
 
+      parent.appendChild(proprietary);
+    }
+
+    if (
+      NodeParser
+        .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
+        .isEmpty()
+    ) {
       Element legalDocMlDeMetadaten = document.createElement("meta:legalDocML.de_metadaten");
       legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.6/");
+      Node proprietary = NodeParser.getMandatoryNodeFromExpression("//meta/proprietary", document);
       proprietary.appendChild(legalDocMlDeMetadaten);
-
-      parent.appendChild(proprietary);
     }
 
     Element dsCustomMeta = (Element) NodeParser.getMandatoryNodeFromExpression(
