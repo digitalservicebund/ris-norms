@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -154,6 +155,7 @@ public class LdmlDeValidator {
       var failedAssertMessages = NodeParser.nodeListToList(failedAsserts).stream();
       var successfulReportMessages = NodeParser.nodeListToList(successfulReports).stream();
 
+      var xPathEIdCache = new HashMap<String, String>();
       var errors = Stream
         .concat(failedAssertMessages, successfulReportMessages)
         .map(node -> {
@@ -164,14 +166,15 @@ public class LdmlDeValidator {
           // Find the eId of the node responsible for this problem. Sometimes the location
           // points to an attribute, so we might need to move up in the element tree to
           // find the eId.
-          List<Node> eIdNodes = NodeParser.getNodesFromExpression(
+          String eId = xPathEIdCache.computeIfAbsent(
             xPath + "/ancestor-or-self::*/@eId",
-            norm.getDocument()
+            key ->
+              NodeParser
+                .getNodesFromExpression(key, norm.getDocument())
+                .stream()
+                .map(Node::getNodeValue)
+                .reduce("", (a, b) -> a.length() > b.length() ? a : b)
           );
-          String eId = eIdNodes
-            .stream()
-            .map(Node::getNodeValue)
-            .reduce("", (a, b) -> a.length() > b.length() ? a : b);
 
           return new LdmlDeSchematronException.ValidationError(
             "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(
