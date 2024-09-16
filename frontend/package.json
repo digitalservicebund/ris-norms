@@ -34,7 +34,7 @@
     "@sentry/vue": "~8.30.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
-    "@vueuse/core": "~11.0.0",
+    "@vueuse/core": "~11.1.0",
     "codemirror": "~6.0.1",
     "dayjs": "~1.11.10",
     "immer": "~10.1.1",
