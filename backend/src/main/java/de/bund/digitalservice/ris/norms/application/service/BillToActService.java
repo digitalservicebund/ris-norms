@@ -186,35 +186,65 @@ public class BillToActService implements BillToActUseCase {
     fRBRdate.setAttribute("name", "verkuendung");
     fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
 
-    final Element fRBROldCurrentVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
-      document
-    );
-    final Element fRBROldNextVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
+    String predessorUUID;
+    String currentUUID;
+    final Element fRBRAuthor = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRExpression/FRBRauthor",
       document
     );
 
-    final Node newChildFragment = fRBROldCurrentVersion.getOwnerDocument().createDocumentFragment();
-    Element fRBRNewPredecessorVersion = fRBROldCurrentVersion
+    if (
+      NodeParser
+        .getNodeFromExpression(
+          "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
+          document
+        )
+        .isPresent() &&
+      NodeParser
+        .getNodeFromExpression(
+          "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
+          document
+        )
+        .isPresent()
+    ) {
+      final Element fRBROldCurrentVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
+        "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
+        document
+      );
+      final Element fRBROldNextVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
+        "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
+        document
+      );
+
+      predessorUUID = fRBROldCurrentVersion.getAttribute(VALUE);
+      currentUUID = fRBROldNextVersion.getAttribute(VALUE);
+      fRBRExpression.removeChild(fRBROldCurrentVersion);
+      fRBRExpression.removeChild(fRBROldNextVersion);
+    } else {
+      predessorUUID = UUID.randomUUID().toString();
+      currentUUID = UUID.randomUUID().toString();
+    }
+
+    final Node newChildFragment = fRBRExpression.getOwnerDocument().createDocumentFragment();
+    Element fRBRNewPredecessorVersion = fRBRExpression
       .getOwnerDocument()
       .createElement(AKN_FRBRALIAS);
     fRBRNewPredecessorVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-1");
     fRBRNewPredecessorVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewPredecessorVersion.setAttribute("name", "vorherige-version-id");
-    fRBRNewPredecessorVersion.setAttribute(VALUE, fRBROldCurrentVersion.getAttribute(VALUE));
+    fRBRNewPredecessorVersion.setAttribute(VALUE, predessorUUID);
     newChildFragment.appendChild(fRBRNewPredecessorVersion);
 
-    final Element fRBRNewCurrentVersion = fRBROldCurrentVersion
+    final Element fRBRNewCurrentVersion = fRBRExpression
       .getOwnerDocument()
       .createElement(AKN_FRBRALIAS);
     fRBRNewCurrentVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-2");
     fRBRNewCurrentVersion.setAttribute("GUID", UUID.randomUUID().toString());
     fRBRNewCurrentVersion.setAttribute("name", "aktuelle-version-id");
-    fRBRNewCurrentVersion.setAttribute(VALUE, fRBROldCurrentVersion.getAttribute(VALUE));
+    fRBRNewCurrentVersion.setAttribute(VALUE, currentUUID);
     newChildFragment.appendChild(fRBRNewCurrentVersion);
 
-    final Element fRBRNewFutureVersion = fRBROldCurrentVersion
+    final Element fRBRNewFutureVersion = fRBRExpression
       .getOwnerDocument()
       .createElement(AKN_FRBRALIAS);
     fRBRNewFutureVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-3");
@@ -223,9 +253,7 @@ public class BillToActService implements BillToActUseCase {
     fRBRNewFutureVersion.setAttribute(VALUE, UUID.randomUUID().toString());
     newChildFragment.appendChild(fRBRNewFutureVersion);
 
-    fRBRExpression.insertBefore(newChildFragment, fRBROldCurrentVersion);
-    fRBRExpression.removeChild(fRBROldCurrentVersion);
-    fRBRExpression.removeChild(fRBROldNextVersion);
+    fRBRExpression.insertBefore(newChildFragment, fRBRAuthor);
   }
 
   private void rewriteFbrManifestation(Document document) {
