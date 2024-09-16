@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -919,6 +920,41 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("errors[0].type", equalTo("/errors/ldml-de-not-valid/cvc-complex-type.2.4.a"))
         );
+    }
+
+    @Test
+    void ifCreatesAnnouncementWithForce() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var announcement = Announcement.builder().norm(norm).build();
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(zf0Norm));
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var file = new MockMultipartFile(
+        "file",
+        "norm.xml",
+        "text/xml",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          multipart("/api/v1/announcements?force=true")
+            .file(file)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(
+          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+        );
+
+      assertThat(normRepository.findByEli(zf0Norm.getEli())).isEmpty();
     }
   }
 }

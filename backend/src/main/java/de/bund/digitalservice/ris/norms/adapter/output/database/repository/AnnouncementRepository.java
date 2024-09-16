@@ -21,4 +21,14 @@ public interface AnnouncementRepository extends JpaRepository<AnnouncementDto, U
    *     not found.
    */
   Optional<AnnouncementDto> findByNormDtoEli(final String eli);
+
+  /**
+   * Deletes an {@link AnnouncementDto} by its norms ELI (European Legislation Identifier).
+   *
+   * This method deletes the {@link AnnouncementDto} that is associated with the provided ELI.
+   * If no matching entity is found, no action is taken.
+   *
+   * @param eli The ELI of the associated norm to search for and delete.
+   */
+  void deleteByNormDtoEli(final String eli);
 }

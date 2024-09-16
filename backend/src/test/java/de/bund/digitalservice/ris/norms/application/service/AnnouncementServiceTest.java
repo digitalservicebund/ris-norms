@@ -16,10 +16,7 @@ import de.bund.digitalservice.ris.norms.application.exception.NotAXmlFileExcepti
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -46,6 +43,10 @@ class AnnouncementServiceTest {
   final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort = mock(
     UpdateOrSaveAnnouncementPort.class
   );
+  final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort = mock(
+    DeleteAnnouncementByNormEliPort.class
+  );
+  final DeleteNormByGuidPort deleteNormByGuidPort = mock(DeleteNormByGuidPort.class);
 
   final AnnouncementService announcementService = new AnnouncementService(
     loadAllAnnouncementsPort,
@@ -53,7 +54,9 @@ class AnnouncementServiceTest {
     loadNormPort,
     loadZf0Service,
     updateOrSaveAnnouncementPort,
-    ldmlDeValidator
+    ldmlDeValidator,
+    deleteAnnouncementByNormEliPort,
+    deleteNormByGuidPort
   );
 
   @Nested
@@ -327,7 +330,7 @@ class AnnouncementServiceTest {
 
       // When
       var announcement = announcementService.createAnnouncement(
-        new CreateAnnouncementUseCase.Query(file)
+        new CreateAnnouncementUseCase.Query(file, false)
       );
 
       // Then
@@ -350,7 +353,7 @@ class AnnouncementServiceTest {
       );
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file);
+      var query = new CreateAnnouncementUseCase.Query(file, false);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
         .isInstanceOf(NotAXmlFileException.class);
     }
@@ -376,7 +379,7 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.empty());
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file);
+      var query = new CreateAnnouncementUseCase.Query(file, false);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
         .isInstanceOf(ActiveModDestinationNormNotFoundException.class);
     }
@@ -408,7 +411,7 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file);
+      var query = new CreateAnnouncementUseCase.Query(file, false);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
         .isInstanceOf(NormExistsAlreadyException.class);
     }
@@ -442,7 +445,7 @@ class AnnouncementServiceTest {
         .thenThrow(new LdmlDeNotValidException(List.of()));
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file);
+      var query = new CreateAnnouncementUseCase.Query(file, false);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
         .isInstanceOf(LdmlDeNotValidException.class);
     }
@@ -477,9 +480,52 @@ class AnnouncementServiceTest {
         .validateSchematron(norm);
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file);
+      var query = new CreateAnnouncementUseCase.Query(file, false);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
         .isInstanceOf(LdmlDeSchematronException.class);
+    }
+
+    @Test
+    void itCreatesANewAnnouncementWithForce() throws IOException {
+      // Given
+      var xmlContent = XmlMapper.toString(
+        NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()
+      );
+      final MultipartFile file = new MockMultipartFile(
+        "file",
+        "norm.xml",
+        "text/xml",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+
+      // When
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
+      )
+        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+        )
+      )
+        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
+      )
+        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+
+      var announcement = announcementService.createAnnouncement(
+        new CreateAnnouncementUseCase.Query(file, true)
+      );
+
+      // Then
+      verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
+      assertThat(announcement.getNorm().getEli())
+        .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
     }
   }
 }

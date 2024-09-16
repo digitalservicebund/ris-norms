@@ -18,6 +18,7 @@ public interface CreateAnnouncementUseCase {
    * A record representing the query for creating an {@link Announcement}.
    *
    * @param file An XML file that contains the norm for the new {@link Announcement}
+   * @param force in case a norm already exists, if set to true, the amending norm will be overriden and the corresponding ZF0 deleted. Default: false
    */
-  record Query(MultipartFile file) {}
+  record Query(MultipartFile file, boolean force) {}
 }

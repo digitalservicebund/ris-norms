@@ -25,6 +25,13 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
     post:
       summary: Create a new announcement by uploading the XML of a norm
+      parameters:
+        - name: force
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "If norm already exists, override it"
       requestBody:
         required: true
         content:

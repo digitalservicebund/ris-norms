@@ -482,5 +482,33 @@ class AnnouncementControllerTest {
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
         );
     }
+
+    @Test
+    void itCreatesAnAnnouncementWithForce() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      final MockMultipartFile file = new MockMultipartFile(
+        "file",
+        "norm.txt",
+        "text/plain",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+      var announcement = Announcement.builder().norm(norm).build();
+
+      when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
+
+      // When // Then
+      mockMvc
+        .perform(
+          multipart("/api/v1/announcements?force=true")
+            .file(file)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(
+          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+        );
+    }
   }
 }

@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service class for interacting with the database. This class is annotated with {@link Service} to
@@ -29,7 +30,9 @@ public class DBService
     UpdateNormPort,
     UpdateAnnouncementPort,
     UpdateOrSaveNormPort,
-    UpdateOrSaveAnnouncementPort {
+    UpdateOrSaveAnnouncementPort,
+    DeleteAnnouncementByNormEliPort,
+    DeleteNormByGuidPort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -121,5 +124,16 @@ public class DBService
     } else {
       return updatedAnnouncement.get();
     }
+  }
+
+  @Override
+  @Transactional
+  public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
+    announcementRepository.deleteByNormDtoEli(command.eli());
+  }
+
+  @Override
+  public void loadNormByGuid(DeleteNormByGuidPort.Command command) {
+    normRepository.deleteById(command.guid());
   }
 }

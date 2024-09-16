@@ -10,10 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnounceme
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -24,6 +21,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
@@ -47,6 +45,8 @@ public class AnnouncementService
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
   private final LdmlDeValidator ldmlDeValidator;
+  private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
+  private final DeleteNormByGuidPort deleteNormByGuidPort;
 
   public AnnouncementService(
     LoadAllAnnouncementsPort loadAllAnnouncementsPort,
@@ -54,7 +54,9 @@ public class AnnouncementService
     LoadNormPort loadNormPort,
     LoadZf0Service loadZf0Service,
     UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
-    LdmlDeValidator ldmlDeValidator
+    LdmlDeValidator ldmlDeValidator,
+    DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
+    DeleteNormByGuidPort deleteNormByGuidPort
   ) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
@@ -62,6 +64,8 @@ public class AnnouncementService
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
     this.ldmlDeValidator = ldmlDeValidator;
+    this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
+    this.deleteNormByGuidPort = deleteNormByGuidPort;
   }
 
   @Override
@@ -140,8 +144,26 @@ public class AnnouncementService
       }
     });
 
-    if (loadNormPort.loadNorm(new LoadNormPort.Command(norm.getEli())).isPresent()) {
+    final boolean normExists = loadNormPort
+      .loadNorm(new LoadNormPort.Command(norm.getEli()))
+      .isPresent();
+
+    if (normExists && !query.force()) {
       throw new NormExistsAlreadyException(norm.getEli());
+    }
+
+    if (normExists) {
+      deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
+        new DeleteAnnouncementByNormEliPort.Command(norm.getEli())
+      );
+      activeModDestinationElis.forEach(eli ->
+        loadNormPort
+          .loadNorm(new LoadNormPort.Command(eli))
+          .ifPresent(targetNorm -> {
+            final UUID uuid = targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId();
+            deleteNormByGuidPort.loadNormByGuid(new DeleteNormByGuidPort.Command(uuid));
+          })
+      );
     }
 
     var announcement = Announcement.builder().norm(norm).build();

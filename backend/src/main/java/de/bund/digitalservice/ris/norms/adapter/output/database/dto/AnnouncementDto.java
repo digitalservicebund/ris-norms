@@ -37,7 +37,7 @@ public class AnnouncementDto {
   @Column(name = "released_by_documentalist_at")
   private Instant releasedByDocumentalistAt;
 
-  @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
   @JoinColumn(name = "eli", referencedColumnName = "eli", nullable = false)
   private NormDto normDto;
 }
