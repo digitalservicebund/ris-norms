@@ -9,8 +9,10 @@ FROM gradle:8.10-jdk21 AS backend
 ARG SENTRY_AUTH_TOKEN
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
+COPY backend /backend
+COPY ldml-extension /ldml-extension
+
 WORKDIR /backend
-COPY backend .
 
 RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
