@@ -1,22 +1,28 @@
 import { test, expect } from "@playwright/test"
-import { amendingLaws, getExpectedHeading } from "@e2e/testData/testData"
 
 test.describe("Redirect and start page content", () => {
-  for (const amendingLaw of amendingLaws) {
-    test(`redirect to amending laws page and test content for ${amendingLaw.eli}`, async ({
-      page,
-    }) => {
-      await page.goto("/")
-      await expect(page).toHaveURL("/amending-laws")
+  test(`redirect to amending laws page and test content for eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`, async ({
+    page,
+  }) => {
+    await page.goto("/")
+    await expect(page).toHaveURL("/amending-laws")
 
-      await expect(
-        page.getByText(getExpectedHeading(amendingLaw)),
-      ).toBeVisible()
-      await expect(
-        page.getByText(convertToGermanDate(amendingLaw.frbrDateVerkuendung!)),
-      ).toBeVisible()
-    })
-  }
+    const link = page.getByRole("link", { name: "BGBl. I 2017 S. 419" })
+    await expect(link).toBeVisible()
+    await expect(link.getByText("15.03.2017")).toBeVisible()
+  })
+
+  test(`redirect to amending laws page and test content for eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1`, async ({
+    page,
+  }) => {
+    await page.goto("/")
+    await expect(page).toHaveURL("/amending-laws")
+
+    const link = page.getByRole("link", { name: "BGBl. I 2023 Nr. 413" })
+    await expect(link).toBeVisible()
+    await expect(link.getByText("29.12.2023")).toBeVisible()
+  })
+
   test("should display a loading error message when the API call fails", async ({
     page,
   }) => {
@@ -40,12 +46,3 @@ test.describe("Redirect and start page content", () => {
     ).toBeVisible()
   })
 })
-
-function convertToGermanDate(isoDate: string): string {
-  const options: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }
-  return new Date(isoDate).toLocaleDateString("de-DE", options)
-}

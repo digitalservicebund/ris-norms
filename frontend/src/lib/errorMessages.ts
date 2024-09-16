@@ -190,6 +190,11 @@ export const errorMessages = {
 
   "/errors/ldml-de-not-valid": () => ({
     title: "Invalide LDML.de-Datei",
-    message: `Das LDML.de 1.6-Dokument ist nicht gültig.`,
+    message: "Das LDML.de 1.6-Dokument ist nicht gültig.",
+  }),
+
+  "/errors/ldml-de-not-schematron-valid": () => ({
+    title: "Invalide LDML.de-Datei",
+    message: "Das LDML.de 1.6-Dokument ist nicht gültig.",
   }),
 } satisfies ErrorResponseMapping
