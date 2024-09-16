@@ -99,8 +99,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateNorm() {
       // Given
-      String xml = NormFixtures.loadTextFromDisk("NormWithMods.xml");
-      Norm norm = ldmlDeValidator.parseAndValidate(xml);
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
 
       // When // Then
       assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
@@ -109,8 +108,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateAInvalidNorm() {
       // Given
-      String xml = NormFixtures.loadTextFromDisk("NormWithModsSchematronInvalid.xml");
-      Norm norm = ldmlDeValidator.parseAndValidate(xml);
+      Norm norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml", true);
 
       // When // Then
       assertThatThrownBy(() -> ldmlDeValidator.validateSchematron(norm))
