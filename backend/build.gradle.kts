@@ -38,6 +38,14 @@ jacoco { toolVersion = libs.versions.jacoco.get() }
 
 testlogger { theme = ThemeType.MOCHA }
 
+sourceSets {
+    create("schematronToXslt") {}
+}
+
+val schematronToXsltCompileOnly by configurations.getting {
+    extendsFrom(configurations.compileOnly.get())
+}
+
 dependencies {
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.security)
@@ -69,6 +77,9 @@ dependencies {
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgres)
+
+    schematronToXsltCompileOnly(libs.schxslt)
+    schematronToXsltCompileOnly(libs.saxon.he)
 }
 
 tasks {
@@ -155,11 +166,45 @@ tasks {
 
     processResources {
         // include the ldml.de schema
-        from("../ldml-extension") {
+        from("../LegalDocML.de") {
             includeEmptyDirs = false
             include("**/*.xsd")
             include("**/*.xsl")
-            into("./schema")
+            into("./LegalDocML.de")
+        }
+
+        // include the ldml.de schematron files and convert them to xsl files
+        from("../LegalDocML.de") {
+            includeEmptyDirs = false
+            include("**/*.sch")
+            into("./LegalDocML.de")
+
+            doLast {
+                fileTree(outputs.files.singleFile) {
+                    include("**/*.sch")
+                    map {
+                        javaexec {
+                            classpath = java.sourceSets["schematronToXslt"].compileClasspath
+                            mainClass = "net.sf.saxon.Transform"
+
+                            // load the xsl file for the sch -> xsl conversion from name.dmaus.schxslt:schxslt
+                            val pipelineFile =
+                                // find the jar file for name.dmaus.schxslt:schxslt and look into it as if it was a zip archive
+                                zipTree(
+                                    classpath.filter {
+                                        it.name.startsWith("schxslt")
+                                    }.singleFile,
+                                ).filter {
+                                    // file the pipeline xsl file for converting sch to xsl in this jar
+                                    it.absolutePath.endsWith("/2.0/pipeline-for-svrl.xsl")
+                                }.singleFile
+
+                            val outputFile = it.parentFile.resolve(it.name.replace(".sch", ".xsl"))
+                            args("-s:%s".format(it), "-xsl:%s".format(pipelineFile), "-o:%s".format(outputFile))
+                        }
+                    }
+                }
+            }
         }
     }
 }

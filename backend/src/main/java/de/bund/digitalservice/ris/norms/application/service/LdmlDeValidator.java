@@ -39,8 +39,10 @@ public class LdmlDeValidator {
   private final Resource xsdSchema;
 
   public LdmlDeValidator(
-    @Value("classpath:schema/fixtures/legalDocML.de.xsl") Resource schematronXslt,
-    @Value("classpath:schema/fixtures/ldml1.6_ds_regelungstext.xsd") Resource xsdSchema
+    @Value("classpath:/LegalDocML.de/1.6/schema/legalDocML.de.xsl") Resource schematronXslt,
+    @Value(
+      "classpath:/LegalDocML.de/1.6/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
+    ) Resource xsdSchema
   ) {
     this.schematronXslt = schematronXslt;
     this.xsdSchema = xsdSchema;

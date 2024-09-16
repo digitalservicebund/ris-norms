@@ -10,19 +10,9 @@ Information on the modules can be found in their respective folder's README file
 
 - [`./frontend/README.md`](./frontend/README.md)
 - [`./backend/README.md`](./backend/README.md)
-- [`./ldml-extension/README.md`](./backend/README.md)
+- [`./LegalDocML.de/1.6/README.md`](./backend/README.md)
 
 # The Main Repository
-
-## Git Submodules
-
-The repository uses a git submodule to include the LegalDocMl.de specification and schemas. Please run the following to
-download it:
-
-```sh
-git submodule init
-git submodule update
-```
 
 ## Architecture Decision Records
 
