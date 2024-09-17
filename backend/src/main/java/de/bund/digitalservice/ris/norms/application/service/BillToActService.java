@@ -4,7 +4,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -12,9 +12,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Temporary service to covert a bill to an act.
- * This is needed for the "Mini-Kreislauf" where we receive bills from E-Gesetzgebung. Later we will get acts from E-Verkündung.
- * */
+ * Temporary service to covert a bill to an act. This is needed for the "Mini-Kreislauf" where we
+ * receive bills from E-Gesetzgebung. Later we will get acts from E-Verkündung.
+ */
 @Service
 @Slf4j
 public class BillToActService {
@@ -33,13 +33,12 @@ public class BillToActService {
   private static final String FRBREXPRESSION_FRBRDATE = "//identification/FRBRExpression/FRBRdate";
 
   /**
-   * Coverts a bill to an act.
-   * This is needed for the "Mini-Kreislauf" where we receive bills from E-Gesetzgebung. Later we will get acts from E-Verkündung.
+   * Coverts a bill to an act. This is needed for the "Mini-Kreislauf" where we receive bills from
+   * E-Gesetzgebung. Later we will get acts from E-Verkündung.
    *
    * @param xmlString a bill xml as a {@link String}
    * @return The updated act as a {@link String}
-   *
-   * */
+   */
   public String convert(String xmlString) {
     Document document = XmlMapper.toDocument(xmlString);
     if (NodeParser.getNodeFromExpression("//*/act", document).isPresent()) return xmlString;
@@ -51,6 +50,7 @@ public class BillToActService {
     rewriteFbrManifestation(document);
     addNecessaryMetaData(document);
     addTemporalInformation(document);
+    addMandatoryGuids(document);
 
     return XmlMapper.toString(document);
   }
@@ -421,5 +421,117 @@ public class BillToActService {
 
       parentNode.insertBefore(temporalDataFragment, proprietarySection);
     }
+  }
+
+  private static void addMandatoryGuids(final Node node) { // TODO recursive?
+    List<Node> nodesToUpdate = new ArrayList<>();
+    nodesToUpdate.add(node);
+
+    while (!nodesToUpdate.isEmpty()) {
+      var currentNode = nodesToUpdate.removeFirst();
+
+      if (currentNode instanceof Element currentElement && shouldHaveGuid(currentElement)) {
+        currentElement.setAttribute("GUID", UUID.randomUUID().toString());
+      }
+
+      nodesToUpdate.addAll(NodeParser.nodeListToList(currentNode.getChildNodes()));
+    }
+  }
+
+  private static boolean shouldHaveGuid(Element currentElement) {
+    String[] guidElements = {
+      "akn:activeModifications",
+      "akn:affectedDocument",
+      "akn:analysis",
+      "akn:article",
+      "akn:block",
+      "akn:blockContainer",
+      "akn:body",
+      "akn:book",
+      "akn:chapter",
+      "akn:citation",
+      "akn:citations",
+      "akn:componentRef",
+      "akn:conclusions",
+      "akn:content",
+      "akn:date",
+      "akn:destination",
+      "akn:docTitle",
+      "akn:docProponent",
+      "akn:docStage",
+      "akn:documentRef",
+      "akn:eventRef",
+      "akn:force",
+      "akn:foreign",
+      "akn:formula",
+      AKN_FRBRALIAS,
+      "akn:FRBRauthor",
+      "akn:FRBRcountry",
+      "akn:FRBRdate",
+      "akn:FRBRExpression",
+      "akn:FRBRformat",
+      "akn:FRBRlanguage",
+      "akn:FRBRManifestation",
+      "akn:FRBRname",
+      "akn:FRBRnumber",
+      "akn:FRBRsubtype",
+      "akn:FRBRthis",
+      "akn:FRBRuri",
+      "akn:FRBRversionNumber",
+      "akn:FRBRWork",
+      "akn:heading",
+      "akn:identification",
+      "akn:inline",
+      "akn:intro",
+      "akn:li",
+      "akn:lifecycle",
+      "akn:list",
+      "akn:location",
+      "akn:longTitle",
+      "akn:marker",
+      "akn:meta",
+      "akn:mod",
+      "akn:num",
+      "akn:ol",
+      "akn:organization",
+      "akn:p",
+      "akn:paragraph",
+      "akn:part",
+      "akn:person",
+      "akn:point",
+      "akn:preamble",
+      "akn:preface",
+      "akn:proprietary",
+      "akn:quotedStructure",
+      "akn:quotedText",
+      "akn:recital",
+      "akn:recitals",
+      "akn:ref",
+      "akn:role",
+      "akn:section",
+      "akn:shortTitle",
+      "akn:signature",
+      "akn:source",
+      "akn:span",
+      "akn:subchapter",
+      "akn:subtitle",
+      "akn:table",
+      "akn:td",
+      "akn:temporalData",
+      "akn:temporalGroup",
+      "akn:textualMod",
+      "akn:title",
+      "akn:th",
+      "akn:timeInterval",
+      "akn:toc",
+      "akn:tocItem",
+      "akn:tr",
+      "akn:ul",
+      "akn:wrapUp",
+    };
+
+    return Arrays
+      .stream(guidElements)
+      .anyMatch(element -> element.equals(currentElement.getNodeName()));
   }
 }
