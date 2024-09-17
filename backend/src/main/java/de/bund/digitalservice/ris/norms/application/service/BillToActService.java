@@ -27,12 +27,13 @@ public class BillToActService {
   private static final String EVENT_REF_NODE = "akn:eventRef";
   private static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
   private static final String META_PROPRIETARY_SECTION = "//meta/proprietary";
-  private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
-    "attributsemantik-noch-undefiniert";
   private static final String SOURCE = "source";
   private static final String REFERSTO = "refersTo";
   private static final String YYYY_MM_DD = "yyyy-MM-dd";
   private static final String FRBREXPRESSION_FRBRDATE = "//identification/FRBRExpression/FRBRdate";
+  private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
+    "attributsemantik-noch-undefiniert";
+  private static final String AKN_P = "akn:p";
 
   /**
    * Coverts a bill to an act. This is needed for the "Mini-Kreislauf" where we receive bills from
@@ -53,6 +54,7 @@ public class BillToActService {
     addNecessaryMetaData(document);
     addTemporalInformation(document);
     addPeriodToArticle(document);
+    addFormulaAndSignature(document);
     addMandatoryGuids(document);
 
     return XmlMapper.toString(document);
@@ -463,6 +465,82 @@ public class BillToActService {
       );
   }
 
+  private void addFormulaAndSignature(Document document) {
+    final Element conclusions = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//conclusions",
+      document
+    );
+
+    conclusions.setAttribute("eId", "schluss-1");
+    conclusions.setAttribute("GUID", UUID.randomUUID().toString());
+
+    final Element formula = conclusions.getOwnerDocument().createElement("akn:formula");
+    formula.setAttribute("eId", "schluss-1_formel-1");
+    formula.setAttribute("GUID", UUID.randomUUID().toString());
+    formula.setAttribute(REFERSTO, "schlussformel");
+    formula.setAttribute("name", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+    conclusions.appendChild(formula);
+
+    final Element formulaParagraph = formula.getOwnerDocument().createElement(AKN_P);
+    formulaParagraph.setAttribute("eId", "schluss-1_formel-1_text-1");
+    formulaParagraph.setAttribute("GUID", UUID.randomUUID().toString());
+    formulaParagraph.setTextContent(
+      "Das vorstehende Gesetz wird hiermit ausgefertigt. Es ist im Bundesgesetzblatt zu verkünden."
+    );
+    formula.appendChild(formulaParagraph);
+
+    final Element blockContainer = conclusions
+      .getOwnerDocument()
+      .createElement("akn:blockContainer");
+    blockContainer.setAttribute("eId", "schluss-1_blockcontainer-1");
+    blockContainer.setAttribute("GUID", UUID.randomUUID().toString());
+    conclusions.appendChild(blockContainer);
+
+    final Element blockContainerParagraph = blockContainer.getOwnerDocument().createElement(AKN_P);
+    blockContainerParagraph.setAttribute("eId", "schluss-1_blockcontainer-1_text-1");
+    blockContainerParagraph.setAttribute("GUID", UUID.randomUUID().toString());
+    blockContainer.appendChild(blockContainerParagraph);
+
+    final Element blockContainerParagraphLocation = blockContainerParagraph
+      .getOwnerDocument()
+      .createElement("akn:location");
+    blockContainerParagraphLocation.setAttribute("eId", "schluss-1_blockcontainer-1_text-1_ort-1");
+    blockContainerParagraphLocation.setAttribute("GUID", UUID.randomUUID().toString());
+    blockContainerParagraphLocation.setAttribute(REFERSTO, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+    blockContainerParagraph.appendChild(blockContainerParagraphLocation);
+
+    Element ausfertigungsDateNode = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//meta/lifecycle/eventRef[@refersTo=\"ausfertigung\"]",
+      document
+    );
+    final Element blockContainerParagraphDate = blockContainerParagraph
+      .getOwnerDocument()
+      .createElement("akn:date");
+    blockContainerParagraphDate.setAttribute("eId", "schluss-1_blockcontainer-1_text-1_datum-1");
+    blockContainerParagraphDate.setAttribute("GUID", UUID.randomUUID().toString());
+    blockContainerParagraphDate.setAttribute("date", ausfertigungsDateNode.getAttribute("date"));
+    blockContainerParagraphDate.setAttribute(REFERSTO, "ausfertigung-datum");
+    blockContainerParagraph.appendChild(blockContainerParagraphDate);
+
+    final Element blockContainerSignatur = blockContainer
+      .getOwnerDocument()
+      .createElement("akn:signature");
+    blockContainerSignatur.setAttribute("eId", "schluss-1_blockcontainer-1_signatur-1");
+    blockContainerSignatur.setAttribute("GUID", UUID.randomUUID().toString());
+    blockContainer.appendChild(blockContainerSignatur);
+
+    final Element blockContainerSignaturPerson = blockContainerSignatur
+      .getOwnerDocument()
+      .createElement("akn:person");
+    blockContainerSignaturPerson.setAttribute(
+      "eId",
+      "schluss-1_blockcontainer-1_signatur-1_person-1"
+    );
+    blockContainerSignaturPerson.setAttribute("GUID", UUID.randomUUID().toString());
+    blockContainerSignaturPerson.setAttribute(REFERSTO, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+    blockContainerSignatur.appendChild(blockContainerSignaturPerson);
+  }
+
   private void addMandatoryGuids(final Node node) {
     List<Node> nodesToUpdate = new ArrayList<>();
     nodesToUpdate.add(node);
@@ -534,7 +612,7 @@ public class BillToActService {
       "akn:num",
       "akn:ol",
       "akn:organization",
-      "akn:p",
+      AKN_P,
       "akn:paragraph",
       "akn:part",
       "akn:person",

@@ -44,7 +44,14 @@
                     <akn:FRBRformat GUID="ea647c11-2da1-4c0d-8124-8f46df912e51" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
                 </akn:FRBRManifestation>
             </akn:identification>
-            <akn:lifecycle GUID="c31c1e73-89bd-4a35-8158-07158731f3c6" eId="meta-1_lebzykl-1" source="attributsemantik-noch-undefiniert"><akn:eventRef GUID="85099323-f1bc-4c8c-80eb-d619d2a892ff" date="2018-12-18" eId="meta-1_lebzykl-1_ereignis-1" refersTo="ausfertigung" source="attributsemantik-noch-undefiniert" type="generation"/><akn:eventRef GUID="a0e59730-20b8-4c2e-a5a5-dc572b3b5568" date="0001-01-01" eId="meta-1_lebzykl-1_ereignis-2" refersTo="inkrafttreten-mit-noch-unbekanntem-datum" source="attributsemantik-noch-undefiniert" type="generation"/></akn:lifecycle><akn:temporalData GUID="2946a6fa-6c1f-431f-8834-fe5e3c49997f" eId="meta-1_geltzeiten-1" source="attributsemantik-noch-undefiniert"><akn:temporalGroup GUID="c7ea7500-f0b1-4e9c-8c08-100c81cbc3ec" eId="meta-1_geltzeiten-1_geltungszeitgr-1"><akn:timeInterval GUID="34838c09-884d-4f0c-b08e-129f2b477217" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/></akn:temporalGroup></akn:temporalData><akn:proprietary GUID="2bbfc04d-8bf7-4710-a4e3-18979a27e284" eId="meta-1_proprietary-1" source="attributsemantik-noch-undefiniert"><meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"><meta:fassung>verkuendungsfassung</meta:fassung><meta:fna>nicht-vorhanden</meta:fna><meta:gesta>nicht-vorhanden</meta:gesta><meta:federfuehrung><meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz</meta:federfuehrend></meta:federfuehrung></meta:legalDocML.de_metadaten></akn:proprietary></akn:meta>
+            <akn:lifecycle GUID="c31c1e73-89bd-4a35-8158-07158731f3c6" eId="meta-1_lebzykl-1" source="attributsemantik-noch-undefiniert">
+                <akn:eventRef GUID="85099323-f1bc-4c8c-80eb-d619d2a892ff" date="2018-12-18" eId="meta-1_lebzykl-1_ereignis-1" refersTo="ausfertigung" source="attributsemantik-noch-undefiniert" type="generation"/>
+                <akn:eventRef GUID="a0e59730-20b8-4c2e-a5a5-dc572b3b5568" date="0001-01-01" eId="meta-1_lebzykl-1_ereignis-2" refersTo="inkrafttreten-mit-noch-unbekanntem-datum" source="attributsemantik-noch-undefiniert" type="generation"/>
+            </akn:lifecycle><akn:temporalData GUID="2946a6fa-6c1f-431f-8834-fe5e3c49997f" eId="meta-1_geltzeiten-1" source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup GUID="c7ea7500-f0b1-4e9c-8c08-100c81cbc3ec" eId="meta-1_geltzeiten-1_geltungszeitgr-1">
+                <akn:timeInterval GUID="34838c09-884d-4f0c-b08e-129f2b477217" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
+            </akn:temporalGroup></akn:temporalData><akn:proprietary GUID="2bbfc04d-8bf7-4710-a4e3-18979a27e284" eId="meta-1_proprietary-1" source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"><meta:fassung>verkuendungsfassung</meta:fassung><meta:fna>nicht-vorhanden</meta:fna><meta:gesta>nicht-vorhanden</meta:gesta><meta:federfuehrung><meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz</meta:federfuehrend></meta:federfuehrung></meta:legalDocML.de_metadaten></akn:proprietary></akn:meta>
         <!-- Dokumentenkopf Regelungstext -->
         <akn:preface GUID="32d9b3ae-7e48-4c34-a363-4845ea52cdbd" eId="einleitung-1">
             <akn:longTitle GUID="ead2954f-34db-42a2-8cc8-039d24427055" eId="einleitung-1_doktitel-1">
@@ -834,6 +841,34 @@
             </akn:section>
         </akn:body>
         <!-- Schluss -->
-        <akn:conclusions GUID="57ec7b95-12a2-4cc5-a71e-f2fe9db7d17c" eId="schluss-1"/>
+        <akn:conclusions eId="schluss-1" GUID="ee12d76c-3f7e-4f5f-a8e3-0c57d08760ee">
+            <akn:formula eId="schluss-1_formel-1"
+                         GUID="6bd5c510-7aca-42ec-934d-ecc9858863b9"
+                         refersTo="schlussformel"
+                         name="attributsemantik-noch-undefiniert">
+                <akn:p eId="schluss-1_formel-1_text-1"
+                       GUID="7b84bb79-f688-4cdd-8783-5459f6ca1adb">Das vorstehende Gesetz wird hiermit ausgefertigt. Es ist im
+                    Bundesgesetzblatt zu verkünden.</akn:p>
+            </akn:formula>
+            <akn:blockContainer eId="schluss-1_blockcontainer-1"
+                                GUID="9bf8243e-3b18-4a8c-a719-0bfa31ab1b53">
+                <akn:p eId="schluss-1_blockcontainer-1_text-1"
+                       GUID="9b1b1fba-fd29-4255-80f9-a1d345f29b40">
+                    <akn:location eId="schluss-1_blockcontainer-1_text-1_ort-1"
+                                  GUID="52a72e7c-1f30-440d-adfb-0ec9d110a704"
+                                  refersTo="attributsemantik-noch-undefiniert"/>
+                    <akn:date eId="schluss-1_blockcontainer-1_text-1_datum-1"
+                              GUID="d3445c99-52cb-499a-99fa-045be294d17a"
+                              date="2018-12-18"
+                              refersTo="ausfertigung-datum"/>
+                </akn:p>
+                <akn:signature eId="schluss-1_blockcontainer-1_signatur-1"
+                               GUID="669c741b-b42d-4ba9-aa7b-1466cda7c042">
+                    <akn:person eId="schluss-1_blockcontainer-1_signatur-1_person-1"
+                                GUID="90571b2b-b57d-4f14-bb2d-686321d155f1"
+                                refersTo="attributsemantik-noch-undefiniert"/>
+                </akn:signature>
+            </akn:blockContainer>
+        </akn:conclusions>
     </akn:act>
 </akn:akomaNtoso>
