@@ -16,7 +16,7 @@ class ProprietaryResponseMapperTest {
       .node(
         XmlMapper.toNode(
           """
-          <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+              <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
               <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                   <meta:typ>gesetz</meta:typ>
                   <meta:fna>000-00-0</meta:fna>
@@ -50,7 +50,7 @@ class ProprietaryResponseMapperTest {
       .node(
         XmlMapper.toNode(
           """
-          <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+              <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
               <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                   <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
                       <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>

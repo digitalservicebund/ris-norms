@@ -19,7 +19,7 @@ class EinzelelementTest {
         .node(
           XmlMapper.toNode(
             """
-            <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                <meta:einzelelement xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/" href="#hauptteil-1_abschnitt-0_para-1">
                 <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
                 <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
                 <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>

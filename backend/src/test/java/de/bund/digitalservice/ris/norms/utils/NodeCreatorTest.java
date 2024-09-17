@@ -37,9 +37,9 @@ class NodeCreatorTest {
     // given
     final Document document = XmlMapper.toDocument(
       """
-                                            <root>
-      <akn:p eId="text-1">test value</akn:p>
-                                            </root>"""
+                                        <root>
+      <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="text-1">test value</akn:p>
+                                        </root>"""
     );
     final Node testNode = NodeParser.getMandatoryNodeFromExpression("//*/p", document);
 

@@ -15,7 +15,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-           <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+               <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.6/" start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
           """
         )
       )
@@ -31,7 +31,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-           <meta:fna start="1990-01-01" end="1994-12-31"></meta:fna>
+               <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.6/" start="1990-01-01" end="1994-12-31"></meta:fna>
           """
         )
       )
@@ -47,7 +47,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-           <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+               <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.6/" start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
           """
         )
       )
@@ -63,7 +63,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-           <meta:fna end="1994-12-31">111-11-1</meta:fna>
+               <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.6/" end="1994-12-31">111-11-1</meta:fna>
           """
         )
       )
@@ -79,7 +79,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-           <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+               <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.6/" start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
           """
         )
       )
@@ -95,7 +95,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-           <meta:fna start="1990-01-01">111-11-1</meta:fna>
+               <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.6/" start="1990-01-01">111-11-1</meta:fna>
           """
         )
       )
