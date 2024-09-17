@@ -30,7 +30,7 @@ public class BillToActService {
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
     "attributsemantik-noch-undefiniert";
   private static final String SOURCE = "source";
-  private static final String REFERSTO = "referstTo";
+  private static final String REFERSTO = "refersTo";
   private static final String YYYY_MM_DD = "yyyy-MM-dd";
   private static final String FRBREXPRESSION_FRBRDATE = "//identification/FRBRExpression/FRBRdate";
 
@@ -438,7 +438,7 @@ public class BillToActService {
       timeInterval.setAttribute("eId", "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
       timeInterval.setAttribute("GUID", UUID.randomUUID().toString());
       timeInterval.setAttribute("start", "#meta-1_lebzykl-1_ereignis-2");
-      timeInterval.setAttribute("refersTo", "geltungszeit");
+      timeInterval.setAttribute(REFERSTO, "geltungszeit");
       temporalGroup.appendChild(timeInterval);
       temporalData.appendChild(temporalGroup);
       temporalDataFragment.appendChild(temporalData);
