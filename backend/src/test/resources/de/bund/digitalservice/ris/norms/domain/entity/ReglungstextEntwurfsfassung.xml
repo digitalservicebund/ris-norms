@@ -40,7 +40,7 @@
                                   name="entwurfsfassung"/>
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
                                     GUID="c0998d01-41d8-4085-b35a-83fae9533d08"
-                                    href="recht.bund.de/institution/bundesregierung"/>
+                                    href="recht.bund.de/institution/bundestag"/>
                     <akn:FRBRcountry eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"
                                      GUID="f81164d2-2276-41db-90a3-83a023afc0a8"
                                      value="de"/>

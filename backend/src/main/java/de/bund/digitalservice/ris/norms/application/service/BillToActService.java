@@ -117,6 +117,11 @@ public class BillToActService {
       document
     );
 
+    final Element fRBRauthor = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//identification/FRBRWork/FRBRauthor",
+      document
+    );
+
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
 
@@ -130,6 +135,7 @@ public class BillToActService {
     fRBRdate.setAttribute("name", VERKUENDUNGSFASSUNG);
     fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
     fRBRname.setAttribute(VALUE, "bgbl-1");
+    fRBRauthor.setAttribute("href", "recht.bund.de/institution/bundespraesident");
   }
 
   private void rewriteFbrExpression(Document document) {
@@ -265,6 +271,8 @@ public class BillToActService {
     newChildFragment.appendChild(fRBRNewFutureVersion);
 
     fRBRExpression.insertBefore(newChildFragment, fRBRAuthor);
+
+    fRBRAuthor.setAttribute("href", "recht.bund.de/institution/bundespraesident");
   }
 
   private void rewriteFbrManifestation(Document document) {
