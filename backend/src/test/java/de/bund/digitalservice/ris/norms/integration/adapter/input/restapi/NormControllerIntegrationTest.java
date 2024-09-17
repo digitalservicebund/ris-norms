@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
+import static de.bund.digitalservice.ris.norms.XPathMatcher.hasXPath;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -2267,9 +2268,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("amendingNormXml")
             .value(
               XmlMatcher.xml(
-                hasXPath(
-                  "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-2\"]/force/@period",
-                  equalTo("")
+                not(
+                  hasXPath(
+                    "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-2\"]/force/@period",
+                    equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")
+                  )
                 )
               )
             )
@@ -2289,9 +2292,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("targetNormZf0Xml")
             .value(
               XmlMatcher.xml(
-                hasXPath(
-                  "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-2\"]/force/@period",
-                  equalTo("")
+                not(
+                  hasXPath(
+                    "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-2\"]/force/@period",
+                    equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")
+                  )
                 )
               )
             )

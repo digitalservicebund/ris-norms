@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
+import static de.bund.digitalservice.ris.norms.XPathMatcher.hasXPath;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
