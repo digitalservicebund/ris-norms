@@ -11,6 +11,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
@@ -176,11 +177,14 @@ public class LdmlDeValidator {
                 .reduce("", (a, b) -> a.length() > b.length() ? a : b)
           );
 
+          String ruleId = Optional
+            .ofNullable(node.getAttributes().getNamedItem("id"))
+            // for some rules (the verkündungsfassung specific once) the rule id is not added to the sch:assert but only to the sch:rule so we need to get the id from the svrl:fired-rule before the svrl:failed-assert in the validation result
+            .orElseGet(() -> node.getPreviousSibling().getAttributes().getNamedItem("id"))
+            .getNodeValue();
+
           return new LdmlDeSchematronException.ValidationError(
-            "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(
-                node.getLocalName(),
-                node.getAttributes().getNamedItem("id").getNodeValue()
-              ),
+            "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(node.getLocalName(), ruleId),
             xPath,
             node.getTextContent(),
             eId

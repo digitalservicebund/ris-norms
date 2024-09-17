@@ -891,7 +891,18 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
             equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
           )
         )
-        .andExpect(jsonPath("errors[2].eId", equalTo("meta-1_geltzeiten-1_geltungszeitgr-1")));
+        .andExpect(jsonPath("errors[2].eId", equalTo("meta-1_geltzeiten-1_geltungszeitgr-1")))
+        .andExpect(
+          jsonPath(
+            "errors[3].type",
+            equalTo(
+              "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-VERKF-hrefLiterals.expression.FRBRauthor"
+            )
+          )
+        )
+        .andExpect(
+          jsonPath("errors[3].eId", equalTo("meta-1_ident-1_frbrexpression-1_frbrauthor-1"))
+        );
     }
 
     @Test

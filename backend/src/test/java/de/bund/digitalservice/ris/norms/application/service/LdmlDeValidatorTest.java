@@ -116,7 +116,7 @@ class LdmlDeValidatorTest {
         .satisfies(e -> {
           if (e instanceof LdmlDeSchematronException ldmlDeSchematronException) {
             assertThat(ldmlDeSchematronException.getErrors())
-              .hasSize(3)
+              .hasSize(4)
               .contains(
                 new LdmlDeSchematronException.ValidationError(
                   "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005",
@@ -139,6 +139,15 @@ class LdmlDeValidatorTest {
                   "/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}temporalData[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}temporalGroup[1]/@Q{}GUID",
                   "GUIDs müssen einmalig sein; \"82854d32-d922-43d7-ac8c-612c07219336\" kommt jedoch 2-mal im Dokument vor!",
                   "meta-1_geltzeiten-1_geltungszeitgr-1"
+                )
+              )
+              .contains(
+                new LdmlDeSchematronException.ValidationError(
+                  "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-VERKF-hrefLiterals.expression.FRBRauthor",
+                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}identification[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}FRBRExpression[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}FRBRauthor[1]/@Q{}href",
+                  "In der Verkündungsfassung ist das Literal \"recht.bund.de/institution/bundestag\" an dieser Stelle nicht\n" +
+                  "                                    zulässig. Erlaubt sind ausschließlich \"recht.bund.de/institution/bundesregierung\", \"recht.bund.de/institution/bundeskanzler\" sowie \"recht.bund.de/institution/bundespraesident\".",
+                  "meta-1_ident-1_frbrexpression-1_frbrauthor-1"
                 )
               );
           }
