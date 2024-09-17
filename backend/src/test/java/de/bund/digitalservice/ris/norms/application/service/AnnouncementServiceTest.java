@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -39,6 +38,7 @@ class AnnouncementServiceTest {
   );
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
+  final BillToActService billToActService = mock(BillToActService.class);
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
   final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort = mock(
     UpdateOrSaveAnnouncementPort.class
@@ -54,6 +54,7 @@ class AnnouncementServiceTest {
     loadNormPort,
     loadZf0Service,
     updateOrSaveAnnouncementPort,
+    billToActService,
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
     deleteNormByGuidPort
@@ -170,7 +171,7 @@ class AnnouncementServiceTest {
 
       // Then
       verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
-      assertEquals(loadedAnnouncement.toString(), announcement.toString());
+      assertThat(loadedAnnouncement).hasToString(announcement.toString());
     }
   }
 

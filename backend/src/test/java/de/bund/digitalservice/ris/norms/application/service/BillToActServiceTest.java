@@ -2,8 +2,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.application.port.input.BillToActUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import org.junit.jupiter.api.Test;
 import org.xmlunit.builder.DiffBuilder;
@@ -17,15 +15,15 @@ class BillToActServiceTest {
   @Test
   void itChangesNothing() {
     // given
-    final Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final String xmlString = NormFixtures.loadTextFromDisk("NormWithMods.xml");
 
     // when
-    Norm result = underTest.convert(new BillToActUseCase.Query(norm));
+    String result = underTest.convert(xmlString);
 
     // then
     final Diff diff = DiffBuilder
-      .compare(Input.from(norm.getDocument()))
-      .withTest(Input.from(result.getDocument()))
+      .compare(Input.from(xmlString))
+      .withTest(Input.from(result))
       .build();
     assertThat(diff.hasDifferences()).isFalse();
   }
@@ -33,16 +31,18 @@ class BillToActServiceTest {
   @Test
   void convert() {
     // given
-    final Norm norm = NormFixtures.loadFromDisk("ReglungstextEntwurfsfassung.xml");
-    final Norm expectedResult = NormFixtures.loadFromDisk("ReglungstextVerkuendungsfassung.xml");
+    final String xmlString = NormFixtures.loadTextFromDisk("ReglungstextEntwurfsfassung.xml");
+    final String expectedResult = NormFixtures.loadTextFromDisk(
+      "ReglungstextVerkuendungsfassung.xml"
+    );
 
     // when
-    Norm result = underTest.convert(new BillToActUseCase.Query(norm));
+    String result = underTest.convert(xmlString);
 
     // then
     final Diff diff = DiffBuilder
-      .compare(Input.from(expectedResult.getDocument()))
-      .withTest(Input.from(result.getDocument()))
+      .compare(Input.from(expectedResult))
+      .withTest(Input.from(result))
       .normalizeWhitespace()
       .withAttributeFilter(attribute ->
         !attribute.getName().equals("GUID") &&

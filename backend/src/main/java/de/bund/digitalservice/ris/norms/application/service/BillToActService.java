@@ -1,8 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -12,10 +11,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/** Service for the reference pattern recognition. */
+/**
+ * Temporary service to covert a bill to an act.
+ * This is needed for the "Mini-Kreislauf" where we receive bills from E-Gesetzgebung. Later we will get acts from E-Verkündung.
+ * */
 @Service
 @Slf4j
-public class BillToActService implements BillToActUseCase {
+public class BillToActService {
 
   private static final String ROOT_DIR = "../../..";
   private static final String SCHEMA = "Grammatiken";
@@ -30,10 +32,17 @@ public class BillToActService implements BillToActUseCase {
   private static final String YYYY_MM_DD = "yyyy-MM-dd";
   private static final String FRBREXPRESSION_FRBRDATE = "//identification/FRBRExpression/FRBRdate";
 
-  @Override
-  public Norm convert(Query query) {
-    if (query.norm().isAct()) return query.norm();
-    final Document document = query.norm().getDocument();
+  /**
+   * Coverts a bill to an act.
+   * This is needed for the "Mini-Kreislauf" where we receive bills from E-Gesetzgebung. Later we will get acts from E-Verkündung.
+   *
+   * @param xmlString a bill xml as a {@link String}
+   * @return The updated act as a {@link String}
+   *
+   * */
+  public String convert(String xmlString) {
+    Document document = XmlMapper.toDocument(xmlString);
+    if (NodeParser.getNodeFromExpression("//*/act", document).isPresent()) return xmlString;
 
     updateXsdLocation(document);
     updateBillToAct(document);
@@ -43,7 +52,7 @@ public class BillToActService implements BillToActUseCase {
     addNecessaryMetaData(document);
     addTemporalInformation(document);
 
-    return new Norm(document);
+    return XmlMapper.toString(document);
   }
 
   private void updateXsdLocation(Document document) {

@@ -44,6 +44,7 @@ public class AnnouncementService
   private final LoadNormPort loadNormPort;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
+  private final BillToActService billToActService;
   private final LdmlDeValidator ldmlDeValidator;
   private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
   private final DeleteNormByGuidPort deleteNormByGuidPort;
@@ -54,6 +55,7 @@ public class AnnouncementService
     LoadNormPort loadNormPort,
     LoadZf0Service loadZf0Service,
     UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
+    BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
     DeleteNormByGuidPort deleteNormByGuidPort
@@ -63,6 +65,7 @@ public class AnnouncementService
     this.loadNormPort = loadNormPort;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
+    this.billToActService = billToActService;
     this.ldmlDeValidator = ldmlDeValidator;
     this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
     this.deleteNormByGuidPort = deleteNormByGuidPort;
@@ -117,10 +120,12 @@ public class AnnouncementService
 
     var xmlString = IOUtils.toString(query.file().getInputStream(), Charset.defaultCharset());
 
+    String actString = billToActService.convert(xmlString);
+
     // it throws an exception if the validation fails or the LDML.de Version is not 1.6
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
     // not yet.
-    var validatedNorm = ldmlDeValidator.parseAndValidate(xmlString);
+    var validatedNorm = ldmlDeValidator.parseAndValidate(actString);
     ldmlDeValidator.validateSchematron(validatedNorm);
 
     var norm = Norm.builder().document(XmlMapper.toDocument(xmlString)).build();
