@@ -24,11 +24,13 @@ public class BillToActService {
   private static final String ELI_BUND_BGBL_1 = "eli/bund/bgbl-1/";
   private static final String VALUE = "value";
   private static final String AKN_FRBRALIAS = "akn:FRBRalias";
+  private static final String EVENT_REF_NODE = "akn:eventRef";
   private static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
   private static final String META_PROPRIETARY_SECTION = "//meta/proprietary";
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
     "attributsemantik-noch-undefiniert";
   private static final String SOURCE = "source";
+  private static final String REFERSTO = "referstTo";
   private static final String YYYY_MM_DD = "yyyy-MM-dd";
   private static final String FRBREXPRESSION_FRBRDATE = "//identification/FRBRExpression/FRBRdate";
 
@@ -50,6 +52,7 @@ public class BillToActService {
     rewriteFbrManifestation(document);
     addNecessaryMetaData(document);
     addTemporalInformation(document);
+    addPeriodToArticle(document);
     addMandatoryGuids(document);
 
     return XmlMapper.toString(document);
@@ -391,15 +394,27 @@ public class BillToActService {
 
       final Element eventRefAusfertigung = parentNode
         .getOwnerDocument()
-        .createElement("akn:eventRef");
+        .createElement(EVENT_REF_NODE);
       final String eIdAusfertigung = "meta-1_lebzykl-1_ereignis-1";
       eventRefAusfertigung.setAttribute("eId", eIdAusfertigung);
       eventRefAusfertigung.setAttribute("GUID", UUID.randomUUID().toString());
       eventRefAusfertigung.setAttribute("date", verkuendungsDateString);
       eventRefAusfertigung.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-      eventRefAusfertigung.setAttribute("refersTo", "ausfertigung");
+      eventRefAusfertigung.setAttribute(REFERSTO, "ausfertigung");
       eventRefAusfertigung.setAttribute("type", "generation");
       lifecycle.appendChild(eventRefAusfertigung);
+
+      final Element eventRefInkraftUnbekannt = parentNode
+        .getOwnerDocument()
+        .createElement(EVENT_REF_NODE);
+      final String eIdInkraft = "meta-1_lebzykl-1_ereignis-2";
+      eventRefInkraftUnbekannt.setAttribute("eId", eIdInkraft);
+      eventRefInkraftUnbekannt.setAttribute("GUID", UUID.randomUUID().toString());
+      eventRefInkraftUnbekannt.setAttribute("date", "0001-01-01");
+      eventRefInkraftUnbekannt.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+      eventRefInkraftUnbekannt.setAttribute(REFERSTO, "inkrafttreten-mit-noch-unbekanntem-datum");
+      eventRefInkraftUnbekannt.setAttribute("type", "generation");
+      lifecycle.appendChild(eventRefInkraftUnbekannt);
       lifecycleFragment.appendChild(lifecycle);
 
       final Element proprietarySection = (Element) NodeParser.getMandatoryNodeFromExpression(
@@ -413,13 +428,42 @@ public class BillToActService {
       temporalData.setAttribute("eId", "meta-1_geltzeiten-1");
       temporalData.setAttribute("GUID", UUID.randomUUID().toString());
       temporalData.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+
+      final Element temporalGroup = parentNode
+        .getOwnerDocument()
+        .createElement("akn:temporalGroup");
+      temporalGroup.setAttribute("eId", "meta-1_geltzeiten-1_geltungszeitgr-1");
+      temporalGroup.setAttribute("GUID", UUID.randomUUID().toString());
+      final Element timeInterval = parentNode.getOwnerDocument().createElement("akn:timeInterval");
+      timeInterval.setAttribute("eId", "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
+      timeInterval.setAttribute("GUID", UUID.randomUUID().toString());
+      timeInterval.setAttribute("start", "#meta-1_lebzykl-1_ereignis-2");
+      timeInterval.setAttribute("refersTo", "geltungszeit");
+      temporalGroup.appendChild(timeInterval);
+      temporalData.appendChild(temporalGroup);
       temporalDataFragment.appendChild(temporalData);
 
       parentNode.insertBefore(temporalDataFragment, proprietarySection);
     }
   }
 
-  private static void addMandatoryGuids(final Node node) { // TODO recursive?
+  private void addPeriodToArticle(Document document) {
+    NodeParser
+      .getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
+      .stream()
+      .filter(article -> {
+        final Optional<String> optionalRefersTo = NodeParser.getValueFromExpression(
+          "./@refersTo",
+          article
+        );
+        return optionalRefersTo.isEmpty() || !optionalRefersTo.get().equals("geltungszeitregel");
+      })
+      .forEach(filtered ->
+        ((Element) filtered).setAttribute("period", "#meta-1_geltzeiten-1_geltungszeitgr-1")
+      );
+  }
+
+  private void addMandatoryGuids(final Node node) {
     List<Node> nodesToUpdate = new ArrayList<>();
     nodesToUpdate.add(node);
 
@@ -456,7 +500,7 @@ public class BillToActService {
       "akn:docProponent",
       "akn:docStage",
       "akn:documentRef",
-      "akn:eventRef",
+      EVENT_REF_NODE,
       "akn:force",
       "akn:foreign",
       "akn:formula",

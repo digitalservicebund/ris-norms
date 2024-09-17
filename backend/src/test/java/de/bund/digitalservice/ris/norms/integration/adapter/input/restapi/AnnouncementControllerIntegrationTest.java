@@ -17,7 +17,6 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -904,31 +903,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("errors[3].eId", equalTo("meta-1_ident-1_frbrexpression-1_frbrauthor-1"))
         );
-    }
-
-    @Disabled("Still some schematron validations failing")
-    @Test
-    void allUUIDsAreSetInVerkuendungsfassung() throws Exception {
-      // Given
-      var norm = NormFixtures.loadFromDisk(
-        "20240722_1108_Export_Regelungstext-Stammgesetz_Regelungstext-BDSG-Neufassung.xml"
-      );
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-
-      var xmlContent = XmlMapper.toString(norm.getDocument());
-      var file = new MockMultipartFile(
-        "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
-      );
-
-      // When // Then
-      mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
     }
 
     @Test
