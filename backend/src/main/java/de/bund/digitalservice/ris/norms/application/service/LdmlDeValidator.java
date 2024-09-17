@@ -77,7 +77,6 @@ public class LdmlDeValidator {
     }
 
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(true);
     factory.setSchema(schema);
     factory.setIgnoringElementContentWhitespace(true);
 

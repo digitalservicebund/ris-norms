@@ -56,6 +56,7 @@ public class XmlMapper {
       factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       factory.setExpandEntityReferences(false);
+      factory.setNamespaceAware(true);
 
       final DocumentBuilder builder = factory.newDocumentBuilder();
 
