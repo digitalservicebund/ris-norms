@@ -113,9 +113,7 @@ public class BillToActService {
     );
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate
-      .parse(fRBRdate.getAttribute("date"), formatter)
-      .plusDays(1);
+    final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
 
     final String num = fRBRnumber.getAttribute(VALUE);
 
@@ -160,9 +158,7 @@ public class BillToActService {
     );
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate
-      .parse(fRBRdate.getAttribute("date"), formatter)
-      .plusDays(1);
+    final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
     final String num = fRBRNumber.getAttribute(VALUE);
     final String versionNumber = fRBRVersionNumber.getAttribute(VALUE);
 

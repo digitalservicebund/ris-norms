@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 	##################################################################################
 	Projekt E-Gesetzgebung
 	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.7 (irgendwann 2024)
@@ -10,352 +9,160 @@
 
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
--->
-<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+--><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
     <!-- Regelungstext -->
     <akn:act name="regelungstext">
         <!-- Metadaten -->
-        <akn:meta eId="meta-1" GUID="18439512-b974-4b4f-ae09-1fb3e4be45d0">
-            <akn:identification eId="meta-1_ident-1"
-                                GUID="5378c23c-0c03-43c1-bcc3-626f695e4825"
-                                source="attributsemantik-noch-undefiniert">
-                <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1"
-                              GUID="3f735216-1e7d-4f45-a78c-82e7440f281a">
-                    <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
-                                  GUID="ba1140c2-2eb0-45e5-b971-12a8e8c098ed"
-                                  value="eli/bund/bgbl-1/2018/34/regelungstext-1"/>
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
-                                 GUID="b817155e-da4c-4238-b7de-ae038aa405c4"
-                                 value="eli/bund/bgbl-1/2018/34"/>
-                    <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1"
-                                   GUID="22853b9e-e15a-40ea-a2b3-479019838761"
-                                   name="übergreifende-id"
-                                   value="c1abac53-71c7-42ab-89d5-915f17149bdf"/>
-                    <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
-                                  GUID="816a0769-ad49-464b-a6f8-4cc115228901"
-                                  date="2018-12-19"
-                                  name="verkuendungsfassung"/>
-                    <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
-                                    GUID="c0998d01-41d8-4085-b35a-83fae9533d08"
-                                    href="recht.bund.de/institution/bundesregierung"/>
-                    <akn:FRBRcountry eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"
-                                     GUID="f81164d2-2276-41db-90a3-83a023afc0a8"
-                                     value="de"/>
-                    <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
-                                    GUID="b804b264-4906-4866-9806-f7783bde5f29"
-                                    value="34"/>
-                    <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1"
-                                  GUID="e23d75b8-d9c4-4d50-91e5-49b9f7c55929"
-                                  value="bgbl-1"/>
-                    <akn:FRBRsubtype eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"
-                                     GUID="6364b888-97f4-44a5-aed3-3ea8ab170673"
-                                     value="regelungstext-1"/>
+        <akn:meta GUID="b6fbf0fb-ba1b-4ea1-adf6-51e55ee42a5a" eId="meta-1">
+            <akn:identification GUID="ce0e9bbf-757f-45a3-aef5-e0940c8f05b7" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRWork GUID="e5f69bd1-5ba7-4738-a24a-6edea9e29831" eId="meta-1_ident-1_frbrwork-1">
+                    <akn:FRBRthis GUID="5aea4591-e18d-4be5-8e3d-c71fc0b3bc07" eId="meta-1_ident-1_frbrwork-1_frbrthis-1" value="eli/bund/bgbl-1/2018/34/regelungstext-1"/>
+                    <akn:FRBRuri GUID="949f0bed-00e6-44e0-842a-7add6e8fd7c2" eId="meta-1_ident-1_frbrwork-1_frbruri-1" value="eli/bund/bgbl-1/2018/34"/>
+                    <akn:FRBRalias GUID="c32c0519-a877-4f1a-beff-d2b7cf30ee4c" eId="meta-1_ident-1_frbrwork-1_frbralias-1" name="übergreifende-id" value="c1abac53-71c7-42ab-89d5-915f17149bdf"/>
+                    <akn:FRBRdate GUID="581cd882-6603-44c7-bfa5-aac01b5dc7e9" date="2018-12-18" eId="meta-1_ident-1_frbrwork-1_frbrdate-1" name="verkuendungsfassung"/>
+                    <akn:FRBRauthor GUID="8d5b87e6-e2d7-4fcc-9acc-df31c0e8d5df" eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRcountry GUID="ee7b8847-397d-46b5-bba8-be71bb5a3380" eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" value="de"/>
+                    <akn:FRBRnumber GUID="972c28b8-e065-45cc-a374-6edb80a2bc0f" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" value="34"/>
+                    <akn:FRBRname GUID="b1ed73d2-e658-4bd4-ad68-b60e865aa8f2" eId="meta-1_ident-1_frbrwork-1_frbrname-1" value="bgbl-1"/>
+                    <akn:FRBRsubtype GUID="6fbfee7c-0b04-44f0-a4f1-b7a4b0a7a04a" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="regelungstext-1"/>
                 </akn:FRBRWork>
-                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
-                                    GUID="3a12b168-0506-4e49-8470-58c1f24c9261">
-                    <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                                  GUID="4442144b-5010-4c66-afe5-861eafaa21bc"
-                                  value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu/regelungstext-1"/>
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
-                                 GUID="e09e3313-06b4-4051-9fc3-034beb0bcd7d"
-                                 value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu"/>
-                    <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
-                                   GUID="2896ccde-2f7d-4a33-8bb3-4b1ad6283b3c"
-                                   name="vorherige-version-id"
-                                   value="da07f60d-3979-4253-afee-75166d8538e4"/>
-                    <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
-                                   GUID="3a1bee87-0a5b-4cb2-806d-00a9812018ff"
-                                   name="aktuelle-version-id"
-                                   value="76d5f9a5-b26e-49bd-82eb-ceffda1af1e4"/>
-                    <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
-                                   GUID="3a1bee87-0a5b-4cb2-806d-00a9812018ff"
-                                   name="nachfolgende-version-id"
-                                   value="76d5f9a5-b26e-49bd-82eb-ceffda1af1e4"/>
-                    <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
-                                    GUID="1e865b92-9a2c-4632-bdf6-359ab7a5b1e1"
-                                    href="recht.bund.de/institution/bundestag"/>
-                    <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
-                                  GUID="301ccaf5-7f18-4149-967a-7bb4edf15ac4"
-                                  date="2018-12-19"
-                                  name="verkuendung"/>
-                    <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
-                                      GUID="d236da21-6b95-4406-be19-9092611fa0c7"
-                                      language="deu"/>
-                    <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"
-                                           GUID="79462b9a-0282-4753-9e57-57d965db5ef8"
-                                           value="7"/>
+                <akn:FRBRExpression GUID="b4206f4c-3415-4b3b-8f33-85c0aa87caeb" eId="meta-1_ident-1_frbrexpression-1">
+                    <akn:FRBRthis GUID="2a2b4d40-d908-4e6a-8c57-3459ea1bcf3d" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="33d366de-a04d-40c6-8c5c-2bfaf029180f" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu"/>
+
+
+                    <akn:FRBRalias GUID="9abd0d0c-11dc-4df7-8993-a66451e4721d" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="vorherige-version-id" value="da07f60d-3979-4253-afee-75166d8538e4"/><akn:FRBRalias GUID="fa7087e7-a268-4ac2-b428-d8a365b383c5" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="aktuelle-version-id" value="76d5f9a5-b26e-49bd-82eb-ceffda1af1e4"/><akn:FRBRalias GUID="a26abe3c-4f92-4eca-860f-61008071fa3d" eId="meta-1_ident-1_frbrexpression-1_frbralias-3" name="nachfolgende-version-id" value="5a295bff-2941-4aa7-91d0-619c6994d7e5"/><akn:FRBRauthor GUID="24149894-5cb4-493c-9323-e2fca5f7b7cb" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" href="recht.bund.de/institution/bundestag"/>
+                    <akn:FRBRdate GUID="d9e43409-fd46-4b09-a1e2-b2bf1a977fce" date="2018-12-18" eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" name="verkuendung"/>
+                    <akn:FRBRlanguage GUID="d54ca882-3782-4f07-8fcf-ccd53666d3fe" eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" language="deu"/>
+                    <akn:FRBRversionNumber GUID="18439b4c-fda7-405e-80d3-1a30388338a5" eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1" value="7"/>
                 </akn:FRBRExpression>
-                <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
-                                       GUID="373e3ec4-85e4-47a1-a9d6-93ac3ed0aaa1">
-                    <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
-                                  GUID="6f5c4b79-a67b-4e44-a4ca-2b1604fa3832"
-                                  value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu/regelungstext-1.xml"/>
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
-                                 GUID="bea2fea9-1074-4056-a3ad-f99025e5bc5b"
-                                 value="eli/bund/bgbl-1/2018/34/2018-12-19/7/deu/regelungstext-1.xml"/>
-                    <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
-                                  GUID="88ecd90c-d7fb-4e9c-ba13-ebbc743ab399"
-                                  date="2018-12-19"
-                                  name="generierung"/>
-                    <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
-                                    GUID="1b630833-ee65-4293-ad2d-a509fda3d9e8"
-                                    href="recht.bund.de"/>
-                    <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
-                                    GUID="c9bb9817-1ea9-457b-9b35-aa1092f25b62"
-                                    value="xml"/>
+                <akn:FRBRManifestation GUID="88130df0-4aeb-419d-95e1-c0efd398a100" eId="meta-1_ident-1_frbrmanifestation-1">
+                    <akn:FRBRthis GUID="71beddaa-75f2-4e32-9795-4f8139ea6d9b" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1.xml"/>
+                    <akn:FRBRuri GUID="76fba103-5a8e-41ff-9067-20bf69a6a78b" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1.xml"/>
+                    <akn:FRBRdate GUID="f158f131-6699-465b-bd52-df9f012f0408" date="2018-12-18" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
+                    <akn:FRBRauthor GUID="59c92f13-c577-4bd7-a99c-e1899dde3573" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
+                    <akn:FRBRformat GUID="5db91f85-e358-406c-95b0-a84ba02fff2e" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
                 </akn:FRBRManifestation>
             </akn:identification>
-            <akn:lifecycle eId="meta-1_lebzykl-1"
-                           GUID="1a131e23-8160-4b79-af5a-7e5bd1013c18"
-                           source="attributsemantik-noch-undefiniert">
-                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
-                              GUID="46659cc1-cbca-42e4-99e1-c7581987207d"
-                              date="2018-12-19"
-                              source="attributsemantik-noch-undefiniert"
-                              refersTo="ausfertigung"
-                              type="generation"/>
-            </akn:lifecycle>
-            <akn:temporalData eId="meta-1_geltzeiten-1"
-                              GUID="7ad3d4c8-38ee-4876-9df1-1693052b8180"
-                              source="attributsemantik-noch-undefiniert">
-            </akn:temporalData>
-            <akn:proprietary eId="meta-1_proprietary-1"
-                             GUID="9c1ed277-7e18-4efe-9a9d-dfaed6513c81"
-                             source="attributsemantik-noch-undefiniert">
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
-                    <meta:fassung>verkuendungsfassung</meta:fassung>
-                    <meta:fna>nicht-vorhanden</meta:fna>
-                    <meta:gesta>nicht-vorhanden</meta:gesta>
-                    <meta:federfuehrung>
-                        <meta:federfuehrend ab="2018-12-19" bis="unbestimmt">Bundesministerium der Justiz</meta:federfuehrend>
-                    </meta:federfuehrung>
-                </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-        </akn:meta>
+            <akn:lifecycle GUID="96363292-0d7d-4de5-8168-f154ea0687a6" eId="meta-1_lebzykl-1" source="attributsemantik-noch-undefiniert"><akn:eventRef GUID="42a382a7-8693-45f0-befb-b65204f2d50d" date="2018-12-18" eId="meta-1_lebzykl-1_ereignis-1" refersTo="ausfertigung" source="attributsemantik-noch-undefiniert" type="generation"/></akn:lifecycle><akn:temporalData GUID="1b7deb8c-eac5-41fd-9a76-d960a04ede9b" eId="meta-1_geltzeiten-1" source="attributsemantik-noch-undefiniert"/><akn:proprietary GUID="271cef71-2017-44ae-a64b-8053f74d8cde" eId="meta-1_proprietary-1" source="attributsemantik-noch-undefiniert"><meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"><meta:fassung>verkuendungsfassung</meta:fassung><meta:fna>nicht-vorhanden</meta:fna><meta:gesta>nicht-vorhanden</meta:gesta><meta:federfuehrung><meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz</meta:federfuehrend></meta:federfuehrung></meta:legalDocML.de_metadaten></akn:proprietary></akn:meta>
         <!-- Dokumentenkopf Regelungstext -->
-        <akn:preface eId="einleitung-1" GUID="b9ea4366-f08a-462a-8b2b-4f75c80281de">
-            <akn:longTitle eId="einleitung-1_doktitel-1"
-                           GUID="12a5ab0d-76e8-45fc-99f6-ccd12a290763">
-                <akn:p eId="einleitung-1_doktitel-1_text-1"
-                       GUID="51996ee4-d6c5-4246-a77a-b79d3aa2031c">
-                    <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1"
-                                  GUID="2103f683-830e-480e-a559-e9e393c008be">Referentenentwurf</akn:docStage>
-                    <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1"
-                                      GUID="bbc8c483-52a1-4197-9de9-b72fad16b92e"> des Bundesministeriums für Wirtschaft und Energie</akn:docProponent>
-                    <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
-                                  GUID="297bcee0-69b4-4c5a-82d8-730c82d1db2f">Entwurf eines Gesetzes über die Akkreditierungsstelle</akn:docTitle>
-                    <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
-                                    GUID="f876ad4f-005a-4f12-b31a-9d89ad8c7bae">(Akkreditierungsstellengesetz -
+        <akn:preface GUID="9d565cdb-ab38-45ff-9ebb-035cce442ab7" eId="einleitung-1">
+            <akn:longTitle GUID="848e43e7-d18d-422e-b08b-b13cf1f85689" eId="einleitung-1_doktitel-1">
+                <akn:p GUID="901d864f-9089-4eea-bd33-a262d2b8d7d0" eId="einleitung-1_doktitel-1_text-1">
+                    <akn:docStage GUID="65640813-03da-4dd7-a5b9-fe9fea498528" eId="einleitung-1_doktitel-1_text-1_docstadium-1">Referentenentwurf</akn:docStage>
+                    <akn:docProponent GUID="111bb155-3d3e-4a46-9baf-7a53c531f198" eId="einleitung-1_doktitel-1_text-1_docproponent-1"> des Bundesministeriums für Wirtschaft und Energie</akn:docProponent>
+                    <akn:docTitle GUID="d9f70a50-28e8-402a-9cf8-072a8c427bc6" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Entwurf eines Gesetzes über die Akkreditierungsstelle</akn:docTitle>
+                    <akn:shortTitle GUID="78188095-98c0-486b-a540-3a6964a7cd66" eId="einleitung-1_doktitel-1_text-1_kurztitel-1">(Akkreditierungsstellengesetz -
 
 
-                        <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
-                                    GUID="1a4505ca-85cd-463c-8438-dae65f585c7a"
-                                    refersTo="amtliche-abkuerzung"
-                                    name="attributsemantik-noch-undefiniert">AkkStelleG</akn:inline>)</akn:shortTitle>
+                        <akn:inline GUID="a06ed76b-783d-4c23-846e-e60b56d79ccf" eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1" name="attributsemantik-noch-undefiniert" refersTo="amtliche-abkuerzung">AkkStelleG</akn:inline>)</akn:shortTitle>
                 </akn:p>
             </akn:longTitle>
-            <akn:block eId="einleitung-1_block-1"
-                       GUID="50b373c9-d7a9-4ea1-a6c9-bee1fa5617c6"
-                       name="attributsemantik-noch-undefiniert">
-                <akn:date eId="einleitung-1_block-1_datum-1"
-                          GUID="34a9b790-c90f-4177-8023-425062e13f07"
-                          refersTo="ausfertigung-datum"
-                          date="0001-01-01">Vom ... </akn:date>
+            <akn:block GUID="3eab03a4-2c4f-4036-be2e-4876db573b3b" eId="einleitung-1_block-1" name="attributsemantik-noch-undefiniert">
+                <akn:date GUID="fb1463d6-7532-4102-bee1-99264bcf10dc" date="0001-01-01" eId="einleitung-1_block-1_datum-1" refersTo="ausfertigung-datum">Vom ... </akn:date>
             </akn:block>
         </akn:preface>
         <!-- Eingangsformel + Inhaltsübersicht -->
-        <akn:preamble eId="preambel-1" GUID="b5c8dcb3-e9d8-41bf-b2f3-242f25bd3774">
+        <akn:preamble GUID="715738c5-35a4-48ca-bdb2-89d423e31cce" eId="preambel-1">
             <!-- Eingangsformel -->
-            <akn:formula eId="preambel-1_formel-1"
-                         GUID="febd42cb-a76b-43f1-ba1d-0233f7625faf"
-                         refersTo="eingangsformel"
-                         name="attributsemantik-noch-undefiniert">
-                <akn:p eId="preambel-1_formel-1_text-1"
-                       GUID="26677f9e-47bd-4011-8304-5b9d92d50721">Der Bundestag hat das folgende Gesetz beschlossen:</akn:p>
+            <akn:formula GUID="3c9a60bb-66ab-4d9a-a84d-09d9001a73fc" eId="preambel-1_formel-1" name="attributsemantik-noch-undefiniert" refersTo="eingangsformel">
+                <akn:p GUID="c47e333b-a875-415b-86b6-299d74ce9099" eId="preambel-1_formel-1_text-1">Der Bundestag hat das folgende Gesetz beschlossen:</akn:p>
             </akn:formula>
             <!-- Inhaltsübersicht -->
-            <akn:blockContainer eId="preambel-1_blockcontainer-1"
-                                GUID="62cdf45f-36f6-4861-8bb1-b68e6b9fcc89"
-                                refersTo="inhaltsuebersicht">
-                <akn:heading eId="preambel-1_blockcontainer-1_überschrift-1"
-                             GUID="9b8cdae7-3f13-4d4b-9150-6a731f97b871">Inhaltsübersicht</akn:heading>
+            <akn:blockContainer GUID="9bca7301-4678-403f-8c4b-d3d36d9ae09d" eId="preambel-1_blockcontainer-1" refersTo="inhaltsuebersicht">
+                <akn:heading GUID="a599ad68-598a-4363-9d45-8d219605bb71" eId="preambel-1_blockcontainer-1_überschrift-1">Inhaltsübersicht</akn:heading>
                 <!-- BEISPIELHAFTE BEFÜLLUNG DER INHALTSÜBERSICHT -->
-                <akn:toc eId="preambel-1_blockcontainer-1_inhuebs-1"
-                         GUID="74013ff6-213d-4ee8-b335-fce6d16a61b1">
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1"
-                                 GUID="8f0f51a7-6b36-4ba4-834a-451718769ebf"
-                                 href=""
-                                 level="1">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1_span-1"
-                                  GUID="0e212d58-87c5-4b7d-a4c7-bd795467bea2">Abschnitt
+                <akn:toc GUID="a950c846-9aa4-4acf-855f-523118dae1c2" eId="preambel-1_blockcontainer-1_inhuebs-1">
+                    <akn:tocItem GUID="c8aea8a6-9446-4d54-9ddb-8a4af4dfa98a" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1" href="" level="1">
+                        <akn:span GUID="ed2d9f72-ec75-4773-9f1c-f6d51da4f580" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1_span-1">Abschnitt
                             1</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1_span-2"
-                                  GUID="299e0337-5e63-4bba-9ef6-1eaa28705b85">Allgemeines</akn:span>
+                        <akn:span GUID="3961e324-8273-486e-91c5-736e0d01cf34" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1_span-2">Allgemeines</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2"
-                                 GUID="0842aa41-1cb7-4651-b398-acdaac292d6b"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2_span-1"
-                                  GUID="92ef0fcc-3902-4577-b304-0358e370d7b7">§
+                    <akn:tocItem GUID="f007d4e7-6dbb-4125-a41a-838e53175f2c" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2" href="" level="2">
+                        <akn:span GUID="f1cfde57-6e59-4bd3-88a2-ed3cfe470880" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2_span-1">§
                             1</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2_span-2"
-                                  GUID="43145128-f68c-4af0-b5a8-9f5804a683ef">Akkreditierung</akn:span>
+                        <akn:span GUID="79ddb37a-7ff5-4225-8499-65d2e28bab5e" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2_span-2">Akkreditierung</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3"
-                                 GUID="e565c5c6-d9c5-4f1a-864e-b26bfc10debf"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3_span-1"
-                                  GUID="3ba4da46-6bcf-4a9e-a130-36b97f041465">§
+                    <akn:tocItem GUID="c4328b06-7b7f-431e-b65e-e9840727b1b0" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3" href="" level="2">
+                        <akn:span GUID="58c11eaa-dd9d-4b06-a95b-849d945a1636" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3_span-1">§
                             2</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3_span-2"
-                                  GUID="4d0016b7-7f61-4e91-95ef-1cc00a8c1588">Aufgaben der Akkreditierungstelle</akn:span>
+                        <akn:span GUID="fe16fb02-32a7-4a71-a27b-f42956a2a820" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3_span-2">Aufgaben der Akkreditierungstelle</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4"
-                                 GUID="e02c08ca-2225-4bba-9aeb-5e4d4fa07162"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4_span-1"
-                                  GUID="9d752e02-29df-4005-afe7-0b9418f9de15">§
+                    <akn:tocItem GUID="477810d9-0cf6-427a-93df-2ff021d25631" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4" href="" level="2">
+                        <akn:span GUID="d5524d2b-30d3-435c-8814-8e8ccb5e8b55" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4_span-1">§
                             3</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4_span-2"
-                                  GUID="5a0225ab-b282-4581-b25b-edd45a153be2">Befugnisse der Akkreditierungstelle</akn:span>
+                        <akn:span GUID="531ea075-5350-403d-9094-44c25cd09c46" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4_span-2">Befugnisse der Akkreditierungstelle</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5"
-                                 GUID="c8fe0354-79d0-458d-a7ae-a5a6f01e682b"
-                                 href=""
-                                 level="1">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5_span-1"
-                                  GUID="b976734d-0174-4ef7-944e-a4ece843ed53">Abschnitt
+                    <akn:tocItem GUID="dd1b1c38-6623-4f7d-af62-e48a54318698" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5" href="" level="1">
+                        <akn:span GUID="40c7aa4a-e8d7-4d36-90a5-0372d0bdb667" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5_span-1">Abschnitt
                             2</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5_span-2"
-                                  GUID="d7767f6c-005e-4fe5-b415-0dc6e73d2a9d">Besonderes</akn:span>
+                        <akn:span GUID="c6510baa-4148-488d-98b3-8cd0854e134a" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5_span-2">Besonderes</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6"
-                                 GUID="03bd63c2-4a3c-4c54-8963-a4d02d2ee08f"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6_span-1"
-                                  GUID="841d6b34-13de-46ec-b02b-d67da05dde13">§
+                    <akn:tocItem GUID="96415e09-2851-445f-9aab-ae480e9bcbb2" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6" href="" level="2">
+                        <akn:span GUID="78ca39a0-2068-4fb9-86a5-098c6b020eaf" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6_span-1">§
                             4</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6_span-2"
-                                  GUID="dcd8302b-d0ea-4219-8034-58c5af13f964">Akkreditierungsbeirat</akn:span>
+                        <akn:span GUID="ccd198e6-1040-4465-97e1-0f153938dbca" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6_span-2">Akkreditierungsbeirat</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7"
-                                 GUID="5ca8f63b-73f7-4a4c-935c-4ba91015df68"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7_span-1"
-                                  GUID="c37c09f7-5f74-4c55-a193-bf649235b53a">§
+                    <akn:tocItem GUID="c465f197-12ac-4e7d-906b-8608a65db4d7" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7" href="" level="2">
+                        <akn:span GUID="962869c2-b09f-4123-aa40-27595e85296a" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7_span-1">§
                             5</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7_span-2"
-                                  GUID="d7d25a90-05e6-4f4d-8845-66cd9b450adf">Akkreditierungssymbol</akn:span>
+                        <akn:span GUID="967e58f6-7942-4a2d-9f5f-ce72a3418224" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7_span-2">Akkreditierungssymbol</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-8"
-                                 GUID="ac5d55b3-2b8d-459e-8554-cf5080db0084"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-8_span-1"
-                                  GUID="5d278b0b-0816-4a44-aeea-1a7fed188708">§
+                    <akn:tocItem GUID="e68df55f-626b-499f-86d8-3e4130c86b6f" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-8" href="" level="2">
+                        <akn:span GUID="01371788-690d-4378-89b3-7ff38778351d" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-8_span-1">§
                             6</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-8_span-2"
-                                  GUID="7cf4de63-f734-4188-aca1-94f2c3f14c77">Gebühren und Auslagen</akn:span>
+                        <akn:span GUID="79144ab1-2ee8-499b-89fb-40cb5651360d" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-8_span-2">Gebühren und Auslagen</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-9"
-                                 GUID="2d3edd36-bc45-44b1-af67-6a08ad81bb18"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-9_span-1"
-                                  GUID="d763c99c-f04c-4ad9-a7a1-9e6f397a7b21">§
+                    <akn:tocItem GUID="ec66211b-c496-4960-9a76-631def38db27" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-9" href="" level="2">
+                        <akn:span GUID="a7b9a76f-bd1a-4099-b4e6-c7415b120041" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-9_span-1">§
                             7</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-9_span-2"
-                                  GUID="82bde5a8-2b0f-48d8-a66b-529e4cb6f608">Beleihung oder Errichtung</akn:span>
+                        <akn:span GUID="fbdb5712-b125-41a0-ac4b-b85d56ae1a0e" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-9_span-2">Beleihung oder Errichtung</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-10"
-                                 GUID="a3be9f97-59b7-4375-9822-85f876b7f9a8"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-10_span-1"
-                                  GUID="09b44394-bed9-4524-9e27-5d695720729a">§
+                    <akn:tocItem GUID="35febe47-42c7-4c72-baa7-26d26b46250d" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-10" href="" level="2">
+                        <akn:span GUID="26d9d9fa-657f-47fe-80f5-99deab8cb8d4" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-10_span-1">§
                             8</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-10_span-2"
-                                  GUID="8f320883-5ce1-45a1-b881-133c803359c6">Vorasusetzung und Druchführung der Beleihung</akn:span>
+                        <akn:span GUID="1639fb05-1a96-436d-a0dd-e33a7b812b30" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-10_span-2">Vorasusetzung und Druchführung der Beleihung</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-11"
-                                 GUID="f76ead32-03cd-45df-a46e-27eb1182962e"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-11_span-1"
-                                  GUID="34f53592-0524-43f9-87cd-4a7ab977f028">§
+                    <akn:tocItem GUID="c318ce40-1120-44d4-b664-521d1afc3123" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-11" href="" level="2">
+                        <akn:span GUID="b5f8ce17-3162-41e2-8216-80d2a7284076" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-11_span-1">§
                             9</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-11_span-2"
-                                  GUID="f5b0327c-d29a-405c-b4d2-7b2c6e3ecb94">Aufsicht über die Geschäftsleitung</akn:span>
+                        <akn:span GUID="6b13e8f3-8a16-423d-9bf9-86c445e1b470" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-11_span-2">Aufsicht über die Geschäftsleitung</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-12"
-                                 GUID="7bebcf1c-a684-4d54-9693-f5d86f3638dd"
-                                 href=""
-                                 level="1">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-12_span-1"
-                                  GUID="e8b71810-0e13-4d65-a84f-9d6acdc34681">Abschnitt
+                    <akn:tocItem GUID="8f08bfdc-4438-4a08-96ab-bbcf3a84ab24" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-12" href="" level="1">
+                        <akn:span GUID="3b63600e-4398-47e2-8dd8-a0a34bb555d1" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-12_span-1">Abschnitt
                             3</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-12_span-2"
-                                  GUID="e691e362-3053-4e33-9dd5-351edb74615a">Sonstiges</akn:span>
+                        <akn:span GUID="2d4b760d-274a-4c5b-a0bc-3b71c77aa2e3" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-12_span-2">Sonstiges</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-13"
-                                 GUID="0fd80085-646f-4cb0-a6b8-ce648518e03c"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-13_span-1"
-                                  GUID="c28e4a06-be18-4f85-95cc-b37f37cf9759">§
+                    <akn:tocItem GUID="3c73a2d7-09db-4cb8-8e2b-e1ae3f7e329d" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-13" href="" level="2">
+                        <akn:span GUID="56365ac5-7a97-4dc1-9ba2-088f9b3e5d6b" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-13_span-1">§
                             10</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-13_span-2"
-                                  GUID="c87baac9-8749-4931-9120-e2649dc2220a">Bußgeldvorschriften</akn:span>
+                        <akn:span GUID="8a05435f-dfc4-4dff-8648-d7c6a7f9b2f6" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-13_span-2">Bußgeldvorschriften</akn:span>
                     </akn:tocItem>
-                    <akn:tocItem eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-14"
-                                 GUID="1de0159c-af8a-452f-9fbe-0035d0e8df54"
-                                 href=""
-                                 level="2">
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-14_span-1"
-                                  GUID="44152713-3171-48a1-b838-94b1a30c2d1d">§
+                    <akn:tocItem GUID="4342e85b-f448-43df-88cb-757897cd4191" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-14" href="" level="2">
+                        <akn:span GUID="93ed4267-1606-4e2b-b432-76a0069e350c" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-14_span-1">§
                             11</akn:span>
-                        <akn:span eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-14_span-2"
-                                  GUID="8d88f37e-7459-49ef-b588-b51e757a60f3">Inkrafttreten</akn:span>
+                        <akn:span GUID="83167773-777c-4dce-b349-14f1ad9a3bb1" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-14_span-2">Inkrafttreten</akn:span>
                     </akn:tocItem>
                 </akn:toc>
             </akn:blockContainer>
         </akn:preamble>
-        <akn:body eId="hauptteil-1" GUID="eb0184e6-aaa5-4e05-a9fa-8b946be4fb02">
+        <akn:body GUID="15e941e9-4e64-4f78-b73d-5b6ddd2d1e9b" eId="hauptteil-1">
             <!-- Abschnitt 1 -->
-            <akn:section eId="hauptteil-1_abschnitt-1"
-                         GUID="f1474e45-57fe-4ba4-983e-efef589d31f3">
-                <akn:num eId="hauptteil-1_abschnitt-1_bezeichnung-1"
-                         GUID="28b0d5bc-1bb2-4c2f-8766-ba8df3d05441">
+            <akn:section GUID="9b5cc065-b8fc-4021-8631-e28ab7e4fb62" eId="hauptteil-1_abschnitt-1">
+                <akn:num GUID="a6f10540-b253-4acf-9f02-25f2541c0086" eId="hauptteil-1_abschnitt-1_bezeichnung-1">
                     Abschnitt 1</akn:num>
-                <akn:heading eId="hauptteil-1_abschnitt-1_überschrift-1"
-                             GUID="d241c159-828c-4b06-8aa2-90b14ade12cb">Allgemeines</akn:heading>
+                <akn:heading GUID="20126791-fb9f-4149-a4aa-95f1a0a00d04" eId="hauptteil-1_abschnitt-1_überschrift-1">Allgemeines</akn:heading>
                 <!-- § 1 -->
-                <akn:article eId="hauptteil-1_abschnitt-1_para-1"
-                             GUID="c670f2fb-7113-45fe-8513-e560296e1b15"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-1_para-1_bezeichnung-1"
-                             GUID="f5a91009-03d7-4ae6-9e48-5150269d585f">
+                <akn:article GUID="a9a5359a-5aa5-4798-abf3-bf0d6493d340" eId="hauptteil-1_abschnitt-1_para-1" period="#geltungszeitgr-1">
+                    <akn:num GUID="1f9187ba-3df1-4bc8-834d-cc84e901dfdf" eId="hauptteil-1_abschnitt-1_para-1_bezeichnung-1">
                         § 1</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-1_para-1_überschrift-1"
-                                 GUID="9da6654d-15d3-461a-a0c4-a59e17165df8">Akkreditierung</akn:heading>
+                    <akn:heading GUID="ac4124b8-6da7-4b76-a44b-d28a2c86bcaf" eId="hauptteil-1_abschnitt-1_para-1_überschrift-1">Akkreditierung</akn:heading>
                     <!-- Absatz 1 -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-1_para-1_abs-1"
-                                   GUID="30edc099-b51c-4fbc-a75e-18c61caea98e">
-                        <akn:num eId="hauptteil-1_abschnitt-1_para-1_abs-1_bezeichnung-1"
-                                 GUID="d77428b5-b23b-435d-82dc-34f25f36d383">
+                    <akn:paragraph GUID="86ae34f7-072d-4eb7-a032-a565d4c26b1d" eId="hauptteil-1_abschnitt-1_para-1_abs-1">
+                        <akn:num GUID="cc95f88d-d9db-4e40-8a14-e36a0846322c" eId="hauptteil-1_abschnitt-1_para-1_abs-1_bezeichnung-1">
                             (1)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-1_para-1_abs-1_inhalt-1"
-                                     GUID="f1d9b923-c770-4e60-8e46-ac4be78d48b8">
-                            <akn:p eId="hauptteil-1_abschnitt-1_para-1_abs-1_inhalt-1_text-1"
-                                   GUID="f8a50ae4-ef2d-4bb8-95b0-4fb31fc3b290"> Die Akkreditierung wird als hoheitliche Aufgabe des
+                        <akn:content GUID="c354c255-3304-4817-bed6-46c01573fa33" eId="hauptteil-1_abschnitt-1_para-1_abs-1_inhalt-1">
+                            <akn:p GUID="cc8c1d70-38bd-4eca-a237-4e249555f334" eId="hauptteil-1_abschnitt-1_para-1_abs-1_inhalt-1_text-1"> Die Akkreditierung wird als hoheitliche Aufgabe des
                                 Bundes durch die Akkreditierungsstelle durchgeführt. Diese ist nationale Akkreditierungsstelle
                                 im Sinne der Verordnung (EG) Nr. 765/2008
                                 des Europäischen Parlaments und des Rates vom 9. Juli 2008 über die Anforderungen
@@ -366,15 +173,11 @@
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-1_para-1_abs-2"
-                                   GUID="f52c5b49-d7ba-4951-b743-3012ee1d2a38">
-                        <akn:num eId="hauptteil-1_abschnitt-1_para-1_abs-2_bezeichnung-1"
-                                 GUID="461223f4-c37a-4d7a-8ba7-4b7ce11f45e6">
+                    <akn:paragraph GUID="759e3a2a-92e9-49cc-9575-14a86f38a1c9" eId="hauptteil-1_abschnitt-1_para-1_abs-2">
+                        <akn:num GUID="1aaf9066-37ac-4d3d-8e1b-0604d3eacd46" eId="hauptteil-1_abschnitt-1_para-1_abs-2_bezeichnung-1">
                             (2)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-1_para-1_abs-2_inhalt-1"
-                                     GUID="f4504fbe-81ff-488e-81d0-d5e602b1436f">
-                            <akn:p eId="hauptteil-1_abschnitt-1_para-1_abs-2_inhalt-1_text-1"
-                                   GUID="c60e0003-ab09-447d-8915-d06aa648f5a4"> Die in anderen Rechtsvorschriften geregelte
+                        <akn:content GUID="e2c6aac8-1cad-45c2-9645-9ce4edb3cab3" eId="hauptteil-1_abschnitt-1_para-1_abs-2_inhalt-1">
+                            <akn:p GUID="c12ec1b2-8130-469a-a8c5-0af62121b0f9" eId="hauptteil-1_abschnitt-1_para-1_abs-2_inhalt-1_text-1"> Die in anderen Rechtsvorschriften geregelte
                                 Zuständigkeit von Behörden, Stellen die Befugnis zu erteilen, als Konformitätsbewertungsstelle
                                 tätig zu werden, bleibt unberührt.
                                 Insbesondere gilt dies für die Bereiche Medizinprodukte, Gendiagnostika, Sicherheitstechnik
@@ -384,53 +187,37 @@
                     </akn:paragraph>
                 </akn:article>
                 <!-- § 2 -->
-                <akn:article eId="hauptteil-1_abschnitt-1_para-2"
-                             GUID="70717761-4b66-4abd-b043-0835fb88813b"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-1_para-2_bezeichnung-1"
-                             GUID="51fb4f93-58ae-4169-ba9f-f2353ed99eae">
+                <akn:article GUID="dd77f6c1-3879-4c6c-93a9-7793c924a29e" eId="hauptteil-1_abschnitt-1_para-2" period="#geltungszeitgr-1">
+                    <akn:num GUID="27d8ed69-5580-4419-be5c-454c22d47d4f" eId="hauptteil-1_abschnitt-1_para-2_bezeichnung-1">
                         § 2</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-1_para-2_überschrift-1"
-                                 GUID="b6b88f32-ec07-4976-b7c3-b9174062ba39">Aufgaben der Akkreditierungsstelle</akn:heading>
+                    <akn:heading GUID="91395538-b0d9-4b81-a39a-fc46e996bde0" eId="hauptteil-1_abschnitt-1_para-2_überschrift-1">Aufgaben der Akkreditierungsstelle</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-1_para-2_abs-1"
-                                   GUID="df05572c-8a37-4a0b-9a75-9ec56264fe6f">
-                        <akn:num eId="hauptteil-1_abschnitt-1_para-2_abs-1_bezeichnung-1"
-                                 GUID="35dfe54b-31a5-45c2-94dc-c3d817954cb8">
+                    <akn:paragraph GUID="0a2aaefe-1e24-4fe4-a40b-439f0189972a" eId="hauptteil-1_abschnitt-1_para-2_abs-1">
+                        <akn:num GUID="e378252c-a170-4ded-9d8f-a7b4cd0bd285" eId="hauptteil-1_abschnitt-1_para-2_abs-1_bezeichnung-1">
                             (1)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-1_para-2_abs-1_inhalt-1"
-                                     GUID="ea035f9d-d2da-4b0f-ad6e-3756c8850fc7">
-                            <akn:p eId="hauptteil-1_abschnitt-1_para-2_abs-1_inhalt-1_text-1"
-                                   GUID="219057c0-a39a-488c-ad7f-bd16d644ebf6"> Die Akkreditierungsstelle führt auf schriftlichen
+                        <akn:content GUID="4ad6e7d1-09aa-487b-a37c-7ae60ed4cb85" eId="hauptteil-1_abschnitt-1_para-2_abs-1_inhalt-1">
+                            <akn:p GUID="c66c25b1-8531-47b2-a322-e0134f45b5bd" eId="hauptteil-1_abschnitt-1_para-2_abs-1_inhalt-1_text-1"> Die Akkreditierungsstelle führt auf schriftlichen
                                 Antrag einer Konformitätsbewertungsstelle Akkreditierungsverfahren gemäß Artikel 5
                                 der Verordnung (EG) Nr. 765/2008 durch. Sie wendet
                                 bei der Akkreditierung die nach § 5 Absatz 3 bekannt gemachten Regeln an. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-1_para-2_abs-2"
-                                   GUID="9f9c58bc-599d-46c2-adc9-c07d2447d16f">
-                        <akn:num eId="hauptteil-1_abschnitt-1_para-2_abs-2_bezeichnung-1"
-                                 GUID="b65e73e4-5907-4d5b-96d7-023c9ec5c17d">
+                    <akn:paragraph GUID="c0fceecf-213f-49f3-a0ee-31424b2477ad" eId="hauptteil-1_abschnitt-1_para-2_abs-2">
+                        <akn:num GUID="7538b71c-b706-4b34-b94b-4db4d6ffb85a" eId="hauptteil-1_abschnitt-1_para-2_abs-2_bezeichnung-1">
                             (2)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-1_para-2_abs-2_inhalt-1"
-                                     GUID="34f1eb8b-f0d3-4f21-9390-7f1d9f85979c">
-                            <akn:p eId="hauptteil-1_abschnitt-1_para-2_abs-2_inhalt-1_text-1"
-                                   GUID="69d27603-079c-4491-a5be-125382bb4545"> Die Akkreditierungsstelle führt ein Verzeichnis der
+                        <akn:content GUID="3b08b8b0-507c-4c28-8a27-a149a62b2c62" eId="hauptteil-1_abschnitt-1_para-2_abs-2_inhalt-1">
+                            <akn:p GUID="bcb87eac-7f3c-4249-81bd-9fabcc6d252f" eId="hauptteil-1_abschnitt-1_para-2_abs-2_inhalt-1_text-1"> Die Akkreditierungsstelle führt ein Verzeichnis der
                                 akkreditierten Konformitätsbewertungsstellen mit Angabe des fachlichen Umfangs und
                                 hält es auf dem neuesten Stand. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (3) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-1_para-2_abs-3"
-                                   GUID="577dee2e-f7f9-4fbe-a06a-3ac562e61691">
-                        <akn:num eId="hauptteil-1_abschnitt-1_para-2_abs-3_bezeichnung-1"
-                                 GUID="2a14e238-007e-4c97-aa48-e749df0bb291">
+                    <akn:paragraph GUID="5685524e-3242-4fbb-81a4-5cde765436cb" eId="hauptteil-1_abschnitt-1_para-2_abs-3">
+                        <akn:num GUID="a232fb2a-746d-4a76-8e94-ae9f794f001a" eId="hauptteil-1_abschnitt-1_para-2_abs-3_bezeichnung-1">
                             (3)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-1_para-2_abs-3_inhalt-1"
-                                     GUID="4d3a0101-d331-474f-89df-b09c524626f1">
-                            <akn:p eId="hauptteil-1_abschnitt-1_para-2_abs-3_inhalt-1_text-1"
-                                   GUID="1dc53ed0-6066-41e4-b23c-d5c5c4eff6b7"> Die Akkreditierungsstelle soll bei
+                        <akn:content GUID="916c5b4c-3aa6-4140-841f-e6c6db323c87" eId="hauptteil-1_abschnitt-1_para-2_abs-3_inhalt-1">
+                            <akn:p GUID="47fed053-0dd1-49cc-a975-185cc384de95" eId="hauptteil-1_abschnitt-1_para-2_abs-3_inhalt-1_text-1"> Die Akkreditierungsstelle soll bei
                                 Begutachtungstätigkeiten das bei anderen Behörden vorhandene Fachwissen heranziehen.
                                 Die Akkreditierungsstelle lässt Begutachtungen für
                                 die in § 1 Absatz 2 Satz 2 genannten Bereiche von den die Befugnis erteilenden Behörden
@@ -442,24 +229,16 @@
                     </akn:paragraph>
                 </akn:article>
                 <!-- § 3 -->
-                <akn:article eId="hauptteil-1_abschnitt-1_para-3"
-                             GUID="661637cf-2e16-457b-bdf1-05379ab8a666"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-1_para-3_bezeichnung-1"
-                             GUID="d2c452d2-7a51-4293-9f40-4678ab059081">
+                <akn:article GUID="a4415d8c-4290-4079-a656-646f369e104e" eId="hauptteil-1_abschnitt-1_para-3" period="#geltungszeitgr-1">
+                    <akn:num GUID="a042d901-6f1a-4cca-986c-345547508bac" eId="hauptteil-1_abschnitt-1_para-3_bezeichnung-1">
                         § 3</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-1_para-3_überschrift-1"
-                                 GUID="3f51f932-84dd-474b-8c39-cddb58ec7ff0">Befugnisse der Akkreditierungsstelle</akn:heading>
+                    <akn:heading GUID="e01cb70c-f2db-42b7-8b2c-f2ce485376e4" eId="hauptteil-1_abschnitt-1_para-3_überschrift-1">Befugnisse der Akkreditierungsstelle</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-1_para-3_abs-1"
-                                   GUID="5ffce559-5028-4063-9b1b-8e53dad4f7a5">
-                        <akn:num eId="hauptteil-1_abschnitt-1_para-3_abs-1_bezeichnung-1"
-                                 GUID="2e909b96-147f-4cad-b064-4ffa2d54d094">
+                    <akn:paragraph GUID="abac13d6-5b2c-4b53-a19f-6727db3841af" eId="hauptteil-1_abschnitt-1_para-3_abs-1">
+                        <akn:num GUID="ff766ed0-6166-4fd2-9315-e0f66683602b" eId="hauptteil-1_abschnitt-1_para-3_abs-1_bezeichnung-1">
                             <!-- ohne Nummierung! --></akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-1_para-3_abs-1_inhalt-1"
-                                     GUID="169b0bc3-84b2-4438-9d6b-70d7eccf8d3a">
-                            <akn:p eId="hauptteil-1_abschnitt-1_para-3_abs-1_inhalt-1_text-1"
-                                   GUID="9161474b-1f35-4abe-8ee2-5a5b126a61cf"> Die Akkreditierungsstelle kann von der
+                        <akn:content GUID="f384b5d7-a1e5-499f-8a34-05a0e82f4012" eId="hauptteil-1_abschnitt-1_para-3_abs-1_inhalt-1">
+                            <akn:p GUID="f8df44fa-740b-4a4f-a8c0-033ffeda1fab" eId="hauptteil-1_abschnitt-1_para-3_abs-1_inhalt-1_text-1"> Die Akkreditierungsstelle kann von der
                                 Konformitätsbewertungsstelle und ihrem mit der Leitung und der Durchführung von Fachaufgaben
                                 beauftragten Personal die zur Feststellung
                                 und Überwachung der fachlichen Kompetenz und der Eignung einer Konformitätsbewertungsstelle
@@ -481,146 +260,101 @@
                 </akn:article>
             </akn:section>
             <!-- Abschnitt 2 -->
-            <akn:section eId="hauptteil-1_abschnitt-2"
-                         GUID="78b81be5-23c8-4046-a0f4-cb326b34732e">
-                <akn:num eId="hauptteil-1_abschnitt-2_bezeichnung-1"
-                         GUID="19be44e8-566c-4635-b295-508a81c8704b">
+            <akn:section GUID="591f51c7-9514-4833-87ae-1e9d79937658" eId="hauptteil-1_abschnitt-2">
+                <akn:num GUID="62ed4403-daec-4180-81ad-af9763ee4f57" eId="hauptteil-1_abschnitt-2_bezeichnung-1">
                     Abschnitt 2</akn:num>
-                <akn:heading eId="hauptteil-1_abschnitt-2_überschrift-1"
-                             GUID="9e2a99bc-86c4-46c9-95ba-b847afe1401d">Besonderes</akn:heading>
+                <akn:heading GUID="602a07e7-c1e1-4201-9c93-cfbae29f75a5" eId="hauptteil-1_abschnitt-2_überschrift-1">Besonderes</akn:heading>
                 <!-- § 4 -->
-                <akn:article eId="hauptteil-1_abschnitt-2_para-1"
-                             GUID="86a3f290-f280-44cd-b2fa-ef1358ad463d"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-2_para-1_bezeichnung-1"
-                             GUID="374ef58a-52a9-4746-aef1-4c5da8eb3f2e">
+                <akn:article GUID="0d5209f9-a2b2-4229-abf5-4e90e308782b" eId="hauptteil-1_abschnitt-2_para-1" period="#geltungszeitgr-1">
+                    <akn:num GUID="a2215e88-e609-4b64-a8a6-2d8a4335e35c" eId="hauptteil-1_abschnitt-2_para-1_bezeichnung-1">
                         § 4</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-2_para-1_überschrift-1"
-                                 GUID="ecb5d6fb-a769-4464-999a-cb02764f8199">Akkreditierungsbeirat</akn:heading>
+                    <akn:heading GUID="20491c69-82b6-436d-b60d-c3aa5dd96425" eId="hauptteil-1_abschnitt-2_para-1_überschrift-1">Akkreditierungsbeirat</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-1_abs-1"
-                                   GUID="3cea2287-f384-4a3b-ac28-3f0a0994b7ed">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-1_bezeichnung-1"
-                                 GUID="d28987d8-c0b9-439f-aa7c-e26e476b0e3e">
+                    <akn:paragraph GUID="bd11cb31-46b0-4b3f-8c87-b0820d2f29af" eId="hauptteil-1_abschnitt-2_para-1_abs-1">
+                        <akn:num GUID="e304ca09-a08c-4665-8e94-4b56a0bebcd6" eId="hauptteil-1_abschnitt-2_para-1_abs-1_bezeichnung-1">
                             (1)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-1_inhalt-1"
-                                     GUID="15dfe6c8-377e-4a47-a3c4-45015ab38566">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-1_inhalt-1_text-1"
-                                   GUID="5574d7d2-cd34-49ff-9ce2-0011f16445aa"> Beim Bundesministerium für Wirtschaft und
+                        <akn:content GUID="2051a0f8-8b53-4fc1-869d-067edd5378b5" eId="hauptteil-1_abschnitt-2_para-1_abs-1_inhalt-1">
+                            <akn:p GUID="c56ed8bc-4ea2-439f-aba1-57e05e993066" eId="hauptteil-1_abschnitt-2_para-1_abs-1_inhalt-1_text-1"> Beim Bundesministerium für Wirtschaft und
                                 Technologie wird ein Akkreditierungsbeirat eingerichtet. Er berät und unterstützt
                                 die Bundesregierung und die Akkreditierungsstelle in
                                 Fragen der Akkreditierung. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-1_abs-2"
-                                   GUID="9508491b-51df-4bcd-842a-7f94bfc993cc">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_bezeichnung-1"
-                                 GUID="d39b4bbb-6444-4118-8bd1-3f1bf0fd74b1">
+                    <akn:paragraph GUID="76927be1-b8d9-42e5-bcd4-aec24ff3755b" eId="hauptteil-1_abschnitt-2_para-1_abs-2">
+                        <akn:num GUID="7393ae0b-19a8-409f-a475-ea898cd148b6" eId="hauptteil-1_abschnitt-2_para-1_abs-2_bezeichnung-1">
                             (2)</akn:num>
                         <!-- Satz 1 -->
-                        <akn:list eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1"
-                                  GUID="52379797-65ef-4c34-8da0-0cef4ff1aa38">
-                            <akn:intro eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_intro-1"
-                                       GUID="2726affb-6283-4909-be75-c7fdeeb4f36a">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_intro-1_text-1"
-                                       GUID="c0a8b3e3-d4f8-4679-92da-818410279333">Der Akkredierungsbeirat hat insbesondere
+                        <akn:list GUID="2e329fa5-67ee-473c-9d07-6c127f2653c8" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1">
+                            <akn:intro GUID="f05400ae-68da-4e43-98eb-b539d4c538e6" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_intro-1">
+                                <akn:p GUID="bf537839-cddb-4204-99ed-b6f2e3cdc836" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_intro-1_text-1">Der Akkredierungsbeirat hat insbesondere
                                     die Aufgaben,</akn:p>
                             </akn:intro>
                             <!-- Teilsatz 1) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1"
-                                       GUID="761f693f-1887-4f92-bc89-fb711a78746c">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_bezeichnung-1"
-                                         GUID="c0f712c9-043f-49ba-8228-fbd98a2a11b1">
+                            <akn:point GUID="d2330280-8ce0-4124-a676-e9d7fc6effaf" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1">
+                                <akn:num GUID="ee41ff3d-6dc8-4cbb-a90c-d560fa19cf36" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_bezeichnung-1">
                                     1.</akn:num>
-                                <akn:list eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1"
-                                          GUID="356474c0-9aff-477b-8f7a-4e25c990dc41">
-                                    <akn:intro eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1"
-                                               GUID="9da95e32-00e7-48fc-ba50-eb7a7ecae782">
-                                        <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1_text-1"
-                                               GUID="83836148-1683-4e4e-99f6-3ea9e70f050d">allgemeine
+                                <akn:list GUID="7df87767-d371-4db6-b9a7-a21b93f3b864" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1">
+                                    <akn:intro GUID="710abb00-0fb5-4907-9834-95ad967d3bb6" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1">
+                                        <akn:p GUID="b4806eb6-98b4-47fa-beff-d0317598dcdf" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1_text-1">allgemeine
                                             oder sektorale Regeln</akn:p>
                                     </akn:intro>
                                     <!-- Teilsatz a) -->
-                                    <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1"
-                                               GUID="4b5966b3-c8ac-42a8-8f9b-300fc8c60119">
-                                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1"
-                                                 GUID="e5695556-c4e4-472a-969d-9aee0cb71f75">
+                                    <akn:point GUID="585a4e98-e7f4-442a-8b4a-7a7938f7f40a" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1">
+                                        <akn:num GUID="77d777cb-461c-4a23-b1eb-abb2448aa587" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1">
                                             a)</akn:num>
-                                        <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1"
-                                                     GUID="8c3cbb75-92ff-4c7a-8867-613bab5f8773">
-                                            <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1"
-                                                   GUID="0f38351a-3ae3-480d-84b4-39334a44783b"> zu ermitteln, welche die Anforderungen,
+                                        <akn:content GUID="88f1f5ea-7da2-4eed-81f8-3b1b0df9f497" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1">
+                                            <akn:p GUID="5af9d4b8-1b20-4211-a601-7e98a5933220" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1"> zu ermitteln, welche die Anforderungen,
                                             </akn:p>
                                         </akn:content>
                                     </akn:point>
                                     <!-- Teilsatz b) -->
-                                    <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2"
-                                               GUID="e087878c-bf5c-420c-8396-c8be45f7806e">
-                                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1"
-                                                 GUID="0fe933af-67e3-42d5-b7b6-7d1d08751dba">
+                                    <akn:point GUID="a7a64bd8-d9ad-4029-98f4-699f7d929a28" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2">
+                                        <akn:num GUID="922e3c33-d1bb-4bd5-8b4f-01a70552759d" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1">
                                             b)</akn:num>
-                                        <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1"
-                                                     GUID="b1bb6125-7796-4a4e-a1c4-a9f384440a9c">
-                                            <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                                                   GUID="1a812d24-50a1-48cc-a112-d26339ee247c"> insbesondere aus Rechtsvorschriften,
+                                        <akn:content GUID="51cd4c58-692a-4cb6-8367-25eb3086eecf" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1">
+                                            <akn:p GUID="b4747def-2688-4777-8076-9b9a91fb871c" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1"> insbesondere aus Rechtsvorschriften,
                                             </akn:p>
                                         </akn:content>
                                     </akn:point>
                                     <!-- Teilsatz c) -->
-                                    <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3"
-                                               GUID="3c8b611b-1b85-41b4-b912-adb87704ddc5">
-                                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3_bezeichnung-1"
-                                                 GUID="14b28225-2b15-4df1-bbc3-fd3476248376">
+                                    <akn:point GUID="1ad69249-d5c8-4cd0-ad07-32c100edf5d9" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3">
+                                        <akn:num GUID="22baf80a-6b54-40af-87a3-7f4413d396f8" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3_bezeichnung-1">
                                             c)</akn:num>
-                                        <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1"
-                                                     GUID="4eb8d582-dd0e-402c-9981-3f6b66c029ba">
-                                            <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1"
-                                                   GUID="b4d5418e-292e-4f18-8d98-517c3197b57b"> an Konformitätsbewertungsstellen
+                                        <akn:content GUID="c922aa34-a8df-42d7-8b46-8bb99a03b51e" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1">
+                                            <akn:p GUID="fc169cf3-9b7d-414a-9400-dc4da2025530" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1"> an Konformitätsbewertungsstellen
                                                 konkretisieren oder ergänzen, </akn:p>
                                         </akn:content>
                                     </akn:point>
                                 </akn:list>
                             </akn:point>
                             <!-- Teilsatz 2) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2"
-                                       GUID="5f790a55-aa72-401d-bdfd-bfaedf803a89">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2_bezeichnung-1"
-                                         GUID="b0782ba4-a4f4-486d-a8ef-80e53a1637ae">
+                            <akn:point GUID="9103984f-665a-4435-b524-6085c1a4aed3" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2">
+                                <akn:num GUID="116171d8-1e3b-41af-ad1c-1edcaff2820f" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2_bezeichnung-1">
                                     2.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2_inhalt-1"
-                                             GUID="34169cc8-2a28-4043-b4ae-77432dfb291c">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2_inhalt-1_text-1"
-                                           GUID="b3a1240b-a6c8-41b9-8ba2-424511e67de0">allgemeine oder
+                                <akn:content GUID="fe218fcc-c927-4cb0-8e4c-205503073180" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="54b2d4d3-030b-46a3-af37-c807eaf58850" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-2_inhalt-1_text-1">allgemeine oder
                                         sektorale Regeln zu ermitteln, welche die Anforderungen, insbesondere aus Rechtsvorschriften,
                                         für Akkreditierungstätigkeiten
                                         konkretisieren oder ergänzen, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 3) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3"
-                                       GUID="e76acfe6-ab5e-4073-839b-25351dda621a">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3_bezeichnung-1"
-                                         GUID="911cc626-7e32-4c30-9034-3bf5a5cffc23">
+                            <akn:point GUID="aff8643c-bc9a-4eee-b88b-54f838915063" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3">
+                                <akn:num GUID="491067c4-5234-48de-94c1-7c060dd404a9" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3_bezeichnung-1">
                                     3.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3_inhalt-1"
-                                             GUID="7f4849d2-db6b-4bac-b889-c467fea855e1">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3_inhalt-1_text-1"
-                                           GUID="105d842c-ec33-40db-b9ea-2337fdc44bb1"> die Nutzung der
+                                <akn:content GUID="dc7d6bee-79ef-4879-8c99-33b1571d3b96" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="f7021e2f-d68e-4f9d-b4c8-1b3675f3c588" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-3_inhalt-1_text-1"> die Nutzung der
                                         Akkreditierung als vertrauensbildendes Element der Konformitätsbewertung zu fördern,
                                     </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 4) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4"
-                                       GUID="591664c0-88f5-42b2-93ef-bb6f56a65f1f">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4_bezeichnung-1"
-                                         GUID="6f666e08-99a9-42fc-a041-b42ab0dc7647">
+                            <akn:point GUID="a1ebbfd5-ac73-46a1-8648-acaddba11130" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4">
+                                <akn:num GUID="7f96da95-53dc-4b72-9e2f-22e5f4b39cf3" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4_bezeichnung-1">
                                     4.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4_inhalt-1"
-                                             GUID="964e0978-7c2b-4db4-ad76-2cec27a177ae">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4_inhalt-1_text-1"
-                                           GUID="da26306f-9460-40fd-8e23-b757f326fb92"> die deutsche Vertretung
+                                <akn:content GUID="5d8496cd-767e-4a89-83b9-7c8e31fad459" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4_inhalt-1">
+                                    <akn:p GUID="1d7c7dd5-613f-4387-ae4e-6f10bc433381" eId="hauptteil-1_abschnitt-2_para-1_abs-2_untergl-1_listenelem-4_inhalt-1_text-1"> die deutsche Vertretung
                                         und Haltung für die Sitzungen der Europäischen Kooperation für Akkreditierung zu koordinieren.
                                     </akn:p>
                                 </akn:content>
@@ -628,105 +362,74 @@
                         </akn:list>
                     </akn:paragraph>
                     <!-- Absatz (3) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-1_abs-3"
-                                   GUID="9290819b-f60b-4318-a1af-5c6c4c9d6f8a">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-3_bezeichnung-1"
-                                 GUID="7e8889af-8d15-452f-bc54-550de420584b">
+                    <akn:paragraph GUID="566e712f-97c7-4b51-8d28-52395fc2dc92" eId="hauptteil-1_abschnitt-2_para-1_abs-3">
+                        <akn:num GUID="140c80c2-cc05-4d93-b7bd-81dfa9ea78b3" eId="hauptteil-1_abschnitt-2_para-1_abs-3_bezeichnung-1">
                             (3)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-3_inhalt-1"
-                                     GUID="ef1c87e7-e87d-4b83-a3c3-e769febdbbbf">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-3_inhalt-1_text-1"
-                                   GUID="e42b0095-2944-4a30-b4f5-34bea6dde3a8"> Das Bundesministerium für Wirtschaft und Technologie
+                        <akn:content GUID="82e18eb8-42b5-4730-8dbd-aa6d8e4aa172" eId="hauptteil-1_abschnitt-2_para-1_abs-3_inhalt-1">
+                            <akn:p GUID="2b9b1265-e9c3-4ca7-b1b1-2130e432cafc" eId="hauptteil-1_abschnitt-2_para-1_abs-3_inhalt-1_text-1"> Das Bundesministerium für Wirtschaft und Technologie
                                 macht im Einvernehmen mit den fachlich betroffenen Bundesministerien die vom Akkreditierungsbeirat
                                 ermittelten Regeln nach Absatz 2
                                 Nummer 1 und 2 im Bundesanzeiger oder im elektronischen Bundesanzeiger bekannt. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (4) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-1_abs-4"
-                                   GUID="65043552-5d0b-4c21-8aad-d2c82b4c1305">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-4_bezeichnung-1"
-                                 GUID="83f5a0c9-8f58-4efe-9a6f-06250bacd0b6">
+                    <akn:paragraph GUID="1aada52a-3da7-4e1e-8667-4f69560ac1a5" eId="hauptteil-1_abschnitt-2_para-1_abs-4">
+                        <akn:num GUID="be71c124-c3be-4d92-8fd1-fa9681bf2bf2" eId="hauptteil-1_abschnitt-2_para-1_abs-4_bezeichnung-1">
                             (4)</akn:num>
                         <!-- Satz 1 -->
-                        <akn:list eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1"
-                                  GUID="2c1b3edb-dfdf-487d-a294-f258bceb5cbd">
-                            <akn:intro eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_intro-1"
-                                       GUID="a8f8611d-cde0-43d1-b087-10a5d3df3761">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_intro-1_text-1"
-                                       GUID="a0eaebba-4a34-4963-97ae-d19499027158">Dem Akkreditierungsbeirat gehören
+                        <akn:list GUID="6d466934-2651-4572-abc4-21db229774b4" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1">
+                            <akn:intro GUID="55956e71-4437-4772-9ae3-fcd9a8c20c76" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_intro-1">
+                                <akn:p GUID="e7b92e6a-9314-4a83-95f9-b7afbfaac636" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_intro-1_text-1">Dem Akkreditierungsbeirat gehören
                                     sachverständige Personen an, insbesondere aus dem Kreis </akn:p>
                             </akn:intro>
                             <!-- Teilsatz 1) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1"
-                                       GUID="1cba0537-0abe-4662-b97e-b3b2121415c0">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1_bezeichnung-1"
-                                         GUID="56c69729-8c85-492b-b5b8-32f6b14dfa3b">
+                            <akn:point GUID="84054bd8-45f8-4c08-828b-441d187948fd" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1">
+                                <akn:num GUID="cc043d3b-a4b5-4788-9a19-b74c8b98ca2c" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1_bezeichnung-1">
                                     1.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1_inhalt-1"
-                                             GUID="433ba519-7f17-4044-a920-b8e69661ec21">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1_inhalt-1_text-1"
-                                           GUID="bd2e5115-95c6-4791-9b54-e8e74581a5e2"> der Länder, </akn:p>
+                                <akn:content GUID="358a4e3a-692c-47b1-acad-df7391bdaed0" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="ddf0c221-a742-45b9-861a-efabf605d710" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-1_inhalt-1_text-1"> der Länder, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 2) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2"
-                                       GUID="603f75e3-e3c7-4baa-9e41-a39e255c30d5">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2_bezeichnung-1"
-                                         GUID="df4da54d-a4ec-47d5-aa85-e3456a63b9f1">
+                            <akn:point GUID="de8f68f6-44a9-4b55-b846-0fe20849727e" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2">
+                                <akn:num GUID="9214c963-48e4-47d3-8c5a-a2f2c14c5e4d" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2_bezeichnung-1">
                                     2.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2_inhalt-1"
-                                             GUID="a3246b30-aab9-421d-99e9-cc7eb2784723">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2_inhalt-1_text-1"
-                                           GUID="45506268-a6bc-4aa7-ae42-ac06662d3914"> der Stellen, die auf
+                                <akn:content GUID="46b8dfb7-b7de-43bd-9f36-bdccf998c3bb" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="750a680c-0e94-448f-8f52-71ded64e2780" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-2_inhalt-1_text-1"> der Stellen, die auf
                                         Grund einer Rechtsvorschrift Konformitätsbewertungsstellen die Befugnis erteilen,
                                         als solche tätig zu werden, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 3) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3"
-                                       GUID="805933a9-fbef-4a5e-8398-b7f7309a7dba">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3_bezeichnung-1"
-                                         GUID="d452ae31-c688-4f5f-8f89-dabcfc11beff">
+                            <akn:point GUID="552ddc49-7922-4493-9b03-dcc40553b5a5" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3">
+                                <akn:num GUID="2167e65e-e2ce-4576-84c7-e73241f48856" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3_bezeichnung-1">
                                     3.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3_inhalt-1"
-                                             GUID="c1b22ad7-0e6c-4ea5-8bbe-2bccb5a926a4">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3_inhalt-1_text-1"
-                                           GUID="80b8bc6d-7705-4b87-93b9-1b2f2d11770d"> der
+                                <akn:content GUID="23b66402-aeef-468a-8a84-8231a9e59e5e" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="24d9f517-7756-4162-8413-ba6bcfabebaa" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-3_inhalt-1_text-1"> der
                                         Konformitätsbewertungsstellen, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 4) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4"
-                                       GUID="4a6634eb-e7ed-4763-bc4d-d6450b61d663">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4_bezeichnung-1"
-                                         GUID="58c793bd-26ea-467a-91ec-54fea1b31143">
+                            <akn:point GUID="6f2786e6-db2a-4b9d-9aa2-9ab6ec20650b" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4">
+                                <akn:num GUID="f43c5a3f-f38f-4be2-b5a8-ac9556eb59af" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4_bezeichnung-1">
                                     4.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4_inhalt-1"
-                                             GUID="6d70799b-40e4-4697-8162-714e01a34177">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4_inhalt-1_text-1"
-                                           GUID="8ee41b43-e4d4-49ac-a7ee-79645f7c0203"> der Wirtschaft und
+                                <akn:content GUID="fd167c5f-2889-4760-bad8-424e5c0d9e67" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4_inhalt-1">
+                                    <akn:p GUID="8a5b30cb-a01c-445b-b0c9-18c302402505" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-4_inhalt-1_text-1"> der Wirtschaft und
                                     </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 5) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5"
-                                       GUID="105f4412-75a2-4d87-99f1-e992749d76c1">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5_bezeichnung-1"
-                                         GUID="7a54cb8d-7ad0-447e-b470-9dad142d3282">
+                            <akn:point GUID="a9397db4-780f-4d4e-82a6-da3d3952e832" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5">
+                                <akn:num GUID="bc748d96-5849-409c-bdc3-0c4883dbcf1b" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5_bezeichnung-1">
                                     5.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5_inhalt-1"
-                                             GUID="a4af676b-6930-438a-b8ce-f10061bec256">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5_inhalt-1_text-1"
-                                           GUID="e313f50f-d8bc-4403-9088-bff6d2f106b9"> der Verbraucher und
+                                <akn:content GUID="5b5d081e-1574-41ce-9e83-e591514a7eb7" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5_inhalt-1">
+                                    <akn:p GUID="7b864108-9c22-410f-bfe6-d82135d41562" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_listenelem-5_inhalt-1_text-1"> der Verbraucher und
                                         Verbraucherinnen. </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Satz 2 -->
-                            <akn:wrapUp eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_schlusstext-1"
-                                        GUID="93acc5c8-fa58-4229-a3e8-851dc6df2826">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_schlusstext-1_text-1"
-                                       GUID="fc40de87-b315-4093-af92-b355a1346853"> Die Mitgliedschaft ist
+                            <akn:wrapUp GUID="2ad1f9d1-cc21-4f9c-9b12-822e73181cb8" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_schlusstext-1">
+                                <akn:p GUID="cd8e1d27-c86e-43b1-8fed-54378b20a216" eId="hauptteil-1_abschnitt-2_para-1_abs-4_untergl-1_schlusstext-1_text-1"> Die Mitgliedschaft ist
                                     ehrenamtlich. Hinsichtlich der sachverständigen Personen nach Absatz 4 Nummer 1 und
                                     2, sofern es sich um Stellen der Länder handelt,
                                     steht den Ländern das Vorschlagsrecht zu. </akn:p>
@@ -734,15 +437,11 @@
                         </akn:list>
                     </akn:paragraph>
                     <!-- Absatz (5) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-1_abs-5"
-                                   GUID="3a2bb46f-8216-4109-9a41-587b6008bf05">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-1_abs-5_bezeichnung-1"
-                                 GUID="64927964-29bb-416f-90f8-f3115833386a">
+                    <akn:paragraph GUID="df974af7-c42d-4385-b358-511ca8706e91" eId="hauptteil-1_abschnitt-2_para-1_abs-5">
+                        <akn:num GUID="f0901ba6-e061-44be-be65-854a06ec9104" eId="hauptteil-1_abschnitt-2_para-1_abs-5_bezeichnung-1">
                             (5)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-1_abs-5_inhalt-1"
-                                     GUID="bb6ab26e-5a48-48a0-981e-4c39e04a5498">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-1_abs-5_inhalt-1_text-1"
-                                   GUID="eff8fdeb-1353-4643-aa1f-92cd10d88b31"> Das Bundesministerium für Wirtschaft und Technologie
+                        <akn:content GUID="d3a7d90b-6029-4fea-b144-34adb3909078" eId="hauptteil-1_abschnitt-2_para-1_abs-5_inhalt-1">
+                            <akn:p GUID="5a1f956a-c175-4c09-be39-3c8fe97d8d40" eId="hauptteil-1_abschnitt-2_para-1_abs-5_inhalt-1_text-1"> Das Bundesministerium für Wirtschaft und Technologie
                                 beruft im Einvernehmen mit den in § 8 Absatz 1 Nummer 1 und 3 bis 7 genannten Bundesministerien
                                 für die Dauer von drei Jahren die
                                 Mitglieder des Akkreditierungsbeirates und für jedes Mitglied einen Vertreter oder
@@ -756,81 +455,56 @@
                     <!-- Auslassen der Absätze 6 - 9 -->
                 </akn:article>
                 <!-- § 5 -->
-                <akn:article eId="hauptteil-1_abschnitt-2_para-2"
-                             GUID="96fefdfd-a5cb-40e6-8bcd-4a5483be9128"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-2_para-2_bezeichnung-1"
-                             GUID="1d5d1393-759d-408c-b781-f97c504f34ab">
+                <akn:article GUID="671a85c2-0c3f-4ab0-bcf5-6e6f8251fa98" eId="hauptteil-1_abschnitt-2_para-2" period="#geltungszeitgr-1">
+                    <akn:num GUID="5c38ab9e-9dfa-4a42-8539-68fc5f6fa339" eId="hauptteil-1_abschnitt-2_para-2_bezeichnung-1">
                         § 5</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-2_para-2_überschrift-1"
-                                 GUID="340db8df-4a5e-4bf2-b493-586fee8b1d3d">Akkreditierungssymbol</akn:heading>
+                    <akn:heading GUID="d24fe586-5a08-4484-9dce-94fa03ccc224" eId="hauptteil-1_abschnitt-2_para-2_überschrift-1">Akkreditierungssymbol</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-2_abs-1"
-                                   GUID="4e7de701-a043-4913-bd31-24397203562f">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-2_abs-1_bezeichnung-1"
-                                 GUID="bc846890-673d-48e4-886c-ddc120d4f51d">
+                    <akn:paragraph GUID="92b1ac0c-28b9-4a6b-87e2-bf147a849590" eId="hauptteil-1_abschnitt-2_para-2_abs-1">
+                        <akn:num GUID="ec21935b-6244-4d59-9b03-347fe8c17169" eId="hauptteil-1_abschnitt-2_para-2_abs-1_bezeichnung-1">
                             (1)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-2_abs-1_inhalt-1"
-                                     GUID="639c17d1-0a06-41a2-b4ef-a74737c00efb">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-2_abs-1_inhalt-1_text-1"
-                                   GUID="a288f963-7501-4921-85d3-4401d4d9a12c"> Die Akkreditierungsstelle kann einer
+                        <akn:content GUID="7e5efc88-d427-4f28-98ce-1f0a694a2faf" eId="hauptteil-1_abschnitt-2_para-2_abs-1_inhalt-1">
+                            <akn:p GUID="0ce4d41a-832d-4bef-9734-b0ce07b94b9b" eId="hauptteil-1_abschnitt-2_para-2_abs-1_inhalt-1_text-1"> Die Akkreditierungsstelle kann einer
                                 Konformitätsbewertungsstelle auf Antrag gestatten, ein Symbol zu verwenden, das auf
                                 ihre Akkreditierung hinweist
                                 (Akkreditierungssymbol). </akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-2_abs-2"
-                                   GUID="54c08213-9541-4faa-8724-cd754e76bf32">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-2_abs-2_bezeichnung-1"
-                                 GUID="76a6e726-d1d2-4dcb-8114-6c8a00c4e470">
+                    <akn:paragraph GUID="1cca10ad-25d0-4189-bfc5-b0850a254e68" eId="hauptteil-1_abschnitt-2_para-2_abs-2">
+                        <akn:num GUID="2f3f700c-130f-46dc-bf2d-de2b659c89f4" eId="hauptteil-1_abschnitt-2_para-2_abs-2_bezeichnung-1">
                             (2)</akn:num>
                         <!-- Satz 1 -->
-                        <akn:list eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1"
-                                  GUID="98bb01a8-6864-4f2b-a38b-48ecba81ce94">
-                            <akn:intro eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_intro-1"
-                                       GUID="612548fd-4704-49b6-891b-5dd76e584555">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_intro-1_text-1"
-                                       GUID="5237214a-0920-4ab6-8bca-68ff3d61759b">Das Bundesministerium für Wirtschaft und
+                        <akn:list GUID="02419626-0e41-48a8-bfa3-6a913e113080" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1">
+                            <akn:intro GUID="bda3fd58-b2b3-4237-af31-cbbbd81803b3" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_intro-1">
+                                <akn:p GUID="a2b69a08-ed73-4826-b6af-9e24b1231261" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_intro-1_text-1">Das Bundesministerium für Wirtschaft und
                                     Technologie wird ermächtigt, durch Rechtsverordnung, die nicht der Zustimmung des
                                     Bundesrates bedarf, Folgendes zu regeln: </akn:p>
                             </akn:intro>
                             <!-- Teilsatz 1) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1"
-                                       GUID="19229798-ae82-4608-8d65-bd7536fa497e">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1_bezeichnung-1"
-                                         GUID="aa70384c-224c-458c-a0d5-b10f86d12644">
+                            <akn:point GUID="d1e50c74-91c8-41ac-87fe-3ab08b5acdcd" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1">
+                                <akn:num GUID="bc428653-4c33-48bd-82c9-5eb2a0bdb257" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1_bezeichnung-1">
                                     1.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1_inhalt-1"
-                                             GUID="3167e09e-ecd4-48d3-b6e6-9fc8f0dcdd1d">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1_inhalt-1_text-1"
-                                           GUID="bb213c2b-3444-4c57-bedf-80a81546f96f"> die Gestaltung und den
+                                <akn:content GUID="2cb20852-1fb4-4072-9e2d-fbcfe20814fd" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="52bbcb30-e2e5-40c0-9298-f49700a21bfa" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-1_inhalt-1_text-1"> die Gestaltung und den
                                         Schutz des Akkreditierungssymbols, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 2) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2"
-                                       GUID="5694b2ec-2756-4075-a40c-53bb8059191e">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2_bezeichnung-1"
-                                         GUID="3f084ee9-34ce-4afa-8d0c-5b40b987d71f">
+                            <akn:point GUID="07b4b974-725a-4a54-8471-090ac0a5cbf2" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2">
+                                <akn:num GUID="03cfa12c-ee19-400d-8862-a3e616060f98" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2_bezeichnung-1">
                                     2.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2_inhalt-1"
-                                             GUID="d4e5476a-6881-4949-adc7-a38e79065522">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2_inhalt-1_text-1"
-                                           GUID="d706920d-5985-4a48-be63-352ab039f242"> Einzelheiten der
+                                <akn:content GUID="87282b84-a97d-45eb-b302-937de701b7ed" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="3f3f8417-4008-49c3-ae26-6953373275d0" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-2_inhalt-1_text-1"> Einzelheiten der
                                         Verwendung des Akkreditierungssymbols und </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 3) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3"
-                                       GUID="ff342a07-3218-4b62-a470-9a730b92e532">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3_bezeichnung-1"
-                                         GUID="53694f69-b37c-4a3f-bb07-a2fdabb9f4b0">
+                            <akn:point GUID="c33caf60-e8de-4fec-9351-5ebd0448d254" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3">
+                                <akn:num GUID="6f4ec59f-f1f0-4e31-9070-562f8c50ab99" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3_bezeichnung-1">
                                     3.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3_inhalt-1"
-                                             GUID="34156f0a-41bf-4f76-b2c3-ee53acb0edad">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3_inhalt-1_text-1"
-                                           GUID="cd800ba7-2217-44c8-9793-f2e98b1b8801"> die Nutzungsrechte für
+                                <akn:content GUID="5e399ae1-d6fa-4326-b83a-a81fe0111b3f" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="35eaf616-f437-454b-a5f3-89e174f29968" eId="hauptteil-1_abschnitt-2_para-2_abs-2_untergl-1_listenelem-3_inhalt-1_text-1"> die Nutzungsrechte für
                                         das Akkreditierungssymbol. </akn:p>
                                 </akn:content>
                             </akn:point>
@@ -838,24 +512,16 @@
                     </akn:paragraph>
                 </akn:article>
                 <!-- § 6 -->
-                <akn:article eId="hauptteil-1_abschnitt-2_para-3"
-                             GUID="d2b9c2df-54de-4a59-87da-b598fb036a66"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-2_para-3_bezeichnung-1"
-                             GUID="4239daff-50e1-4902-9859-45ca3a82353f">
+                <akn:article GUID="9b45d27d-0b64-48bc-9fc5-8060eeb4f584" eId="hauptteil-1_abschnitt-2_para-3" period="#geltungszeitgr-1">
+                    <akn:num GUID="6bf77b34-924c-4c07-b598-fa95c2db6710" eId="hauptteil-1_abschnitt-2_para-3_bezeichnung-1">
                         § 6</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-2_para-3_überschrift-1"
-                                 GUID="4f693c6a-55ce-48fc-829c-f738df825784">Gebühren und Auslagen</akn:heading>
+                    <akn:heading GUID="b9cf6d91-f78e-412c-b9d6-9bb60e2d0f00" eId="hauptteil-1_abschnitt-2_para-3_überschrift-1">Gebühren und Auslagen</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-3_abs-1"
-                                   GUID="5085b820-9873-4745-b209-35843e1a48ac">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-3_abs-1_bezeichnung-1"
-                                 GUID="8bf0f343-c0a5-4951-b38f-21625068d7e7">
+                    <akn:paragraph GUID="5bec4504-08f0-430f-8b0b-ba0a05af9f70" eId="hauptteil-1_abschnitt-2_para-3_abs-1">
+                        <akn:num GUID="dcf5da09-4118-49d5-9d98-ab9bb005fb4f" eId="hauptteil-1_abschnitt-2_para-3_abs-1_bezeichnung-1">
                             (1)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-3_abs-1_inhalt-1"
-                                     GUID="af383fea-3576-463e-892e-2925e53c176c">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-3_abs-1_inhalt-1_text-1"
-                                   GUID="f591d774-a0ff-4e48-8a54-bf0a3accef33"> Für Amtshandlungen der Akkreditierungsstelle auf
+                        <akn:content GUID="43bbbdb6-5b10-42b0-96c5-d80e06334057" eId="hauptteil-1_abschnitt-2_para-3_abs-1_inhalt-1">
+                            <akn:p GUID="801e3419-1c98-46f7-8bdb-d3cd4b280077" eId="hauptteil-1_abschnitt-2_para-3_abs-1_inhalt-1_text-1"> Für Amtshandlungen der Akkreditierungsstelle auf
                                 Grund dieses Gesetzes und der Verordnung (EG) Nr. 765/2008 werden zur Deckung des
                                 Verwaltungsaufwands Gebühren und Auslagen erhoben.
                                 Soweit die gebühren- und auslagenpflichtigen Amtshandlungen der Umsatzsteuer unterliegen,
@@ -864,15 +530,11 @@
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-3_abs-2"
-                                   GUID="7c2b399a-753e-4172-8a47-a9331dedb0ae">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-3_abs-2_bezeichnung-1"
-                                 GUID="8d679ba4-6450-4821-9180-02f06153ccb3">
+                    <akn:paragraph GUID="565a026f-dcff-41b3-9e77-09fc23b14a89" eId="hauptteil-1_abschnitt-2_para-3_abs-2">
+                        <akn:num GUID="1cce8a1e-dcae-455e-acb5-1b1a04569754" eId="hauptteil-1_abschnitt-2_para-3_abs-2_bezeichnung-1">
                             (2)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-3_abs-2_inhalt-1"
-                                     GUID="56f3eb0e-6f1b-41bc-a189-390f6735eef3">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-3_abs-2_inhalt-1_text-1"
-                                   GUID="fece9d78-c1bd-4eb8-96d6-503d224e388c"> Das Bundesministerium für Wirtschaft und Technologie
+                        <akn:content GUID="ecc614c5-2088-4c6d-be7e-37243cc47c67" eId="hauptteil-1_abschnitt-2_para-3_abs-2_inhalt-1">
+                            <akn:p GUID="9499e1a1-4f7a-4785-a375-fbb3880849da" eId="hauptteil-1_abschnitt-2_para-3_abs-2_inhalt-1_text-1"> Das Bundesministerium für Wirtschaft und Technologie
                                 wird ermächtigt, im Einvernehmen mit dem Bundesministerium der Finanzen durch Rechtsverordnung,
                                 die nicht der Zustimmung des Bundesrates
                                 bedarf, die gebührenpflichtigen Tatbestände, die Gebührensätze und die Auslagenerstattung
@@ -884,176 +546,122 @@
                     </akn:paragraph>
                 </akn:article>
                 <!-- § 7 -->
-                <akn:article eId="hauptteil-1_abschnitt-2_para-4"
-                             GUID="fea0be34-b0c7-4d6b-ba54-66ea7675b492"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-2_para-4_bezeichnung-1"
-                             GUID="a1163549-9ddb-45b3-a161-879b73bc76a6">
+                <akn:article GUID="65fbe6e4-e246-4b82-97b6-87035ccf9dd1" eId="hauptteil-1_abschnitt-2_para-4" period="#geltungszeitgr-1">
+                    <akn:num GUID="a76c3787-70da-4ac8-80ad-47d5087aec52" eId="hauptteil-1_abschnitt-2_para-4_bezeichnung-1">
                         § 7</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-2_para-4_überschrift-1"
-                                 GUID="5b85a7b3-6365-4a08-b232-91b578e0d407">Beleihung oder Errichtung</akn:heading>
+                    <akn:heading GUID="acdd9be7-8552-4461-9d12-e517b4768a59" eId="hauptteil-1_abschnitt-2_para-4_überschrift-1">Beleihung oder Errichtung</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-4_abs-1"
-                                   GUID="0c3dc9b1-ccdc-478f-92c8-5e4a434970fb">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_bezeichnung-1"
-                                 GUID="0dd981ce-9c9f-4f9e-beec-a3209c7ccfec">
+                    <akn:paragraph GUID="f9d96d3a-1938-4e5d-8707-c8e50ea40e6e" eId="hauptteil-1_abschnitt-2_para-4_abs-1">
+                        <akn:num GUID="9a6d5c2c-c925-4cfa-831d-569f467c5728" eId="hauptteil-1_abschnitt-2_para-4_abs-1_bezeichnung-1">
                             (1)</akn:num>
                         <!-- Satz 1 -->
-                        <akn:list eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1"
-                                  GUID="c5d07504-8f67-4755-9bd0-db795f5231f6">
-                            <akn:intro eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_intro-1"
-                                       GUID="e9d5f196-8771-4f74-8b15-befd63bf4470">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_intro-1_text-1"
-                                       GUID="920560a9-933a-497a-8685-41d9a94b1779">Das Bundesministerium für Wirtschaft und
+                        <akn:list GUID="70db0dd8-beb3-4ebc-85ca-516b32bc20f2" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1">
+                            <akn:intro GUID="f7a3dee5-c980-44b0-863d-e8f3fe3ae0d0" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_intro-1">
+                                <akn:p GUID="60c5d0f0-3af9-4303-97d7-650b6d8cf4d7" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_intro-1_text-1">Das Bundesministerium für Wirtschaft und
                                     Technologie kann im Einvernehmen mit dem </akn:p>
                             </akn:intro>
                             <!-- Teilsatz 1) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1"
-                                       GUID="43a9056e-11d7-4fa5-af23-c1a70b5b04b6">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1_bezeichnung-1"
-                                         GUID="1bb02f5e-ec5c-4492-beec-47dc274c7417">
+                            <akn:point GUID="7c8fd34f-791f-4e99-a027-fff9bfce956b" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1">
+                                <akn:num GUID="4a466d1a-8155-4896-adfd-a0f8bc322fcf" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1_bezeichnung-1">
                                     1.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1_inhalt-1"
-                                             GUID="10bf21bf-c8d5-4748-9b69-786f3fd91230">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
-                                           GUID="392d2f66-bc61-4e02-bd16-c01803e4ca3c"> Bundesministerium des
+                                <akn:content GUID="eb65c298-bfa6-41e2-a7ba-1d4a5ec1eb5d" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="02d2559c-b660-4cae-b6ee-59200bd9d286" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"> Bundesministerium des
                                         Innern, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 2) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2"
-                                       GUID="ae57ef72-1778-4d20-b896-da8598ffecc9">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2_bezeichnung-1"
-                                         GUID="715385fc-3462-4920-9dc4-ca612ff79866">
+                            <akn:point GUID="865ba288-fff4-4dc3-ab0a-988742979d9a" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2">
+                                <akn:num GUID="e68093d0-1c6f-4f23-b99c-b7ed191b921b" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2_bezeichnung-1">
                                     2.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2_inhalt-1"
-                                             GUID="ecd48a2f-46a7-4dbd-a1e3-ae67bd8b42b4">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                                           GUID="97c4b17d-22c5-4624-9c43-6d1b1b1e6556"> Bundesministerium der
+                                <akn:content GUID="9e0a894b-f4f8-4dd7-96e2-5774d1021e4b" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="4f127d4a-f994-4636-8162-47da5f6334f0" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"> Bundesministerium der
                                         Finanzen, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 3) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3"
-                                       GUID="00a6db87-3c63-4d37-8f98-c5d9f4fcba09">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3_bezeichnung-1"
-                                         GUID="b38c6995-95dc-4f06-8791-8177c07738be">
+                            <akn:point GUID="9aebbe59-60df-4ed3-8dba-421da5cfaf1c" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3">
+                                <akn:num GUID="d885b111-2ed2-46c0-ba80-8f3d04a99af5" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3_bezeichnung-1">
                                     3.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3_inhalt-1"
-                                             GUID="c2858a28-d150-45ed-98a6-2565b56e1ac2">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3_inhalt-1_text-1"
-                                           GUID="b486da00-bab3-4f54-b32a-b7f51a252441"> Bundesministerium für
+                                <akn:content GUID="1d134eaf-004b-422e-a989-156fc292ab98" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="16450432-33bf-4fbe-a7d5-054460af9e49" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-3_inhalt-1_text-1"> Bundesministerium für
                                         Arbeit und Soziales, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 4) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4"
-                                       GUID="2e2676f4-be78-4e06-9f95-9bc7fd3a283e">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4_bezeichnung-1"
-                                         GUID="fb9e5489-c759-4f1a-99cf-064331e835a4">
+                            <akn:point GUID="691c7740-45df-4e56-9ae5-f3b73ab9bab8" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4">
+                                <akn:num GUID="94e1cbac-c20d-40a1-8401-314966b84c7f" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4_bezeichnung-1">
                                     4.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4_inhalt-1"
-                                             GUID="8db0828a-72e3-4b07-85b4-de4d59995042">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4_inhalt-1_text-1"
-                                           GUID="4d413c96-1927-4aa9-8517-e03aac5e8053"> Bundesministerium für
+                                <akn:content GUID="7c85c877-29eb-46fe-a7d6-d235fdbf46bb" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4_inhalt-1">
+                                    <akn:p GUID="75d132e7-74fc-4c34-82f8-0d0bbacb85bf" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-4_inhalt-1_text-1"> Bundesministerium für
                                         Ernährung, Landwirtschaft und Verbraucherschutz, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 5) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5"
-                                       GUID="934122b3-211d-4ce3-9287-a0da99422f01">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5_bezeichnung-1"
-                                         GUID="a6ef2c5e-4934-4087-82e0-64bd359f04f1">
+                            <akn:point GUID="d021c6fb-f490-489c-add1-6cfca996975f" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5">
+                                <akn:num GUID="df2eecaf-f662-44c7-944a-997989eeee53" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5_bezeichnung-1">
                                     5.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5_inhalt-1"
-                                             GUID="d2767ad7-f4af-43fc-a18d-e72bc291edee">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5_inhalt-1_text-1"
-                                           GUID="690234f6-ce6b-4b2c-a437-2ffe54f27534"> Bundesministerium für
+                                <akn:content GUID="b96121c8-c18e-485e-98da-b8afc950911f" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5_inhalt-1">
+                                    <akn:p GUID="ce42e981-4654-47d9-88d4-5b3e41cb2b7a" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-5_inhalt-1_text-1"> Bundesministerium für
                                         Gesundheit, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 6) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6"
-                                       GUID="b8dba572-f2c4-42ea-9cf7-3208220ae1b9">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6_bezeichnung-1"
-                                         GUID="fcc8d9fa-8619-46cf-b3f0-431cc7be405d">
+                            <akn:point GUID="042bad0a-f544-4f68-998e-52e8115a5520" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6">
+                                <akn:num GUID="0c9bfbf7-2399-4235-97a5-b21874a70ff8" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6_bezeichnung-1">
                                     6.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6_inhalt-1"
-                                             GUID="b98c001c-90b0-439f-bc12-7cf67d30918b">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6_inhalt-1_text-1"
-                                           GUID="3696c6e5-ec6c-4dc8-a5dc-f434f0c0baf3"> Bundesministerium für
+                                <akn:content GUID="0cbda1f7-a368-45ca-aa8c-d4e79b074f6d" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6_inhalt-1">
+                                    <akn:p GUID="959febae-af27-489e-95eb-e99fc77d4a36" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-6_inhalt-1_text-1"> Bundesministerium für
                                         Verkehr, Bau und Stadtentwicklung, </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 7) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7"
-                                       GUID="7808210c-f957-4802-8bd7-ea819d15aee7">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7_bezeichnung-1"
-                                         GUID="e897a855-edeb-4e00-aae8-ac39fb70ea84">
+                            <akn:point GUID="413225b3-92c1-42d9-8f40-0bf2ae78a271" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7">
+                                <akn:num GUID="c8f47e47-0060-48cf-9d76-66b8d8d9ec71" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7_bezeichnung-1">
                                     7.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7_inhalt-1"
-                                             GUID="f875a04a-a549-4c6c-8e40-54ca8930e59b">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7_inhalt-1_text-1"
-                                           GUID="662fb75b-673f-46f7-b3b8-7058db6a8e80"> Bundesministerium für
+                                <akn:content GUID="c10193ed-729d-425e-9803-92e1f910406f" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7_inhalt-1">
+                                    <akn:p GUID="6ef71a8b-9260-473f-bf22-8874de89ed90" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_listenelem-7_inhalt-1_text-1"> Bundesministerium für
                                         Umwelt, Naturschutz und Reaktorsicherheit </akn:p>
                                 </akn:content>
                             </akn:point>
-                            <akn:wrapUp eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_schlusstext-1"
-                                        GUID="10bad468-9b57-474f-a093-ad3d8f347272">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_schlusstext-1_text-1"
-                                       GUID="404ed72d-4a75-484e-a86a-1dabf04a5d22"> durch Rechtsverordnung mit
+                            <akn:wrapUp GUID="01649371-55e1-4dcd-864e-8ba0120dbc4b" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_schlusstext-1">
+                                <akn:p GUID="485a8b69-21e3-4115-81f4-1b417d073706" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-1_schlusstext-1_text-1"> durch Rechtsverordnung mit
                                     Zustimmung des Bundesrates eine juristische Person des Privatrechts mit Aufgaben und
                                     Befugnissen einer Akkreditierungsstelle
                                     beleihen, wenn die Voraussetzungen nach § 10 vorliegen. </akn:p>
                             </akn:wrapUp>
                         </akn:list>
                         <!-- Satz 2 -->
-                        <akn:list eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2"
-                                  GUID="4aabb3e3-dedd-4380-a73c-364364de69da">
-                            <akn:intro eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_intro-1"
-                                       GUID="91424db3-6d7c-447b-bbf4-f19b24c542b6">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_intro-1_text-1"
-                                       GUID="c83800a5-f742-4ca5-acf8-e5c86e5d8d4c">In der Rechtsverordnung nach Satz 1
+                        <akn:list GUID="6e8ad929-6e2a-4953-b21c-5df1bfe85496" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2">
+                            <akn:intro GUID="e9c96db2-333a-472d-92ba-61ae937630d5" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_intro-1">
+                                <akn:p GUID="2b7f8b41-d384-46e1-8cae-9b81fecc99f0" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_intro-1_text-1">In der Rechtsverordnung nach Satz 1
                                     können ferner nähere Bestimmungen getroffen werden über </akn:p>
                             </akn:intro>
                             <!-- Teilsatz 1) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1"
-                                       GUID="7ad51f8f-6dac-48c8-ac8c-2c3f8631f8da">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1_bezeichnung-1"
-                                         GUID="15024eb8-312b-4fbc-97e0-322a3cccb78e">
+                            <akn:point GUID="ccfd21c2-12cf-4156-9ec0-354c2e53cb4f" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1">
+                                <akn:num GUID="b9b6d303-59f1-4f80-8c37-8a4ed29d39bc" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1_bezeichnung-1">
                                     1.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1_inhalt-1"
-                                             GUID="de857c2c-b2b0-41b0-b28d-c7cddce92890">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1_inhalt-1_text-1"
-                                           GUID="1d12668a-482d-49d3-a159-567246c88a72"> die Zuständigkeit der
+                                <akn:content GUID="c83b721e-ec83-482f-a579-83ebd78735ca" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1_inhalt-1">
+                                    <akn:p GUID="fe13b476-8d22-4753-8d0d-c01ecfedaf3c" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-1_inhalt-1_text-1"> die Zuständigkeit der
                                         dort genannten Bundesministerien für die Aufsicht und </akn:p>
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 2) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2"
-                                       GUID="6650327c-cc98-4d09-8faf-2c3e324b8db9">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2_bezeichnung-1"
-                                         GUID="5a922806-4f89-437f-8769-6fa24e4ffa61">
+                            <akn:point GUID="187820c6-107f-4d68-8095-86d653d13cce" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2">
+                                <akn:num GUID="e579494e-9106-4fe0-9907-55d27a5f0c76" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2_bezeichnung-1">
                                     2.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2_inhalt-1"
-                                             GUID="0aa0996d-dec5-4587-884d-fa36ec38355c">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2_inhalt-1_text-1"
-                                           GUID="c3427255-25a6-42c6-9675-49a492fc3d73"> die Ausgestaltung der
+                                <akn:content GUID="f2217618-1055-4e1a-8bce-8223db909069" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2_inhalt-1">
+                                    <akn:p GUID="eb7bdb97-fcfd-444a-b916-9417e2d9da01" eId="hauptteil-1_abschnitt-2_para-4_abs-1_untergl-2_listenelem-2_inhalt-1_text-1"> die Ausgestaltung der
                                         Aufsicht. </akn:p>
                                 </akn:content>
                             </akn:point>
                         </akn:list>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-4_abs-2"
-                                   GUID="58f4bbdc-157a-4004-8742-d37c66237a5a">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-4_abs-2_bezeichnung-1"
-                                 GUID="4aa82315-f810-4363-8e9c-72b6777976c6">
+                    <akn:paragraph GUID="3a4bb5b0-acae-4570-aea3-d8baeee2c110" eId="hauptteil-1_abschnitt-2_para-4_abs-2">
+                        <akn:num GUID="193bf1f0-bfb3-49f0-875f-fedf9affd377" eId="hauptteil-1_abschnitt-2_para-4_abs-2_bezeichnung-1">
                             (2)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-4_abs-2_inhalt-1"
-                                     GUID="370fcc10-b6ca-4851-9438-8b31c7ad59c6">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-4_abs-2_inhalt-1_text-1"
-                                   GUID="17a8946c-667f-493e-b83f-47ac78d37400"> Für den Fall, dass eine juristische Person des
+                        <akn:content GUID="955c9211-818c-4f50-98e7-ebb1ffe0ac2e" eId="hauptteil-1_abschnitt-2_para-4_abs-2_inhalt-1">
+                            <akn:p GUID="e11dbe3e-d3f1-41e6-8eed-edb2b1e636b8" eId="hauptteil-1_abschnitt-2_para-4_abs-2_inhalt-1_text-1"> Für den Fall, dass eine juristische Person des
                                 Privatrechts nicht nach Absatz 1 beliehen wird oder die Beleihung nach § 10 Absatz
                                 3 beendet wird, kann das Bundesministerium für
                                 Wirtschaft und Technologie im Einvernehmen mit den in Absatz 1 genannten Ministerien
@@ -1063,39 +671,26 @@
                     </akn:paragraph>
                 </akn:article>
                 <!-- § 8 -->
-                <akn:article eId="hauptteil-1_abschnitt-2_para-5"
-                             GUID="e6a9a6aa-4dea-41ef-8ea0-82d9bd715b3a"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-2_para-5_bezeichnung-1"
-                             GUID="5da5c0be-fb94-419a-a68e-4b163814835c">
+                <akn:article GUID="a17a4670-1558-44a2-99fe-6e31704894d8" eId="hauptteil-1_abschnitt-2_para-5" period="#geltungszeitgr-1">
+                    <akn:num GUID="dc026d0a-0d07-4e17-a1d7-4fb1ed8bc5d2" eId="hauptteil-1_abschnitt-2_para-5_bezeichnung-1">
                         § 8</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-2_para-5_überschrift-1"
-                                 GUID="274725a5-420d-4215-9cb4-85ef480aec49">Voraussetzungen und Durchführung der Beleihung</akn:heading>
+                    <akn:heading GUID="e4470261-7fdc-46cd-a084-c97f8315dd33" eId="hauptteil-1_abschnitt-2_para-5_überschrift-1">Voraussetzungen und Durchführung der Beleihung</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-5_abs-1"
-                                   GUID="1f2c3f2c-301e-4dd5-9718-71286c3c6d58">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-5_abs-1_bezeichnung-1"
-                                 GUID="8140bc5f-05d7-4085-8bba-179fb7cc2200">
+                    <akn:paragraph GUID="72a66df3-bc5d-42db-9bc7-798c1551ca48" eId="hauptteil-1_abschnitt-2_para-5_abs-1">
+                        <akn:num GUID="f1863da0-022f-4ad7-a62a-26b57d17d574" eId="hauptteil-1_abschnitt-2_para-5_abs-1_bezeichnung-1">
                             (1)</akn:num>
                         <!-- Satz 1 -->
-                        <akn:list eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1"
-                                  GUID="5d4f0d8f-4ba6-43e2-9ae0-37af80af72af">
-                            <akn:intro eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_intro-1"
-                                       GUID="df975a0d-0494-4191-bc8b-e0c44537d572">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_intro-1_text-1"
-                                       GUID="3bc97ee2-a286-45c7-9cc4-f4d8eebcc03b">Die Beleihung ist nur zulässig, wenn
+                        <akn:list GUID="f66ba614-96d5-46af-a0a3-bfd96c22b154" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1">
+                            <akn:intro GUID="e3ba3590-b3e2-4d00-925e-66f4af07c64a" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_intro-1">
+                                <akn:p GUID="3e89aad0-391b-471c-8008-e45ae52398b6" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_intro-1_text-1">Die Beleihung ist nur zulässig, wenn
                                 </akn:p>
                             </akn:intro>
                             <!-- Teilsatz 1) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1"
-                                       GUID="4f269c00-39c9-4d6a-bcdc-e7741e3b485f">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1_bezeichnung-1"
-                                         GUID="e72a2ccc-7fce-4670-a19a-843af13c9fee">
+                            <akn:point GUID="58e7e8dc-0b55-4eca-9d23-b98e1234494a" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1">
+                                <akn:num GUID="a9599b85-9a21-4d56-97c9-4c69435a5e5b" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1_bezeichnung-1">
                                     1.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1_inhalt-1"
-                                             GUID="ad9ad609-168c-4707-97b5-321bc21dd1fc">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
-                                           GUID="54f37eca-06d2-4059-a29e-f14c0bfb5ee4"> die zu beleihende
+                                <akn:content GUID="5f348f4b-8ffb-4991-ac7e-35e097e6739e" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="434fa18e-8ca5-4530-bc00-cbe999fbd022" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"> die zu beleihende
                                         juristische Person des Privatrechts die Gewähr für die ordnungsgemäße Erfüllung der
                                         Aufgaben der Akkreditierungsstelle bietet,
                                         insbesondere die Anforderungen gemäß Artikel 8 der Verordnung (EG) Nr. 765/2008 erfüllt,
@@ -1103,15 +698,11 @@
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 2) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2"
-                                       GUID="07c8d26c-9ec0-41e9-b3c9-372b7d17e0d3">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2_bezeichnung-1"
-                                         GUID="f92f1ce6-6793-4917-add2-ac59aae58131">
+                            <akn:point GUID="c0f6e6fa-cb05-446c-a157-8ddeafbef9da" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2">
+                                <akn:num GUID="c1ce740e-1f72-4522-8961-24881a59df9c" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2_bezeichnung-1">
                                     2.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2_inhalt-1"
-                                             GUID="4924afb5-13bc-4ac1-8c6e-e1b5f81f6e47">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                                           GUID="c7220155-51f6-46cc-8088-162ee32c22c5"> der Bund an der zu
+                                <akn:content GUID="11b7ba8c-c981-4785-9a2d-5548d7f6de3a" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="ff4c3f08-411f-42ed-801a-cff777908158" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"> der Bund an der zu
                                         beleihenden juristischen Person des Privatrechts zu zwei Dritteln beteiligt ist oder
                                         der Bund und die Länder, soweit letztere dies
                                         wünschen, zu jeweils einem Drittel an der juristischen Person des Privatrechts beteiligt
@@ -1119,15 +710,11 @@
                                 </akn:content>
                             </akn:point>
                             <!-- Teilsatz 3) -->
-                            <akn:point eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3"
-                                       GUID="6b45a59c-b406-4869-b820-de9c4b6a6619">
-                                <akn:num eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3_bezeichnung-1"
-                                         GUID="35877f90-ca00-422a-845b-1976a726f527">
+                            <akn:point GUID="d0d3e9d7-36e7-4b15-b6fa-71e7acba3650" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3">
+                                <akn:num GUID="4888ee0e-2b59-4552-b7a0-3fb408651a92" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3_bezeichnung-1">
                                     3.</akn:num>
-                                <akn:content eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3_inhalt-1"
-                                             GUID="c19a8ec7-b711-4a7e-8f0b-e89cdbf4d24e">
-                                    <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3_inhalt-1_text-1"
-                                           GUID="a0a9f88e-176a-4c81-aacc-8379f1622564"> die zu beleihende
+                                <akn:content GUID="2d418153-08d6-4707-a89e-5046e493cc8f" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="80dd1309-28bb-4f1c-af42-e3e882c21b80" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_listenelem-3_inhalt-1_text-1"> die zu beleihende
                                         juristische Person des Privatrechts einen Akkreditierungsausschuss eingerichtet hat,
                                         der im Innenverhältnis in den in § 1 Absatz 2
                                         Satz 2 genannten Bereichen die Akkreditierungsentscheidung trifft. Bei dessen Besetzung
@@ -1140,39 +727,29 @@
                                 </akn:content>
                             </akn:point>
                             <!-- Satz 2 -->
-                            <akn:wrapUp eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_schlusstext-1"
-                                        GUID="7199fd5e-1445-4e72-8399-7cdc2906aee8">
-                                <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_schlusstext-1_text-1"
-                                       GUID="a6aac5de-acf9-4f42-8a73-2ba6236d86df"> Ein Anspruch auf Beleihung besteht
+                            <akn:wrapUp GUID="9c7f9884-1a63-47c3-9645-ec7d2d2876bf" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_schlusstext-1">
+                                <akn:p GUID="8d22c078-ba8b-4e0b-9f8c-3395b6efd9ed" eId="hauptteil-1_abschnitt-2_para-5_abs-1_untergl-1_schlusstext-1_text-1"> Ein Anspruch auf Beleihung besteht
                                     nicht. </akn:p>
                             </akn:wrapUp>
                         </akn:list>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-5_abs-2"
-                                   GUID="2ac41855-1aac-4f2a-a9bc-fc2c0628561b">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-5_abs-2_bezeichnung-1"
-                                 GUID="4985322a-f49c-4e39-927e-104bbb0db748">
+                    <akn:paragraph GUID="46478b0b-a11d-443e-93fa-2053321a50a1" eId="hauptteil-1_abschnitt-2_para-5_abs-2">
+                        <akn:num GUID="0da13f31-dd89-4115-ac40-c75a27b9c66a" eId="hauptteil-1_abschnitt-2_para-5_abs-2_bezeichnung-1">
                             (2)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-5_abs-2_inhalt-1"
-                                     GUID="6d139d9d-0798-4418-af72-6f661008fd6b">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-2_inhalt-1_text-1"
-                                   GUID="017a63b8-caec-4714-9993-3f9b34556395"> Die zu beleihende juristische Person des
+                        <akn:content GUID="ac356e87-47db-4b60-a943-45a84923368c" eId="hauptteil-1_abschnitt-2_para-5_abs-2_inhalt-1">
+                            <akn:p GUID="e7955f1e-5cdb-4b93-ad2f-a0b0259a9ab9" eId="hauptteil-1_abschnitt-2_para-5_abs-2_inhalt-1_text-1"> Die zu beleihende juristische Person des
                                 Privatrechts muss für die Akkreditierungsstelle über eine angemessene Haftpflichtversicherung
                                 mit einer Deckungssumme von wenigstens 10
                                 Millionen Euro verfügen. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (3) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-5_abs-3"
-                                   GUID="e978951a-8aa1-4615-a395-d1009f1f5762">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-5_abs-3_bezeichnung-1"
-                                 GUID="9fccf02c-f38f-46ae-ba5e-7e3cd4a1a81a">
+                    <akn:paragraph GUID="200ad7fd-60aa-4946-a75c-29f486b45297" eId="hauptteil-1_abschnitt-2_para-5_abs-3">
+                        <akn:num GUID="3c0986e8-b09a-4153-aba9-e8e287639f7d" eId="hauptteil-1_abschnitt-2_para-5_abs-3_bezeichnung-1">
                             (3)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-5_abs-3_inhalt-1"
-                                     GUID="118eae5f-5b2d-4411-ab30-a85b0bc57f57">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-3_inhalt-1_text-1"
-                                   GUID="ac4cb9fa-ddd5-43dc-b509-961f87f4cfbe"> Die Beleihung kann erstmals zum Ablauf des fünften
+                        <akn:content GUID="447e6af2-b6fd-484d-a0db-3e5693d634c8" eId="hauptteil-1_abschnitt-2_para-5_abs-3_inhalt-1">
+                            <akn:p GUID="f909f5f1-f900-4106-95e6-80e122638eba" eId="hauptteil-1_abschnitt-2_para-5_abs-3_inhalt-1_text-1"> Die Beleihung kann erstmals zum Ablauf des fünften
                                 Jahres nach Wirksamwerden der Beleihung mit einer Frist von zwei Jahren beendet werden.
                                 Nach Ablauf des fünften Jahres kann die
                                 Beleihung jederzeit mit einer Frist von zwei Jahren beendet werden. Haben die Voraussetzungen
@@ -1181,38 +758,26 @@
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (4) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-5_abs-4"
-                                   GUID="a6948dc7-0ec2-4383-b281-e1ed8d4e6eaf">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-5_abs-4_bezeichnung-1"
-                                 GUID="d581dca8-2815-4057-929a-0cfe8d202ff5">
+                    <akn:paragraph GUID="b56f30c5-64b6-4473-afa7-829816f2d48e" eId="hauptteil-1_abschnitt-2_para-5_abs-4">
+                        <akn:num GUID="11e88728-42d8-4058-8db3-32c37a8965a9" eId="hauptteil-1_abschnitt-2_para-5_abs-4_bezeichnung-1">
                             (4)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-5_abs-4_inhalt-1"
-                                     GUID="44a80f2c-8d45-4e5e-ae51-d62b066afbf8">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-5_abs-4_inhalt-1_text-1"
-                                   GUID="928ad9bd-ab1b-4cc0-99a2-e220ea965daf"> Wird die Beleihung nach Absatz 3 Satz 3 beendet,
+                        <akn:content GUID="5ad74370-1510-4516-bde1-fd8dc5f4ff5c" eId="hauptteil-1_abschnitt-2_para-5_abs-4_inhalt-1">
+                            <akn:p GUID="5eff3edf-a844-4342-891e-c34d8ff7336f" eId="hauptteil-1_abschnitt-2_para-5_abs-4_inhalt-1_text-1"> Wird die Beleihung nach Absatz 3 Satz 3 beendet,
                                 besteht kein Anspruch auf Ausgleich. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                 </akn:article>
                 <!-- § 9 -->
-                <akn:article eId="hauptteil-1_abschnitt-2_para-6"
-                             GUID="b6e58d8e-e9de-4923-bc16-13ae9f7858b6"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-2_para-6_bezeichnung-1"
-                             GUID="1a30e22a-273a-41ae-879e-a66b2c7de7de">
+                <akn:article GUID="98d369f8-8694-4ce4-a305-939547e0efc9" eId="hauptteil-1_abschnitt-2_para-6" period="#geltungszeitgr-1">
+                    <akn:num GUID="d0ea5946-040b-415e-924a-07e40eee08ad" eId="hauptteil-1_abschnitt-2_para-6_bezeichnung-1">
                         § 9</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-2_para-6_überschrift-1"
-                                 GUID="55356966-8cce-4eb8-930c-3eaef25fe5d0">Aufsicht über die Geschäftsleitung</akn:heading>
+                    <akn:heading GUID="956278d5-537e-4ced-bf86-c49b6282d8a7" eId="hauptteil-1_abschnitt-2_para-6_überschrift-1">Aufsicht über die Geschäftsleitung</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-2_para-6_abs-1"
-                                   GUID="f1f4a4c1-6701-4379-aebe-0ad3e374290a">
-                        <akn:num eId="hauptteil-1_abschnitt-2_para-6_abs-1_bezeichnung-1"
-                                 GUID="a58b8ea8-3874-4e44-87ac-df1a02e6bc5e">
+                    <akn:paragraph GUID="b458bc3a-48be-4b97-b65b-607f3a16e9d4" eId="hauptteil-1_abschnitt-2_para-6_abs-1">
+                        <akn:num GUID="87d4cd43-2735-4fc3-b4aa-14779d7fde46" eId="hauptteil-1_abschnitt-2_para-6_abs-1_bezeichnung-1">
                             <!-- ohne Nummierung! --></akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-2_para-6_abs-1_inhalt-1"
-                                     GUID="03bc8cbc-6a31-4074-b16d-e2bab973421f">
-                            <akn:p eId="hauptteil-1_abschnitt-2_para-6_abs-1_inhalt-1_text-1"
-                                   GUID="17ed541c-00ae-46de-905d-dff448ecdc02"> Die zur Geschäftsführung berechtigten Personen der
+                        <akn:content GUID="2d348e80-8c6e-40d2-bb5b-b25f99d33ff8" eId="hauptteil-1_abschnitt-2_para-6_abs-1_inhalt-1">
+                            <akn:p GUID="d24164f4-e29a-4fac-83c4-359adbbd3a06" eId="hauptteil-1_abschnitt-2_para-6_abs-1_inhalt-1_text-1"> Die zur Geschäftsführung berechtigten Personen der
                                 Beliehenen müssen zuverlässig sein. Die Bestellung zur Geschäftsführung ist dem Bundesministerium
                                 für Wirtschaft und Technologie durch
                                 die Beliehene anzuzeigen. Dabei hat die Beliehene die Tatsachen anzugeben, die für
@@ -1223,69 +788,45 @@
                 </akn:article>
             </akn:section>
             <!-- Abschnitt 3 -->
-            <akn:section eId="hauptteil-1_abschnitt-3"
-                         GUID="278972d5-89a4-462b-9882-018a3f657d2e">
-                <akn:num eId="hauptteil-1_abschnitt-3_bezeichnung-1"
-                         GUID="4a9c27ef-8894-4006-8b91-0d47a1e8a46f">
+            <akn:section GUID="f8fc2329-32ee-4bbf-8f29-276c9efcea05" eId="hauptteil-1_abschnitt-3">
+                <akn:num GUID="e228ad3b-6dcf-4b8d-83be-4e1d7e804751" eId="hauptteil-1_abschnitt-3_bezeichnung-1">
                     Abschnitt 3</akn:num>
-                <akn:heading eId="hauptteil-1_abschnitt-3_überschrift-1"
-                             GUID="6729b4bf-892e-4727-b17d-499268fb0465">Sonstiges</akn:heading>
+                <akn:heading GUID="5414a609-e1dc-4634-8f8a-627a3a2bdddc" eId="hauptteil-1_abschnitt-3_überschrift-1">Sonstiges</akn:heading>
                 <!-- § 10 -->
-                <akn:article eId="hauptteil-1_abschnitt-3_para-1"
-                             GUID="545cde91-a89f-4df2-bf02-f45f9872adfe"
-                             period="#geltungszeitgr-1">
-                    <akn:num eId="hauptteil-1_abschnitt-3_para-1_bezeichnung-1"
-                             GUID="a7d65084-2caf-4c4b-8028-fe194c64442c">
+                <akn:article GUID="5ea1054b-5c71-4310-84ef-e71a35469bda" eId="hauptteil-1_abschnitt-3_para-1" period="#geltungszeitgr-1">
+                    <akn:num GUID="4eacdf63-bd65-4085-bf79-7984f862923b" eId="hauptteil-1_abschnitt-3_para-1_bezeichnung-1">
                         § 10</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-3_para-1_überschrift-1"
-                                 GUID="ba7ea486-80db-4aa4-9923-7a792260cc44">Bußgeldvorschirften</akn:heading>
+                    <akn:heading GUID="96e8350c-b66d-4356-8c45-00904796e8c8" eId="hauptteil-1_abschnitt-3_para-1_überschrift-1">Bußgeldvorschirften</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-3_para-1_abs-1"
-                                   GUID="03cd0bcb-b590-41c3-b185-d00ea3710c1e">
-                        <akn:num eId="hauptteil-1_abschnitt-3_para-1_abs-1_bezeichnung-1"
-                                 GUID="d91279a0-bc3c-49e1-a5dd-55c520c9d488">
+                    <akn:paragraph GUID="74f1060c-faa9-4a2d-ad99-3f2559655eaf" eId="hauptteil-1_abschnitt-3_para-1_abs-1">
+                        <akn:num GUID="fc81ea96-b245-42d2-a126-38cc058d9bf4" eId="hauptteil-1_abschnitt-3_para-1_abs-1_bezeichnung-1">
                             (1)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-3_para-1_abs-1_inhalt-1"
-                                     GUID="6371c352-f9e2-4cc9-9b22-458921d72d99">
-                            <akn:p eId="hauptteil-1_abschnitt-3_para-1_abs-1_inhalt-1_text-1"
-                                   GUID="300a0fd9-9166-4478-82cf-3a741be70325"> Ordnungswidrig handelt, wer vorsätzlich oder
+                        <akn:content GUID="9652597d-e07d-4699-9880-b7c0e4a59001" eId="hauptteil-1_abschnitt-3_para-1_abs-1_inhalt-1">
+                            <akn:p GUID="b6fcdb4b-89ef-4a4a-aedd-f996475e3d3c" eId="hauptteil-1_abschnitt-3_para-1_abs-1_inhalt-1_text-1"> Ordnungswidrig handelt, wer vorsätzlich oder
                                 fahrlässig einer vollziehbaren Anordnung nach § 3 Satz 1 zuwiderhandelt. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <!-- Absatz (2) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-3_para-1_abs-2"
-                                   GUID="91efdc68-f6c5-4acc-bb7f-3e2df4265721">
-                        <akn:num eId="hauptteil-1_abschnitt-3_para-1_abs-2_bezeichnung-1"
-                                 GUID="a16e56f9-ca59-491d-95cf-11ad3752f619">
+                    <akn:paragraph GUID="c8a47816-be8d-409e-8d02-a469d0289463" eId="hauptteil-1_abschnitt-3_para-1_abs-2">
+                        <akn:num GUID="22ba122b-ecb3-48cc-b6ca-e2a943aeae74" eId="hauptteil-1_abschnitt-3_para-1_abs-2_bezeichnung-1">
                             (2)</akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-3_para-1_abs-2_inhalt-1"
-                                     GUID="36e56d23-ef17-423d-8491-923204256b8d">
-                            <akn:p eId="hauptteil-1_abschnitt-3_para-1_abs-2_inhalt-1_text-1"
-                                   GUID="28daa820-db72-43b0-aba3-5e8d8f793449"> Die Ordnungswidrigkeit kann mit einer Geldbuße bis
+                        <akn:content GUID="78cd14e0-b6e1-4379-8d12-462ddb8c51ec" eId="hauptteil-1_abschnitt-3_para-1_abs-2_inhalt-1">
+                            <akn:p GUID="07ac840e-ff00-46c0-bc2d-891160706a39" eId="hauptteil-1_abschnitt-3_para-1_abs-2_inhalt-1_text-1"> Die Ordnungswidrigkeit kann mit einer Geldbuße bis
                                 zu fünftausend Euro geahndet werden. </akn:p>
                         </akn:content>
                     </akn:paragraph>
                 </akn:article>
                 <!-- § 11 -->
-                <akn:article eId="hauptteil-1_abschnitt-3_para-2"
-                             GUID="a9e234c7-40a4-4186-b172-e15f19c61fd2"
-                             period="#geltungszeitgr-1"
-                             refersTo="geltungszeitregel">
-                    <akn:num eId="hauptteil-1_abschnitt-3_para-2_bezeichnung-1"
-                             GUID="a435f39e-408b-40db-985a-5f52cfc3294d">
+                <akn:article GUID="33be836d-27b9-4780-a25b-3e70ad43a7c2" eId="hauptteil-1_abschnitt-3_para-2" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
+                    <akn:num GUID="0f7e0114-2b68-4e60-806e-1972cd56e933" eId="hauptteil-1_abschnitt-3_para-2_bezeichnung-1">
                         § 11</akn:num>
-                    <akn:heading eId="hauptteil-1_abschnitt-3_para-2_überschrift-1"
-                                 GUID="3b86bf85-416c-4d64-b805-54851443f420">Inkrafttreten</akn:heading>
+                    <akn:heading GUID="039b70fe-9ee8-428f-8008-5462b4ad2c0a" eId="hauptteil-1_abschnitt-3_para-2_überschrift-1">Inkrafttreten</akn:heading>
                     <!-- Absatz (1) -->
-                    <akn:paragraph eId="hauptteil-1_abschnitt-3_para-2_abs-1"
-                                   GUID="aa69ebbe-b6bb-43a9-a510-a10f4a54f3de">
-                        <akn:num eId="hauptteil-1_abschnitt-3_para-2_abs-1_bezeichnung-1"
-                                 GUID="f1c9fd17-f974-4999-b671-2560659a08c1">
+                    <akn:paragraph GUID="a42aa5c6-f828-4d3d-b397-44d3ac34cc28" eId="hauptteil-1_abschnitt-3_para-2_abs-1">
+                        <akn:num GUID="a624475a-67f2-42ca-bc99-750822d5d263" eId="hauptteil-1_abschnitt-3_para-2_abs-1_bezeichnung-1">
                             <!-- ohne Nummierung! --></akn:num>
-                        <akn:content eId="hauptteil-1_abschnitt-3_para-2_abs-1_inhalt-1"
-                                     GUID="586d8b32-2531-42e5-954c-d4062d223e0e">
-                            <akn:p eId="hauptteil-1_abschnitt-3_para-2_abs-1_inhalt-1_text-1"
-                                   GUID="f3a43ee9-8eda-4a48-a084-16f8604bd745"> Dieses Gesetz tritt am Tag nach der Verkündung in
+                        <akn:content GUID="e2e16fde-4a45-4ed5-986b-4b0c26d2ccbb" eId="hauptteil-1_abschnitt-3_para-2_abs-1_inhalt-1">
+                            <akn:p GUID="ed89591b-0b66-4634-a9fe-a045c7260c7b" eId="hauptteil-1_abschnitt-3_para-2_abs-1_inhalt-1_text-1"> Dieses Gesetz tritt am Tag nach der Verkündung in
                                 Kraft. </akn:p>
                         </akn:content>
                     </akn:paragraph>
@@ -1293,6 +834,6 @@
             </akn:section>
         </akn:body>
         <!-- Schluss -->
-        <akn:conclusions eId="schluss-1" GUID="f01d8b80-b911-4d2a-871c-4ab30aadf83e"/>
+        <akn:conclusions GUID="5db079a6-c722-496c-ac26-98190605c074" eId="schluss-1"/>
     </akn:act>
 </akn:akomaNtoso>
