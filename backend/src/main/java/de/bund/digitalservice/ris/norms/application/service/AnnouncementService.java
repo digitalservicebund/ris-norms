@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
@@ -167,10 +166,16 @@ public class AnnouncementService
       activeModDestinationElis.forEach(eli ->
         loadNormPort
           .loadNorm(new LoadNormPort.Command(eli))
-          .ifPresent(targetNorm -> {
-            final UUID uuid = targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId();
-            deleteNormByGuidPort.loadNormByGuid(new DeleteNormByGuidPort.Command(uuid));
-          })
+          .ifPresent(targetNorm ->
+            targetNorm
+              .getMeta()
+              .getFRBRExpression()
+              .getFRBRaliasNextVersionId()
+              .ifPresent(uuid -> {
+                deleteNormByGuidPort.loadNormByGuid(new DeleteNormByGuidPort.Command(uuid));
+                targetNorm.getMeta().getFRBRExpression().deleteAliasNextVersionId();
+              })
+          )
       );
     } else if (
       loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()

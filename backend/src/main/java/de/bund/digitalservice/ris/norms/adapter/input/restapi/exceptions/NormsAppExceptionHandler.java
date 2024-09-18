@@ -36,6 +36,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final InvalidUpdateException e) {
     log.error("InvalidUpdateException: {}", e.getMessage(), e);
+
     return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 

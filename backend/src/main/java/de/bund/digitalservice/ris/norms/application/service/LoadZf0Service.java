@@ -37,10 +37,17 @@ public class LoadZf0Service implements LoadZf0UseCase {
     final Norm amendingNorm = query.amendingLaw();
     final Norm targetNorm = query.targetLaw();
 
-    final UUID uuid = targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId();
-    final Optional<Norm> optionalZf0LawDB = loadNormByGuidPort.loadNormByGuid(
-      new LoadNormByGuidPort.Command(uuid)
-    );
+    final Optional<UUID> uuid = targetNorm
+      .getMeta()
+      .getFRBRExpression()
+      .getFRBRaliasNextVersionId();
+    final Optional<Norm> optionalZf0LawDB;
+    if (uuid.isPresent()) {
+      optionalZf0LawDB =
+      loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(uuid.get()));
+    } else {
+      optionalZf0LawDB = Optional.empty();
+    }
 
     if (optionalZf0LawDB.isPresent()) {
       return optionalZf0LawDB.get();
@@ -70,28 +77,28 @@ public class LoadZf0Service implements LoadZf0UseCase {
     final Norm targetNorm,
     final String announcementDateAmendingLaw
   ) {
-    final FRBRExpression frbrExpression = zf0Norm.getMeta().getFRBRExpression();
+    final FRBRExpression zf0FrbrExpression = zf0Norm.getMeta().getFRBRExpression();
 
     // 1.FRBRalias (vorherige-version-id / aktuelle-version-id / nachfolgende-version-id)
     final UUID previousVersionId = targetNorm
       .getMeta()
       .getFRBRExpression()
       .getFRBRaliasCurrentVersionId();
-    frbrExpression.setFRBRaliasPreviousVersionId(previousVersionId);
-    final UUID currentVersionId = targetNorm
-      .getMeta()
-      .getFRBRExpression()
-      .getFRBRaliasNextVersionId();
-    frbrExpression.setFRBRaliasCurrentVersionId(currentVersionId);
-    frbrExpression.setFRBRaliasNextVersionId(UUID.randomUUID());
+    zf0FrbrExpression.setFRBRaliasPreviousVersionId(previousVersionId);
+    final UUID zf0currentVersionId = UUID.randomUUID();
+    zf0FrbrExpression.setFRBRaliasCurrentVersionId(zf0currentVersionId);
+    zf0FrbrExpression.deleteAliasNextVersionId();
+
+    FRBRExpression targetNormExpression = targetNorm.getMeta().getFRBRExpression();
+    targetNormExpression.setFRBRaliasNextVersionId(zf0currentVersionId);
 
     // 2. new eli of zfo
-    final Eli zf0Eli = new Eli(frbrExpression.getEli());
+    final Eli zf0Eli = new Eli(zf0FrbrExpression.getEli());
     zf0Eli.setPointInTime(announcementDateAmendingLaw);
-    frbrExpression.setEli(zf0Eli.getValue());
+    zf0FrbrExpression.setEli(zf0Eli.getValue());
 
     // 3. FRBRDate --> announcement date of amending law + @name="aenderung"
-    frbrExpression.setFBRDate(announcementDateAmendingLaw, "aenderung");
+    zf0FrbrExpression.setFBRDate(announcementDateAmendingLaw, "aenderung");
   }
 
   private void updateFRBRManifestation(

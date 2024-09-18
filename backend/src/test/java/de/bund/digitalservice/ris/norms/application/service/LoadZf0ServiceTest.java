@@ -59,8 +59,8 @@ class LoadZf0ServiceTest {
       .isNotEmpty()
       .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
     assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
-      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isNotNull();
+      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
+    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
     assertThat(frbrExpressionZf0Law.getEli())
       .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
     assertThat(frbrExpressionZf0Law.getFBRDate())
@@ -128,8 +128,8 @@ class LoadZf0ServiceTest {
       .isNotEmpty()
       .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
     assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
-      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isNotNull();
+      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
+    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
     assertThat(frbrExpressionZf0Law.getEli())
       .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
     assertThat(frbrExpressionZf0Law.getFBRDate())

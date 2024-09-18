@@ -964,8 +964,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
       var announcement = Announcement.builder().norm(norm).build();
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"); // "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
       normRepository.save(NormMapper.mapToDto(zf0Norm));
