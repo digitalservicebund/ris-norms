@@ -44,6 +44,7 @@ public class AnnouncementService
   private final LdmlDeValidator ldmlDeValidator;
   private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
   private final DeleteNormByGuidPort deleteNormByGuidPort;
+  private final UpdateNormPort updateNormPort;
 
   public AnnouncementService(
     LoadAllAnnouncementsPort loadAllAnnouncementsPort,
@@ -55,7 +56,8 @@ public class AnnouncementService
     BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
-    DeleteNormByGuidPort deleteNormByGuidPort
+    DeleteNormByGuidPort deleteNormByGuidPort,
+    UpdateNormPort updateNormPort
   ) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
@@ -67,6 +69,7 @@ public class AnnouncementService
     this.ldmlDeValidator = ldmlDeValidator;
     this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
     this.deleteNormByGuidPort = deleteNormByGuidPort;
+    this.updateNormPort = updateNormPort;
   }
 
   @Override
@@ -174,6 +177,7 @@ public class AnnouncementService
               .ifPresent(uuid -> {
                 deleteNormByGuidPort.loadNormByGuid(new DeleteNormByGuidPort.Command(uuid));
                 targetNorm.getMeta().getFRBRExpression().deleteAliasNextVersionId();
+                updateNormPort.updateNorm(new UpdateNormPort.Command(targetNorm));
               })
           )
       );
