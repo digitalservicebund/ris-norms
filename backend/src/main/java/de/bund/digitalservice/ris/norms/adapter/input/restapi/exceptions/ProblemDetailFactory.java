@@ -92,10 +92,15 @@ public class ProblemDetailFactory {
       URI.create("/errors/unsupported-element-type"),
       "Unsupported element type"
     ),
-    NORM_EXISTS_ALREADY(
+    NORM_WITH_ELI_EXISTS_ALREADY(
       NormExistsAlreadyException.class,
-      URI.create("/errors/norm-exists-already"),
-      "Norm exists already"
+      URI.create("/errors/norm-with-eli-exists-already"),
+      "Norm with ELI exists already"
+    ),
+    NORM_WITH_GUID_EXISTS_ALREADY(
+      NormWithGuidAlreadyExistsException.class,
+      URI.create("/errors/norm-with-guid-exists-already"),
+      "Norm with GUID exists already"
     ),
     ACTIVE_MOD_DESTINATION_NORM_NOT_FOUND(
       ActiveModDestinationNormNotFoundException.class,

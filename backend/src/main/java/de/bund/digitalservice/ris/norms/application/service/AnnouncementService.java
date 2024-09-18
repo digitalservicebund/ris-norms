@@ -1,10 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.ActiveModDestinationNormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NotAXmlFileException;
+import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
@@ -42,6 +38,7 @@ public class AnnouncementService
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final LoadNormPort loadNormPort;
+  private final LoadNormByGuidPort loadNormByGuidPort;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
   private final BillToActService billToActService;
@@ -53,6 +50,7 @@ public class AnnouncementService
     LoadAllAnnouncementsPort loadAllAnnouncementsPort,
     LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
     LoadNormPort loadNormPort,
+    LoadNormByGuidPort loadNormByGuidPort,
     LoadZf0Service loadZf0Service,
     UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
     BillToActService billToActService,
@@ -63,6 +61,7 @@ public class AnnouncementService
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.loadNormPort = loadNormPort;
+    this.loadNormByGuidPort = loadNormByGuidPort;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
     this.billToActService = billToActService;
@@ -169,6 +168,10 @@ public class AnnouncementService
             deleteNormByGuidPort.loadNormByGuid(new DeleteNormByGuidPort.Command(uuid));
           })
       );
+    } else if (
+      loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
+    ) {
+      throw new NormWithGuidAlreadyExistsException(norm.getGuid());
     }
 
     var announcement = Announcement.builder().norm(norm).build();

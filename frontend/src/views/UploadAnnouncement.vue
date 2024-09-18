@@ -94,7 +94,7 @@ function onUploadError(event: FileUploadErrorEvent) {
 
   try {
     const responseData = JSON.parse(event.xhr.responseText)
-    if (responseData.type === "/errors/norm-exists-already") {
+    if (responseData.type === "/errors/norm-with-eli-exists-already") {
       showConfirmForceUpload()
     } else {
       error.value = responseData

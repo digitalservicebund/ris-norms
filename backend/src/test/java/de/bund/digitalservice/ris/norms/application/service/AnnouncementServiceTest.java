@@ -6,12 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.ActiveModDestinationNormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
-import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
-import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
-import de.bund.digitalservice.ris.norms.application.exception.NotAXmlFileException;
+import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
@@ -25,6 +20,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
@@ -37,6 +33,7 @@ class AnnouncementServiceTest {
     LoadAnnouncementByNormEliPort.class
   );
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
   final BillToActService billToActService = mock(BillToActService.class);
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
@@ -52,6 +49,7 @@ class AnnouncementServiceTest {
     loadAllAnnouncementsPort,
     loadAnnouncementByNormEliPort,
     loadNormPort,
+    loadNormByGuidPort,
     loadZf0Service,
     updateOrSaveAnnouncementPort,
     billToActService,
@@ -415,6 +413,43 @@ class AnnouncementServiceTest {
       var query = new CreateAnnouncementUseCase.Query(file, false);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
         .isInstanceOf(NormExistsAlreadyException.class);
+    }
+
+    @Test
+    void itThrowsWhenANormWithSameGuidExists() throws IOException {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      final MultipartFile file = new MockMultipartFile(
+        "file",
+        "norm.xml",
+        "text/xml",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
+      )
+        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+        )
+      )
+        .thenReturn(Optional.empty());
+      when(
+        loadNormByGuidPort.loadNormByGuid(
+          new LoadNormByGuidPort.Command(UUID.fromString("ba44d2ae-0e73-44ba-850a-932ab2fa553f"))
+        )
+      )
+        .thenReturn(Optional.of(norm));
+
+      // When // Then
+      var query = new CreateAnnouncementUseCase.Query(file, false);
+      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+        .isInstanceOf(NormWithGuidAlreadyExistsException.class);
     }
 
     @Test

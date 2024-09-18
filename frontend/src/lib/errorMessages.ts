@@ -169,9 +169,18 @@ export const errorMessages = {
     message: "Ein unerwarteter Fehler ist aufgetreten",
   }),
 
-  "/errors/norm-exists-already": (e: ErrorResponse<{ eli: string }>) => ({
+  "/errors/norm-with-eli-exists-already": (
+    e: ErrorResponse<{ eli: string }>,
+  ) => ({
     title: "Norm existiert bereits",
     message: `Norm "${e.eli}" existiert bereits.`,
+  }),
+
+  "/errors/norm-with-guid-exists-already": (
+    e: ErrorResponse<{ guid: string }>,
+  ) => ({
+    title: "Identifikator GUID bereits im System",
+    message: `Es existiert bereits eine Norm mit dem GUID "${e.guid}.`,
   }),
 
   "/errors/active-mod/destination/norm-not-found": (

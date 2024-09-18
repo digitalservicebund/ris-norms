@@ -807,7 +807,37 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
-        .andExpect(jsonPath("type", equalTo("/errors/norm-exists-already")));
+        .andExpect(jsonPath("type", equalTo("/errors/norm-with-eli-exists-already")));
+    }
+
+    @Test
+    void itFailsIfANormWithSameGuidAlreadyExist() throws Exception {
+      // Given
+      var normWithSameGuid = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var affectedNormForNormWithSameGuid = NormFixtures.loadFromDisk(
+        "NormWithoutPassiveModifications.xml"
+      );
+      var norm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
+
+      normRepository.save(NormMapper.mapToDto(affectedNormForNormWithSameGuid));
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      normWithSameGuid.getMeta().getFRBRExpression().setFRBRaliasCurrentVersionId(norm.getGuid());
+      var xmlContent = XmlMapper.toString(normWithSameGuid.getDocument());
+      var file = new MockMultipartFile(
+        "file",
+        "norm.xml",
+        "text/xml",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+
+      // When // Then
+      mockMvc
+        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnprocessableEntity())
+        .andExpect(jsonPath("type", equalTo("/errors/norm-with-guid-exists-already")));
     }
 
     @Test

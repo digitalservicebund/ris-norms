@@ -226,6 +226,24 @@ public class NormsAppExceptionHandler {
   }
 
   /**
+   * Exception handler method for handling {@link NormWithGuidAlreadyExistsException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
+   */
+  @ExceptionHandler(NormWithGuidAlreadyExistsException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final NormWithGuidAlreadyExistsException e) {
+    log.error("NormWithGuidAlreadyExistsException: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
+    problemDetail.setProperty("guid", e.getGuid());
+    return problemDetail;
+  }
+
+  /**
    * Exception handler method for handling {@link ActiveModDestinationNormNotFoundException}.
    *
    * @param e The exception that occurred.
