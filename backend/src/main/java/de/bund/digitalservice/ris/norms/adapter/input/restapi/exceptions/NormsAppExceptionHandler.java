@@ -283,6 +283,25 @@ public class NormsAppExceptionHandler {
   }
 
   /**
+   * Exception handler method for handling {@link NotLdmlDeXmlFileException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
+   */
+  @ExceptionHandler(NotLdmlDeXmlFileException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final NotLdmlDeXmlFileException e) {
+    log.error("NotLdmlDeXmlFileException: {}", e.getMessage(), e);
+
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.UNPROCESSABLE_ENTITY
+    );
+    problemDetail.setProperty("fileName", e.getFileName());
+    return problemDetail;
+  }
+
+  /**
    * Exception handler method for handling {@link LdmlDeNotValidException}.
    *
    * @param e The exception that occurred.

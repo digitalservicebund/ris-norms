@@ -94,6 +94,32 @@ test("shows an error if the uploaded norm is not an XML file", async ({
   await expect(page.getByText("amendingLaw ist keine XML-Datei.")).toBeVisible()
 })
 
+test("shows an error if the uploaded xml is not a LDML.de file", async ({
+  page,
+}) => {
+  await page.goto("/amending-laws/upload")
+
+  const simpleXml = `
+    <root>
+      <child>Sample content</child>
+    </root>
+  `
+
+  await page.locator("input[type=file]").setInputFiles([
+    {
+      buffer: Buffer.from(simpleXml),
+      mimeType: "text/xml",
+      name: "test.xml",
+    },
+  ])
+
+  await page.getByRole("button", { name: "Hochladen" }).click()
+
+  await expect(
+    page.getByText('Die XML-Datei "test.xml" ist keine LDML.de-Datei.'),
+  ).toBeVisible()
+})
+
 test("shows validation errors if the uploaded norm is not an xsd-valid LDML document", async ({
   page,
 }) => {

@@ -758,6 +758,30 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void itFailsIfTheXmlIsNotLdmlDe() throws Exception {
+      //Given
+      var xmlContent =
+        """
+            <root>
+              <child>Sample content</child>
+            </root>
+        """;
+      var file = new MockMultipartFile(
+        "file",
+        "norm.xml",
+        "text/xml",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+
+      // When // Then
+      mockMvc
+        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnprocessableEntity())
+        .andExpect(jsonPath("type", equalTo("/errors/not-a-ldml-de-xml-file")))
+        .andExpect(jsonPath("fileName", equalTo("norm.xml")));
+    }
+
+    @Test
     void itFailsIfTheAffectedNormDoesNotExist() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMods.xml");

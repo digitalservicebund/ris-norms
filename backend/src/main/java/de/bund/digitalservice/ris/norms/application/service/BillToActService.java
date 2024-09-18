@@ -39,12 +39,13 @@ public class BillToActService {
    * Coverts a bill to an act. This is needed for the "Mini-Kreislauf" where we receive bills from
    * E-Gesetzgebung. Later we will get acts from E-Verkündung.
    *
-   * @param xmlString a bill xml as a {@link String}
+   * @param document a bill xml as a {@link String}
    * @return The updated act as a {@link String}
    */
-  public String convert(String xmlString) {
-    Document document = XmlMapper.toDocument(xmlString);
-    if (NodeParser.getNodeFromExpression("//*/act", document).isPresent()) return xmlString;
+  public String convert(Document document) {
+    if (
+      NodeParser.getNodeFromExpression("//*/act", document).isPresent()
+    ) return XmlMapper.toString(document);
 
     updateXsdLocation(document);
     updateBillToAct(document);

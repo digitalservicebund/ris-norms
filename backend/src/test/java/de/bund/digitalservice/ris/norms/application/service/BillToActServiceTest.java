@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
@@ -18,7 +19,7 @@ class BillToActServiceTest {
     final String xmlString = NormFixtures.loadTextFromDisk("NormWithMods.xml");
 
     // when
-    String result = underTest.convert(xmlString);
+    String result = underTest.convert(XmlMapper.toDocument(xmlString));
 
     // then
     final Diff diff = DiffBuilder
@@ -37,7 +38,7 @@ class BillToActServiceTest {
     );
 
     // when
-    String result = underTest.convert(xmlString);
+    String result = underTest.convert(XmlMapper.toDocument(xmlString));
 
     // then
     final Diff diff = DiffBuilder

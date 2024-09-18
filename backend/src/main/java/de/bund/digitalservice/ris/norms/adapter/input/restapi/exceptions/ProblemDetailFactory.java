@@ -112,6 +112,11 @@ public class ProblemDetailFactory {
       URI.create("/errors/not-a-xml-file"),
       "The provided file is not a xml file"
     ),
+    NOT_LDML_DE_FILE(
+      NotLdmlDeXmlFileException.class,
+      URI.create("/errors/not-a-ldml-de-xml-file"),
+      "The provided xml file is not a LDML.de xml file"
+    ),
     LDML_DE_NOT_VALID(
       LdmlDeNotValidException.class,
       LdmlDeNotValidException.TYPE,

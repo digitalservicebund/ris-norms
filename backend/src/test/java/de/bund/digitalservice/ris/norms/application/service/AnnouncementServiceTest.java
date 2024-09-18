@@ -358,6 +358,28 @@ class AnnouncementServiceTest {
     }
 
     @Test
+    void itThrowsWhenXmlNotLdmlDe() throws IOException {
+      // Given
+      var xmlContent =
+        """
+            <root>
+              <child>Sample content</child>
+            </root>
+        """;
+      final MultipartFile file = new MockMultipartFile(
+        "file",
+        "norm.xml",
+        "text/xml",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+
+      // When // Then
+      var query = new CreateAnnouncementUseCase.Query(file, false);
+      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+        .isInstanceOf(NotLdmlDeXmlFileException.class);
+    }
+
+    @Test
     void itThrowsWhenADestinationEliDoesNotExist() throws IOException {
       // Given
       var xmlContent = XmlMapper.toString(

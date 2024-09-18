@@ -118,8 +118,12 @@ public class AnnouncementService
     }
 
     var xmlString = IOUtils.toString(query.file().getInputStream(), Charset.defaultCharset());
+    var document = XmlMapper.toDocument(xmlString);
 
-    String actString = billToActService.convert(xmlString);
+    if (!document.getDocumentElement().getTagName().equals("akn:akomaNtoso")) {
+      throw new NotLdmlDeXmlFileException(query.file().getOriginalFilename());
+    }
+    final String actString = billToActService.convert(document);
 
     // it throws an exception if the validation fails or the LDML.de Version is not 1.6
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are

@@ -197,6 +197,13 @@ export const errorMessages = {
     message: `Die Datei "${e.fileName}" ist keine XML-Datei. Der Inhaltstyp ist "${e.contentType}".`,
   }),
 
+  "/errors/not-a-ldml-de-xml-file": (
+    e: ErrorResponse<{ fileName: string }>,
+  ) => ({
+    title: "Ungültige Datei",
+    message: `Die XML-Datei "${e.fileName}" ist keine LDML.de-Datei.`,
+  }),
+
   "/errors/ldml-de-not-valid": () => ({
     title: "Invalide LDML.de-Datei",
     message: "Das LDML.de 1.6-Dokument ist nicht gültig.",
