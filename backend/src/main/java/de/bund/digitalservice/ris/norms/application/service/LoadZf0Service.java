@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNorm
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.DocumentUtils;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
@@ -36,15 +37,22 @@ public class LoadZf0Service implements LoadZf0UseCase {
     final Norm amendingNorm = query.amendingLaw();
     final Norm targetNorm = query.targetLaw();
 
-    return targetNorm
+    final Optional<UUID> uuid = targetNorm
       .getMeta()
       .getFRBRExpression()
-      .getFRBRaliasNextVersionId()
-      .flatMap(uuid -> loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(uuid)))
-      .orElseGet(() -> createAndPersistZf0(query.persistZf0(), amendingNorm, targetNorm));
-  }
+      .getFRBRaliasNextVersionId();
+    final Optional<Norm> optionalZf0LawDB;
+    if (uuid.isPresent()) {
+      optionalZf0LawDB =
+      loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(uuid.get()));
+    } else {
+      optionalZf0LawDB = Optional.empty();
+    }
 
-  private Norm createAndPersistZf0(boolean shouldPersist, Norm amendingNorm, Norm targetNorm) {
+    if (optionalZf0LawDB.isPresent()) {
+      return optionalZf0LawDB.get();
+    }
+
     final Norm zf0Norm = Norm
       .builder()
       .document(DocumentUtils.cloneDocument(targetNorm.getDocument()))
@@ -58,7 +66,7 @@ public class LoadZf0Service implements LoadZf0UseCase {
       new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNorm.getEli())
     );
 
-    if (shouldPersist) {
+    if (query.persistZf0()) {
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
     return zf0Norm;
