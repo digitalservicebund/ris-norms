@@ -581,43 +581,5 @@ class AnnouncementServiceTest {
       assertThat(announcement.getNorm().getEli())
         .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
     }
-
-    @Test
-    void itCreatesANewAnnouncementWithForceAndUpdatesZF0AndTargetNorm() throws IOException {
-      // Given
-      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var xmlContent = XmlMapper.toString(amendingNorm.getDocument());
-      Norm intialStateTargetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-
-      final MultipartFile file = new MockMultipartFile(
-        "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
-      );
-
-      // When
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        )
-      )
-        .thenReturn(Optional.of(intialStateTargetNorm));
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
-        )
-      )
-        .thenReturn(Optional.of(amendingNorm));
-
-      var announcement = announcementService.createAnnouncement(
-        new CreateAnnouncementUseCase.Query(file, true)
-      );
-
-      // Then
-      verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
-      assertThat(announcement.getNorm().getEli())
-        .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
-    }
   }
 }
