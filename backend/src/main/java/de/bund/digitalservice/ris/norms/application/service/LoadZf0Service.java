@@ -71,12 +71,7 @@ public class LoadZf0Service implements LoadZf0UseCase {
   ) {
     final FRBRExpression zf0FrbrExpression = zf0Norm.getMeta().getFRBRExpression();
 
-    updateFRBRalias(zf0FrbrExpression, targetNorm);
-    updateEli(zf0FrbrExpression, announcementDateAmendingLaw);
-    updateFRBRDate(zf0FrbrExpression, announcementDateAmendingLaw);
-  }
-
-  private void updateFRBRalias(FRBRExpression zf0FrbrExpression, Norm targetNorm) {
+    // 1.FRBRalias (vorherige-version-id / aktuelle-version-id / nachfolgende-version-id)
     final UUID previousVersionId = targetNorm
       .getMeta()
       .getFRBRExpression()
@@ -88,18 +83,13 @@ public class LoadZf0Service implements LoadZf0UseCase {
 
     FRBRExpression targetNormExpression = targetNorm.getMeta().getFRBRExpression();
     targetNormExpression.setFRBRaliasNextVersionId(zf0currentVersionId);
-  }
 
-  private void updateEli(FRBRExpression zf0FrbrExpression, String announcementDateAmendingLaw) {
+    // 2. new eli of zfo
     final Eli zf0Eli = new Eli(zf0FrbrExpression.getEli());
     zf0Eli.setPointInTime(announcementDateAmendingLaw);
     zf0FrbrExpression.setEli(zf0Eli.getValue());
-  }
 
-  private void updateFRBRDate(
-    FRBRExpression zf0FrbrExpression,
-    String announcementDateAmendingLaw
-  ) {
+    // 3. FRBRDate --> announcement date of amending law + @name="aenderung"
     zf0FrbrExpression.setFBRDate(announcementDateAmendingLaw, "aenderung");
   }
 
