@@ -86,13 +86,10 @@ public class FRBRExpression extends FRBR {
    *
    * @return the uuid
    */
-  public UUID getFRBRaliasNextVersionId() {
-    return UUID.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression(
-        "./FRBRalias[@name='nachfolgende-version-id']/@value",
-        getNode()
-      )
-    );
+  public Optional<UUID> getFRBRaliasNextVersionId() {
+    return NodeParser
+      .getValueFromExpression("./FRBRalias[@name='nachfolgende-version-id']/@value", getNode())
+      .map(UUID::fromString);
   }
 
   /**
@@ -102,9 +99,29 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRaliasNextVersionId(final UUID uuid) {
     NodeParser
-      .getMandatoryNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .orElseGet(() -> {
+        final Element nextVersionAlias = NodeCreator.createElementWithEidAndGuid(
+          "akn:FRBRalias",
+          getNode()
+        );
+        nextVersionAlias.setAttribute("name", "nachfolgende-version-id");
+        nextVersionAlias.setAttribute(VALUE_ATTIBUTE, uuid.toString());
+        getNode().appendChild(nextVersionAlias);
+        return nextVersionAlias;
+      })
       .getAttributes()
       .getNamedItem(VALUE_ATTIBUTE)
       .setNodeValue(uuid.toString());
+  }
+
+  /**
+   * Deletes the FRBRalias with the next version id.
+   *
+   */
+  public void deleteAliasNextVersionId() {
+    NodeParser
+      .getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .ifPresent(node -> node.getParentNode().removeChild(node));
   }
 }

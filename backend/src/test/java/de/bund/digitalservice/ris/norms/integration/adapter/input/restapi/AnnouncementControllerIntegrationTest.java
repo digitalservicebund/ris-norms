@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
@@ -16,6 +17,7 @@ import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -964,8 +966,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
       var announcement = Announcement.builder().norm(norm).build();
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"); // "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
       normRepository.save(NormMapper.mapToDto(zf0Norm));
@@ -992,6 +994,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         );
 
       assertThat(normRepository.findByEli(zf0Norm.getEli())).isEmpty();
+      final Optional<NormDto> targetNormDto = normRepository.findByEli(affectedNorm.getEli());
+      assertThat(targetNormDto).isPresent();
+      final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
+      assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isEmpty();
     }
   }
 }

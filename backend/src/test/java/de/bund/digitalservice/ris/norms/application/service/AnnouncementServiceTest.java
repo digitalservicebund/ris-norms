@@ -44,6 +44,7 @@ class AnnouncementServiceTest {
     DeleteAnnouncementByNormEliPort.class
   );
   final DeleteNormByGuidPort deleteNormByGuidPort = mock(DeleteNormByGuidPort.class);
+  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
 
   final AnnouncementService announcementService = new AnnouncementService(
     loadAllAnnouncementsPort,
@@ -55,7 +56,8 @@ class AnnouncementServiceTest {
     billToActService,
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
-    deleteNormByGuidPort
+    deleteNormByGuidPort,
+    updateNormPort
   );
 
   @Nested
@@ -569,12 +571,6 @@ class AnnouncementServiceTest {
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        )
-      )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
 
       var announcement = announcementService.createAnnouncement(
         new CreateAnnouncementUseCase.Query(file, true)

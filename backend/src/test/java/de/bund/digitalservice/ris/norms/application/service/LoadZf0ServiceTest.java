@@ -59,8 +59,77 @@ class LoadZf0ServiceTest {
       .isNotEmpty()
       .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
     assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
-      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isNotNull();
+      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
+    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
+    assertThat(frbrExpressionZf0Law.getEli())
+      .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
+    assertThat(frbrExpressionZf0Law.getFBRDate())
+      .isEqualTo(amendingLaw.getMeta().getFRBRWork().getFBRDate());
+
+    final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
+    assertThat(frbrManifestationZf0Law.getEli()).contains(frbrExpressionZf0Law.getEli());
+    assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
+
+    assertThat(
+      targetLaw
+        .getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getPassiveModifications().stream())
+        .orElse(Stream.empty())
+    )
+      .isEmpty();
+    assertThat(
+      zf0Norm
+        .getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getPassiveModifications().stream())
+        .orElse(Stream.empty())
+    )
+      .hasSize(1);
+    final TextualMod activeMod = amendingLaw
+      .getMeta()
+      .getAnalysis()
+      .map(analysis -> analysis.getActiveModifications().stream())
+      .orElse(Stream.empty())
+      .toList()
+      .getFirst();
+    final TextualMod passiveMod = zf0Norm
+      .getMeta()
+      .getAnalysis()
+      .map(analysis -> analysis.getPassiveModifications().stream())
+      .orElse(Stream.empty())
+      .toList()
+      .getFirst();
+    assertThat(passiveMod.getType()).isEqualTo(activeMod.getType());
+    assertThat(passiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
+      .isEqualTo(amendingLaw.getEli());
+    assertThat(passiveMod.getDestinationHref().orElseThrow().getEId())
+      .isEqualTo(activeMod.getDestinationHref().orElseThrow().getEId());
+    assertThat(passiveMod.getForcePeriodEid()).isNotEmpty();
+  }
+
+  @Test
+  void itSuccessfullyCreatesZf0OutOfTargetLawWhenNextVersionIsMissing() {
+    // Given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm targetLaw = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModificationsNoNextVersion.xml"
+    );
+
+    // When
+    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
+      new LoadZf0UseCase.Query(amendingLaw, targetLaw)
+    );
+
+    // Then
+    final FRBRExpression frbrExpressionTargetLaw = targetLaw.getMeta().getFRBRExpression();
+    final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
+    assertThat(frbrExpressionZf0Law.getFRBRaliasPreviousVersionId())
+      .isNotEmpty()
+      .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
+    assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
+      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
+    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
     assertThat(frbrExpressionZf0Law.getEli())
       .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
     assertThat(frbrExpressionZf0Law.getFBRDate())
@@ -128,8 +197,8 @@ class LoadZf0ServiceTest {
       .isNotEmpty()
       .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
     assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
-      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isNotNull();
+      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
+    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
     assertThat(frbrExpressionZf0Law.getEli())
       .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
     assertThat(frbrExpressionZf0Law.getFBRDate())
