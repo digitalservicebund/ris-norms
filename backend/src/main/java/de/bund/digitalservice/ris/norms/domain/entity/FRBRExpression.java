@@ -120,13 +120,8 @@ public class FRBRExpression extends FRBR {
    *
    */
   public void deleteAliasNextVersionId() {
-    Optional<Node> alias = NodeParser.getNodeFromExpression(
-      "./FRBRalias[@name='nachfolgende-version-id']",
-      getNode()
-    );
-    if (alias.isPresent()) {
-      Node parent = alias.get().getParentNode();
-      parent.removeChild(alias.get());
-    }
+    NodeParser
+      .getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .ifPresent(node -> node.getParentNode().removeChild(node));
   }
 }
