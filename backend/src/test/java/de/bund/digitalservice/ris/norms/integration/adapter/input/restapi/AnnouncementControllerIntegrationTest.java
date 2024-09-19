@@ -994,46 +994,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         );
 
       assertThat(normRepository.findByEli(zf0Norm.getEli())).isEmpty();
-    }
-
-    @Test
-    void itUpdatesTargetNormAndDeletesZf0() throws Exception {
-      // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var announcement = Announcement.builder().norm(norm).build();
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"); // "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"
-
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(zf0Norm));
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-
-      var xmlContent = XmlMapper.toString(norm.getDocument());
-      var file = new MockMultipartFile(
-        "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
-      );
-
-      // When // Then
-      mockMvc
-        .perform(
-          multipart("/api/v1/announcements?force=true")
-            .file(file)
-            .accept(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-        .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
-        );
-
-      assertThat(normRepository.findByEli(zf0Norm.getEli())).isEmpty();
-      Optional<NormDto> targetNormDto = normRepository.findByEli(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      );
+      final Optional<NormDto> targetNormDto = normRepository.findByEli(affectedNorm.getEli());
       assertThat(targetNormDto).isPresent();
-      Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
+      final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
       assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isEmpty();
     }
   }
