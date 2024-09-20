@@ -15,7 +15,7 @@ flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 # CVE-2024-7254
-google-protobuf-java = "com.google.protobuf:protobuf-java:3.25.5"
+google-protobuf-java = "com.google.protobuf:protobuf-java:4.28.2"
 lombok = "org.projectlombok:lombok:1.18.34"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.13.0"
 postgresql = "org.postgresql:postgresql:42.7.4"
