@@ -16,6 +16,14 @@ vi.mock("@/composables/useNormRender", () => ({
   }),
 }))
 
+vi.mock("primevue/usetoast", () => {
+  return {
+    useToast: () => ({
+      add: vi.fn(),
+    }),
+  }
+})
+
 describe("RisModRefsEditor", () => {
   beforeEach(() => {
     vi.resetAllMocks()
