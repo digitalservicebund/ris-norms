@@ -1,115 +1,163 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
 	##################################################################################
 	Discovery Metadaten&#x2D;Struktur für nichtdefinierte Metadaten auf LDML.de&#x2D;Ebene
 	2024 Copyright (C) 2024 Digitalservice GmbH des Bundes
 	##################################################################################
---><?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso
-        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
+-->
+<?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
    <akn:act name="regelungstext">
 <!-- Metadaten-->
        <akn:meta eId="meta-1" GUID="52226401-eb20-4c64-8077-bacdcf3bf584">
-         <akn:identification eId="meta-1_ident-1" GUID="e225e375-84cf-4f86-8b81-e3e8d6755e22"
+         <akn:identification eId="meta-1_ident-1"
+                             GUID="e225e375-84cf-4f86-8b81-e3e8d6755e22"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="1223336c-174a-4ebe-96b6-23b73d74249d">
-               <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="8ab599fb-6c27-434a-a769-2f0b15ea3761"
-                             value="eli/bund/bgbl-1/2000/s717/regelungstext-1"></akn:FRBRthis>
-               <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="a90733dd-4780-472d-8371-a3690f2e869a"
-                            value="eli/bund/bgbl-1/2000/s717"></akn:FRBRuri>
-               <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="f6c40af6-f65c-4eef-8ffe-9696eb2f0d2b"
-                              name="übergreifende-id" value="2c1a6ec9-7161-4e2f-8999-91219180d992"></akn:FRBRalias>
-               <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="0b3ed103-3c9f-4df9-970f-4e296b2e6811"
-                             date="2000-05-10" name="verkuendungsfassung"></akn:FRBRdate>
-               <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" GUID="2fa426b3-6592-40ed-a1ff-65fd5ddc07d1"
-                               href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
+            <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1"
+                          GUID="1223336c-174a-4ebe-96b6-23b73d74249d">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                             GUID="8ab599fb-6c27-434a-a769-2f0b15ea3761"
+                             value="eli/bund/bgbl-1/2000/s717/regelungstext-1"/>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                            GUID="a90733dd-4780-472d-8371-a3690f2e869a"
+                            value="eli/bund/bgbl-1/2000/s717"/>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1"
+                              GUID="f6c40af6-f65c-4eef-8ffe-9696eb2f0d2b"
+                              name="übergreifende-id"
+                              value="2c1a6ec9-7161-4e2f-8999-91219180d992"/>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
+                             GUID="0b3ed103-3c9f-4df9-970f-4e296b2e6811"
+                             date="2000-05-10"
+                             name="verkuendungsfassung"/>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                               GUID="2fa426b3-6592-40ed-a1ff-65fd5ddc07d1"
+                               href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRcountry eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"
-                                GUID="0b8bfe94-3e70-4db2-94b5-cf3f1a37fc7e" value="de"></akn:FRBRcountry>
-               <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="439e34d4-7228-48e3-bfb3-9c6f30fefdc5"
-                               value="s717"></akn:FRBRnumber>
-               <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="a70716e1-c0c7-44d3-a795-a04fcc25cca8"
-                             value="bgbl-1"></akn:FRBRname>
+                                GUID="0b8bfe94-3e70-4db2-94b5-cf3f1a37fc7e"
+                                value="de"/>
+               <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
+                               GUID="439e34d4-7228-48e3-bfb3-9c6f30fefdc5"
+                               value="s717"/>
+               <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1"
+                             GUID="a70716e1-c0c7-44d3-a795-a04fcc25cca8"
+                             value="bgbl-1"/>
                <akn:FRBRsubtype eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"
-                                GUID="af948830-e615-4dd5-8237-b8c830939f78" value="regelungstext-1"></akn:FRBRsubtype>
+                                GUID="af948830-e615-4dd5-8237-b8c830939f78"
+                                value="regelungstext-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="21777967-2f44-49be-845d-d73c0ffb4d5b">
+            <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
+                                GUID="21777967-2f44-49be-845d-d73c0ffb4d5b">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
                              GUID="85e064f4-f56f-4cef-86a4-6801cc71c712"
-                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1"></akn:FRBRthis>
-               <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="e8f52739-79c1-4e59-9db2-004180c8b29c"
-                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu"></akn:FRBRuri>
+                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1"/>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                            GUID="e8f52739-79c1-4e59-9db2-004180c8b29c"
+                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
-                              GUID="c2e78146-833b-4d78-a055-27f05eeaf018" name="aktuelle-version-id"
-                              value="53d31e3c-5c46-4e96-8017-b0db064561a2"></akn:FRBRalias>
+                              GUID="c2e78146-833b-4d78-a055-27f05eeaf018"
+                              name="aktuelle-version-id"
+                              value="53d31e3c-5c46-4e96-8017-b0db064561a2"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
-                              GUID="2fd1cd57-d43c-4f95-82ee-cfc6f890741c" name="nachfolgende-version-id"
-                              value="5d84cd1d-3575-4a03-bb6c-f17834e392fe"></akn:FRBRalias>
+                              GUID="2fd1cd57-d43c-4f95-82ee-cfc6f890741c"
+                              name="nachfolgende-version-id"
+                              value="5d84cd1d-3575-4a03-bb6c-f17834e392fe"/>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
                                GUID="6aace8d0-001f-4829-9794-79857835ee45"
-                               href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
+                               href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
-                             GUID="a6dc32d0-140d-4147-88b2-d64639b91742" date="2021-06-02"
-                             name="verkuendung"></akn:FRBRdate>
+                             GUID="a6dc32d0-140d-4147-88b2-d64639b91742"
+                             date="2021-06-02"
+                             name="verkuendung"/>
                <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
-                                 GUID="b872861e-0add-4bbb-ba90-a5edb3c40038" language="deu"></akn:FRBRlanguage>
-               <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1"
-                                      GUID="22170c7e-8c51-4d7c-9917-16d5ea7494fc" value="1"></akn:FRBRversionNumber>
+                                 GUID="b872861e-0add-4bbb-ba90-a5edb3c40038"
+                                 language="deu"/>
+               <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"
+                                      GUID="22170c7e-8c51-4d7c-9917-16d5ea7494fc"
+                                      value="1"/>
             </akn:FRBRExpression>
-            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
+            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                   GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
-                             value="eli/bund/bgbl-1/2000/s717/1/deu/regelungstext-1.xml"></akn:FRBRthis>
+                             value="eli/bund/bgbl-1/2000/s717/1/deu/regelungstext-1.xml/2021-06-02"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="d0491f91-d599-46d4-ba61-c7426b607e4f"
-                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1.xml"></akn:FRBRuri>
+                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-1.xml"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
-                             GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612" date="2021-06-02"
-                             name="generierung"></akn:FRBRdate>
+                             GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612"
+                             date="2021-06-02"
+                             name="generierung"/>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
-                               GUID="1d015a20-823e-496e-808d-27c8fec85b51" href="recht.bund.de"></akn:FRBRauthor>
+                               GUID="1d015a20-823e-496e-808d-27c8fec85b51"
+                               href="recht.bund.de"/>
                <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
-                               GUID="758b3dc8-a5f1-46fe-bda3-97cd0930da67" value="xml"></akn:FRBRformat>
+                               GUID="758b3dc8-a5f1-46fe-bda3-97cd0930da67"
+                               value="xml"/>
             </akn:FRBRManifestation>
          </akn:identification>
-         <akn:lifecycle eId="meta-1_lebzykl-1" GUID="cef30a63-d738-4712-bac8-50fda44949e2"
+         <akn:lifecycle eId="meta-1_lebzykl-1"
+                        GUID="cef30a63-d738-4712-bac8-50fda44949e2"
                         source="attributsemantik-noch-undefiniert">
 <!-- 1. Originales Gesetz -->
-             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="65f3910d-4e79-45f8-a24d-44ef7523963a"
-                           date="1955-12-21" source="attributsemantik-noch-undefiniert" type="generation"
-                           refersTo="ausfertigung"></akn:eventRef>
-            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="22cfa201-1d32-4655-afae-4bf01e9ba75c"
-                          date="1955-12-21" source="attributsemantik-noch-undefiniert" type="generation"
-                          refersTo="inkrafttreten"></akn:eventRef>
+             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
+                           GUID="65f3910d-4e79-45f8-a24d-44ef7523963a"
+                           date="1955-12-21"
+                           source="attributsemantik-noch-undefiniert"
+                           type="generation"
+                           refersTo="ausfertigung"/>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
+                          GUID="22cfa201-1d32-4655-afae-4bf01e9ba75c"
+                          date="1955-12-21"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"
+                          refersTo="inkrafttreten"/>
              <!-- Neufassung -->
-             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="85e92fc8-b381-47bb-a476-c35fa2794336"
-                           date="2000-05-10" source="attributsemantik-noch-undefiniert" type="amendment"
-                           refersTo="neufassung"></akn:eventRef>
+             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3"
+                           GUID="85e92fc8-b381-47bb-a476-c35fa2794336"
+                           date="2000-05-10"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"
+                           refersTo="neufassung"/>
              <!-- Letzte Änderung -->
-             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4" GUID="85e92fc8-b381-47bb-a476-c35fa2794337"
-                           date="2023-01-01" source="attributsemantik-noch-undefiniert" type="amendment"
-                           refersTo="inkrafttreten"></akn:eventRef>
+             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
+                           GUID="85e92fc8-b381-47bb-a476-c35fa2794337"
+                           date="2023-01-01"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"
+                           refersTo="inkrafttreten"/>
          </akn:lifecycle>
-         <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d"
+         <akn:temporalData eId="meta-1_geltzeiten-1"
+                           GUID="58a31120-e277-4a33-a093-6a3637fd603d"
                            source="attributsemantik-noch-undefiniert">
-            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
+                               GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
-                                 GUID="a43d0287-920d-4fbb-91d1-42fd7e03fe16" start="#meta-1_lebzykl-1_ereignis-2"
-                                 refersTo="geltungszeit"></akn:timeInterval>
+                                 GUID="a43d0287-920d-4fbb-91d1-42fd7e03fe16"
+                                 start="#meta-1_lebzykl-1_ereignis-2"
+                                 refersTo="geltungszeit"/>
             </akn:temporalGroup>
-            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="0477223f-0f4e-4f79-9656-5ff7d2afd9c4">
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
+                               GUID="0477223f-0f4e-4f79-9656-5ff7d2afd9c4">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
-                                 GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac75f" start="#meta-1_lebzykl-1_ereignis-3"
-                                 refersTo="geltungszeit"></akn:timeInterval>
+                                 GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac75f"
+                                 start="#meta-1_lebzykl-1_ereignis-3"
+                                 refersTo="geltungszeit"/>
             </akn:temporalGroup>
-            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3" GUID="0477223f-0f4e-4f79-9656-5ff7d2afd9c5">
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3"
+                               GUID="0477223f-0f4e-4f79-9656-5ff7d2afd9c5">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
-                                 GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac755" start="#meta-1_lebzykl-1_ereignis-4"
-                                 refersTo="geltungszeit"></akn:timeInterval>
+                                 GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac755"
+                                 start="#meta-1_lebzykl-1_ereignis-4"
+                                 refersTo="geltungszeit"/>
             </akn:temporalGroup>
          </akn:temporalData>
            <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung. -->
-           <akn:proprietary eId="meta-1_proprietary-1" GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
+           <akn:proprietary eId="meta-1_proprietary-1"
+                            GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
                             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>stammform</meta:form>
                <meta:fassung>neufassung</meta:fassung>
@@ -126,22 +174,26 @@
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>
            <!-- Metadaten vom DS definiert -->
-           <akn:proprietary eId="meta-1_proprietary-2" GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8"
+           <akn:proprietary eId="meta-1_proprietary-2"
+                            GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8"
                             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-               <meta:subtyp>SN</meta:subtyp>
-           </meta:legalDocML.de_metadaten_ds>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+               <ris:subtyp>SN</ris:subtyp>
+            </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface eId="einleitung-1" GUID="803123ed-9705-4e0f-8a7c-a648084e1638">
-         <akn:longTitle eId="einleitung-1_doktitel-1" GUID="9610fccb-c35a-4756-81fb-0bb8fa111000">
-            <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a80af8c8-c844-4b75-824f-cdbf2f666d07">
+         <akn:longTitle eId="einleitung-1_doktitel-1"
+                        GUID="9610fccb-c35a-4756-81fb-0bb8fa111000">
+            <akn:p eId="einleitung-1_doktitel-1_text-1"
+                   GUID="a80af8c8-c844-4b75-824f-cdbf2f666d07">
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
                              GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Einkommensteuer-Durchführungsverordnung
                </akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
                                GUID="f25432ed-590e-4bfc-bd6f-2ded9c586dba">
-                  <akn:inline refersTo="amtliche-abkuerzung" name="attributsemantik-noch-undefiniert"
+                  <akn:inline refersTo="amtliche-abkuerzung"
+                              name="attributsemantik-noch-undefiniert"
                               eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
                               GUID="3d5ecf29-792c-4854-99e4-0cf18b5c0c9c">EStDV 1955</akn:inline>
                </akn:shortTitle>
@@ -151,188 +203,186 @@
        <!-- Hauptteil -->
        <akn:body eId="hauptteil-1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
       <!-- Vorherige Paragraphen fehlen-->
-           <akn:article eId="hauptteil-1_para-1" GUID="a726a175-3a70-40e7-852f-9d08d1a26a13" period="#geltungszeitgr-3">
-               <akn:num eId="hauptteil-1_para-1_bezeichnung-1" GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
-                        <akn:marker eId="hauptteil-1_para-1_bezeichnung-1_zaehlbez-1"
-                                    GUID="500625c3-e8c9-4226-99b9-8b175c0d7635" name="82a"></akn:marker>§82a</akn:num>
-                <akn:heading GUID="6b993dcf-84de-48eb-ae6e-035fb985d3d4"
-                             eId="hauptteil-1_para-1_überschrift-1">Erhöhte Absetzungen von Herstellungskosten und Sonderbehandlung von Erhaltungsaufwand für bestimmte Anlagen und Einrichtungen bei Gebäuden</akn:heading>
+           <akn:article eId="hauptteil-1_para-1"
+                        GUID="a726a175-3a70-40e7-852f-9d08d1a26a13"
+                        period="#geltungszeitgr-3">
+            <akn:num eId="hauptteil-1_para-1_bezeichnung-1"
+                     GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
+                        §82a</akn:num>
+            <akn:heading GUID="6b993dcf-84de-48eb-ae6e-035fb985d3d4"
+                         eId="hauptteil-1_para-1_überschrift-1">Erhöhte Absetzungen von Herstellungskosten und Sonderbehandlung von Erhaltungsaufwand für bestimmte Anlagen und Einrichtungen bei Gebäuden</akn:heading>
                <!--Absatz 1-->
-               <akn:paragraph GUID="eb932754-5119-4fc1-a167-4dfc5381d2ca" eId="hauptteil-1_para-1_abs-1">
-                  <akn:num eId="hauptteil-1_para-1_abs-1_bezeichnung-1" GUID="8280d4ef-4a96-44b7-81b9-f30f1006a2fe">
-                           <akn:marker eId="hauptteil-1_para-1_abs-1_bezeichnung-1_zaehlbez-1"
-                                       GUID="0115df75-44e1-46e5-ac41-46c03643a0a6" name="1"></akn:marker>(1)</akn:num>
-                           <akn:list GUID="63517fed-ac02-475f-859a-544321b1775b"
-                                     eId="hauptteil-1_para-1_abs-1_untergl-1">
-                                <akn:intro GUID="722e877c-13e0-4ed3-afa1-edadf52be1e5"
-                                           eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1"><akn:p
-                                        GUID="5c0ba5c4-6068-49a2-971e-ae3e2b60f779"
-                                        eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1">Steuerpflichtige kann von den Herstellungskosten</akn:p></akn:intro>
-                                <akn:point GUID="8c9d74df-0d4f-4504-a6d4-e3c6521b999e"
-                                           eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1">
-                                    <akn:num GUID="11aac90b-8885-4356-a03d-70f232d8f15c"
-                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1"><akn:marker
-                                            name="1" GUID="0bc8437b-8750-41ab-bd0f-86bbc63f2fda"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"></akn:marker>1.</akn:num>
-                                    <akn:content GUID="5d7bcfe0-03c2-425f-a7e5-013d6c70c7fb"
-                                                 eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1"><akn:p
-                                            GUID="8490f69b-3091-422a-ba10-4b72745f02dc"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1">
+               <akn:paragraph GUID="eb932754-5119-4fc1-a167-4dfc5381d2ca"
+                              eId="hauptteil-1_para-1_abs-1">
+               <akn:num eId="hauptteil-1_para-1_abs-1_bezeichnung-1"
+                        GUID="8280d4ef-4a96-44b7-81b9-f30f1006a2fe">
+                           (1)</akn:num>
+               <akn:list GUID="63517fed-ac02-475f-859a-544321b1775b"
+                         eId="hauptteil-1_para-1_abs-1_untergl-1">
+                  <akn:intro GUID="722e877c-13e0-4ed3-afa1-edadf52be1e5"
+                             eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1">
+                     <akn:p GUID="5c0ba5c4-6068-49a2-971e-ae3e2b60f779"
+                            eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1">Steuerpflichtige kann von den Herstellungskosten</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="8c9d74df-0d4f-4504-a6d4-e3c6521b999e"
+                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1">
+                     <akn:num GUID="11aac90b-8885-4356-a03d-70f232d8f15c"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                     <akn:content GUID="5d7bcfe0-03c2-425f-a7e5-013d6c70c7fb"
+                                  eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1">
+                        <akn:p GUID="8490f69b-3091-422a-ba10-4b72745f02dc"
+                               eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1">
                                         Maßnahmen, die für den Anschluss eines im Inland belegenen Gebäudes an eine Fernwärmeversorgung einschließlich der Anbindung an das Heizsystem erforderlich sind, wenn die Fernwärmeversorgung überwiegend aus Anlagen der Kraft-Wärme-Kopplung, zur Verbrennung von Müll oder zur Verwertung von Abwärme gespeist wird,
-                                    </akn:p></akn:content>
-                                </akn:point>
-                                <akn:point GUID="e9d1a128-4896-40d5-b621-21088d0e413b"
-                                           eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2">
-                                    <akn:num GUID="81cb547b-99df-4e06-98f8-b689fccc0451"
-                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1"><akn:marker
-                                            name="2" GUID="d4b2566b-a398-4097-ab8b-a4867c4ee4a5"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"></akn:marker>2.</akn:num>
-                                    <akn:content GUID="8e3827a8-904d-4dcf-8366-8cf7592e9bbe"
-                                                 eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1"><akn:p
-                                            GUID="74ec0731-3d7a-456f-abc1-a36d4953a2ae"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">
+                                    </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="e9d1a128-4896-40d5-b621-21088d0e413b"
+                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2">
+                     <akn:num GUID="81cb547b-99df-4e06-98f8-b689fccc0451"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                     <akn:content GUID="8e3827a8-904d-4dcf-8366-8cf7592e9bbe"
+                                  eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1">
+                        <akn:p GUID="74ec0731-3d7a-456f-abc1-a36d4953a2ae"
+                               eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">
                                         für den Einbau von Wärmepumpenanlagen, Solaranlagen und Anlagen zur Wärmerückgewinnung in einem im Inland belegenen Gebäude einschließlich der Anbindung an das Heizsystem,
-                                    </akn:p></akn:content>
-                                </akn:point>
-                                <akn:point GUID="746f6caf-1744-44d0-b0e6-5ca67224ff3d"
-                                           eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3">
-                                    <akn:num GUID="6e210aee-c173-43aa-801b-84fa187853bc"
-                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_bezeichnung-1"><akn:marker
-                                            name="3" GUID="8d04bca0-3525-4669-b1a1-4fffaec8b7dd"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_bezeichnung-1_zaehlbez-1"></akn:marker>3.</akn:num>
-                                    <akn:content GUID="a874f37b-a476-40af-b358-8765f6d5f358"
-                                                 eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1"><akn:p
-                                            GUID="98e55646-c544-4d2d-9211-3c84201ae1ff"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1">
+                                    </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="746f6caf-1744-44d0-b0e6-5ca67224ff3d"
+                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3">
+                     <akn:num GUID="6e210aee-c173-43aa-801b-84fa187853bc"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                     <akn:content GUID="a874f37b-a476-40af-b358-8765f6d5f358"
+                                  eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1">
+                        <akn:p GUID="98e55646-c544-4d2d-9211-3c84201ae1ff"
+                               eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1">
                                         für die Errichtung von Windkraftanlagen, wenn die mit diesen Anlagen erzeugte Energie überwiegend entweder unmittelbar oder durch Verrechnung mit Elektrizitätsbezügen des Steuerpflichtigen von einem Elektrizitätsversorgungsunternehmen zur Versorgung eines im Inland belegenen Gebäudes des Steuerpflichtigen verwendet wird, einschließlich der Anbindung an das Versorgungssystem des Gebäudes,
-                                    </akn:p></akn:content>
-                                </akn:point>
-                                <akn:point GUID="b8a1476d-c28a-4f31-984b-49f3a96dcf34"
-                                           eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4">
-                                    <akn:num GUID="bcf67fa5-e782-4770-b24c-7853f99e8479"
-                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_bezeichnung-1"><akn:marker
-                                            name="4" GUID="77d5fde1-d42b-4b53-acd1-cfaf54fe1baa"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_bezeichnung-1_zaehlbez-1"></akn:marker>4.</akn:num>
-                                    <akn:content GUID="eb8e0f10-3c9e-4137-bb23-a66a00afca58"
-                                                 eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_inhalt-1"><akn:p
-                                            GUID="d74ee3b4-8d69-4430-b7d5-3682b7793f76"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_inhalt-1_text-1">
+                                    </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="b8a1476d-c28a-4f31-984b-49f3a96dcf34"
+                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4">
+                     <akn:num GUID="bcf67fa5-e782-4770-b24c-7853f99e8479"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                     <akn:content GUID="eb8e0f10-3c9e-4137-bb23-a66a00afca58"
+                                  eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_inhalt-1">
+                        <akn:p GUID="d74ee3b4-8d69-4430-b7d5-3682b7793f76"
+                               eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_inhalt-1_text-1">
                                         für die Errichtung von Anlagen zur Gewinnung von Gas, das aus pflanzlichen oder tierischen Abfallstoffen durch Gärung unter Sauerstoffabschluss entsteht, wenn dieses Gas zur Beheizung eines im Inland belegenen Gebäudes des Steuerpflichtigen oder zur Warmwasserbereitung in einem solchen Gebäude des Steuerpflichtigen verwendet wird, einschließlich der Anbindung an das Versorgungssystem des Gebäudes,
-                                    </akn:p></akn:content>
-                                </akn:point>
-                                <akn:point GUID="2b34012d-059c-4341-a0af-755335575bbe"
-                                           eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5">
-                                    <akn:num GUID="bea1b47b-f8de-4f45-83db-4142419fba3b"
-                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_bezeichnung-1"><akn:marker
-                                            name="5" GUID="42ea200f-37f5-4d06-992b-19bc642415ac"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_bezeichnung-1_zaehlbez-1"></akn:marker>5.</akn:num>
-                                    <akn:content GUID="9b8a6618-6f29-4786-870f-c0308a35d459"
-                                                 eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_inhalt-1"><akn:p
-                                            GUID="5f1cb71f-bd2a-4e46-b73c-8899dde85fb7"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_inhalt-1_text-1">
+                                    </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="2b34012d-059c-4341-a0af-755335575bbe"
+                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5">
+                     <akn:num GUID="bea1b47b-f8de-4f45-83db-4142419fba3b"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_bezeichnung-1">5.</akn:num>
+                     <akn:content GUID="9b8a6618-6f29-4786-870f-c0308a35d459"
+                                  eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_inhalt-1">
+                        <akn:p GUID="5f1cb71f-bd2a-4e46-b73c-8899dde85fb7"
+                               eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_inhalt-1_text-1">
                                         ür den Einbau einer Warmwasseranlage zur Versorgung von mehr als einer Zapfstelle und einer zentralen Heizungsanlage oder bei einer zentralen Heizungs- und Warmwasseranlage für den Einbau eines Heizkessels, eines Brenners, einer zentralen Steuerungseinrichtung, einer Wärmeabgabeeinrichtung und eine Änderung der Abgasanlage in einem im Inland belegenen Gebäude oder in einer im Inland belegenen Eigentumswohnung, wenn mit der Maßnahme nicht vor Ablauf von zehn Jahren seit Fertigstellung dieses Gebäudes begonnen worden ist,
                                     </akn:p>
-                                    </akn:content>
-                                </akn:point>
-                                <akn:wrapUp GUID="d5f1e059-e2f6-43e4-94da-9687cb44b74a"
-                                            eId="hauptteil-1_para-1_abs-1_untergl-1_schlusstext-1">
-                                    <akn:p GUID="6e1ba528-fa7a-4f08-bd65-7ccaeb4883c4"
-                                           eId="hauptteil-1_para-1_abs-1_untergl-1_schlusstext-1_text-1">
+                     </akn:content>
+                  </akn:point>
+                  <akn:wrapUp GUID="d5f1e059-e2f6-43e4-94da-9687cb44b74a"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_schlusstext-1">
+                     <akn:p GUID="6e1ba528-fa7a-4f08-bd65-7ccaeb4883c4"
+                            eId="hauptteil-1_para-1_abs-1_untergl-1_schlusstext-1_text-1">
                                         an Stelle der nach § 7 Absatz 4 oder 5 oder § 7b des Gesetzes zu bemessenden Absetzungen für Abnutzung im Jahr der Herstellung und in den folgenden neun Jahren jeweils bis zu 10 Prozent absetzen. 2Nach Ablauf dieser zehn Jahre ist ein etwa noch vorhandener Restwert den Anschaffungs- oder Herstellungskosten des Gebäudes oder dem an deren Stelle tretenden Wert hinzuzurechnen; die weiteren Absetzungen für Abnutzung sind einheitlich für das gesamte Gebäude nach dem sich hiernach ergebenden Betrag und dem für das Gebäude maßgebenden Hundertsatz zu bemessen. 3Voraussetzung für die Inanspruchnahme der erhöhten Absetzungen ist, dass das Gebäude in den Fällen der Nummer 1 vor dem 1. Juli 1983 fertiggestellt worden ist; die Voraussetzung entfällt, wenn der Anschluss nicht schon im Zusammenhang mit der Errichtung des Gebäudes möglich war.
                                     </akn:p>
-                                </akn:wrapUp>
-                           </akn:list>
-               </akn:paragraph>
+                  </akn:wrapUp>
+               </akn:list>
+            </akn:paragraph>
                <!--Absatz 2-->
-               <akn:paragraph GUID="cd17b333-e7d5-4f0f-9406-5d50eb12f783" eId="hauptteil-1_para-1_abs-2">
-                  <akn:num eId="hauptteil-1_para-1_abs-2_bezeichnung-1" GUID="48d155ca-ec9e-4136-a14a-96d4f7e7a017">
-                           <akn:marker eId="hauptteil-1_para-1_abs-2_bezeichnung-1_zaehlbez-1"
-                                       GUID="68f1d541-9740-43e2-950d-4c8bfb38a3ab" name="2"></akn:marker>(2)</akn:num>
-                           <akn:list GUID="3035f805-a24d-45c3-9cb6-785fa2cc9812"
-                                     eId="hauptteil-1_para-1_abs-2_untergl-1">
-                              <akn:intro GUID="244de4e1-4976-4959-b274-22a0e4253bea"
-                                         eId="hauptteil-1_para-1_abs-2_untergl-1_intro-1">
-                                 <akn:p GUID="9092b8f3-d2b4-4df0-8e7d-3232808365a6"
-                                        eId="hauptteil-1_para-1_abs-2_untergl-1_intro-1_text-1">Von Versorgungsbezügen bleiben ein nach einem Prozentsatz ermittelter, auf einen Höchstbetrag begrenzter Betrag (Versorgungsfreibetrag) und ein Zuschlag zum Versorgungsfreibetrag steuerfrei. Versorgungsbezüge sind
+               <akn:paragraph GUID="cd17b333-e7d5-4f0f-9406-5d50eb12f783"
+                              eId="hauptteil-1_para-1_abs-2">
+               <akn:num eId="hauptteil-1_para-1_abs-2_bezeichnung-1"
+                        GUID="48d155ca-ec9e-4136-a14a-96d4f7e7a017">
+                           (2)</akn:num>
+               <akn:list GUID="3035f805-a24d-45c3-9cb6-785fa2cc9812"
+                         eId="hauptteil-1_para-1_abs-2_untergl-1">
+                  <akn:intro GUID="244de4e1-4976-4959-b274-22a0e4253bea"
+                             eId="hauptteil-1_para-1_abs-2_untergl-1_intro-1">
+                     <akn:p GUID="9092b8f3-d2b4-4df0-8e7d-3232808365a6"
+                            eId="hauptteil-1_para-1_abs-2_untergl-1_intro-1_text-1">Von Versorgungsbezügen bleiben ein nach einem Prozentsatz ermittelter, auf einen Höchstbetrag begrenzter Betrag (Versorgungsfreibetrag) und ein Zuschlag zum Versorgungsfreibetrag steuerfrei. Versorgungsbezüge sind
                                  </akn:p>
-                                 </akn:intro>
-                              <akn:point GUID="26764f22-3d0e-47c5-9830-31a8ca6dfa35"
-                                         eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1">
-                                 <akn:num GUID="fa106c10-a7e9-4093-80bb-a061c7bd51e0"
-                                          eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_bezeichnung-1"><akn:marker
-                                         name="1" GUID="d88258ea-1997-4940-bf99-39312a8e12dd"
-                                         eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"></akn:marker>1.</akn:num>
-                                 <akn:list GUID="c121d47b-788e-4003-9ff0-5581d604b91a"
-                                           eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1">
-                                    <akn:intro GUID="a0fe69a4-2a37-4d9e-9de6-237bd313b1fc"
-                                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1"><akn:p
-                                            GUID="fa011bbb-c56e-426c-a571-2e3d9e9f2cda"
-                                            eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1_text-1">das Ruhegehalt, Witwen- oder Waisengeld, der Unterhaltsbeitrag oder ein gleichartiger Bezug
+                  </akn:intro>
+                  <akn:point GUID="26764f22-3d0e-47c5-9830-31a8ca6dfa35"
+                             eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1">
+                     <akn:num GUID="fa106c10-a7e9-4093-80bb-a061c7bd51e0"
+                              eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                     <akn:list GUID="c121d47b-788e-4003-9ff0-5581d604b91a"
+                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1">
+                        <akn:intro GUID="a0fe69a4-2a37-4d9e-9de6-237bd313b1fc"
+                                   eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1">
+                           <akn:p GUID="fa011bbb-c56e-426c-a571-2e3d9e9f2cda"
+                                  eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_intro-1_text-1">das Ruhegehalt, Witwen- oder Waisengeld, der Unterhaltsbeitrag oder ein gleichartiger Bezug
                                        </akn:p>
-                                    </akn:intro>
-                                    <akn:point GUID="b0d6890a-8224-4fc3-b7c6-9790277b1499"
-                                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1">
-                                       <akn:num GUID="ec3231f1-9d02-4d1e-86b5-68e75664e626"
-                                                eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1"><akn:marker
-                                               name="a" GUID="5c8a3f40-9a46-4e4b-a385-fa16cc529998"
-                                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"></akn:marker>a)</akn:num>
-                                       <akn:content GUID="a1802bf9-25cc-465f-bd96-7aceae04c366"
-                                                    eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1"><akn:p
-                                               GUID="2e5cea34-e8ce-4f7c-8673-0a36f845f38b"
-                                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1">Grund beamtenrechtlicher oder entsprechender gesetzlicher Vorschriften,
-                                       </akn:p></akn:content>
-                                    </akn:point>
-                                    <akn:point GUID="7cbb02b7-2053-41e2-88aa-a6aa26a72233"
-                                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2">
-                                       <akn:num GUID="e1953bdd-0564-4853-8ed0-dac771a181d2"
-                                                eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1"><akn:marker
-                                               name="b" GUID="7f1e41e0-bb47-4e10-b193-1a98eff460f8"
-                                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"></akn:marker>b)</akn:num>
-                                       <akn:content GUID="a2903657-6784-4eef-961b-f3c53bed78c6"
-                                                    eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1"><akn:p
-                                               GUID="c2cd5917-b4ce-449d-8103-9f34fa0d34f7"
-                                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1">nach beamtenrechtlichen Grundsätzen von Körperschaften, Anstalten oder Stiftungen des öffentlichen Rechts oder öffentlich-rechtlichen Verbänden von Körperschaften
-                                       </akn:p></akn:content>
-                                    </akn:point>
-                                    <akn:wrapUp GUID="0405677d-8718-4564-9dec-b3bf832f04e4"
-                                                eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1"><akn:p
-                                            GUID="ad110215-c861-4a60-8987-523952f68e21"
-                                            eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1_text-1">oder</akn:p></akn:wrapUp>
-                                 </akn:list>
-                              </akn:point>
-                              <akn:point GUID="accde094-d21b-4a86-a8cd-f9123606c726"
-                                         eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2">
-                                 <akn:num GUID="0521715f-1e31-4e38-b8e4-84c4d23e0f0b"
-                                          eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2_bezeichnung-1"><akn:marker
-                                         name="2" GUID="7da84244-df58-498a-84b9-5860c4d8b338"
-                                         eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"></akn:marker>2.</akn:num>
-                                 <akn:content GUID="5484bc1b-b351-41f4-93d1-f2256ca61bea"
-                                              eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2_inhalt-1"><akn:p
-                                         GUID="e0aeb3f1-50a0-4f60-98d9-910a54143dca"
-                                         eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2_inhalt-1_text-1">
+                        </akn:intro>
+                        <akn:point GUID="b0d6890a-8224-4fc3-b7c6-9790277b1499"
+                                   eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1">
+                           <akn:num GUID="ec3231f1-9d02-4d1e-86b5-68e75664e626"
+                                    eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num>
+                           <akn:content GUID="a1802bf9-25cc-465f-bd96-7aceae04c366"
+                                        eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1">
+                              <akn:p GUID="2e5cea34-e8ce-4f7c-8673-0a36f845f38b"
+                                     eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1">Grund beamtenrechtlicher oder entsprechender gesetzlicher Vorschriften,
+                                       </akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="7cbb02b7-2053-41e2-88aa-a6aa26a72233"
+                                   eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2">
+                           <akn:num GUID="e1953bdd-0564-4853-8ed0-dac771a181d2"
+                                    eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num>
+                           <akn:content GUID="a2903657-6784-4eef-961b-f3c53bed78c6"
+                                        eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1">
+                              <akn:p GUID="c2cd5917-b4ce-449d-8103-9f34fa0d34f7"
+                                     eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1">nach beamtenrechtlichen Grundsätzen von Körperschaften, Anstalten oder Stiftungen des öffentlichen Rechts oder öffentlich-rechtlichen Verbänden von Körperschaften
+                                       </akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:wrapUp GUID="0405677d-8718-4564-9dec-b3bf832f04e4"
+                                    eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1">
+                           <akn:p GUID="ad110215-c861-4a60-8987-523952f68e21"
+                                  eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1_text-1">oder</akn:p>
+                        </akn:wrapUp>
+                     </akn:list>
+                  </akn:point>
+                  <akn:point GUID="accde094-d21b-4a86-a8cd-f9123606c726"
+                             eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2">
+                     <akn:num GUID="0521715f-1e31-4e38-b8e4-84c4d23e0f0b"
+                              eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                     <akn:content GUID="5484bc1b-b351-41f4-93d1-f2256ca61bea"
+                                  eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2_inhalt-1">
+                        <akn:p GUID="e0aeb3f1-50a0-4f60-98d9-910a54143dca"
+                               eId="hauptteil-1_para-1_abs-2_untergl-1_listenelem-2_inhalt-1_text-1">
                                     in anderen Fällen Bezüge und Vorteile aus früheren Dienstleistungen wegen Erreichens einer Altersgrenze, verminderter Erwerbsfähigkeit oder Hinterbliebenenbezüge; Bezüge wegen Erreichens einer Altersgrenze gelten erst dann als Versorgungsbezüge, wenn der Steuerpflichtige das 63. Lebensjahr oder, wenn er schwerbehindert ist, das 60. Lebensjahr vollendet hat.
-                                 </akn:p></akn:content>
-                              </akn:point>
-                           </akn:list>
-               </akn:paragraph>
-            </akn:article>
-            <akn:article period="#geltungszeitgr-3" GUID="6ba535a6-7868-4574-bcff-cfe2d5755480"
-                         eId="hauptteil-1_para-2">
-                <akn:num GUID="65549134-ee8f-48c8-93ef-87321ebed21b" eId="hauptteil-1_para-2_bezeichnung-1"><akn:marker
-                        name="82g" GUID="40025a39-896f-4626-92c9-7c4576b4f890"
-                        eId="hauptteil-1_para-2_bezeichnung-1_zaehlbez-1"></akn:marker>§82a</akn:num>
-                <akn:heading GUID="870211a8-0cba-4261-8994-c5be195852ea"
-                             eId="hauptteil-1_para-2_überschrift-1">Erhöhte Absetzungen von Herstellungskosten für bestimmte Baumaßnahmen</akn:heading>
-                <akn:paragraph GUID="d451f4d4-63c3-4038-9a62-0a506a315de4" eId="hauptteil-1_para-2_abs-1">
-                    <akn:num GUID="38c3dec0-6ca5-45ba-b202-c834e1b23e4e" eId="hauptteil-1_para-2_abs-1_bezeichnung-1"><akn:marker
-                            name="1" GUID="4c49f5b8-3103-49d9-bf02-9d4bea2e77c5"
-                            eId="hauptteil-1_para-2_abs-1_bezeichnung-1_zaehlbez-1"></akn:marker></akn:num>
-                    <akn:content GUID="05113aed-4f8a-4ebd-85f1-cf99ba3a4d09" eId="hauptteil-1_para-2_abs-1_inhalt-1"><akn:p
-                            GUID="bb7b9939-3b91-4f65-b550-e59bd0088424" eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1">
+                                 </akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article period="#geltungszeitgr-3"
+                      GUID="6ba535a6-7868-4574-bcff-cfe2d5755480"
+                      eId="hauptteil-1_para-2">
+            <akn:num GUID="65549134-ee8f-48c8-93ef-87321ebed21b"
+                     eId="hauptteil-1_para-2_bezeichnung-1">§82a</akn:num>
+            <akn:heading GUID="870211a8-0cba-4261-8994-c5be195852ea"
+                         eId="hauptteil-1_para-2_überschrift-1">Erhöhte Absetzungen von Herstellungskosten für bestimmte Baumaßnahmen</akn:heading>
+            <akn:paragraph GUID="d451f4d4-63c3-4038-9a62-0a506a315de4"
+                           eId="hauptteil-1_para-2_abs-1">
+               <akn:num GUID="38c3dec0-6ca5-45ba-b202-c834e1b23e4e"
+                        eId="hauptteil-1_para-2_abs-1_bezeichnung-1"/>
+               <akn:content GUID="05113aed-4f8a-4ebd-85f1-cf99ba3a4d09"
+                            eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                  <akn:p GUID="bb7b9939-3b91-4f65-b550-e59bd0088424"
+                         eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1">
                         Der Steuerpflichtige kann von den durch Zuschüsse aus Sanierungs- oder Entwicklungsförderungsmitteln nicht gedeckten Herstellungskosten für Modernisierungs- und Instandsetzungsmaßnahmen im Sinne des § 177 des Baugesetzbuchs sowie für Maßnahmen, die der Erhaltung, Erneuerung und funktionsgerechten Verwendung eines Gebäudes dienen, das wegen seiner geschichtlichen, künstlerischen oder städtebaulichen Bedeutung erhalten bleiben soll, und zu deren Durchführung sich der Eigentümer neben bestimmten Modernisierungsmaßnahmen gegenüber der Gemeinde verpflichtet hat, die für Gebäude in einem förmlich festgelegten Sanierungsgebiet oder städtebaulichen Entwicklungsbereich aufgewendet worden sind, an Stelle der nach § 7 Absatz 4 oder 5 oder § 7b des Gesetzes zu bemessenden Absetzungen für Abnutzung im Jahr der Herstellung und in den neun folgenden Jahren jeweils bis zu 10 Prozent absetzen. § 82a Abs. 1 Satz 2 gilt entsprechend. Satz 1 ist anzuwenden, wenn der Steuerpflichtige eine Bescheinigung der zuständigen Gemeindebehörde vorlegt, dass er Baumaßnahmen im Sinne des Satzes 1 durchgeführt hat; sind ihm Zuschüsse aus Sanierungs- oder Entwicklungsförderungsmitteln gewährt worden, so hat die Bescheinigung auch deren Höhe zu enthalten.
-                    </akn:p></akn:content>
-                </akn:paragraph>
-            </akn:article>
-         </akn:body>
+                    </akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+      </akn:body>
    </akn:act>
 </akn:akomaNtoso>
