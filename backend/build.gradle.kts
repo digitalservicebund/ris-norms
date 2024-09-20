@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.saxon.he)
     implementation(libs.bouncycastle.bcprov)
     implementation(libs.bouncycastle.bcpkix)
+    implementation(libs.google.protobuf.java)
 
     compileOnly(libs.lombok)
 
