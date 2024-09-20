@@ -100,12 +100,67 @@ class ModTest {
 
   @Test
   void setNewText() {
+    final String QUOTED_TEXT_MOD_WITH_REF =
+      """
+          <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+            GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+            refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
+               GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
+               href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
+      die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
+                      GUID="694459c4-ef66-4f87-bb78-a332054a2216"
+                      startQuote="„"
+                      endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
+      Wörter <akn:quotedText GUID="c43a085c-536b-457c-b74f-3af9b137b62b" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2" endQuote="“" startQuote="„">
+      <akn:ref GUID="83ea9cc4-a1b0-4b6b-8e57-49b00143f1e2" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2_ref-1" href="some/crazy/eli">1. Beispiel</akn:ref>
+      </akn:quotedText>
+      ersetzt.</akn:mod>
+      """;
+
+    Mod quotedTextModWithRef = Mod
+      .builder()
+      .node(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF))
+      .build();
     // when
-    quotedTextMod.setNewText("new text");
-    var eid = quotedTextMod.getNewText();
+    quotedTextModWithRef.setNewText("new text");
+    var newText = quotedTextModWithRef.getNewText();
 
     // then
-    assertThat(eid).contains("new text");
+    assertThat(newText).contains("new text");
+  }
+
+  @Test
+  void setNewTextWithGuessedReference() {
+    final String QUOTED_TEXT_MOD_WITH_REF =
+      """
+          <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+            GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+            refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
+               GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
+               href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
+      die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
+                      GUID="694459c4-ef66-4f87-bb78-a332054a2216"
+                      startQuote="„"
+                      endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
+      Wörter <akn:quotedText GUID="c43a085c-536b-457c-b74f-3af9b137b62b" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2" endQuote="“" startQuote="„">
+      1. <akn:ref GUID="83ea9cc4-a1b0-4b6b-8e57-49b00143f1e2" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2_ref-1" href="some/crazy/eli">Beispiel</akn:ref>
+      </akn:quotedText>
+      ersetzt.</akn:mod>
+      """;
+
+    Mod quotedTextModWithRef = Mod
+      .builder()
+      .node(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF))
+      .build();
+    // when
+    quotedTextModWithRef.setNewText("new text");
+    var newText = quotedTextModWithRef.getNewText();
+    Node ref = quotedTextModWithRef.getSecondQuotedText().get().getFirstChild();
+
+    // then
+    assertThat(newText).contains("new text");
+    assertThat(ref).isNotNull();
+    assertThat(ref.getNodeName()).isEqualTo("akn:ref");
   }
 
   @Test
