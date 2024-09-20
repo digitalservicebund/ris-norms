@@ -103,6 +103,7 @@ class ReferenceServiceTest {
     final Norm expectedUpdatedNorm = NormFixtures.loadFromDisk("NormWithReferencesFound.xml");
     final Diff diff = DiffBuilder
       .compare(Input.from(XmlMapper.toDocument(result)))
+      .ignoreElementContentWhitespace()
       .withTest(Input.from(expectedUpdatedNorm.getDocument()))
       .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))
       .build();

@@ -145,7 +145,7 @@
                                type="substitution">
                   <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1"
                               GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94432"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-2_ändbefehl-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
                                    GUID="8c0418f1-b6fa-4110-8820-cf0db752c456"
                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-45"/>
@@ -158,7 +158,7 @@
                                type="substitution">
                   <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1"
                               GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
                                    GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"/>

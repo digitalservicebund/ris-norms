@@ -192,7 +192,7 @@ class ArticleControllerTest {
           norm
             .getArticles()
             .stream()
-            .filter(article -> article.getEid().get().equals("hauptteil-1_para-20"))
+            .filter(article -> article.getEid().get().equals("hauptteil-1_para-1"))
             .toList()
         );
 
@@ -207,7 +207,7 @@ class ArticleControllerTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
 
       verify(loadArticlesFromNormUseCase, times(1))

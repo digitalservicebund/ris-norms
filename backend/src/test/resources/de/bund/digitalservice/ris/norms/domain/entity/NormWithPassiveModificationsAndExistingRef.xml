@@ -87,7 +87,7 @@
                                type="substitution">
                   <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1"
                               GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
                                    GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"/>
@@ -193,11 +193,11 @@
                      <akn:content eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1"
                                   GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
                         <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                               GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">
-                           <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a4bbb"
+                               GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"><akn:ref
+                                GUID="514f37b3-5f75-4ee4-a110-6bad8c5a4bbb"
                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1"
-                                    href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">entgegen</akn:ref>
-                           <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a3fab"
+                                href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">entgegen</akn:ref> <akn:ref
+                                GUID="514f37b3-5f75-4ee4-a110-6bad8c5a3fab"
                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-2"
                                     href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">§ 9 Abs. 1 Satz 2, Abs. 2</akn:ref> Kennezichen eines verbotenen Vereins oder einer <akn:ref
                                 GUID="514f37b3-5f75-4ee4-a110-6bad8c5a33c3"

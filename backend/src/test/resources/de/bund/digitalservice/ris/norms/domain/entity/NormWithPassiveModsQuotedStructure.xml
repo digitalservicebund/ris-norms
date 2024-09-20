@@ -171,7 +171,7 @@
                                type="substitution">
                   <akn:source GUID="f715dcd2-e663-46cd-a5df-042db75f47b6"
                               eId="meta-1_analysis-1_pasmod-1_textualmod-5_source-1"
-                              href="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination GUID="05c63471-a7e8-42d1-aa06-5f11a510df15"
                                    eId="meta-1_analysis-1_pasmod-1_textualmod-5_destination-1"
                                    href="#hauptteil-1_para-2_abs-1"/>
@@ -184,7 +184,7 @@
                                type="substitution">
                   <akn:source GUID="1373c2d1-eda1-414d-a729-9d3c19bc054a"
                               eId="meta-1_analysis-1_pasmod-1_textualmod-6_source-1"
-                              href="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-b_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination GUID="b5989f4f-a9b3-4255-a655-e791967676b2"
                                    eId="meta-1_analysis-1_pasmod-1_textualmod-6_destination-1"
                                    href="#hauptteil-1_para-2_abs-2_inhalt-1_exmarkup-1"/>
@@ -197,7 +197,7 @@
                                type="substitution">
                   <akn:source GUID="531dfd85-6266-49d9-af02-a9df55d4e307"
                               eId="meta-1_analysis-1_pasmod-1_textualmod-7_source-1"
-                              href="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination GUID="3c295fb9-8026-4d60-ab86-3b64907222f7"
                                    eId="meta-1_analysis-1_pasmod-1_textualmod-7_destination-1"
                                    href="#hauptteil-1_para-2_abs-3_untergl-1_listenelem-2"/>

@@ -584,7 +584,7 @@ class NormServiceTest {
           m
             .getEid()
             .get()
-            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
         .orElseThrow();
@@ -612,7 +612,7 @@ class NormServiceTest {
       service.updateMod(
         new UpdateModUseCase.Query(
           amendingNormEli,
-          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1", // <-
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1", // <-
           // this
           // matters now
           "refersTo",
@@ -637,12 +637,12 @@ class NormServiceTest {
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       String targetNormEli = targetNorm.getEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "9-34";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
         targetNormEli +
-        "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
+        "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newContent = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
@@ -724,7 +724,7 @@ class NormServiceTest {
           m
             .getEid()
             .get()
-            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
         .orElseThrow();
@@ -746,7 +746,7 @@ class NormServiceTest {
           amendingNormEli,
           List.of(
             new UpdateModsUseCase.NewModData(
-              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
               newTimeBoundaryEid
             )
           ),
@@ -767,7 +767,7 @@ class NormServiceTest {
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       String targetNormEli = targetNorm.getEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newTimeBoundaryEid = "#time-boundary-eid";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
@@ -820,7 +820,7 @@ class NormServiceTest {
       assertThat(mod.getTargetRefHref()).isPresent();
       assertThat(mod.getTargetRefHref().get().value())
         .contains(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
         );
       assertThat(mod.getNewText()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
       assertThat(result.targetNormZf0Xml()).isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
@@ -850,11 +850,11 @@ class NormServiceTest {
           amendingNormEli,
           List.of(
             new UpdateModsUseCase.NewModData(
-              "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
               "#meta-1_geltzeiten-1_geltungszeitgr-1"
             ),
             new UpdateModsUseCase.NewModData(
-              "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
+              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
               "#meta-1_geltzeiten-1_geltungszeitgr-1"
             )
           ),
@@ -970,7 +970,7 @@ class NormServiceTest {
     void itThrowsInvalidUpdateExceptionWhenModHrefDoesNotContainEli() {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String eid = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String eid = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       amendingNorm
         .getMods()
         .stream()
@@ -993,7 +993,7 @@ class NormServiceTest {
         // Then
         .isInstanceOf(InvalidUpdateException.class)
         .hasMessageContaining(
-          "No eli found in href of mod hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+          "No eli found in href of mod hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         );
     }
   }
