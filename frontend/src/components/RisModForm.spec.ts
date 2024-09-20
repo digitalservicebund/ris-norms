@@ -4,6 +4,14 @@ import RisModForm from "@/components/RisModForm.vue"
 import { userEvent } from "@testing-library/user-event"
 import { ModType } from "@/types/ModType"
 
+vi.mock("primevue/usetoast", () => {
+  return {
+    useToast: () => ({
+      add: vi.fn(),
+    }),
+  }
+})
+
 describe("RisModForm", () => {
   const textualModType: ModType = "aenderungsbefehl-ersetzen"
   const timeBoundaries = [
