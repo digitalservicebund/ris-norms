@@ -95,32 +95,22 @@ public record EId(String value) {
   }
 
   private static String findEIdPosition(Node node, EIdPartType eIdPartType) {
-    if (
-      node.getNodeName().equals("akn:li") && node.getParentNode().getNodeName().equals("akn:ol")
-    ) {
-      return node.getAttributes().getNamedItem("value").getNodeValue().replace(".", "");
+    var position = 1;
+    var previousSibling = node.getPreviousSibling();
+    while (previousSibling != null) {
+      var eId = EId.fromNode(previousSibling);
+
+      if (eId.isPresent()) {
+        var previousSiblingEIdType = eId.get().getParts().getLast().getType();
+
+        if (previousSiblingEIdType.equals(eIdPartType.getName())) {
+          position++;
+        }
+      }
+
+      previousSibling = previousSibling.getPreviousSibling();
     }
 
-    return NodeParser
-      .getValueFromExpression("./num/marker/@name", node)
-      .orElseGet(() -> {
-        var position = 1;
-        var previousSibling = node.getPreviousSibling();
-        while (previousSibling != null) {
-          var eId = EId.fromNode(previousSibling);
-
-          if (eId.isPresent()) {
-            var previousSiblingEIdType = eId.get().getParts().getLast().getType();
-
-            if (previousSiblingEIdType.equals(eIdPartType.getName())) {
-              position++;
-            }
-          }
-
-          previousSibling = previousSibling.getPreviousSibling();
-        }
-
-        return "%d".formatted(position);
-      });
+    return "%d".formatted(position);
   }
 }

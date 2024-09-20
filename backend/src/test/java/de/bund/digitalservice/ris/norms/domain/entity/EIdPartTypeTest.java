@@ -11,13 +11,13 @@ class EIdPartTypeTest {
 
   @ParameterizedTest
   @CsvSource(
-    """
-    <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" />,ändbefehl
-    <akn:list xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" />,untergl
-    <akn:li xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" />,listenelem
-    <akn:point xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" />,listenelem
-    <akn:passiveModifications xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" />,pasmod
-    """
+    {
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,ändbefehl",
+      "<akn:list xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,untergl",
+      "<akn:li xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,listenelem",
+      "<akn:point xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,listenelem",
+      "<akn:passiveModifications xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,pasmod",
+    }
   )
   void itShouldGetTheCorrectEIdPartTypeForAknElements(String xml, String eIdPartName) {
     var node = XmlMapper.toNode(xml);
@@ -30,16 +30,16 @@ class EIdPartTypeTest {
 
   @ParameterizedTest
   @CsvSource(
-    """
-    stammform,para
-    mantelform,para
-    eingebundene-stammform,para
-    geltungszeitregel,para
-    vertragsgesetz,art
-    vertragsverordnung,art
-    hauptaenderung,para
-    folgeaenderung,para
-    """
+    {
+      "stammform,para",
+      "mantelform,para",
+      "eingebundene-stammform,para",
+      "geltungszeitregel,para",
+      "vertragsgesetz,art",
+      "vertragsverordnung,art",
+      "hauptaenderung,para",
+      "folgeaenderung,para",
+    }
   )
   void itShouldGetTheCorrectEIdPartTypeForArticleInQuotedStructure(
     String refersTo,
@@ -59,32 +59,32 @@ class EIdPartTypeTest {
 
   @ParameterizedTest
   @CsvSource(
-    """
-    stammform,stammform,para
-    stammform,mantelform,para
-    stammform,eingebundene-stammform,para
-    stammform,geltungszeitregel,para
-    stammform,vertragsgesetz,art
-    stammform,vertragsverordnung,art
-    stammform,hauptaenderung,para
-    stammform,folgeaenderung,para
-    eingebundene-stammform,stammform,para
-    eingebundene-stammform,mantelform,para
-    eingebundene-stammform,eingebundene-stammform,para
-    eingebundene-stammform,geltungszeitregel,para
-    eingebundene-stammform,vertragsgesetz,para
-    eingebundene-stammform,vertragsverordnung,para
-    eingebundene-stammform,hauptaenderung,para
-    eingebundene-stammform,folgeaenderung,para
-    mantelform,stammform,art
-    mantelform,mantelform,art
-    mantelform,eingebundene-stammform,art
-    mantelform,geltungszeitregel,art
-    mantelform,vertragsgesetz,art
-    mantelform,vertragsverordnung,art
-    mantelform,hauptaenderung,art
-    mantelform,folgeaenderung,art
-    """
+    {
+      "stammform,stammform,para",
+      "stammform,mantelform,para",
+      "stammform,eingebundene-stammform,para",
+      "stammform,geltungszeitregel,para",
+      "stammform,vertragsgesetz,art",
+      "stammform,vertragsverordnung,art",
+      "stammform,hauptaenderung,para",
+      "stammform,folgeaenderung,para",
+      "eingebundene-stammform,stammform,para",
+      "eingebundene-stammform,mantelform,para",
+      "eingebundene-stammform,eingebundene-stammform,para",
+      "eingebundene-stammform,geltungszeitregel,para",
+      "eingebundene-stammform,vertragsgesetz,para",
+      "eingebundene-stammform,vertragsverordnung,para",
+      "eingebundene-stammform,hauptaenderung,para",
+      "eingebundene-stammform,folgeaenderung,para",
+      "mantelform,stammform,art",
+      "mantelform,mantelform,art",
+      "mantelform,eingebundene-stammform,art",
+      "mantelform,geltungszeitregel,art",
+      "mantelform,vertragsgesetz,art",
+      "mantelform,vertragsverordnung,art",
+      "mantelform,hauptaenderung,art",
+      "mantelform,folgeaenderung,art",
+    }
   )
   void itShouldGetTheCorrectEIdPartTypeForArticleOutsideQuotedStructure(
     String form,

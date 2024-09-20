@@ -86,12 +86,11 @@ class EIdTest {
 
     @ParameterizedTest
     @CsvSource(
-      """
-      <akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,ändbefehl-1
-      <akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" refersTo=\"stammform\"><akn:num><akn:marker>3a</akn:marker>§ 3a</akn:num></akn:article>,para-3a
-      <akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" refersTo=\"stammform\"><akn:num><akn:marker name=\"3a\" />§ 3a</akn:num></akn:article>,para-3a
-      <akn:ol xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\"><akn:li value=\"3.\">Some text</akn:li></akn:ol>,listenelem-3
-      """
+      {
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,ändbefehl-1",
+        "<akn:p xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\"><akn:num><akn:marker>3a</akn:marker>§ 3a</akn:num></akn:p>,text-1",
+        "<akn:li value=\"3.\" xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\">Some text</akn:li>,listenelem-1",
+      }
     )
     void itShouldProvideEIdForNode(String xml, String expectedEId) {
       var node = XmlMapper.toNode(xml);
