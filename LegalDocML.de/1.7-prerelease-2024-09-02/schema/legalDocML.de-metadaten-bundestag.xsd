@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://MetadatenBundestag.LegalDocML.de/1.7/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://MetadatenBundestag.LegalDocML.de/1.7/"
+           version="LegalDocML.de 1.7 (irgendwann 2024)">
+<!-- ********************************* Hinweis zur Lizensierung ********************************* -->
+    <xs:annotation>
+      <xs:appinfo>
+         <copyright-hinweis>2024 Copyright © 2021–2024 Bundesministerium des Innern und für Heimat,
+Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Verwaltungsarbeit</copyright-hinweis>
+         <lizenz url="https://creativecommons.org/licenses/by/3.0/legalcode.de"
+                 kurzbezeichnung="CC-BY-3.0"
+                 langbezeichnung="Creative Commons Namensnennung 3.0"/>
+         <autor organisation="Bundesministerium des Innern und für Heimat"
+                referat="DG II 6"
+                organisatorischer-rahmen="Maßnahmen Enterprise Resource Management und Elektronische Verwaltungsarbeit"/>
+      </xs:appinfo>
+   </xs:annotation>
+    <!-- ******************************************************************************************** -->
+    <!--
+         E-Gesetzgebung: Metadaten Bundestag
+         ]init[ AG für digitale Kommunikation
+     -->
+    <xs:element name="legalDocML.de_metadaten">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="herausgeber" type="xs:string" fixed="deutscher-bundestag">
+               <xs:annotation>
+                  <xs:documentation>Name des Herausgebers einer Drucksache</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="drucksachennummer" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>Angabe der eindeutigen Drucksachennummer</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="wahlperiode" type="wahlperiode-typ">
+               <xs:annotation>
+                  <xs:documentation>Angabe der jeweiligen Wahlperiode</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="eingangsdatum" type="xs:date">
+               <xs:annotation>
+                  <xs:documentation>Eingangsdatum beim Parlamentarischen Dienst</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:simpleType name="wahlperiode-typ" final="restriction">
+      <xs:restriction base="xs:integer"/>
+   </xs:simpleType>
+</xs:schema>
