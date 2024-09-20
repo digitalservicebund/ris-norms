@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -137,13 +138,29 @@ public class Mod {
   /**
    * Updates the quoted text that will be used to replace the old text once the mod is applied.
    *
-   * @param newContent - the replacing text
+   * @param updatedNewContent - the replacing text
    */
-  public void setNewText(final String newContent) {
+  public void setNewText(final String updatedNewContent) {
     final Node newContentNode = NodeParser
       .getNodeFromExpression("./quotedText[2]", this.node)
       .orElseThrow();
-    newContentNode.setTextContent(newContent);
+    List<Node> children = NodeParser.nodeListToList(newContentNode.getChildNodes());
+    Optional<Node> refNode = children
+      .stream()
+      .filter(child -> child.getNodeName().equals("akn:ref"))
+      .filter(Node::hasChildNodes)
+      .filter(ref -> ref.getFirstChild().getNodeType() == Node.TEXT_NODE)
+      .findFirst();
+    if (refNode.isPresent()) {
+      children
+        .stream()
+        .filter(child -> child.getNodeType() == Node.TEXT_NODE)
+        .forEach(newContentNode::removeChild);
+      refNode.get().setTextContent(updatedNewContent);
+    } else {
+      newContentNode.setTextContent(updatedNewContent);
+    }
+    // Somehow tell the user that the reference might have been changed
   }
 
   /**

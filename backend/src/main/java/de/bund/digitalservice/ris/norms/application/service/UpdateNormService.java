@@ -159,7 +159,10 @@ public class UpdateNormService
       .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
       .findFirst()
       .ifPresent(inTextMod -> {
-        if (inTextMod.usesQuotedText()) {
+        if (
+          inTextMod.usesQuotedText() &&
+          !query.newContent().equals(inTextMod.getNewText().orElse(""))
+        ) {
           inTextMod.setTargetRefHref(query.destinationHref());
           inTextMod.setNewText(query.newContent());
         }
