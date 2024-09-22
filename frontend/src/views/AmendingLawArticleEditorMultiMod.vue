@@ -4,8 +4,8 @@ import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
+import IconErrorOutline from "~icons/ic/outline-error-outline"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
@@ -17,6 +17,8 @@ import { computed, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import Toast from "primevue/toast"
+import { useToast } from "primevue/usetoast"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -138,6 +140,28 @@ watch(
 )
 
 const sentryTraceId = useSentryTraceId()
+const { add: addToast } = useToast()
+
+function showToast() {
+  if (saveError.value) {
+    addToast({
+      group: "error-toast",
+      summary: "Fehler beim Speichern",
+      severity: "error",
+    })
+  } else {
+    addToast({
+      summary: "Speichern erfolgreich",
+      severity: "success",
+    })
+  }
+}
+
+watch(isUpdatingFinished, (finished) => {
+  if (finished) {
+    showToast()
+  }
+})
 </script>
 <template>
   <!--
@@ -205,39 +229,33 @@ const sentryTraceId = useSentryTraceId()
         />
 
         <div class="relative ml-auto">
-          <RisTooltip
-            :visible="isUpdatingFinished"
-            :title="
-              saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
-            "
-            alignment="right"
-            attachment="top"
-            :variant="saveError ? 'error' : 'success'"
-            allow-dismiss
-          >
-            <template #default="{ ariaDescribedby }">
-              <RisTextButton
-                :aria-describedby="ariaDescribedby"
-                label="Speichern"
-                :icon="CheckIcon"
-                :loading="isUpdating"
-                :disabled="timeBoundary === 'multiple'"
-                @click.prevent="update"
-              />
-            </template>
-
-            <template #message>
+          <RisTextButton
+            label="Speichern"
+            :icon="CheckIcon"
+            :loading="isUpdating"
+            :disabled="timeBoundary === 'multiple'"
+            @click.prevent="update"
+          />
+        </div>
+      </div>
+    </form>
+    <Toast group="error-toast">
+      <template #message="slot">
+        <div class="flex w-320 gap-10">
+          <IconErrorOutline class="text-red-800" />
+          <div>
+            <p class="ris-body2-bold">{{ slot.message.summary }}</p>
+            <div v-if="saveError" class="flex gap-8">
               <RisCopyableLabel
-                v-if="saveError"
                 name="Trace-ID"
                 text="Trace-ID kopieren"
                 :value="sentryTraceId"
               />
-            </template>
-          </RisTooltip>
+            </div>
+          </div>
         </div>
-      </div>
-    </form>
+      </template>
+    </Toast>
   </section>
 
   <div

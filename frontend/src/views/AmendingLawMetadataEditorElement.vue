@@ -5,8 +5,8 @@ import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisRadioInput from "@/components/controls/RisRadioInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
+import IconErrorOutline from "~icons/ic/outline-error-outline"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useElementId } from "@/composables/useElementId"
@@ -23,6 +23,8 @@ import { produce } from "immer"
 import { computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import Toast from "primevue/toast"
+import { useToast } from "primevue/usetoast"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const elementEid = useEidPathParameter()
@@ -116,6 +118,28 @@ const {
 })
 
 const sentryTraceId = useSentryTraceId()
+const { add: addToast } = useToast()
+
+function showToast() {
+  if (saveError.value) {
+    addToast({
+      group: "error-toast",
+      summary: "Speichern fehlgeschlagen",
+      severity: "error",
+    })
+  } else {
+    addToast({
+      summary: "Gespeichert!",
+      severity: "success",
+    })
+  }
+}
+
+watch(hasSaved, (finished) => {
+  if (finished) {
+    showToast()
+  }
+})
 </script>
 
 <template>
@@ -227,39 +251,31 @@ const sentryTraceId = useSentryTraceId()
         <!-- Save button -->
         <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
           <div class="relative">
-            <RisTooltip
-              :title="
-                hasSaved && saveError
-                  ? 'Speichern fehlgeschlagen'
-                  : 'Gespeichert!'
-              "
-              :variant="hasSaved && saveError ? 'error' : 'success'"
-              :visible="hasSaved"
-              allow-dismiss
-              alignment="right"
-              attachment="bottom"
-            >
-              <template #default="{ ariaDescribedby }">
-                <RisTextButton
-                  :aria-describedby
-                  :disabled="isFetching || !!fetchError"
-                  :loading="isSaving"
-                  label="Speichern"
-                  @click="save()"
-                />
-              </template>
-
-              <template #message>
-                <RisCopyableLabel
-                  v-if="saveError"
-                  name="Trace-ID"
-                  text="Trace-ID kopieren"
-                  :value="sentryTraceId"
-                />
-              </template>
-            </RisTooltip>
+            <RisTextButton
+              :disabled="isFetching || !!fetchError"
+              :loading="isSaving"
+              label="Speichern"
+              @click="save()"
+            />
           </div>
         </Teleport>
+        <Toast group="error-toast">
+          <template #message="slot">
+            <div class="flex w-320 gap-10">
+              <IconErrorOutline class="text-red-800" />
+              <div>
+                <p class="ris-body2-bold">{{ slot.message.summary }}</p>
+                <div v-if="saveError" class="flex gap-8">
+                  <RisCopyableLabel
+                    name="Trace-ID"
+                    text="Trace-ID kopieren"
+                    :value="sentryTraceId"
+                  />
+                </div>
+              </div>
+            </div>
+          </template>
+        </Toast>
       </section>
     </div>
   </div>
