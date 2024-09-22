@@ -500,9 +500,7 @@ test.describe("metadata view", () => {
     await metadataPage.saveMetadata()
 
     // Then
-    await expect(
-      page.getByRole("tooltip", { name: "Gespeichert!" }),
-    ).toBeVisible()
+    await expect(page.getByText("Gespeichert!")).toBeVisible()
   })
 
   test("shows an error if the data could not be saved", async ({ page }) => {
@@ -519,9 +517,7 @@ test.describe("metadata view", () => {
     await metadataPage.saveButton.click()
 
     // Then
-    await expect(
-      page.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
-    ).toBeVisible()
+    await expect(page.getByText("Speichern fehlgeschlagen")).toBeVisible()
 
     await expect(
       page.getByRole("button", {

@@ -309,9 +309,7 @@ test.describe("Editing multiple mods", () => {
 
     await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
-    await expect(
-      sharedPage.getByRole("tooltip", { name: "Speichern erfolgreich" }),
-    ).toBeVisible()
+    await expect(sharedPage.getByText("Speichern erfolgreich")).toBeVisible()
 
     const previewSection = sharedPage.getByRole("region", {
       name: "Vorschau",
@@ -336,9 +334,7 @@ test.describe("Editing multiple mods", () => {
       .selectOption("Keine Angabe")
     await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
-    await expect(
-      sharedPage.getByRole("tooltip", { name: "Speichern erfolgreich" }),
-    ).toBeVisible()
+    await expect(sharedPage.getByText("Speichern erfolgreich")).toBeVisible()
 
     await amendingLawSection
       .getByText("Aufgrund der Spezifikation")
