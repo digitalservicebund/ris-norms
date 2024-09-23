@@ -188,21 +188,21 @@ class ProprietaryControllerTest {
         .node(
           XmlMapper.toNode(
             """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
-                                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                      <meta:fna start="1990-01-01" end="1994-12-31">new-fna</meta:fna>
-                                                      <meta:art start="1990-01-01" end="1994-12-31">new-art</meta:art>
-                                                      <meta:typ start="1990-01-01" end="1994-12-31">new-typ</meta:typ>
-                                                      <meta:subtyp start="1990-01-01" end="1994-12-31">new-subtyp</meta:subtyp>
-                                                      <meta:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">new-bezeichnungInVorlage</meta:bezeichnungInVorlage>
-                                                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
-                                                      <meta:normgeber start="1990-01-01" end="1994-12-31">DEU</meta:normgeber>
-                                                      <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
-                                                      <meta:organisationsEinheit start="1990-01-01" end="1994-12-31">Andere Organisationseinheit</meta:organisationsEinheit>
-                                                  </meta:legalDocML.de_metadaten_ds>
-                                              </akn:proprietary>
-                                              """
+                                              <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                  <meta:fna start="1990-01-01" end="1994-12-31">new-fna</meta:fna>
+                                                  <meta:art start="1990-01-01" end="1994-12-31">new-art</meta:art>
+                                                  <meta:typ start="1990-01-01" end="1994-12-31">new-typ</meta:typ>
+                                                  <meta:subtyp start="1990-01-01" end="1994-12-31">new-subtyp</meta:subtyp>
+                                                  <meta:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">new-bezeichnungInVorlage</meta:bezeichnungInVorlage>
+                                                  <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
+                                                  <meta:normgeber start="1990-01-01" end="1994-12-31">DEU</meta:normgeber>
+                                                  <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
+                                                  <meta:organisationsEinheit start="1990-01-01" end="1994-12-31">Andere Organisationseinheit</meta:organisationsEinheit>
+                                              </meta:legalDocML.de_metadaten_ds>
+                                          </akn:proprietary>
+                                          """
           )
         )
         .build();
@@ -410,17 +410,17 @@ class ProprietaryControllerTest {
         .node(
           XmlMapper.toNode(
             """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                                    <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
-                                        <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                                            <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                                            <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                                            <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                                        </meta:einzelelement>
-                                    </meta:legalDocML.de_metadaten_ds>
-                                </akn:proprietary>
-                                """
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                </meta:legalDocML.de_metadaten_ds>
+                            </akn:proprietary>
+                            """
           )
         )
         .build();

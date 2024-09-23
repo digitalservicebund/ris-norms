@@ -12,11 +12,11 @@ class EIdPartTypeTest {
   @ParameterizedTest
   @CsvSource(
     {
-      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,ändbefehl",
-      "<akn:list xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,untergl",
-      "<akn:li xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,listenelem",
-      "<akn:point xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,listenelem",
-      "<akn:passiveModifications xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,pasmod",
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,ändbefehl",
+      "<akn:list xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,untergl",
+      "<akn:li xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,listenelem",
+      "<akn:point xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,listenelem",
+      "<akn:passiveModifications xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,pasmod",
     }
   )
   void itShouldGetTheCorrectEIdPartTypeForAknElements(String xml, String eIdPartName) {
@@ -47,7 +47,7 @@ class EIdPartTypeTest {
   ) {
     var node = XmlMapper.toNode(
       """
-      <akn:quotedStructure xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"><akn:article refersTo="%s" /></akn:quotedStructure>
+          <akn:quotedStructure xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"><akn:article refersTo="%s" /></akn:quotedStructure>
       """.formatted(refersTo)
     );
     // when
@@ -93,11 +93,11 @@ class EIdPartTypeTest {
   ) {
     var node = XmlMapper.toNode(
       """
-        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
+            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
           <akn:act name="regelungstext">
             <akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
               <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1" source="attributsemantik-noch-undefiniert">
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                    <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
                   <meta:form>%s</meta:form>
                 </meta:legalDocML.de_metadaten>
               </akn:proprietary>

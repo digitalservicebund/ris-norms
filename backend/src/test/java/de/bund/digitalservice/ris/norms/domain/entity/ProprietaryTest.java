@@ -19,13 +19,13 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                    <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                        <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
                 <meta:typ>gesetz</meta:typ>
                 <meta:fna>754-28-1</meta:fna>
@@ -47,13 +47,13 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                    <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                        <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
                 <meta:typ>gesetz</meta:typ>
                 <meta:form>stammform</meta:form>
@@ -75,13 +75,13 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                    <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                        <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
                 <meta:typ>gesetz</meta:typ>
                 <meta:fna>000-00-0</meta:fna>
@@ -125,15 +125,15 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
-                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                      <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                                      <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                      <meta:fna start="2001-01-01">333-33-3</meta:fna>
-                                  </meta:legalDocML.de_metadaten_ds>
-                              </akn:proprietary>
-                              """
+                              <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                  <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                                  <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
+                                  <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                              </meta:legalDocML.de_metadaten_ds>
+                          </akn:proprietary>
+                          """
           )
         )
         .build();
@@ -148,14 +148,14 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
-                                  <meta:typ>gesetz</meta:typ>
-                                  <meta:fna>000-00-0</meta:fna>
-                                  <meta:fassung>verkuendungsfassung</meta:fassung>
-                              </meta:legalDocML.de_metadaten>
-                              </akn:proprietary>
-                              """
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                              <meta:typ>gesetz</meta:typ>
+                              <meta:fna>000-00-0</meta:fna>
+                              <meta:fassung>verkuendungsfassung</meta:fassung>
+                          </meta:legalDocML.de_metadaten>
+                          </akn:proprietary>
+                          """
           )
         )
         .build();
@@ -170,14 +170,14 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
-                                  <meta:typ>gesetz</meta:typ>
-                                  <meta:fna>000-00-0</meta:fna>
-                                  <meta:fassung>verkuendungsfassung</meta:fassung>
-                              </meta:legalDocML.de_metadaten>
-                              </akn:proprietary>
-                              """
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                              <meta:typ>gesetz</meta:typ>
+                              <meta:fna>000-00-0</meta:fna>
+                              <meta:fassung>verkuendungsfassung</meta:fassung>
+                          </meta:legalDocML.de_metadaten>
+                          </akn:proprietary>
+                          """
           )
         )
         .build();
@@ -197,13 +197,13 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
                 <meta:art>rechtsetzungsdokument</meta:art>
               </meta:legalDocML.de_metadaten>
@@ -225,13 +225,13 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
               <!-- Art is missing -->
               </meta:legalDocML.de_metadaten>
@@ -252,13 +252,13 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
                 <meta:art>rechtsetzungsdokument</meta:art>
               </meta:legalDocML.de_metadaten>
@@ -302,13 +302,13 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
                 <meta:typ>rechtsetzungsdokument</meta:typ>
               </meta:legalDocML.de_metadaten>
@@ -330,13 +330,13 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
               <!-- Typ is missing -->
               </meta:legalDocML.de_metadaten>
@@ -357,13 +357,13 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
             >
               <meta:legalDocML.de_metadaten
-                xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
+                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7/"
               >
                 <meta:typ>gesetz</meta:typ>
               </meta:legalDocML.de_metadaten>
@@ -406,7 +406,7 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
@@ -434,7 +434,7 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
@@ -461,7 +461,7 @@ class ProprietaryTest {
           XmlMapper.toNode(
             """
             <akn:proprietary
-                      xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
               eId="meta-1_proprietary-1"
               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
               source="attributsemantik-noch-undefiniert"
@@ -512,19 +512,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                          eId="meta-1_proprietary-1"
-                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                          source="attributsemantik-noch-undefiniert"
-                        >
-                          <meta:legalDocML.de_metadaten_ds
-                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                          >
-                            <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
-                         </meta:legalDocML.de_metadaten_ds>
-                        </akn:proprietary>
-                        """
+                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                      eId="meta-1_proprietary-1"
+                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                      source="attributsemantik-noch-undefiniert"
+                    >
+                      <meta:legalDocML.de_metadaten_ds
+                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                      >
+                        <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
+                     </meta:legalDocML.de_metadaten_ds>
+                    </akn:proprietary>
+                    """
           )
         )
         .build();
@@ -540,19 +540,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                          eId="meta-1_proprietary-1"
-                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                          source="attributsemantik-noch-undefiniert"
-                        >
-                          <meta:legalDocML.de_metadaten_ds
-                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                          >
-                          <!-- BezeichnungInVorlage is missing -->
-                          </meta:legalDocML.de_metadaten_ds>
-                        </akn:proprietary>
-                        """
+                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                      eId="meta-1_proprietary-1"
+                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                      source="attributsemantik-noch-undefiniert"
+                    >
+                      <meta:legalDocML.de_metadaten_ds
+                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                      >
+                      <!-- BezeichnungInVorlage is missing -->
+                      </meta:legalDocML.de_metadaten_ds>
+                    </akn:proprietary>
+                    """
           )
         )
         .build();
@@ -567,22 +567,22 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                          eId="meta-1_proprietary-1"
-                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                          source="attributsemantik-noch-undefiniert"
-                        >
-                          <meta:legalDocML.de_metadaten_ds
-                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                          >
-                            <meta:bezeichnungInVorlage end="1989-12-31">Bezeichnung gemäß Vorlage 1</meta:bezeichnungInVorlage>
-                            <meta:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">Bezeichnung gemäß Vorlage 2</meta:bezeichnungInVorlage>
-                            <meta:bezeichnungInVorlage start="1995-01-01" end="2000-12-31">Bezeichnung gemäß Vorlage 3</meta:bezeichnungInVorlage>
-                            <meta:bezeichnungInVorlage start="2001-01-01">Bezeichnung gemäß Vorlage 4</meta:bezeichnungInVorlage>
-                          </meta:legalDocML.de_metadaten_ds>
-                        </akn:proprietary>
-                        """
+                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                      eId="meta-1_proprietary-1"
+                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                      source="attributsemantik-noch-undefiniert"
+                    >
+                      <meta:legalDocML.de_metadaten_ds
+                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                      >
+                        <meta:bezeichnungInVorlage end="1989-12-31">Bezeichnung gemäß Vorlage 1</meta:bezeichnungInVorlage>
+                        <meta:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">Bezeichnung gemäß Vorlage 2</meta:bezeichnungInVorlage>
+                        <meta:bezeichnungInVorlage start="1995-01-01" end="2000-12-31">Bezeichnung gemäß Vorlage 3</meta:bezeichnungInVorlage>
+                        <meta:bezeichnungInVorlage start="2001-01-01">Bezeichnung gemäß Vorlage 4</meta:bezeichnungInVorlage>
+                      </meta:legalDocML.de_metadaten_ds>
+                    </akn:proprietary>
+                    """
           )
         )
         .build();
@@ -621,19 +621,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                          eId="meta-1_proprietary-1"
-                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                          source="attributsemantik-noch-undefiniert"
-                                        >
-                                          <meta:legalDocML.de_metadaten_ds
-                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                          >
-                                            <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
-                                         </meta:legalDocML.de_metadaten_ds>
-                                        </akn:proprietary>
-                                        """
+                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                      eId="meta-1_proprietary-1"
+                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                      source="attributsemantik-noch-undefiniert"
+                                    >
+                                      <meta:legalDocML.de_metadaten_ds
+                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                      >
+                                        <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
+                                     </meta:legalDocML.de_metadaten_ds>
+                                    </akn:proprietary>
+                                    """
           )
         )
         .build();
@@ -648,19 +648,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                          eId="meta-1_proprietary-1"
-                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                          source="attributsemantik-noch-undefiniert"
-                                        >
-                                          <meta:legalDocML.de_metadaten_ds
-                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                          >
-                                          <!-- ArtDerNorm is missing -->
-                                          </meta:legalDocML.de_metadaten_ds>
-                                        </akn:proprietary>
-                                        """
+                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                      eId="meta-1_proprietary-1"
+                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                      source="attributsemantik-noch-undefiniert"
+                                    >
+                                      <meta:legalDocML.de_metadaten_ds
+                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                      >
+                                      <!-- ArtDerNorm is missing -->
+                                      </meta:legalDocML.de_metadaten_ds>
+                                    </akn:proprietary>
+                                    """
           )
         )
         .build();
@@ -675,22 +675,22 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                          eId="meta-1_proprietary-1"
-                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                          source="attributsemantik-noch-undefiniert"
-                                        >
-                                          <meta:legalDocML.de_metadaten_ds
-                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                          >
-                                            <meta:artDerNorm end="1989-12-31">SN,ÄN,ÜN</meta:artDerNorm>
-                                            <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</meta:artDerNorm>
-                                            <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</meta:artDerNorm>
-                                            <meta:artDerNorm start="2001-01-01">ÄN,ÜN</meta:artDerNorm>
-                                          </meta:legalDocML.de_metadaten_ds>
-                                        </akn:proprietary>
-                                        """
+                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                      eId="meta-1_proprietary-1"
+                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                      source="attributsemantik-noch-undefiniert"
+                                    >
+                                      <meta:legalDocML.de_metadaten_ds
+                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                      >
+                                        <meta:artDerNorm end="1989-12-31">SN,ÄN,ÜN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÄN,ÜN</meta:artDerNorm>
+                                      </meta:legalDocML.de_metadaten_ds>
+                                    </akn:proprietary>
+                                    """
           )
         )
         .build();
@@ -720,19 +720,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                          eId="meta-1_proprietary-1"
-                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                          source="attributsemantik-noch-undefiniert"
-                                                        >
-                                                          <meta:legalDocML.de_metadaten_ds
-                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                          >
-                                                            <meta:normgeber>DEU</meta:normgeber>
-                                                         </meta:legalDocML.de_metadaten_ds>
-                                                        </akn:proprietary>
-                                                        """
+                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                      eId="meta-1_proprietary-1"
+                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                      source="attributsemantik-noch-undefiniert"
+                                                    >
+                                                      <meta:legalDocML.de_metadaten_ds
+                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                      >
+                                                        <meta:normgeber>DEU</meta:normgeber>
+                                                     </meta:legalDocML.de_metadaten_ds>
+                                                    </akn:proprietary>
+                                                    """
           )
         )
         .build();
@@ -747,19 +747,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                          eId="meta-1_proprietary-1"
-                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                          source="attributsemantik-noch-undefiniert"
-                                                        >
-                                                          <meta:legalDocML.de_metadaten_ds
-                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                          >
-                                                          <!-- Normgeber is missing -->
-                                                          </meta:legalDocML.de_metadaten_ds>
-                                                        </akn:proprietary>
-                                                        """
+                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                      eId="meta-1_proprietary-1"
+                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                      source="attributsemantik-noch-undefiniert"
+                                                    >
+                                                      <meta:legalDocML.de_metadaten_ds
+                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                      >
+                                                      <!-- Normgeber is missing -->
+                                                      </meta:legalDocML.de_metadaten_ds>
+                                                    </akn:proprietary>
+                                                    """
           )
         )
         .build();
@@ -774,22 +774,22 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                          eId="meta-1_proprietary-1"
-                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                          source="attributsemantik-noch-undefiniert"
-                                                        >
-                                                          <meta:legalDocML.de_metadaten_ds
-                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                          >
-                                                            <meta:normgeber end="1989-12-31">DEU</meta:normgeber>
-                                                            <meta:normgeber start="1990-01-01" end="1994-12-31">DDR</meta:normgeber>
-                                                            <meta:normgeber start="1995-01-01" end="2000-12-31">BW</meta:normgeber>
-                                                            <meta:normgeber start="2001-01-01">BY</meta:normgeber>
-                                                          </meta:legalDocML.de_metadaten_ds>
-                                                        </akn:proprietary>
-                                                        """
+                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                      eId="meta-1_proprietary-1"
+                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                      source="attributsemantik-noch-undefiniert"
+                                                    >
+                                                      <meta:legalDocML.de_metadaten_ds
+                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                      >
+                                                        <meta:normgeber end="1989-12-31">DEU</meta:normgeber>
+                                                        <meta:normgeber start="1990-01-01" end="1994-12-31">DDR</meta:normgeber>
+                                                        <meta:normgeber start="1995-01-01" end="2000-12-31">BW</meta:normgeber>
+                                                        <meta:normgeber start="2001-01-01">BY</meta:normgeber>
+                                                      </meta:legalDocML.de_metadaten_ds>
+                                                    </akn:proprietary>
+                                                    """
           )
         )
         .build();
@@ -819,19 +819,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                                          eId="meta-1_proprietary-1"
-                                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                          source="attributsemantik-noch-undefiniert"
-                                                                        >
-                                                                          <meta:legalDocML.de_metadaten_ds
-                                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                                          >
-                                                                            <meta:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
-                                                                         </meta:legalDocML.de_metadaten_ds>
-                                                                        </akn:proprietary>
-                                                                        """
+                                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                                      eId="meta-1_proprietary-1"
+                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                      source="attributsemantik-noch-undefiniert"
+                                                                    >
+                                                                      <meta:legalDocML.de_metadaten_ds
+                                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                      >
+                                                                        <meta:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
+                                                                     </meta:legalDocML.de_metadaten_ds>
+                                                                    </akn:proprietary>
+                                                                    """
           )
         )
         .build();
@@ -849,19 +849,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                                          eId="meta-1_proprietary-1"
-                                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                          source="attributsemantik-noch-undefiniert"
-                                                                        >
-                                                                          <meta:legalDocML.de_metadaten_ds
-                                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                                          >
-                                                                          <!-- BeschliessendesOrgan is missing -->
-                                                                          </meta:legalDocML.de_metadaten_ds>
-                                                                        </akn:proprietary>
-                                                                        """
+                                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                                      eId="meta-1_proprietary-1"
+                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                      source="attributsemantik-noch-undefiniert"
+                                                                    >
+                                                                      <meta:legalDocML.de_metadaten_ds
+                                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                      >
+                                                                      <!-- BeschliessendesOrgan is missing -->
+                                                                      </meta:legalDocML.de_metadaten_ds>
+                                                                    </akn:proprietary>
+                                                                    """
           )
         )
         .build();
@@ -877,22 +877,22 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                                          eId="meta-1_proprietary-1"
-                                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                          source="attributsemantik-noch-undefiniert"
-                                                                        >
-                                                                          <meta:legalDocML.de_metadaten_ds
-                                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                                          >
-                                                                            <meta:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</meta:beschliessendesOrgan>
-                                                                            <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag 2</meta:beschliessendesOrgan>
-                                                                            <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</meta:beschliessendesOrgan>
-                                                                            <meta:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="true">Bundestag 4</meta:beschliessendesOrgan>
-                                                                          </meta:legalDocML.de_metadaten_ds>
-                                                                        </akn:proprietary>
-                                                                        """
+                                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                                      eId="meta-1_proprietary-1"
+                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                      source="attributsemantik-noch-undefiniert"
+                                                                    >
+                                                                      <meta:legalDocML.de_metadaten_ds
+                                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                      >
+                                                                        <meta:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</meta:beschliessendesOrgan>
+                                                                        <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag 2</meta:beschliessendesOrgan>
+                                                                        <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</meta:beschliessendesOrgan>
+                                                                        <meta:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="true">Bundestag 4</meta:beschliessendesOrgan>
+                                                                      </meta:legalDocML.de_metadaten_ds>
+                                                                    </akn:proprietary>
+                                                                    """
           )
         )
         .build();
@@ -927,22 +927,22 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                                                          eId="meta-1_proprietary-1"
-                                                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                                          source="attributsemantik-noch-undefiniert"
-                                                                                        >
-                                                                                          <meta:legalDocML.de_metadaten_ds
-                                                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                                                          >
-                                                                                            <meta:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</meta:beschliessendesOrgan>
-                                                                                            <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="false">Bundestag 2</meta:beschliessendesOrgan>
-                                                                                            <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</meta:beschliessendesOrgan>
-                                                                                            <meta:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="false">Bundestag 4</meta:beschliessendesOrgan>
-                                                                                          </meta:legalDocML.de_metadaten_ds>
-                                                                                        </akn:proprietary>
-                                                                                        """
+                                                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                                                      eId="meta-1_proprietary-1"
+                                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                      source="attributsemantik-noch-undefiniert"
+                                                                                    >
+                                                                                      <meta:legalDocML.de_metadaten_ds
+                                                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                                      >
+                                                                                        <meta:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</meta:beschliessendesOrgan>
+                                                                                        <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="false">Bundestag 2</meta:beschliessendesOrgan>
+                                                                                        <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</meta:beschliessendesOrgan>
+                                                                                        <meta:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="false">Bundestag 4</meta:beschliessendesOrgan>
+                                                                                      </meta:legalDocML.de_metadaten_ds>
+                                                                                    </akn:proprietary>
+                                                                                    """
           )
         )
         .build();
@@ -981,19 +981,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                          eId="meta-1_proprietary-1"
-                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                          source="attributsemantik-noch-undefiniert"
-                        >
-                          <meta:legalDocML.de_metadaten_ds
-                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                          >
-                            <meta:organisationsEinheit>Organisationseinheit 1</meta:organisationsEinheit>
-                         </meta:legalDocML.de_metadaten_ds>
-                        </akn:proprietary>
-                        """
+                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                      eId="meta-1_proprietary-1"
+                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                      source="attributsemantik-noch-undefiniert"
+                    >
+                      <meta:legalDocML.de_metadaten_ds
+                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                      >
+                        <meta:organisationsEinheit>Organisationseinheit 1</meta:organisationsEinheit>
+                     </meta:legalDocML.de_metadaten_ds>
+                    </akn:proprietary>
+                    """
           )
         )
         .build();
@@ -1009,19 +1009,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                                          eId="meta-1_proprietary-1"
-                                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                          source="attributsemantik-noch-undefiniert"
-                                                                        >
-                                                                          <meta:legalDocML.de_metadaten_ds
-                                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                                          >
-                                                                          <!-- OrganisationsEinheit is missing -->
-                                                                          </meta:legalDocML.de_metadaten_ds>
-                                                                        </akn:proprietary>
-                                                                        """
+                                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                                      eId="meta-1_proprietary-1"
+                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                      source="attributsemantik-noch-undefiniert"
+                                                                    >
+                                                                      <meta:legalDocML.de_metadaten_ds
+                                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                      >
+                                                                      <!-- OrganisationsEinheit is missing -->
+                                                                      </meta:legalDocML.de_metadaten_ds>
+                                                                    </akn:proprietary>
+                                                                    """
           )
         )
         .build();
@@ -1036,22 +1036,22 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                                          eId="meta-1_proprietary-1"
-                                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                          source="attributsemantik-noch-undefiniert"
-                                                                        >
-                                                                          <meta:legalDocML.de_metadaten_ds
-                                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                                          >
-                                                                            <meta:organisationsEinheit end="1989-12-31">Organisationseinheit 1</meta:organisationsEinheit>
-                                                                            <meta:organisationsEinheit start="1990-01-01" end="1994-12-31">Organisationseinheit 2</meta:organisationsEinheit>
-                                                                            <meta:organisationsEinheit start="1995-01-01" end="2000-12-31">Organisationseinheit 3</meta:organisationsEinheit>
-                                                                            <meta:organisationsEinheit start="2001-01-01">Organisationseinheit 4</meta:organisationsEinheit>
-                                                                          </meta:legalDocML.de_metadaten_ds>
-                                                                        </akn:proprietary>
-                                                                        """
+                                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                                      eId="meta-1_proprietary-1"
+                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                      source="attributsemantik-noch-undefiniert"
+                                                                    >
+                                                                      <meta:legalDocML.de_metadaten_ds
+                                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                      >
+                                                                        <meta:organisationsEinheit end="1989-12-31">Organisationseinheit 1</meta:organisationsEinheit>
+                                                                        <meta:organisationsEinheit start="1990-01-01" end="1994-12-31">Organisationseinheit 2</meta:organisationsEinheit>
+                                                                        <meta:organisationsEinheit start="1995-01-01" end="2000-12-31">Organisationseinheit 3</meta:organisationsEinheit>
+                                                                        <meta:organisationsEinheit start="2001-01-01">Organisationseinheit 4</meta:organisationsEinheit>
+                                                                      </meta:legalDocML.de_metadaten_ds>
+                                                                    </akn:proprietary>
+                                                                    """
           )
         )
         .build();
@@ -1091,22 +1091,22 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                              <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                eId="meta-1_proprietary-1"
-                                GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                source="attributsemantik-noch-undefiniert"
-                              >
-                                <meta:legalDocML.de_metadaten_ds
-                                  xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                >
-                                  <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
-                                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                                      <meta:artDerNorm>ÜN</meta:artDerNorm>
-                                  </meta:einzelelement>
-                               </meta:legalDocML.de_metadaten_ds>
-                              </akn:proprietary>
-                              """
+                          <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                            eId="meta-1_proprietary-1"
+                            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                            source="attributsemantik-noch-undefiniert"
+                          >
+                            <meta:legalDocML.de_metadaten_ds
+                              xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                            >
+                              <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
+                              <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                  <meta:artDerNorm>ÜN</meta:artDerNorm>
+                              </meta:einzelelement>
+                           </meta:legalDocML.de_metadaten_ds>
+                          </akn:proprietary>
+                          """
           )
         )
         .build();
@@ -1122,19 +1122,19 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                          eId="meta-1_proprietary-1"
-                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                          source="attributsemantik-noch-undefiniert"
-                                                        >
-                                                          <meta:legalDocML.de_metadaten_ds
-                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                          >
-                                                          <!-- ArtDerNorm is missing -->
-                                                          </meta:legalDocML.de_metadaten_ds>
-                                                        </akn:proprietary>
-                                                        """
+                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                      eId="meta-1_proprietary-1"
+                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                      source="attributsemantik-noch-undefiniert"
+                                                    >
+                                                      <meta:legalDocML.de_metadaten_ds
+                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                      >
+                                                      <!-- ArtDerNorm is missing -->
+                                                      </meta:legalDocML.de_metadaten_ds>
+                                                    </akn:proprietary>
+                                                    """
           )
         )
         .build();
@@ -1150,28 +1150,28 @@ class ProprietaryTest {
         .node(
           XmlMapper.toNode(
             """
-                                                        <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                                          eId="meta-1_proprietary-1"
-                                                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                          source="attributsemantik-noch-undefiniert"
-                                                        >
-                                                          <meta:legalDocML.de_metadaten_ds
-                                                            xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
-                                                          >
-                                                            <meta:artDerNorm end="1989-12-31">SN,ÄN,ÜN</meta:artDerNorm>
-                                                            <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</meta:artDerNorm>
-                                                            <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</meta:artDerNorm>
-                                                            <meta:artDerNorm start="2001-01-01">ÄN,ÜN</meta:artDerNorm>
-                                                            <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                                                                <meta:artDerNorm end="1989-12-31">ÜN</meta:artDerNorm>
-                                                                <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                                                                <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                                                                <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                                                            </meta:einzelelement>
-                                                          </meta:legalDocML.de_metadaten_ds>
-                                                        </akn:proprietary>
-                                                        """
+                                                    <akn:proprietary
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                                                      eId="meta-1_proprietary-1"
+                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                      source="attributsemantik-noch-undefiniert"
+                                                    >
+                                                      <meta:legalDocML.de_metadaten_ds
+                                                        xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                      >
+                                                        <meta:artDerNorm end="1989-12-31">SN,ÄN,ÜN</meta:artDerNorm>
+                                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</meta:artDerNorm>
+                                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</meta:artDerNorm>
+                                                        <meta:artDerNorm start="2001-01-01">ÄN,ÜN</meta:artDerNorm>
+                                                        <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                                            <meta:artDerNorm end="1989-12-31">ÜN</meta:artDerNorm>
+                                                            <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                                            <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                                            <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                                        </meta:einzelelement>
+                                                      </meta:legalDocML.de_metadaten_ds>
+                                                    </akn:proprietary>
+                                                    """
           )
         )
         .build();

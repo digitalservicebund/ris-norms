@@ -14,19 +14,19 @@ class EidConsistencyGuardianTest {
   void itDoesNotCorrectAnything() {
     var sampleXml =
       """
-          <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-               <akn:p eId="meta-1_text-1">
-                   <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
-               </akn:p>
-               <akn:p eId="meta-1_text-2">
-                   <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
-               </akn:p>
-            </akn:meta>
-          </root>
-          """;
+      <root>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+           <akn:p eId="meta-1_text-1">
+               <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
+               <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+           </akn:p>
+           <akn:p eId="meta-1_text-2">
+               <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
+               <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
+           </akn:p>
+        </akn:meta>
+      </root>
+      """;
 
     // When
     final Document document = XmlMapper.toDocument(sampleXml);
@@ -46,15 +46,62 @@ class EidConsistencyGuardianTest {
   void itCorrectsEidGaps() {
     var sampleXml =
       """
+      <root>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+           <akn:p eId="meta-1_text-1">
+               <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
+               <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+           </akn:p>
+           <akn:p eId="meta-1_text-3">
+               <akn:ref eId="meta-1_text-3_ref-1"></akn:ref>
+               <akn:ref eId="meta-1_text-3_ref-4"></akn:ref>
+           </akn:p>
+        </akn:meta>
+      </root>
+      """;
+
+    // When
+    final Document correctedDocument = XmlMapper.toDocument(sampleXml);
+    EidConsistencyGuardian.correctEids(correctedDocument);
+
+    // Then
+    var expectedXml =
+      """
+      <root>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+           <akn:p eId="meta-1_text-1">
+               <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
+               <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+           </akn:p>
+           <akn:p eId="meta-1_text-2">
+               <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
+               <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
+           </akn:p>
+        </akn:meta>
+      </root>
+      """;
+
+    final Diff diff = DiffBuilder
+      .compare(Input.from(correctedDocument))
+      .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+      .ignoreWhitespace()
+      .build();
+    assertThat(diff.hasDifferences()).isFalse();
+  }
+
+  @Test
+  void itCorrectsEidOrder() {
+    var sampleXml =
+      """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-               <akn:p eId="meta-1_text-1">
-                   <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+               <akn:p eId="meta-1_text-2">
+                   <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
+                   <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
                </akn:p>
-               <akn:p eId="meta-1_text-3">
-                   <akn:ref eId="meta-1_text-3_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-3_ref-4"></akn:ref>
+               <akn:p eId="meta-1_text-1">
+                 <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
+                 <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
                </akn:p>
             </akn:meta>
           </root>
@@ -68,7 +115,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
                <akn:p eId="meta-1_text-1">
                    <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
                    <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
@@ -86,53 +133,6 @@ class EidConsistencyGuardianTest {
       .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
       .ignoreWhitespace()
       .build();
-    assertThat(diff.hasDifferences()).isFalse();
-  }
-
-  @Test
-  void itCorrectsEidOrder() {
-    var sampleXml =
-      """
-              <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-                   <akn:p eId="meta-1_text-2">
-                       <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
-                       <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
-                   </akn:p>
-                   <akn:p eId="meta-1_text-1">
-                     <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                     <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
-                   </akn:p>
-                </akn:meta>
-              </root>
-              """;
-
-    // When
-    final Document correctedDocument = XmlMapper.toDocument(sampleXml);
-    EidConsistencyGuardian.correctEids(correctedDocument);
-
-    // Then
-    var expectedXml =
-      """
-              <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-                   <akn:p eId="meta-1_text-1">
-                       <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                       <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
-                   </akn:p>
-                   <akn:p eId="meta-1_text-2">
-                       <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
-                       <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
-                   </akn:p>
-                </akn:meta>
-              </root>
-              """;
-
-    final Diff diff = DiffBuilder
-      .compare(Input.from(correctedDocument))
-      .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
-      .ignoreWhitespace()
-      .build();
 
     assertThat(diff.hasDifferences()).isFalse();
   }
@@ -141,15 +141,15 @@ class EidConsistencyGuardianTest {
   void itCorrectsEidTypes() {
     var sampleXml =
       """
-              <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-                   <akn:p eId="meta-1_text-1">
-                       <akn:ref eId="meta-1_text-1_text-1"></akn:ref>
-                       <akn:ref eId="meta-1_text-1_text-2"></akn:ref>
-                   </akn:p>
-                </akn:meta>
-              </root>
-              """;
+          <root>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+               <akn:p eId="meta-1_text-1">
+                   <akn:ref eId="meta-1_text-1_text-1"></akn:ref>
+                   <akn:ref eId="meta-1_text-1_text-2"></akn:ref>
+               </akn:p>
+            </akn:meta>
+          </root>
+          """;
 
     // When
     final Document correctedDocument = XmlMapper.toDocument(sampleXml);
@@ -158,15 +158,15 @@ class EidConsistencyGuardianTest {
     // Then
     var expectedXml =
       """
-              <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-                   <akn:p eId="meta-1_text-1">
-                       <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                       <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
-                   </akn:p>
-                </akn:meta>
-              </root>
-              """;
+          <root>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+               <akn:p eId="meta-1_text-1">
+                   <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
+                   <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+               </akn:p>
+            </akn:meta>
+          </root>
+          """;
 
     final Diff diff = DiffBuilder
       .compare(Input.from(correctedDocument))
@@ -181,15 +181,15 @@ class EidConsistencyGuardianTest {
   void itCorrectsMissingEids() {
     var sampleXml =
       """
-              <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-                   <akn:p>
-                       <akn:ref></akn:ref>
-                       <akn:ref></akn:ref>
-                   </akn:p>
-                </akn:meta>
-              </root>
-              """;
+          <root>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+               <akn:p>
+                   <akn:ref></akn:ref>
+                   <akn:ref></akn:ref>
+               </akn:p>
+            </akn:meta>
+          </root>
+          """;
 
     // When
     final Document correctedDocument = XmlMapper.toDocument(sampleXml);
@@ -198,15 +198,15 @@ class EidConsistencyGuardianTest {
     // Then
     var expectedXml =
       """
-              <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1">
-                   <akn:p eId="meta-1_text-1">
-                       <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                       <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
-                   </akn:p>
-                </akn:meta>
-              </root>
-              """;
+          <root>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1">
+               <akn:p eId="meta-1_text-1">
+                   <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
+                   <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+               </akn:p>
+            </akn:meta>
+          </root>
+          """;
 
     final Diff diff = DiffBuilder
       .compare(Input.from(correctedDocument))
@@ -223,8 +223,8 @@ class EidConsistencyGuardianTest {
     var text =
       """
       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                                               http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                                                                   http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
           <akn:act name="regelungstext">
               <!-- Metadaten -->
               <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
@@ -283,7 +283,7 @@ class EidConsistencyGuardianTest {
     var exectedResult =
       """
       <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                                                                          http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                                                                          http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
           <akn:act name="regelungstext">
               <!-- Metadaten -->
               <akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">

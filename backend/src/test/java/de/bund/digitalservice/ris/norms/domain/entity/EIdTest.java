@@ -48,7 +48,7 @@ class EIdTest {
   void fromNode() {
     // given
     var node = XmlMapper.toNode(
-      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />"
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />"
     );
     // when
     var eId = EId.fromNode(node);
@@ -61,7 +61,7 @@ class EIdTest {
   void fromMandatoryNode() {
     // given
     var node = XmlMapper.toNode(
-      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />"
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />"
     );
     // when
     var eId = EId.fromMandatoryNode(node);
@@ -73,7 +73,7 @@ class EIdTest {
   void fromMandatoryNodeThrowsMandatoryNodeNotFoundException() {
     // given
     var node = XmlMapper.toNode(
-      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"\" />"
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"\" />"
     );
 
     // when/then
@@ -87,9 +87,9 @@ class EIdTest {
     @ParameterizedTest
     @CsvSource(
       {
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,ändbefehl-1",
-        "<akn:p xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\"><akn:num><akn:marker>3a</akn:marker>§ 3a</akn:num></akn:p>,text-1",
-        "<akn:li value=\"3.\" xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\">Some text</akn:li>,listenelem-1",
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,ändbefehl-1",
+        "<akn:p xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\"><akn:num><akn:marker>3a</akn:marker>§ 3a</akn:num></akn:p>,text-1",
+        "<akn:li value=\"3.\" xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\">Some text</akn:li>,listenelem-1",
       }
     )
     void itShouldProvideEIdForNode(String xml, String expectedEId) {
@@ -106,7 +106,7 @@ class EIdTest {
     @Test
     void itShouldProvideEIdForNodeWithParent() {
       var node = XmlMapper.toNode(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\"><akn:p>Some text</akn:p></akn:mod>"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\"><akn:p>Some text</akn:p></akn:mod>"
       );
       // when
       var optionalEId = EId.forNode(node.getFirstChild());
@@ -121,7 +121,7 @@ class EIdTest {
     @Test
     void itShouldProvideEIdForNodeWithSiblingsWithSameEIdTypeWithoutNestedNum() {
       var node = XmlMapper.toNode(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\"><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\">Some text 1</akn:p><akn:ref eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_ref-1\">Some other element</akn:ref><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\">Some text 2</akn:p><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-2\">Some text 3</akn:p></akn:mod>"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\"><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\">Some text 1</akn:p><akn:ref eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_ref-1\">Some other element</akn:ref><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\">Some text 2</akn:p><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-2\">Some text 3</akn:p></akn:mod>"
       );
       // when
       var optionalEId = EId.forNode(node.getChildNodes().item(2));
