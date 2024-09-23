@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://Metadaten.LegalDocML.de/1.7/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://Metadaten.LegalDocML.de/1.7/"
+           version="LegalDocML.de 1.7 (irgendwann 2024)">
+<!-- ********************************* Hinweis zur Lizensierung ********************************* -->
+    <xs:annotation>
+      <xs:appinfo>
+         <copyright-hinweis>2024 Copyright © 2021–2024 Bundesministerium des Innern und für Heimat,
+Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Verwaltungsarbeit</copyright-hinweis>
+         <lizenz url="https://creativecommons.org/licenses/by/3.0/legalcode.de"
+                 kurzbezeichnung="CC-BY-3.0"
+                 langbezeichnung="Creative Commons Namensnennung 3.0"/>
+         <autor organisation="Bundesministerium des Innern und für Heimat"
+                referat="DG II 6"
+                organisatorischer-rahmen="Maßnahmen Enterprise Resource Management und Elektronische Verwaltungsarbeit"/>
+      </xs:appinfo>
+   </xs:annotation>
+    <!-- ******************************************************************************************** -->
+    <xs:element name="legalDocML.de_metadaten">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="typ" type="typen">
+               <xs:annotation>
+                  <xs:documentation>Typ eines Rechtsetzungsdokuments (z. B. Gesetz, Verordnung etc.) und der darin referenzierten
+                            Teildokumente</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="subtyp" type="xs:string" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Subtyp eines Rechtsetzungsdokuments, anhand dessen optional die bisherigen Dokumenttypen weiter spezifiziert werden können.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="form" type="formen">
+               <xs:annotation>
+                  <xs:documentation>Form eines Rechtsetzungsdokuments (z. B. Stammform, Mantelform etc.) und der darin referenzierten
+                            Teildokumente</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="fassung" type="fassungen">
+               <xs:annotation>
+                  <xs:documentation>Fassung eines Rechtsetzungsdokuments (z. B. Entwurfs-, Verkündungs- oder Neufassung) und der darin referenzierten
+                            Teildokumente</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="art" type="arten">
+               <xs:annotation>
+                  <xs:documentation>Jeweilige Art des Teildokuments (z. B. Regelungstext, Vorblatt, Begründung etc.)</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="initiant" type="institution">
+               <xs:annotation>
+                  <xs:documentation>Institution, welche die erste Fassung des Rechtsetzungsdokuments und seiner Teildokumente erstellt hat (z. B.
+                            Bundesregierung, Bundestag usw.). Dieses Metadatum ist nur in der Entwurfsfassung relevant; in der Verkündungsfassung ist das
+                            Literal "nicht-vorhanden" zu nutzen.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="bearbeitendeInstitution" type="institution">
+               <xs:annotation>
+                  <xs:documentation>Institution, welche die vorliegende Fassung des Rechtsetzungsdokuments und seiner Teildokumente bearbeitet (z. B.
+                            Bundesregierung, Bundestag usw.). Dieses Metadatum ist nur in der Entwurfsfassung relevant; in der Verkündungsfassung ist das
+                            Literal "nicht-vorhanden" zu nutzen.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="fna" type="xs:token" default="nicht-vorhanden">
+               <xs:annotation>
+                  <xs:documentation>Der Fundstellennachweis A (FNA) weist die Fundstellen der im Bundesgesetzblatt oder Bundesanzeiger veröffentlichten
+                            geltenden Gesetze und Rechtsverordnungen der Bundesrepublik Deutschland nach. In der Entwurfsfassung ist das Literal
+                            "nicht-vorhanden" zu verwenden.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="gesta" type="xs:token" default="nicht-vorhanden">
+               <xs:annotation>
+                  <xs:documentation> Die GESTA-Ordnungsnummer ist eine von der Parlamentsdokumentation des Bundestages vergebene Kennzeichnung eines
+                            Gesetzgebungsverfahrens. Falls sie unbekannt ist, ist das Literal 'nicht-vorhanden' anzugeben.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="federfuehrung">
+               <xs:annotation>
+                  <xs:documentation>Umfasst die Historie und das aktuell federführende Ressort. Es können mehrere federführende Ressorts abgebildet
+                            werden.</xs:documentation>
+               </xs:annotation>
+               <xs:complexType>
+                  <xs:sequence maxOccurs="unbounded">
+                     <xs:element name="federfuehrend">
+                        <xs:annotation>
+                           <xs:documentation>Das federführende Ressort</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                           <xs:simpleContent>
+                              <xs:extension base="mindestens-ein-zeichen">
+                                 <xs:attribute name="ab" type="xs:date" use="required">
+                                    <xs:annotation>
+                                       <xs:documentation>Datum, zu welchem die Federführung des angegebenen Ressorts beginnt</xs:documentation>
+                                    </xs:annotation>
+                                 </xs:attribute>
+                                 <xs:attribute name="bis" use="required">
+                                    <xs:annotation>
+                                       <xs:documentation>Datum, zu welchem die Federführung des angegebenen Ressorts endet. Neben einem Datum ist
+                                                        hier auch das Literal 'unbestimmt' zulässig, mittels welchem ausdrückt wird, dass das angegebene Ressort
+                                                        die Federführung noch innehat.</xs:documentation>
+                                    </xs:annotation>
+                                    <xs:simpleType>
+                                       <xs:union memberTypes="xs:date">
+                                          <xs:simpleType>
+                                             <xs:restriction base="xs:string">
+                                                <xs:enumeration value="unbestimmt"/>
+                                             </xs:restriction>
+                                          </xs:simpleType>
+                                       </xs:union>
+                                    </xs:simpleType>
+                                 </xs:attribute>
+                              </xs:extension>
+                           </xs:simpleContent>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="gegenstandlos" minOccurs="0">
+               <xs:complexType>
+                  <xs:attribute name="seit" type="xs:date" use="optional">
+                     <xs:annotation>
+                        <xs:documentation>Kennzeichnung, wann das vorliegende Rechtsetzungsdokument als gegenstandslos deklariert wurde.</xs:documentation>
+                     </xs:annotation>
+                  </xs:attribute>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="migrationsstatusNeuRIS" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Dieses Element wird übergangsweise von NeuRIS gesetzt, um den Status der Normenmigration für dieses Dokument anzugeben.</xs:documentation>
+               </xs:annotation>
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="text-vollstaendig-formatierung-vollstaendig">
+                        <xs:annotation>
+                           <xs:documentation>Das Dokument wurde textlich vollständig migriert, die Formatierung konnte ohne Nutzung von class und akn:inline mit refersTo='neuris' migriert werden.</xs:documentation>
+                        </xs:annotation>
+                     </xs:enumeration>
+                     <xs:enumeration value="text-vollstaendig-formatierung-unvollstaendig">
+                        <xs:annotation>
+                           <xs:documentation>Das Dokument wurde textlich vollständig migriert, für einen Teil der Formatierungen wurde allerdings 'class' und/oder akn:inline mit refersTo='neuris'  verwendet.</xs:documentation>
+                        </xs:annotation>
+                     </xs:enumeration>
+                     <xs:enumeration value="text-unvollstaendig">
+                        <xs:annotation>
+                           <xs:documentation>Das Dokument wurde textlich noch nicht vollständig bzw. nicht in ein standardkonformes LegalDocML.de-Dokument migriert.</xs:documentation>
+                        </xs:annotation>
+                     </xs:enumeration>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:simpleType name="typen" final="restriction">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="gesetz"/>
+         <xs:enumeration value="verordnung"/>
+         <xs:enumeration value="satzung"/>
+         <xs:enumeration value="verwaltungsvorschrift"/>
+         <xs:enumeration value="vertragsgesetz"/>
+         <xs:enumeration value="vertragsverordnung"/>
+         <xs:enumeration value="sonstige-bekanntmachung"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="formen" final="restriction">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="mantelform"/>
+         <xs:enumeration value="stammform"/>
+         <xs:enumeration value="eingebundene-stammform"/>
+         <xs:enumeration value="nicht-vorhanden"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="fassungen" final="restriction">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="entwurfsfassung"/>
+         <xs:enumeration value="verkuendungsfassung"/>
+         <xs:enumeration value="neufassung"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="arten" final="restriction">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="rechtsetzungsdokument"/>
+         <xs:enumeration value="regelungstext"/>
+         <xs:enumeration value="vorblatt"/>
+         <xs:enumeration value="begruendung"/>
+         <xs:enumeration value="anschreiben"/>
+         <xs:enumeration value="denkschrift"/>
+         <xs:enumeration value="bericht"/>
+         <xs:enumeration value="vereinbarung"/>
+         <xs:enumeration value="offene-struktur"/>
+         <xs:enumeration value="bekanntmachungstext"/>
+         <xs:enumeration value="vorblatt-beschlussempfehlung"/>
+         <xs:enumeration value="beschlussempfehlung"/>
+         <xs:enumeration value="bericht"/>
+         <xs:enumeration value="aenderungsantrag"/>
+         <xs:enumeration value="entschliessungsantrag"/>
+         <xs:enumeration value="unterrichtung"/>
+         <xs:enumeration value="begruendung-aenderungsantrag"/>
+         <xs:enumeration value="begruendung-entschliessungsantrag"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="institution" final="restriction">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="bundesregierung"/>
+         <xs:enumeration value="bundestag"/>
+         <xs:enumeration value="bundesrat"/>
+         <xs:enumeration value="bundespräsident"/>
+         <xs:enumeration value="bundeskanzler"/>
+         <xs:enumeration value="nicht-vorhanden"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="mindestens-ein-zeichen">
+      <xs:restriction base="xs:token">
+         <xs:minLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>
