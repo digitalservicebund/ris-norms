@@ -2168,8 +2168,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
             .value(
               XmlMatcher.xml(
                 hasXPath(
-                  "//body//mod/quotedText[2]",
-                  containsString("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")
+                  "normalize-space(//body//mod/quotedText[2])",
+                  equalTo("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")
                 )
               )
             )
