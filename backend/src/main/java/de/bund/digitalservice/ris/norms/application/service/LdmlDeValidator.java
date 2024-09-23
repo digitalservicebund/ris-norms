@@ -153,46 +153,63 @@ public class LdmlDeValidator {
       "successful-report"
     );
 
-    if (failedAsserts.getLength() > 0 || successfulReports.getLength() > 0) {
-      var failedAssertMessages = NodeParser.nodeListToList(failedAsserts).stream();
-      var successfulReportMessages = NodeParser.nodeListToList(successfulReports).stream();
+    var failedAssertMessages = NodeParser.nodeListToList(failedAsserts).stream();
+    var successfulReportMessages = NodeParser.nodeListToList(successfulReports).stream();
 
-      var xPathEIdCache = new HashMap<String, String>();
-      var errors = Stream
-        .concat(failedAssertMessages, successfulReportMessages)
-        .map(node -> {
-          // The location includes an XPath with expanded QNames
-          // (Q{namespace}<localPart>).
-          var xPath = node.getAttributes().getNamedItem("location").getNodeValue();
+    var xPathEIdCache = new HashMap<String, String>();
+    var errors = Stream
+      .concat(failedAssertMessages, successfulReportMessages)
+      .filter(node -> {
+        // TODO: (Malte Laukötter, 2024-09-23) remove once we support elis with point-in-time-manifestation
+        String ruleId = Optional
+          .ofNullable(node.getAttributes().getNamedItem("id"))
+          // for some rules (the verkündungsfassung specific once) the rule id is not added to the sch:assert but only to the sch:rule so we need to get the id from the svrl:fired-rule before the svrl:failed-assert in the validation result
+          .orElseGet(() -> node.getPreviousSibling().getAttributes().getNamedItem("id"))
+          .getNodeValue();
 
-          // Find the eId of the node responsible for this problem. Sometimes the location
-          // points to an attribute, so we might need to move up in the element tree to
-          // find the eId.
-          String eId = xPathEIdCache.computeIfAbsent(
-            xPath + "/ancestor-or-self::*/@eId",
-            key ->
-              NodeParser
-                .getNodesFromExpression(key, norm.getDocument())
-                .stream()
-                .map(Node::getNodeValue)
-                .reduce("", (a, b) -> a.length() > b.length() ? a : b)
-          );
+        var rulesCheckingPointInTimeManifestation = List.of(
+          "SCH-00520-010",
+          "SCH-00550-010",
+          "SCH-VERK-valueLiterals.manifestation.FRBRthis",
+          "SCH-VERK-valueLiterals.manifestation.FRBRuri"
+        );
 
-          String ruleId = Optional
-            .ofNullable(node.getAttributes().getNamedItem("id"))
-            // for some rules (the verkündungsfassung specific once) the rule id is not added to the sch:assert but only to the sch:rule so we need to get the id from the svrl:fired-rule before the svrl:failed-assert in the validation result
-            .orElseGet(() -> node.getPreviousSibling().getAttributes().getNamedItem("id"))
-            .getNodeValue();
+        return !rulesCheckingPointInTimeManifestation.contains(ruleId);
+      })
+      .map(node -> {
+        // The location includes an XPath with expanded QNames
+        // (Q{namespace}<localPart>).
+        var xPath = node.getAttributes().getNamedItem("location").getNodeValue();
 
-          return new LdmlDeSchematronException.ValidationError(
-            "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(node.getLocalName(), ruleId),
-            xPath,
-            node.getTextContent(),
-            eId
-          );
-        })
-        .toList();
+        // Find the eId of the node responsible for this problem. Sometimes the location
+        // points to an attribute, so we might need to move up in the element tree to
+        // find the eId.
+        String eId = xPathEIdCache.computeIfAbsent(
+          xPath + "/ancestor-or-self::*/@eId",
+          key ->
+            NodeParser
+              .getNodesFromExpression(key, norm.getDocument())
+              .stream()
+              .map(Node::getNodeValue)
+              .reduce("", (a, b) -> a.length() > b.length() ? a : b)
+        );
 
+        String ruleId = Optional
+          .ofNullable(node.getAttributes().getNamedItem("id"))
+          // for some rules (the verkündungsfassung specific once) the rule id is not added to the sch:assert but only to the sch:rule so we need to get the id from the svrl:fired-rule before the svrl:failed-assert in the validation result
+          .orElseGet(() -> node.getPreviousSibling().getAttributes().getNamedItem("id"))
+          .getNodeValue();
+
+        return new LdmlDeSchematronException.ValidationError(
+          "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(node.getLocalName(), ruleId),
+          xPath,
+          node.getTextContent(),
+          eId
+        );
+      })
+      .toList();
+
+    if (!errors.isEmpty()) {
       throw new LdmlDeSchematronException(errors);
     }
   }
