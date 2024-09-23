@@ -5,7 +5,9 @@ import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
 
-/** The given xml is not a schematron-valid LDML.de 1.6 document. */
+/**
+ * The given xml is not a schematron-valid LDML.de 1.7 document.
+ */
 @Getter
 public class LdmlDeSchematronException extends RuntimeException implements NormsAppException {
 
@@ -17,7 +19,7 @@ public class LdmlDeSchematronException extends RuntimeException implements Norms
    * @param errors the individual validation problems
    */
   public LdmlDeSchematronException(List<ValidationError> errors) {
-    super("The provided xml is not a schematron-valid LDML.de 1.6 document.");
+    super("The provided xml is not a schematron-valid LDML.de 1.7 document.");
     this.errors = errors;
   }
 
