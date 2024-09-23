@@ -71,10 +71,10 @@
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="573b26ea-40e1-448b-86c9-1b3f3d09d5b8"
                                    eId="meta-1_ident-1_frbrmanifestation-1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/1002-01-10/regelungstext-1.xml"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1.xml"
                              GUID="189c8da2-4493-4964-a540-94994f901c6f"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
-               <akn:FRBRuri value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/1002-01-10/regelungstext-1.xml"
+               <akn:FRBRuri value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1.xml"
                             GUID="e444831e-8819-4c1a-bb9e-9b5ac7ad6971"
                             eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
                <akn:FRBRdate name="generierung"

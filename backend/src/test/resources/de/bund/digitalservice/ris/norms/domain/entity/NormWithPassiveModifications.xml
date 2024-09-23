@@ -75,10 +75,10 @@
                                    GUID="b7540fe6-80df-46f4-81a4-9ce146decd8a">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="f41dcded-9411-491e-93e3-906a233a066a"
-                             value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="30875066-ec08-4323-ae99-03a65af1ce2e"
-                            value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                              GUID="24dbb4fd-bc24-4100-849c-03a169fcd0fa"
                              date="2022-08-23"

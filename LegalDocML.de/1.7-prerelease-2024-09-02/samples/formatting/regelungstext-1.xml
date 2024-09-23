@@ -78,10 +78,10 @@
                                    GUID="a3747035-aff8-41a6-86d7-0c7b75caddf2">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="451a75df-0eb0-4644-ba75-04743d44aadc"
-                             value="eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/1000-01-01/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="a2c90263-9bd4-48c4-974e-6d36f5a81021"
-                            value="eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/1000-01-01/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1.xml"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                              GUID="4fd05b86-52c3-4c01-9251-eb8df6e2ab0c"
                              date="1000-01-01"

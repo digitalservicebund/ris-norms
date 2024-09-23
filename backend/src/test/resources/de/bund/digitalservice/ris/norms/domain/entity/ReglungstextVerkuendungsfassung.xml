@@ -92,10 +92,10 @@
                                    eId="meta-1_ident-1_frbrmanifestation-1">
                <akn:FRBRthis GUID="c9961e6d-8fb9-48de-a8d8-41989bfbca75"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
-                             value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/2018-12-18/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1.xml"/>
                <akn:FRBRuri GUID="27488167-7f63-4d11-981b-6330b748647f"
                             eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
-                            value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/2018-12-18/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/2018/34/2018-12-18/7/deu/regelungstext-1.xml"/>
                <akn:FRBRdate GUID="2190cf48-9bba-41ad-877d-61370f8e7fef"
                              date="2018-12-18"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
