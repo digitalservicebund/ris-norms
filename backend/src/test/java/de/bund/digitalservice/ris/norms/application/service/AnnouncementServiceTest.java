@@ -45,6 +45,7 @@ class AnnouncementServiceTest {
   );
   final DeleteNormByGuidPort deleteNormByGuidPort = mock(DeleteNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  final ReferenceService referenceService = mock(ReferenceService.class);
 
   final AnnouncementService announcementService = new AnnouncementService(
     loadAllAnnouncementsPort,
@@ -57,7 +58,8 @@ class AnnouncementServiceTest {
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
     deleteNormByGuidPort,
-    updateNormPort
+    updateNormPort,
+    referenceService
   );
 
   @Nested

@@ -41,64 +41,6 @@ test("selects a mod but not references present so it shows the empty state for t
   ).toBeVisible()
 })
 
-test("handles API call still in progress and disables mod selection", async ({
-  page,
-}) => {
-  await page.route(/\/api\/v1\/references\/.*/, (route) => {
-    setTimeout(() => {
-      route.fulfill({
-        status: 200,
-        body: "<xml></xml>",
-        headers: {
-          "Content-Type": "application/xml",
-        },
-      })
-    }, 5000)
-  })
-
-  await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
-  )
-
-  const modSelectionPanel = page.locator('[data-testid="mod-selection-panel"]')
-  await expect(modSelectionPanel).toHaveClass(/pointer-events-none/)
-
-  await page
-    .getByRole("button", { name: /Absatz 2 bis Absatz 3 wird ersetzt durch/ })
-    .click()
-
-  await expect(
-    modSelectionPanel.getByRole("region", { name: "Textbasierte Metadaten" }),
-  ).toBeHidden()
-})
-
-test("handles API call error response not 404, shows alert and allows continued mod selection", async ({
-  page,
-}) => {
-  await page.route(/\/api\/v1\/references\/.*/, (route) => {
-    route.fulfill({
-      status: 500, // Mock a server error response
-      body: JSON.stringify({ message: "Internal Server Error" }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-  })
-
-  await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
-  )
-  const alert = page.getByTestId("callout-wrapper")
-  await expect(alert).toBeVisible()
-  await expect(alert).toContainText(
-    "Automatische Referenzierung fehlgeschlagen",
-  )
-
-  const closeButton = page.getByRole("button", { name: "Schließen" })
-  await closeButton.click()
-  await expect(alert).toBeHidden()
-})
-
 test("see breadcrumb", async ({ page }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",

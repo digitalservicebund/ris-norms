@@ -60,6 +60,7 @@ public class LoadZf0Service implements LoadZf0UseCase {
 
     if (shouldPersist) {
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(targetNorm));
     }
     return zf0Norm;
   }

@@ -738,6 +738,18 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
         );
+
+      // Assert ZF0 was created
+      assertThat(
+        normRepository.findByEli("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+      )
+        .isPresent();
+
+      // Assert that target law has now next-version-guid
+      final Optional<NormDto> targetNormDto = normRepository.findByEli(affectedNorm.getEli());
+      assertThat(targetNormDto).isPresent();
+      final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
+      assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();
     }
 
     @Test
@@ -967,10 +979,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
       var announcement = Announcement.builder().norm(norm).build();
       var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"); // "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(zf0Norm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
@@ -993,11 +1003,17 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
         );
 
-      assertThat(normRepository.findByEli(zf0Norm.getEli())).isEmpty();
+      // Assert ZF0 was created
+      assertThat(
+        normRepository.findByEli("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+      )
+        .isPresent();
+
+      // Assert that target law has now next-version-guid
       final Optional<NormDto> targetNormDto = normRepository.findByEli(affectedNorm.getEli());
       assertThat(targetNormDto).isPresent();
       final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
-      assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isEmpty();
+      assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();
     }
   }
 }

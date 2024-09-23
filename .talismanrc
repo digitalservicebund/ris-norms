@@ -31,3 +31,5 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*.xml
     ignore_detectors: [filecontent]
+  - filename: LegalDocML.de/*/samples/amending-laws/*.xml
+    ignore_detectors: [filecontent]

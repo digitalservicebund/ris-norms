@@ -756,30 +756,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /references/{eli}:
-    post:
-      summary: Find and create references in the norm
-      parameters:
-        - name: eli
-          in: path
-          required: true
-          description: ELI of the norm
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-        '404':
-          description: Norm could not be found by its ELI
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
-
 components:
   schemas:
     Norm:

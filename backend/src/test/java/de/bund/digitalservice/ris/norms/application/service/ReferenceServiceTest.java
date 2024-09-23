@@ -1,18 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.ReferenceRecognitionUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Objects;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
@@ -20,35 +12,11 @@ import org.xmlunit.diff.Diff;
 
 class ReferenceServiceTest {
 
-  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
-  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
-
-  final ReferenceService service = new ReferenceService(loadNormPort, updateNormPort);
-
-  @Test
-  void itDoesNotFindNormWithGivenEli() {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1";
-    when(loadNormPort.loadNorm(any())).thenThrow(new NormNotFoundException(eli));
-
-    // When
-    var throwable = catchThrowable(() ->
-      service.findAndCreateReferences(new ReferenceRecognitionUseCase.Query(eli))
-    );
-
-    // Then
-    verify(loadNormPort, times(1))
-      .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    assertThat(throwable).isInstanceOf(NormNotFoundException.class);
-    assertThat(throwable.getMessage())
-      .isEqualToIgnoringWhitespace("Norm with eli %s does not exist".formatted(eli));
-  }
+  final ReferenceService service = new ReferenceService();
 
   @Test
   void itDoesNotLookForReferencesBecauseQuotedTextContainReferencesAlready() {
     // Given
-    final String eli = "NOT NEEDED";
-
     final Norm norm = Norm
       .builder()
       .document(
@@ -95,17 +63,11 @@ class ReferenceServiceTest {
         )
       )
       .build();
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
     // When
-    final String result = service.findAndCreateReferences(
-      new ReferenceRecognitionUseCase.Query(eli)
-    );
+    final String result = service.findAndCreateReferences(norm);
 
     // Then
-    verify(loadNormPort, times(1))
-      .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-
     final Diff diff = DiffBuilder
       .compare(Input.from(XmlMapper.toDocument(result)))
       .withTest(Input.from(norm.getDocument()))
@@ -116,19 +78,12 @@ class ReferenceServiceTest {
   @Test
   void itDoesNotLookForReferencesBecauseQuotedStructureContainReferencesAlready() {
     // Given
-    final String eli = "eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1";
     final Norm norm = NormFixtures.loadFromDisk("NormWithReferencesFound.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
     // When
-    final String result = service.findAndCreateReferences(
-      new ReferenceRecognitionUseCase.Query(eli)
-    );
+    final String result = service.findAndCreateReferences(norm);
 
     // Then
-    verify(loadNormPort, times(1))
-      .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-
     final Diff diff = DiffBuilder
       .compare(Input.from(XmlMapper.toDocument(result)))
       .withTest(Input.from(norm.getDocument()))
@@ -139,22 +94,12 @@ class ReferenceServiceTest {
   @Test
   void ifFindsAndCreatesReferences() {
     // Given
-    final String eli = "eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1";
     final Norm norm = NormFixtures.loadFromDisk("NormWithReferencesToFind.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-    when(updateNormPort.updateNorm(any())).thenReturn(any());
 
     // When
-    final String result = service.findAndCreateReferences(
-      new ReferenceRecognitionUseCase.Query(eli)
-    );
+    final String result = service.findAndCreateReferences(norm);
 
     // Then
-    verify(loadNormPort, times(1))
-      .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    verify(updateNormPort, times(1))
-      .updateNorm(argThat(argument -> Objects.equals(argument.norm(), norm)));
-
     final Norm expectedUpdatedNorm = NormFixtures.loadFromDisk("NormWithReferencesFound.xml");
     final Diff diff = DiffBuilder
       .compare(Input.from(XmlMapper.toDocument(result)))
@@ -167,22 +112,11 @@ class ReferenceServiceTest {
   @Test
   void itDoesNotFindReferencesInNum() {
     // Given
-    final String eli = "eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1";
     final Norm norm = NormFixtures.loadFromDisk("NormWithReferencesInNumToSkip.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-    when(updateNormPort.updateNorm(any())).thenReturn(any());
-
     // When
-    final String result = service.findAndCreateReferences(
-      new ReferenceRecognitionUseCase.Query(eli)
-    );
+    final String result = service.findAndCreateReferences(norm);
 
     // Then
-    verify(loadNormPort, times(1))
-      .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    verify(updateNormPort, times(1))
-      .updateNorm(argThat(argument -> Objects.equals(argument.norm(), norm)));
-
     final Norm sameNormReload = NormFixtures.loadFromDisk("NormWithReferencesInNumToSkip.xml");
     final Diff diff = DiffBuilder
       .compare(Input.from(XmlMapper.toDocument(result)))

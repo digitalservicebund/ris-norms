@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisHeader, {
   HeaderBreadcrumb,
@@ -11,8 +10,7 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import { useGetReferences } from "@/services/referencesService"
-import { computed, ref, watchEffect } from "vue"
+import { computed, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
 /* -------------------------------------------------- *
@@ -74,30 +72,6 @@ const selectedModEId = computed({
 })
 
 /* -------------------------------------------------- *
- * Ref auto detection                                 *
- * -------------------------------------------------- */
-
-const {
-  isFetching: isFetchingReferences,
-  error: referencesError,
-  isFinished: fetchingReferencesFinished,
-  data: detectedReferences,
-} = useGetReferences(amendingNormEli)
-
-watchEffect(() => {
-  if (fetchingReferencesFinished.value && !referencesError.value) {
-    // Replace the XML we already have with the XML containing the refs. If refs
-    // existed before, this will be identical. If not, this will contain the
-    // automatically detected refs.
-    amendingNormXml.value = detectedReferences.value
-  }
-})
-
-const showReferencesError = computed(
-  () => referencesError.value && referencesError.value.response?.status !== 404,
-)
-
-/* -------------------------------------------------- *
  * Header                                             *
  * -------------------------------------------------- */
 
@@ -120,17 +94,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 
 <template>
   <div class="flex h-[calc(100dvh-5rem-1px)] flex-col bg-gray-100">
-    <RisCallout
-      v-if="showReferencesError"
-      variant="warning"
-      allow-dismiss
-      title="Automatische Referenzierung fehlgeschlagen"
-    >
-      <p>
-        Sie können diese Warnung schließen und Referenzen manuell bearbeiten.
-      </p>
-    </RisCallout>
-
     <div
       v-if="
         amendingNormIsLoading ||
@@ -163,12 +126,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
             v-if="amendingNormXml"
             v-model="selectedModEId"
             :norm-xml="amendingNormXml"
-            :class="[
-              'overflow-hidden',
-              {
-                'pointer-events-none cursor-not-allowed': isFetchingReferences,
-              },
-            ]"
+            :class="['overflow-hidden']"
             data-testid="mod-selection-panel"
           />
         </section>

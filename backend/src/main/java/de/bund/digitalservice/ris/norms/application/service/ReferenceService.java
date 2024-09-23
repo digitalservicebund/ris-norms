@@ -1,9 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
@@ -21,36 +17,26 @@ import org.w3c.dom.Text;
 /** Service for the reference pattern recognition. */
 @Service
 @Slf4j
-public class ReferenceService implements ReferenceRecognitionUseCase {
+public class ReferenceService {
 
-  private final LoadNormPort loadNormPort;
-  private final UpdateNormPort updateNormPort;
-
-  public ReferenceService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
-    this.loadNormPort = loadNormPort;
-    this.updateNormPort = updateNormPort;
-  }
-
-  @Override
-  public String findAndCreateReferences(Query query) {
-    final Norm loadedNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
-
-    if (loadedNorm.getMods().stream().anyMatch(Mod::containsRef)) {
-      return XmlMapper.toString(loadedNorm.getDocument());
+  /**
+   * It looks for references in the norm and creates akn:ref elements with those.
+   * @param norm - the norm to be analyzed
+   * @return the resulted XML of the norm with possible added references
+   */
+  public String findAndCreateReferences(final Norm norm) {
+    if (norm.getMods().stream().anyMatch(Mod::containsRef)) {
+      return XmlMapper.toString(norm.getDocument());
     }
 
-    loadedNorm
+    norm
       .getMods()
       .forEach(mod -> {
         mod.getSecondQuotedText().ifPresent(this::findAndCreateReferencesInNode);
         mod.getQuotedStructure().ifPresent(this::findAndCreateReferencesInNode);
       });
 
-    updateNormPort.updateNorm(new UpdateNormPort.Command(loadedNorm));
-
-    return XmlMapper.toString(loadedNorm.getDocument());
+    return XmlMapper.toString(norm.getDocument());
   }
 
   private void findAndCreateReferencesInNode(final Node node) {
