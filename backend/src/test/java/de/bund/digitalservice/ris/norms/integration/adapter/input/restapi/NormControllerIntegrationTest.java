@@ -921,7 +921,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
       final String eId = "NOT-EXISTING-EID";
       final String destinationHref =
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-32.xml";
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-32.xml";
 
       mockMvc
         .perform(
@@ -970,11 +970,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       String path =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
       String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
       String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "9-34";
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
       String newContent = "new test text";
@@ -1048,7 +1048,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                 hasXPath(
                   "//passiveModifications/textualMod/source/@href",
                   equalTo(
-                    "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
+                    "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
                   )
                 )
               )
@@ -1190,7 +1190,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       String newContent = "THIS_IS_NOT_BEING_HANDLED";
 
       String modEid =
-        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
 
       // When
       mockMvc
@@ -1371,11 +1371,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       String path =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
       String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
       String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String destinationHref = eli + "/" + eId + ".xml";
       String newContent = "new test text"; // This is not being validated
 
@@ -1406,7 +1406,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "In the destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
+                "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
               )
             )
         )
@@ -1414,13 +1414,13 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("instance")
             .value(
               equalTo(
-                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1"
+                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1"
               )
             )
         )
         .andExpect(
           jsonPath("destinationHref")
-            .value(equalTo("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"))
+            .value(equalTo("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"))
         )
         .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
         .andExpect(
@@ -1441,11 +1441,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       String path =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
       String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
       String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "935";
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
       String newContent = "new test text"; // This is not being validated
@@ -1485,7 +1485,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("instance")
             .value(
               equalTo(
-                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1"
+                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1"
               )
             )
         )
@@ -1509,11 +1509,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       String path =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
       String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
       String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "9-35"; // 9-34 would be correct -> This is wrong on purpose
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
       String newContent = "new test text"; // This is not being validated
@@ -1553,7 +1553,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("instance")
             .value(
               equalTo(
-                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1"
+                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1"
               )
             )
         )
@@ -1576,11 +1576,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       String path =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
       String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
       String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "9-351";
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
       String newContent = "new test text"; // This is not being validated
@@ -1620,7 +1620,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("instance")
             .value(
               equalTo(
-                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1"
+                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1"
               )
             )
         )
@@ -1644,11 +1644,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       String path =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
       String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
       String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake";
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake";
       String characterCount = "9-351";
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
       String newContent = "new test text"; // This is not being validated
@@ -1680,7 +1680,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "Target node with eid hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1."
+                "Target node with eid hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1."
               )
             )
         )
@@ -1688,13 +1688,13 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("instance")
             .value(
               equalTo(
-                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1"
+                "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1"
               )
             )
         )
         .andExpect(
           jsonPath("eId")
-            .value(equalTo("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake"))
+            .value(equalTo("hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake"))
         )
         .andExpect(
           jsonPath("eli")
@@ -2244,7 +2244,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
                       "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                     },
-                        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
                     }
                   }
               """
