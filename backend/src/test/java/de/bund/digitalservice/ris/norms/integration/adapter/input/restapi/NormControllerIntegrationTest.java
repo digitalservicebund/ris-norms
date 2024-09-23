@@ -2013,7 +2013,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .filter(mod ->
           mod
             .getMandatoryEid()
-            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
         .ifPresent(mod -> mod.setTargetRefHref("#href-without-eli"));
@@ -2028,7 +2028,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
-              "{\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"
+              "{\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"
             )
         )
         // then
@@ -2039,7 +2039,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "No eli found in href of mod hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+              "No eli found in href of mod hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
             )
         )
         .andExpect(
@@ -2058,12 +2058,12 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .filter(mod ->
           mod
             .getMandatoryEid()
-            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+            .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
         .ifPresent(mod ->
           mod.setTargetRefHref(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/OTHER-ELI/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/OTHER-ELI/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
           )
         );
       normRepository.save(NormMapper.mapToDto(norm));
@@ -2077,8 +2077,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
-              "{\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}," +
-              "\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"
+              "{\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}," +
+              "\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-2_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"
             )
         )
         // then
@@ -2116,7 +2116,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
             .content(
               """
                   {
-                    "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
                       "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                     }
                   }
@@ -2133,7 +2133,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                 hasXPath(
                   "//activeModifications/textualMod/destination/@href",
                   equalTo(
-                    "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+                    "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
                   )
                 )
               )
@@ -2157,7 +2157,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                 hasXPath(
                   "//body//mod/ref/@href",
                   equalTo(
-                    "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+                    "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
                   )
                 )
               )
@@ -2180,7 +2180,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
               XmlMatcher.xml(
                 hasXPath(
                   "//passiveModifications/textualMod/destination/@href",
-                  equalTo("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
+                  equalTo("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
                 )
               )
             )
@@ -2203,7 +2203,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                 hasXPath(
                   "//passiveModifications/textualMod/source/@href",
                   equalTo(
-                    "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
+                    "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
                   )
                 )
               )
@@ -2241,10 +2241,10 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
             .content(
               """
                   {
-                    "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
+                        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
                       "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                     },
-                    "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
                     }
                   }
               """
@@ -2340,7 +2340,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
             .content(
               """
                   {
-                    "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
                       "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                     }
                   }
