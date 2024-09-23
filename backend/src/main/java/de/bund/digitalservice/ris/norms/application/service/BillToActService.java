@@ -63,14 +63,14 @@ public class BillToActService {
 
   private void updateXsdLocation(Document document) {
     final Element akomaNtoso = (Element) document.getElementsByTagName("akn:akomaNtoso").item(0);
-    akomaNtoso.setAttribute("xmlns:akn", "http://Inhaltsdaten.LegalDocML.de/1.6/");
+    akomaNtoso.setAttribute("xmlns:akn", "http://Inhaltsdaten.LegalDocML.de/1.7/");
     akomaNtoso.setAttribute(
       "xsi:schemaLocation",
-      "http://Metadaten.LegalDocML.de/1.6/ " +
+      "http://Metadaten.LegalDocML.de/1.7/ " +
       ROOT_DIR +
       "/" +
       SCHEMA +
-      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ " +
+      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ " +
       ROOT_DIR +
       "/" +
       SCHEMA +
@@ -336,7 +336,7 @@ public class BillToActService {
         .isEmpty()
     ) {
       final Element legalDocMlDeMetadaten = document.createElement("meta:legalDocML.de_metadaten");
-      legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.6/");
+      legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7/");
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
         META_PROPRIETARY_SECTION,
         document
