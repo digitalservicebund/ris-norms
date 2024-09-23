@@ -201,7 +201,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
     }
 
@@ -223,7 +223,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-2"))
         .andExpect(jsonPath("$[1]").doesNotExist());
     }
 

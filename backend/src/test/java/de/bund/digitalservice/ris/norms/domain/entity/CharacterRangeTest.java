@@ -178,7 +178,7 @@ public class CharacterRangeTest {
       var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml", true);
 
       var n2 = NodeParser.getNodeFromExpression(
-        "//*[@eId='hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1']",
+        "//*[@eId='hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1']",
         norm.getDocument()
       );
 
