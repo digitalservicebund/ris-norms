@@ -10,7 +10,7 @@ public class Einzelelement extends Metadaten<Einzelelement.Metadata> {
 
   @Builder
   public Einzelelement(final Node node) {
-    super(node, "start", "end");
+    super(node, "start", "end", "ris");
   }
 
   /**

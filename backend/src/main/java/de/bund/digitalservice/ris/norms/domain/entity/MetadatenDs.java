@@ -16,7 +16,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
 
   @Builder
   public MetadatenDs(final Node node) {
-    super(node, "start", "end");
+    super(node, "start", "end", "ris");
   }
 
   /**

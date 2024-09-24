@@ -12,7 +12,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
 
   @Builder
   public MetadatenDe(final Node node) {
-    super(node, "ab", "bis");
+    super(node, "ab", "bis", "meta");
   }
 
   /**
