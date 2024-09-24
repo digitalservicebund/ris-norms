@@ -33,7 +33,7 @@ async function setup() {
     )
 
     if (!response.ok) {
-      throw new Error(`Failed to set up test data: ${response.statusText}`)
+      throw new Error(`Failed to set up test data: ${response.body}`)
     }
     console.log(`Imported ${file} successfully.`)
   }
