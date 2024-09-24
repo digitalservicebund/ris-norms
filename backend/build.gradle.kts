@@ -1,4 +1,5 @@
 import com.adarshr.gradle.testlogger.theme.ThemeType
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.jk1.license.filter.DependencyFilter
 import com.github.jk1.license.filter.LicenseBundleNormalizer
 import com.github.jk1.license.render.CsvReportRenderer
@@ -144,7 +145,8 @@ tasks {
         useJUnitPlatform { excludeTags("integration") }
     }
 
-    withType(com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask::class) {
+    // Needed to ignore io.sentry:sentry in the task. Adding isStable because default config was being overriden (so that we only get stable versions)
+    withType(DependencyUpdatesTask::class) {
         fun isStable(version: String): Boolean {
             val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
             val regex = "^[0-9,.v-]+(-r)?$".toRegex()
@@ -152,12 +154,9 @@ tasks {
         }
         gradleReleaseChannel = "current"
         revision = "release"
-        rejectVersionIf { !isStable(candidate.version) }
-    }
-
-    // To avoid having the warning with org.apache.logging.log4j:log4j-core [2.17.1 -> 2.23.0]
-    // See https://github.com/ben-manes/gradle-versions-plugin/issues/686#issuecomment-1225322252
-    withType(com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask::class) {
+        rejectVersionIf { !isStable(candidate.version) || candidate.group == "io.sentry" }
+        // To avoid having the warning with org.apache.logging.log4j:log4j-core [2.17.1 -> 2.23.0]
+        // See https://github.com/ben-manes/gradle-versions-plugin/issues/686#issuecomment-1225322252
         checkBuildEnvironmentConstraints = false
     }
 
