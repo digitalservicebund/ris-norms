@@ -154,7 +154,7 @@ tasks {
         }
         gradleReleaseChannel = "current"
         revision = "release"
-        rejectVersionIf { !isStable(candidate.version) }
+        rejectVersionIf { !isStable(candidate.version) || candidate.group == "io.sentry" }
     }
 
     // To avoid having the warning with org.apache.logging.log4j:log4j-core [2.17.1 -> 2.23.0]
@@ -276,19 +276,6 @@ tasks.named<Checkstyle>("checkstyleMain") {
 tasks.named<Checkstyle>("checkstyleTest") {
     source = sourceSets["test"].allJava
     configFile = rootProject.file("checkstyle/config-test.xml")
-}
-
-tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
-    rejectVersionIf {
-        candidate.group == "io.sentry" || (isNonStable(candidate.version) && !isNonStable(currentVersion))
-    }
-}
-
-fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(version)
-    return isStable.not()
 }
 
 if (System.getProperty("spring.profiles.active") == "staging") {
