@@ -1,46 +1,7 @@
 import { RahmenProprietary } from "@/types/proprietary"
-import { Page, expect, test } from "@playwright/test"
+import { expect, test } from "@playwright/test"
 import { MetadataEditorRahmenPage } from "@e2e/pages/MetadataEditorRahmenPage"
-
-async function createMetadata(page: Page) {
-  const dataIn2023: RahmenProprietary = {
-    fna: "210-5",
-    art: "regelungstext",
-    typ: "gesetz",
-    subtyp: "Rechtsverordnung",
-    bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
-    artDerNorm: "SN,ÜN",
-    staat: "BEO - Berlin (Ost)",
-    beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
-    qualifizierteMehrheit: true,
-    ressort: "BMVg - Bundesministerium der Verteidigung",
-    organisationsEinheit: "Einheit 1",
-  }
-
-  const dataIn2024: RahmenProprietary = {
-    fna: "310-5",
-    art: "regelungstext",
-    typ: "gesetz",
-    subtyp: "Gesetz im formellen Sinne",
-    bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
-    artDerNorm: "ÄN",
-    staat: "HA - Hamburg",
-    beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
-    qualifizierteMehrheit: false,
-    ressort: "BMI - Bundesministerium des Innern und für Heimat",
-    organisationsEinheit: "Einheit 2",
-  }
-
-  await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
-    { data: dataIn2023 },
-  )
-
-  await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2024-06-01",
-    { data: dataIn2024 },
-  )
-}
+import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
 
 test.describe("navigate to page", () => {
   test("navigate to the metadata editor", async ({ page }) => {
@@ -190,10 +151,10 @@ test.describe("XML view", () => {
     ).toBeVisible()
   })
 
-  test("updates the XML preview after saving metadata", async ({ page }) => {
-    // Given
-    await createMetadata(page)
-
+  test("updates the XML preview after saving metadata", async ({
+    page,
+    request,
+  }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
@@ -227,7 +188,10 @@ test.describe("XML view", () => {
     expect(textResponse).toContain("1234-56-78")
 
     // Cleanup
-    await createMetadata(page)
+    await uploadAmendingLaw(
+      request,
+      "Nachrichtendienstrechts_2023_413_2023-12-29.xml",
+    )
   })
 
   test("shows an error when the XML could not be loaded", async ({ page }) => {
@@ -266,7 +230,43 @@ test.describe("XML view", () => {
 
 test.describe("metadata view", () => {
   test.beforeEach(async ({ page }) => {
-    await createMetadata(page)
+    const dataIn2023: RahmenProprietary = {
+      fna: "210-5",
+      art: "regelungstext",
+      typ: "gesetz",
+      subtyp: "Rechtsverordnung",
+      bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
+      artDerNorm: "SN,ÜN",
+      staat: "BEO - Berlin (Ost)",
+      beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
+      qualifizierteMehrheit: true,
+      ressort: "BMVg - Bundesministerium der Verteidigung",
+      organisationsEinheit: "Einheit 1",
+    }
+
+    const dataIn2024: RahmenProprietary = {
+      fna: "310-5",
+      art: "regelungstext",
+      typ: "gesetz",
+      subtyp: "Gesetz im formellen Sinne",
+      bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
+      artDerNorm: "ÄN",
+      staat: "HA - Hamburg",
+      beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
+      qualifizierteMehrheit: false,
+      ressort: "BMI - Bundesministerium des Innern und für Heimat",
+      organisationsEinheit: "Einheit 2",
+    }
+
+    await page.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
+      { data: dataIn2023 },
+    )
+
+    await page.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2024-06-01",
+      { data: dataIn2024 },
+    )
   })
 
   test("displays at different time boundaries", async ({ page }) => {
