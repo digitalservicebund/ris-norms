@@ -1,3 +1,5 @@
+-- RESIDUAL, not being used anymore
+
 -- First delete announcement because of foreign key
 DELETE FROM announcements where eli = 'eli/bund/bgbl-1/2024/108/2024-03-27/2/deu/regelungstext-1';
 

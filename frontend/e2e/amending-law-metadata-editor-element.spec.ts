@@ -11,12 +11,12 @@ async function restoreInitialState(page: Page) {
   }
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-erster_para-6/2015-06-01",
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-erster_para-6/2023-12-30",
     { data: dataIn2015 },
   )
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-erster_para-6/2023-12-30",
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-erster_para-6/2024-06-01",
     { data: dataIn2023 },
   )
 }
@@ -34,7 +34,7 @@ test.describe("navigate to page", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
 
     // Then
@@ -80,7 +80,7 @@ test.describe("navigate to page", () => {
   test("navigates between elements", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-2",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-2",
     )
 
     const heading = page.getByRole("heading", { level: 2 })
@@ -113,6 +113,7 @@ test.describe("preview", () => {
     await expect(
       page.getByRole("heading", {
         name: "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+
         level: 2,
       }),
     ).toBeVisible()
@@ -128,19 +129,17 @@ test.describe("preview", () => {
   test("shows the preview at different time boundaries", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
 
-    await expect(preview).toContainText(
-      "am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt",
-    )
+    await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
 
     // When
     await page
       .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("2023-12-30")
+      .selectOption("2024-06-01")
 
     // Then
     await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
@@ -158,7 +157,7 @@ test.describe("preview", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
 
     const previewRegion = page.getByRole("region", { name: "Vorschau" })
@@ -183,7 +182,7 @@ test.describe("XML view", () => {
   test("displays the XML of the target law with metadata", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
 
     await page.getByRole("tab", { name: "XML" }).click()
@@ -194,7 +193,8 @@ test.describe("XML view", () => {
         .getByRole("region", { name: "Metadaten dokumentieren" })
         .getByText(
           'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
-        ),
+        )
+        .first(),
     ).toBeVisible()
   })
 
@@ -203,7 +203,7 @@ test.describe("XML view", () => {
     await restoreInitialState(page)
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
 
     // When
@@ -241,7 +241,7 @@ test.describe("XML view", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
 
     // When
@@ -279,7 +279,7 @@ test.describe("metadata view", () => {
 
   async function mockPutResponse(data: ElementProprietary) {
     await sharedPage.route(
-      /\/proprietary\/hauptteil-1_abschnitt-erster_para-6\/2023-12-30/,
+      /\/proprietary\/hauptteil-1_abschnitt-erster_para-6\/2024-06-01/,
       async (route) => {
         if (route.request().method() === "PUT") {
           const response = await route.fetch()
@@ -297,7 +297,7 @@ test.describe("metadata view", () => {
   test.beforeAll(async ({ browser }) => {
     sharedPage = await browser.newPage()
     await restoreInitialState(sharedPage)
-    await gotoTimeBoundary("2023-12-30")
+    await gotoTimeBoundary("2024-06-01")
   })
 
   test.afterAll(async () => {
@@ -324,7 +324,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("2015-06-01")
+      await gotoTimeBoundary("2023-12-30")
 
       // Then
       await expect(artSnRadio).toBeChecked()
@@ -332,7 +332,7 @@ test.describe("metadata view", () => {
       await expect(artUnRadio).not.toBeChecked()
 
       // When
-      await gotoTimeBoundary("2023-12-30")
+      await gotoTimeBoundary("2024-06-01")
 
       // Then
       await expect(artSnRadio).not.toBeChecked()

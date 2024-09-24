@@ -34,6 +34,7 @@ const config: PlaywrightTestConfig = {
       timeout: 30000,
     },
   ],
+  globalSetup: "./e2e/globalSetup/global-setup",
 }
 
 export default config
