@@ -344,41 +344,41 @@ public class BillToActService {
       proprietary.appendChild(legalDocMlDeMetadaten);
     }
 
-    final Element dsCustomMeta = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//meta/proprietary/legalDocML.de_metadaten",
+    final Element regularMetaData = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//meta/proprietary/Q{http://Metadaten.LegalDocML.de/1.7/}legalDocML.de_metadaten",
       document
     );
 
-    if (NodeParser.getNodeFromExpression("./fassung", dsCustomMeta).isEmpty()) {
+    if (NodeParser.getNodeFromExpression("./fassung", regularMetaData).isEmpty()) {
       final Element fassung = document.createElement("meta:fassung");
       fassung.setTextContent(VERKUENDUNGSFASSUNG);
-      dsCustomMeta.appendChild(fassung);
+      regularMetaData.appendChild(fassung);
     } else {
       final Element fassung = (Element) NodeParser.getMandatoryNodeFromExpression(
         "./fassung",
-        dsCustomMeta
+        regularMetaData
       );
       fassung.setTextContent(VERKUENDUNGSFASSUNG);
     }
 
-    if (NodeParser.getNodeFromExpression("./fna", dsCustomMeta).isEmpty()) {
+    if (NodeParser.getNodeFromExpression("./fna", regularMetaData).isEmpty()) {
       final Element fna = document.createElement("meta:fna");
       fna.appendChild(document.createTextNode("nicht-vorhanden"));
-      dsCustomMeta.appendChild(fna);
+      regularMetaData.appendChild(fna);
     }
-    if (NodeParser.getNodeFromExpression("./gesta", dsCustomMeta).isEmpty()) {
+    if (NodeParser.getNodeFromExpression("./gesta", regularMetaData).isEmpty()) {
       final Element gesta = document.createElement("meta:gesta");
       gesta.appendChild(document.createTextNode("nicht-vorhanden"));
-      dsCustomMeta.appendChild(gesta);
+      regularMetaData.appendChild(gesta);
     }
-    if (NodeParser.getNodeFromExpression("./federfuehrung", dsCustomMeta).isEmpty()) {
+    if (NodeParser.getNodeFromExpression("./federfuehrung", regularMetaData).isEmpty()) {
       final Element federfuehrung = document.createElement("meta:federfuehrung");
       final Element federfuehrend = document.createElement("meta:federfuehrend");
       federfuehrend.setAttribute("ab", date.getAttribute("date"));
       federfuehrend.setAttribute("bis", "unbestimmt");
       federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
       federfuehrung.appendChild(federfuehrend);
-      dsCustomMeta.appendChild(federfuehrung);
+      regularMetaData.appendChild(federfuehrung);
     }
   }
 

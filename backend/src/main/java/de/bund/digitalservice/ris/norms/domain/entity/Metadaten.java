@@ -17,7 +17,7 @@ interface MetadataInterface {
 }
 
 /**
- * Abstract class with common functionalities between meta:legalDocML.de_metadaten_ds and
+ * Abstract class with common functionalities between ris:legalDocML.de_metadaten and
  * meta:legalDocML.de_metadaten
  *
  * @param <T> the concrete enum class implementing {@link MetadataInterface}
@@ -89,7 +89,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
               .filter(f -> f.getStart().isPresent() && f.getStart().get().isAfter(date))
               .min(Comparator.comparing(f -> f.getStart().get()));
 
-            // 2. Create new meta:fna node with the @start value and @end and set @start of next
+            // 2. Create new ris:fna node with the @start value and @end and set @start of next
             // one
             createNewNode(simpleMetadatum, newValue, date, nextNode.orElse(null));
 

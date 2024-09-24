@@ -21,11 +21,11 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                    <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -83,11 +83,11 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                    <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -112,8 +112,8 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -145,11 +145,11 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                    <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -180,11 +180,11 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                    <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -226,9 +226,9 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-            <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                <meta:subtyp>subtyp0</meta:subtyp>
-            </meta:legalDocML.de_metadaten_ds>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                <ris:subtyp>subtyp0</ris:subtyp>
+            </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -263,11 +263,11 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                    <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -291,10 +291,10 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -321,11 +321,11 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -406,9 +406,9 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -445,9 +445,9 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -484,10 +484,10 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -524,10 +524,10 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt"></meta:beschliessendesOrgan>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
+                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt"></ris:beschliessendesOrgan>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -571,13 +571,13 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                    </meta:einzelelement>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                    <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                        <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                        <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                        <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                    </ris:einzelelement>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -672,8 +672,8 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -704,13 +704,13 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                      <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                      <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                  </meta:einzelelement>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                  <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                  </ris:einzelelement>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -741,13 +741,13 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                      <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                      <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                  </meta:einzelelement>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                  <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                  </ris:einzelelement>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -778,13 +778,13 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                      <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                      <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                  </meta:einzelelement>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                  <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                  </ris:einzelelement>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )
@@ -815,11 +815,11 @@ class MetadatenDsTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                      <meta:artDerNorm end="unbestimmt" start="1980-01-01">SN</meta:artDerNorm>
-                  </meta:einzelelement>
-                </meta:legalDocML.de_metadaten_ds>
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                  <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                      <ris:artDerNorm end="unbestimmt" start="1980-01-01">SN</ris:artDerNorm>
+                  </ris:einzelelement>
+                </ris:legalDocML.de_metadaten>
             """
           )
         )

@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/** Class representing the meta:legalDocML.de_metadaten_ds */
+/** Class representing the ris:legalDocML.de_metadaten */
 @Getter
 public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
 
@@ -20,7 +20,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
   }
 
   /**
-   * The list of all simple metadata within the meta:legalDocML.de_metadaten_ds block. They consist
+   * The list of all simple metadata within the ris:legalDocML.de_metadaten block. They consist
    * of a single string property.
    */
   public enum Metadata implements MetadataInterface {
@@ -161,7 +161,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
           if (StringUtils.isNotEmpty(newValue)) {
             // Create and set the new element
             final Element newElement = NodeCreator.createElement(
-              "meta:einzelelement",
+              "ris:einzelelement",
               this.getNode()
             );
             newElement.setAttribute("href", "#%s".formatted(eid));

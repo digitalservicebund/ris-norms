@@ -263,11 +263,11 @@ class EidConsistencyGuardianTest {
                       </akn:passiveModifications>
                   </akn:analysis>
                                                           <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
-                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                  <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
                                       <meta:celex start="non-existing-id-1">celex number</meta:celex>
-                                      <meta:subtyp start="non-existing-id-2">SN</meta:subtyp>
+                                      <ris:subtyp start="non-existing-id-2">SN</ris:subtyp>
                                       <meta:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</meta:aktenzeichen>
-                                  </meta:legalDocML.de_metadaten_ds>
+                                  </ris:legalDocML.de_metadaten>
                               </akn:proprietary>
               </akn:meta>
           </akn:act>
@@ -322,11 +322,11 @@ class EidConsistencyGuardianTest {
                       </akn:passiveModifications>
                   </akn:analysis>
                               <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-1" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
-                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                  <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
                                       <meta:celex start="">celex number</meta:celex>
-                                      <meta:subtyp start="">SN</meta:subtyp>
+                                      <ris:subtyp start="">SN</ris:subtyp>
                                       <meta:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</meta:aktenzeichen>
-                                  </meta:legalDocML.de_metadaten_ds>
+                                  </ris:legalDocML.de_metadaten>
                               </akn:proprietary>
               </akn:meta>
           </akn:act>

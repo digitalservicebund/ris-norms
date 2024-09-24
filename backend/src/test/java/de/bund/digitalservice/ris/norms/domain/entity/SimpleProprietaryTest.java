@@ -15,7 +15,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-                   <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                   <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
           """
         )
       )
@@ -31,7 +31,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-                   <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31"></meta:fna>
+                   <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31"></ris:fna>
           """
         )
       )
@@ -47,7 +47,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-                   <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                   <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
           """
         )
       )
@@ -63,7 +63,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-                   <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.7/" end="1994-12-31">111-11-1</meta:fna>
+                   <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/" end="1994-12-31">111-11-1</ris:fna>
           """
         )
       )
@@ -79,7 +79,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-                   <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                   <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/" start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
           """
         )
       )
@@ -95,7 +95,7 @@ class SimpleProprietaryTest {
       .node(
         XmlMapper.toNode(
           """
-                   <meta:fna xmlns:meta="http://Metadaten.LegalDocML.de/1.7/" start="1990-01-01">111-11-1</meta:fna>
+                   <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/" start="1990-01-01">111-11-1</ris:fna>
           """
         )
       )

@@ -22,11 +22,11 @@ class ProprietaryResponseMapperTest {
                   <meta:fna>000-00-0</meta:fna>
                   <meta:fassung>verkuendungsfassung</meta:fassung>
               </meta:legalDocML.de_metadaten>
-              <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                  <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
-                  <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                  <meta:fna start="2001-01-01">333-33-3</meta:fna>
-              </meta:legalDocML.de_metadaten_ds>
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                  <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                  <ris:fna start="2001-01-01">333-33-3</ris:fna>
+              </ris:legalDocML.de_metadaten>
           </akn:proprietary>
           """
         )
@@ -51,13 +51,13 @@ class ProprietaryResponseMapperTest {
         XmlMapper.toNode(
           """
                   <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                      <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                      <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                  </meta:einzelelement>
-              </meta:legalDocML.de_metadaten_ds>
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                  <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                  </ris:einzelelement>
+              </ris:legalDocML.de_metadaten>
           </akn:proprietary>
           """
         )

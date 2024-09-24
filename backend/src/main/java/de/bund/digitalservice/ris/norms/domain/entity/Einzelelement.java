@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.w3c.dom.Node;
 
-/** Class representing the meta:legalDocML.de_metadaten_ds/meta:einzelelement */
+/** Class representing the ris:legalDocML.de_metadaten/ris:einzelelement */
 @Getter
 public class Einzelelement extends Metadaten<Einzelelement.Metadata> {
 
@@ -14,7 +14,7 @@ public class Einzelelement extends Metadaten<Einzelelement.Metadata> {
   }
 
   /**
-   * The list of all simple metadata within the meta:legalDocML.de_metadaten_ds block. They consist
+   * The list of all simple metadata within the ris:legalDocML.de_metadaten block. They consist
    * of a single string property.
    */
   public enum Metadata implements MetadataInterface {

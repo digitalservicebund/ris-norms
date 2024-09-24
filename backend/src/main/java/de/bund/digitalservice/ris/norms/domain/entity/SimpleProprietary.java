@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/** Class representing simple metadata within meta:legalDocML.de_metadaten_ds */
+/** Class representing simple metadata within ris:legalDocML.de_metadaten */
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
