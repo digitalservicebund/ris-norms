@@ -69,7 +69,7 @@ test.describe("navigate to page", () => {
 test.describe("sidebar navigation", () => {
   test("shows the elements affected by this amending law", async ({ page }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
@@ -122,7 +122,7 @@ test.describe("sidebar navigation", () => {
     await expect(select).toHaveValue("2023-12-30")
 
     // Time boundaries available as options
-    await expect(options).toHaveText(["01.06.2015", "30.12.2023"], {
+    await expect(options).toHaveText(["30.12.2023", "01.06.2024"], {
       useInnerText: true,
     })
   })

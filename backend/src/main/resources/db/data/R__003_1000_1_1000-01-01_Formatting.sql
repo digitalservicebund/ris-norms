@@ -1,5 +1,5 @@
+-- This is only a target law
 DELETE FROM norms where guid='d33c67a0-2be2-4728-932d-5abae5a84422';
-
 INSERT INTO norms (guid, eli, xml)
 VALUES ('d33c67a0-2be2-4728-932d-5abae5a84422', 'eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -25,7 +25,6 @@ VALUES ('d33c67a0-2be2-4728-932d-5abae5a84422', 'eli/bund/bgbl-1/1000/1/1000-01-
           <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="8909d2e8-abde-437a-8efc-f45483b4f996" value="eli/bund/bgbl-1/1000/1/1000-01-01/1/deu"></akn:FRBRuri>
           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="c23228e0-af6b-46e0-aaae-93520ae758c9" name="vorherige-version-id" value="79c7f606-b47c-4c7d-8e3a-1a89b333cd85"></akn:FRBRalias>
           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2e74b960-342e-4af1-b127-08bfef86d3ae" name="aktuelle-version-id" value="d33c67a0-2be2-4728-932d-5abae5a84422"></akn:FRBRalias>
-          <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="a7a64f41-bd12-4311-9ae0-dd23e94fa018" name="nachfolgende-version-id" value="24c51028-eb62-4853-a986-6c62e6e25731"></akn:FRBRalias>
           <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="4e8005ef-7e71-478f-bc91-b89e8c69e9e2" href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
           <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="a5bffed4-7bb4-4b74-a326-eaabfea58f94" date="1000-01-01" name="verkuendung"></akn:FRBRdate>
           <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" GUID="e6cfb417-7a91-444d-8563-a0a09c55058c" language="deu"></akn:FRBRlanguage>

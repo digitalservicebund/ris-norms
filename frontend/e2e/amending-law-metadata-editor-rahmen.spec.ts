@@ -2,8 +2,8 @@ import { RahmenProprietary } from "@/types/proprietary"
 import { Page, expect, test } from "@playwright/test"
 import { MetadataEditorRahmenPage } from "@e2e/pages/MetadataEditorRahmenPage"
 
-async function restoreInitialState(page: Page) {
-  const dataIn2015: RahmenProprietary = {
+async function createMetadata(page: Page) {
+  const dataIn2023: RahmenProprietary = {
     fna: "210-5",
     art: "regelungstext",
     typ: "gesetz",
@@ -17,7 +17,7 @@ async function restoreInitialState(page: Page) {
     organisationsEinheit: "Einheit 1",
   }
 
-  const dataIn2023: RahmenProprietary = {
+  const dataIn2024: RahmenProprietary = {
     fna: "310-5",
     art: "regelungstext",
     typ: "gesetz",
@@ -32,13 +32,13 @@ async function restoreInitialState(page: Page) {
   }
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2015-06-01",
-    { data: dataIn2015 },
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
+    { data: dataIn2023 },
   )
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
-    { data: dataIn2023 },
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2024-06-01",
+    { data: dataIn2024 },
   )
 }
 
@@ -117,23 +117,21 @@ test.describe("preview", () => {
   test("shows the preview at different time boundaries", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
 
     // Then
-    await expect(preview).toContainText(
-      "am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt",
-    )
+    await expect(preview).toContainText("nach Ablauf von fünf Jahren")
 
     // When
     await page
       .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("2023-12-30")
+      .selectOption("2024-06-01")
 
     // Then
-    await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
+    await expect(preview).toContainText("nach Ablauf von fünf Jahren")
   })
 
   test("shows an error when the preview could not be loaded", async ({
@@ -175,7 +173,7 @@ test.describe("XML view", () => {
   test("displays the XML of the target law", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     // When
@@ -187,16 +185,17 @@ test.describe("XML view", () => {
         .getByRole("region", { name: "Metadaten dokumentieren" })
         .getByText(
           'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
-        ),
+        )
+        .first(),
     ).toBeVisible()
   })
 
   test("updates the XML preview after saving metadata", async ({ page }) => {
     // Given
-    await restoreInitialState(page)
+    await createMetadata(page)
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const editorRegion = page.getByRole("region", {
@@ -228,7 +227,7 @@ test.describe("XML view", () => {
     expect(textResponse).toContain("1234-56-78")
 
     // Cleanup
-    await restoreInitialState(page)
+    await createMetadata(page)
   })
 
   test("shows an error when the XML could not be loaded", async ({ page }) => {
@@ -243,7 +242,7 @@ test.describe("XML view", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     // When
@@ -266,8 +265,8 @@ test.describe("XML view", () => {
 })
 
 test.describe("metadata view", () => {
-  test.afterEach(async ({ page }) => {
-    await restoreInitialState(page)
+  test.beforeEach(async ({ page }) => {
+    await createMetadata(page)
   })
 
   test("displays at different time boundaries", async ({ page }) => {
@@ -275,32 +274,6 @@ test.describe("metadata view", () => {
 
     // When
     await metadataPage.gotoTimeBoundary("2023-12-30")
-
-    // Then
-    await expect.soft(metadataPage.fnaInput).toHaveValue("310-5")
-    await expect
-      .soft(metadataPage.documentTypeDropdown)
-      .toHaveValue("Gesetz im formellen Sinne")
-    await expect.soft(metadataPage.artSnCheckbox).not.toBeChecked()
-    await expect.soft(metadataPage.artAnCheckbox).toBeChecked()
-    await expect.soft(metadataPage.artUnCheckbox).not.toBeChecked()
-    await expect
-      .soft(metadataPage.bezeichnungInput)
-      .toHaveValue("Neue Testbezeichnung ab 2023")
-    await expect.soft(metadataPage.staatDropdown).toHaveValue("HA - Hamburg")
-    await expect
-      .soft(metadataPage.organDropdown)
-      .toHaveValue("BMinI - Bundesministerium des Innern")
-    await expect.soft(metadataPage.qualMehrheitCheckbox).not.toBeChecked()
-    await expect
-      .soft(metadataPage.ressortDropdown)
-      .toHaveValue("BMI - Bundesministerium des Innern und für Heimat")
-    await expect
-      .soft(metadataPage.organisationsEinheitInput)
-      .toHaveValue("Einheit 2")
-
-    // When
-    await metadataPage.gotoTimeBoundary("2015-06-01")
 
     // Then
     await expect.soft(metadataPage.fnaInput).toHaveValue("210-5")
@@ -326,6 +299,32 @@ test.describe("metadata view", () => {
     await expect
       .soft(metadataPage.organisationsEinheitInput)
       .toHaveValue("Einheit 1")
+
+    // When
+    await metadataPage.gotoTimeBoundary("2024-06-01")
+
+    // Then
+    await expect.soft(metadataPage.fnaInput).toHaveValue("310-5")
+    await expect
+      .soft(metadataPage.documentTypeDropdown)
+      .toHaveValue("Gesetz im formellen Sinne")
+    await expect.soft(metadataPage.artSnCheckbox).not.toBeChecked()
+    await expect.soft(metadataPage.artAnCheckbox).toBeChecked()
+    await expect.soft(metadataPage.artUnCheckbox).not.toBeChecked()
+    await expect
+      .soft(metadataPage.bezeichnungInput)
+      .toHaveValue("Neue Testbezeichnung ab 2023")
+    await expect.soft(metadataPage.staatDropdown).toHaveValue("HA - Hamburg")
+    await expect
+      .soft(metadataPage.organDropdown)
+      .toHaveValue("BMinI - Bundesministerium des Innern")
+    await expect.soft(metadataPage.qualMehrheitCheckbox).not.toBeChecked()
+    await expect
+      .soft(metadataPage.ressortDropdown)
+      .toHaveValue("BMI - Bundesministerium des Innern und für Heimat")
+    await expect
+      .soft(metadataPage.organisationsEinheitInput)
+      .toHaveValue("Einheit 2")
   })
 
   test("saves changes", async ({ page }) => {

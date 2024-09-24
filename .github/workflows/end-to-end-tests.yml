@@ -26,8 +26,8 @@ jobs:
           cache: gradle
       - name: Start PostgreSQL
         run: docker compose up --detach postgres15 redis
-      - name: Start backend in the background (via .gradlew and nohup)
-        run: nohup ./gradlew bootRun > /tmp/nohup.out &
+      - name: Start backend # GitHub actions automatically keep the process running and output is streamed to pipeline logs
+        run: ./gradlew bootRun &
         working-directory: ./backend
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -59,12 +59,11 @@ jobs:
         run: |
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
-      - name: Wait for backend to start
+      - name: Wait for backend to be fully up
         run: |
-          while [ `grep -c 8080 /tmp/nohup.out` -lt 1 ] ;
-          do
-          echo "sleeping for 1 second"
-          sleep 1
+          until curl --output /dev/null --silent --head --fail http://localhost:8080/actuator/health; do
+            echo "Waiting for backend to be fully up..."
+            sleep 1
           done
         working-directory: ./backend
       - name: Run e2e tests in ${{ inputs.browser }} against localhost
