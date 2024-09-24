@@ -2244,7 +2244,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
                       "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                     },
-                        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
+                        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
                     }
                   }
               """
