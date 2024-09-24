@@ -26,8 +26,8 @@ jobs:
           cache: gradle
       - name: Start PostgreSQL
         run: docker compose up --detach postgres15 redis
-      - name: Start backend in the background (via .gradlew and nohup)
-        run: nohup ./gradlew bootRun > /tmp/nohup.out &
+      - name: Start backend # GitHub actions automatically keep the process running and output is streamed to pipeline logs
+        run: ./gradlew bootRun &
         working-directory: ./backend
       - name: Setup Node
         uses: actions/setup-node@v4

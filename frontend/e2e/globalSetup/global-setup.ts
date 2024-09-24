@@ -24,7 +24,6 @@ async function setup() {
     formData.append("file", new Blob([fileContent], { type: "text/xml" }), file)
     formData.append("force", String(true))
 
-    console.log(`API URL: ${process.env.E2E_BASE_URL}/api/v1/announcements`)
     const response = await fetch(
       `${process.env.E2E_BASE_URL}/api/v1/announcements`,
       {
