@@ -24,6 +24,7 @@ async function setup() {
     formData.append("file", new Blob([fileContent], { type: "text/xml" }), file)
     formData.append("force", String(true))
 
+    console.log(`API URL: ${process.env.E2E_BASE_URL}/api/v1/announcements`)
     const response = await fetch(
       `${process.env.E2E_BASE_URL}/api/v1/announcements`,
       {
@@ -33,7 +34,7 @@ async function setup() {
     )
 
     if (!response.ok) {
-      throw new Error(`Failed to set up test data: ${response.body}`)
+      throw new Error(`Failed to set up test data: ${response.statusText}`)
     }
     console.log(`Imported ${file} successfully.`)
   }
