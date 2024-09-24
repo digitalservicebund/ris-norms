@@ -264,9 +264,9 @@ class EidConsistencyGuardianTest {
                   </akn:analysis>
                                                           <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
                                   <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
-                                      <meta:celex start="non-existing-id-1">celex number</meta:celex>
+                                      <ris:celex start="non-existing-id-1">celex number</ris:celex>
                                       <ris:subtyp start="non-existing-id-2">SN</ris:subtyp>
-                                      <meta:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</meta:aktenzeichen>
+                                      <ris:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</ris:aktenzeichen>
                                   </ris:legalDocML.de_metadaten>
                               </akn:proprietary>
               </akn:meta>
@@ -283,7 +283,7 @@ class EidConsistencyGuardianTest {
     var exectedResult =
       """
       <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                                                                          http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                                                                              http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
           <akn:act name="regelungstext">
               <!-- Metadaten -->
               <akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">
@@ -323,9 +323,9 @@ class EidConsistencyGuardianTest {
                   </akn:analysis>
                               <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-1" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
                                   <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
-                                      <meta:celex start="">celex number</meta:celex>
+                                      <ris:celex start="">celex number</ris:celex>
                                       <ris:subtyp start="">SN</ris:subtyp>
-                                      <meta:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</meta:aktenzeichen>
+                                      <ris:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</ris:aktenzeichen>
                                   </ris:legalDocML.de_metadaten>
                               </akn:proprietary>
               </akn:meta>
@@ -337,6 +337,7 @@ class EidConsistencyGuardianTest {
       .withTest(Input.from(XmlMapper.toDocument(exectedResult)))
       .ignoreWhitespace()
       .build();
+
     assertThat(diff.hasDifferences()).isFalse();
   }
 }
