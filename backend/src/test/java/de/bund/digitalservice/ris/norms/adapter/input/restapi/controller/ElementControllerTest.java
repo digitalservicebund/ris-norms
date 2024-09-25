@@ -137,9 +137,7 @@ class ElementControllerTest {
                         refersTo="hauptaenderung">
                         <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                             GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                            <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1"
-                                GUID="81c9c481-9427-4f03-9f51-099aa9b2201e"
-                                name="1" />Artikel 1 </akn:num>
+                                Artikel 1 </akn:num>
                         <akn:heading eId="hauptteil-1_art-1_überschrift-1"
                             GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
                         </akn:heading>

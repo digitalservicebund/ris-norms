@@ -16,8 +16,8 @@ class ElementResponseMapperTest {
       """
           <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
         <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
-          <akn:marker GUID="000" eId="hauptteil-1_bezeichnung-1_zaehlbez-1" name="1"/>
-          § 1
+
+              § 1
         </akn:num>
         <akn:heading GUID="000" eId="hauptteil-1_überschrift-1">
           Überschrift des Artikels
@@ -66,8 +66,8 @@ class ElementResponseMapperTest {
       """
           <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
         <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
-          <akn:marker GUID="000" eId="hauptteil-1_bezeichnung-1_zaehlbez-1" name="1"/>
-          § 1
+
+              § 1
         </akn:num>
         <akn:paragraph GUID="000" eId="hauptteil-1_abs-1"></akn:paragraph>
       </akn:article>
