@@ -119,7 +119,7 @@ public class AnnouncementService
     var document = convertFileToDocument(query.file());
     final String actString = billToActService.convert(document);
 
-    // it throws an exception if the validation fails or the LDML.de Version is not 1.6
+    // it throws an exception if the validation fails or the LDML.de Version is not 1.7
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
     // not yet.
     var validatedNorm = ldmlDeValidator.parseAndValidate(actString);

@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 /**
  * The type of part of an EId.
  *
- * <p>See LDML.de 1.6 Section 7.1.3
+ * <p>See LDML.de 1.7 Section 7.1.3 Elemente mit verpflichtendem @eId- und @GUID-Attribut
  */
 @Getter
 public enum EIdPartType {

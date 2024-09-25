@@ -102,7 +102,7 @@ class ModTest {
   void setNewText() {
     final String QUOTED_TEXT_MOD_WITH_REF =
       """
-          <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+              <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
             GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
             refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
                GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
@@ -133,7 +133,7 @@ class ModTest {
   void setNewTextWithGuessedReference() {
     final String QUOTED_TEXT_MOD_WITH_REF =
       """
-          <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+              <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
             GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
             refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
                GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
