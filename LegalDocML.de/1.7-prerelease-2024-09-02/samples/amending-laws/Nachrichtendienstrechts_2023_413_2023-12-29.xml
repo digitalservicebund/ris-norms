@@ -126,7 +126,7 @@
                               href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
                                    GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                                   href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-1_text-1/667-734.xml"/>
+                                   href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-1_para-6_abs-3_inhalt-1_text-1/667-734.xml"/>
                   <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
                              GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                              period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
@@ -139,7 +139,7 @@
                               href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1"
                                    GUID="7324e417-e849-4269-8320-9f0173b39626"
-                                   href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1/146-194.xml"/>
+                                   href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-1_para-2_abs-1_inhalt-1_text-1/146-194.xml"/>
                   <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1"
                              GUID="7324abe9-1102-4d29-9d25-a44643354519"
                              period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
@@ -265,7 +265,7 @@
                                     GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"
                                        GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-                                       href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-1_text-1/667-734.xml">§
+                                                                                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-1_para-6_abs-3_inhalt-1_text-1/667-734.xml">§
                                         6 Absatz 3 Satz 5</akn:ref>
                               <!-- How to reference the sentence 5?--> werden die Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1"
                                               GUID="694459c4-ef66-4f87-bb78-a332054a2216"
@@ -292,7 +292,7 @@
                                     GUID="36242f06-6e33-4af8-9f4a-3da67c888510"
                                     refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
                                        GUID="3624036a-d7d9-4fa5-b181-c3345caa3206"
-                                       href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1/146-194.xml">§
+                                                                                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-1_para-2_abs-1_inhalt-1_text-1/146-194.xml">§
                                         2 Absatz 1 Satz 2</akn:ref>
                                         werden die Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
                                               GUID="362459c4-ef66-4f87-bb78-a332054a2216"

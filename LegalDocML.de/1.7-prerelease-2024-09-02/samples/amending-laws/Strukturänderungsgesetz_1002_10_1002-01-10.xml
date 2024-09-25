@@ -221,10 +221,10 @@
                   <akn:source href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-7_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                               GUID="2a4cf853-c3f9-409f-8628-6488225b787e"
                               eId="meta-1_analysis-1_activemod-1_textualmod-9_source-1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-4_abs-2_untergl-1_listenelem-2.xml"
-                                   upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-4_abs-2_untergl-1_listenelem-3.xml"
-                                   GUID="e13cbed9-77cc-4655-9635-fd0dd46602eb"
-                                   eId="meta-1_analysis-1_activemod-1_textualmod-9_destination-1"/>
+                  <akn:destination GUID="e13cbed9-77cc-4655-9635-fd0dd46602eb"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-9_destination-1"
+                                   href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-2_abs-2"
+                                   upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-2_abs-3"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
                              GUID="7a88b131-ed58-4487-8da5-d90f2c6e9dbb"
                              eId="meta-1_analysis-1_activemod-1_textualmod-9_gelzeitnachw-1"/>
