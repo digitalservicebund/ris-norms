@@ -1,36 +1,32 @@
 package de.bund.digitalservice.ris.norms.config;
 
+import io.sentry.CustomSamplingContext;
 import io.sentry.SamplingContext;
 import io.sentry.SentryOptions.TracesSamplerCallback;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
-/** Custom filter for sentry traces. Removes all traces for the actuator endpoints. */
+/** Custom filter for sentry traces. Removes all traces for the /actuator endpoints. */
 @Component
 public class CustomTracesSamplerCallback implements TracesSamplerCallback {
 
   @Override
-  public @Nullable Double sample(@NotNull SamplingContext context) {
-    if (context.getCustomSamplingContext() == null) {
+  public Double sample(SamplingContext context) {
+    final CustomSamplingContext customContext = context.getCustomSamplingContext();
+
+    if (customContext == null) {
       return null;
     }
-
-    ServerHttpRequest request = (ServerHttpRequest) context
-      .getCustomSamplingContext()
-      .get("request");
+    final HttpServletRequest request = (HttpServletRequest) customContext.get("request");
 
     if (request == null) {
       return null;
     }
-
-    String url = request.getPath().value();
-
+    final String url = request.getRequestURI();
     if (url.startsWith("/actuator")) {
       return 0d;
     } else {
-      return null;
+      return 0.1;
     }
   }
 }
