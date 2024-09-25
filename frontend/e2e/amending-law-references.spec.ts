@@ -93,7 +93,7 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
 
   await expect(newRefRegion).toBeVisible()
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_ref-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1_text-1_ref-1",
   )
 
   await newRefRegion
