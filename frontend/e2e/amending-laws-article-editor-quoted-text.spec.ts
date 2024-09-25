@@ -7,7 +7,7 @@ async function restoreInitialState(page: Page) {
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
     timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
     destinationHref:
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
     newContent: "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
   }
 
@@ -88,7 +88,7 @@ test.describe("Loading mod details", () => {
     })
     await expect(destinationHrefEidElement).toBeVisible()
     await expect(destinationHrefEidElement).toHaveValue(
-      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
     )
     await expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
@@ -199,7 +199,7 @@ test.describe("Editing a single mod", () => {
     await modFormSection
       .getByRole("textbox", { name: "zu ersetzende Textstelle" })
       .fill(
-        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
       )
 
     const saveResponsePromise = sharedPage.waitForResponse("**/norms/eli/**")
@@ -208,7 +208,7 @@ test.describe("Editing a single mod", () => {
     // Then
     const saveResponse = await (await saveResponsePromise).json()
     expect(saveResponse.amendingNormXml).toContain(
-      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
     )
   })
 
@@ -226,7 +226,7 @@ test.describe("Editing a single mod", () => {
     await expect(
       modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
     ).toHaveValue(
-      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
     )
 
     const textBoundingBox = await modFormSection
@@ -243,13 +243,13 @@ test.describe("Editing a single mod", () => {
     await expect(
       modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
     ).not.toHaveValue(
-      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
     )
 
     await expect(
       modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
     ).toHaveValue(
-      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-8.xml",
+      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-8.xml",
     )
   })
 
