@@ -1,12 +1,4 @@
--- First delete announcement because of foreign key
-DELETE FROM announcements where eli = 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1';
--- Delete amending law
-DELETE FROM norms where guid = 'e47a5106-c153-4da4-8d94-8cc2ebf9b232';
--- Delete old ZF0
-DELETE FROM norms where guid = 'a0bdb90e-31ca-4a48-b773-89cf858208fa';
-
 -- TARGET LAW
-DELETE FROM norms where guid = 'd04791fc-dcdc-47e6-aefb-bc2f7aaee151';
 DELETE
 FROM norms
 where eli = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1';

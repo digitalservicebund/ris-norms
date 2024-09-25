@@ -1,10 +1,10 @@
 -- RESIDUAL, not being used anymore
 
 -- First delete announcement because of foreign key
-DELETE FROM announcements where eli = 'eli/bund/bgbl-1/2024/108/2024-03-27/2/deu/regelungstext-1';
+-- DELETE FROM announcements where eli = 'eli/bund/bgbl-1/2024/108/2024-03-27/2/deu/regelungstext-1';
 
 -- Amending law "Wachstumschancengesetzt" Part 3
-DELETE FROM norms where guid = '53d31e3c-5c46-4e96-8017-b0db064561a2';
+-- DELETE FROM norms where guid = '53d31e3c-5c46-4e96-8017-b0db064561a2';
 -- INSERT INTO norms (guid, eli, xml)
 -- VALUES ('53d31e3c-5c46-4e96-8017-b0db064561a2', 'eli/bund/bgbl-1/2024/108/2024-03-27/2/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?><!--
 -- 	##################################################################################
@@ -584,7 +584,7 @@ DELETE FROM norms where guid = '53d31e3c-5c46-4e96-8017-b0db064561a2';
 -- </akn:akomaNtoso>');
 
 -- Target law
-DELETE FROM norms where guid = 'a3fc5402-0edc-4ed6-a9fe-027307d20d78';
+-- DELETE FROM norms where guid = 'a3fc5402-0edc-4ed6-a9fe-027307d20d78';
 -- INSERT INTO norms (guid, eli, xml)
 -- VALUES ('a3fc5402-0edc-4ed6-a9fe-027307d20d78', 'eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?><!--
 -- 	##################################################################################

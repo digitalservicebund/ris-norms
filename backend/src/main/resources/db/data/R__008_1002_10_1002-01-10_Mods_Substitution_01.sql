@@ -1,13 +1,6 @@
-DELETE FROM announcements WHERE id = 'c7fa8ba0-34c9-43ed-87ad-9bdf177126fc';
-DELETE FROM norms WHERE guid = '63ef9358-8755-46e4-bf6a-21f379014597';
-DELETE FROM norms WHERE guid = 'c4166ebb-b6df-4f61-8ac1-1d6399cc80ef';
-DELETE FROM norms WHERE guid = '6f296c2a-c8c1-42ff-a7ee-7ccae672a00e';
 DELETE
 FROM norms
-WHERE eli = 'eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1';
-DELETE
-FROM norms
-WHERE eli = 'eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1';
+WHERE eli = 'eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1';
 
 -- Target law
 INSERT INTO norms (guid, eli, xml)

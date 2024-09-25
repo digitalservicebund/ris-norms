@@ -20,9 +20,9 @@ fileignoreconfig:
   - filename: doc/adr/0009-renovate.md
     checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
   - filename: backend/src/main/resources/db/data/R__004_2024_108_2024-03-27_Wachstumschancengesetz.sql
-    checksum: 6e43f86255b7033e204c93fade0fe0e8b22e85fe7fdba8041b5363d44b5f5989
+    checksum: afa744b3c48da39926c5c628cddc4b17a2893815149e277531a10e497b9d8cf5
   - filename: backend/src/main/resources/db/data/R__006_2024_108_2024-03-27_Wachstumschancengesetz-Part-3.sql
-    checksum: 03865e180e00fe525e6b7c9c41779689302861204f23ee9baeb5f52cb80355ff
+    checksum: 2b5d0be53228b73a99a462ba1131b1f5146f2e5163d19fb31621fe596b23adb1
   - filename: frontend/src/main.ts
     checksum: 837828b28bdbd4b3ab2dd446da9e11dc472aef7f29474a6d686fcdee9404fd6e
   - filename: LegalDocML.de/1.6/README.md

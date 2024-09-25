@@ -1,12 +1,7 @@
--- First delete announcement because of foreign key
-DELETE FROM announcements WHERE id = '30f69b20-892e-4381-9c38-53ab71edfcf6';
--- Delete amending norm
-DELETE FROM norms WHERE guid = 'e7abd358-32cb-4fc2-8a1a-b033961f3708';
--- Delete old ZF0
-DELETE FROM norms WHERE guid = '3d5ac81e-6499-4005-926c-04a99410d361';
-
 -- TARGET LAW
-DELETE FROM norms WHERE guid = 'f260b43f-6218-4bd7-ac1a-f5f46d190bfb';
+DELETE
+FROM norms
+WHERE eli = 'eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1';
 INSERT INTO norms (guid, eli, xml)
 VALUES ('f260b43f-6218-4bd7-ac1a-f5f46d190bfb', 'eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
