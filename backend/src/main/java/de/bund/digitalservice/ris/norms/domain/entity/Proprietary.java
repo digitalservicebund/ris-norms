@@ -27,7 +27,10 @@ public class Proprietary {
    */
   public Optional<MetadatenDe> getMetadatenDe() {
     return NodeParser
-      .getNodeFromExpression("./legalDocML.de_metadaten", node)
+      .getNodeFromExpression(
+        "./Q{http://Metadaten.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        node
+      )
       .map(MetadatenDe::new);
   }
 
@@ -38,11 +41,14 @@ public class Proprietary {
    */
   public MetadatenDe getOrCreateMetadatenDe() {
     return NodeParser
-      .getNodeFromExpression("./legalDocML.de_metadaten", node)
+      .getNodeFromExpression(
+        "./Q{http://Metadaten.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        node
+      )
       .map(MetadatenDe::new)
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
-        newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.6/");
+        newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7/");
         return new MetadatenDe(newElement);
       });
   }
@@ -54,7 +60,10 @@ public class Proprietary {
    */
   public Optional<MetadatenDs> getMetadatenDs() {
     return NodeParser
-      .getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
+      .getNodeFromExpression(
+        "./Q{http://MetadatenRIS.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        node
+      )
       .map(MetadatenDs::new);
   }
 
@@ -65,11 +74,14 @@ public class Proprietary {
    */
   public MetadatenDs getOrCreateMetadatenDs() {
     return NodeParser
-      .getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
+      .getNodeFromExpression(
+        "./Q{http://MetadatenRIS.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        node
+      )
       .map(MetadatenDs::new)
       .orElseGet(() -> {
-        final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten_ds", node);
-        newElement.setAttribute("xmlns:meta", "http://DS.Metadaten.LegalDocML.de/1.6/");
+        final var newElement = NodeCreator.createElement("ris:legalDocML.de_metadaten", node);
+        newElement.setAttribute("xmlns:ris", "http://MetadatenRIS.LegalDocML.de/1.7/");
         return new MetadatenDs(newElement);
       });
   }

@@ -17,7 +17,7 @@ interface MetadataInterface {
 }
 
 /**
- * Abstract class with common functionalities between meta:legalDocML.de_metadaten_ds and
+ * Abstract class with common functionalities between ris:legalDocML.de_metadaten and
  * meta:legalDocML.de_metadaten
  *
  * @param <T> the concrete enum class implementing {@link MetadataInterface}
@@ -29,6 +29,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
   private final Node node;
   private final String startAttribute;
   private final String endAttribute;
+  private final String namespacePrefix;
 
   /**
    * It returns the value for a xpath at a specific date. If no matching value @start or @end is
@@ -89,7 +90,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
               .filter(f -> f.getStart().isPresent() && f.getStart().get().isAfter(date))
               .min(Comparator.comparing(f -> f.getStart().get()));
 
-            // 2. Create new meta:fna node with the @start value and @end and set @start of next
+            // 2. Create new ris:fna node with the @start value and @end and set @start of next
             // one
             createNewNode(simpleMetadatum, newValue, date, nextNode.orElse(null));
 
@@ -170,7 +171,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
       if (isLastElement) {
         // Create and set the new element
         final Element newElement = NodeCreator.createElement(
-          String.format("meta:%s", elementName),
+          String.format("%s:%s", getNamespacePrefix(), elementName),
           parentNode
         );
         newElement.setTextContent(newValue);
@@ -191,7 +192,11 @@ public abstract class Metadaten<T extends MetadataInterface> {
         if (childNode.isPresent()) {
           parentNode = childNode.get();
         } else {
-          parentNode = NodeCreator.createElement(String.format("meta:%s", elementName), parentNode);
+          parentNode =
+          NodeCreator.createElement(
+            String.format("%s:%s", getNamespacePrefix(), elementName),
+            parentNode
+          );
         }
       }
     }

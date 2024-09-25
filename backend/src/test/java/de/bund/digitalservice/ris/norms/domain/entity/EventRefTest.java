@@ -15,8 +15,8 @@ class EventRefTest {
       .node(
         XmlMapper.toNode(
           """
-          <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2017-03-15" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
-             """
+           <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2017-03-15" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+          """
         )
       )
       .build();
@@ -32,8 +32,8 @@ class EventRefTest {
       .node(
         XmlMapper.toNode(
           """
-          <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
-                             """
+          <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                         """
         )
       )
       .build();

@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test"
-import { normWithModsNotInSeedXml } from "./testData/normWithModsNotInSeedXml"
-import { normWithModsSchematronInvalidXml } from "./testData/normWithModsSchematronInvalidXml"
-import { normWithModsXml } from "./testData/normWithModsXml"
-import { normWithModsXsdInvalidXml } from "./testData/normWithModsXsdInvalidXml"
+import fs from "fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 test("navigates to the upload page", async ({ page }) => {
   await page.goto("/amending-laws")
@@ -21,7 +22,9 @@ test("uploads a new norm successfully and redirects to the new norm", async ({
 
   await page.locator("input[type=file]").setInputFiles([
     {
-      buffer: Buffer.from(normWithModsNotInSeedXml),
+      buffer: fs.readFileSync(
+        path.resolve(__dirname, "./testData/normWithModsNotInSeedXml.xml"),
+      ),
       mimeType: "text/xml",
       name: "amendingLaw",
     },
@@ -45,7 +48,9 @@ test("shows a confirmation dialog if the uploaded norm already exists", async ({
 
   await page.locator("input[type=file]").setInputFiles([
     {
-      buffer: Buffer.from(normWithModsXml),
+      buffer: fs.readFileSync(
+        path.resolve(__dirname, "./testData/normWithModsXml.xml"),
+      ),
       mimeType: "text/xml",
       name: "amendingLaw",
     },
@@ -63,7 +68,9 @@ test("Closes the confirmation dialog for a forced upload when user chooses not t
 
   await page.locator("input[type=file]").setInputFiles([
     {
-      buffer: Buffer.from(normWithModsXml),
+      buffer: fs.readFileSync(
+        path.resolve(__dirname, "./testData/normWithModsXml.xml"),
+      ),
       mimeType: "text/xml",
       name: "amendingLaw",
     },
@@ -127,7 +134,9 @@ test("shows validation errors if the uploaded norm is not an xsd-valid LDML docu
 
   await page.locator("input[type=file]").setInputFiles([
     {
-      buffer: Buffer.from(normWithModsXsdInvalidXml),
+      buffer: fs.readFileSync(
+        path.resolve(__dirname, "./testData/normWithModsXsdInvalidXml.xml"),
+      ),
       mimeType: "text/xml",
       name: "amendingLaw",
     },
@@ -149,7 +158,12 @@ test("shows validation errors if the uploaded norm is not a schematron-valid LDM
 
   await page.locator("input[type=file]").setInputFiles([
     {
-      buffer: Buffer.from(normWithModsSchematronInvalidXml),
+      buffer: fs.readFileSync(
+        path.resolve(
+          __dirname,
+          "./testData/normWithModsSchematronInvalidXml.xml",
+        ),
+      ),
       mimeType: "text/xml",
       name: "amendingLaw",
     },

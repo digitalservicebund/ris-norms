@@ -45,12 +45,12 @@ class UpdateNormServiceTest {
       assertThat(passiveModification.getSourceHref())
         .contains(
           new Href(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
           )
         );
       assertThat(passiveModification.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
+          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
         );
       assertThat(passiveModification.getForcePeriodEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-4");
@@ -88,12 +88,12 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification.getSourceHref())
         .contains(
           new Href(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
           )
         );
       assertThat(newPassiveModification.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
+          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
         );
       assertThat(
         updatedZf0Law.getStartDateForTemporalGroup(
@@ -129,12 +129,12 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification1.getSourceHref())
         .contains(
           new Href(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
           )
         );
       assertThat(newPassiveModification1.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
+          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
         );
       assertThat(
         updatedZfoLaw.getStartDateForTemporalGroup(
@@ -153,12 +153,12 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification2.getSourceHref())
         .contains(
           new Href(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-2_ändbefehl-1.xml"
           )
         );
       assertThat(newPassiveModification2.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
+          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
         );
       assertThat(
         updatedZfoLaw.getStartDateForTemporalGroup(
@@ -205,12 +205,12 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification.getSourceHref())
         .contains(
           new Href(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
           )
         );
       assertThat(newPassiveModification.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
+          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
         );
       assertThat(newPassiveModification.getForcePeriodEid()).isEmpty();
     }
@@ -293,11 +293,11 @@ class UpdateNormServiceTest {
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       String targetNormEli = targetNorm.getEli();
-      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "20-25";
       String newDestinationHref =
         targetNormEli +
-        "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
+        "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newTimeBoundaryEid = "#time-boundary-eid";
@@ -341,7 +341,7 @@ class UpdateNormServiceTest {
       String targetNormEli = targetNorm.getEli();
       String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHref =
-        targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEli + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpTo =
         targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
       String newTimeBoundaryEid = "#time-boundary-eid";
@@ -385,7 +385,7 @@ class UpdateNormServiceTest {
       String targetNormEli = targetNorm.getEli();
       String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHref =
-        targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEli + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpTo = null;
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newContent = "new-text";
@@ -428,7 +428,7 @@ class UpdateNormServiceTest {
       String eIdSetup =
         "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHrefSetup =
-        targetNormEliSetup + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEliSetup + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpToSetup =
         targetNormEliSetup + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
       String newTimeBoundaryEidSetup = "#time-boundary-eid";
@@ -450,7 +450,7 @@ class UpdateNormServiceTest {
       String targetNormEli = targetNorm.getEli();
       String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHref =
-        targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEli + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpTo = null;
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newContent = "new-text";
@@ -492,7 +492,7 @@ class UpdateNormServiceTest {
         "NormWithoutPassiveModsQuotedStructure.xml"
       );
       final String modEid =
-        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       final String newDestinationHref = targetNorm.getEli() + "/hauptteil-1_para-2_abs-1.xml";
       final String newDestinationUpTo = targetNorm.getEli() + "/hauptteil-1_para-2_abs-3.xml";
 

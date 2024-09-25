@@ -70,7 +70,7 @@ public record EId(String value) {
   /**
    * Creates the expected EId for the given node given that the eId of the parent node is correct.
    *
-   * <p>See LDML.de 1.6 Section 7.1.1
+   * <p>See LDML.de 1.7 Section 7.1.1 Syntax eines @eId-Attributs
    *
    * @param node the node for which the eId should be calculated
    * @return the expected EId for that node
@@ -95,32 +95,22 @@ public record EId(String value) {
   }
 
   private static String findEIdPosition(Node node, EIdPartType eIdPartType) {
-    if (
-      node.getNodeName().equals("akn:li") && node.getParentNode().getNodeName().equals("akn:ol")
-    ) {
-      return node.getAttributes().getNamedItem("value").getNodeValue().replace(".", "");
+    var position = 1;
+    var previousSibling = node.getPreviousSibling();
+    while (previousSibling != null) {
+      var eId = EId.fromNode(previousSibling);
+
+      if (eId.isPresent()) {
+        var previousSiblingEIdType = eId.get().getParts().getLast().getType();
+
+        if (previousSiblingEIdType.equals(eIdPartType.getName())) {
+          position++;
+        }
+      }
+
+      previousSibling = previousSibling.getPreviousSibling();
     }
 
-    return NodeParser
-      .getValueFromExpression("./num/marker/@name", node)
-      .orElseGet(() -> {
-        var position = 1;
-        var previousSibling = node.getPreviousSibling();
-        while (previousSibling != null) {
-          var eId = EId.fromNode(previousSibling);
-
-          if (eId.isPresent()) {
-            var previousSiblingEIdType = eId.get().getParts().getLast().getType();
-
-            if (previousSiblingEIdType.equals(eIdPartType.getName())) {
-              position++;
-            }
-          }
-
-          previousSibling = previousSibling.getPreviousSibling();
-        }
-
-        return "%d".formatted(position);
-      });
+    return "%d".formatted(position);
   }
 }

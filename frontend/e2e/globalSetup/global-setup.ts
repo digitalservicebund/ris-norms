@@ -7,16 +7,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 async function setup() {
   const directoryPath = path.resolve(
     __dirname,
-    "../../../LegalDocML.de/1.6/samples/amending-laws",
+    "../../../LegalDocML.de/1.7-prerelease-2024-09-02/samples/amending-laws",
   )
 
   // Read all files in the directory
   const files = fs.readdirSync(directoryPath)
   for (const file of files) {
-    // This amending law uses akn:rref which comes with LDML.de 1.7, therefore can only be uploaded when we migrate to 1.7
-    if (file === "Strukturänderungsgesetz_1002_10_1002-01-10.xml") {
-      continue
-    }
     const filePath = path.join(directoryPath, file)
     const fileContent = fs.readFileSync(filePath) // Read the file content
 

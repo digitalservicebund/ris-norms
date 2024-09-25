@@ -33,7 +33,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       mod.setOldText("");
@@ -56,7 +56,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       mod.setOldText("not the same text as in target law");
@@ -70,7 +70,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "The character range 9-34 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced."
+          "The character range 9-34 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced."
         );
     }
 
@@ -79,7 +79,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -90,7 +90,7 @@ class SingleModValidatorTest {
         .getPassiveModifications()
         .getFirst();
       passiveMod.setDestinationHref(
-        "#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+        "#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
       );
 
       // when
@@ -100,7 +100,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "Target node with eid hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 not present"
+          "Target node with eid hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1 not present"
         );
     }
 
@@ -109,7 +109,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -123,7 +123,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final String amendingNormEli = amendingNorm.getEli();
@@ -157,7 +157,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final String amendingNormEli = amendingNorm.getEli();
@@ -192,13 +192,13 @@ class SingleModValidatorTest {
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final String amendingNormEli = amendingNorm.getEli();
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       mod.setTargetRefHref(
         new Href.Builder()
           .setEli(amendingNormEli)
-          .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+          .setEId("hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(""))
           .buildInternalReference()
           .value()
@@ -213,7 +213,7 @@ class SingleModValidatorTest {
         .getFirst();
       passiveMod.setDestinationHref(
         new Href.Builder()
-          .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+          .setEId("hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(""))
           .buildInternalReference()
           .value()
@@ -226,7 +226,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "In the destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
+          "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
         );
     }
 
@@ -234,19 +234,19 @@ class SingleModValidatorTest {
       return Stream.of(
         Arguments.of(
           "20-20.xml",
-          "The character range 20-20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
+          "The character range 20-20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
         ),
         Arguments.of(
           "-20.xml",
-          "The character range -20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
+          "The character range -20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
         ),
         Arguments.of(
           "0-.xml",
-          "The character range 0-.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
+          "The character range 0-.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
         ),
         Arguments.of(
           "",
-          "In the destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
+          "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
         )
       );
     }
@@ -257,7 +257,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
 
@@ -270,7 +270,7 @@ class SingleModValidatorTest {
         .getFirst();
       passiveMod.setDestinationHref(
         new Href.Builder()
-          .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+          .setEId("hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(cr))
           .buildInternalReference()
           .value()
@@ -288,7 +288,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
 
@@ -301,7 +301,7 @@ class SingleModValidatorTest {
         .getFirst();
       passiveMod.setDestinationHref(
         new Href.Builder()
-          .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+          .setEId("hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange("9-1113"))
           .buildInternalReference()
           .value()
@@ -314,7 +314,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "The character range 9-1113 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node."
+          "The character range 9-1113 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node."
         );
     }
   }
@@ -402,7 +402,7 @@ class SingleModValidatorTest {
         .getPassiveModifications()
         .getFirst();
       passiveMod.setDestinationUpTo(
-        "#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b"
+        "#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-2"
       );
 
       // when
@@ -412,7 +412,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1999/66/2002-02-20/1/deu/regelungstext-1."
+          "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-2 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1999/66/2002-02-20/1/deu/regelungstext-1."
         );
     }
 

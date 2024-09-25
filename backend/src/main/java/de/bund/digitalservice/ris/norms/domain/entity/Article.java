@@ -37,7 +37,7 @@ public class Article {
    * @return The enumeration of the article
    */
   public Optional<String> getEnumeration() {
-    return NodeParser.getValueFromExpression("./num/marker/@name", this.node);
+    return NodeParser.getValueFromExpression("./num/text()", this.node).map(String::trim);
   }
 
   /**

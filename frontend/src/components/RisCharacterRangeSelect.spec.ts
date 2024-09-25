@@ -17,7 +17,7 @@ describe("RisCharacterRangeSelect", () => {
     const result = render(RisCharacterRangeSelect, {
       props: {
         render: "<span data-eId='span-1'>Test</span>",
-        xml: `<akn:akonaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" ><akn:span eId="span-1">Test</akn:span></akn:akonaNtoso>`,
+        xml: `<akn:akonaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" ><akn:span eId="span-1">Test</akn:span></akn:akonaNtoso>`,
       },
     })
 

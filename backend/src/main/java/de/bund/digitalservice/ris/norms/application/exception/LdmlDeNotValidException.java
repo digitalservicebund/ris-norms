@@ -6,7 +6,9 @@ import java.net.URI;
 import java.util.List;
 import lombok.Getter;
 
-/** The given xml is not a valid LDML.de 1.6 document. */
+/**
+ * The given xml is not a valid LDML.de 1.7 document.
+ */
 @Getter
 public class LdmlDeNotValidException extends RuntimeException implements NormsAppException {
 
@@ -14,7 +16,7 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
   public static final URI TYPE = URI.create("/errors/ldml-de-not-valid");
 
   public LdmlDeNotValidException(List<ValidationError> errors) {
-    super("The provided xml is not a valid LDML.de 1.6 document.");
+    super("The provided xml is not a valid LDML.de 1.7 document.");
     this.errors = errors;
   }
 

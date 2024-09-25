@@ -19,11 +19,11 @@ class EinzelelementTest {
         .node(
           XmlMapper.toNode(
             """
-                <meta:einzelelement xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/" href="#hauptteil-1_abschnitt-0_para-1">
-                <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-            </meta:einzelelement>
+                <ris:einzelelement xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/" href="#hauptteil-1_abschnitt-0_para-1">
+                <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+            </ris:einzelelement>
             """
           )
         )

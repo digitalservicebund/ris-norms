@@ -59,7 +59,7 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//*[@data-eId='hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1']")
+          xpath("//*[@data-eId='hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1']")
             .string(containsString("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3"))
         );
     }
@@ -132,13 +132,13 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           xpath(
-            "//*[@data-eId='hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-1_listenelem-b_inhalt-1_text-1']"
+            "//*[@data-eId='hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-1_listenelem-1_inhalt-1_text-1']"
           )
             .string(containsString("Zeilen,"))
         )
         .andExpect(
           xpath(
-            "//*[@data-eId='hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-1_listenelem-c_inhalt-1_text-1']"
+            "//*[@data-eId='hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-1_listenelem-2_inhalt-1_text-1']"
           )
             .string(containsString("oder Zellen."))
         );

@@ -25,7 +25,7 @@ test.describe("navigate to page", () => {
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/outline/hauptteil-1_abschnitt-erster",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/outline/hauptteil-1_abschnitt-1",
     )
 
     await expect(

@@ -11,7 +11,7 @@ describe("articleService", () => {
             {
               eid: "article eid 1",
               title: "article eid 1",
-              enumeration: "1",
+              enumeration: "Artikel 1",
               affectedDocumentEli: "example/eli",
             },
           ]),
@@ -28,7 +28,7 @@ describe("articleService", () => {
         {
           eid: "article eid 1",
           title: "article eid 1",
-          enumeration: "1",
+          enumeration: "Artikel 1",
           affectedDocumentEli: "example/eli",
         },
       ])

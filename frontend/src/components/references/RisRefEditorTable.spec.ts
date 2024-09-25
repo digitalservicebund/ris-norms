@@ -10,7 +10,7 @@ describe("RisRefEditorTable", () => {
     render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of a ref and a second ref and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of a ref and a second ref and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
     await nextTick()
@@ -24,7 +24,7 @@ describe("RisRefEditorTable", () => {
     render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
@@ -41,7 +41,7 @@ describe("RisRefEditorTable", () => {
     const result = render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
@@ -60,7 +60,7 @@ describe("RisRefEditorTable", () => {
     const result = render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
@@ -83,7 +83,7 @@ describe("RisRefEditorTable", () => {
     const result = render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
@@ -105,7 +105,7 @@ describe("RisRefEditorTable", () => {
     render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
@@ -121,7 +121,7 @@ describe("RisRefEditorTable", () => {
     render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
@@ -141,7 +141,7 @@ describe("RisRefEditorTable", () => {
     render(RisRefEditorTable, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
