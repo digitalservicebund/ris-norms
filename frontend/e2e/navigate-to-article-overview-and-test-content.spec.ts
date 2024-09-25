@@ -31,9 +31,7 @@ test.describe("Articles page", () => {
       // Content
       // eslint-disable-next-line playwright/no-conditional-in-test
       for (const article of amendingLaw.articles ?? []) {
-        await expect(
-          page.getByText(`Artikel ${article.enumeration}`),
-        ).toBeVisible()
+        await expect(page.getByText(article.enumeration)).toBeVisible()
         await expect(
           page.getByText(article.title, {
             exact: true,

@@ -18,12 +18,12 @@ describe("announcementService", () => {
             {
               eid: "article eid 1",
               title: "article eid 1",
-              enumeration: "1",
+              enumeration: "Artikel 1",
             },
             {
               eid: "article eid 2",
               title: "article eli 2",
-              enumeration: "2",
+              enumeration: "Artikel 2",
             },
           ],
         },

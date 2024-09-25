@@ -13,7 +13,7 @@ export const amendingLaws: (Norm & {
     title: "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     articles: [
       {
-        enumeration: "1",
+        enumeration: "Artikel 1",
         eid: "hauptteil-1_art-1",
         title: "Änderung des Vereinsgesetzes",
         affectedDocumentEli: "",
@@ -38,7 +38,7 @@ export const amendingLaws: (Norm & {
     title: "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
     articles: [
       {
-        enumeration: "1",
+        enumeration: "Artikel 1",
         eid: "hauptteil-1_art-1",
         title: "Änderung des Bundesverfassungsschutzgesetzes",
         affectedDocumentEli: "",

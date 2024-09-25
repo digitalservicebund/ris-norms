@@ -41,7 +41,6 @@ class ArticleTest {
       """
       <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
         <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-          <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1" GUID="81c9c481-9427-4f03-9f51-099aa9b2201e" name="1" />
           Artikel 1
         </akn:num>
       </akn:article>
@@ -53,7 +52,7 @@ class ArticleTest {
     var enumeration = article.getEnumeration();
 
     // then
-    assertThat(enumeration).contains("1");
+    assertThat(enumeration).contains("Artikel 1");
   }
 
   @Test
@@ -145,8 +144,7 @@ class ArticleTest {
     String articleString =
       """
       <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-        <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-            <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1" GUID="81c9c481-9427-4f03-9f51-099aa9b2201e" name="1" />Artikel 1</akn:num>
+            <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
          <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
          <!-- Absatz (1) -->
          <akn:paragraph eId="hauptteil-1_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
@@ -179,8 +177,7 @@ class ArticleTest {
     String articleString =
       """
       <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-            <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1" GUID="81c9c481-9427-4f03-9f51-099aa9b2201e" name="1" />Artikel 1</akn:num>
+                <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
              <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
              <!-- Absatz (1) -->
              <akn:paragraph eId="hauptteil-1_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
@@ -214,8 +211,7 @@ class ArticleTest {
     String articleString =
       """
       <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-            <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1" GUID="81c9c481-9427-4f03-9f51-099aa9b2201e" name="1" />Artikel 1</akn:num>
+                <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
              <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
              <!-- Absatz (1) -->
              <akn:paragraph eId="hauptteil-1_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
@@ -252,10 +248,7 @@ class ArticleTest {
                    period="#geltungszeitgr-1"
                    refersTo="hauptaenderung">
           <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
-                   GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-              <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1"
-                          GUID="81c9c481-9427-4f03-9f51-099aa9b2201e"
-                          name="1"/>Artikel 1
+                       GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1
           </akn:num>
           <akn:heading eId="hauptteil-1_art-1_überschrift-1"
                        GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
@@ -265,9 +258,6 @@ class ArticleTest {
                          GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
               <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
                        GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-                  <akn:marker eId="hauptteil-1_art-1_abs-1_bezeichnung-1_zaehlbez-1"
-                              GUID="eab5a7e7-b649-4c23-b495-648b8ec71843"
-                              name="1"/>
               </akn:num>
               <akn:list eId="hauptteil-1_art-1_abs-1_untergl-1"
                         GUID="41675622-ed62-46e3-869f-94d99908b010">
@@ -287,11 +277,7 @@ class ArticleTest {
                   <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
                              GUID="b5fa1383-f26a-4904-a638-f48711fbcf2d">
                       <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1"
-                               GUID="6f0f92b3-1a51-440c-9137-b44ab9d990ac">
-                          <akn:marker
-                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
-                                  GUID="5d7d54f0-8a4e-4d8f-b5d0-93d0ca393e82"
-                                  name="2"/>2.
+                                   GUID="6f0f92b3-1a51-440c-9137-b44ab9d990ac">2.
                       </akn:num>
                       <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1"
                                    GUID="6cb14ab5-3a7f-45f4-9e85-00ac2fb0fe5e">
@@ -351,10 +337,7 @@ class ArticleTest {
                    period="#geltungszeitgr-1"
                    refersTo="hauptaenderung">
           <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
-                   GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-              <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1"
-                          GUID="81c9c481-9427-4f03-9f51-099aa9b2201e"
-                          name="1"/>Artikel 1
+                       GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1
           </akn:num>
           <akn:heading eId="hauptteil-1_art-1_überschrift-1"
                        GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
@@ -364,9 +347,6 @@ class ArticleTest {
                          GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
               <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
                        GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-                  <akn:marker eId="hauptteil-1_art-1_abs-1_bezeichnung-1_zaehlbez-1"
-                              GUID="eab5a7e7-b649-4c23-b495-648b8ec71843"
-                              name="1"/>
               </akn:num>
               <akn:list eId="hauptteil-1_art-1_abs-1_untergl-1"
                         GUID="41675622-ed62-46e3-869f-94d99908b010">
@@ -386,11 +366,7 @@ class ArticleTest {
                   <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
                              GUID="b5fa1383-f26a-4904-a638-f48711fbcf2d">
                       <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1"
-                               GUID="6f0f92b3-1a51-440c-9137-b44ab9d990ac">
-                          <akn:marker
-                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
-                                  GUID="5d7d54f0-8a4e-4d8f-b5d0-93d0ca393e82"
-                                  name="2"/>2.
+                                   GUID="6f0f92b3-1a51-440c-9137-b44ab9d990ac">2.
                       </akn:num>
                       <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1"
                                    GUID="6cb14ab5-3a7f-45f4-9e85-00ac2fb0fe5e">

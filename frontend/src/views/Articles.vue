@@ -28,7 +28,7 @@ onUnmounted(() => cleanupBreadcrumbs())
       v-for="article in articles"
       v-else
       :key="article.eid"
-      :title="`Artikel ${article.enumeration}`"
+      :title="article.enumeration"
       :description="article.title"
       :to="{
         name: 'AmendingLawArticleEditor',
