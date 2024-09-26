@@ -2,7 +2,7 @@
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { ModType } from "@/types/ModType"
@@ -489,13 +489,13 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       </template>
     </Toast>
     <div class="flex">
-      <RisTextButton
+      <Button
         label="Vorschau"
-        variant="tertiary"
+        severity="secondary"
         @click.prevent="$emit('generate-preview')"
       />
       <div class="relative ml-auto">
-        <RisTextButton
+        <Button
           label="Speichern"
           :icon="CheckIcon"
           :loading="isUpdating"

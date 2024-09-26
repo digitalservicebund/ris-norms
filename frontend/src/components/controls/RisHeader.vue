@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import { useElementId } from "@/composables/useElementId"
 import {
   InjectionKey,
@@ -215,15 +215,16 @@ export function useHeaderContext() {
         <IcBaselineArrowBack />
         <span class="sr-only">Zurück</span>
       </RouterLink>
-      <RisTextButton
+      <Button
         v-else-if="backDestination === 'history-back'"
-        :icon="IcBaselineArrowBack"
-        icon-only
         label="Zurück"
-        variant="ghost"
-        size="small"
+        severity="text"
         @click="router.back()"
-      />
+      >
+        <template #icon>
+          <IcBaselineArrowBack />
+        </template>
+      </Button>
 
       <span
         v-if="showBackButtonSeparator"

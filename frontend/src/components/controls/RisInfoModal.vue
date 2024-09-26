@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import EditOutlineIcon from "~icons/ic/outline-edit"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import { RouteLocationRaw } from "vue-router"
 
 withDefaults(
@@ -32,11 +32,12 @@ withDefaults(
       <span class="ds-body-01-reg">{{ description }}</span>
     </div>
 
-    <RisTextButton
-      :to
-      :icon="EditOutlineIcon"
-      :label="iconText"
-      variant="ghost"
-    />
+    <RouterLink :to>
+      <Button text :label="iconText">
+        <template #icon>
+          <EditOutlineIcon />
+        </template>
+      </Button>
+    </RouterLink>
   </div>
 </template>

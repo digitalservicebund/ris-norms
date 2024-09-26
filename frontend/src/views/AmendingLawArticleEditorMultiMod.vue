@@ -3,7 +3,6 @@ import RisCallout from "@/components/controls/RisCallout.vue"
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import IconErrorOutline from "~icons/ic/outline-error-outline"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -19,6 +18,7 @@ import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import Toast from "primevue/toast"
 import { useToast } from "primevue/usetoast"
+import Button from "primevue/button"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -221,15 +221,15 @@ watch(isUpdatingFinished, (finished) => {
       </div>
 
       <div class="flex">
-        <RisTextButton
+        <Button
           label="Vorschau"
-          variant="tertiary"
+          severity="secondary"
           :disabled="timeBoundary === 'multiple'"
           @click.prevent="preview"
         />
 
         <div class="relative ml-auto">
-          <RisTextButton
+          <Button
             label="Speichern"
             :icon="CheckIcon"
             :loading="isUpdating"

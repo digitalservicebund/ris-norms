@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisRefEditorTable from "@/components/references/RisRefEditorTable.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import RisRefSelectionPanel from "@/components/references/RisRefSelectionPanel.vue"
 import { computed, ref, triggerRef, watch } from "vue"
 import {
@@ -167,7 +167,7 @@ watch(
     <hr class="col-span-2 mb-16 mt-32 border border-solid border-gray-400" />
 
     <div class="col-span-2 flex flex-row-reverse">
-      <RisTextButton
+      <Button
         :disabled="isSaving"
         :loading="isSaving"
         label="Speichern"

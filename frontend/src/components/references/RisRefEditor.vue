@@ -2,7 +2,7 @@
 import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import { useRef } from "@/composables/useRef"
 import { useDebounceFn } from "@vueuse/core"
 import { ref, watch } from "vue"
@@ -89,9 +89,8 @@ watch(
     @keydown.down.prevent="$emit('selectNext')"
   />
 
-  <RisTextButton
-    size="small"
-    variant="ghost"
+  <Button
+    severity="text"
     label="Löschen"
     icon-only
     :icon="CloseIcon"

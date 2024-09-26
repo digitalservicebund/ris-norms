@@ -4,7 +4,7 @@ import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisRadioInput from "@/components/controls/RisRadioInput.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import IconErrorOutline from "~icons/ic/outline-error-outline"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -251,7 +251,7 @@ watch(hasSaved, (finished) => {
         <!-- Save button -->
         <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
           <div class="relative">
-            <RisTextButton
+            <Button
               :disabled="isFetching || !!fetchError"
               :loading="isSaving"
               label="Speichern"
