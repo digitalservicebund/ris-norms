@@ -238,12 +238,12 @@ export function useHeaderContext() {
         <span
           v-for="crumb in allBreadcrumbs"
           :key="crumb.key"
-          class="ds-body-01-reg after:mx-8 after:inline-block after:text-gray-700 after:content-['/'] last-of-type:after:hidden"
+          class="ris-body1-regular after:mx-8 after:inline-block after:text-gray-700 after:content-['/'] last-of-type:after:hidden"
         >
           <RouterLink v-if="crumb.to" v-slot="link" :to="crumb.to" custom>
             <a
               v-if="!link.isExactActive"
-              class="ds-link-01-bold underline"
+              class="ris-link1-bold underline"
               :href="link.href"
               @click="debouncedBreadcrumbClick(crumb.to)"
             >

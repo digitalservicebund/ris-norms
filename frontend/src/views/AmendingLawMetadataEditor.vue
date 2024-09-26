@@ -172,7 +172,7 @@ const elementLinks = computed(() => {
           <!-- Time boundary selection -->
           <div class="px-16 pb-20 pt-10">
             <label for="timeBoundarySelect">
-              <span class="ds-label-03-reg">Zeitgrenze</span>
+              <span class="ris-label3-regular">Zeitgrenze</span>
 
               <select
                 id="timeBoundarySelect"
@@ -240,7 +240,7 @@ const elementLinks = computed(() => {
               :key="link.eid"
               :to="link.route"
               active-class="font-bold underline bg-blue-200"
-              class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+              class="ris-label2-regular block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
             >
               <span
                 class="block overflow-hidden text-ellipsis whitespace-nowrap"

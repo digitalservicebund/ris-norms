@@ -158,7 +158,7 @@ watch(hasSaved, (finished) => {
   <div v-else class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ds-label-02-bold">
+        <h2 class="ris-label2-bold">
           {{ element?.title }}
         </h2>
       </div>
@@ -200,7 +200,7 @@ watch(hasSaved, (finished) => {
               @submit.prevent
             >
               <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Dokumenttyp</legend>
+                <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
                 <fieldset class="col-span-2 contents">
                   <legend class="self-start">Art der Norm</legend>

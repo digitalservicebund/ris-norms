@@ -48,7 +48,7 @@ const visible = defineModel<boolean>("visible", { default: true })
       </slot>
     </div>
 
-    <p class="ds-label-02-bold">{{ title }}</p>
+    <p class="ris-label2-bold">{{ title }}</p>
 
     <button
       v-if="allowDismiss"

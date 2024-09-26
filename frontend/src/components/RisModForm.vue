@@ -573,14 +573,14 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     @apply rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
 
     &:before {
-      @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
+      @apply ris-label3-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
     }
 
     &:global(.selected) {
       @apply border-transparent bg-highlight-elementSelect-selected-background outline outline-2 outline-highlight-elementSelect-selected-border;
 
       &:before {
-        @apply ds-label-03-bold text-black;
+        @apply ris-label3-bold text-black;
       }
     }
 

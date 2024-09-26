@@ -119,7 +119,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
         class="grid flex-grow grid-cols-3 grid-rows-1 gap-32 overflow-hidden p-24"
       >
         <section aria-labelledby="changeCommandsHeading" class="flex flex-col">
-          <h3 id="changeCommandsHeading" class="ds-label-02-bold mb-12 block">
+          <h3 id="changeCommandsHeading" class="ris-label2-bold mb-12 block">
             Änderungsbefehle
           </h3>
           <RisModSelectionPanel

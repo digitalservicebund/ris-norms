@@ -10,8 +10,8 @@ import { RouterLink } from "vue-router"
     <RouterLink :to="{ name: 'Home' }" class="flex gap-16">
       <img alt="" :src="neurisLogo" />
       <span>
-        <span class="ds-label-03-bold block">Rechtsinformationen</span>
-        <span class="ds-label-03-reg block">des Bundes</span>
+        <span class="ris-label3-bold block">Rechtsinformationen</span>
+        <span class="ris-label3-regular block">des Bundes</span>
       </span>
     </RouterLink>
   </nav>

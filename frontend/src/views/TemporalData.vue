@@ -93,7 +93,7 @@ watch(isSavingFinished, (finished) => {
 
     <template v-else-if="entryIntoForceArticleHtml">
       <div class="relative col-span-3 mb-24 flex items-center justify-between">
-        <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
+        <h1 class="ris-heading2-regular">Zeitgrenzen anlegen</h1>
       </div>
 
       <div class="col-span-1 overflow-auto">

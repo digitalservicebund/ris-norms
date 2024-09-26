@@ -51,7 +51,7 @@ function getClassesForMenuItem(
   return {
     disabled: isDisabled ?? false,
     "bg-blue-200": isActive,
-    "ds-link-2-bold": isActive,
+    "ris-link2-bold": isActive,
     underline: isActive || isParentActive,
   }
 }
@@ -152,7 +152,7 @@ export interface LevelTwoMenuItem {
     <span id="sidebarNavigation" class="sr-only">Navigation</span>
     <router-link
       v-if="goBackRoute"
-      class="ds-link-01-bold flex h-80 items-center gap-12 border-b border-gray-400 px-14 text-blue-800"
+      class="ris-link1-bold flex h-80 items-center gap-12 border-b border-gray-400 px-14 text-blue-800"
       :to="goBackRoute"
     >
       <IconArrowBack class="text-18" alt="" />
@@ -165,7 +165,7 @@ export interface LevelTwoMenuItem {
     >
       <router-link
         :aria-labelledby="`levelOneSideMenuItem` + levelOneIndex"
-        class="ds-label-02-bold block border-b border-gray-400 py-[1.25rem] pl-[1rem] hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        class="ris-label2-bold block border-b border-gray-400 py-[1.25rem] pl-[1rem] hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
         :class="levelOneItem.classes"
         :to="levelOneItem.route"
       >
@@ -179,7 +179,7 @@ export interface LevelTwoMenuItem {
           v-for="(levelTwoItem, levelTwoIndex) in levelOneItem.children"
           :key="levelTwoItem.label"
           :aria-labelledby="`levelTwoSideMenuItem` + levelTwoIndex"
-          class="ds-label-02-reg block py-[1rem] pl-[2rem] hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+          class="ris-label2-regular block py-[1rem] pl-[2rem] hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
           :class="[
             levelTwoItem.classes,
             levelTwoItem.isActive ? 'underline' : '',

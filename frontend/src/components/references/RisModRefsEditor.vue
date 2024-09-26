@@ -134,7 +134,7 @@ watch(
 <template>
   <div class="grid grid-rows-[minmax(0,max-content),max-content,max-content]">
     <section aria-labelledby="textBasedMetadataHeading" class="flex flex-col">
-      <h3 id="textBasedMetadataHeading" class="ds-label-02-bold mb-12 block">
+      <h3 id="textBasedMetadataHeading" class="ris-label2-bold mb-12 block">
         Textbasierte Metadaten
       </h3>
       <RisRefSelectionPanel
@@ -153,7 +153,7 @@ watch(
       aria-labelledby="referencesHeading"
       class="flex flex-col"
     >
-      <h3 id="referencesHeading" class="ds-label-02-bold mb-12 block">
+      <h3 id="referencesHeading" class="ris-label2-bold mb-12 block">
         Verweise
       </h3>
       <RisRefEditorTable

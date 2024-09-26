@@ -183,7 +183,7 @@ watch(isUpdatingFinished, (finished) => {
     class="col-span-1 flex max-h-full flex-col gap-8 pb-24"
     aria-labelledby="originalArticleTitle"
   >
-    <h3 id="originalArticleTitle" class="ds-label-02-bold mb-6">
+    <h3 id="originalArticleTitle" class="ris-label2-bold mb-6">
       {{ props.selectedMods.length }} Änderungsbefehle bearbeiten
     </h3>
 
@@ -272,7 +272,7 @@ watch(isUpdatingFinished, (finished) => {
     class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-24"
     aria-labelledby="changedArticlePreview"
   >
-    <h3 id="changedArticlePreview" class="ds-label-02-bold">Vorschau</h3>
+    <h3 id="changedArticlePreview" class="ris-label2-bold">Vorschau</h3>
     <RisTabs
       :tabs="[
         { id: 'text', label: 'Text' },
