@@ -3,7 +3,6 @@ import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import Button from "primevue/button"
-import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
@@ -14,6 +13,7 @@ import { useEIdRange } from "@/composables/useEIdRange"
 import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import InputText from "primevue/inputtext"
 import Toast from "primevue/toast"
 import { useToast } from "primevue/usetoast"
 
@@ -364,20 +364,30 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         :items="timeBoundaries"
         @change="$emit('generate-preview')"
       />
-      <RisTextInput
-        id="textualModeType"
-        label="Änderungstyp"
-        :model-value="modTypeLabel(textualModType)"
-        read-only
-      />
+      <div>
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label class="ris-label2-regular" for="textualModeType"
+          >Änderungstyp</label
+        >
+        <InputText
+          id="textualModeType"
+          :model-value="modTypeLabel(textualModType)"
+          readonly
+        />
+      </div>
     </div>
 
-    <RisTextInput
-      id="destinationHrefEli"
-      label="ELI Zielgesetz"
-      :model-value="destinationHrefEli"
-      read-only
-    />
+    <div class="flex flex-col gap-6">
+      <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+      <label class="ris-label2-regular" for="destinationHrefEli"
+        >ELI Zielgesetz</label
+      >
+      <InputText
+        id="destinationHrefEli"
+        :model-value="destinationHrefEli"
+        readonly
+      />
+    </div>
     <div
       v-if="
         textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
@@ -433,12 +443,17 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       v-else-if="textualModType === 'aenderungsbefehl-ersetzen'"
       class="grid max-h-full grid-cols-subgrid grid-rows-[min-content,2fr,1fr] gap-y-12 overflow-hidden"
     >
-      <RisTextInput
-        id="destinationHrefEid"
-        v-model="destinationHrefEid"
-        label="zu ersetzende Textstelle"
-        @blur="$emit('generate-preview')"
-      />
+      <div class="flex flex-col gap-6">
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label class="ris-label2-regular" for="destinationHrefEid"
+          >zu ersetzende Textstelle</label
+        >
+        <InputText
+          id="destinationHrefEid"
+          v-model="destinationHrefEid"
+          @blur="$emit('generate-preview')"
+        />
+      </div>
       <div class="grid grid-rows-[max-content,1fr] gap-2 overflow-hidden">
         <div id="label-old-text" class="ds-label">zu ersetzender Text</div>
         <div
