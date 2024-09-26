@@ -11,7 +11,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRe
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Eli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller for norm-related actions.
  *
- * <p>Path Parameters, they represent the eli of a norm and can be used to create an {@link Eli}:
+ * <p>Path Parameters, they represent the eli of a norm and can be used to create an {@link ExpressionEli}:
  * agent - DE: "Verkündungsblatt" year - DE "Verkündungsjahr" naturalIdentifier - DE: "Seitenzahl /
  * Verkündungsnummer" pointInTime - DE: "Versionsdatum" version - DE: "Versionsnummer" language -
  * DE: "Sprache" subtype - DE: "Dokumentenart"
@@ -77,8 +77,8 @@ public class NormController {
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
-  public ResponseEntity<NormResponseSchema> getNorm(final Eli eli) {
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+  public ResponseEntity<NormResponseSchema> getNorm(final ExpressionEli eli) {
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.toString()));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 
@@ -95,9 +95,9 @@ public class NormController {
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
   @GetMapping(produces = { APPLICATION_XML_VALUE })
-  public ResponseEntity<String> getNormXml(final Eli eli) {
+  public ResponseEntity<String> getNormXml(final ExpressionEli eli) {
     return ResponseEntity.ok(
-      loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
+      loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.toString()))
     );
   }
 
@@ -118,12 +118,12 @@ public class NormController {
    */
   @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getNormRender(
-    final Eli eli,
+    final ExpressionEli eli,
     @RequestParam(defaultValue = "false") boolean showMetadata,
     @RequestParam Optional<Instant> atIsoDate
   ) {
     if (atIsoDate.isPresent()) {
-      var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+      var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.toString()));
       norm =
       applyPassiveModificationsUseCase.applyPassiveModifications(
         new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.get())
@@ -140,7 +140,7 @@ public class NormController {
       );
     }
 
-    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()));
+    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.toString()));
     var legalDocHtml =
       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
           new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false)
@@ -163,9 +163,12 @@ public class NormController {
    *     <p>Returns HTTP 404 (Not Found) if the amending law is not found.
    */
   @PutMapping(consumes = { APPLICATION_XML_VALUE }, produces = { APPLICATION_XML_VALUE })
-  public ResponseEntity<String> updateAmendingLaw(final Eli eli, @RequestBody String xml) {
+  public ResponseEntity<String> updateAmendingLaw(
+    final ExpressionEli eli,
+    @RequestBody String xml
+  ) {
     var updatedAmendingLaw = updateNormXmlUseCase.updateNormXml(
-      new UpdateNormXmlUseCase.Query(eli.getValue(), xml)
+      new UpdateNormXmlUseCase.Query(eli.toString(), xml)
     );
 
     return ResponseEntity.ok(updatedAmendingLaw);
@@ -190,14 +193,14 @@ public class NormController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<UpdateModResponseSchema> updateMod(
-    final Eli eli,
+    final ExpressionEli eli,
     @PathVariable final String eid,
     @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
     @RequestParam(defaultValue = "false") final Boolean dryRun
   ) {
     var result = updateModUseCase.updateMod(
       new UpdateModUseCase.Query(
-        eli.getValue(),
+        eli.toString(),
         eid,
         updateModRequestSchema.getRefersTo(),
         updateModRequestSchema.getTimeBoundaryEid(),
@@ -229,7 +232,7 @@ public class NormController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<UpdateModsResponseSchema> updateMods(
-    final Eli eli,
+    final ExpressionEli eli,
     @RequestBody @Valid @NotEmpty final Map<
       String,
       UpdateModsRequestSchema.ModUpdate
@@ -238,7 +241,7 @@ public class NormController {
   ) {
     final var result = updateModsUseCase.updateMods(
       new UpdateModsUseCase.Query(
-        eli.getValue(),
+        eli.toString(),
         updateModsRequestSchema
           .entrySet()
           .stream()
@@ -265,8 +268,11 @@ public class NormController {
    * @return A {@link ResponseEntity} containing the retrieved zf0 norm's xml.
    */
   @GetMapping(path = "/zf0", produces = { APPLICATION_XML_VALUE })
-  public ResponseEntity<String> getNormZf0Xml(final Eli eli, @RequestParam String amendingNormEli) {
-    var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+  public ResponseEntity<String> getNormZf0Xml(
+    final ExpressionEli eli,
+    @RequestParam String amendingNormEli
+  ) {
+    var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.toString()));
     var amendingNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendingNormEli));
 
     var zf0Norm = loadZf0UseCase.loadOrCreateZf0(

@@ -8,9 +8,9 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.Proprietary
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,11 +52,11 @@ public class ProprietaryController {
    */
   @GetMapping(path = "/{atDate}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietaryFrameSchema> getProprietaryAtDate(
-    final Eli eli,
+    final ExpressionEli eli,
     @PathVariable final LocalDate atDate
   ) {
     var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli.getValue())
+      new LoadProprietaryFromNormUseCase.Query(eli.toString())
     );
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
@@ -78,13 +78,13 @@ public class ProprietaryController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<ProprietaryFrameSchema> updateProprietaryAtDate(
-    final Eli eli,
+    final ExpressionEli eli,
     @PathVariable final LocalDate atDate,
     @RequestBody ProprietaryFrameSchema proprietaryFrameSchema
   ) {
     var proprietary = updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(
       new UpdateProprietaryFrameFromNormUseCase.Query(
-        eli.getValue(),
+        eli.toString(),
         atDate,
         new UpdateProprietaryFrameFromNormUseCase.Metadata(
           proprietaryFrameSchema.getFna(),
@@ -116,12 +116,12 @@ public class ProprietaryController {
    */
   @GetMapping(path = "/{eid}/{atDate}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietarySingleElementSchema> getProprietaryAtDate(
-    final Eli eli,
+    final ExpressionEli eli,
     @PathVariable final String eid,
     @PathVariable final LocalDate atDate
   ) {
     var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli.getValue())
+      new LoadProprietaryFromNormUseCase.Query(eli.toString())
     );
 
     return ResponseEntity.ok(
@@ -146,7 +146,7 @@ public class ProprietaryController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<ProprietarySingleElementSchema> updateProprietaryAtDate(
-    final Eli eli,
+    final ExpressionEli eli,
     @PathVariable final String eid,
     @PathVariable final LocalDate atDate,
     @RequestBody ProprietarySingleElementSchema proprietarySchema
@@ -154,7 +154,7 @@ public class ProprietaryController {
     var proprietary =
       updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
         new UpdateProprietarySingleElementFromNormUseCase.Query(
-          eli.getValue(),
+          eli.toString(),
           eid,
           atDate,
           new UpdateProprietarySingleElementFromNormUseCase.Metadata(
