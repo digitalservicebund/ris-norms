@@ -43,11 +43,13 @@ test.describe("Validation errors on check modifications page", () => {
       .fill(
         "hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid/9-34.xml",
       )
-    await page.getByLabel("zu ersetzende Textstelle").press("Enter")
 
-    const response = await page.waitForResponse(
+    const waitForResponse = page.waitForResponse(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1?dryRun=true",
     )
+    await page.getByLabel("zu ersetzende Textstelle").press("Enter")
+
+    const response = await waitForResponse
     expect(response.status()).toBe(422)
     expect((await response.json()).detail).toBe(
       "Target node with eid hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.",
@@ -75,11 +77,12 @@ test.describe("Validation errors on check modifications page", () => {
       .fill(
         "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1/9-3400.xml",
       )
-    await page.getByLabel("zu ersetzende Textstelle").press("Enter")
-
-    const response = await page.waitForResponse(
+    const waitForResponse = page.waitForResponse(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1?dryRun=true",
     )
+    await page.getByLabel("zu ersetzende Textstelle").press("Enter")
+
+    const response = await waitForResponse
     expect(response.status()).toBe(422)
     expect((await response.json()).detail).toBe(
       "The character range 9-3400 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node.",
