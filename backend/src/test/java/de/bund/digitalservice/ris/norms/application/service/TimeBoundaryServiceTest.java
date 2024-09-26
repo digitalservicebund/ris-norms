@@ -18,6 +18,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -82,7 +83,7 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaries = service.loadTimeBoundariesOfNorm(
-        new LoadTimeBoundariesUseCase.Query(eli)
+        new LoadTimeBoundariesUseCase.Query(ExpressionEli.fromString(eli))
       );
 
       // Then
@@ -245,7 +246,7 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaries = service.loadTimeBoundariesOfNorm(
-        new LoadTimeBoundariesUseCase.Query(eli)
+        new LoadTimeBoundariesUseCase.Query(ExpressionEli.fromString(eli))
       );
 
       // Then
@@ -326,7 +327,7 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaries = service.loadTimeBoundariesAmendedBy(
-        new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy)
+        new LoadTimeBoundariesAmendedByUseCase.Query(ExpressionEli.fromString(eli), amendedBy)
       );
 
       // Then
@@ -359,7 +360,7 @@ class TimeBoundaryServiceTest {
 
       Throwable thrown = catchThrowable(() ->
         service.loadTimeBoundariesAmendedBy(
-          new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy)
+          new LoadTimeBoundariesAmendedByUseCase.Query(ExpressionEli.fromString(eli), amendedBy)
         )
       );
 

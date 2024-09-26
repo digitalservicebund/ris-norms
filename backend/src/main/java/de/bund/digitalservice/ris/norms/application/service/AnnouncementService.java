@@ -83,8 +83,8 @@ public class AnnouncementService
   @Override
   public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
     return loadAnnouncementByNormEliPort
-      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
+      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
   }
 
   @Override

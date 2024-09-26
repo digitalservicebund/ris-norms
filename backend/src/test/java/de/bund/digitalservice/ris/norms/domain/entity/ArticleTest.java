@@ -162,13 +162,12 @@ class ArticleTest {
       """;
 
     var article = new Article(toNode(articleString));
-    var expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
     var eli = article.getAffectedDocumentEli().get();
 
     // then
-    assertThat(eli).isEqualTo(expectedEli);
+    assertThat(eli).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
   }
 
   @Test
@@ -195,14 +194,12 @@ class ArticleTest {
           """;
 
     var article = new Article(toNode(articleString));
-    var expectedEli = "newEli";
-
     // when
-    article.setAffectedDocumentEli("newEli");
+    article.setAffectedDocumentEli("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1");
 
     // then
     var eli = article.getAffectedDocumentEli().get();
-    assertThat(eli).isEqualTo(expectedEli);
+    assertThat(eli).hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1");
   }
 
   @Test

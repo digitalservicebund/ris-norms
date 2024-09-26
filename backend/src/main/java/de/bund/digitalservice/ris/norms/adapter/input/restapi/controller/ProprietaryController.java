@@ -56,7 +56,7 @@ public class ProprietaryController {
     @PathVariable final LocalDate atDate
   ) {
     var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli.toString())
+      new LoadProprietaryFromNormUseCase.Query(eli)
     );
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
@@ -121,7 +121,7 @@ public class ProprietaryController {
     @PathVariable final LocalDate atDate
   ) {
     var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli.toString())
+      new LoadProprietaryFromNormUseCase.Query(eli)
     );
 
     return ResponseEntity.ok(

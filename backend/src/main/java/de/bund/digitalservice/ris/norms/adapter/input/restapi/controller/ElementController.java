@@ -58,12 +58,12 @@ public class ElementController {
     var elementHtml = atIsoDate
       .map(date ->
         loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
-          new LoadElementHtmlAtDateFromNormUseCase.Query(eli.toString(), eid, date)
+          new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
         )
       )
       .orElseGet(() ->
         loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
-          new LoadElementHtmlFromNormUseCase.Query(eli.toString(), eid)
+          new LoadElementHtmlFromNormUseCase.Query(eli, eid)
         )
       );
 
@@ -87,7 +87,7 @@ public class ElementController {
     @PathVariable final String eid
   ) {
     var element = loadElementFromNormUseCase.loadElementFromNorm(
-      new LoadElementFromNormUseCase.Query(eli.toString(), eid)
+      new LoadElementFromNormUseCase.Query(eli, eid)
     );
 
     return ResponseEntity.ok(ElementResponseMapper.fromElementNode(element));
@@ -118,7 +118,7 @@ public class ElementController {
     List<ElementResponseSchema> elements = loadElementsByTypeFromNormUseCase
       .loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          eli.toString(),
+          eli,
           Arrays.asList(type),
           amendedBy.orElse(null)
         )

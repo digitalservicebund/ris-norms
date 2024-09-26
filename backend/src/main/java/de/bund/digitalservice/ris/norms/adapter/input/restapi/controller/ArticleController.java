@@ -70,7 +70,7 @@ public class ArticleController {
     @RequestParam final Optional<String> amendedAt
   ) {
     final var query = new LoadArticlesFromNormUseCase.Query(
-      eli.toString(),
+      eli,
       amendedBy.orElse(null),
       amendedAt.orElse(null)
     );
@@ -83,7 +83,7 @@ public class ArticleController {
           .getAffectedDocumentEli()
           .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
           .map(targetLaw -> {
-            final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.toString()));
+            final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
             return new LoadZf0UseCase.Query(norm, targetLaw, true);
           })
           .map(loadZf0UseCase::loadOrCreateZf0)
@@ -118,7 +118,7 @@ public class ArticleController {
   ) {
     String articles = loadSpecificArticlesXmlFromNormUseCase
       .loadSpecificArticlesXmlFromNorm(
-        new LoadSpecificArticlesXmlFromNormUseCase.Query(eli.toString(), refersTo)
+        new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, refersTo)
       )
       .stream()
       .map(xml ->
@@ -152,16 +152,14 @@ public class ArticleController {
     final ExpressionEli eli,
     @PathVariable final String eid
   ) {
-    final var eliValue = eli.toString();
-
-    final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliValue));
+    final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
 
     final var foundArticle = norm
       .getArticles()
       .stream()
       .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
       .findFirst()
-      .orElseThrow(() -> new ArticleNotFoundException(eliValue, eid));
+      .orElseThrow(() -> new ArticleNotFoundException(eli.toString(), eid));
 
     final var targetLawZf0 = foundArticle
       .getAffectedDocumentEli()
@@ -195,7 +193,7 @@ public class ArticleController {
     @PathVariable final String eid,
     @RequestParam Optional<Instant> atIsoDate
   ) {
-    var query = new LoadArticleHtmlUseCase.Query(eli.toString(), eid, atIsoDate.orElse(null));
+    var query = new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate.orElse(null));
     var articleHtml = loadArticleHtmlUseCase.loadArticleHtml(query);
     return ResponseEntity.ok(articleHtml);
   }

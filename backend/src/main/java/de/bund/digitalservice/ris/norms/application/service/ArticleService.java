@@ -36,8 +36,8 @@ public class ArticleService
   @Override
   public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
     var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     if (query.atIsoDate() != null) {
       norm =
@@ -57,7 +57,7 @@ public class ArticleService
           new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
         )
       )
-      .orElseThrow(() -> new ArticleNotFoundException(query.eli(), query.eid()));
+      .orElseThrow(() -> new ArticleNotFoundException(query.eli().toString(), query.eid()));
   }
 
   @Override
@@ -66,8 +66,8 @@ public class ArticleService
     final var amendedBy = query.amendedBy();
 
     final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     List<Article> articles = norm.getArticles();
 
@@ -120,8 +120,8 @@ public class ArticleService
     LoadSpecificArticlesXmlFromNormUseCase.Query query
   ) {
     List<Article> articles = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()))
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
       .getArticles();
 
     if (query.refersTo() != null) {
@@ -133,7 +133,7 @@ public class ArticleService
     }
 
     if (articles.isEmpty()) {
-      throw new ArticleOfTypeNotFoundException(query.eli(), query.refersTo());
+      throw new ArticleOfTypeNotFoundException(query.eli().toString(), query.refersTo());
     }
 
     return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();

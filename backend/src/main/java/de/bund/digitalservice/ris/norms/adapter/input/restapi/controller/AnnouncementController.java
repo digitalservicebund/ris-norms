@@ -88,11 +88,11 @@ public class AnnouncementController {
   )
   public ResponseEntity<ReleaseResponseSchema> getRelease(final ExpressionEli eli) {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
-      new LoadAnnouncementByNormEliUseCase.Query(eli.toString())
+      new LoadAnnouncementByNormEliUseCase.Query(eli)
     );
     var affectedNorms =
       loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.toString())
+        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli)
       );
 
     return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
@@ -121,7 +121,7 @@ public class AnnouncementController {
 
     var affectedNorms =
       loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.toString())
+        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli)
       );
 
     return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));

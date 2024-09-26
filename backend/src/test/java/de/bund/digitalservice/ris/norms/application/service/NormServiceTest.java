@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNorm
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
@@ -80,7 +81,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var returnedNorm = service.loadNorm(new LoadNormUseCase.Query(eli));
+      var returnedNorm = service.loadNorm(new LoadNormUseCase.Query(ExpressionEli.fromString(eli)));
 
       // Then
       verify(loadNormPort, times(1))
@@ -92,7 +93,7 @@ class NormServiceTest {
     void itThrowsWhenNormIsNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var query = new LoadNormUseCase.Query(eli);
+      var query = new LoadNormUseCase.Query(ExpressionEli.fromString(eli));
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
@@ -140,7 +141,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(eli));
+      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(ExpressionEli.fromString(eli)));
 
       // Then
       verify(loadNormPort, times(1))
@@ -153,7 +154,7 @@ class NormServiceTest {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      var query = new LoadNormXmlUseCase.Query(eli);
+      var query = new LoadNormXmlUseCase.Query(ExpressionEli.fromString(eli));
 
       // When
       assertThatThrownBy(() -> service.loadNormXml(query))

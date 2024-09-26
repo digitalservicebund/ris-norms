@@ -37,8 +37,8 @@ public class TimeBoundaryService
   @Override
   public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
     return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()))
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
       .getTimeBoundaries();
   }
 
@@ -47,8 +47,8 @@ public class TimeBoundaryService
     LoadTimeBoundariesAmendedByUseCase.Query query
   ) {
     final Norm norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     final List<String> temporalGroupEidAmendedBy = norm
       .getMeta()

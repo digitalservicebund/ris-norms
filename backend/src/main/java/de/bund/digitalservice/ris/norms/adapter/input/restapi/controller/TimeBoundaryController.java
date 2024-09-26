@@ -58,12 +58,12 @@ public class TimeBoundaryController {
       amendedBy
         .map(amendingBy ->
           loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(
-            new LoadTimeBoundariesAmendedByUseCase.Query(eli.toString(), amendingBy)
+            new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendingBy)
           )
         )
         .orElseGet(() ->
           loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
-            new LoadTimeBoundariesUseCase.Query(eli.toString())
+            new LoadTimeBoundariesUseCase.Query(eli)
           )
         )
         .stream()

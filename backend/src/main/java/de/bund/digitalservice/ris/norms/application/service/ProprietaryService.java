@@ -28,9 +28,9 @@ public class ProprietaryService
   @Override
   public Proprietary loadProprietaryFromNorm(LoadProprietaryFromNormUseCase.Query query) {
     return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
       .map(m -> m.getMeta().getOrCreateProprietary())
-      .orElseThrow(() -> new NormNotFoundException((query.eli())));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
   }
 
   @Override

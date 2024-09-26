@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -35,7 +36,9 @@ class ProprietaryServiceTest {
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      LoadProprietaryFromNormUseCase.Query query = new LoadProprietaryFromNormUseCase.Query(eli);
+      LoadProprietaryFromNormUseCase.Query query = new LoadProprietaryFromNormUseCase.Query(
+        ExpressionEli.fromString(eli)
+      );
       // when
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
       // then
@@ -54,7 +57,7 @@ class ProprietaryServiceTest {
 
       // when
       var result = proprietaryService.loadProprietaryFromNorm(
-        new LoadProprietaryFromNormUseCase.Query(eli)
+        new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
       );
 
       // then
@@ -70,7 +73,7 @@ class ProprietaryServiceTest {
         .thenReturn(Optional.of(normWithProprietary));
       // when
       var result = proprietaryService.loadProprietaryFromNorm(
-        new LoadProprietaryFromNormUseCase.Query(eli)
+        new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
       );
       // then
       assertThat(result).isInstanceOf(Proprietary.class);

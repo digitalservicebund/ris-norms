@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -68,7 +69,9 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
 
       // When
-      var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
+      var element = service.loadElementFromNorm(
+        new LoadElementFromNormUseCase.Query(ExpressionEli.fromString(eli), eid)
+      );
 
       // Then
       assertThat(NodeParser.getValueFromExpression("./@eId", element)).contains(eid);
@@ -81,7 +84,7 @@ class ElementServiceTest {
       // Given
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
-      var query = new LoadElementFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementFromNormUseCase.Query(ExpressionEli.fromString(eli), eid);
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
@@ -97,7 +100,7 @@ class ElementServiceTest {
       // Given
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1000";
-      var query = new LoadElementFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementFromNormUseCase.Query(ExpressionEli.fromString(eli), eid);
 
       var normXml =
         """
@@ -173,7 +176,7 @@ class ElementServiceTest {
 
       // When
       var html = service.loadElementHtmlFromNorm(
-        new LoadElementHtmlFromNormUseCase.Query(eli, eid)
+        new LoadElementHtmlFromNormUseCase.Query(ExpressionEli.fromString(eli), eid)
       );
 
       // Then
@@ -188,7 +191,7 @@ class ElementServiceTest {
       // Given
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
-      var query = new LoadElementHtmlFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlFromNormUseCase.Query(ExpressionEli.fromString(eli), eid);
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
@@ -204,7 +207,7 @@ class ElementServiceTest {
       // Given
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1000";
-      var query = new LoadElementHtmlFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlFromNormUseCase.Query(ExpressionEli.fromString(eli), eid);
 
       var normXml =
         """
@@ -288,7 +291,7 @@ class ElementServiceTest {
 
       // When
       var html = service.loadElementHtmlAtDateFromNorm(
-        new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
+        new LoadElementHtmlAtDateFromNormUseCase.Query(ExpressionEli.fromString(eli), eid, date)
       );
 
       // Then
@@ -305,7 +308,11 @@ class ElementServiceTest {
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
-      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date);
+      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(
+        ExpressionEli.fromString(eli),
+        eid,
+        date
+      );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
@@ -322,7 +329,11 @@ class ElementServiceTest {
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1000";
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
-      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date);
+      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(
+        ExpressionEli.fromString(eli),
+        eid,
+        date
+      );
 
       var normXml =
         """
@@ -380,7 +391,7 @@ class ElementServiceTest {
       // When
       var elements = service.loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          "fake/eli",
+          new ExpressionEli(),
           List.of("preface", "preamble", "article", "conclusions")
         )
       );
@@ -393,7 +404,7 @@ class ElementServiceTest {
       assertThat(elements.get(3).getNodeName()).isEqualTo("akn:article");
       assertThat(elements.get(4).getNodeName()).isEqualTo("akn:conclusions");
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command("fake/eli"));
+      verify(loadNormPort).loadNorm(new LoadNormPort.Command(any()));
     }
 
     @Test
@@ -404,7 +415,7 @@ class ElementServiceTest {
 
       // When
       var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))
+        new LoadElementsByTypeFromNormUseCase.Query(new ExpressionEli(), List.of("article"))
       );
 
       // Then
@@ -421,7 +432,7 @@ class ElementServiceTest {
 
       // When
       var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("preface"))
+        new LoadElementsByTypeFromNormUseCase.Query(new ExpressionEli(), List.of("preface"))
       );
 
       // Then
@@ -436,7 +447,7 @@ class ElementServiceTest {
 
       // When
       var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of())
+        new LoadElementsByTypeFromNormUseCase.Query(new ExpressionEli(), List.of())
       );
 
       // Then
@@ -452,7 +463,10 @@ class ElementServiceTest {
       // When / Then
       assertThatThrownBy(() ->
           service.loadElementsByTypeFromNorm(
-            new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("invalid_type"))
+            new LoadElementsByTypeFromNormUseCase.Query(
+              new ExpressionEli(),
+              List.of("invalid_type")
+            )
           )
         )
         .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
@@ -464,7 +478,7 @@ class ElementServiceTest {
       // Nothing given -> Loading should fail
 
       LoadElementsByTypeFromNormUseCase.Query query = new LoadElementsByTypeFromNormUseCase.Query(
-        "fake/eli",
+        new ExpressionEli(),
         List.of("article")
       );
 
@@ -486,7 +500,7 @@ class ElementServiceTest {
       // When
       var elements = service.loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          targetNormEli,
+          ExpressionEli.fromString(targetNormEli),
           List.of("preface", "preamble", "article", "conclusions"),
           "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
         )
@@ -512,7 +526,7 @@ class ElementServiceTest {
       // When
       var elements = service.loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          targetNormEli,
+          ExpressionEli.fromString(targetNormEli),
           List.of("preface", "preamble", "article", "conclusions"),
           "fake/eli"
         )

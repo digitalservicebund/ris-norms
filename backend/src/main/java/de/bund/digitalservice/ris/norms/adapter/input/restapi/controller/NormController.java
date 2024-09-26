@@ -78,7 +78,7 @@ public class NormController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<NormResponseSchema> getNorm(final ExpressionEli eli) {
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.toString()));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 
@@ -96,9 +96,7 @@ public class NormController {
    */
   @GetMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormXml(final ExpressionEli eli) {
-    return ResponseEntity.ok(
-      loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.toString()))
-    );
+    return ResponseEntity.ok(loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli)));
   }
 
   /**
@@ -123,7 +121,7 @@ public class NormController {
     @RequestParam Optional<Instant> atIsoDate
   ) {
     if (atIsoDate.isPresent()) {
-      var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.toString()));
+      var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
       norm =
       applyPassiveModificationsUseCase.applyPassiveModifications(
         new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.get())
@@ -140,7 +138,7 @@ public class NormController {
       );
     }
 
-    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.toString()));
+    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli));
     var legalDocHtml =
       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
           new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false)
@@ -272,8 +270,10 @@ public class NormController {
     final ExpressionEli eli,
     @RequestParam String amendingNormEli
   ) {
-    var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.toString()));
-    var amendingNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendingNormEli));
+    var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+    var amendingNorm = loadNormUseCase.loadNorm(
+      new LoadNormUseCase.Query(ExpressionEli.fromString(amendingNormEli))
+    );
 
     var zf0Norm = loadZf0UseCase.loadOrCreateZf0(
       new LoadZf0UseCase.Query(amendingNorm, targetNorm, true)

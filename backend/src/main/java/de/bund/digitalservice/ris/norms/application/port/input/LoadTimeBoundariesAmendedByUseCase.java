@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.List;
 
 /**
@@ -24,5 +25,5 @@ public interface LoadTimeBoundariesAmendedByUseCase {
    * @param eli The ELI used to identify the norm in the query.
    * @param amendingLawEli The ELI of the amending law.
    */
-  record Query(String eli, String amendingLawEli) {}
+  record Query(ExpressionEli eli, String amendingLawEli) {}
 }

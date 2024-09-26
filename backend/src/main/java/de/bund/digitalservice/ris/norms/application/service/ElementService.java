@@ -93,12 +93,12 @@ public class ElementService
     final var xPath = getXPathForEid(query.eid());
 
     final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return NodeParser
       .getNodeFromExpression(xPath, norm.getDocument())
-      .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
+      .orElseThrow(() -> new ElementNotFoundException(query.eli().toString(), query.eid()));
   }
 
   @Override
@@ -117,8 +117,8 @@ public class ElementService
     final LoadElementHtmlAtDateFromNormUseCase.Query query
   ) {
     var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     norm =
     timeMachineService.applyPassiveModifications(
@@ -127,7 +127,7 @@ public class ElementService
 
     final var element = NodeParser
       .getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument())
-      .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
+      .orElseThrow(() -> new ElementNotFoundException(query.eli().toString(), query.eid()));
 
     return xsltTransformationService.transformLegalDocMlToHtml(
       new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false, false)
@@ -145,8 +145,8 @@ public class ElementService
     );
 
     final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     // Source EIDs from passive mods
     final var passiveModsDestinationEids = getDestinationEidsFromPassiveMods(
