@@ -109,6 +109,12 @@
                           type="generation"
                           eId="meta-1_lebzykl-1_ereignis-2"
                           GUID="052e1cf2-9b4f-44de-8270-0817e5cc6bd6"/>
+            <akn:eventRef date="2004-02-02"
+                          source="attributsemantik-noch-undefiniert"
+                          refersTo="inkrafttreten"
+                          type="generation"
+                          eId="meta-1_lebzykl-1_ereignis-3"
+                          GUID="052e1cf2-9b4f-44de-8270-0817e5cc6bda"/>
          </akn:lifecycle>
          <akn:analysis source="attributsemantik-noch-undefiniert"
                        eId="meta-1_analysis-1"
@@ -136,10 +142,10 @@
                               href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1"
                                    GUID="66594ba2-0d9a-4680-b1a2-48a134ba013e"
-                                   href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_inhalt-1_text-1/29-36.xml"/>
+                                   href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-40.xml"/>
                   <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1"
                              GUID="6c653919-35ad-47fc-ae34-ce2b175ea298"
-                             period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                             period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
                </akn:textualMod>
                <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-3"
                                GUID="02165fe9-81f8-4306-a9f5-777a46c0c351"
@@ -257,6 +263,13 @@
                                  eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
                                  GUID="b5f2b610-ea4e-43dc-9262-8afe1a812145"/>
             </akn:temporalGroup>
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
+                               GUID="8ceeab6a-175d-42ec-b1a5-f2e90e626931">
+               <akn:timeInterval start="#meta-1_lebzykl-1_ereignis-3"
+                                 refersTo="geltungszeit"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
+                                 GUID="b5f2b610-ea4e-43dc-9262-8afe1a81214c"/>
+            </akn:temporalGroup>
          </akn:temporalData>
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
@@ -367,10 +380,10 @@
                                     GUID="d9607550-e423-4481-9f3f-ce82c48563aa"
                                     refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
                                        GUID="92ed9e1b-32e1-4e12-b3f9-6e65edc70242"
-                                       href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_inhalt-1_text-1/29-36.xml">§ 1 Absatz 2 Satz 1</akn:ref> werden die Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
+                                       href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-40.xml">§ 1 Absatz 2 Satz 1</akn:ref> werden die Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
                                               GUID="a500e095-4d6b-41c6-8930-ae4e87e53d87"
                                               startQuote="„"
-                                              endQuote="“">2. Fall</akn:quotedText> durch die Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
+                                              endQuote="“">1. Beispiel</akn:quotedText> durch die Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
                                               GUID="bb592cca-f4b4-414a-ae70-474871d00775"
                                               startQuote="„"
                                               endQuote="“">2. Beispiel</akn:quotedText> ersetzt.</akn:mod>

@@ -11,6 +11,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,7 @@ public class NormService
   private final UpdateNormService updateNormService;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
+  private final TimeMachineService timeMachineService;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -37,7 +40,8 @@ public class NormService
     SingleModValidator singleModValidator,
     UpdateNormService updateNormService,
     LoadZf0Service loadZf0Service,
-    UpdateOrSaveNormPort updateOrSaveNormPort
+    UpdateOrSaveNormPort updateOrSaveNormPort,
+    TimeMachineService timeMachineService
   ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
@@ -45,6 +49,7 @@ public class NormService
     this.updateNormService = updateNormService;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
+    this.timeMachineService = timeMachineService;
   }
 
   @Override
@@ -138,8 +143,24 @@ public class NormService
       new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli)
     );
 
-    // Validate changes on ZF0
-    singleModValidator.validate(zf0Norm, selectedMod);
+    // Validate changes on the future version valid one day before the time boundary of this mod
+    final Instant atDate = amendingNorm
+      .getTimeBoundaries()
+      .stream()
+      .filter(timeBoundary ->
+        timeBoundary.getTemporalGroupEid().isPresent() &&
+        timeBoundary.getTemporalGroupEid().get().equals(timeBoundaryEId)
+      )
+      .findFirst()
+      .map(filtered -> filtered.getEventRef().getDate())
+      .map(date ->
+        date.map(d -> d.minusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant()).orElse(Instant.MIN)
+      )
+      .orElse(Instant.MIN);
+    final Norm futureVersionAtDate = timeMachineService.applyPassiveModifications(
+      new ApplyPassiveModificationsUseCase.Query(zf0Norm, atDate)
+    );
+    singleModValidator.validate(futureVersionAtDate, selectedMod);
   }
 
   @Override

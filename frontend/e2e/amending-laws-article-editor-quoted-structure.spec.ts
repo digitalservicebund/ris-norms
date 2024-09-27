@@ -1,35 +1,15 @@
 import { expect, Page, test } from "@playwright/test"
-import { ModData } from "@/types/ModType"
-
-async function restoreInitialState(page: Page) {
-  const originalModState: ModData = {
-    refersTo: "aenderungsbefehl-ersetzen",
-    timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-2",
-    destinationHref:
-      "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml",
-    newContent: "NOT USED",
-  }
-
-  await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
-    { data: originalModState },
-  )
-}
+import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
 
 let sharedPage: Page
 test.beforeAll(async ({ browser }) => {
   sharedPage = await browser.newPage()
-  await restoreInitialState(sharedPage)
 })
-
-test.afterAll(async () => {
-  await restoreInitialState(sharedPage)
-})
-const BASE_URL =
-  "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
 
 test.beforeEach(async () => {
-  await sharedPage.goto(BASE_URL)
+  await sharedPage.goto(
+    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+  )
 })
 
 test.describe("Load mod details", () => {
@@ -138,6 +118,12 @@ test.describe("Load mod details", () => {
 })
 
 test.describe("Editing a single mod", () => {
+  test.afterEach(async ({ request }) => {
+    await uploadAmendingLaw(
+      request,
+      "Strukturänderungsgesetz_1002_10_1002-01-10.xml",
+    )
+  })
   test("selecting and saving the time boundary", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
@@ -220,31 +206,12 @@ test.describe("Editing a single mod", () => {
 })
 
 test.describe("Editing multiple mods", () => {
-  async function restoreInitialState() {
-    const originalModsState = {
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1":
-        { timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-2" },
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1":
-        { timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-2" },
-    }
-    await sharedPage.request.patch(
-      "api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods",
-      { data: originalModsState },
-    )
-  }
-
-  test.beforeEach(async ({ browser }) => {
-    sharedPage = await browser.newPage()
-    await restoreInitialState()
-    await sharedPage.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+  test.afterEach(async ({ request }) => {
+    await uploadAmendingLaw(
+      request,
+      "Strukturänderungsgesetz_1002_10_1002-01-10.xml",
     )
   })
-
-  test.afterEach(async () => {
-    await restoreInitialState()
-  })
-
   test("Displaying time boundary", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
@@ -353,6 +320,12 @@ test.describe("Editing multiple mods", () => {
 })
 
 test.describe("Range mod", () => {
+  test.afterEach(async ({ request }) => {
+    await uploadAmendingLaw(
+      request,
+      "Strukturänderungsgesetz_1002_10_1002-01-10.xml",
+    )
+  })
   test("Loading of mod details into form", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",

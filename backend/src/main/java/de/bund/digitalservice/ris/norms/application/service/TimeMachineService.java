@@ -1,8 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -26,10 +27,10 @@ import org.w3c.dom.Node;
 @Slf4j
 public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
-  private final NormService normService;
+  private final LoadNormPort loadNormPort;
 
-  public TimeMachineService(NormService normService) {
-    this.normService = normService;
+  public TimeMachineService(final LoadNormPort loadNormPort) {
+    this.loadNormPort = loadNormPort;
   }
 
   /**
@@ -93,7 +94,10 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         if (customNorms.containsKey(sourceEli)) {
           amendingLaw = customNorms.get(sourceEli);
         } else {
-          amendingLaw = normService.loadNorm(new LoadNormUseCase.Query(sourceEli));
+          amendingLaw =
+          loadNormPort
+            .loadNorm(new LoadNormPort.Command(sourceEli))
+            .orElseThrow(() -> new NormNotFoundException(sourceEli));
         }
 
         var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);

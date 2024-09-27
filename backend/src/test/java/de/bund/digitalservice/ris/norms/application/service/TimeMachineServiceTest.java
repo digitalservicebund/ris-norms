@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -21,9 +22,9 @@ import org.xmlunit.diff.Diff;
 
 class TimeMachineServiceTest {
 
-  final NormService normService = mock(NormService.class);
+  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
 
-  final TimeMachineService timeMachineService = new TimeMachineService(normService);
+  final TimeMachineService timeMachineService = new TimeMachineService(loadNormPort);
 
   @Nested
   class applyPassiveModifications {
@@ -74,7 +75,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -100,7 +101,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -129,7 +130,7 @@ class TimeMachineServiceTest {
       final var amendingLaw = NormFixtures.loadFromDisk(
         "NormWithModsWhereTargetNodeEqualsNodeToChange.xml"
       );
-      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -166,7 +167,7 @@ class TimeMachineServiceTest {
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -217,7 +218,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -243,7 +244,7 @@ class TimeMachineServiceTest {
       final var amendingLawNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       final var expectedResult = NormFixtures.loadFromDisk("NormWithAppliedQuotedStructure.xml");
 
-      when(normService.loadNorm(any())).thenReturn(amendingLawNorm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -274,7 +275,7 @@ class TimeMachineServiceTest {
         "NormWithAppliedQuotedStructureAndUpTo.xml"
       );
 
-      when(normService.loadNorm(any())).thenReturn(amendingLawNorm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -305,7 +306,7 @@ class TimeMachineServiceTest {
                     """
       );
 
-      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -333,7 +334,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
 
-      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       final Node expectedNode = XmlMapper.toNode(
         """

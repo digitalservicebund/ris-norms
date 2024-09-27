@@ -16,6 +16,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,6 +33,7 @@ class NormServiceTest {
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final NormService service = new NormService(
     loadNormPort,
@@ -39,7 +41,8 @@ class NormServiceTest {
     singleModValidator,
     updateNormService,
     loadZf0Service,
-    updateOrSaveNormPort
+    updateOrSaveNormPort,
+    timeMachineService
   );
 
   @Nested
@@ -572,6 +575,56 @@ class NormServiceTest {
     }
 
     @Test
+    void itCallsTimeMachineBeforeValidator() {
+      // Given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      String amendingNormEli = amendingNorm.getEli();
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      String targetNormEli = targetNorm.getEli();
+      Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      String newCharacterRange = "20-25";
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      String newDestinationHref =
+        targetNormEli +
+        "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
+        newCharacterRange +
+        ".xml";
+      String newContent = "new text";
+      when(loadNormPort.loadNorm(any()))
+        .thenReturn(Optional.of(amendingNorm))
+        .thenReturn(Optional.of(targetNorm));
+      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
+      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
+
+      // When
+      service.updateMod(
+        new UpdateModUseCase.Query(
+          amendingNormEli,
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1", // <-
+          // this
+          // matters now
+          "refersTo",
+          newTimeBoundaryEid, // <- this will be set
+          newDestinationHref, // <- this will be set in ActivMods AND mod
+          null,
+          newContent,
+          false
+        )
+      );
+
+      // Then
+      verify(timeMachineService, times(1))
+        .applyPassiveModifications(
+          argThat(argument ->
+            Objects.equals(argument.norm(), zf0Norm) && Objects.equals(argument.date(), Instant.MIN)
+          )
+        );
+    }
+
+    @Test
     void itCallsTheValidator() {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -607,6 +660,7 @@ class NormServiceTest {
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
+      when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
 
       // When
       service.updateMod(
@@ -712,6 +766,46 @@ class NormServiceTest {
   class updateMods {
 
     @Test
+    void itCallsTheTimeMachineBeforeValidator() {
+      // Given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      String amendingNormEli = amendingNorm.getEli();
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      when(loadNormPort.loadNorm(any()))
+        .thenReturn(Optional.of(amendingNorm))
+        .thenReturn(Optional.of(targetNorm));
+      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
+      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
+
+      // When
+      service.updateMods(
+        new UpdateModsUseCase.Query(
+          amendingNormEli,
+          List.of(
+            new UpdateModsUseCase.NewModData(
+              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+              newTimeBoundaryEid
+            )
+          ),
+          false
+        )
+      );
+
+      // Then
+      verify(timeMachineService, times(1))
+        .applyPassiveModifications(
+          argThat(argument ->
+            Objects.equals(argument.norm(), zf0Norm) && Objects.equals(argument.date(), Instant.MIN)
+          )
+        );
+    }
+
+    @Test
     void itCallsTheValidator() {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -739,6 +833,7 @@ class NormServiceTest {
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
+      when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
 
       // When
       service.updateMods(
