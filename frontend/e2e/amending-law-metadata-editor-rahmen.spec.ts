@@ -500,7 +500,8 @@ test.describe("metadata view", () => {
     await metadataPage.saveMetadata()
 
     // Then
-    await expect(page.getByText("Gespeichert!")).toBeVisible()
+    const toastMessage = page.locator('[role="alert"] >> text=Gespeichert!')
+    await expect(toastMessage).toBeVisible()
   })
 
   test("shows an error if the data could not be saved", async ({ page }) => {
