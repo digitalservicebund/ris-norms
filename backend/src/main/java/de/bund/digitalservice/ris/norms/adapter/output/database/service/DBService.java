@@ -69,7 +69,9 @@ public class DBService
 
   @Override
   public Optional<Norm> loadNormByGuid(LoadNormByGuidPort.Command command) {
-    return normRepository.findById(command.guid()).map(NormMapper::mapToDomain);
+    return normRepository
+      .findFirstByGuidOrderByEliManifestation(command.guid())
+      .map(NormMapper::mapToDomain);
   }
 
   @Override
@@ -154,6 +156,6 @@ public class DBService
 
   @Override
   public void loadNormByGuid(DeleteNormByGuidPort.Command command) {
-    normRepository.deleteById(command.guid());
+    normRepository.deleteAllByGuid(command.guid());
   }
 }

@@ -5,6 +5,7 @@ import static org.hibernate.generator.EventType.UPDATE;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +33,9 @@ import org.hibernate.type.SqlTypes;
 public class NormDto {
 
   @Id
+  @GeneratedValue
+  private UUID id;
+
   @NotNull
   private UUID guid;
 

@@ -19,3 +19,10 @@ ALTER TABLE announcements
 
 ALTER TABLE norms
     DROP COLUMN eli;
+
+-- Change primary key from guid to a custom id as guid is not necessary unique
+ALTER TABLE norms
+    DROP CONSTRAINT norms_pkey;
+
+ALTER TABLE norms
+    ADD COLUMN id uuid PRIMARY KEY DEFAULT gen_random_uuid();
