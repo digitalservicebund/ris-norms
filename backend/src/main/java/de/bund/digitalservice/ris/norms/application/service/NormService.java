@@ -55,15 +55,15 @@ public class NormService
   @Override
   public Norm loadNorm(final LoadNormUseCase.Query query) {
     return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
   }
 
   @Override
   public String loadNormXml(final LoadNormXmlUseCase.Query query) {
     final Norm norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return XmlMapper.toString(norm.getDocument());
   }

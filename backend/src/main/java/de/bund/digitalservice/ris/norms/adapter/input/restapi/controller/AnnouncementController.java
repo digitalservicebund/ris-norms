@@ -12,8 +12,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementB
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -86,13 +86,13 @@ public class AnnouncementController {
     path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<ReleaseResponseSchema> getRelease(final Eli eli) {
+  public ResponseEntity<ReleaseResponseSchema> getRelease(final ExpressionEli eli) {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
-      new LoadAnnouncementByNormEliUseCase.Query(eli.getValue())
+      new LoadAnnouncementByNormEliUseCase.Query(eli)
     );
     var affectedNorms =
       loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue())
+        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli)
       );
 
     return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
@@ -114,14 +114,14 @@ public class AnnouncementController {
     path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<ReleaseResponseSchema> putRelease(final Eli eli) {
+  public ResponseEntity<ReleaseResponseSchema> putRelease(final ExpressionEli eli) {
     var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(eli.getValue())
+      new ReleaseAnnouncementUseCase.Query(eli.toString())
     );
 
     var affectedNorms =
       loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue())
+        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli)
       );
 
     return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));

@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.List;
 import javax.annotation.Nullable;
 
@@ -27,8 +28,8 @@ public interface LoadArticlesFromNormUseCase {
    *     modifications that will be applied at the date of this lifecycle event will be included in
    *     the result.
    */
-  record Query(String eli, @Nullable String amendedBy, @Nullable String amendedAt) {
-    public Query(String eli) {
+  record Query(ExpressionEli eli, @Nullable String amendedBy, @Nullable String amendedAt) {
+    public Query(ExpressionEli eli) {
       this(eli, null, null);
     }
   }

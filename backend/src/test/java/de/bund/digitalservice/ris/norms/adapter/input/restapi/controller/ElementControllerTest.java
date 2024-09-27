@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.List;
@@ -102,7 +103,7 @@ class ElementControllerTest {
       when(
         loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
           new LoadElementHtmlFromNormUseCase.Query(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"),
             "hauptteil-1_art-1"
           )
         )
@@ -146,7 +147,7 @@ class ElementControllerTest {
       when(
         loadElementFromNormUseCase.loadElementFromNorm(
           new LoadElementFromNormUseCase.Query(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"),
             "hauptteil-1_art-1"
           )
         )
@@ -178,7 +179,7 @@ class ElementControllerTest {
       when(
         loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
           new LoadElementsByTypeFromNormUseCase.Query(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"),
             eq(List.of("preface", "preamble", "article", "conclusions"))
           )
         )
@@ -204,7 +205,7 @@ class ElementControllerTest {
       when(
         loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
           new LoadElementsByTypeFromNormUseCase.Query(
-            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+            ExpressionEli.fromString("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"),
             eq(List.of("preface", "preamble", "article", "conclusions")),
             "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
           )

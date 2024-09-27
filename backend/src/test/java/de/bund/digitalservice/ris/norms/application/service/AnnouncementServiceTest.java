@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -116,7 +117,7 @@ class AnnouncementServiceTest {
     void itThrowsAnnouncementNotFoundException() {
       // given
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
       );
 
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
@@ -167,7 +168,7 @@ class AnnouncementServiceTest {
       // When
       var loadedAnnouncement = announcementService.loadAnnouncementByNormEli(
         new LoadAnnouncementByNormEliUseCase.Query(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
         )
       );
 
@@ -292,7 +293,7 @@ class AnnouncementServiceTest {
       // When
       var norms = announcementService.loadTargetNormsAffectedByAnnouncement(
         new LoadTargetNormsAffectedByAnnouncementUseCase.Query(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+          ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
         )
       );
 

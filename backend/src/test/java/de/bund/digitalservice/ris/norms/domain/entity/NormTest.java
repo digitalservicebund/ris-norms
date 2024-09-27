@@ -4,6 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -574,7 +575,9 @@ class NormTest {
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
     assertThat(actualArticles.get(0).getEid()).contains(firstArticleEid);
     assertThat(actualArticles.get(0).getAffectedDocumentEli())
-      .contains("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+      .contains(
+        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      );
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
     assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");

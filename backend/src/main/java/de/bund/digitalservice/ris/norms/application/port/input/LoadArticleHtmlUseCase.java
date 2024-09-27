@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.Instant;
 import org.springframework.lang.Nullable;
 
@@ -21,8 +22,8 @@ public interface LoadArticleHtmlUseCase {
    * @param atIsoDate (Optional) Apply the norm's passive mods up to this date before loading the
    *     article
    */
-  record Query(String eli, String eid, @Nullable Instant atIsoDate) {
-    public Query(String eli, String eid) {
+  record Query(ExpressionEli eli, String eid, @Nullable Instant atIsoDate) {
+    public Query(ExpressionEli eli, String eid) {
       this(eli, eid, null);
     }
   }

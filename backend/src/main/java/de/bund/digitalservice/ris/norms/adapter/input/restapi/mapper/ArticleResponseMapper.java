@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
@@ -28,7 +29,7 @@ public class ArticleResponseMapper {
       article.getEnumeration().orElse(null),
       article.getEid().orElse(null),
       article.getHeading().orElse(null),
-      article.getAffectedDocumentEli().orElse(null),
+      article.getAffectedDocumentEli().map(ExpressionEli::toString).orElse(null),
       Optional.ofNullable(targetLawZf0).map(Norm::getEli).orElse(null)
     );
   }

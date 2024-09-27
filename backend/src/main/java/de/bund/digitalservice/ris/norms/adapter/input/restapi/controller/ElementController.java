@@ -6,7 +6,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Eli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.Instant;
 import java.util.*;
 import org.springframework.http.ResponseEntity;
@@ -51,19 +51,19 @@ public class ElementController {
    */
   @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getElementHtmlPreview(
-    final Eli eli,
+    final ExpressionEli eli,
     @PathVariable final String eid,
     @RequestParam Optional<Instant> atIsoDate
   ) {
     var elementHtml = atIsoDate
       .map(date ->
         loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
-          new LoadElementHtmlAtDateFromNormUseCase.Query(eli.getValue(), eid, date)
+          new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
         )
       )
       .orElseGet(() ->
         loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
-          new LoadElementHtmlFromNormUseCase.Query(eli.getValue(), eid)
+          new LoadElementHtmlFromNormUseCase.Query(eli, eid)
         )
       );
 
@@ -83,11 +83,11 @@ public class ElementController {
    */
   @GetMapping(path = "/{eid}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ElementResponseSchema> getElementInfo(
-    final Eli eli,
+    final ExpressionEli eli,
     @PathVariable final String eid
   ) {
     var element = loadElementFromNormUseCase.loadElementFromNorm(
-      new LoadElementFromNormUseCase.Query(eli.getValue(), eid)
+      new LoadElementFromNormUseCase.Query(eli, eid)
     );
 
     return ResponseEntity.ok(ElementResponseMapper.fromElementNode(element));
@@ -111,14 +111,14 @@ public class ElementController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ElementResponseSchema>> getElementList(
-    final Eli eli,
+    final ExpressionEli eli,
     @RequestParam final String[] type,
     @RequestParam final Optional<String> amendedBy
   ) {
     List<ElementResponseSchema> elements = loadElementsByTypeFromNormUseCase
       .loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          eli.getValue(),
+          eli,
           Arrays.asList(type),
           amendedBy.orElse(null)
         )

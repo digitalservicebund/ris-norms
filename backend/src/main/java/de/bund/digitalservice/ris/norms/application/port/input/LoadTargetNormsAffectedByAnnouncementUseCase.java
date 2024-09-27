@@ -28,5 +28,5 @@ public interface LoadTargetNormsAffectedByAnnouncementUseCase {
    * @param eli The ELI (European Legislation Identifier) used to identify the norm of the {@link
    *     Announcement} in the query.
    */
-  record Query(String eli) {}
+  record Query(de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli eli) {}
 }

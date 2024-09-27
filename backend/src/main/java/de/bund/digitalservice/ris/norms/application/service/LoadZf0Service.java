@@ -5,6 +5,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModi
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.DocumentUtils;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -92,9 +94,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
   }
 
   private void updateEli(FRBRExpression zf0FrbrExpression, String announcementDateAmendingLaw) {
-    final Eli zf0Eli = new Eli(zf0FrbrExpression.getEli());
+    final ExpressionEli zf0Eli = ExpressionEli.fromString(zf0FrbrExpression.getEli());
     zf0Eli.setPointInTime(announcementDateAmendingLaw);
-    zf0FrbrExpression.setEli(zf0Eli.getValue());
+    zf0FrbrExpression.setEli(zf0Eli.toString());
   }
 
   private void updateFRBRDate(
@@ -111,9 +113,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
     final FRBRManifestation frbrManifestation = zf0Norm.getMeta().getFRBRManifestation();
 
     // 1.replace date of eli parts
-    final Eli zf0Eli = new Eli(frbrManifestation.getEli());
+    final ManifestationEli zf0Eli = ManifestationEli.fromString(frbrManifestation.getEli());
     zf0Eli.setPointInTime(announcementDateAmendingLaw);
-    frbrManifestation.setEli(zf0Eli.getValue());
+    frbrManifestation.setEli(zf0Eli.toString());
 
     // 2. FRBRdate --> current system date + @name="generierung"
     frbrManifestation.setFBRDate(LocalDate.now().toString(), "generierung");

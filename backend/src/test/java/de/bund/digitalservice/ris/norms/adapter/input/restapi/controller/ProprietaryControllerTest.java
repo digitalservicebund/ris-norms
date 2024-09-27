@@ -16,6 +16,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
@@ -53,14 +54,16 @@ class ProprietaryControllerTest {
     @Test
     void returns404IfNormNotFound() throws Exception {
       // given
-      var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var atDateString = "2024-06-03";
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
           new LoadProprietaryFromNormUseCase.Query(eli)
         )
       )
-        .thenThrow(new NormNotFoundException(eli));
+        .thenThrow(new NormNotFoundException(eli.toString()));
       // when
       mockMvc
         .perform(
@@ -74,7 +77,9 @@ class ProprietaryControllerTest {
     @Test
     void returnsProprietaryResponseSchema() throws Exception {
       // given
-      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+      );
       var atDateString = "2024-06-03";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
@@ -108,7 +113,9 @@ class ProprietaryControllerTest {
     @Test
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
-      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+      );
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
@@ -142,7 +149,9 @@ class ProprietaryControllerTest {
     @Test
     void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
       // given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
@@ -302,7 +311,7 @@ class ProprietaryControllerTest {
       var atDateString = "2024-06-03";
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
         )
       )
         .thenThrow(new NormNotFoundException(eli));
@@ -326,7 +335,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
         )
       )
         .thenReturn(proprietary);
@@ -352,7 +361,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
         )
       )
         .thenReturn(proprietary);
@@ -378,7 +387,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
         )
       )
         .thenReturn(proprietary);

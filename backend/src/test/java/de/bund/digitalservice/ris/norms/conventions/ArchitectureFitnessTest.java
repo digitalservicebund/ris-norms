@@ -45,9 +45,9 @@ class ArchitectureFitnessTest {
     BASE_PACKAGE + ".adapter.output.database.repository";
   static final String ADAPTER_OUTPUT = BASE_PACKAGE + ".adapter.output..";
   static final String DOMAIN_LAYER_PACKAGES = BASE_PACKAGE + ".domain..";
-  static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
-  static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
-  static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions";
+  static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity..";
+  static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value..";
+  static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions..";
   static final String UTILS_LAYER_PACKAGES = BASE_PACKAGE + ".utils..";
 
   static final String[] DOMAIN_LAYER_ALLOWED_PACKAGES = new String[] {

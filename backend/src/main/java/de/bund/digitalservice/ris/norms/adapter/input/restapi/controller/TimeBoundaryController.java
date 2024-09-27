@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.constraints.Unique
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TimeBoundaryMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Eli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -51,19 +51,19 @@ public class TimeBoundaryController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<TimeBoundarySchema>> getTimeBoundaries(
-    final Eli eli,
+    final ExpressionEli eli,
     @RequestParam final Optional<String> amendedBy
   ) {
     return ResponseEntity.ok(
       amendedBy
         .map(amendingBy ->
           loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(
-            new LoadTimeBoundariesAmendedByUseCase.Query(eli.getValue(), amendingBy)
+            new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendingBy)
           )
         )
         .orElseGet(() ->
           loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
-            new LoadTimeBoundariesUseCase.Query(eli.getValue())
+            new LoadTimeBoundariesUseCase.Query(eli)
           )
         )
         .stream()
@@ -86,7 +86,7 @@ public class TimeBoundaryController {
    */
   @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<TimeBoundarySchema>> updateTimeBoundaries(
-    final Eli eli,
+    final ExpressionEli eli,
     @RequestBody @Valid @UniqueTimeBoundariesDatesConstraint @NotEmpty(
       message = "Change list must not be empty"
     ) @Size(max = 100, message = "A maximum of 100 time boundaries is supported") final List<
@@ -97,7 +97,7 @@ public class TimeBoundaryController {
       updateTimeBoundariesUseCase
         .updateTimeBoundariesOfNorm(
           new UpdateTimeBoundariesUseCase.Query(
-            eli.getValue(),
+            eli.toString(),
             TimeBoundaryMapper.fromResponseSchema(timeBoundaries)
           )
         )
