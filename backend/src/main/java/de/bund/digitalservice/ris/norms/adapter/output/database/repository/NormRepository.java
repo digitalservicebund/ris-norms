@@ -20,5 +20,5 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
    * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not
    *     found.
    */
-  Optional<NormDto> findByEli(final String eli);
+  Optional<NormDto> findFirstByEliExpressionOrderByEliManifestation(final String eli);
 }

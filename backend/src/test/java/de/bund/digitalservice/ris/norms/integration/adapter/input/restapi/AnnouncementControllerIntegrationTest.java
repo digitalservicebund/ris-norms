@@ -741,12 +741,15 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert ZF0 was created
       assertThat(
-        normRepository.findByEli("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"
+        )
       )
         .isPresent();
 
       // Assert that target law has now next-version-guid
-      final Optional<NormDto> targetNormDto = normRepository.findByEli(affectedNorm.getEli());
+      final Optional<NormDto> targetNormDto =
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(affectedNorm.getEli());
       assertThat(targetNormDto).isPresent();
       final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
       assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();
@@ -1005,12 +1008,15 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert ZF0 was created
       assertThat(
-        normRepository.findByEli("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"
+        )
       )
         .isPresent();
 
       // Assert that target law has now next-version-guid
-      final Optional<NormDto> targetNormDto = normRepository.findByEli(affectedNorm.getEli());
+      final Optional<NormDto> targetNormDto =
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(affectedNorm.getEli());
       assertThat(targetNormDto).isPresent();
       final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
       assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();

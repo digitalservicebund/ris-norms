@@ -240,7 +240,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").value(false))
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+      final Norm normLoaded = NormMapper.mapToDomain(
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+      );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");
@@ -300,7 +302,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+      final Norm normLoaded = NormMapper.mapToDomain(
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+      );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
@@ -359,7 +363,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+      final Norm normLoaded = NormMapper.mapToDomain(
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+      );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
@@ -422,7 +428,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty()) // meaning json "qualifizierteMehrheit":null
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+      final Norm normLoaded = NormMapper.mapToDomain(
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+      );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");
@@ -481,7 +489,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
         .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
 
-      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+      final Norm normLoaded = NormMapper.mapToDomain(
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+      );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");

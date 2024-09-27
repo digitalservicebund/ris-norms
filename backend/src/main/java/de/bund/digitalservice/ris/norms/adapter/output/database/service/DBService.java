@@ -44,7 +44,9 @@ public class DBService
 
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
-    return normRepository.findByEli(command.eli()).map(NormMapper::mapToDomain);
+    return normRepository
+      .findFirstByEliExpressionOrderByEliManifestation(command.eli())
+      .map(NormMapper::mapToDomain);
   }
 
   @Override
@@ -57,7 +59,7 @@ public class DBService
     LoadAnnouncementByNormEliPort.Command command
   ) {
     return announcementRepository
-      .findByNormDtoEli(command.eli())
+      .findByNormDtoEliExpression(command.eli())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -81,7 +83,7 @@ public class DBService
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
     return normRepository
-      .findByEli(command.norm().getEli())
+      .findFirstByEliExpressionOrderByEliManifestation(command.norm().getEli())
       .map(normDto -> {
         normDto.setXml(normXml);
         // we do not update the GUID or ELI as they may not change
@@ -104,7 +106,7 @@ public class DBService
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
     var announcement = command.announcement();
     return announcementRepository
-      .findByNormDtoEli(command.announcement().getNorm().getEli())
+      .findByNormDtoEliExpression(command.announcement().getNorm().getEli())
       .map(announcementDto -> {
         announcementDto.setReleasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt());
         // It is not possible to change the norm associated with an announcement.
@@ -129,7 +131,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    announcementRepository.deleteByNormDtoEli(command.eli());
+    announcementRepository.deleteByNormDtoEliExpression(command.eli());
   }
 
   @Override

@@ -1,9 +1,9 @@
 -- TARGET LAW
 DELETE
 FROM norms
-where eli = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1';
-INSERT INTO norms (guid, eli, xml)
-VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
+where eli_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1';
+INSERT INTO norms (guid, xml)
+VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="UTF-8"?>
 <!--
    This is a modified example from the LDML.de specification.
 -->

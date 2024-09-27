@@ -30,7 +30,6 @@ public class NormMapper {
     return NormDto
       .builder()
       .xml(XmlMapper.toString(norm.getDocument()))
-      .eli(norm.getEli())
       .guid(norm.getGuid())
       .build();
   }

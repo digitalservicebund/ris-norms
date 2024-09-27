@@ -40,7 +40,6 @@ class AnnouncementMapperTest {
     var normDto = NormDto
       .builder()
       .xml(xml)
-      .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
       .guid(UUID.fromString("ba44d2ae-0e73-44ba-850a-932ab2fa553f"))
       .build();
     var announcementDto = AnnouncementDto
@@ -54,7 +53,7 @@ class AnnouncementMapperTest {
 
     // Then
     assertThat(announcement).isNotNull();
-    assertThat(announcement.getNorm().getEli()).contains(announcementDto.getNormDto().getEli());
+    assertThat(announcement.getNorm().getGuid()).isEqualTo(announcementDto.getNormDto().getGuid());
     assertThat(announcement.getReleasedByDocumentalistAt())
       .isEqualTo(announcementDto.getReleasedByDocumentalistAt());
   }
@@ -94,7 +93,7 @@ class AnnouncementMapperTest {
 
     // Then
     assertThat(announcementDto).isNotNull();
-    assertThat(announcementDto.getNormDto().getEli()).isEqualTo(announcement.getNorm().getEli());
+    assertThat(announcementDto.getNormDto().getGuid()).isEqualTo(announcement.getNorm().getGuid());
     assertThat(announcementDto.getReleasedByDocumentalistAt())
       .isEqualTo(announcement.getReleasedByDocumentalistAt());
   }
