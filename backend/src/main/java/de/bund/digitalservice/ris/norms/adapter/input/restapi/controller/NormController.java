@@ -198,7 +198,7 @@ public class NormController {
   ) {
     var result = updateModUseCase.updateMod(
       new UpdateModUseCase.Query(
-        eli.toString(),
+        eli,
         eid,
         updateModRequestSchema.getRefersTo(),
         updateModRequestSchema.getTimeBoundaryEid(),
@@ -239,7 +239,7 @@ public class NormController {
   ) {
     final var result = updateModsUseCase.updateMods(
       new UpdateModsUseCase.Query(
-        eli.toString(),
+        eli,
         updateModsRequestSchema
           .entrySet()
           .stream()

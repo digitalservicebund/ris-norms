@@ -30,7 +30,11 @@ public class ArticleResponseMapper {
       article.getEid().orElse(null),
       article.getHeading().orElse(null),
       article.getAffectedDocumentEli().map(ExpressionEli::toString).orElse(null),
-      Optional.ofNullable(targetLawZf0).map(Norm::getEli).orElse(null)
+      Optional
+        .ofNullable(targetLawZf0)
+        .map(Norm::getExpressionEli)
+        .map(ExpressionEli::toString)
+        .orElse(null)
     );
   }
 }

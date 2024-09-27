@@ -339,8 +339,8 @@ class AnnouncementServiceTest {
 
       // Then
       verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
-      assertThat(announcement.getNorm().getEli())
-        .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
+      assertThat(announcement.getNorm().getExpressionEli())
+        .hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
     }
 
     @Test
@@ -581,8 +581,8 @@ class AnnouncementServiceTest {
 
       // Then
       verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
-      assertThat(announcement.getNorm().getEli())
-        .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
+      assertThat(announcement.getNorm().getExpressionEli())
+        .hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
     }
   }
 }

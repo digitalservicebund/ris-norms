@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpression;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -32,14 +33,19 @@ public class Norm {
    *
    * @return An Eli
    */
-  public String getEli() {
-    return NodeParser
-      .getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
+  public ExpressionEli getExpressionEli() {
+    return ExpressionEli.fromString(
+      NodeParser.getValueFromMandatoryNodeFromExpression(
+        "//FRBRExpression/FRBRthis/@value",
+        document
+      )
+    );
+    /*.map(ExpressionEli::fromString)
       .orElseGet(() ->
         NodeParser
           .getValueFromMandatoryNodeFromExpression("//FRBRManifestation/FRBRthis/@value", document)
           .replace(".xml", "")
-      );
+      );*/
   }
 
   /**

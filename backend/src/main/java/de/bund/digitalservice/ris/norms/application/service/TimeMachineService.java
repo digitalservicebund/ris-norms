@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.exception.ValidationExceptio
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -45,7 +46,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     var customNorms = query
       .customNorms()
       .stream()
-      .collect(Collectors.toMap(Norm::getEli, customNorm -> customNorm));
+      .collect(Collectors.toMap(Norm::getExpressionEli, customNorm -> customNorm));
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
@@ -83,6 +84,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         var sourceEli = passiveModification
           .getSourceHref()
           .flatMap(Href::getEli)
+          .map(ExpressionEli::fromString)
           .orElseThrow(() ->
             new ValidationException(
               ValidationException.ErrorType.SOURCE_HREF_IN_META_MOD_MISSING,
@@ -96,8 +98,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         } else {
           amendingLaw =
           loadNormPort
-            .loadNorm(new LoadNormPort.Command(sourceEli))
-            .orElseThrow(() -> new NormNotFoundException(sourceEli));
+            .loadNorm(new LoadNormPort.Command(sourceEli.toString()))
+            .orElseThrow(() -> new NormNotFoundException(sourceEli.toString()));
         }
 
         var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);

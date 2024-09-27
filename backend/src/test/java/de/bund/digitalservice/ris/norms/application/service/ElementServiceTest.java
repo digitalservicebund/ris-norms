@@ -493,14 +493,14 @@ class ElementServiceTest {
       var targetNorm = NormFixtures.loadFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
       );
-      var targetNormEli = targetNorm.getEli();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)))
+      var targetNormEli = targetNorm.getExpressionEli();
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli.toString())))
         .thenReturn(Optional.of(targetNorm));
 
       // When
       var elements = service.loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          ExpressionEli.fromString(targetNormEli),
+          targetNormEli,
           List.of("preface", "preamble", "article", "conclusions"),
           "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
         )
@@ -515,7 +515,7 @@ class ElementServiceTest {
     void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() {
       // Given
       var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      var targetNormEli = targetNorm.getEli();
+      var targetNormEli = targetNorm.getExpressionEli();
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
@@ -526,7 +526,7 @@ class ElementServiceTest {
       // When
       var elements = service.loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          ExpressionEli.fromString(targetNormEli),
+          targetNormEli,
           List.of("preface", "preamble", "article", "conclusions"),
           "fake/eli"
         )

@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 
 /**
  * Interface representing the use case for updating the akn:passiveModifications of a {@link Norm}
@@ -25,5 +26,5 @@ public interface UpdatePassiveModificationsUseCase {
    * @param targetNormEli the eli of the target norm to filter the active mods out of the amending
    *     law.
    */
-  record Query(Norm zf0Norm, Norm amendingNorm, String targetNormEli) {}
+  record Query(Norm zf0Norm, Norm amendingNorm, ExpressionEli targetNormEli) {}
 }

@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Collections;
 import java.util.stream.Stream;
@@ -126,9 +127,9 @@ class SingleModValidatorTest {
         .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final String amendingNormEli = amendingNorm.getEli();
+      final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final String href = new Href.Builder()
-        .setEli(amendingNormEli)
+        .setEli(amendingNormEli.toString())
         .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange("9-112"))
         .buildAbsolute()
@@ -160,9 +161,9 @@ class SingleModValidatorTest {
         .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final String amendingNormEli = amendingNorm.getEli();
+      final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final String href = new Href.Builder()
-        .setEli(amendingNormEli)
+        .setEli(amendingNormEli.toString())
         .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange("0-34"))
         .buildAbsolute()
@@ -190,14 +191,14 @@ class SingleModValidatorTest {
     void throwsExceptionWhenCharacterRangeIsNotSet() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final String amendingNormEli = amendingNorm.getEli();
+      final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final Node modNode = amendingNorm
         .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       mod.setTargetRefHref(
         new Href.Builder()
-          .setEli(amendingNormEli)
+          .setEli(amendingNormEli.toString())
           .setEId("hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(""))
           .buildInternalReference()

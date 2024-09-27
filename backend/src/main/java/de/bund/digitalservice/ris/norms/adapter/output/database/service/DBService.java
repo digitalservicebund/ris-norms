@@ -83,7 +83,7 @@ public class DBService
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
     return normRepository
-      .findFirstByEliExpressionOrderByEliManifestation(command.norm().getEli())
+      .findFirstByEliExpressionOrderByEliManifestation(command.norm().getExpressionEli().toString())
       .map(normDto -> {
         normDto.setXml(normXml);
         // we do not update the GUID or ELI as they may not change
@@ -106,7 +106,7 @@ public class DBService
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
     var announcement = command.announcement();
     return announcementRepository
-      .findByNormDtoEliExpression(command.announcement().getNorm().getEli())
+      .findByNormDtoEliExpression(command.announcement().getNorm().getExpressionEli().toString())
       .map(announcementDto -> {
         announcementDto.setReleasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt());
         // It is not possible to change the norm associated with an announcement.

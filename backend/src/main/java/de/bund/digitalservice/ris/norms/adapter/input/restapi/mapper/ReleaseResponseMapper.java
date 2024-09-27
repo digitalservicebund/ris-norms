@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +29,11 @@ public class ReleaseResponseMapper {
   ) {
     return ReleaseResponseSchema
       .builder()
-      .amendingLawEli(announcement.getNorm().getEli())
+      .amendingLawEli(announcement.getNorm().getExpressionEli().toString())
       .releaseAt(announcement.getReleasedByDocumentalistAt())
-      .zf0Elis(affectedNorms.stream().map(Norm::getEli).toList())
+      .zf0Elis(
+        affectedNorms.stream().map(Norm::getExpressionEli).map(ExpressionEli::toString).toList()
+      )
       .build();
   }
 }

@@ -57,7 +57,11 @@ public class LoadZf0Service implements LoadZf0UseCase {
     updateFRBRExpression(zf0Norm, targetNorm, announcementDateAmendingLaw);
     updateFRBRManifestation(zf0Norm, announcementDateAmendingLaw);
     updateNormService.updatePassiveModifications(
-      new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNorm.getEli())
+      new UpdatePassiveModificationsUseCase.Query(
+        zf0Norm,
+        amendingNorm,
+        targetNorm.getExpressionEli()
+      )
     );
 
     if (shouldPersist) {

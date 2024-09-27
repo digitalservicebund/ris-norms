@@ -182,25 +182,28 @@ public class AnnouncementService
   private void validateTargetNormsExist(Set<String> activeModDestinationElis, Norm norm) {
     activeModDestinationElis.forEach(eli -> {
       if (loadNormPort.loadNorm(new LoadNormPort.Command(eli)).isEmpty()) {
-        throw new ActiveModDestinationNormNotFoundException(norm.getEli(), eli);
+        throw new ActiveModDestinationNormNotFoundException(
+          norm.getExpressionEli().toString(),
+          eli
+        );
       }
     });
   }
 
   private boolean isNormRetrievableByEli(boolean forceOverwrite, Norm norm) {
     final boolean normExists = loadNormPort
-      .loadNorm(new LoadNormPort.Command(norm.getEli()))
+      .loadNorm(new LoadNormPort.Command(norm.getExpressionEli().toString()))
       .isPresent();
 
     if (normExists && !forceOverwrite) {
-      throw new NormExistsAlreadyException(norm.getEli());
+      throw new NormExistsAlreadyException(norm.getExpressionEli().toString());
     }
     return normExists;
   }
 
   private void deleteAnnouncement(Norm norm) {
     deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
-      new DeleteAnnouncementByNormEliPort.Command(norm.getEli())
+      new DeleteAnnouncementByNormEliPort.Command(norm.getExpressionEli().toString())
     );
   }
 

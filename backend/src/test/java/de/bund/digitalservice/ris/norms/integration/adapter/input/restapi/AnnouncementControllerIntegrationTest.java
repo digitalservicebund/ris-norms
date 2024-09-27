@@ -920,7 +920,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert that target law has now next-version-guid
       final Optional<NormDto> targetNormDto =
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(affectedNorm.getEli());
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(
+          affectedNorm.getExpressionEli().toString()
+        );
       assertThat(targetNormDto).isPresent();
       final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
       assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();
@@ -1187,7 +1189,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert that target law has now next-version-guid
       final Optional<NormDto> targetNormDto =
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(affectedNorm.getEli());
+        normRepository.findFirstByEliExpressionOrderByEliManifestation(
+          affectedNorm.getExpressionEli().toString()
+        );
       assertThat(targetNormDto).isPresent();
       final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
       assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();
