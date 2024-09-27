@@ -9,6 +9,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Comparator;
 import java.util.List;
@@ -44,9 +47,24 @@ public class DBService
 
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
-    return normRepository
-      .findFirstByEliExpressionOrderByEliManifestation(command.eli().toString())
-      .map(NormMapper::mapToDomain);
+    return switch (command.eli()) {
+      case ExpressionEli expressionEli -> normRepository
+        .findFirstByEliExpressionOrderByEliManifestation(expressionEli.toString())
+        .map(NormMapper::mapToDomain);
+      case ManifestationEli manifestationEli -> {
+        if (!manifestationEli.hasPointInTimeManifestation()) {
+          // we can find the norm based on the expression eli as the point in time manifestation is the only additional identifying part of the eli in our system (all norms are xmls)
+          yield this.loadNorm(new LoadNormPort.Command(manifestationEli.asExpressionEli()));
+        }
+
+        yield normRepository
+          .findByEliManifestation(manifestationEli.toString())
+          .map(NormMapper::mapToDomain);
+      }
+      case WorkEli workEli -> throw new IllegalArgumentException(
+        "It's currently not possible to load a norm by it's work eli."
+      );
+    };
   }
 
   @Override

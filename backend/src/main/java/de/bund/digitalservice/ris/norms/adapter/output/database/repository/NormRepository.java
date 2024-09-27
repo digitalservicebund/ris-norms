@@ -14,11 +14,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NormRepository extends JpaRepository<NormDto, UUID> {
   /**
-   * Finds a {@link NormDto} by its ELI (European Legislation Identifier).
+   * Finds a {@link NormDto} by its expression ELI (European Legislation Identifier).
+   * It takes the newest manifestation if multiple exist.
    *
-   * @param eli The ELI to search for.
-   * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not
-   *     found.
+   * @param expressionEli The ELI to search for.
+   * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not found.
    */
-  Optional<NormDto> findFirstByEliExpressionOrderByEliManifestation(final String eli);
+  Optional<NormDto> findFirstByEliExpressionOrderByEliManifestation(final String expressionEli);
+
+  /**
+   * Finds a {@link NormDto} by its manifestation ELI (European Legislation Identifier).
+   *
+   * @param manifestationEli The ELI to search for.
+   * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not found.
+   */
+  Optional<NormDto> findByEliManifestation(final String manifestationEli);
 }
