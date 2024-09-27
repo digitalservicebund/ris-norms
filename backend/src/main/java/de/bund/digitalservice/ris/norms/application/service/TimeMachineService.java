@@ -94,7 +94,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         if (customNorms.containsKey(sourceEli)) {
           amendingLaw = customNorms.get(sourceEli);
         } else {
-          amendingLaw = loadNormPort
+          amendingLaw =
+          loadNormPort
             .loadNorm(new LoadNormPort.Command(sourceEli))
             .orElseThrow(() -> new NormNotFoundException(sourceEli));
         }

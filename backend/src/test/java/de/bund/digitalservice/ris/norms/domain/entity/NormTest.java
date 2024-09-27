@@ -1268,6 +1268,7 @@ class NormTest {
 
       // when
       norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
+      norm.deleteByEId("meta-1_ident-1_frbrmanifestation-1_frbrthis-1");
 
       // then
       assertThatThrownBy(norm::getEli).isInstanceOf(MandatoryNodeNotFoundException.class);

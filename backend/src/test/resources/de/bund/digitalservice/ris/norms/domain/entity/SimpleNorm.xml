@@ -27,6 +27,19 @@
                               name="nachfolgende-version-id"
                               value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b"/>
             </akn:FRBRExpression>
+            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                   GUID="bd2375e5-3e81-435d-a4f8-159d8572c46b">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                             GUID="9dcc818e-3ed8-4414-b562-342bd5f405b3"
+                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                             GUID="f3288a2a-3511-454e-ada1-9de8c33f6dbe"
+                             date="1964-08-05"
+                             name="generierung"/>
+               <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                               GUID="634de2b4-5d14-4144-9e8e-80548da73b73"
+                               value="xml"/>
+            </akn:FRBRManifestation>
          </akn:identification>
       </akn:meta>
    </akn:act>

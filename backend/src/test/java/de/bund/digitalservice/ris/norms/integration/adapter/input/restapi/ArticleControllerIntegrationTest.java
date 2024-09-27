@@ -38,133 +38,18 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticles() throws Exception {
       // Given
-      var amendingNorm = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                          </akn:FRBRExpression>
-                       </akn:identification>
-                    </akn:meta>
-                    <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                       <!-- Artikel 1 : Hauptänderung -->
-                       <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-                          <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                                 Artikel 1</akn:num>
-                          <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
-                          <!-- Absatz (1) -->
-                          <akn:paragraph eId="hauptteil-1_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
-                             <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1" GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-
-                             </akn:num>
-                             <akn:list eId="hauptteil-1_art-1_abs-1_untergl-1" GUID="41675622-ed62-46e3-869f-94d99908b010">
-                                <akn:intro eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1" GUID="5d6fc824-7926-43b4-b243-b0096da183f9">
-                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1" GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"> Das <akn:affectedDocument eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                         href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
-                                </akn:intro>
-                             </akn:list>
-                          </akn:paragraph>
-                       </akn:article>
-                        <!-- Artikel 3: Geltungszeitregel-->
-                        <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
-                           <akn:num eId="hauptteil-1_art-3_bezeichnung-1" GUID="1bc12642-f00c-4b55-8388-5e8870e6e706">
-                                  Artikel 3</akn:num>
-                           <akn:heading eId="hauptteil-1_art-3_überschrift-1" GUID="59a7dc28-e095-4da6-ba78-278a0d69a3fd">Inkrafttreten</akn:heading>
-                           <!-- Absatz (1) -->
-                           <akn:paragraph eId="hauptteil-1_art-3_abs-1" GUID="0b1590b0-8945-44a0-bf44-ebfb7d8c3bd8">
-                              <akn:num eId="hauptteil-1_art-3_abs-1_bezeichnung-1" GUID="c46a1cbc-f823-4a18-9b0c-0f131244a58e">
-
-                              </akn:num>
-                              <akn:content eId="hauptteil-1_art-3_abs-1_inhalt-1" GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa">
-                                 <akn:p eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1" GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1" GUID="2ee89811-5368-46e0-acf8-a598506cc956" date="2017-03-16" refersTo="inkrafttreten-datum">am Tag
-                                    nach der Verkündung</akn:date> in Kraft. </akn:p>
-                              </akn:content>
-                           </akn:paragraph>
-                        </akn:article>
-                    </akn:body>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      var affectedNorm = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83" name="aktuelle-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="960b4c01-c81f-40b1-92c6-d0d223410a49" name="nachfolgende-version-id" value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b" />
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      var affectedNormZf0 = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83" name="aktuelle-version-id" value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="960b4c01-c81f-40b1-92c6-d0d223410a49" name="nachfolgende-version-id" value="960b4c01-c81f-40b1-92c6-ea46a7d10c8b" />
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+        NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"))
+      );
+      normRepository.save(
+        NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"))
+      );
 
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles")
+          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -176,10 +61,10 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("$[0].affectedDocumentZf0Eli")
-            .value("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1")
+            .value("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
         )
         .andExpect(jsonPath("$[1]").exists())
-        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-3"))
+        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
         .andExpect(jsonPath("$[1].affectedDocumentEli").doesNotExist())
         .andExpect(jsonPath("$[1].affectedDocumentZf0Eli").doesNotExist())
         .andExpect(jsonPath("$[2]").doesNotExist());
@@ -337,6 +222,25 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                            </akn:FRBRExpression>
+                                <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                                       GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                                   <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                                 GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                                                 value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                   <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                                GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                                                value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                   <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                                                 GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                                                 date="2022-08-23"
+                                                 name="generierung"/>
+                                   <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                                   GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                                   href="recht.bund.de"/>
+                                   <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                                   GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                                   value="xml"/>
+                                </akn:FRBRManifestation>
                         </akn:identification>
                      </akn:meta>
                      <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
@@ -436,6 +340,25 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                          </akn:FRBRExpression>
+                              <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                                     GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                                 <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                               GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                                               value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                 <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                              GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                                              value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                 <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                                               GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                                               date="2022-08-23"
+                                               name="generierung"/>
+                                 <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                                 GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                                 href="recht.bund.de"/>
+                                 <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                                 GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                                 value="xml"/>
+                              </akn:FRBRManifestation>
                       </akn:identification>
                    </akn:meta>
                    <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
@@ -574,6 +497,25 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                          </akn:FRBRExpression>
+                              <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                                     GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                                 <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                               GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                                               value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                 <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                              GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                                              value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                 <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                                               GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                                               date="2022-08-23"
+                                               name="generierung"/>
+                                 <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                                 GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                                 href="recht.bund.de"/>
+                                 <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                                 GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                                 value="xml"/>
+                              </akn:FRBRManifestation>
                       </akn:identification>
                    </akn:meta>
                    <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
@@ -656,6 +598,25 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                         <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                         <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                       </akn:FRBRExpression>
+                          <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                                 GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                             <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                           GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                                           value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                             <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                          GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                                          value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                             <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                                           GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                                           date="2022-08-23"
+                                           name="generierung"/>
+                             <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                             GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                             href="recht.bund.de"/>
+                             <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                             GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                             value="xml"/>
+                          </akn:FRBRManifestation>
                     </akn:identification>
                   </akn:meta>
                     <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
@@ -706,134 +667,20 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticle() throws Exception {
       // Given
-      var amendingNorm = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                   <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                          http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                  <akn:act name="regelungstext">
 
-                     <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                        <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                           <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                              <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1" />
-                              <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
-                              <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                           </akn:FRBRExpression>
-                        </akn:identification>
-                     </akn:meta>
-                     <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                        <!-- Artikel 1 : Hauptänderung -->
-                        <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-                           <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                                  Artikel 1</akn:num>
-                           <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
-                           <!-- Absatz (1) -->
-                           <akn:paragraph eId="hauptteil-1_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
-                              <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1" GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-
-                                  </akn:num>
-                              <akn:list eId="hauptteil-1_art-1_abs-1_untergl-1" GUID="41675622-ed62-46e3-869f-94d99908b010">
-                                 <akn:intro eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1" GUID="5d6fc824-7926-43b4-b243-b0096da183f9">
-                                    <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1" GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"> Das <akn:affectedDocument eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                          href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
-                                 </akn:intro>
-                              </akn:list>
-                           </akn:paragraph>
-                        </akn:article>
-                         <!-- Artikel 3: Geltungszeitregel-->
-                         <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
-                            <akn:num eId="hauptteil-1_art-3_bezeichnung-1" GUID="1bc12642-f00c-4b55-8388-5e8870e6e706">
-                                   Artikel 3</akn:num>
-                            <akn:heading eId="hauptteil-1_art-3_überschrift-1" GUID="59a7dc28-e095-4da6-ba78-278a0d69a3fd">Inkrafttreten</akn:heading>
-                            <!-- Absatz (1) -->
-                            <akn:paragraph eId="hauptteil-1_art-3_abs-1" GUID="0b1590b0-8945-44a0-bf44-ebfb7d8c3bd8">
-                               <akn:num eId="hauptteil-1_art-3_abs-1_bezeichnung-1" GUID="c46a1cbc-f823-4a18-9b0c-0f131244a58e">
-
-                                   </akn:num>
-                               <akn:content eId="hauptteil-1_art-3_abs-1_inhalt-1" GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa">
-                                  <akn:p eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1" GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1" GUID="2ee89811-5368-46e0-acf8-a598506cc956" date="2017-03-16" refersTo="inkrafttreten-datum">am Tag
-                                     nach der Verkündung</akn:date> in Kraft. </akn:p>
-                               </akn:content>
-                            </akn:paragraph>
-                         </akn:article>
-                     </akn:body>
-                  </akn:act>
-               </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      var affectedNorm = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83" name="aktuelle-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="960b4c01-c81f-40b1-92c6-d0d223410a49" name="nachfolgende-version-id" value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b" />
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      var affectedNormZf0 = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83" name="aktuelle-version-id" value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="960b4c01-c81f-40b1-92c6-d0d223410a49" name="nachfolgende-version-id" value="960b4c01-c81f-40b1-92c6-ea46a7d10c8b" />
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+        NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"))
+      );
+      normRepository.save(
+        NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"))
+      );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -845,7 +692,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("affectedDocumentZf0Eli")
-            .value("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1")
+            .value("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
         );
     }
 
@@ -886,134 +733,13 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNothingIfArticleDoesNotExist() throws Exception {
       // Given
-      var amendingNorm = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
-                             <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                          </akn:FRBRExpression>
-                       </akn:identification>
-                    </akn:meta>
-                    <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                       <!-- Artikel 1 : Hauptänderung -->
-                       <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-                          <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                                 Artikel 1</akn:num>
-                          <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
-                          <!-- Absatz (1) -->
-                          <akn:paragraph eId="hauptteil-1_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
-                             <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1" GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-
-                                 </akn:num>
-                             <akn:list eId="hauptteil-1_art-1_abs-1_untergl-1" GUID="41675622-ed62-46e3-869f-94d99908b010">
-                                <akn:intro eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1" GUID="5d6fc824-7926-43b4-b243-b0096da183f9">
-                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1" GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"> Das <akn:affectedDocument eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                         href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
-                                </akn:intro>
-                             </akn:list>
-                          </akn:paragraph>
-                       </akn:article>
-                        <!-- Artikel 3: Geltungszeitregel-->
-                        <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
-                           <akn:num eId="hauptteil-1_art-3_bezeichnung-1" GUID="1bc12642-f00c-4b55-8388-5e8870e6e706">
-                                  Artikel 3</akn:num>
-                           <akn:heading eId="hauptteil-1_art-3_überschrift-1" GUID="59a7dc28-e095-4da6-ba78-278a0d69a3fd">Inkrafttreten</akn:heading>
-                           <!-- Absatz (1) -->
-                           <akn:paragraph eId="hauptteil-1_art-3_abs-1" GUID="0b1590b0-8945-44a0-bf44-ebfb7d8c3bd8">
-                              <akn:num eId="hauptteil-1_art-3_abs-1_bezeichnung-1" GUID="c46a1cbc-f823-4a18-9b0c-0f131244a58e">
-
-                                  </akn:num>
-                              <akn:content eId="hauptteil-1_art-3_abs-1_inhalt-1" GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa">
-                                 <akn:p eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1" GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1" GUID="2ee89811-5368-46e0-acf8-a598506cc956" date="2017-03-16" refersTo="inkrafttreten-datum">am Tag
-                                    nach der Verkündung</akn:date> in Kraft. </akn:p>
-                              </akn:content>
-                           </akn:paragraph>
-                        </akn:article>
-                    </akn:body>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      var affectedNorm = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                       http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-               <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
-                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83" name="aktuelle-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
-                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="960b4c01-c81f-40b1-92c6-d0d223410a49" name="nachfolgende-version-id" value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b" />
-                        </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-               </akn:act>
-            </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      var affectedNormZf0 = Norm
-        .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                       http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-               <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1" />
-                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
-                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83" name="aktuelle-version-id" value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b" />
-                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="960b4c01-c81f-40b1-92c6-d0d223410a49" name="nachfolgende-version-id" value="960b4c01-c81f-40b1-92c6-ea46a7d10c8b" />
-                        </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-               </akn:act>
-            </akn:akomaNtoso>
-            """
-          )
-        )
-        .build();
-
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -1024,17 +750,17 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+              "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             )
         )
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+              "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
             )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+          jsonPath("eli").value("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
         )
         .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
     }
@@ -1064,6 +790,25 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                            </akn:FRBRExpression>
+                              <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                                     GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                                 <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                               GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                                               value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                 <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                              GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                                              value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1.xml"/>
+                                 <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                                               GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                                               date="2022-08-23"
+                                               name="generierung"/>
+                                 <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                                 GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                                 href="recht.bund.de"/>
+                                 <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                                 GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                                 value="xml"/>
+                              </akn:FRBRManifestation>
                         </akn:identification>
                      </akn:meta>
                      <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
@@ -1269,6 +1014,25 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                         </akn:FRBRExpression>
+                            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                                 GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                             <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                           GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                                           value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+                             <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                          GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                                          value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+                             <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                                           GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                                           date="2022-08-23"
+                                           name="generierung"/>
+                             <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                             GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                             href="recht.bund.de"/>
+                             <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                             GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                             value="xml"/>
+                          </akn:FRBRManifestation>
                      </akn:identification>
                       <akn:lifecycle eId="meta-1_lebzykl-1" GUID="f551699c-7848-4a0d-ab11-1ef44f309504" source="attributsemantik-noch-undefiniert">
                                          <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4" GUID="2f0febd4-edbe-4c02-9aca-827ee943ae28" date="2017-03-23" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="inkrafttreten"/>
@@ -1350,6 +1114,25 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                         </akn:FRBRExpression>
+                            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                                 GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                             <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                           GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                                           value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+                             <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                          GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                                          value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+                             <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                                           GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                                           date="2022-08-23"
+                                           name="generierung"/>
+                             <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                             GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                             href="recht.bund.de"/>
+                             <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                             GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                             value="xml"/>
+                          </akn:FRBRManifestation>
                      </akn:identification>
                       <akn:lifecycle eId="meta-1_lebzykl-1" GUID="f551699c-7848-4a0d-ab11-1ef44f309504" source="attributsemantik-noch-undefiniert">
                                          <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4" GUID="2f0febd4-edbe-4c02-9aca-827ee943ae28" date="2017-03-23" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="inkrafttreten"/>
