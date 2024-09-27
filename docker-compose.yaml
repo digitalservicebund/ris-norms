@@ -20,7 +20,7 @@ services:
       - postgres15
       - redis
   postgres15:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     restart: always
     container_name: postgres15
     volumes:
