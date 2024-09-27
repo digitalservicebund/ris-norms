@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpression;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -27,16 +28,28 @@ public class Norm {
   private final Document document;
 
   /**
-   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}. It tries to extract
-   * it first from the expression level, otherwise it tries to extract it from the manifestation
-   * level.
+   * Returns the expression Eli of the {@link Norm}.
    *
-   * @return An Eli
+   * @return The expression Eli
    */
   public ExpressionEli getExpressionEli() {
     return ExpressionEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression(
         "//FRBRExpression/FRBRthis/@value",
+        document
+      )
+    );
+  }
+
+  /**
+   * Returns the manifestation Eli of the {@link Norm}.
+   *
+   * @return The manifestation Eli
+   */
+  public ManifestationEli getManifestationEli() {
+    return ManifestationEli.fromString(
+      NodeParser.getValueFromMandatoryNodeFromExpression(
+        "//FRBRManifestation/FRBRthis/@value",
         document
       )
     );

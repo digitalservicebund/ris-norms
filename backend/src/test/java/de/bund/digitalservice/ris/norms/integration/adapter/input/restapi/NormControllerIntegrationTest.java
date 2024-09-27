@@ -363,7 +363,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                                                 GUID="bd2375e5-3e81-435d-a4f8-159d8572c46b">
                             <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                                           GUID="9dcc818e-3ed8-4414-b562-342bd5f405b3"
-                                          value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+                                              value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"/>
                             <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                                           GUID="f3288a2a-3511-454e-ada1-9de8c33f6dbe"
                                           date="1964-08-05"

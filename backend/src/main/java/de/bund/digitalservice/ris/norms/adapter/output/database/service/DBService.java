@@ -103,7 +103,7 @@ public class DBService
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
     return normRepository
-      .findFirstByEliExpressionOrderByEliManifestation(command.norm().getExpressionEli().toString())
+      .findByEliManifestation(command.norm().getManifestationEli().toString())
       .map(normDto -> {
         normDto.setXml(normXml);
         // we do not update the GUID or ELI as they may not change

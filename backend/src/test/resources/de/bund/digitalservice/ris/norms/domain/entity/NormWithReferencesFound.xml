@@ -74,10 +74,10 @@
                                    eId="meta-1_ident-1_frbrmanifestation-1">
                <akn:FRBRthis GUID="d7e17b04-d21a-49a1-bd17-8dbc6e438ab1"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
-                             value="eli/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1.xml/1001-02-01"/>
+                             value="eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1.xml/1001-02-01"/>
                <akn:FRBRuri GUID="73b70a33-ba32-4ed8-acad-31588cb67270"
                             eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
-                            value="eli/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1.xml/1001-02-01"/>
+                            value="eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1.xml/1001-02-01"/>
                <akn:FRBRdate GUID="1b64cc67-d985-452a-ba9c-76f132474003"
                              date="1001-02-01"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
