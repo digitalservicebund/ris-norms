@@ -86,8 +86,10 @@ public class Article {
    *
    * @return The ELI of the affected document of the article
    */
-  public String getMandatoryAffectedDocumentEli() {
-    return NodeParser.getValueFromMandatoryNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.node);
+  public ExpressionEli getMandatoryAffectedDocumentEli() {
+    return ExpressionEli.fromString(
+      NodeParser.getValueFromMandatoryNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.node)
+    );
   }
 
   /**

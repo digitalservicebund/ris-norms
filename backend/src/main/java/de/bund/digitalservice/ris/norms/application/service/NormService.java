@@ -56,14 +56,14 @@ public class NormService
   @Override
   public Norm loadNorm(final LoadNormUseCase.Query query) {
     return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
   }
 
   @Override
   public String loadNormXml(final LoadNormXmlUseCase.Query query) {
     final Norm norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return XmlMapper.toString(norm.getDocument());
@@ -73,7 +73,7 @@ public class NormService
   public String updateNormXml(UpdateNormXmlUseCase.Query query) {
     var existingNorm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     var normToBeUpdated = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
 
@@ -86,7 +86,7 @@ public class NormService
     }
     var updatedNorm = updateNormPort
       .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return XmlMapper.toString(updatedNorm.getDocument());
   }
@@ -165,7 +165,7 @@ public class NormService
   @Override
   public UpdateModsUseCase.Result updateMods(UpdateModsUseCase.Query query) {
     final Norm amendingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     final String queryModEId = query.mods().stream().findAny().orElseThrow().eId();
@@ -181,10 +181,11 @@ public class NormService
         )
       );
 
-    final String targetNormEli = modObject
+    final ExpressionEli targetNormEli = modObject
       .getTargetRefHref()
       .or(modObject::getTargetRrefFrom)
       .flatMap(Href::getEli)
+      .map(ExpressionEli::fromString)
       .orElseThrow(() ->
         new InvalidUpdateException("No eli found in href of mod %s".formatted(queryModEId))
       );
@@ -201,7 +202,7 @@ public class NormService
             .orElseThrow(() ->
               new InvalidUpdateException("No eli found in href of mod %s".formatted(modData.eId()))
             );
-          return eli.equals(targetNormEli);
+          return eli.equals(targetNormEli.toString());
         })
     ) {
       throw new InvalidUpdateException(
@@ -211,7 +212,7 @@ public class NormService
 
     final Norm targetNorm = loadNormPort
       .loadNorm(new LoadNormPort.Command(targetNormEli))
-      .orElseThrow(() -> new NormNotFoundException(targetNormEli));
+      .orElseThrow(() -> new NormNotFoundException(targetNormEli.toString()));
     final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
       new LoadZf0UseCase.Query(amendingNorm, targetNorm)
     );
@@ -247,11 +248,12 @@ public class NormService
   @Override
   public UpdateModUseCase.Result updateMod(UpdateModUseCase.Query query) {
     final Norm amendingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     final var targetNormEli = new Href(query.destinationHref())
       .getEli()
+      .map(ExpressionEli::fromString)
       .orElseThrow(() ->
         new ValidationException(
           ValidationException.ErrorType.ELI_NOT_IN_HREF,
@@ -261,7 +263,7 @@ public class NormService
 
     final Norm targetNorm = loadNormPort
       .loadNorm(new LoadNormPort.Command(targetNormEli))
-      .orElseThrow(() -> new NormNotFoundException(targetNormEli));
+      .orElseThrow(() -> new NormNotFoundException(targetNormEli.toString()));
     final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
       new LoadZf0UseCase.Query(amendingNorm, targetNorm)
     );

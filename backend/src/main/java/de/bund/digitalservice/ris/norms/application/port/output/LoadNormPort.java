@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Optional;
 
 /**
@@ -23,5 +24,5 @@ public interface LoadNormPort {
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the norm in the command.
    */
-  record Command(String eli) {}
+  record Command(ExpressionEli eli) {}
 }

@@ -45,7 +45,6 @@ class NormDtoTest {
         </akn:akomaNtoso>
       """;
     var guid = UUID.fromString("c01334e2-f12b-4055-ac82-15ac03c74c78");
-    var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // When
     final NormDto normDto = NormDto.builder().xml(xml).guid(guid).build();

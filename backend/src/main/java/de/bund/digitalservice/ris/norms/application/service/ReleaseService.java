@@ -31,7 +31,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
   public Announcement releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
     var announcement = loadAnnouncementByNormEliPort
       .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
+      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
 
     announcement.setReleasedByDocumentalistAt(Instant.now());
 

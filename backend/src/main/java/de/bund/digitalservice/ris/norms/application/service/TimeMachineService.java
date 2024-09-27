@@ -98,7 +98,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         } else {
           amendingLaw =
           loadNormPort
-            .loadNorm(new LoadNormPort.Command(sourceEli.toString()))
+            .loadNorm(new LoadNormPort.Command(sourceEli))
             .orElseThrow(() -> new NormNotFoundException(sourceEli.toString()));
         }
 

@@ -166,7 +166,7 @@ public class NormController {
     @RequestBody String xml
   ) {
     var updatedAmendingLaw = updateNormXmlUseCase.updateNormXml(
-      new UpdateNormXmlUseCase.Query(eli.toString(), xml)
+      new UpdateNormXmlUseCase.Query(eli, xml)
     );
 
     return ResponseEntity.ok(updatedAmendingLaw);

@@ -35,10 +35,10 @@ class ProprietaryServiceTest {
     @Test
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
-      var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      LoadProprietaryFromNormUseCase.Query query = new LoadProprietaryFromNormUseCase.Query(
-        ExpressionEli.fromString(eli)
+      var eli = ExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
+      LoadProprietaryFromNormUseCase.Query query = new LoadProprietaryFromNormUseCase.Query(eli);
       // when
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
       // then
@@ -50,14 +50,16 @@ class ProprietaryServiceTest {
     @Test
     void returnNewProprietaryNodeIfProprietaryNotFound() {
       // given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
         .thenReturn(Optional.of(normWithoutProprietary));
 
       // when
       var result = proprietaryService.loadProprietaryFromNorm(
-        new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
+        new LoadProprietaryFromNormUseCase.Query(eli)
       );
 
       // then
@@ -67,13 +69,15 @@ class ProprietaryServiceTest {
     @Test
     void returnsProprietary() {
       // given
-      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+      );
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
         .thenReturn(Optional.of(normWithProprietary));
       // when
       var result = proprietaryService.loadProprietaryFromNorm(
-        new LoadProprietaryFromNormUseCase.Query(ExpressionEli.fromString(eli))
+        new LoadProprietaryFromNormUseCase.Query(eli)
       );
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -86,7 +90,9 @@ class ProprietaryServiceTest {
     @Test
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
-      var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+      );
       UpdateProprietaryFrameFromNormUseCase.Query query =
         new UpdateProprietaryFrameFromNormUseCase.Query(
           eli,
@@ -115,7 +121,9 @@ class ProprietaryServiceTest {
     @Test
     void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() {
       // given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var date = LocalDate.parse("2003-01-01");
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
@@ -159,7 +167,9 @@ class ProprietaryServiceTest {
     @Test
     void updatesProprietaryByCreatingNewMetadatenDsNodes() {
       // given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
@@ -204,7 +214,9 @@ class ProprietaryServiceTest {
     @Test
     void resetsAllFields() {
       // given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
@@ -255,7 +267,9 @@ class ProprietaryServiceTest {
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
       var eid = "hauptteil-1_abschnitt-0_para-1";
-      var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+      );
       UpdateProprietarySingleElementFromNormUseCase.Query query =
         new UpdateProprietarySingleElementFromNormUseCase.Query(
           eli,
@@ -274,7 +288,9 @@ class ProprietaryServiceTest {
     void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsAndEinzelelementNodes() {
       // given
       var eid = "hauptteil-1_abschnitt-0_para-1";
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var date = LocalDate.parse("2003-01-01");
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
@@ -299,7 +315,9 @@ class ProprietaryServiceTest {
     void updatesProprietaryByCreatingNewMetadatenDsNodes() {
       // given
       var eid = "hauptteil-1_abschnitt-0_para-1";
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
@@ -324,7 +342,9 @@ class ProprietaryServiceTest {
     void resetsAllFields() {
       // given
       var eid = "hauptteil-1_abschnitt-0_para-1";
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var date = LocalDate.parse("1980-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))

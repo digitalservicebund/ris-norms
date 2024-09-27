@@ -52,7 +52,9 @@ class NormServiceTest {
     @Test
     void itCallsLoadNormAndReturnsNorm() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var norm = Norm
         .builder()
@@ -81,7 +83,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var returnedNorm = service.loadNorm(new LoadNormUseCase.Query(ExpressionEli.fromString(eli)));
+      var returnedNorm = service.loadNorm(new LoadNormUseCase.Query(eli));
 
       // Then
       verify(loadNormPort, times(1))
@@ -92,8 +94,10 @@ class NormServiceTest {
     @Test
     void itThrowsWhenNormIsNotFound() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var query = new LoadNormUseCase.Query(ExpressionEli.fromString(eli));
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
+      var query = new LoadNormUseCase.Query(eli);
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
@@ -112,7 +116,9 @@ class NormServiceTest {
     @Test
     void itCallsLoadNormAndReturnsXml() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var norm = Norm
         .builder()
@@ -141,7 +147,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(ExpressionEli.fromString(eli)));
+      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(eli));
 
       // Then
       verify(loadNormPort, times(1))
@@ -152,9 +158,11 @@ class NormServiceTest {
     @Test
     void itCallsLoadNormAndThrowsNotFound() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      var query = new LoadNormXmlUseCase.Query(ExpressionEli.fromString(eli));
+      var query = new LoadNormXmlUseCase.Query(eli);
 
       // When
       assertThatThrownBy(() -> service.loadNormXml(query))
@@ -169,7 +177,9 @@ class NormServiceTest {
     @Test
     void itUpdatesXml() throws InvalidUpdateException {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var oldXml =
         """
@@ -260,7 +270,9 @@ class NormServiceTest {
     @Test
     void itThrowsNormNotFoundIfNormDoesNotExist() throws InvalidUpdateException {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var newXml =
         """
@@ -313,7 +325,9 @@ class NormServiceTest {
     @Test
     void itThrowsIfEliChanges() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var oldXml =
         """
@@ -402,7 +416,9 @@ class NormServiceTest {
     @Test
     void itThrowsIfGuidChanges() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var oldXml =
         """
@@ -518,7 +534,7 @@ class NormServiceTest {
       assertThat(throwable).isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
     }
 
@@ -732,9 +748,9 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
       verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
       verify(updateNormService, times(1))
         .updateActiveModifications(
@@ -891,9 +907,9 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
       verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
       verify(updateNormService, times(1))
         .updateActiveModifications(
@@ -966,9 +982,9 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
       verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
       verify(updateNormService, times(2)).updateActiveModifications(any());
       verify(updateNormService, times(2)).updatePassiveModifications(any());
@@ -1016,9 +1032,9 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli.toString())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
       verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
       verify(updateNormService, times(2)).updateActiveModifications(any());
       verify(updateNormService, times(2)).updatePassiveModifications(any());

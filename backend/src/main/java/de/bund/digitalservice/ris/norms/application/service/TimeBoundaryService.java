@@ -37,7 +37,7 @@ public class TimeBoundaryService
   @Override
   public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
     return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
       .getTimeBoundaries();
   }
@@ -47,7 +47,7 @@ public class TimeBoundaryService
     LoadTimeBoundariesAmendedByUseCase.Query query
   ) {
     final Norm norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     final List<String> temporalGroupEidAmendedBy = norm
@@ -85,7 +85,7 @@ public class TimeBoundaryService
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
     final Norm norm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
     // At first time boundaries that shall be deleted need to be selected
     // if we would delete first, there are cases where the next possible eId could not be safely
     // calculated

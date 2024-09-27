@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncement
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.Objects;
@@ -70,7 +71,7 @@ class ReleaseServiceTest {
     var instantBeforeRelease = Instant.now();
     releaseService.releaseAnnouncement(
       new ReleaseAnnouncementUseCase.Query(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
       )
     );
 
@@ -79,7 +80,7 @@ class ReleaseServiceTest {
       .loadAnnouncementByNormEli(
         argThat(argument ->
           Objects.equals(
-            argument.eli(),
+            argument.eli().toString(),
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
           )
         )
@@ -96,7 +97,7 @@ class ReleaseServiceTest {
   void itShouldThrowForUnknownAnnouncement() {
     // Given
     final var query = new ReleaseAnnouncementUseCase.Query(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
     );
     when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
       .thenReturn(Optional.empty());

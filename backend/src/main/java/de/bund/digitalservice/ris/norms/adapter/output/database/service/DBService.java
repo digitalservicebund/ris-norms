@@ -45,7 +45,7 @@ public class DBService
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return normRepository
-      .findFirstByEliExpressionOrderByEliManifestation(command.eli())
+      .findFirstByEliExpressionOrderByEliManifestation(command.eli().toString())
       .map(NormMapper::mapToDomain);
   }
 
@@ -59,7 +59,7 @@ public class DBService
     LoadAnnouncementByNormEliPort.Command command
   ) {
     return announcementRepository
-      .findByNormDtoEliExpression(command.eli())
+      .findByNormDtoEliExpression(command.eli().toString())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -131,7 +131,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    announcementRepository.deleteByNormDtoEliExpression(command.eli());
+    announcementRepository.deleteByNormDtoEliExpression(command.eli().toString());
   }
 
   @Override

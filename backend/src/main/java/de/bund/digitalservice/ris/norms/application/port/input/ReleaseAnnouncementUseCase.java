@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 
 /**
  * Interface representing the use case for releasing an {@link Announcement} and the corresponding
@@ -24,5 +25,5 @@ public interface ReleaseAnnouncementUseCase {
    * @param eli The ELI (European Legislation Identifier) used to identify the {@link Norm} of the
    *     {@link Announcement}.
    */
-  record Query(String eli) {}
+  record Query(ExpressionEli eli) {}
 }

@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMappe
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -63,7 +64,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormsServiceAndReturnsNormXml() throws Exception {
       // Given
-      var xml = NormFixtures.loadTextFromDisk("Vereinsgesetz.xml");
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("Vereinsgesetz.xml")));
 
       // When // Then
@@ -1794,7 +1794,9 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNormNotFoundAsEliNotFound() throws Exception {
       // Given no norm in database
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       // When
       mockMvc

@@ -321,13 +321,17 @@ class AnnouncementServiceTest {
 
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.empty());
@@ -399,7 +403,9 @@ class AnnouncementServiceTest {
 
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.empty());
@@ -425,13 +431,17 @@ class AnnouncementServiceTest {
 
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
@@ -456,13 +466,17 @@ class AnnouncementServiceTest {
 
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.empty());
@@ -494,13 +508,17 @@ class AnnouncementServiceTest {
 
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.empty());
@@ -527,13 +545,17 @@ class AnnouncementServiceTest {
 
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.empty());
@@ -564,13 +586,17 @@ class AnnouncementServiceTest {
       // When
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          new LoadNormPort.Command(
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          )
         )
       )
         .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
