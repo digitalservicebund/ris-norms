@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExpressionEli {
+public final class ExpressionEli implements Eli {
 
   private String agent;
   private String year;
@@ -48,6 +48,7 @@ public class ExpressionEli {
    *
    * @return the URI for the eli
    */
+  @Override
   public URI toUri() {
     return URI.create(
       "eli/bund/%s/%s/%s/%s/%s/%s".formatted(
