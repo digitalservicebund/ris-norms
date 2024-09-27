@@ -153,9 +153,7 @@ public class NormService
       )
       .findFirst()
       .map(filtered -> filtered.getEventRef().getDate())
-      .map(date ->
-        date.map(d -> d.minusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant()).orElse(Instant.MIN)
-      )
+      .flatMap(date -> date.map(d -> d.minusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant()))
       .orElse(Instant.MIN);
     final Norm futureVersionAtDate = timeMachineService.applyPassiveModifications(
       new ApplyPassiveModificationsUseCase.Query(zf0Norm, atDate)
