@@ -192,7 +192,7 @@ test.describe("Error handling for Temporal Data page", () => {
     ).toBeVisible()
   })
 
-  test("displays error tooltip when API call to save timeboundaries is called with an empty input field", async ({
+  test("displays error toast when API call to save timeboundaries is called with an empty input field", async ({
     page,
   }) => {
     // reset page

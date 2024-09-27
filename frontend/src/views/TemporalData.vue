@@ -5,7 +5,7 @@ import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
+import IconErrorOutline from "~icons/ic/outline-error-outline"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useGetEntryIntoForceHtml } from "@/services/temporalDataService"
@@ -13,6 +13,8 @@ import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { onUnmounted, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import Toast from "primevue/toast"
+import { useToast } from "primevue/usetoast"
 
 const eli = useEliPathParameter()
 const dates = ref<TemporalDataResponse[]>([])
@@ -43,6 +45,28 @@ const cleanupBreadcrumbs = pushBreadcrumb({ title: "Zeitgrenzen anlegen" })
 onUnmounted(() => cleanupBreadcrumbs())
 
 const sentryTraceId = useSentryTraceId()
+const { add: addToast } = useToast()
+
+function showToast() {
+  if (saveError.value) {
+    addToast({
+      group: "error-toast",
+      summary: "Fehler beim Speichern",
+      severity: "error",
+    })
+  } else {
+    addToast({
+      summary: "Speichern erfolgreich",
+      severity: "success",
+    })
+  }
+}
+
+watch(isSavingFinished, (finished) => {
+  if (finished) {
+    showToast()
+  }
+})
 </script>
 
 <template>
@@ -84,36 +108,31 @@ const sentryTraceId = useSentryTraceId()
         class="col-span-2"
       />
     </template>
-
+    <Toast group="error-toast">
+      <template #message="slot">
+        <div class="flex w-320 gap-10">
+          <IconErrorOutline class="text-red-800" />
+          <div>
+            <p class="ris-body2-bold">{{ slot.message.summary }}</p>
+            <div v-if="saveError" class="flex gap-8">
+              <RisCopyableLabel
+                name="Trace-ID"
+                text="Trace-ID kopieren"
+                :value="sentryTraceId"
+              />
+            </div>
+          </div>
+        </div>
+      </template>
+    </Toast>
     <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
       <div class="relative">
-        <RisTooltip
-          :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
-          :variant="saveError ? 'error' : 'success'"
-          :visible="isSavingFinished"
-          allow-dismiss
-          alignment="right"
-          attachment="bottom"
-        >
-          <template #default="{ ariaDescribedby }">
-            <RisTextButton
-              :aria-describedby="ariaDescribedby"
-              :disabled="isFetchingTemporalData || isFetchingEntryIntoForce"
-              :loading="isSaving"
-              label="Speichern"
-              @click="saveTemporalData"
-            />
-          </template>
-
-          <template #message>
-            <RisCopyableLabel
-              v-if="saveError"
-              name="Trace-ID"
-              text="Trace-ID kopieren"
-              :value="sentryTraceId"
-            />
-          </template>
-        </RisTooltip>
+        <RisTextButton
+          :disabled="isFetchingTemporalData || isFetchingEntryIntoForce"
+          :loading="isSaving"
+          label="Speichern"
+          @click="saveTemporalData"
+        />
       </div>
     </Teleport>
   </div>

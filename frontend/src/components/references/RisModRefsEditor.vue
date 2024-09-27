@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import RisRefEditorTable from "@/components/references/RisRefEditorTable.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisRefSelectionPanel from "@/components/references/RisRefSelectionPanel.vue"
@@ -12,6 +11,7 @@ import {
 } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import { useRoute, useRouter } from "vue-router"
+import { useToast } from "primevue/usetoast"
 
 const props = defineProps<{
   normXml: string
@@ -100,7 +100,35 @@ function handleSave() {
   }
 
   emit("save", xmlNodeToString(amendingNormDocument.value))
+  showToast()
 }
+
+const { add: addToast } = useToast()
+
+function showToast() {
+  if (props.hasSaved) {
+    if (props.saveError) {
+      addToast({
+        summary: "Speichern fehlgeschlagen",
+        severity: "error",
+      })
+    } else {
+      addToast({
+        summary: "Gespeichert!",
+        severity: "success",
+      })
+    }
+  }
+}
+
+watch(
+  () => props.hasSaved,
+  (hasSaved) => {
+    if (hasSaved) {
+      showToast()
+    }
+  },
+)
 </script>
 
 <template>
@@ -139,25 +167,12 @@ function handleSave() {
     <hr class="col-span-2 mb-16 mt-32 border border-solid border-gray-400" />
 
     <div class="col-span-2 flex flex-row-reverse">
-      <RisTooltip
-        v-slot="{ ariaDescribedby }"
-        :title="
-          hasSaved && saveError ? 'Speichern fehlgeschlagen' : 'Gespeichert!'
-        "
-        :variant="hasSaved && saveError ? 'error' : 'success'"
-        :visible="hasSaved"
-        allow-dismiss
-        alignment="right"
-        attachment="bottom"
-      >
-        <RisTextButton
-          :aria-describedby
-          :disabled="isSaving"
-          :loading="isSaving"
-          label="Speichern"
-          @click="handleSave"
-        />
-      </RisTooltip>
+      <RisTextButton
+        :disabled="isSaving"
+        :loading="isSaving"
+        label="Speichern"
+        @click="handleSave"
+      />
     </div>
   </div>
 </template>

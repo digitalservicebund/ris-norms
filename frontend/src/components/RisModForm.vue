@@ -4,7 +4,6 @@ import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
@@ -15,6 +14,8 @@ import { useEIdRange } from "@/composables/useEIdRange"
 import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import Toast from "primevue/toast"
+import { useToast } from "primevue/usetoast"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -274,6 +275,31 @@ function handleMouseDown(e: MouseEvent) {
 }
 
 const sentryTraceId = useSentryTraceId()
+const { add: addToast } = useToast()
+
+function showToast() {
+  if (props.updateError) {
+    addToast({
+      group: "error-toast",
+      summary: "Fehler beim Speichern",
+      severity: "error",
+    })
+  } else {
+    addToast({
+      summary: "Speichern erfolgreich",
+      severity: "success",
+    })
+  }
+}
+
+watch(
+  () => props.isUpdatingFinished,
+  (finished) => {
+    if (finished) {
+      showToast()
+    }
+  },
+)
 
 const selectableAknElements: string[] = [
   "akn:list",
@@ -445,44 +471,36 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         @blur="$emit('generate-preview')"
       />
     </div>
-
+    <Toast group="error-toast">
+      <template #message="slot">
+        <div class="flex w-320 gap-10">
+          <IconErrorOutline />
+          <div>
+            <p class="ris-body2-bold">{{ slot.message.summary }}</p>
+            <div v-if="props.updateError" class="mt-16 flex gap-8">
+              <RisCopyableLabel
+                name="Trace-ID"
+                text="Trace-ID kopieren"
+                :value="sentryTraceId"
+              />
+            </div>
+          </div>
+        </div>
+      </template>
+    </Toast>
     <div class="flex">
       <RisTextButton
         label="Vorschau"
         variant="tertiary"
         @click.prevent="$emit('generate-preview')"
       />
-
       <div class="relative ml-auto">
-        <RisTooltip
-          :visible="isUpdatingFinished"
-          :title="
-            updateError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
-          "
-          alignment="right"
-          attachment="top"
-          :variant="updateError ? 'error' : 'success'"
-          allow-dismiss
-        >
-          <template #default="{ ariaDescribedby }">
-            <RisTextButton
-              :aria-describedby="ariaDescribedby"
-              label="Speichern"
-              :icon="CheckIcon"
-              :loading="isUpdating"
-              @click.prevent="$emit('update-mod')"
-            />
-          </template>
-
-          <template #message>
-            <RisCopyableLabel
-              v-if="updateError"
-              name="Trace-ID"
-              text="Trace-ID kopieren"
-              :value="sentryTraceId"
-            />
-          </template>
-        </RisTooltip>
+        <RisTextButton
+          label="Speichern"
+          :icon="CheckIcon"
+          :loading="isUpdating"
+          @click.prevent="$emit('update-mod')"
+        />
       </div>
     </div>
   </form>

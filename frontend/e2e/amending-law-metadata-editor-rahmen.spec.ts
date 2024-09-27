@@ -499,9 +499,8 @@ test.describe("metadata view", () => {
     await metadataPage.saveMetadata()
 
     // Then
-    await expect(
-      page.getByRole("tooltip", { name: "Gespeichert!" }),
-    ).toBeVisible()
+    const toastMessage = page.locator('[role="alert"] >> text=Gespeichert!')
+    await expect(toastMessage).toBeVisible()
   })
 
   test("shows an error if the data could not be saved", async ({ page }) => {
@@ -518,9 +517,7 @@ test.describe("metadata view", () => {
     await metadataPage.saveButton.click()
 
     // Then
-    await expect(
-      page.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
-    ).toBeVisible()
+    await expect(page.getByText("Speichern fehlgeschlagen")).toBeVisible()
 
     await expect(
       page.getByRole("button", {

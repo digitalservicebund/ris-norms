@@ -4,6 +4,15 @@ import RisModForm from "@/components/RisModForm.vue"
 import { userEvent } from "@testing-library/user-event"
 import { ModType } from "@/types/ModType"
 
+const add = vi.fn()
+vi.mock("primevue/usetoast", () => {
+  return {
+    useToast: () => ({
+      add: add,
+    }),
+  }
+})
+
 describe("RisModForm", () => {
   const textualModType: ModType = "aenderungsbefehl-ersetzen"
   const timeBoundaries = [
@@ -425,11 +434,11 @@ describe("RisModForm", () => {
     expect(onGeneratePreview).toHaveBeenCalled()
   })
 
-  it("emits update-mod when the save button is clicked", async () => {
+  it("emits update-mod when the save button is clicked and calls the toast", async () => {
     const user = userEvent.setup()
     const onUpdateMod = vi.fn()
 
-    render(RisModForm, {
+    const { rerender } = render(RisModForm, {
       props: {
         id: "risModForm",
         textualModType,
@@ -448,5 +457,11 @@ describe("RisModForm", () => {
     await user.click(saveButton)
 
     expect(onUpdateMod).toHaveBeenCalled()
+
+    await rerender({
+      isUpdatingFinished: true,
+    })
+
+    expect(add).toHaveBeenCalled()
   })
 })
