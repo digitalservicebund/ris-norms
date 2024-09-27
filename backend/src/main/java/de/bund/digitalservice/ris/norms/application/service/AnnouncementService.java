@@ -83,8 +83,13 @@ public class AnnouncementService
 
   @Override
   public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
+    var manifestationEli = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .map(Norm::getManifestationEli)
+      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
+
     return loadAnnouncementByNormEliPort
-      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
+      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(manifestationEli))
       .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
   }
 
@@ -207,7 +212,7 @@ public class AnnouncementService
 
   private void deleteAnnouncement(Norm norm) {
     deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
-      new DeleteAnnouncementByNormEliPort.Command(norm.getExpressionEli())
+      new DeleteAnnouncementByNormEliPort.Command(norm.getManifestationEli())
     );
   }
 

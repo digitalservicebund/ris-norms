@@ -1,14 +1,12 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -16,18 +14,17 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.Objects;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 class ReleaseServiceTest {
 
-  private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort = mock(
-    LoadAnnouncementByNormEliPort.class
+  private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase = mock(
+    LoadAnnouncementByNormEliUseCase.class
   );
   private final UpdateAnnouncementPort updateAnnouncementPort = mock(UpdateAnnouncementPort.class);
   private final ReleaseService releaseService = new ReleaseService(
-    loadAnnouncementByNormEliPort,
+    loadAnnouncementByNormEliUseCase,
     updateAnnouncementPort
   );
 
@@ -64,8 +61,8 @@ class ReleaseServiceTest {
       )
       .releasedByDocumentalistAt(null)
       .build();
-    when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
-      .thenReturn(Optional.of(announcement));
+    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
+      .thenReturn(announcement);
 
     // When
     var instantBeforeRelease = Instant.now();
@@ -76,7 +73,7 @@ class ReleaseServiceTest {
     );
 
     // Then
-    verify(loadAnnouncementByNormEliPort, times(1))
+    verify(loadAnnouncementByNormEliUseCase, times(1))
       .loadAnnouncementByNormEli(
         argThat(argument ->
           Objects.equals(
@@ -91,20 +88,5 @@ class ReleaseServiceTest {
     assertThat(commandCaptor.getValue().announcement().getNorm()).isEqualTo(announcement.getNorm());
     assertThat(commandCaptor.getValue().announcement().getReleasedByDocumentalistAt())
       .isAfter(instantBeforeRelease);
-  }
-
-  @Test
-  void itShouldThrowForUnknownAnnouncement() {
-    // Given
-    final var query = new ReleaseAnnouncementUseCase.Query(
-      ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-    );
-    when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
-      .thenReturn(Optional.empty());
-
-    // when
-    assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
-      // then
-      .isInstanceOf(AnnouncementNotFoundException.class);
   }
 }

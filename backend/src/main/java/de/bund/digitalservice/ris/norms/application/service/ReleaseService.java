@@ -1,8 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import java.time.Instant;
@@ -16,23 +14,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReleaseService implements ReleaseAnnouncementUseCase {
 
-  private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
+  private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
   private final UpdateAnnouncementPort updateAnnouncementPort;
 
   public ReleaseService(
-    LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
+    LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
     UpdateAnnouncementPort updateAnnouncementPort
   ) {
-    this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
+    this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
     this.updateAnnouncementPort = updateAnnouncementPort;
   }
 
   @Override
   public Announcement releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
-    var announcement = loadAnnouncementByNormEliPort
-      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
-
+    var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
+      new LoadAnnouncementByNormEliUseCase.Query(query.eli())
+    );
     announcement.setReleasedByDocumentalistAt(Instant.now());
 
     updateAnnouncementPort.updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));

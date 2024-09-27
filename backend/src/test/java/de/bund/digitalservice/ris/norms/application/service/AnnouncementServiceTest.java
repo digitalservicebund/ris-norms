@@ -71,32 +71,7 @@ class AnnouncementServiceTest {
       // Given
       var announcement = Announcement
         .builder()
-        .norm(
-          Norm
-            .builder()
-            .document(
-              XmlMapper.toDocument(
-                """
-                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                        <!-- Metadaten -->
-                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                           <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                              <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                 <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                              </akn:FRBRExpression>
-                          </akn:identification>
-                        </akn:meta>
-                     </akn:act>
-                  </akn:akomaNtoso>
-                """
-              )
-            )
-            .build()
-        )
+        .norm(NormFixtures.loadFromDisk("SimpleNorm.xml"))
         .releasedByDocumentalistAt(Instant.now())
         .build();
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
@@ -116,10 +91,12 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsAnnouncementNotFoundException() {
       // given
+      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
         ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
       );
 
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
         .thenReturn(Optional.empty());
 
@@ -130,38 +107,31 @@ class AnnouncementServiceTest {
     }
 
     @Test
+    void itThrowsAnnouncementNotFoundExceptionIfNormDoesNotExist() {
+      // given
+      final var query = new LoadAnnouncementByNormEliUseCase.Query(
+        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      );
+
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+
+      // when
+      assertThatThrownBy(() -> announcementService.loadAnnouncementByNormEli(query))
+        // then
+        .isInstanceOf(AnnouncementNotFoundException.class);
+    }
+
+    @Test
     void itReturnsAnnouncement() {
       // Given
+      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var announcement = Announcement
         .builder()
-        .norm(
-          Norm
-            .builder()
-            .document(
-              XmlMapper.toDocument(
-                """
-                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                        <!-- Metadaten -->
-                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                           <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                              <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                 <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                              </akn:FRBRExpression>
-                          </akn:identification>
-                        </akn:meta>
-                     </akn:act>
-                  </akn:akomaNtoso>
-                """
-              )
-            )
-            .build()
-        )
+        .norm(norm)
         .releasedByDocumentalistAt(Instant.now())
         .build();
+
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
         .thenReturn(Optional.of(announcement));
 
@@ -202,6 +172,10 @@ class AnnouncementServiceTest {
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                         </akn:FRBRExpression>
+                            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4" value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2022-08-23/regelungstext-1.xml"/>
+                               <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="791a8124-d12e-45e1-9c80-5f0438e4d046" date="2022-08-23" name="generierung"/>
+                            </akn:FRBRManifestation>
                      </akn:identification>
                   </akn:meta>
                   <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">

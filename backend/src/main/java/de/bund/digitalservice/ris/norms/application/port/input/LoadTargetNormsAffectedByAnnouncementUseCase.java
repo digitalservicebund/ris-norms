@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.List;
 
 /**
@@ -28,5 +29,5 @@ public interface LoadTargetNormsAffectedByAnnouncementUseCase {
    * @param eli The ELI (European Legislation Identifier) used to identify the norm of the {@link
    *     Announcement} in the query.
    */
-  record Query(de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli eli) {}
+  record Query(ExpressionEli eli) {}
 }

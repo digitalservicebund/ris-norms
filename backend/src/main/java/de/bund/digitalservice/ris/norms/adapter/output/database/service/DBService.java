@@ -79,7 +79,7 @@ public class DBService
     LoadAnnouncementByNormEliPort.Command command
   ) {
     return announcementRepository
-      .findByNormDtoEliExpression(command.eli().toString())
+      .findByNormDtoEliManifestation(command.eli().toString())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -126,7 +126,9 @@ public class DBService
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
     var announcement = command.announcement();
     return announcementRepository
-      .findByNormDtoEliExpression(command.announcement().getNorm().getExpressionEli().toString())
+      .findByNormDtoEliManifestation(
+        command.announcement().getNorm().getManifestationEli().toString()
+      )
       .map(announcementDto -> {
         announcementDto.setReleasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt());
         // It is not possible to change the norm associated with an announcement.
@@ -151,7 +153,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    announcementRepository.deleteByNormDtoEliExpression(command.eli().toString());
+    announcementRepository.deleteByNormDtoEliManifestation(command.eli().toString());
   }
 
   @Override
