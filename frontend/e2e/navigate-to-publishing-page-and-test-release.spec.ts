@@ -59,7 +59,7 @@ test.describe("Publishing flow for an amending law", () => {
     const amendingLawEli =
       "eli_bund_bgbl-1_2017_s419_2017-03-15_1_deu_regelungstext-1.xml"
     const targetLawEli =
-      "eli_bund_bgbl-1_1964_s593_2017-03-15_1_deu_regelungstext-1.xml"
+      "eli_bund_bgbl-1_1964_s593_1964-08-05_1_deu_regelungstext-1.xml"
 
     const amendingLawLink = page.locator(
       `a:has-text("${amendingLawEli.replace(/_/g, "/")}")`,

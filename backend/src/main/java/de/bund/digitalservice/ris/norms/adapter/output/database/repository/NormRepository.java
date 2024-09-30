@@ -21,7 +21,7 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
    * @param expressionEli The ELI to search for.
    * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not found.
    */
-  Optional<NormDto> findFirstByEliExpressionOrderByEliManifestation(final String expressionEli);
+  Optional<NormDto> findFirstByEliExpressionOrderByEliManifestationDesc(final String expressionEli);
 
   /**
    * Finds a {@link NormDto} by its manifestation ELI (European Legislation Identifier).
@@ -47,4 +47,11 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
    */
   @Transactional
   void deleteAllByGuid(final UUID guid);
+
+  /**
+   * Deletes a {@link NormDto} by its manifestation ELI (European Legislation Identifier).
+   *
+   * @param manifestationEli The ELI to search for.
+   */
+  void deleteByEliManifestation(final String manifestationEli);
 }

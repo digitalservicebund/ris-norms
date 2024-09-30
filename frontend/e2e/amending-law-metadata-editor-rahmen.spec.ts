@@ -18,14 +18,14 @@ test.describe("navigate to page", () => {
     // the page redirects to a subpage, so this test might be flaky otherwise depending
     // on how fast the redirect is.
     await expect(page).toHaveURL(
-      /.*\/amending-laws\/eli\/bund\/bgbl-1\/2023\/413\/2023-12-29\/1\/deu\/regelungstext-1\/affected-documents\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\/edit.*/,
+      /.*\/amending-laws\/eli\/bund\/bgbl-1\/2023\/413\/2023-12-29\/1\/deu\/regelungstext-1\/affected-documents\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\/edit.*/,
     )
   })
 
   test("displays affected document short title", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit",
     )
 
     const header = page.getByRole("navigation")
@@ -41,7 +41,7 @@ test.describe("navigate to page", () => {
   test("navigates to the selected time boundary", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit",
     )
 
     // When
@@ -51,7 +51,7 @@ test.describe("navigate to page", () => {
 
     // Then
     await expect(page).toHaveURL(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
   })
 })
@@ -60,7 +60,7 @@ test.describe("preview", () => {
   test("displays the title and preview", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -78,7 +78,7 @@ test.describe("preview", () => {
   test("shows the preview at different time boundaries", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -100,14 +100,14 @@ test.describe("preview", () => {
   }) => {
     // Given
     await page.route(
-      /norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?atIsoDate=/,
+      /norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\?atIsoDate=/,
       async (request) => {
         await request.abort()
       },
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const previewRegion = page.getByRole("region", {
@@ -134,7 +134,7 @@ test.describe("XML view", () => {
   test("displays the XML of the target law", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     // When
@@ -145,7 +145,7 @@ test.describe("XML view", () => {
       page
         .getByRole("region", { name: "Metadaten dokumentieren" })
         .getByText(
-          'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
+          'value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"',
         )
         .first(),
     ).toBeVisible()
@@ -156,7 +156,7 @@ test.describe("XML view", () => {
     request,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const editorRegion = page.getByRole("region", {
@@ -181,7 +181,7 @@ test.describe("XML view", () => {
     const textResponse = await page
       .waitForResponse(
         // XML reload call
-        /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
+        /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\?$/,
       )
       .then((response) => response.text())
 
@@ -197,7 +197,7 @@ test.describe("XML view", () => {
   test("shows an error when the XML could not be loaded", async ({ page }) => {
     // Given
     await page.route(
-      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
+      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
         const accept = await request.request().headerValue("Accept")
         if (accept === "application/xml") await request.abort()
@@ -206,7 +206,7 @@ test.describe("XML view", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     // When
@@ -229,6 +229,13 @@ test.describe("XML view", () => {
 })
 
 test.describe("metadata view", () => {
+  test.afterAll(async ({ request }) => {
+    await uploadAmendingLaw(
+      request,
+      "Nachrichtendienstrechts_2023_413_2023-12-29.xml",
+    )
+  })
+
   test.beforeEach(async ({ page }) => {
     const dataIn2023: RahmenProprietary = {
       fna: "210-5",
@@ -259,12 +266,12 @@ test.describe("metadata view", () => {
     }
 
     await page.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/2023-12-30",
       { data: dataIn2023 },
     )
 
     await page.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2024-06-01",
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/2024-06-01",
       { data: dataIn2024 },
     )
   })

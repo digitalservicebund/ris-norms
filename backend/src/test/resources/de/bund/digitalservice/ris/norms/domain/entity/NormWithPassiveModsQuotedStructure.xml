@@ -43,7 +43,7 @@
                                 eId="meta-1_ident-1_frbrexpression-1">
                <akn:FRBRthis GUID="e3e82a45-e271-4f24-936d-94cae114db58"
                              eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                             value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"/>
+                             value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1"/>
                <akn:FRBRuri GUID="a6997dd0-1a12-43df-a02a-7c2d70b29f1a"
                             eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
                             value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu"/>
@@ -77,7 +77,7 @@
                                    eId="meta-1_ident-1_frbrmanifestation-1">
                <akn:FRBRthis GUID="b73c60f8-03fb-4a98-9bd1-990ff334dbd9"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
-                             value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/2024-07-17/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/2024-07-17/regelungstext-1.xml"/>
                <akn:FRBRuri GUID="3346b7be-37e3-4e26-8cd5-1d4fb70def3b"
                             eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/2024-07-17/regelungstext-1.xml"/>

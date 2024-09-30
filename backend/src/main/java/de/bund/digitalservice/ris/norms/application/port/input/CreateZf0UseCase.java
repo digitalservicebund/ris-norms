@@ -7,14 +7,14 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * {@link Norm}. If not present, it will be created anew. There is also an optional property to
  * indicate if the created ZF0 should be persisted.
  */
-public interface LoadZf0UseCase {
+public interface CreateZf0UseCase {
   /**
-   * It loads or creates the ZF0 norm for a given target law and amending law.
+   * It creates the ZF0 norm for a given target law and amending law.
    *
    * @param query The query containing both the amending law and the target law.
    * @return A {@link Norm} of the created ZF0 version.
    */
-  Norm loadOrCreateZf0(Query query);
+  Norm createZf0(Query query);
 
   /**
    * A record representing the query for loading/creating the ZF0.

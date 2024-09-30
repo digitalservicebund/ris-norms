@@ -18,7 +18,7 @@ test.describe("Validation errors on check modifications page", () => {
     const response = await waitForResponse
     expect(response.status()).toBe(422)
     expect((await response.json()).detail).toBe(
-      "The character range 9-36 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced.",
+      "The character range 9-36 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced.",
     )
 
     await expect(page.getByText("Zeichenbereich nicht korrekt")).toBeVisible()
@@ -52,7 +52,7 @@ test.describe("Validation errors on check modifications page", () => {
     const response = await waitForResponse
     expect(response.status()).toBe(422)
     expect((await response.json()).detail).toBe(
-      "Target node with eid hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.",
+      "Target node with eid hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.",
     )
 
     await expect(page.getByText("Zielknoten nicht vorhanden")).toBeVisible()
@@ -85,7 +85,7 @@ test.describe("Validation errors on check modifications page", () => {
     const response = await waitForResponse
     expect(response.status()).toBe(422)
     expect((await response.json()).detail).toBe(
-      "The character range 9-3400 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node.",
+      "The character range 9-3400 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 is not within the target node.",
     )
 
     await expect(

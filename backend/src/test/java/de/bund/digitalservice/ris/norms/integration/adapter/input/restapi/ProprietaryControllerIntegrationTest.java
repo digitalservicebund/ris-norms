@@ -250,7 +250,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
       final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+        normRepository.findFirstByEliExpressionOrderByEliManifestationDesc(eli).get()
       );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
@@ -312,7 +312,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+        normRepository.findFirstByEliExpressionOrderByEliManifestationDesc(eli).get()
       );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
@@ -373,7 +373,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+        normRepository.findFirstByEliExpressionOrderByEliManifestationDesc(eli).get()
       );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
@@ -438,7 +438,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
       final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+        normRepository.findFirstByEliExpressionOrderByEliManifestationDesc(eli).get()
       );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
@@ -499,7 +499,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
 
       final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(eli).get()
+        normRepository.findFirstByEliExpressionOrderByEliManifestationDesc(eli).get()
       );
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");

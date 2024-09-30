@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
@@ -17,7 +16,7 @@ import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
-import java.util.Optional;
+import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -507,7 +506,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "zf0Elis[0]",
-            equalTo("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
         );
     }
@@ -627,7 +626,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "zf0Elis[0]",
-            equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
         );
     }
@@ -662,20 +661,13 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert ZF0 was created
       assertThat(
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(
-          "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().toString()
+            )
         )
       )
         .isPresent();
-
-      // Assert that target law has now next-version-guid
-      final Optional<NormDto> targetNormDto =
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(
-          affectedNorm.getExpressionEli().toString()
-        );
-      assertThat(targetNormDto).isPresent();
-      final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
-      assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();
     }
 
     @Test
@@ -905,8 +897,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
       var announcement = Announcement.builder().norm(norm).build();
       var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
@@ -931,20 +925,21 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert ZF0 was created
       assertThat(
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(
-          "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().toString()
+            )
         )
       )
         .isPresent();
 
-      // Assert that target law has now next-version-guid
-      final Optional<NormDto> targetNormDto =
-        normRepository.findFirstByEliExpressionOrderByEliManifestation(
-          affectedNorm.getExpressionEli().toString()
-        );
-      assertThat(targetNormDto).isPresent();
-      final Norm targetNorm = NormMapper.mapToDomain(targetNormDto.get());
-      assertThat(targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()).isNotEmpty();
+      // Assert old ZF0 was deleted
+      assertThat(
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
+        )
+      )
+        .isEmpty();
     }
   }
 }

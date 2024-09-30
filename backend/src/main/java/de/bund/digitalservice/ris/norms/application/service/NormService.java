@@ -31,7 +31,6 @@ public class NormService
   private final UpdateNormPort updateNormPort;
   private final SingleModValidator singleModValidator;
   private final UpdateNormService updateNormService;
-  private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final TimeMachineService timeMachineService;
 
@@ -40,7 +39,6 @@ public class NormService
     UpdateNormPort updateNormPort,
     SingleModValidator singleModValidator,
     UpdateNormService updateNormService,
-    LoadZf0Service loadZf0Service,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     TimeMachineService timeMachineService
   ) {
@@ -48,7 +46,6 @@ public class NormService
     this.updateNormPort = updateNormPort;
     this.singleModValidator = singleModValidator;
     this.updateNormService = updateNormService;
-    this.loadZf0Service = loadZf0Service;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.timeMachineService = timeMachineService;
   }
@@ -213,9 +210,6 @@ public class NormService
     final Norm targetNorm = loadNormPort
       .loadNorm(new LoadNormPort.Command(targetNormEli))
       .orElseThrow(() -> new NormNotFoundException(targetNormEli.toString()));
-    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
-      new LoadZf0UseCase.Query(amendingNorm, targetNorm)
-    );
 
     query
       .mods()
@@ -224,7 +218,7 @@ public class NormService
 
         this.updateModInPlace(
             amendingNorm,
-            zf0Norm,
+            targetNorm,
             newModData.eId(),
             mod.getTargetRefHref().or(mod::getTargetRrefFrom).map(Href::value).orElse(null),
             null,
@@ -236,12 +230,12 @@ public class NormService
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
       updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(targetNorm));
     }
 
     return new UpdateModsUseCase.Result(
       XmlMapper.toString(amendingNorm.getDocument()),
-      XmlMapper.toString(zf0Norm.getDocument())
+      XmlMapper.toString(targetNorm.getDocument())
     );
   }
 
@@ -264,13 +258,10 @@ public class NormService
     final Norm targetNorm = loadNormPort
       .loadNorm(new LoadNormPort.Command(targetNormEli))
       .orElseThrow(() -> new NormNotFoundException(targetNormEli.toString()));
-    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
-      new LoadZf0UseCase.Query(amendingNorm, targetNorm)
-    );
 
     this.updateModInPlace(
         amendingNorm,
-        zf0Norm,
+        targetNorm,
         query.eid(),
         query.destinationHref(),
         query.destinationUpTo(),
@@ -281,12 +272,12 @@ public class NormService
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
       updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(targetNorm));
     }
 
     return new UpdateModUseCase.Result(
       XmlMapper.toString(amendingNorm.getDocument()),
-      XmlMapper.toString(zf0Norm.getDocument())
+      XmlMapper.toString(targetNorm.getDocument())
     );
   }
 }

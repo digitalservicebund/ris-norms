@@ -2,8 +2,13 @@ import { expect, test } from "@playwright/test"
 import fs from "fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+test.afterAll(async ({ request }) => {
+  await uploadAmendingLaw(request, "Vereinsgesetz_2017_s419_2017-03-15.xml")
+})
 
 test("navigates to the upload page", async ({ page }) => {
   await page.goto("/amending-laws")

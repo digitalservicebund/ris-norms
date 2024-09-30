@@ -29,22 +29,19 @@ public class ArticleController {
   private final LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
-  private final LoadZf0UseCase loadZf0UseCase;
 
   public ArticleController(
     LoadNormUseCase loadNormUseCase,
     LoadArticlesFromNormUseCase loadArticlesFromNormUseCase,
     LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-    LoadArticleHtmlUseCase loadArticleHtmlUseCase,
-    LoadZf0UseCase loadZf0UseCase
+    LoadArticleHtmlUseCase loadArticleHtmlUseCase
   ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadArticlesFromNormUseCase = loadArticlesFromNormUseCase;
     this.loadSpecificArticlesXmlFromNormUseCase = loadSpecificArticlesXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
-    this.loadZf0UseCase = loadZf0UseCase;
   }
 
   /**
@@ -82,11 +79,6 @@ public class ArticleController {
         final var targetLawZf0 = article
           .getAffectedDocumentEli()
           .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-          .map(targetLaw -> {
-            final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-            return new LoadZf0UseCase.Query(norm, targetLaw, true);
-          })
-          .map(loadZf0UseCase::loadOrCreateZf0)
           .orElse(null);
 
         return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
@@ -164,8 +156,6 @@ public class ArticleController {
     final var targetLawZf0 = foundArticle
       .getAffectedDocumentEli()
       .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-      .map(targetLaw -> new LoadZf0UseCase.Query(norm, targetLaw, true))
-      .map(loadZf0UseCase::loadOrCreateZf0)
       .orElse(null);
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper

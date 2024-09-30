@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
@@ -39,13 +40,12 @@ public class AnnouncementService
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
-  private final LoadZf0Service loadZf0Service;
+  private final CreateZf0Service loadZf0Service;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
   private final BillToActService billToActService;
   private final LdmlDeValidator ldmlDeValidator;
   private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
-  private final DeleteNormByGuidPort deleteNormByGuidPort;
-  private final UpdateNormPort updateNormPort;
+  private final DeleteNormPort deleteNormPort;
   private final ReferenceService referenceService;
 
   public AnnouncementService(
@@ -53,13 +53,12 @@ public class AnnouncementService
     LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
     LoadNormPort loadNormPort,
     LoadNormByGuidPort loadNormByGuidPort,
-    LoadZf0Service loadZf0Service,
+    CreateZf0Service loadZf0Service,
     UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
     BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
-    DeleteNormByGuidPort deleteNormByGuidPort,
-    UpdateNormPort updateNormPort,
+    DeleteNormPort deleteNormPort,
     ReferenceService referenceService
   ) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
@@ -71,8 +70,7 @@ public class AnnouncementService
     this.billToActService = billToActService;
     this.ldmlDeValidator = ldmlDeValidator;
     this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
-    this.deleteNormByGuidPort = deleteNormByGuidPort;
-    this.updateNormPort = updateNormPort;
+    this.deleteNormPort = deleteNormPort;
     this.referenceService = referenceService;
   }
 
@@ -108,16 +106,13 @@ public class AnnouncementService
         article.getRefersTo().isPresent() &&
         !article.getRefersTo().get().equals("geltungszeitregel")
       )
-      .map(article -> {
-        final Norm targetLaw = loadNormPort
+      .map(article ->
+        loadNormPort
           .loadNorm(new LoadNormPort.Command(article.getMandatoryAffectedDocumentEli()))
           .orElseThrow(() ->
             new NormNotFoundException(article.getMandatoryAffectedDocumentEli().toString())
-          );
-        return loadZf0Service.loadOrCreateZf0(
-          new LoadZf0UseCase.Query(amendingNorm, targetLaw, true)
-        );
-      })
+          )
+      )
       .toList();
   }
 
@@ -142,8 +137,7 @@ public class AnnouncementService
     final boolean normFound = isNormRetrievableByEli(query.force(), norm);
 
     if (normFound && query.force()) {
-      deleteAnnouncement(norm);
-      deleteTargetNormsZf0(activeModDestinationElis);
+      deleteAnnouncement(norm.getManifestationEli());
     } else if (
       loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
     ) {
@@ -210,27 +204,29 @@ public class AnnouncementService
     return normExists;
   }
 
-  private void deleteAnnouncement(Norm norm) {
+  private void deleteAnnouncement(ManifestationEli manifestationEli) {
+    Optional<Norm> normToDelete = loadNormPort.loadNorm(new LoadNormPort.Command(manifestationEli));
+
+    if (normToDelete.isPresent()) {
+      var activeModDestinationElis = getActiveModDestinationElis(normToDelete.get());
+      deleteTargetNormsZf0(activeModDestinationElis);
+    }
+
     deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
-      new DeleteAnnouncementByNormEliPort.Command(norm.getManifestationEli())
+      new DeleteAnnouncementByNormEliPort.Command(manifestationEli)
     );
   }
 
   private void deleteTargetNormsZf0(Set<ExpressionEli> activeModDestinationElis) {
-    activeModDestinationElis.forEach(eli ->
+    activeModDestinationElis.forEach(expressionEli ->
       loadNormPort
-        .loadNorm(new LoadNormPort.Command(eli))
-        .ifPresent(targetNorm ->
-          targetNorm
-            .getMeta()
-            .getFRBRExpression()
-            .getFRBRaliasNextVersionId()
-            .ifPresent(uuid -> {
-              deleteNormByGuidPort.loadNormByGuid(new DeleteNormByGuidPort.Command(uuid));
-              targetNorm.getMeta().getFRBRExpression().deleteAliasNextVersionId();
-              updateNormPort.updateNorm(new UpdateNormPort.Command(targetNorm));
-            })
-        )
+        .loadNorm(new LoadNormPort.Command(expressionEli))
+        .ifPresent(targetNorm -> {
+          ManifestationEli manifestationEli = ManifestationEli.fromString(
+            targetNorm.getMeta().getFRBRManifestation().getEli()
+          );
+          deleteNormPort.deleteNorm(new DeleteNormPort.Command(manifestationEli));
+        })
     );
   }
 
@@ -253,7 +249,7 @@ public class AnnouncementService
       loadNormPort
         .loadNorm(new LoadNormPort.Command(eli))
         .ifPresent(targetNorm ->
-          loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(norm, targetNorm, true))
+          loadZf0Service.createZf0(new CreateZf0UseCase.Query(norm, targetNorm, true))
         )
     );
     // 3. Reference recognition

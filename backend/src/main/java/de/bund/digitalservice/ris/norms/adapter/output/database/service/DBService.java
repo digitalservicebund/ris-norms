@@ -35,7 +35,7 @@ public class DBService
     UpdateOrSaveNormPort,
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
-    DeleteNormByGuidPort {
+    DeleteNormPort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -49,7 +49,7 @@ public class DBService
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return switch (command.eli()) {
       case ExpressionEli expressionEli -> normRepository
-        .findFirstByEliExpressionOrderByEliManifestation(expressionEli.toString())
+        .findFirstByEliExpressionOrderByEliManifestationDesc(expressionEli.toString())
         .map(NormMapper::mapToDomain);
       case ManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
@@ -157,7 +157,8 @@ public class DBService
   }
 
   @Override
-  public void loadNormByGuid(DeleteNormByGuidPort.Command command) {
-    normRepository.deleteAllByGuid(command.guid());
+  @Transactional
+  public void deleteNorm(DeleteNormPort.Command command) {
+    normRepository.deleteByEliManifestation(command.eli().toString());
   }
 }

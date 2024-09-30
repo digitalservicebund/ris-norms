@@ -56,7 +56,7 @@ export class MetadataEditorRahmenPage {
 
   async gotoTimeBoundary(date: string) {
     await this.page.goto(
-      `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/${date}`,
+      `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/${date}`,
     )
   }
 

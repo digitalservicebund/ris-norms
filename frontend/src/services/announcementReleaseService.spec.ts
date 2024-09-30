@@ -14,7 +14,7 @@ describe("announcementReleaseService", () => {
         amendingLawEli:
           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
         zf0Elis: [
-          "eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         ],
       }
 
@@ -48,7 +48,7 @@ describe("announcementReleaseService", () => {
         amendingLawEli:
           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
         zf0Elis: [
-          "eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         ],
       }
 
@@ -92,7 +92,7 @@ describe("announcementReleaseService", () => {
         amendingLawEli:
           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
         zf0Elis: [
-          "eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         ],
       }
 
@@ -126,7 +126,7 @@ describe("announcementReleaseService", () => {
         amendingLawEli:
           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
         zf0Elis: [
-          "eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         ],
       }
 

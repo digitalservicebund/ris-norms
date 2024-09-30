@@ -96,6 +96,26 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
+  void itFindsNewestManifestationOfNorm() {
+    // Given
+    normRepository.save(
+      NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"))
+    );
+    var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    normRepository.save(NormMapper.mapToDto(norm));
+
+    // When
+    final Optional<Norm> normOptional = dbService.loadNorm(
+      new LoadNormPort.Command(
+        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      )
+    );
+
+    // Then
+    assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+  }
+
+  @Test
   void itFindsNormByGuidOnDB() {
     // When
     var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");

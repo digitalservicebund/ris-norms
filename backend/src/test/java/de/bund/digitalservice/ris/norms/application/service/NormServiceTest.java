@@ -32,7 +32,6 @@ class NormServiceTest {
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final SingleModValidator singleModValidator = mock(SingleModValidator.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
-  final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
@@ -41,7 +40,6 @@ class NormServiceTest {
     updateNormPort,
     singleModValidator,
     updateNormService,
-    loadZf0Service,
     updateOrSaveNormPort,
     timeMachineService
   );
@@ -576,7 +574,6 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
 
@@ -602,21 +599,18 @@ class NormServiceTest {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      ExpressionEli targetNormEli = targetNorm.getExpressionEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String newCharacterRange = "20-25";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
-        targetNormEli +
+        zf0Norm.getExpressionEli().toString() +
         "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newContent = "new text";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
-        .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+        .thenReturn(Optional.of(zf0Norm));
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -678,7 +672,6 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -711,22 +704,19 @@ class NormServiceTest {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      ExpressionEli targetNormEli = targetNorm.getExpressionEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "9-34";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
-        targetNormEli +
+        zf0Norm.getExpressionEli().toString() +
         "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newContent = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
-        .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+        .thenReturn(Optional.of(zf0Norm));
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -750,8 +740,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
-      verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
         .updateActiveModifications(
           argThat(argument ->
@@ -793,13 +782,11 @@ class NormServiceTest {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String newTimeBoundaryEid = "#time-boundary-eid";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
-        .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+        .thenReturn(Optional.of(zf0Norm));
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -851,7 +838,6 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -882,15 +868,12 @@ class NormServiceTest {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      ExpressionEli targetNormEli = targetNorm.getExpressionEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newTimeBoundaryEid = "#time-boundary-eid";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
-        .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+        .thenReturn(Optional.of(zf0Norm));
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -909,8 +892,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
-      verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
         .updateActiveModifications(
           argThat(argument ->
@@ -956,7 +938,6 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -985,7 +966,6 @@ class NormServiceTest {
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
-      verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
       verify(updateNormService, times(2)).updateActiveModifications(any());
       verify(updateNormService, times(2)).updatePassiveModifications(any());
       verify(updateNormPort, times(1)).updateNorm(any());
@@ -1006,7 +986,6 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -1035,7 +1014,6 @@ class NormServiceTest {
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
-      verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
       verify(updateNormService, times(2)).updateActiveModifications(any());
       verify(updateNormService, times(2)).updatePassiveModifications(any());
       verify(updateNormPort, times(1)).updateNorm(any());

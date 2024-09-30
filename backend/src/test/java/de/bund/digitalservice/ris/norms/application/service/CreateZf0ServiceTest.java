@@ -1,47 +1,25 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class LoadZf0ServiceTest {
+class CreateZf0ServiceTest {
 
   final UpdateNormService updateNormService = new UpdateNormService();
-  final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
-  final LoadZf0Service loadZf0Service = new LoadZf0Service(
+  final CreateZf0Service loadZf0Service = new CreateZf0Service(
     updateNormService,
-    loadNormByGuidPort,
     updateOrSaveNormPort
   );
-
-  @Test
-  void itLoadsZf0FromDB() {
-    // Given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    final Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-    when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(zf0Law));
-
-    // When
-    final Norm zf0NormLoaded = loadZf0Service.loadOrCreateZf0(
-      new LoadZf0UseCase.Query(amendingLaw, targetLaw)
-    );
-
-    // Then
-    assertThat(zf0Law).isEqualTo(zf0NormLoaded);
-  }
 
   @Test
   void itSuccessfullyCreatesZf0OutOfTargetLaw() {
@@ -50,93 +28,14 @@ class LoadZf0ServiceTest {
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
 
     // When
-    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
-      new LoadZf0UseCase.Query(amendingLaw, targetLaw)
+    final Norm zf0Norm = loadZf0Service.createZf0(
+      new CreateZf0UseCase.Query(amendingLaw, targetLaw)
     );
 
     // Then
-    final FRBRExpression frbrExpressionTargetLaw = targetLaw.getMeta().getFRBRExpression();
     final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
-    assertThat(frbrExpressionZf0Law.getFRBRaliasPreviousVersionId())
-      .isNotEmpty()
-      .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
-      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
     assertThat(frbrExpressionZf0Law.getEli())
-      .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
-    assertThat(frbrExpressionZf0Law.getFBRDate())
-      .isEqualTo(amendingLaw.getMeta().getFRBRWork().getFBRDate());
-
-    final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
-    assertThat(ManifestationEli.fromString(frbrManifestationZf0Law.getEli()).asExpressionEli())
-      .isEqualTo(ExpressionEli.fromString(frbrExpressionZf0Law.getEli()));
-    assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
-
-    assertThat(
-      targetLaw
-        .getMeta()
-        .getAnalysis()
-        .map(analysis -> analysis.getPassiveModifications().stream())
-        .orElse(Stream.empty())
-    )
-      .isEmpty();
-    assertThat(
-      zf0Norm
-        .getMeta()
-        .getAnalysis()
-        .map(analysis -> analysis.getPassiveModifications().stream())
-        .orElse(Stream.empty())
-    )
-      .hasSize(1);
-    final TextualMod activeMod = amendingLaw
-      .getMeta()
-      .getAnalysis()
-      .map(analysis -> analysis.getActiveModifications().stream())
-      .orElse(Stream.empty())
-      .toList()
-      .getFirst();
-    final TextualMod passiveMod = zf0Norm
-      .getMeta()
-      .getAnalysis()
-      .map(analysis -> analysis.getPassiveModifications().stream())
-      .orElse(Stream.empty())
-      .toList()
-      .getFirst();
-    assertThat(passiveMod.getType()).isEqualTo(activeMod.getType());
-    assertThat(passiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getExpressionEli().toString());
-    assertThat(passiveMod.getDestinationHref().orElseThrow().getEId())
-      .isEqualTo(activeMod.getDestinationHref().orElseThrow().getEId());
-    assertThat(passiveMod.getForcePeriodEid()).isNotEmpty();
-  }
-
-  @Test
-  void itSuccessfullyCreatesZf0OutOfTargetLawWhenNextVersionIsMissing() {
-    // Given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk(
-      "NormWithoutPassiveModificationsNoNextVersion.xml"
-    );
-
-    // When
-    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
-      new LoadZf0UseCase.Query(amendingLaw, targetLaw)
-    );
-
-    // Then
-    final FRBRExpression frbrExpressionTargetLaw = targetLaw.getMeta().getFRBRExpression();
-    final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
-    assertThat(frbrExpressionZf0Law.getFRBRaliasPreviousVersionId())
-      .isNotEmpty()
-      .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
-      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
-    assertThat(frbrExpressionZf0Law.getEli())
-      .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
-    assertThat(frbrExpressionZf0Law.getFBRDate())
-      .isEqualTo(amendingLaw.getMeta().getFRBRWork().getFBRDate());
+      .contains(targetLaw.getMeta().getFRBRExpression().getEli());
 
     final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
     assertThat(ManifestationEli.fromString(frbrManifestationZf0Law.getEli()).asExpressionEli())
@@ -190,23 +89,14 @@ class LoadZf0ServiceTest {
     );
 
     // When
-    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
-      new LoadZf0UseCase.Query(amendingLaw, targetLaw)
+    final Norm zf0Norm = loadZf0Service.createZf0(
+      new CreateZf0UseCase.Query(amendingLaw, targetLaw)
     );
 
     // Then
-    final FRBRExpression frbrExpressionTargetLaw = targetLaw.getMeta().getFRBRExpression();
     final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
-    assertThat(frbrExpressionZf0Law.getFRBRaliasPreviousVersionId())
-      .isNotEmpty()
-      .contains(frbrExpressionTargetLaw.getFRBRaliasCurrentVersionId());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasCurrentVersionId())
-      .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId().get());
-    assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isEmpty();
     assertThat(frbrExpressionZf0Law.getEli())
-      .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
-    assertThat(frbrExpressionZf0Law.getFBRDate())
-      .isEqualTo(amendingLaw.getMeta().getFRBRWork().getFBRDate());
+      .contains(targetLaw.getMeta().getFRBRExpression().getEli());
 
     final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
     assertThat(ManifestationEli.fromString(frbrManifestationZf0Law.getEli()).asExpressionEli())

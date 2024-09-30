@@ -803,7 +803,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
             .accept(MediaType.APPLICATION_XML)
         )
         .andExpect(status().isOk())
@@ -1019,7 +1019,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1")
+          get("/api/v1/norms/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1")
             .accept(MediaType.APPLICATION_XML)
         )
         .andExpect(status().isOk())
@@ -1265,7 +1265,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
+                "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1, the character range not present."
               )
             )
         )
@@ -1284,7 +1284,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
         .andExpect(
           jsonPath("eli")
-            .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"))
+            .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))
         );
     }
 
@@ -1336,7 +1336,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "The character range 935 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
+                "The character range 935 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 has invalid format."
               )
             )
         )
@@ -1351,7 +1351,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
         .andExpect(
           jsonPath("eli")
-            .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"))
+            .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))
         );
     }
 
@@ -1404,7 +1404,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "The character range 9-35 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced."
+                "The character range 9-35 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced."
               )
             )
         )
@@ -1419,7 +1419,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
         .andExpect(
           jsonPath("eli")
-            .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"))
+            .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))
         );
     }
 
@@ -1471,7 +1471,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "The character range 9-351 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node."
+                "The character range 9-351 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 is not within the target node."
               )
             )
         )
@@ -1487,7 +1487,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
         .andExpect(
           jsonPath("eli")
-            .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"))
+            .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))
         );
     }
 
@@ -1539,7 +1539,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "Target node with eid hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1."
+                "Target node with eid hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-fake not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1."
               )
             )
         )
@@ -1557,7 +1557,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("eli")
-            .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"))
+            .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))
         );
     }
 
@@ -1617,7 +1617,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "Target upTo node with eid hauptteil-1_para-2_abs-99 not present in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1."
+                "Target upTo node with eid hauptteil-1_para-2_abs-99 not present in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1."
               )
             )
         )
@@ -1631,7 +1631,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(jsonPath("eId").value(equalTo("hauptteil-1_para-2_abs-99")))
         .andExpect(
-          jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"))
+          jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1"))
         );
     }
 
@@ -1691,7 +1691,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-1_inhalt-1 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1."
+                "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-1_inhalt-1 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1."
               )
             )
         )
@@ -1708,7 +1708,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("targetUpToNodeEid").value(equalTo("hauptteil-1_para-2_abs-1_inhalt-1"))
         )
         .andExpect(
-          jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"))
+          jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1"))
         );
     }
 
@@ -1768,7 +1768,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("detail")
             .value(
               equalTo(
-                "Target node with eid hauptteil-1_para-2_abs-2 does not appear before target upTo node with eid hauptteil-1_para-2_abs-1 in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1."
+                "Target node with eid hauptteil-1_para-2_abs-2 does not appear before target upTo node with eid hauptteil-1_para-2_abs-1 in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1."
               )
             )
         )
@@ -1783,7 +1783,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("targetNodeEid").value(equalTo("hauptteil-1_para-2_abs-2")))
         .andExpect(jsonPath("targetUpToNodeEid").value(equalTo("hauptteil-1_para-2_abs-1")))
         .andExpect(
-          jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"))
+          jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1"))
         );
     }
   }
@@ -2315,7 +2315,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       .andExpect(status().isOk())
       .andExpect(
         xpath("//meta//FRBRExpression/FRBRthis/@value")
-          .string("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+          .string("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
       );
   }
 }

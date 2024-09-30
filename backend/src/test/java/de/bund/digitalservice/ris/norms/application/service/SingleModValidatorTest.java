@@ -71,7 +71,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "The character range 9-34 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced."
+          "The character range 9-34 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced."
         );
     }
 
@@ -227,7 +227,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
+          "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1, the character range not present."
         );
     }
 
@@ -235,19 +235,19 @@ class SingleModValidatorTest {
       return Stream.of(
         Arguments.of(
           "20-20.xml",
-          "The character range 20-20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
+          "The character range 20-20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 has invalid format."
         ),
         Arguments.of(
           "-20.xml",
-          "The character range -20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
+          "The character range -20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 has invalid format."
         ),
         Arguments.of(
           "0-.xml",
-          "The character range 0-.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."
+          "The character range 0-.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 has invalid format."
         ),
         Arguments.of(
           "",
-          "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."
+          "In the destination href with value #hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1, the character range not present."
         )
       );
     }
@@ -315,7 +315,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-          "The character range 9-1113 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node."
+          "The character range 9-1113 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 is not within the target node."
         );
     }
   }

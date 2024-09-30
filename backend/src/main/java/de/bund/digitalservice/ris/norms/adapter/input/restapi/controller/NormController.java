@@ -37,7 +37,6 @@ public class NormController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final LoadNormXmlUseCase loadNormXmlUseCase;
-  private final LoadZf0UseCase loadZf0UseCase;
   private final UpdateNormXmlUseCase updateNormXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
@@ -47,7 +46,6 @@ public class NormController {
   public NormController(
     LoadNormUseCase loadNormUseCase,
     LoadNormXmlUseCase loadNormXmlUseCase,
-    LoadZf0UseCase loadZf0UseCase,
     UpdateNormXmlUseCase updateNormXmlUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
     ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
@@ -56,7 +54,6 @@ public class NormController {
   ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
-    this.loadZf0UseCase = loadZf0UseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
@@ -257,28 +254,20 @@ public class NormController {
   /**
    * Retrieves the xml of a norm's zf0 version.
    *
-   * <p>At the moment this also needs the amending norm that would be responsible for creating the
-   * zf0 xml as we have no assurance that it has been created yet.
-   *
    * @param eli Eli of the request
    * @param amendingNormEli Eli of norm that should be used as the amending norm to create the zf0
    *     if no zf0 exists yet.
    * @return A {@link ResponseEntity} containing the retrieved zf0 norm's xml.
+   * @deprecated use the normal getNorm endpoint with an expression eli. It returns the zf0 if one exists.
    */
   @GetMapping(path = "/zf0", produces = { APPLICATION_XML_VALUE })
+  @Deprecated(forRemoval = true)
   public ResponseEntity<String> getNormZf0Xml(
     final ExpressionEli eli,
     @RequestParam String amendingNormEli
   ) {
     var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-    var amendingNorm = loadNormUseCase.loadNorm(
-      new LoadNormUseCase.Query(ExpressionEli.fromString(amendingNormEli))
-    );
 
-    var zf0Norm = loadZf0UseCase.loadOrCreateZf0(
-      new LoadZf0UseCase.Query(amendingNorm, targetNorm, true)
-    );
-
-    return ResponseEntity.ok(XmlMapper.toString(zf0Norm.getDocument()));
+    return ResponseEntity.ok(XmlMapper.toString(targetNorm.getDocument()));
   }
 }
