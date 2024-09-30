@@ -40,12 +40,6 @@ public class Norm {
         document
       )
     );
-    /*.map(ExpressionEli::fromString)
-      .orElseGet(() ->
-        NodeParser
-          .getValueFromMandatoryNodeFromExpression("//FRBRManifestation/FRBRthis/@value", document)
-          .replace(".xml", "")
-      );*/
   }
 
   /**
