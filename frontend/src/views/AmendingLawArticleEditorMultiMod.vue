@@ -3,7 +3,6 @@ import RisCallout from "@/components/controls/RisCallout.vue"
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import IconErrorOutline from "~icons/ic/outline-error-outline"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -19,6 +18,7 @@ import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import Toast from "primevue/toast"
 import { useToast } from "primevue/usetoast"
+import Button from "primevue/button"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -183,7 +183,7 @@ watch(isUpdatingFinished, (finished) => {
     class="col-span-1 flex max-h-full flex-col gap-8 pb-24"
     aria-labelledby="originalArticleTitle"
   >
-    <h3 id="originalArticleTitle" class="ds-label-02-bold mb-6">
+    <h3 id="originalArticleTitle" class="ris-label2-bold mb-6">
       {{ props.selectedMods.length }} Änderungsbefehle bearbeiten
     </h3>
 
@@ -221,15 +221,15 @@ watch(isUpdatingFinished, (finished) => {
       </div>
 
       <div class="flex">
-        <RisTextButton
+        <Button
           label="Vorschau"
-          variant="tertiary"
+          severity="secondary"
           :disabled="timeBoundary === 'multiple'"
           @click.prevent="preview"
         />
 
         <div class="relative ml-auto">
-          <RisTextButton
+          <Button
             label="Speichern"
             :icon="CheckIcon"
             :loading="isUpdating"
@@ -272,7 +272,7 @@ watch(isUpdatingFinished, (finished) => {
     class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-24"
     aria-labelledby="changedArticlePreview"
   >
-    <h3 id="changedArticlePreview" class="ds-label-02-bold">Vorschau</h3>
+    <h3 id="changedArticlePreview" class="ris-label2-bold">Vorschau</h3>
     <RisTabs
       :tabs="[
         { id: 'text', label: 'Text' },

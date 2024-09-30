@@ -29,7 +29,7 @@ const classesForPreview = useModHighlightClasses(normDocument, () => false)
 
 <template>
   <div class="p-24">
-    <h1 class="ds-heading-02-reg mb-24">Verkündung</h1>
+    <h1 class="ris-heading2-regular mb-24">Verkündung</h1>
     <div v-if="error || loadXmlError">
       <RisErrorCallout :error="error ?? loadXmlError" />
     </div>

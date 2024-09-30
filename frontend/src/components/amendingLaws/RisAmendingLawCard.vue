@@ -52,7 +52,7 @@ const frbrDateVerkuendungGerman = computed(() => {
 <template>
   <div class="flex justify-between bg-white p-16 hover:bg-blue-200">
     <div class="flex items-center">
-      <span class="ds-label-02-bold w-128 flex-none whitespace-nowrap">
+      <span class="ris-label2-bold w-128 flex-none whitespace-nowrap">
         {{ gazetteOrMediumUpper }} {{ frbrDateVerkuendungYear }}
         {{ pageOrEdition }}
       </span>

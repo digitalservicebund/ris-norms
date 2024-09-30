@@ -155,7 +155,7 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
             class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-24"
             aria-labelledby="changeCommandsEditor"
           >
-            <h3 id="changeCommandsEditor" class="ds-label-02-bold">
+            <h3 id="changeCommandsEditor" class="ris-label2-bold">
               <span class="block">Änderungsbefehle</span>
             </h3>
 

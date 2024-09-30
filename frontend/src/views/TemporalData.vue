@@ -4,7 +4,7 @@ import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import IconErrorOutline from "~icons/ic/outline-error-outline"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
@@ -93,7 +93,7 @@ watch(isSavingFinished, (finished) => {
 
     <template v-else-if="entryIntoForceArticleHtml">
       <div class="relative col-span-3 mb-24 flex items-center justify-between">
-        <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
+        <h1 class="ris-heading2-regular">Zeitgrenzen anlegen</h1>
       </div>
 
       <div class="col-span-1 overflow-auto">
@@ -127,7 +127,7 @@ watch(isSavingFinished, (finished) => {
     </Toast>
     <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
       <div class="relative">
-        <RisTextButton
+        <Button
           :disabled="isFetchingTemporalData || isFetchingEntryIntoForce"
           :loading="isSaving"
           label="Speichern"

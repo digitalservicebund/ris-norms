@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import { useElementId } from "@/composables/useElementId"
 import {
   InjectionKey,
@@ -215,15 +215,16 @@ export function useHeaderContext() {
         <IcBaselineArrowBack />
         <span class="sr-only">Zurück</span>
       </RouterLink>
-      <RisTextButton
+      <Button
         v-else-if="backDestination === 'history-back'"
-        :icon="IcBaselineArrowBack"
-        icon-only
         label="Zurück"
-        variant="ghost"
-        size="small"
+        severity="text"
         @click="router.back()"
-      />
+      >
+        <template #icon>
+          <IcBaselineArrowBack />
+        </template>
+      </Button>
 
       <span
         v-if="showBackButtonSeparator"
@@ -237,12 +238,12 @@ export function useHeaderContext() {
         <span
           v-for="crumb in allBreadcrumbs"
           :key="crumb.key"
-          class="ds-body-01-reg after:mx-8 after:inline-block after:text-gray-700 after:content-['/'] last-of-type:after:hidden"
+          class="ris-body1-regular after:mx-8 after:inline-block after:text-gray-700 after:content-['/'] last-of-type:after:hidden"
         >
           <RouterLink v-if="crumb.to" v-slot="link" :to="crumb.to" custom>
             <a
               v-if="!link.isExactActive"
-              class="ds-link-01-bold underline"
+              class="ris-link1-bold underline"
               :href="link.href"
               @click="debouncedBreadcrumbClick(crumb.to)"
             >

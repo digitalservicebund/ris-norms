@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import EditOutlineIcon from "~icons/ic/outline-edit"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import { RouteLocationRaw } from "vue-router"
 
 withDefaults(
@@ -28,15 +28,16 @@ withDefaults(
 <template>
   <div class="mt-16 flex w-full justify-between gap-24 bg-blue-200 p-24">
     <div class="flex flex-col">
-      <span class="ds-label-02-bold">{{ title }}</span>
-      <span class="ds-body-01-reg">{{ description }}</span>
+      <span class="ris-label2-bold">{{ title }}</span>
+      <span class="ris-body1-regular">{{ description }}</span>
     </div>
 
-    <RisTextButton
-      :to
-      :icon="EditOutlineIcon"
-      :label="iconText"
-      variant="ghost"
-    />
+    <RouterLink :to>
+      <Button text :label="iconText">
+        <template #icon>
+          <EditOutlineIcon />
+        </template>
+      </Button>
+    </RouterLink>
   </div>
 </template>

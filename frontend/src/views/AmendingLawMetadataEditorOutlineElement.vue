@@ -42,7 +42,7 @@ const {
   <div v-else class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ds-label-02-bold">
+        <h2 class="ris-label2-bold">
           {{ element?.title }}
         </h2>
       </div>

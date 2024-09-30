@@ -2,7 +2,7 @@
 import RisCallout from "@/components/controls/RisCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNormXml } from "@/services/normService"
@@ -101,7 +101,7 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
 <template>
   <div class="flex flex-col p-24">
     <section class="flex flex-col gap-20">
-      <h1 class="ds-heading-02-reg">Abgabe</h1>
+      <h1 class="ris-heading2-regular">Abgabe</h1>
 
       <div
         v-if="isFetching || isReleasing"
@@ -154,11 +154,8 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
       </RisCallout>
 
       <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
-
-      <RisTextButton
+      <Button
         class="w-fit"
-        variant="primary"
-        size="small"
         label="Jetzt abgeben"
         :loading="isReleasing"
         @click="onRelease"

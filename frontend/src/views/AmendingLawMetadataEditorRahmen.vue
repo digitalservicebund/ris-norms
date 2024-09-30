@@ -343,7 +343,7 @@ watch(hasSaved, (finished) => {
   <div class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ds-label-02-bold">Rahmen</h2>
+        <h2 class="ris-label2-bold">Rahmen</h2>
       </div>
     </div>
 
@@ -383,13 +383,13 @@ watch(hasSaved, (finished) => {
               @submit.prevent
             >
               <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
+                <legend class="ris-label2-bold col-span-2">Sachgebiet</legend>
                 <label :for="fnaId">Sachgebiet</label>
                 <InputText :id="fnaId" v-model="fna" />
               </fieldset>
 
               <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Dokumenttyp</legend>
+                <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
                 <label :for="documentTypeId">Dokumenttyp</label>
                 <RisDropdownInput
@@ -429,7 +429,7 @@ watch(hasSaved, (finished) => {
               </fieldset>
 
               <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Normgeber</legend>
+                <legend class="ris-label2-bold col-span-2">Normgeber</legend>
 
                 <label :for="staatId"
                   ><abbr
@@ -462,9 +462,7 @@ watch(hasSaved, (finished) => {
               </fieldset>
 
               <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">
-                  Federführung
-                </legend>
+                <legend class="ris-label2-bold col-span-2">Federführung</legend>
 
                 <label :for="ressortId">Ressort</label>
                 <RisDropdownInput

@@ -2,7 +2,7 @@
 
 <template>
   <div class="p-24">
-    <h1 class="ds-heading-02-reg mb-24">
+    <h1 class="ris-heading2-regular mb-24">
       <span class="font-bold">404</span> - Seite nicht gefunden
     </h1>
     <div class="flex w-full flex-col gap-12 md:w-1/2">

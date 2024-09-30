@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisRefEditorTable from "@/components/references/RisRefEditorTable.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import RisRefSelectionPanel from "@/components/references/RisRefSelectionPanel.vue"
 import { computed, ref, triggerRef, watch } from "vue"
 import {
@@ -134,7 +134,7 @@ watch(
 <template>
   <div class="grid grid-rows-[minmax(0,max-content),max-content,max-content]">
     <section aria-labelledby="textBasedMetadataHeading" class="flex flex-col">
-      <h3 id="textBasedMetadataHeading" class="ds-label-02-bold mb-12 block">
+      <h3 id="textBasedMetadataHeading" class="ris-label2-bold mb-12 block">
         Textbasierte Metadaten
       </h3>
       <RisRefSelectionPanel
@@ -153,7 +153,7 @@ watch(
       aria-labelledby="referencesHeading"
       class="flex flex-col"
     >
-      <h3 id="referencesHeading" class="ds-label-02-bold mb-12 block">
+      <h3 id="referencesHeading" class="ris-label2-bold mb-12 block">
         Verweise
       </h3>
       <RisRefEditorTable
@@ -167,7 +167,7 @@ watch(
     <hr class="col-span-2 mb-16 mt-32 border border-solid border-gray-400" />
 
     <div class="col-span-2 flex flex-row-reverse">
-      <RisTextButton
+      <Button
         :disabled="isSaving"
         :loading="isSaving"
         label="Speichern"

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNorm } from "@/services/normService"
 import { computed } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import IcOutlineBorderColor from "~icons/ic/outline-border-color"
 import IcOutlinePostAdd from "~icons/ic/outline-post-add"
+import Button from "primevue/button"
 
 const props = defineProps<{
   /**
@@ -75,18 +75,20 @@ const referenceEditorUrl = computed<string>(
     </div>
 
     <div class="flex flex-none flex-col items-start justify-center">
-      <RisTextButton
-        label="Inhaltliche Auszeichnungen"
-        :icon="IcOutlineBorderColor"
-        variant="ghost"
-        :to="referenceEditorUrl"
-      />
-      <RisTextButton
-        label="Metadaten dokumentieren"
-        :icon="IcOutlinePostAdd"
-        variant="ghost"
-        :to="editorUrl"
-      />
+      <RouterLink :to="referenceEditorUrl">
+        <Button label="Inhaltliche Auszeichnungen" text>
+          <template #icon>
+            <IcOutlineBorderColor />
+          </template>
+        </Button>
+      </RouterLink>
+      <RouterLink :to="editorUrl">
+        <Button label="Metadaten dokumentieren" text>
+          <template #icon>
+            <IcOutlinePostAdd />
+          </template>
+        </Button>
+      </RouterLink>
     </div>
   </component>
 </template>

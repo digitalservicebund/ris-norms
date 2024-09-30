@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { nextTick, ref, watch, computed } from "vue"
 import RisDateInput from "@/components/controls/RisDateInput.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import Button from "primevue/button"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
 import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
@@ -47,14 +47,17 @@ watch(newDate, async (newDateValue) => {
 
 <template>
   <form class="grid grid-cols-[6rem,1fr,min-content] items-start gap-4">
-    <RisTextButton
-      :icon="SortOutlineIcon"
+    <Button
       label="Nach Datum sortieren"
-      variant="link"
+      text
       class="col-start-2 ml-auto"
       disabled
       @click.prevent="() => {}"
-    />
+    >
+      <template #icon>
+        <SortOutlineIcon />
+      </template>
+    </Button>
     <div></div>
 
     <template v-for="(dateEntry, index) in dates" :key="index">
@@ -66,17 +69,17 @@ watch(newDate, async (newDateValue) => {
         class="col-span-2 grid w-full grid-cols-subgrid"
         label-class="w-[6rem]"
       />
-      <RisTextButton
-        :icon="DeleteOutlineIcon"
-        variant="ghost"
+      <Button
+        text
         class="shrink-0"
-        size="small"
-        :label="`Zeitgrenze ${index + 1} löschen`"
-        type="button"
+        :aria-label="`Zeitgrenze ${index + 1} löschen`"
         :disabled="isDeleteDisabled"
-        icon-only
         @click.prevent="removeDateInput(index)"
-      />
+      >
+        <template #icon>
+          <DeleteOutlineIcon />
+        </template>
+      </Button>
     </template>
 
     <RisDateInput
