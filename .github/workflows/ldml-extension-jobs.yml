@@ -12,8 +12,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libxml2-utils -y
-      - name: xmllint
+      - name: Lint LDML.de 1.6 schema
         working-directory: ./LegalDocML.de/1.6/
+        run: |
+          xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd fixtures/SaatG_regelungstext.xml
+      - name: Lint LDML.de 1.7 schema
+        working-directory: ./LegalDocML.de/1.7-prerelease-2024-09-02/
         run: |
           xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd fixtures/SaatG_regelungstext.xml
       - name: Send status to Slack
