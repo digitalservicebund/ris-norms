@@ -37,7 +37,6 @@ class NormMapperTest {
     var normDto = NormDto
       .builder()
       .xml(xml)
-      .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
       .guid(UUID.fromString("c01334e2-f12b-4055-ac82-15ac03c74c78"))
       .build();
 
@@ -81,7 +80,6 @@ class NormMapperTest {
     // Then
     assertThat(normDto).isNotNull();
     assertThat(XmlMapper.toDocument(normDto.getXml()).isEqualNode(norm.getDocument())).isTrue();
-    assertThat(normDto.getEli()).isEqualTo(norm.getEli());
     assertThat(normDto.getGuid()).isEqualTo(norm.getGuid());
   }
 }

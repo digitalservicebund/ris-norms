@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -25,14 +26,20 @@ public class UpdateNormService
    * @param norm the zf0Norm from which to remove passive modifications
    * @param sourceNormEli the eli which the removed passive modifications should have as a source
    */
-  private void removePassiveModificationsThatStemFromSource(Norm norm, String sourceNormEli) {
+  private void removePassiveModificationsThatStemFromSource(
+    Norm norm,
+    ExpressionEli sourceNormEli
+  ) {
     norm
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getPassiveModifications().stream())
       .orElse(Stream.empty())
       .filter(passiveModification ->
-        passiveModification.getSourceHref().flatMap(Href::getEli).equals(Optional.of(sourceNormEli))
+        passiveModification
+          .getSourceHref()
+          .flatMap(Href::getEli)
+          .equals(Optional.of(sourceNormEli.toString()))
       )
       .forEach(passiveModification -> {
         norm.deleteByEId(passiveModification.getEid().orElseThrow());
@@ -52,7 +59,7 @@ public class UpdateNormService
     var norm = query.zf0Norm();
 
     // clean up existing passive modifications stemming from the amending zf0Norm
-    removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli());
+    removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getExpressionEli());
     EidConsistencyGuardian.correctEids(norm.getDocument());
 
     final List<TextualMod> activeModificationsToAdd = query
@@ -65,7 +72,7 @@ public class UpdateNormService
         activeModification
           .getDestinationHref()
           .flatMap(Href::getEli)
-          .filter(eli -> eli.equals(query.targetNormEli()))
+          .filter(eli -> eli.equals(query.targetNormEli().toString()))
           .isPresent()
       )
       .toList();
@@ -101,7 +108,7 @@ public class UpdateNormService
         .addPassiveModification(
           activeModification.getType().orElseThrow(),
           new Href.Builder()
-            .setEli(query.amendingNorm().getEli())
+            .setEli(query.amendingNorm().getExpressionEli().toString())
             .setEId(activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
             .setFileExtension("xml")
             .buildAbsolute()

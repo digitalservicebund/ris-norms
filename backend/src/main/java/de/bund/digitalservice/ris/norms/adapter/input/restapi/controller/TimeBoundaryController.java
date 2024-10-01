@@ -97,7 +97,7 @@ public class TimeBoundaryController {
       updateTimeBoundariesUseCase
         .updateTimeBoundariesOfNorm(
           new UpdateTimeBoundariesUseCase.Query(
-            eli.toString(),
+            eli,
             TimeBoundaryMapper.fromResponseSchema(timeBoundaries)
           )
         )

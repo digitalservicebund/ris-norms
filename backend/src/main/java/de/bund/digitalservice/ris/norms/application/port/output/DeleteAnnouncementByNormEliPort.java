@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 
 /**
  * Interface representing a port for deleting an {@link Announcement} and its corresponding {@link Norm}.
@@ -19,5 +20,5 @@ public interface DeleteAnnouncementByNormEliPort {
    *
    * @param eli of the corresponding norm.
    */
-  record Command(String eli) {}
+  record Command(ManifestationEli eli) {}
 }

@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManifestationEli {
+public final class ManifestationEli implements Eli {
 
   private String agent;
   private String year;
@@ -82,6 +82,7 @@ public class ManifestationEli {
    *
    * @return the URI for the eli
    */
+  @Override
   public URI toUri() {
     return URI.create(toString());
   }

@@ -45,10 +45,9 @@ class NormDtoTest {
         </akn:akomaNtoso>
       """;
     var guid = UUID.fromString("c01334e2-f12b-4055-ac82-15ac03c74c78");
-    var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // When
-    final NormDto normDto = NormDto.builder().xml(xml).eli(eli).guid(guid).build();
+    final NormDto normDto = NormDto.builder().xml(xml).guid(guid).build();
     final Set<ConstraintViolation<NormDto>> violations = validator.validate(normDto);
 
     // Then
@@ -65,13 +64,9 @@ class NormDtoTest {
 
     // Then
     assertThat(violations)
-      .hasSize(3)
+      .hasSize(2)
       .extracting(violation -> violation.getPropertyPath().toString() + " " + violation.getMessage()
       )
-      .containsExactlyInAnyOrder(
-        "eli must not be null",
-        "guid must not be null",
-        "xml must not be null"
-      );
+      .containsExactlyInAnyOrder("guid must not be null", "xml must not be null");
   }
 }

@@ -93,7 +93,7 @@ public class ElementService
     final var xPath = getXPathForEid(query.eid());
 
     final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return NodeParser
@@ -117,7 +117,7 @@ public class ElementService
     final LoadElementHtmlAtDateFromNormUseCase.Query query
   ) {
     var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     norm =
@@ -145,7 +145,7 @@ public class ElementService
     );
 
     final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     // Source EIDs from passive mods

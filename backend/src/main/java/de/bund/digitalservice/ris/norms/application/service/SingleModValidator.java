@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class SingleModValidator {
    */
   public void validate(final Norm zf0Norm, final Mod activeMod) throws ValidationException {
     final String modEId = activeMod.getMandatoryEid();
-    final String zf0NormEli = zf0Norm.getEli();
+    final ExpressionEli zf0NormEli = zf0Norm.getExpressionEli();
 
     final TextualMod affectedPassiveMod = zf0Norm
       .getMeta()
@@ -45,7 +46,7 @@ public class SingleModValidator {
         new ValidationException(
           ValidationException.ErrorType.TARGET_NODE_NOT_PRESENT,
           Pair.of(ValidationException.FieldName.EID, targetNodeEid),
-          Pair.of(ValidationException.FieldName.ELI, zf0NormEli)
+          Pair.of(ValidationException.FieldName.ELI, zf0NormEli.toString())
         )
       );
     if (activeMod.usesQuotedText()) {
@@ -62,7 +63,7 @@ public class SingleModValidator {
   }
 
   private void validateQuotedText(
-    final String zf0NormEli,
+    final ExpressionEli zf0NormEli,
     final TextualMod passivemod,
     String amendingNormOldText,
     Node targetNode
@@ -76,7 +77,7 @@ public class SingleModValidator {
           ValidationException.ErrorType.CHARACTER_RANGE_NOT_PRESENT,
           Pair.of(ValidationException.FieldName.DESTINATION_HREF, destinationHref.value()),
           Pair.of(ValidationException.FieldName.EID, passiveModEid),
-          Pair.of(ValidationException.FieldName.ELI, zf0NormEli)
+          Pair.of(ValidationException.FieldName.ELI, zf0NormEli.toString())
         )
       );
 
@@ -84,7 +85,7 @@ public class SingleModValidator {
       ValidationException.ErrorType.CHARACTER_RANGE_INVALID_FORMAT,
       Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
       Pair.of(ValidationException.FieldName.EID, passiveModEid),
-      Pair.of(ValidationException.FieldName.ELI, zf0NormEli)
+      Pair.of(ValidationException.FieldName.ELI, zf0NormEli.toString())
     );
 
     try {
@@ -94,14 +95,14 @@ public class SingleModValidator {
         ValidationException.ErrorType.CHARACTER_RANGE_NOT_RESOLVE_TARGET,
         Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
         Pair.of(ValidationException.FieldName.EID, passiveModEid),
-        Pair.of(ValidationException.FieldName.ELI, zf0NormEli)
+        Pair.of(ValidationException.FieldName.ELI, zf0NormEli.toString())
       );
     } catch (IndexOutOfBoundsException exception) {
       throw new ValidationException(
         ValidationException.ErrorType.CHARACTER_RANGE_NOT_WITHIN_NODE_RANGE,
         Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
         Pair.of(ValidationException.FieldName.EID, passiveModEid),
-        Pair.of(ValidationException.FieldName.ELI, zf0NormEli)
+        Pair.of(ValidationException.FieldName.ELI, zf0NormEli.toString())
       );
     }
   }
@@ -123,7 +124,7 @@ public class SingleModValidator {
             new ValidationException(
               ValidationException.ErrorType.TARGET_UPTO_NODE_NOT_PRESENT,
               Pair.of(ValidationException.FieldName.EID, targetUpToNodeEid),
-              Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli())
+              Pair.of(ValidationException.FieldName.ELI, zf0Norm.getExpressionEli().toString())
             )
           );
 
@@ -132,7 +133,7 @@ public class SingleModValidator {
             ValidationException.ErrorType.TARGET_AND_UPTO_NODES_NOT_SIBLINGS,
             Pair.of(ValidationException.FieldName.TARGET_NODE_EID, targetNodeEid),
             Pair.of(ValidationException.FieldName.TARGET_UPTO_NODE_EID, targetUpToNodeEid),
-            Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli())
+            Pair.of(ValidationException.FieldName.ELI, zf0Norm.getExpressionEli().toString())
           );
         }
 
@@ -145,7 +146,7 @@ public class SingleModValidator {
             ValidationException.ErrorType.TARGET_NODE_AFTER_UPTO_NODE,
             Pair.of(ValidationException.FieldName.TARGET_NODE_EID, targetNodeEid),
             Pair.of(ValidationException.FieldName.TARGET_UPTO_NODE_EID, targetUpToNodeEid),
-            Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli())
+            Pair.of(ValidationException.FieldName.ELI, zf0Norm.getExpressionEli().toString())
           );
         }
       });

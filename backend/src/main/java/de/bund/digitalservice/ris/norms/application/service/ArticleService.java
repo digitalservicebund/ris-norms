@@ -36,7 +36,7 @@ public class ArticleService
   @Override
   public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
     var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     if (query.atIsoDate() != null) {
@@ -66,7 +66,7 @@ public class ArticleService
     final var amendedBy = query.amendedBy();
 
     final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     List<Article> articles = norm.getArticles();
@@ -120,7 +120,7 @@ public class ArticleService
     LoadSpecificArticlesXmlFromNormUseCase.Query query
   ) {
     List<Article> articles = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
       .getArticles();
 

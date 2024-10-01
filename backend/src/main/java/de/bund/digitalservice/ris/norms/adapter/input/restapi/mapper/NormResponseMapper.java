@@ -18,7 +18,7 @@ public class NormResponseMapper {
   public static NormResponseSchema fromUseCaseData(final Norm norm) {
     return NormResponseSchema
       .builder()
-      .eli(norm.getEli())
+      .eli(norm.getExpressionEli().toString())
       .title(norm.getTitle().orElse(null))
       .frbrName(norm.getMeta().getFRBRWork().getFRBRname().orElse(null))
       .frbrNumber(norm.getMeta().getFRBRWork().getFRBRnumber().orElse(null))

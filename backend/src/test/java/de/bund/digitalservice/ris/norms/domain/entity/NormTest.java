@@ -24,10 +24,12 @@ class NormTest {
   void getEli() {
     // given
     Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    String expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+    ExpressionEli expectedEli = ExpressionEli.fromString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+    );
 
     // when
-    var actualEli = norm.getEli();
+    var actualEli = norm.getExpressionEli();
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);
@@ -49,7 +51,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    assertThatThrownBy(norm::getEli).isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(norm::getExpressionEli).isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 
   @Test
@@ -1268,9 +1270,10 @@ class NormTest {
 
       // when
       norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
+      norm.deleteByEId("meta-1_ident-1_frbrmanifestation-1_frbrthis-1");
 
       // then
-      assertThatThrownBy(norm::getEli).isInstanceOf(MandatoryNodeNotFoundException.class);
+      assertThatThrownBy(norm::getExpressionEli).isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }
 

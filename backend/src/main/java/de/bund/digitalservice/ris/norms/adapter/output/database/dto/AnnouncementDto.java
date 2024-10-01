@@ -38,6 +38,6 @@ public class AnnouncementDto {
   private Instant releasedByDocumentalistAt;
 
   @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
-  @JoinColumn(name = "eli", referencedColumnName = "eli", nullable = false)
+  @JoinColumn(name = "eli", referencedColumnName = "eli_manifestation", nullable = false)
   private NormDto normDto;
 }

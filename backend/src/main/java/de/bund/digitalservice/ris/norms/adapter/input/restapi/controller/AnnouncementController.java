@@ -116,7 +116,7 @@ public class AnnouncementController {
   )
   public ResponseEntity<ReleaseResponseSchema> putRelease(final ExpressionEli eli) {
     var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(eli.toString())
+      new ReleaseAnnouncementUseCase.Query(eli)
     );
 
     var affectedNorms =

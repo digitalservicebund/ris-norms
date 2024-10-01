@@ -1,9 +1,4 @@
--- TARGET LAW
-DELETE
-FROM norms
-where eli_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1';
-INSERT INTO norms (guid, xml)
-VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
    This is a modified example from the LDML.de specification.
 -->
@@ -25,7 +20,7 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
       <!-- Metadaten -->
-      <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+       <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
          <akn:identification eId="meta-1_ident-1"
                              GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f"
                              source="attributsemantik-noch-undefiniert">
@@ -138,10 +133,10 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
                                  start="#meta-1_lebzykl-1_ereignis-2"/>
             </akn:temporalGroup>
          </akn:temporalData>
-         <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
-         <akn:proprietary eId="meta-1_proprietary-1"
-                          GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
-                          source="attributsemantik-noch-undefiniert">
+           <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
+           <akn:proprietary eId="meta-1_proprietary-1"
+                            GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
+                            source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>stammform</meta:form>
@@ -158,8 +153,8 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
-      <!-- Dokumentenkopf Regelungstext -->
-      <akn:preface eId="einleitung-1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
+       <!-- Dokumentenkopf Regelungstext -->
+       <akn:preface eId="einleitung-1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
          <akn:longTitle eId="einleitung-1_doktitel-1"
                         GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
             <akn:p eId="einleitung-1_doktitel-1_text-1"
@@ -171,10 +166,11 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
                              GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
-                               GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
-                              GUID="bdff7240-266e-4ff3-b311-60342bd1afa2"
-                              refersTo="amtliche-abkuerzung"
-                              name="attributsemantik-noch-undefiniert">Vereinsgesetz</akn:inline>)</akn:shortTitle>
+                               GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline
+                       eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
+                       GUID="bdff7240-266e-4ff3-b311-60342bd1afa2"
+                       refersTo="amtliche-abkuerzung"
+                       name="attributsemantik-noch-undefiniert">Vereinsgesetz</akn:inline>)</akn:shortTitle>
             </akn:p>
          </akn:longTitle>
          <akn:block eId="einleitung-1_block-1"
@@ -186,8 +182,8 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
                       date="1964-08-05">Vom 5. August 1964 </akn:date>
          </akn:block>
       </akn:preface>
-      <!-- Eingangsformel + Inhaltsübersicht -->
-      <akn:preamble eId="preambel-1" GUID="d3023c46-1e74-4c1f-b101-b29898267f71">
+       <!-- Eingangsformel + Inhaltsübersicht -->
+       <akn:preamble eId="preambel-1" GUID="d3023c46-1e74-4c1f-b101-b29898267f71">
          <akn:formula eId="preambel-1_formel-1"
                       GUID="1b476669-1cbb-4633-a0ed-04783680b841"
                       refersTo="eingangsformel"
@@ -196,8 +192,8 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
                    GUID="c1793533-b05a-4fc4-be62-bd6c3449c53a">Der Bundestag hat mit Zustimmung des Bundesrates das folgende Gesetz beschlossen:</akn:p>
          </akn:formula>
       </akn:preamble>
-      <!-- Hauptteil -->
-      <akn:body eId="hauptteil-1" GUID="2094abe2-16e6-44d5-9198-3ef9486833e9">
+       <!-- Hauptteil -->
+       <akn:body eId="hauptteil-1" GUID="2094abe2-16e6-44d5-9198-3ef9486833e9">
          <akn:article eId="hauptteil-1_para-1"
                       GUID="b1b4bd3b-e007-4d84-af83-b8e36a0ae50b"
                       period="#geltungszeitgr-1">
@@ -261,19 +257,19 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
                </akn:content>
             </akn:paragraph>
          </akn:article>
-         <!-- Artikel 34: Geltungszeitregel-->
-         <akn:article eId="hauptteil-1_para-2"
-                      GUID="6574da6e-2a23-4280-80dd-b4f4c5416cdf"
-                      period="#geltungszeitgr-1"
-                      refersTo="geltungszeitregel">
+           <!-- Artikel 34: Geltungszeitregel-->
+           <akn:article eId="hauptteil-1_para-2"
+                        GUID="6574da6e-2a23-4280-80dd-b4f4c5416cdf"
+                        period="#geltungszeitgr-1"
+                        refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_para-2_bezeichnung-1"
                      GUID="19b65c8b-44ae-4092-be09-7de64ac623e5">
                Artikel 34</akn:num>
             <akn:heading eId="hauptteil-1_para-2_überschrift-1"
                          GUID="772db065-a163-4453-a22f-269f6aebddaa">Inkrafttreten</akn:heading>
-            <!-- Absatz (1) -->
-            <akn:paragraph eId="hauptteil-1_para-2_abs-1"
-                           GUID="38c00dca-43e1-4cb5-aa69-bd03cc486c99">
+               <!-- Absatz (1) -->
+               <akn:paragraph eId="hauptteil-1_para-2_abs-1"
+                              GUID="38c00dca-43e1-4cb5-aa69-bd03cc486c99">
                <akn:num eId="hauptteil-1_para-2_abs-1_bezeichnung-1"
                         GUID="b5758ec8-bcb9-4b69-8764-fb86911e937c">
                </akn:num>
@@ -285,8 +281,8 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
             </akn:paragraph>
          </akn:article>
       </akn:body>
-      <!-- Schluss -->
-      <akn:conclusions eId="schluss-1" GUID="5814d07a-3869-489d-b03e-239304e841cb">
+       <!-- Schluss -->
+       <akn:conclusions eId="schluss-1" GUID="5814d07a-3869-489d-b03e-239304e841cb">
          <akn:formula eId="schluss-1_formel-1"
                       GUID="a269a1a9-e8ca-471a-a9d4-ce61e9af05aa"
                       name="attributsemantik-noch-undefiniert"
@@ -294,17 +290,18 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
             <akn:p eId="schluss-1_formel-1_text-1"
                    GUID="1354658b-fdb7-46b4-96e2-e194b16ee103">Das vorstehende Gesetz ist hiermit verkündet.</akn:p>
          </akn:formula>
-         <!-- Signaturen -->
-         <akn:blockContainer eId="schluss-1_blockcontainer-1"
-                             GUID="35e11af5-ff7c-4422-af51-87cff3cc7ceb">
+           <!-- Signaturen -->
+           <akn:blockContainer eId="schluss-1_blockcontainer-1"
+                               GUID="35e11af5-ff7c-4422-af51-87cff3cc7ceb">
             <akn:p eId="schluss-1_blockcontainer-1_text-1"
                    GUID="b55d6230-d71c-49d5-bf86-dab1db53ba6f">
                <akn:location eId="schluss-1_blockcontainer-1_text-1_ort-1"
                              GUID="19ffc7e1-add6-40a4-b9af-2f0927e46e9c"
-                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den <akn:date eId="schluss-1_blockcontainer-1_text-1_datum-1"
-                         GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
-                         refersTo="ausfertigung-datum"
-                         date="1964-08-05">5. August 1964</akn:date>
+                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den <akn:date
+                    eId="schluss-1_blockcontainer-1_text-1_datum-1"
+                    GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
+                    refersTo="ausfertigung-datum"
+                    date="1964-08-05">5. August 1964</akn:date>
             </akn:p>
             <akn:signature eId="schluss-1_blockcontainer-1_signatur-1"
                            GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad">
@@ -346,4 +343,3 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
       </akn:conclusions>
    </akn:act>
 </akn:akomaNtoso>
-');

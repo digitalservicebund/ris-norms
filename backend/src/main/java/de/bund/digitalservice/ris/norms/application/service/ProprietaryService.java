@@ -28,7 +28,7 @@ public class ProprietaryService
   @Override
   public Proprietary loadProprietaryFromNorm(LoadProprietaryFromNormUseCase.Query query) {
     return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().toString()))
+      .loadNorm(new LoadNormPort.Command(query.eli()))
       .map(m -> m.getMeta().getOrCreateProprietary())
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
   }
@@ -39,7 +39,7 @@ public class ProprietaryService
   ) {
     final Norm norm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException((query.eli())));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
     final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
     final MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
@@ -113,7 +113,7 @@ public class ProprietaryService
   ) {
     final Norm norm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException((query.eli())));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
     final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
 

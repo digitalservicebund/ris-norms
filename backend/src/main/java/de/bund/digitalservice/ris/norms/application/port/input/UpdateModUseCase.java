@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Optional;
 
 /**
@@ -35,7 +36,7 @@ public interface UpdateModUseCase {
    *     Default: false
    */
   record Query(
-    String eli,
+    ExpressionEli eli,
     String eid,
     String refersTo,
     String timeBoundaryEid,
@@ -45,7 +46,7 @@ public interface UpdateModUseCase {
     boolean dryRun
   ) {
     public Query(
-      String eli,
+      ExpressionEli eli,
       String eid,
       String refersTo,
       String timeBoundaryEid,

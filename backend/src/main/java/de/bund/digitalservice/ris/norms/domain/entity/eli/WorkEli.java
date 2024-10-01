@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkEli {
+public final class WorkEli implements Eli {
 
   private String agent;
   private String year;
@@ -67,6 +67,7 @@ public class WorkEli {
    *
    * @return the URI for the eli
    */
+  @Override
   public URI toUri() {
     return URI.create("eli/bund/%s/%s/%s".formatted(getAgent(), getYear(), getNaturalIdentifier()));
   }

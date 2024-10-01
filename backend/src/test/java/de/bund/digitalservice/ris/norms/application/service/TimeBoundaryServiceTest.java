@@ -42,7 +42,9 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesOfNormAndReturnsTimeBoundaries() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var norm = Norm
         .builder()
@@ -83,7 +85,7 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaries = service.loadTimeBoundariesOfNorm(
-        new LoadTimeBoundariesUseCase.Query(ExpressionEli.fromString(eli))
+        new LoadTimeBoundariesUseCase.Query(eli)
       );
 
       // Then
@@ -215,7 +217,9 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesOfNormAndReturnsTimeBoundariesEmpty() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var norm = Norm
         .builder()
@@ -246,7 +250,7 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaries = service.loadTimeBoundariesOfNorm(
-        new LoadTimeBoundariesUseCase.Query(ExpressionEli.fromString(eli))
+        new LoadTimeBoundariesUseCase.Query(eli)
       );
 
       // Then
@@ -262,7 +266,9 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesAmendedByAndReturnsTimeBoundaries() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1";
 
       var norm = Norm
@@ -327,7 +333,7 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaries = service.loadTimeBoundariesAmendedBy(
-        new LoadTimeBoundariesAmendedByUseCase.Query(ExpressionEli.fromString(eli), amendedBy)
+        new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy)
       );
 
       // Then
@@ -353,14 +359,16 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesAmendedByAndThrowsNormNotFoundException() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
       var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1";
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       Throwable thrown = catchThrowable(() ->
         service.loadTimeBoundariesAmendedBy(
-          new LoadTimeBoundariesAmendedByUseCase.Query(ExpressionEli.fromString(eli), amendedBy)
+          new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy)
         )
       );
 
@@ -373,7 +381,9 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itCallsUpdateTimeBoundariesOfNormAndReturnsTimeBoundariesNothingChanged() {
-      String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      ExpressionEli eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
 
       var oldXml =
         """
@@ -449,7 +459,9 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itCallsUpdateTimeBoundariesOfNormAndReturnsTimeBoundariesNew() {
-      String eli = "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1";
+      ExpressionEli eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
+      );
 
       var xml =
         """
@@ -539,7 +551,9 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itCallsUpdateTimeBoundariesOfNormAndReturnsTimeBoundariesDelete() {
-      String eli = "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1";
+      ExpressionEli eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
+      );
 
       var xml =
         """
@@ -624,7 +638,9 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itChangesADate() {
-      String eli = "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1";
+      ExpressionEli eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
+      );
 
       var xml =
         """
@@ -707,7 +723,9 @@ class TimeBoundaryServiceTest {
       logger.addAppender(memoryAppender);
       memoryAppender.start();
 
-      String eli = "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1";
+      ExpressionEli eli = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
+      );
 
       var xml =
         """

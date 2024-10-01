@@ -1,9 +1,9 @@
 -- This is only a target law
 DELETE
 FROM norms
-where eli = 'eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1';
-INSERT INTO norms (guid, eli, xml)
-VALUES ('d33c67a0-2be2-4728-932d-5abae5a84422', 'eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
+where eli_expression = 'eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1';
+INSERT INTO norms (guid, xml)
+VALUES ('d33c67a0-2be2-4728-932d-5abae5a84422', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

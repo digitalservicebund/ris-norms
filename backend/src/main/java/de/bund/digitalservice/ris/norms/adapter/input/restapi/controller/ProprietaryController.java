@@ -84,7 +84,7 @@ public class ProprietaryController {
   ) {
     var proprietary = updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(
       new UpdateProprietaryFrameFromNormUseCase.Query(
-        eli.toString(),
+        eli,
         atDate,
         new UpdateProprietaryFrameFromNormUseCase.Metadata(
           proprietaryFrameSchema.getFna(),
@@ -154,7 +154,7 @@ public class ProprietaryController {
     var proprietary =
       updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
         new UpdateProprietarySingleElementFromNormUseCase.Query(
-          eli.toString(),
+          eli,
           eid,
           atDate,
           new UpdateProprietarySingleElementFromNormUseCase.Metadata(

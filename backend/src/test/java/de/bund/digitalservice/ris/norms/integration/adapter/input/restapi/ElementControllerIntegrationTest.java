@@ -500,7 +500,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         "&type=article" +
         "&type=conclusions" +
         "&amendedBy=" +
-        amendingNorm.getEli(); // amending norm eli
+        amendingNorm.getExpressionEli(); // amending norm eli
 
       // When
       mockMvc

@@ -51,7 +51,7 @@ class LdmlDeValidatorTest {
           norm.getDocument()
         )
       )
-        .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1.xml");
+        .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml");
     }
 
     @Test

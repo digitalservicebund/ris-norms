@@ -102,7 +102,7 @@ class LoadZf0ServiceTest {
       .getFirst();
     assertThat(passiveMod.getType()).isEqualTo(activeMod.getType());
     assertThat(passiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getEli());
+      .isEqualTo(amendingLaw.getExpressionEli().toString());
     assertThat(passiveMod.getDestinationHref().orElseThrow().getEId())
       .isEqualTo(activeMod.getDestinationHref().orElseThrow().getEId());
     assertThat(passiveMod.getForcePeriodEid()).isNotEmpty();
@@ -171,7 +171,7 @@ class LoadZf0ServiceTest {
       .getFirst();
     assertThat(passiveMod.getType()).isEqualTo(activeMod.getType());
     assertThat(passiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getEli());
+      .isEqualTo(amendingLaw.getExpressionEli().toString());
     assertThat(passiveMod.getDestinationHref().orElseThrow().getEId())
       .isEqualTo(activeMod.getDestinationHref().orElseThrow().getEId());
     assertThat(passiveMod.getForcePeriodEid()).isNotEmpty();
@@ -240,7 +240,7 @@ class LoadZf0ServiceTest {
       .getFirst();
     assertThat(firstPassiveMod.getType()).isEqualTo(firstActiveMod.getType());
     assertThat(firstPassiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getEli());
+      .isEqualTo(amendingLaw.getExpressionEli().toString());
     assertThat(firstPassiveMod.getDestinationHref().orElseThrow().getEId())
       .isEqualTo(firstActiveMod.getDestinationHref().orElseThrow().getEId());
     assertThat(firstPassiveMod.getForcePeriodEid()).isNotEmpty();
@@ -265,7 +265,7 @@ class LoadZf0ServiceTest {
       .getLast();
     assertThat(secondPassiveMod.getType()).isEqualTo(secondActiveMod.getType());
     assertThat(secondPassiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getEli());
+      .isEqualTo(amendingLaw.getExpressionEli().toString());
     assertThat(secondPassiveMod.getDestinationHref().orElseThrow().getEId())
       .isEqualTo(secondActiveMod.getDestinationHref().orElseThrow().getEId());
     assertThat(secondPassiveMod.getForcePeriodEid()).isNotEmpty();
