@@ -84,10 +84,10 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', '<?xml version="1.0" encoding="U
                                    eId="meta-1_ident-1_frbrmanifestation-1">
                <akn:FRBRthis GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
-                             value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/1990-12-20/regelungstext-1.xml"/>
                <akn:FRBRuri GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
                             eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
-                            value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/1990-12-20/regelungstext-1.xml"/>
                <akn:FRBRdate GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee"
                              date="1990-12-20"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"

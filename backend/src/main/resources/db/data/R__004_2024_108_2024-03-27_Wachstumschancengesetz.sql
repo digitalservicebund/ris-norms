@@ -11,7 +11,7 @@ VALUES ('c2e78146-833b-4d78-a055-27f05eeaf018', '<?xml version="1.0" encoding="U
 	2024 Copyright (C) 2024 Digitalservice GmbH des Bundes
 	##################################################################################
 -->
-<?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
@@ -83,10 +83,10 @@ VALUES ('c2e78146-833b-4d78-a055-27f05eeaf018', '<?xml version="1.0" encoding="U
                                    GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
-                             value="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/2023-12-23/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="d0491f91-d599-46d4-ba61-c7426b607e4f"
-                            value="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/2023-12-23/regelungstext-1.xml"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                              GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612"
                              date="2023-12-23"

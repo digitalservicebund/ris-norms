@@ -95,10 +95,10 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', '<?xml version="1.0" encoding="U
                                    GUID="c2bb71f6-2e7f-4ba2-9f6e-fd4834114338">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="e3e3a77d-4027-4d7f-9e8d-66393d4f3a26"
-                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="a1118c13-2463-4c73-9375-dd39eab2e701"
-                            value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                              GUID="fbdae376-ccbe-4097-9bbe-4e91203b15d8"
                              date="1964-08-05"

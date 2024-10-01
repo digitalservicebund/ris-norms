@@ -27,8 +27,10 @@
             <akn:FRBRManifestation GUID="7ee1fffa-b7be-4b43-8b71-4e384ca83376" eId="meta-1_ident-1_frbrmanifestation-1">
                <akn:FRBRthis GUID="d12a389d-6fce-4f6a-99b2-b98a5f2295b6"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
-                             value="eli/bund/bgbl-1/1001/1/1001-02-01/1/deu/regelungstext-1.xml"/>
-               <akn:FRBRuri GUID="2b36729b-4c33-4427-9396-1d0ed9a3af48" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" value="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/1001/1/1001-02-01/1/deu/2024-09-27/regelungstext-1.xml"/>
+               <akn:FRBRuri GUID="2b36729b-4c33-4427-9396-1d0ed9a3af48"
+                            eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                            value="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/2024-09-27/regelungstext-1.xml"/>
                <akn:FRBRdate GUID="4bb717ae-8d7f-4655-9aa4-1a4315b10229" date="2024-09-27" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
                <akn:FRBRauthor GUID="d4ef8a82-998b-4e5d-a9b0-151e911276be" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
                <akn:FRBRformat GUID="afa63058-68b8-4d77-a2c2-e338f20eb652" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>

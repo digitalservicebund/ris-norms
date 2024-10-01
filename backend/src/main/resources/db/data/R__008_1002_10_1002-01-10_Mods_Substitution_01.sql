@@ -77,10 +77,10 @@ VALUES ('63ef9358-8755-46e4-bf6a-21f379014597', '<?xml version="1.0" encoding="U
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="10f71315-c390-4799-8166-2e53c672c368"
                                    eId="meta-1_ident-1_frbrmanifestation-1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1.xml"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/1002-01-01/regelungstext-1.xml"
                              GUID="9c599b8f-5da2-47a8-8620-5b01ad2f1b6a"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
-               <akn:FRBRuri value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1.xml"
+               <akn:FRBRuri value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/1002-01-01/regelungstext-1.xml"
                             GUID="807ed403-0f2e-4bff-927d-99eaccb0b1b8"
                             eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
                <akn:FRBRdate name="generierung"

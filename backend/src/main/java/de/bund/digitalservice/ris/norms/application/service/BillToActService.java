@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -306,8 +308,21 @@ public class BillToActService {
       formatter
     );
 
-    fRBRManifestationThis.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
-    fRBRManifestationUri.setAttribute(VALUE, fRBRExpressionThis.getAttribute(VALUE) + ".xml");
+    final ExpressionEli expressionEli = ExpressionEli.fromString(
+      fRBRExpressionThis.getAttribute(VALUE)
+    );
+    final ManifestationEli manifestationEli = new ManifestationEli(
+      expressionEli.getAgent(),
+      expressionEli.getYear(),
+      expressionEli.getNaturalIdentifier(),
+      expressionEli.getPointInTime(),
+      expressionEli.getVersion(),
+      expressionEli.getLanguage(),
+      verkuendungsDate.format(formatter),
+      expressionEli.getSubtype()
+    );
+    fRBRManifestationThis.setAttribute(VALUE, manifestationEli.toString());
+    fRBRManifestationUri.setAttribute(VALUE, manifestationEli.toString());
     fRBRManifestationDate.setAttribute("date", verkuendungsDate.format(formatter));
   }
 
