@@ -1,7 +1,7 @@
 #!/bin/bash
 docker compose stop
 docker container prune -f
-docker volume rm ris-norms_postgres15-data
+docker volume rm ris-norms_postgres14-data
 docker compose build
 
 projects=( "chromium" "firefox" "msedge" )
@@ -27,5 +27,5 @@ do
     cd ..
     docker compose stop
     docker container prune -f
-    docker volume rm ris-norms_postgres15-data
+    docker volume rm ris-norms_postgres14-data
 done

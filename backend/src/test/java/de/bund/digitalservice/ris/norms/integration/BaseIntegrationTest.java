@@ -35,7 +35,7 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class BaseIntegrationTest {
 
   @Container
-  static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15")
+  static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:14")
     .withDatabaseName("postgres")
     .withUsername("postgres")
     .withPassword("pass");
