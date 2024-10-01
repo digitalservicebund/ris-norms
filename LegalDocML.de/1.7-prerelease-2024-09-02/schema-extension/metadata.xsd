@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://DS.Metadaten.LegalDocML.de/1.7/"
+<xs:schema xmlns="http://MetadatenRIS.LegalDocML.de/1.7/"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            elementFormDefault="qualified"
-           targetNamespace="http://DS.Metadaten.LegalDocML.de/1.7/"
+           targetNamespace="http://MetadatenRIS.LegalDocML.de/1.7/"
            version="LegalDocML.de 1.7 (irgendwann 2024)">
     <!-- ********************************* Hinweis zur Lizensierung ********************************* -->
     <xs:annotation>
