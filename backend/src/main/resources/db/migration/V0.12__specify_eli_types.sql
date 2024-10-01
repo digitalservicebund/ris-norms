@@ -14,6 +14,10 @@ ALTER TABLE norms
 ALTER TABLE announcements
     DROP CONSTRAINT announcements_eli_fkey;
 
+-- Delete all existing announcements, we now want them to be associated by the manifestation eli and do not yet care about the data in the database
+DELETE
+FROM announcements;
+
 ALTER TABLE announcements
     ADD FOREIGN KEY (eli) REFERENCES norms (eli_manifestation);
 
