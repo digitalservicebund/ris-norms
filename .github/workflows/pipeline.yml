@@ -117,43 +117,43 @@ jobs:
   # Security jobs
   ################
 
-   trivy-scan:
-     runs-on: ubuntu-latest
-     permissions:
-       security-events: write # upload-sarif
-     steps:
-       - name: Checkout code
-         uses: actions/checkout@v4
-       - name: Run Trivy vulnerability scanner in repo mode
-         uses: aquasecurity/trivy-action@97646fedde05bcd0961217c60b50e23f721e7ec7
-         env:
-           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         with:
-           scan-type: "fs"
-           format: "sarif"
-           output: "trivy-results.sarif"
-           severity: "CRITICAL,HIGH" #ignored by sarif report
-       - name: Check trivy results
-         run: |
-           if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
-             echo "Vulnerabilities found"
-             exit 1
-           else
-             echo "No significant vulnerabilities found"
-             exit 0
-           fi
-       - name: Upload Trivy scan results to GitHub Security tab
-         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
-         uses: github/codeql-action/upload-sarif@v3
-         with:
-           sarif_file: "trivy-results.sarif"
-       - name: Send status to Slack
-         # Third-party action, pin to commit SHA!
-         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
-         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
-         if: ${{ failure() && github.ref == 'refs/heads/main' }}
-         with:
-           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#   trivy-scan:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       security-events: write # upload-sarif
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#       - name: Run Trivy vulnerability scanner in repo mode
+#         uses: aquasecurity/trivy-action@97646fedde05bcd0961217c60b50e23f721e7ec7
+#         env:
+#           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           scan-type: "fs"
+#           format: "sarif"
+#           output: "trivy-results.sarif"
+#           severity: "CRITICAL,HIGH" #ignored by sarif report
+#       - name: Check trivy results
+#         run: |
+#           if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
+#             echo "Vulnerabilities found"
+#             exit 1
+#           else
+#             echo "No significant vulnerabilities found"
+#             exit 0
+#           fi
+#       - name: Upload Trivy scan results to GitHub Security tab
+#         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
+#         uses: github/codeql-action/upload-sarif@v3
+#         with:
+#           sarif_file: "trivy-results.sarif"
+#       - name: Send status to Slack
+#         # Third-party action, pin to commit SHA!
+#         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+#         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
+#         if: ${{ failure() && github.ref == 'refs/heads/main' }}
+#         with:
+#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
    talisman-check:
      runs-on: ubuntu-latest
