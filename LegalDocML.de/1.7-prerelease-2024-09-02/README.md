@@ -5,7 +5,7 @@
 | Folder / File                                                 | description                                                                 |
 |---------------------------------------------------------------|-----------------------------------------------------------------------------|
 | `schema`                                                      | The official LegalDocML 1.7 schema files                                    |
-| TODO: `schema-extension`                                      | Our extension of the schema for the `legalDocML.de_metadaten_ds` block      |                                                                                          |
+| `schema-extension`                                            | Our extension of the schema for the `legalDocML.de_metadaten` block         |                                                                                          |
 | `xslt`                                                        | XSLT files for converting 1.6 to 1.7 and to fix eids                        |                                                                                          |
 | `legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd` | The schema file for a regelungstext that includes our custom metadata block |
 | `fixtures`                                                    | Test files for our schema-extension                                         |
