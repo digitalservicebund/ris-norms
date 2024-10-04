@@ -100,7 +100,7 @@ jobs:
           format: "cosign-vuln"
           output: "vuln.json"
       - name: Install cosign
-        uses: sigstore/cosign-installer@08bb361e01a71697a353a4d79b633cccf31f5530
+        uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da
       - name: Log into container registry
         uses: docker/login-action@29df2a9f8c71c2dfe7db598180a0460355ec1c00
         with:
