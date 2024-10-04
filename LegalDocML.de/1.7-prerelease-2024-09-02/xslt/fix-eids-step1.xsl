@@ -20,23 +20,8 @@
     <xsl:template mode="step1" match="akn:article">
         <xsl:param name="parentEId" required="no"/>
 
-        <xsl:variable name="form"
-                      select="/akn:akomaNtoso/*/akn:meta/akn:proprietary/meta:legalDocML.de_metadaten/meta:form"/>
-        <xsl:variable name="typ"
-                      select="/akn:akomaNtoso/*/akn:meta/akn:proprietary/meta:legalDocML.de_metadaten/meta:typ"/>
-
-        <xsl:variable name="partName">
-            <xsl:choose>
-                <xsl:when
-                        test="($form = 'stammform' and not($typ = ('vertragsgesetz', 'vertragsverordnung'))) or $form = 'eingebundene-stammform'">para</xsl:when>
-                <xsl:when test="$form = 'stammform' and $typ = ('vertragsgesetz', 'vertragsverordnung')">art</xsl:when>
-                <xsl:when test="$form = 'mantelform'">art</xsl:when>
-                <xsl:otherwise>para</xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-
         <xsl:call-template name="updateEId">
-            <xsl:with-param name="partName" select="$partName"/>
+            <xsl:with-param name="partName">art</xsl:with-param>
             <xsl:with-param name="parentEId" select="$parentEId"/>
         </xsl:call-template>
     </xsl:template>
