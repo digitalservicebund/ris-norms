@@ -8,7 +8,7 @@ test.describe("Validation errors on check modifications page", () => {
     await page
       .getByLabel("zu ersetzende Textstelle")
       .fill(
-        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1/9-36.xml",
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1/9-36.xml",
       )
     const waitForResponse = page.waitForResponse(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1?dryRun=true",
@@ -41,7 +41,7 @@ test.describe("Validation errors on check modifications page", () => {
     await page
       .getByLabel("zu ersetzende Textstelle")
       .fill(
-        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid/9-34.xml",
+        "hauptteil-1_art-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid/9-34.xml",
       )
 
     const waitForResponse = page.waitForResponse(
@@ -52,7 +52,7 @@ test.describe("Validation errors on check modifications page", () => {
     const response = await waitForResponse
     expect(response.status()).toBe(422)
     expect((await response.json()).detail).toBe(
-      "Target node with eid hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.",
+      "Target node with eid hauptteil-1_art-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1wrongEid not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.",
     )
 
     await expect(page.getByText("Zielknoten nicht vorhanden")).toBeVisible()
@@ -75,7 +75,7 @@ test.describe("Validation errors on check modifications page", () => {
     await page
       .getByLabel("zu ersetzende Textstelle")
       .fill(
-        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1/9-3400.xml",
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1/9-3400.xml",
       )
     const waitForResponse = page.waitForResponse(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1?dryRun=true",

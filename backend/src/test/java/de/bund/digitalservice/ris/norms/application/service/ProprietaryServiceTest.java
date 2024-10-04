@@ -266,7 +266,7 @@ class ProprietaryServiceTest {
     @Test
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var eli = ExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
@@ -287,7 +287,7 @@ class ProprietaryServiceTest {
     @Test
     void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsAndEinzelelementNodes() {
       // given
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
@@ -314,7 +314,7 @@ class ProprietaryServiceTest {
     @Test
     void updatesProprietaryByCreatingNewMetadatenDsNodes() {
       // given
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
@@ -341,7 +341,7 @@ class ProprietaryServiceTest {
     @Test
     void resetsAllFields() {
       // given
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );

@@ -1085,7 +1085,7 @@ class ProprietaryTest {
 
     @Test
     void returnsEinzelelementArtDerNorm() {
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       final Proprietary proprietary = Proprietary
         .builder()
         .node(
@@ -1101,7 +1101,7 @@ class ProprietaryTest {
                               xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/"
                             >
                               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-                              <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                      <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                                   <ris:artDerNorm>ÜN</ris:artDerNorm>
                               </ris:einzelelement>
                            </ris:legalDocML.de_metadaten>
@@ -1116,7 +1116,7 @@ class ProprietaryTest {
 
     @Test
     void returnsEmptyOptionalIfEinzelelementArtDerNormIsMissing() {
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       final Proprietary proprietary = Proprietary
         .builder()
         .node(
@@ -1144,7 +1144,7 @@ class ProprietaryTest {
 
     @Test
     void returnsTheEinzelelementArtDerNormAtDate() {
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       final Proprietary proprietary = Proprietary
         .builder()
         .node(
@@ -1163,7 +1163,7 @@ class ProprietaryTest {
                                                         <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</ris:artDerNorm>
                                                         <ris:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</ris:artDerNorm>
                                                         <ris:artDerNorm start="2001-01-01">ÄN,ÜN</ris:artDerNorm>
-                                                        <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                                                <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                                                             <ris:artDerNorm end="1989-12-31">ÜN</ris:artDerNorm>
                                                             <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
                                                             <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>

@@ -16,7 +16,7 @@ class HrefTest {
     @Test
     void itShouldDetectRelativeHrefs() {
       // given
-      var href = new Href("#para-20_abs-1/100-126");
+      var href = new Href("#art-20_abs-1/100-126");
 
       // when // then
       assertThat(href.isRelative()).isTrue();
@@ -26,7 +26,7 @@ class HrefTest {
     void itShouldDetectAbsoluteHrefs() {
       // given
       var href = new Href(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
       );
 
       // when // then
@@ -40,7 +40,7 @@ class HrefTest {
     @Test
     void itShouldBeEmptyForRelativeHrefs() {
       // given
-      var href = new Href("#para-20_abs-1/100-126");
+      var href = new Href("#art-20_abs-1/100-126");
 
       // when
       var eli = href.getEli();
@@ -53,7 +53,7 @@ class HrefTest {
     void itShouldProvideTheEli() {
       // given // when
       var href = new Href(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
       );
 
       // when
@@ -70,10 +70,10 @@ class HrefTest {
     @ParameterizedTest
     @ValueSource(
       strings = {
-        "#para-20_abs-1/100-126",
-        "#para-20_abs-1",
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml",
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1.xml",
+        "#art-20_abs-1/100-126",
+        "#art-20_abs-1",
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml",
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1.xml",
       }
     )
     void itShouldProvideTheEId(String hrefString) {
@@ -84,7 +84,7 @@ class HrefTest {
       var eId = href.getEId();
 
       // then
-      assertThat(eId).contains("para-20_abs-1");
+      assertThat(eId).contains("art-20_abs-1");
     }
   }
 
@@ -94,10 +94,10 @@ class HrefTest {
     @ParameterizedTest
     @ValueSource(
       strings = {
-        "#hauptteil-1_para-20_abs-1/100-126",
-        "#hauptteil-1_para-20_abs-1",
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1/100-126.xml",
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1.xml",
+        "#hauptteil-1_art-20_abs-1/100-126",
+        "#hauptteil-1_art-20_abs-1",
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-20_abs-1/100-126.xml",
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-20_abs-1.xml",
       }
     )
     void itShouldProvideTheParentEId(String hrefString) {
@@ -108,7 +108,7 @@ class HrefTest {
       var eId = href.getParentEId();
 
       // then
-      assertThat(eId).contains("hauptteil-1_para-20");
+      assertThat(eId).contains("hauptteil-1_art-20");
     }
   }
 
@@ -118,7 +118,7 @@ class HrefTest {
     @Test
     void itShouldProvideTheCharacterRangeForRelativeHrefs() {
       // given
-      var href = new Href("#para-20_abs-1/100-126");
+      var href = new Href("#art-20_abs-1/100-126");
 
       // when
       Optional<CharacterRange> characterRange = href.getCharacterRange();
@@ -131,7 +131,7 @@ class HrefTest {
     @Test
     void itShouldBeEmptyForRelativeHrefsWithoutCharacterRange() {
       // given
-      var href = new Href("#para-20_abs-1");
+      var href = new Href("#art-20_abs-1");
 
       // when
       var characterRange = href.getCharacterRange();
@@ -144,7 +144,7 @@ class HrefTest {
     void itShouldProvideTheCharacterRangeForAbsoluteHrefs() {
       // given
       var href = new Href(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
       );
 
       // when
@@ -159,7 +159,7 @@ class HrefTest {
     void itShouldBeEmptyForAbsoluteHrefsWithoutCharacterRange() {
       // given
       var href = new Href(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1.xml"
       );
 
       // when
@@ -178,13 +178,13 @@ class HrefTest {
       // given // when
       var href = new Href.Builder()
         .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        .setEId("para-20_abs-1")
+        .setEId("art-20_abs-1")
         .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
         .setFileExtension("xml")
         .buildInternalReference();
 
       // then
-      assertThat(href).hasToString("#para-20_abs-1/100-126");
+      assertThat(href).hasToString("#art-20_abs-1/100-126");
     }
 
     @Test
@@ -192,12 +192,12 @@ class HrefTest {
       // given // when
       var href = new Href.Builder()
         .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        .setEId("para-20_abs-1")
+        .setEId("art-20_abs-1")
         .setFileExtension("xml")
         .buildInternalReference();
 
       // then
-      assertThat(href).hasToString("#para-20_abs-1");
+      assertThat(href).hasToString("#art-20_abs-1");
     }
 
     @Test
@@ -205,7 +205,7 @@ class HrefTest {
       // given // when
       var href = new Href.Builder()
         .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        .setEId("para-20_abs-1")
+        .setEId("art-20_abs-1")
         .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
         .setFileExtension("xml")
         .buildAbsolute();
@@ -213,7 +213,7 @@ class HrefTest {
       // then
       assertThat(href)
         .hasToString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
         );
     }
 
@@ -222,15 +222,13 @@ class HrefTest {
       // given // when
       var href = new Href.Builder()
         .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        .setEId("para-20_abs-1")
+        .setEId("art-20_abs-1")
         .setFileExtension("xml")
         .buildAbsolute();
 
       // then
       assertThat(href)
-        .hasToString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1.xml"
-        );
+        .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1.xml");
     }
   }
 }

@@ -168,7 +168,8 @@
                   <akn:source href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                               GUID="91701411-8ca3-4e00-9621-4d3706152a80"
                               eId="meta-1_analysis-1_activemod-1_textualmod-5_source-1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1_abs-1.xml"
+                  <akn:destination
+                          href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1_abs-1.xml"
                                    GUID="5863f809-fe54-4d29-af1d-e8c8b525a096"
                                    eId="meta-1_analysis-1_activemod-1_textualmod-5_destination-1"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
@@ -181,7 +182,8 @@
                   <akn:source href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
                               GUID="c8568958-cd55-442b-80d5-ab47feb80cf7"
                               eId="meta-1_analysis-1_activemod-1_textualmod-6_source-1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1_abs-2_inhalt-1_exmarkup-1.xml"
+                  <akn:destination
+                          href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1_abs-2_inhalt-1_exmarkup-1.xml"
                                    GUID="fac18924-49b0-4a44-b84a-98f5ffaa9975"
                                    eId="meta-1_analysis-1_activemod-1_textualmod-6_destination-1"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
@@ -194,7 +196,8 @@
                   <akn:source href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1"
                               GUID="fb36c17d-f0ff-4942-8bb4-6b0e585546ac"
                               eId="meta-1_analysis-1_activemod-1_textualmod-7_source-1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1_abs-3_untergl-1_listenelem-2.xml"
+                  <akn:destination
+                          href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1_abs-3_untergl-1_listenelem-2.xml"
                                    GUID="fc9e7b53-502b-466b-9226-5dc0e23bd53e"
                                    eId="meta-1_analysis-1_activemod-1_textualmod-7_destination-1"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
@@ -207,8 +210,9 @@
                   <akn:source href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                               GUID="50001590-541a-4c6e-8622-7a00b11bdd76"
                               eId="meta-1_analysis-1_activemod-1_textualmod-8_source-1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-3_abs-2.xml"
-                                   upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-3_abs-3.xml"
+                  <akn:destination
+                          href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-3_abs-2.xml"
+                          upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-3_abs-3.xml"
                                    GUID="1c510d89-bc58-451c-aeab-be103d242c4f"
                                    eId="meta-1_analysis-1_activemod-1_textualmod-8_destination-1"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
@@ -223,8 +227,8 @@
                               eId="meta-1_analysis-1_activemod-1_textualmod-9_source-1"/>
                   <akn:destination GUID="e13cbed9-77cc-4655-9635-fd0dd46602eb"
                                    eId="meta-1_analysis-1_activemod-1_textualmod-9_destination-1"
-                                   href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-2_abs-2_untergl-1_listenelem-2.xml"
-                                   upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-2_abs-2_untergl-1_listenelem-3.xml"/>
+                                   href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-2_abs-2_untergl-1_listenelem-2.xml"
+                                   upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-2_abs-2_untergl-1_listenelem-3.xml"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
                              GUID="7a88b131-ed58-4487-8da5-d90f2c6e9dbb"
                              eId="meta-1_analysis-1_activemod-1_textualmod-9_gelzeitnachw-1"/>
@@ -483,7 +487,8 @@
                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_intro-1">
                            <akn:p GUID="fb146142-2c15-4a04-a341-a959a2fd5821"
                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_intro-1_text-1">
-                              <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1.xml"
+                              <akn:ref
+                                      href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1.xml"
                                        GUID="0724d25d-240c-4f03-8756-f0c1f60d46bd"
                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_intro-1_text-1_ref-1">§ 1</akn:ref> wird wie folgt geändert:</akn:p>
                         </akn:intro>
@@ -498,7 +503,8 @@
                                  <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                           GUID="0b7c433d-261e-41cc-8a81-dfef0bf405cb"
                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1">
-                                    <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1_abs-1.xml"
+                                    <akn:ref
+                                            href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1_abs-1.xml"
                                              GUID="c448b96f-eebd-4400-b4bf-c203a38286a3"
                                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1">Absatz 1</akn:ref> wird ersetzt durch: <akn:quotedStructure startQuote="„"
                                                          endQuote="“"
@@ -529,9 +535,11 @@
                                      eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1">
                                  <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                           GUID="b944592a-28d3-4ccc-a8f6-3a5ccf47593a"
-                                          eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"> Die <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1_abs-2_inhalt-1_exmarkup-1.xml"
+                                          eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"> Die <akn:ref
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1_abs-2_inhalt-1_exmarkup-1.xml"
                                              GUID="cf6a3797-2ddb-46e4-8350-4146955473bd"
-                                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1">Formel</akn:ref> in <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1_abs-2.xml"
+                                         eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1">Formel</akn:ref> in <akn:ref
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1_abs-2.xml"
                                              GUID="cf253c14-2f4f-4b39-ade5-f27e968275dd"
                                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-2">Absatz 2</akn:ref> wird ersetzt durch: <akn:quotedStructure startQuote="„"
                                                          endQuote="“"
@@ -569,7 +577,8 @@
                                  <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                           GUID="1978e541-942e-4850-98f2-7a86d16ff8a1"
                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1">
-                                    <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_para-1_abs-3_untergl-1_listenelem-2.xml"
+                                    <akn:ref
+                                            href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-1_art-1_abs-3_untergl-1_listenelem-2.xml"
                                              GUID="81405edc-690e-4787-8dde-dd592e5979d2"
                                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_ref-1">Absatz 3 Nummer 2</akn:ref> wird ersetzt durch: <akn:quotedStructure startQuote="„"
                                                          endQuote="“"
@@ -625,7 +634,8 @@
                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_intro-1">
                            <akn:p GUID="0fe95a87-7181-47b1-bfab-7cb71f006fb6"
                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_intro-1_text-1">
-                              <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-3.xml"
+                              <akn:ref
+                                      href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-3.xml"
                                        GUID="f8681454-6d4c-4f2e-83de-09588d15bb31"
                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_intro-1_text-1_ref-1">§ 3</akn:ref> wird wie folgt geändert:</akn:p>
                         </akn:intro>
@@ -642,8 +652,9 @@
                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1">
                                     <akn:rref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_bref-1"
                                               GUID="245b613d-53c4-4104-a13d-3ca41f07d922"
-                                              from="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-3_abs-2.xml"
-                                              upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-3_abs-3.xml">Absatz 2 bis Absatz 3</akn:rref> wird ersetzt durch: <akn:quotedStructure startQuote="„"
+                                              from="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-3_abs-2.xml"
+                                              upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-3_abs-3.xml">Absatz 2 bis Absatz 3</akn:rref> wird ersetzt durch: <akn:quotedStructure
+                                         startQuote="„"
                                                          endQuote="“"
                                                          GUID="a1550357-1b9b-4a1e-b20c-3150807da927"
                                                          eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1">
@@ -684,7 +695,8 @@
                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-7_untergl-1_intro-1">
                            <akn:p GUID="a1b61361-36f8-47a2-918e-75f0da5d598b"
                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-7_untergl-1_intro-1_text-1">
-                              <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-4.xml"
+                              <akn:ref
+                                      href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-4.xml"
                                        GUID="a4716ab5-66c5-46ad-8ed8-9bcff7e07917"
                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-7_untergl-1_intro-1_text-1_ref-1">§ 4</akn:ref> wird wie folgt geändert:</akn:p>
                         </akn:intro>
@@ -701,8 +713,8 @@
                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-7_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1">
                                     <akn:rref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-7_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_bref-1"
                                               GUID="245b613d-53c4-4104-a13d-3ca41f07d958"
-                                              from="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-2_abs-2_untergl-1_listenelem-2.xml"
-                                              upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_para-2_abs-2_untergl-1_listenelem-3.xml">Absatz 2 Nummer 2 bis Nummer 3</akn:rref> wird ersetzt durch: <akn:quotedStructure
+                                              from="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-2_abs-2_untergl-1_listenelem-2.xml"
+                                              upTo="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-2_kapitel-1_art-2_abs-2_untergl-1_listenelem-3.xml">Absatz 2 Nummer 2 bis Nummer 3</akn:rref> wird ersetzt durch: <akn:quotedStructure
                                          startQuote="„"
                                                          endQuote="“"
                                                          GUID="ca3cda40-e1e9-4934-b907-217af4babd19"
@@ -748,20 +760,20 @@
                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_überschrift-1">Beispiele Teil I</akn:heading>
                                     <akn:article GUID="c31f4462-545e-4064-af55-d42bb34dacde"
                                                  refersTo="stammform"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_para-1"
+                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_art-1"
                                                  period="#meta-1_geltzeiten-1_geltungszeitgr-2">
                                        <akn:num GUID="6b1085ed-6ac5-4ff3-ac2c-79602af6446f"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_para-1_bezeichnung-1">§ 6</akn:num>
+                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_art-1_bezeichnung-1">§ 6</akn:num>
                                        <akn:heading GUID="e3f17909-13f5-47e0-8467-e4906b90be2b"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_para-1_überschrift-1">Beispielartikel (neu)</akn:heading>
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_art-1_überschrift-1">Beispielartikel (neu)</akn:heading>
                                        <akn:paragraph GUID="d4cfcdd1-d1fd-408a-bf51-0720c852f6b5"
-                                                      eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_para-1_abs-1">
+                                                      eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_art-1_abs-1">
                                           <akn:num GUID="9819cc84-b783-43e7-8185-b00f73748bdd"
-                                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_para-1_abs-1_bezeichnung-1"/>
+                                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_art-1_abs-1_bezeichnung-1"/>
                                           <akn:content GUID="debcb0c7-991d-4823-9397-d55544fb70b0"
-                                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_para-1_abs-1_inhalt-1">
+                                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_art-1_abs-1_inhalt-1">
                                              <akn:p GUID="f6aa96b1-0d31-4b72-8651-5a6bc2b3b1c8"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_para-1_abs-1_inhalt-1_text-1">Im Rahmen des Gesetzes werden klare Regelungen für die Inanspruchnahme von Rechtsmitteln festgelegt.</akn:p>
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-1_art-1_abs-1_inhalt-1_text-1">Im Rahmen des Gesetzes werden klare Regelungen für die Inanspruchnahme von Rechtsmitteln festgelegt.</akn:p>
                                           </akn:content>
                                        </akn:paragraph>
                                     </akn:article>
@@ -795,20 +807,20 @@
                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_überschrift-1">Beispielkapitel (neu)</akn:heading>
                                     <akn:article GUID="ae0a3b00-fb78-4822-bc2b-9201e65a82d5"
                                                  refersTo="stammform"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_para-1"
+                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_art-1"
                                                  period="#meta-1_geltzeiten-1_geltungszeitgr-2">
                                        <akn:num GUID="9187186f-7f6b-4c60-aabd-4bcb33f225a5"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_para-1_bezeichnung-1">§ 7</akn:num>
+                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_art-1_bezeichnung-1">§ 7</akn:num>
                                        <akn:heading GUID="e89fb113-5f67-4418-8010-5d1a023220e6"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_para-1_überschrift-1">Beispielartikel</akn:heading>
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_art-1_überschrift-1">Beispielartikel</akn:heading>
                                        <akn:paragraph GUID="a0abdae7-7930-4f36-811d-86838bd5fcc8"
-                                                      eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_para-1_abs-1">
+                                                      eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_art-1_abs-1">
                                           <akn:num GUID="b7927670-dbe9-428d-a5e6-86a2d8857d1d"
-                                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_para-1_abs-1_bezeichnung-1"/>
+                                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_art-1_abs-1_bezeichnung-1"/>
                                           <akn:content GUID="0ae4cc08-45f6-4bd2-923c-7be9bd74db07"
-                                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_para-1_abs-1_inhalt-1">
+                                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_art-1_abs-1_inhalt-1">
                                              <akn:p GUID="7b45dc0a-eccc-4321-a724-3202a0e0cd65"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_para-1_abs-1_inhalt-1_text-1">Das Gesetz legt großen Wert auf die Einbeziehung der Öffentlichkeit und relevanter Interessengruppen durch umfassende Beteiligungsverfahren. Diese Verfahren sollen sicherstellen, dass die Meinungen und Bedürfnisse der Bürger sowie die Expertise von Fachleuten und Interessensvertretern in die Entscheidungsprozesse einfließen.</akn:p>
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1_quotstruct-1_kapitel-1_art-1_abs-1_inhalt-1_text-1">Das Gesetz legt großen Wert auf die Einbeziehung der Öffentlichkeit und relevanter Interessengruppen durch umfassende Beteiligungsverfahren. Diese Verfahren sollen sicherstellen, dass die Meinungen und Bedürfnisse der Bürger sowie die Expertise von Fachleuten und Interessensvertretern in die Entscheidungsprozesse einfließen.</akn:p>
                                           </akn:content>
                                        </akn:paragraph>
                                     </akn:article>

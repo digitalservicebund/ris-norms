@@ -217,551 +217,551 @@
        <!-- Hauptteil -->
        <akn:body eId="hauptteil-1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
                <!-- §1 -->
-           <akn:article eId="hauptteil-1_para-1"
+           <akn:article eId="hauptteil-1_art-1"
                         GUID="80d1826b-4225-4019-80c7-a10654008b9c"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-1_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="a7d5ccda-e00c-4aef-a99f-809b8eafdd71">
                            §1</akn:num>
             <akn:paragraph GUID="7e004c65-aaf4-4f88-94ce-9a7651de7593"
-                           eId="hauptteil-1_para-1_abs-1">
-               <akn:num eId="hauptteil-1_para-1_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-1_abs-1">
+               <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
                         GUID="87a0e6d5-2b76-4034-aa20-ef2260f8353f">
                               (1)</akn:num>
                <akn:content GUID="155de595-1a58-45b5-95a7-7ce0ee6e103b"
-                            eId="hauptteil-1_para-1_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-1_abs-1_inhalt-1">
                   <akn:p GUID="592e2d87-7843-4f41-b076-5031d254cff2"
-                         eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-1_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §2 -->
-           <akn:article eId="hauptteil-1_para-2"
+           <akn:article eId="hauptteil-1_art-2"
                         GUID="26eb1ba5-2f9d-4efc-8522-061bbcc4a7b9"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-2_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="928b837a-52a8-4568-839b-db2866abd202">
                            §2</akn:num>
             <akn:paragraph GUID="73863cd9-dd0f-472f-85fb-34fb660a2178"
-                           eId="hauptteil-1_para-2_abs-1">
-               <akn:num eId="hauptteil-1_para-2_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-2_abs-1">
+               <akn:num eId="hauptteil-1_art-2_abs-1_bezeichnung-1"
                         GUID="cab55e58-3901-4e19-bb04-a0a1c85ecaad">
                               (1)</akn:num>
                <akn:content GUID="41cf5098-928d-4027-b78d-59de7632d758"
-                            eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-2_abs-1_inhalt-1">
                   <akn:p GUID="84c4afdf-9e55-43f3-970e-427b5b5f3bab"
-                         eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-2_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §3 -->
-           <akn:article eId="hauptteil-1_para-3"
+           <akn:article eId="hauptteil-1_art-3"
                         GUID="1fbffcff-3845-4175-af88-e1cac9d8053d"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-3_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-3_bezeichnung-1"
                      GUID="eb1e352f-4e25-4eea-a1f4-d93920af7b8d">
                            §3</akn:num>
             <akn:paragraph GUID="88a7bf19-3379-4bb5-883b-ff7f9873cd13"
-                           eId="hauptteil-1_para-3_abs-1">
-               <akn:num eId="hauptteil-1_para-3_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-3_abs-1">
+               <akn:num eId="hauptteil-1_art-3_abs-1_bezeichnung-1"
                         GUID="68464716-39a9-44dc-bb44-8d2a5ed1916b">
                               (1)</akn:num>
                <akn:content GUID="748cf054-b5c6-473f-8edd-e967d7a605be"
-                            eId="hauptteil-1_para-3_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-3_abs-1_inhalt-1">
                   <akn:p GUID="530ab977-cf41-4f6d-8db8-b7a164e2595a"
-                         eId="hauptteil-1_para-3_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §4 -->
-           <akn:article eId="hauptteil-1_para-4"
+           <akn:article eId="hauptteil-1_art-4"
                         GUID="5a8416ef-c656-4039-a0fb-a2463aa1e0d7"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-4_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-4_bezeichnung-1"
                      GUID="8222bebf-7c0a-4a6c-9795-9705c816a2c0">
                            §4</akn:num>
             <akn:paragraph GUID="45bcaf24-834f-4e5e-bbd1-9e8c127bf403"
-                           eId="hauptteil-1_para-4_abs-1">
-               <akn:num eId="hauptteil-1_para-4_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-4_abs-1">
+               <akn:num eId="hauptteil-1_art-4_abs-1_bezeichnung-1"
                         GUID="d791a3d8-8770-4306-ab32-786391c32eb0">
                               (1)</akn:num>
                <akn:content GUID="8ccbd60b-4f1e-4aad-b712-cf81dc981e8b"
-                            eId="hauptteil-1_para-4_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-4_abs-1_inhalt-1">
                   <akn:p GUID="08109b53-188a-484d-9aae-94e355cd5c96"
-                         eId="hauptteil-1_para-4_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-4_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §5 -->
-           <akn:article eId="hauptteil-1_para-5"
+           <akn:article eId="hauptteil-1_art-5"
                         GUID="ec075ce0-a6a5-4075-9041-b0304da221b0"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-5_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-5_bezeichnung-1"
                      GUID="4bfef6b2-3527-4247-a8b2-dc1bc468e952">
                            §5</akn:num>
             <akn:paragraph GUID="5fdaec7c-753e-4218-8040-22fa6d9b594d"
-                           eId="hauptteil-1_para-5_abs-1">
-               <akn:num eId="hauptteil-1_para-5_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-5_abs-1">
+               <akn:num eId="hauptteil-1_art-5_abs-1_bezeichnung-1"
                         GUID="95315d18-139e-436e-8822-ff5e81f16583">
                               (1)</akn:num>
                <akn:content GUID="7263cdbb-1e3d-4cd4-8491-c901ae605ee0"
-                            eId="hauptteil-1_para-5_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-5_abs-1_inhalt-1">
                   <akn:p GUID="5740dcc2-4d32-4e55-ac8f-cc6e5886d0a2"
-                         eId="hauptteil-1_para-5_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-5_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §6 -->
-           <akn:article eId="hauptteil-1_para-6"
+           <akn:article eId="hauptteil-1_art-6"
                         GUID="9d818ef1-7e1a-44b0-b584-0690c7eb636d"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-6_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-6_bezeichnung-1"
                      GUID="4a538475-efee-458c-9311-005f4dfb72ed">
                            §6</akn:num>
             <akn:paragraph GUID="959ff2b2-0ae9-4687-b76c-f6b6a7020693"
-                           eId="hauptteil-1_para-6_abs-1">
-               <akn:num eId="hauptteil-1_para-6_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-6_abs-1">
+               <akn:num eId="hauptteil-1_art-6_abs-1_bezeichnung-1"
                         GUID="3e39302a-d279-47e7-b2ba-3105b4618a43">
                               (1)</akn:num>
                <akn:content GUID="ed798c34-6080-4ee1-b9e3-872936250312"
-                            eId="hauptteil-1_para-6_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-6_abs-1_inhalt-1">
                   <akn:p GUID="cb6c9acd-327e-4eac-90ec-a1b58d58a969"
-                         eId="hauptteil-1_para-6_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-6_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §7-->
-           <akn:article eId="hauptteil-1_para-7"
+           <akn:article eId="hauptteil-1_art-7"
                         GUID="1ceb0d54-0dda-4661-906b-4e2e90b0cd09"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-7_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-7_bezeichnung-1"
                      GUID="256fe6ee-be7d-4e06-af6d-f724771935fe">
                          §7</akn:num>
             <akn:paragraph GUID="5a6bdfeb-f784-43ef-9eb9-ea4f4fd33405"
-                           eId="hauptteil-1_para-7_abs-1">
-               <akn:num eId="hauptteil-1_para-7_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-7_abs-1">
+               <akn:num eId="hauptteil-1_art-7_abs-1_bezeichnung-1"
                         GUID="cc85ce13-9624-4abb-a77c-3f3433e8e347">
                             (1)</akn:num>
                <akn:content GUID="149587bf-3cee-471d-8c1f-74f55a352078"
-                            eId="hauptteil-1_para-7_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-7_abs-1_inhalt-1">
                   <akn:p GUID="90b03eef-fed8-4017-8e8b-c550561cad01"
-                         eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-7_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §8-->
-           <akn:article eId="hauptteil-1_para-8"
+           <akn:article eId="hauptteil-1_art-8"
                         GUID="64c63f88-1f83-4044-ae82-5fccbf0bb3bb"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-8_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-8_bezeichnung-1"
                      GUID="d6cc2523-3235-4ee6-bb3a-cdc79ff360c7">
                          §8</akn:num>
             <akn:paragraph GUID="2a13a905-8e98-45f8-b5de-a60028163988"
-                           eId="hauptteil-1_para-8_abs-1">
-               <akn:num eId="hauptteil-1_para-8_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-8_abs-1">
+               <akn:num eId="hauptteil-1_art-8_abs-1_bezeichnung-1"
                         GUID="c4fa4971-7380-4b42-a50c-ecaa77faf949">
                             (1)</akn:num>
                <akn:content GUID="5d7d02d5-e68b-4c7b-b629-29eb7fd372b1"
-                            eId="hauptteil-1_para-8_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-8_abs-1_inhalt-1">
                   <akn:p GUID="a9dc09f9-b174-4e2d-83bc-3b99402da470"
-                         eId="hauptteil-1_para-8_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-8_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §9-->
-           <akn:article eId="hauptteil-1_para-9"
+           <akn:article eId="hauptteil-1_art-9"
                         GUID="50052489-c09c-43e4-a6bf-875714309d37"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-9_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-9_bezeichnung-1"
                      GUID="3c7ad660-ac0f-404a-88b1-2c48cc167018">
                          §9</akn:num>
             <akn:paragraph GUID="3275e8b5-c1c5-4c8c-a51a-cd68700f131a"
-                           eId="hauptteil-1_para-9_abs-1">
-               <akn:num eId="hauptteil-1_para-9_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-9_abs-1">
+               <akn:num eId="hauptteil-1_art-9_abs-1_bezeichnung-1"
                         GUID="f62c19e9-8257-4fb6-a597-92293bb0790a">
                             (1)</akn:num>
                <akn:content GUID="8ab7b65f-52cf-44ea-bff0-64ef54cd65fb"
-                            eId="hauptteil-1_para-9_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-9_abs-1_inhalt-1">
                   <akn:p GUID="80c3148a-c174-4f8b-afce-3c2f6a9fcb84"
-                         eId="hauptteil-1_para-9_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-9_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §10-->
-           <akn:article eId="hauptteil-1_para-10"
+           <akn:article eId="hauptteil-1_art-10"
                         GUID="6c753154-bb8f-484c-afe4-0987272b0983"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-10_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-10_bezeichnung-1"
                      GUID="8a6c51e3-fed3-4bf7-b76b-8c52156f9e5c">
                          §10</akn:num>
             <akn:paragraph GUID="3f29a241-3bc5-4f75-80c1-b73be9c1e737"
-                           eId="hauptteil-1_para-10_abs-1">
-               <akn:num eId="hauptteil-1_para-10_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-10_abs-1">
+               <akn:num eId="hauptteil-1_art-10_abs-1_bezeichnung-1"
                         GUID="ebd5f8ce-8a47-4980-80df-6075047e9c85">
                             (1)</akn:num>
                <akn:content GUID="1b2ff163-ca8e-4824-acc6-3ae8802b5042"
-                            eId="hauptteil-1_para-10_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-10_abs-1_inhalt-1">
                   <akn:p GUID="47c5c44a-fd23-44a5-93e6-d3b80e5b03a5"
-                         eId="hauptteil-1_para-10_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-10_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §11-->
            <akn:article period="#geltungszeitgr-3"
                         GUID="c2b7f8b5-46b9-48d3-9d8c-f405f2b463a8"
-                        eId="hauptteil-1_para-11">
+                        eId="hauptteil-1_art-11">
             <akn:num GUID="64cc0a8d-356e-40f8-a6aa-abe3758bd432"
-                     eId="hauptteil-1_para-11_bezeichnung-1">
+                     eId="hauptteil-1_art-11_bezeichnung-1">
                   §11
                </akn:num>
             <akn:paragraph GUID="01de6ae0-9503-4b63-9a97-58112689c6af"
-                           eId="hauptteil-1_para-11_abs-1">
+                           eId="hauptteil-1_art-11_abs-1">
                <akn:num GUID="d343196b-96b2-42b5-9d4d-14a7222a7a9b"
-                        eId="hauptteil-1_para-11_abs-1_bezeichnung-1">
+                        eId="hauptteil-1_art-11_abs-1_bezeichnung-1">
                      (1)
                   </akn:num>
                <akn:content GUID="fa13f7a9-1dd1-4cdd-8b75-0fac8d2b21c4"
-                            eId="hauptteil-1_para-11_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-11_abs-1_inhalt-1">
                   <akn:p GUID="f1991b0b-fb84-45e8-98b7-63a8a4304ece"
-                         eId="hauptteil-1_para-11_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-11_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §12-->
-           <akn:article eId="hauptteil-1_para-12"
+           <akn:article eId="hauptteil-1_art-12"
                         GUID="170c345b-dd19-4baf-8a5e-9244d025938a"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-12_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-12_bezeichnung-1"
                      GUID="4542cf12-8686-4160-917c-d5db81e78cf2">
                      §12</akn:num>
             <akn:paragraph GUID="f14b9add-3dc6-4f6e-a4e2-2f321b9f5dc6"
-                           eId="hauptteil-1_para-12_abs-1">
-               <akn:num eId="hauptteil-1_para-12_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-12_abs-1">
+               <akn:num eId="hauptteil-1_art-12_abs-1_bezeichnung-1"
                         GUID="9a666831-6b7e-42fe-86b2-c459ac6b5074">
                         (1)</akn:num>
                <akn:content GUID="aed8b9e3-3557-46bf-8972-9e1f0308b6c8"
-                            eId="hauptteil-1_para-12_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-12_abs-1_inhalt-1">
                   <akn:p GUID="564042f6-0177-4efd-8157-4f0a6eb9dec2"
-                         eId="hauptteil-1_para-12_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-12_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §13-->
-           <akn:article eId="hauptteil-1_para-13"
+           <akn:article eId="hauptteil-1_art-13"
                         GUID="705a74fe-0a6b-4b6d-a6f2-5f5cf11ef46e"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-13_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-13_bezeichnung-1"
                      GUID="35a91591-8b58-47be-8e39-8b4df23eece5">
                      §13</akn:num>
             <akn:paragraph GUID="0fd92ffa-88be-4e0d-83a4-15616e79b778"
-                           eId="hauptteil-1_para-13_abs-1">
-               <akn:num eId="hauptteil-1_para-13_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-13_abs-1">
+               <akn:num eId="hauptteil-1_art-13_abs-1_bezeichnung-1"
                         GUID="f4b56718-f4d3-413a-aa99-d9280c8ead98">
                         (1)</akn:num>
                <akn:content GUID="16e5195d-e15a-4b7c-b4d5-b79c3f8a5798"
-                            eId="hauptteil-1_para-13_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-13_abs-1_inhalt-1">
                   <akn:p GUID="a3d8cf95-fba1-4a77-a4dc-f5530cacd554"
-                         eId="hauptteil-1_para-13_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-13_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §14-->
-           <akn:article eId="hauptteil-1_para-14"
+           <akn:article eId="hauptteil-1_art-14"
                         GUID="7dd53189-857c-42c7-ba02-41c3368b2937"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-14_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-14_bezeichnung-1"
                      GUID="979f9d20-5f33-4905-9e64-4d1da92e6bdf">
                      §14</akn:num>
             <akn:paragraph GUID="0012dc4e-1463-40d8-a479-b84252bd5243"
-                           eId="hauptteil-1_para-14_abs-1">
-               <akn:num eId="hauptteil-1_para-14_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-14_abs-1">
+               <akn:num eId="hauptteil-1_art-14_abs-1_bezeichnung-1"
                         GUID="79629d3f-9c50-495c-bd5b-30e65724dad9">
                         (1)</akn:num>
                <akn:content GUID="fb70326c-4fab-4610-9ff5-8aab75afbe98"
-                            eId="hauptteil-1_para-14_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-14_abs-1_inhalt-1">
                   <akn:p GUID="e08f2997-6017-47fd-8aa6-e2f13c9d3afa"
-                         eId="hauptteil-1_para-14_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-14_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!--§15-->
-           <akn:article eId="hauptteil-1_para-15"
+           <akn:article eId="hauptteil-1_art-15"
                         GUID="a726a175-3a70-40e7-852f-9d08d1a26a13"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-15_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-15_bezeichnung-1"
                      GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
                         §15</akn:num>
             <akn:heading GUID="6b993dcf-84de-48eb-ae6e-035fb985d3d4"
-                         eId="hauptteil-1_para-15_überschrift-1">15 Aufspaltung, Abspaltung und Teilübertragung auf andere Körperschaften</akn:heading>
+                         eId="hauptteil-1_art-15_überschrift-1">15 Aufspaltung, Abspaltung und Teilübertragung auf andere Körperschaften</akn:heading>
                <!--Absatz 1-->
                <akn:paragraph GUID="eb932754-5119-4fc1-a167-4dfc5381d2ca"
-                              eId="hauptteil-1_para-15_abs-1">
-               <akn:num eId="hauptteil-1_para-15_abs-1_bezeichnung-1"
+                              eId="hauptteil-1_art-15_abs-1">
+               <akn:num eId="hauptteil-1_art-15_abs-1_bezeichnung-1"
                         GUID="8280d4ef-4a96-44b7-81b9-f30f1006a2fe">
                            (1)</akn:num>
                <akn:content GUID="a1259d3c-069c-4379-a1bb-8d4389940fc8"
-                            eId="hauptteil-1_para-15_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-15_abs-1_inhalt-1">
                   <akn:p GUID="51598f1a-f4e7-4882-83f8-7b9526abe44b"
-                         eId="hauptteil-1_para-15_abs-1_inhalt-1_text-1">
+                         eId="hauptteil-1_art-15_abs-1_inhalt-1_text-1">
                                  Geht Vermögen einer Körperschaft durch Aufspaltung oder Abspaltung oder durch Teilübertragung auf andere Körperschaften über, gelten die §§ 11 bis 13 vorbehaltlich des Satzes 2 und des § 16 entsprechend. § 11 Abs. 2 und § 13 Abs. 2 sind nur anzuwenden, wenn auf die Übernehmerinnen ein Teilbetrieb übertragen wird und im Falle der Abspaltung oder Teilübertragung bei der übertragenden Körperschaft ein Teilbetrieb verbleibt. Als Teilbetrieb gilt auch ein Mitunternehmeranteil oder die Beteiligung an einer Kapitalgesellschaft, die das gesamte Nennkapital der Gesellschaft umfasst.
                               </akn:p>
                </akn:content>
             </akn:paragraph>
                <!--Absatz 2-->
                <akn:paragraph GUID="cd17b333-e7d5-4f0f-9406-5d50eb12f783"
-                              eId="hauptteil-1_para-15_abs-2">
-               <akn:num eId="hauptteil-1_para-15_abs-2_bezeichnung-1"
+                              eId="hauptteil-1_art-15_abs-2">
+               <akn:num eId="hauptteil-1_art-15_abs-2_bezeichnung-1"
                         GUID="48d155ca-ec9e-4136-a14a-96d4f7e7a017">
                            (2)</akn:num>
                <akn:content GUID="0d40dad9-3bef-4dca-acc9-be0d29f94d57"
-                            eId="hauptteil-1_para-15_abs-2_inhalt-1">
+                            eId="hauptteil-1_art-15_abs-2_inhalt-1">
                   <akn:p GUID="5293ade2-7f6a-473d-a681-ccd5d9e4a2cd"
-                         eId="hauptteil-1_para-15_abs-2_inhalt-1_text-1">
+                         eId="hauptteil-1_art-15_abs-2_inhalt-1_text-1">
                                  § 11 Abs. 2 ist auf Mitunternehmeranteile und Beteiligungen im Sinne des Absatzes 1 nicht anzuwenden, wenn sie innerhalb eines Zeitraums von drei Jahren vor dem steuerlichen Übertragungsstichtag durch Übertragung von Wirtschaftsgütern, die kein Teilbetrieb sind, erworben oder aufgestockt worden sind. § 11 Abs. 2 ist ebenfalls nicht anzuwenden, wenn durch die Spaltung die Veräußerung an außenstehende Personen vollzogen oder vorbereitet wird. Als außenstehende Personen gelten Personen, die nicht ununterbrochen fünf Jahre vor der Spaltung an der übertragenden Körperschaft beteiligt waren. In den Fällen der Vorbereitung einer Veräußerung kommt Satz 2 nur zur Anwendung, wenn innerhalb von fünf Jahren nach dem steuerlichen Übertragungsstichtag eine Veräußerung mindestens eines Anteils an einer an der Spaltung beteiligten Körperschaft an außenstehende Personen erfolgt; die Veräußerung des Anteils gilt als rückwirkendes Ereignis im Sinne von § 175 Absatz 1 Satz 1 Nummer 2 der Abgabenordnung. Werden innerhalb von fünf Jahren nach dem steuerlichen Übertragungsstichtag Anteile an einer an der Spaltung beteiligten Körperschaft, die mehr als 20 Prozent des Wertes der Anteile an der übertragenden Körperschaft am steuerlichen Übertragungsstichtag ausmachen, an außenstehende Personen veräußert, ist unwiderlegbar zu vermuten, dass durch die Spaltung eine Veräußerung im Sinne des Satzes 2 vorbereitet wurde. Sind an der übertragenden Körperschaft außenstehende Personen beteiligt, gilt die Spaltung nur dann als Veräußerung an außenstehende Personen im Sinne des Satzes 2, wenn die Spaltung zu einer Wertverschiebung zugunsten dieser Personen führt. Verbundene Unternehmen im Sinne des § 271 Absatz 2 des Handelsgesetzbuchs gelten nicht als außenstehende Personen im Sinne dieses Absatzes; als Veräußerung eines Anteils an einer an der Spaltung beteiligten Körperschaft im Sinne des Satzes 4 gilt auch die mittelbare Veräußerung dieses Anteils durch ein verbundenes Unternehmen. Bei der Trennung von Gesellschafterstämmen setzt die Anwendung des § 11 Abs. 2 außerdem voraus, dass die Beteiligungen an der übertragenden Körperschaft mindestens fünf Jahre vor dem steuerlichen Übertragungsstichtag bestanden haben.
                               </akn:p>
                </akn:content>
             </akn:paragraph>
                <!--Absatz 3-->
                <akn:paragraph GUID="ae4eb8b9-a588-4b2b-af93-1923a0a2decb"
-                              eId="hauptteil-1_para-15_abs-3">
+                              eId="hauptteil-1_art-15_abs-3">
                <akn:num GUID="a85d5c2a-1a11-4608-b9bb-b413294d3ec1"
-                        eId="hauptteil-1_para-15_abs-3_bezeichnung-1">
+                        eId="hauptteil-1_art-15_abs-3_bezeichnung-1">
                      (3)
                   </akn:num>
                <akn:content GUID="a139b3d0-0422-49b4-83a4-d97f24a1554f"
-                            eId="hauptteil-1_para-15_abs-3_inhalt-1">
+                            eId="hauptteil-1_art-15_abs-3_inhalt-1">
                   <akn:p GUID="41a0a463-54d8-4bcb-9dd9-d10b6561560d"
-                         eId="hauptteil-1_para-15_abs-3_inhalt-1_text-1">
+                         eId="hauptteil-1_art-15_abs-3_inhalt-1_text-1">
                         Bei einer Abspaltung mindern sich verrechenbare Verluste, verbleibende Verlustvorträge, nicht ausgeglichene negative Einkünfte, ein Zinsvortrag nach § 4h Absatz 1 Satz 5 des Einkommensteuergesetzes und ein EBITDA-Vortrag nach § 4h Absatz 1 Satz 3 des Einkommensteuergesetzes der übertragenden Körperschaft in dem Verhältnis, in dem bei Zugrundelegung des gemeinen Werts das Vermögen auf eine andere Körperschaft übergeht.
                      </akn:p>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §16-->
-           <akn:article eId="hauptteil-1_para-16"
+           <akn:article eId="hauptteil-1_art-16"
                         GUID="cd51af28-5db1-4d4c-ae23-ac5b3742613e"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-16_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-16_bezeichnung-1"
                      GUID="80d8f934-8f58-4ae8-a8f9-843f66390fec">
                      §16</akn:num>
             <akn:paragraph GUID="66eb1100-279b-48b8-8419-425192bc9c53"
-                           eId="hauptteil-1_para-16_abs-1">
-               <akn:num eId="hauptteil-1_para-16_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-16_abs-1">
+               <akn:num eId="hauptteil-1_art-16_abs-1_bezeichnung-1"
                         GUID="e4ac9fad-2131-48a6-9831-794023c22f31">
                         (1)</akn:num>
                <akn:content GUID="2b4fdbe0-f388-4337-998e-22adeaace890"
-                            eId="hauptteil-1_para-16_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-16_abs-1_inhalt-1">
                   <akn:p GUID="0fa7e6e5-9645-4fe3-bc5d-030e0c2ce9c9"
-                         eId="hauptteil-1_para-16_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-16_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §17-->
-           <akn:article eId="hauptteil-1_para-17"
+           <akn:article eId="hauptteil-1_art-17"
                         GUID="56bc720f-e450-4288-b024-0c7a6d0a86a6"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-17_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-17_bezeichnung-1"
                      GUID="106acd9d-deb4-45c1-99be-8a81b07dd3de">
                      §17</akn:num>
             <akn:paragraph GUID="b1fd674e-f956-4ab5-800e-fbd9fb130e39"
-                           eId="hauptteil-1_para-17_abs-1">
-               <akn:num eId="hauptteil-1_para-17_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-17_abs-1">
+               <akn:num eId="hauptteil-1_art-17_abs-1_bezeichnung-1"
                         GUID="a59bd695-5a5c-40a4-a3a4-dd8de608250f">
                         (1)</akn:num>
                <akn:content GUID="fc1bc033-49c3-4674-b8f5-923bba3620e8"
-                            eId="hauptteil-1_para-17_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-17_abs-1_inhalt-1">
                   <akn:p GUID="3f23ef34-e2be-4f48-945b-95031cb81c6d"
-                         eId="hauptteil-1_para-17_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-17_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §18-->
-           <akn:article eId="hauptteil-1_para-18"
+           <akn:article eId="hauptteil-1_art-18"
                         GUID="4b386140-6c09-47d2-8c2b-c9d4061b1d16"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-18_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-18_bezeichnung-1"
                      GUID="12f88467-2c2c-49bd-959d-e264b0b90374">
                      §18</akn:num>
             <akn:paragraph GUID="69ad2f8a-1074-4f5b-9429-1a34220e67f0"
-                           eId="hauptteil-1_para-18_abs-1">
-               <akn:num eId="hauptteil-1_para-18_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-18_abs-1">
+               <akn:num eId="hauptteil-1_art-18_abs-1_bezeichnung-1"
                         GUID="e8498a3b-261f-4e60-ae89-96020d20f710">
                         (1)</akn:num>
                <akn:content GUID="90c86a81-0448-4fac-855b-9877b7873345"
-                            eId="hauptteil-1_para-18_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-18_abs-1_inhalt-1">
                   <akn:p GUID="9ec30711-98f1-43a9-94b0-1f6d3e1a6eb6"
-                         eId="hauptteil-1_para-18_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-18_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §19-->
-           <akn:article eId="hauptteil-1_para-19"
+           <akn:article eId="hauptteil-1_art-19"
                         GUID="954deb64-7f39-49a4-9646-372d3f1a2d0d"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-19_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-19_bezeichnung-1"
                      GUID="7716eb01-457e-4237-a8c4-efd97a7adb42">
                      §19</akn:num>
             <akn:paragraph GUID="f88df7aa-09b8-4ac4-a60f-4399ac8c0ea7"
-                           eId="hauptteil-1_para-19_abs-1">
-               <akn:num eId="hauptteil-1_para-19_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-19_abs-1">
+               <akn:num eId="hauptteil-1_art-19_abs-1_bezeichnung-1"
                         GUID="8e9c9fff-fd18-44a5-b2a7-24c7b4aeabef">
                         (1)</akn:num>
                <akn:content GUID="1b39fc5f-95d6-44a7-9fc5-7fa7dcc35401"
-                            eId="hauptteil-1_para-19_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-19_abs-1_inhalt-1">
                   <akn:p GUID="3002b828-7e20-4d0a-b6c9-34446dea8150"
-                         eId="hauptteil-1_para-19_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-19_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §20-->
-           <akn:article eId="hauptteil-1_para-20"
+           <akn:article eId="hauptteil-1_art-20"
                         GUID="ae509f70-aa93-4169-8e31-277c7a0cd762"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-20_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-20_bezeichnung-1"
                      GUID="d98ea318-c296-473e-be51-e08903bdd26c">
                      §20</akn:num>
             <akn:paragraph GUID="0f540208-d535-4df1-97fd-2ebcec47c073"
-                           eId="hauptteil-1_para-20_abs-1">
-               <akn:num eId="hauptteil-1_para-20_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-20_abs-1">
+               <akn:num eId="hauptteil-1_art-20_abs-1_bezeichnung-1"
                         GUID="7ee7f421-8684-4796-b7fd-b3758ca2598c">
                         (1)</akn:num>
                <akn:content GUID="b6634e8f-c8f1-4d7f-9c33-e70692be3c9c"
-                            eId="hauptteil-1_para-20_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-20_abs-1_inhalt-1">
                   <akn:p GUID="16c99b24-06be-4af4-97b8-a9a6c773c22f"
-                         eId="hauptteil-1_para-20_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-20_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §21-->
-           <akn:article eId="hauptteil-1_para-21"
+           <akn:article eId="hauptteil-1_art-21"
                         GUID="424939b2-67e3-4185-b146-42d71c631fe5"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-21_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-21_bezeichnung-1"
                      GUID="f3bf0469-d948-4d12-8b9a-c768c13ade2d">
                      §21</akn:num>
             <akn:paragraph GUID="feea1193-b843-45ef-82d9-9e20f1453bc1"
-                           eId="hauptteil-1_para-21_abs-1">
-               <akn:num eId="hauptteil-1_para-21_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-21_abs-1">
+               <akn:num eId="hauptteil-1_art-21_abs-1_bezeichnung-1"
                         GUID="5c2d60ba-ea74-44c3-9518-aa26178b94bf">
                         (1)</akn:num>
                <akn:content GUID="1f916138-af53-4f17-94ff-cb4a9d63f4fb"
-                            eId="hauptteil-1_para-21_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-21_abs-1_inhalt-1">
                   <akn:p GUID="7bbc1faa-6c4f-487b-9ae7-6b1aa0f4b35f"
-                         eId="hauptteil-1_para-21_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-21_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §22-->
-           <akn:article eId="hauptteil-1_para-22"
+           <akn:article eId="hauptteil-1_art-22"
                         GUID="a4c0c103-ed32-4ed6-81b6-b41957c782d0"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-22_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-22_bezeichnung-1"
                      GUID="2fbcd6d1-8720-4d57-ba14-28985f926966">
                      §22</akn:num>
             <akn:paragraph GUID="c61ea3f8-baab-4f81-a0c2-adb2381f5e70"
-                           eId="hauptteil-1_para-22_abs-1">
-               <akn:num eId="hauptteil-1_para-22_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-22_abs-1">
+               <akn:num eId="hauptteil-1_art-22_abs-1_bezeichnung-1"
                         GUID="2cdca59c-e3d1-4fde-95ef-ad0521eb8c2c">
                         (1)</akn:num>
                <akn:content GUID="3eb5536e-29cb-4533-89e5-f0b309c73397"
-                            eId="hauptteil-1_para-22_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-22_abs-1_inhalt-1">
                   <akn:p GUID="fcda42f9-8d60-4f85-b18d-6b1e614e8528"
-                         eId="hauptteil-1_para-22_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-22_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §23-->
-           <akn:article eId="hauptteil-1_para-23"
+           <akn:article eId="hauptteil-1_art-23"
                         GUID="e405acf2-b145-4ec6-b368-28586c3c2c5e"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-23_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-23_bezeichnung-1"
                      GUID="1ff4d744-7446-49dc-a4ba-8cb48e80127c">
                      §23</akn:num>
             <akn:paragraph GUID="e59512ac-e2c4-4d61-9fcd-49ccc58e7751"
-                           eId="hauptteil-1_para-23_abs-1">
-               <akn:num eId="hauptteil-1_para-23_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-23_abs-1">
+               <akn:num eId="hauptteil-1_art-23_abs-1_bezeichnung-1"
                         GUID="697904a4-a568-4780-8f9a-abcfcd31e51b">
                         (1)</akn:num>
                <akn:content GUID="81c478aa-4ef7-408a-be13-09015f11209d"
-                            eId="hauptteil-1_para-23_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-23_abs-1_inhalt-1">
                   <akn:p GUID="9c3aa6cf-be45-424a-bca9-3040c03dd973"
-                         eId="hauptteil-1_para-23_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-23_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §24-->
-           <akn:article eId="hauptteil-1_para-24"
+           <akn:article eId="hauptteil-1_art-24"
                         GUID="53edf023-d23e-4c3f-aadc-d317342e0295"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-24_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-24_bezeichnung-1"
                      GUID="b911ed14-7e1b-4c92-bbab-95a0d63f13bc">
                      §24</akn:num>
             <akn:paragraph GUID="14ef0b6d-a177-4cee-bdc5-8df5e82c5599"
-                           eId="hauptteil-1_para-24_abs-1">
-               <akn:num eId="hauptteil-1_para-24_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-24_abs-1">
+               <akn:num eId="hauptteil-1_art-24_abs-1_bezeichnung-1"
                         GUID="cd05cc93-3e85-42ea-b8d6-143d8de153d6">
                         (1)</akn:num>
                <akn:content GUID="51db4766-dfd1-41b5-aa14-963e237ec73a"
-                            eId="hauptteil-1_para-24_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-24_abs-1_inhalt-1">
                   <akn:p GUID="df45acbd-b294-455e-8ac4-0dd688221178"
-                         eId="hauptteil-1_para-24_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-24_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §25-->
-           <akn:article eId="hauptteil-1_para-25"
+           <akn:article eId="hauptteil-1_art-25"
                         GUID="fbab827d-776f-4959-b700-b99558a3219d"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-25_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-25_bezeichnung-1"
                      GUID="98d1047f-8d44-4c90-81c6-3f65fd8e2487">
                      §25</akn:num>
             <akn:paragraph GUID="cfcc9b5f-e67f-4409-93b6-5473fb9c015f"
-                           eId="hauptteil-1_para-25_abs-1">
-               <akn:num eId="hauptteil-1_para-25_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-25_abs-1">
+               <akn:num eId="hauptteil-1_art-25_abs-1_bezeichnung-1"
                         GUID="c6a22e73-283a-4a3a-b4c6-6cdfe9f43a9d">
                         (1)</akn:num>
                <akn:content GUID="068a1f6e-c65c-4146-a1d8-09150bd9b44b"
-                            eId="hauptteil-1_para-25_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-25_abs-1_inhalt-1">
                   <akn:p GUID="6d28c311-fb08-465e-81bd-626ac712e520"
-                         eId="hauptteil-1_para-25_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-25_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §26-->
-           <akn:article eId="hauptteil-1_para-26"
+           <akn:article eId="hauptteil-1_art-26"
                         GUID="6c7b37c6-7dc8-4a83-bcf0-acf67b69f377"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-26_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-26_bezeichnung-1"
                      GUID="4e9e2071-ab50-40f4-8bdf-ba8c88a19ddc">
                      §26</akn:num>
             <akn:paragraph GUID="0dbd7eb7-7bf9-43d5-b731-0be947f85105"
-                           eId="hauptteil-1_para-26_abs-1">
-               <akn:num eId="hauptteil-1_para-26_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-26_abs-1">
+               <akn:num eId="hauptteil-1_art-26_abs-1_bezeichnung-1"
                         GUID="a9de9165-dbe0-410d-aca8-f5df6716e780">
                         (1)</akn:num>
                <akn:content GUID="ceb3a98e-abdb-44af-ab4b-42a446d0edc2"
-                            eId="hauptteil-1_para-26_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-26_abs-1_inhalt-1">
                   <akn:p GUID="4f717e61-7a14-4e83-8c6d-45aba2f14ed9"
-                         eId="hauptteil-1_para-26_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-26_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>
            <!-- §27-->
-           <akn:article eId="hauptteil-1_para-27"
+           <akn:article eId="hauptteil-1_art-27"
                         GUID="06bef0e9-0e24-4e6e-ae67-0f1427d2596f"
                         period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-27_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-27_bezeichnung-1"
                      GUID="280b8ba7-c0c4-4642-a41f-80d74195a764">
                      §27</akn:num>
             <akn:paragraph GUID="1a841b5c-8791-4fa0-9710-b7ab07b906c4"
-                           eId="hauptteil-1_para-27_abs-1">
-               <akn:num eId="hauptteil-1_para-27_abs-1_bezeichnung-1"
+                           eId="hauptteil-1_art-27_abs-1">
+               <akn:num eId="hauptteil-1_art-27_abs-1_bezeichnung-1"
                         GUID="07e714b7-1489-42e8-b5c1-e9af4a251c30">
                         (1)</akn:num>
                <akn:content GUID="6dc35edf-93af-4fc3-9dd1-df7029f789bd"
-                            eId="hauptteil-1_para-27_abs-1_inhalt-1">
+                            eId="hauptteil-1_art-27_abs-1_inhalt-1">
                   <akn:p GUID="753b51f7-a2b0-4e55-aff2-4b1cf5cce4e1"
-                         eId="hauptteil-1_para-27_abs-1_inhalt-1_text-1"/>
+                         eId="hauptteil-1_art-27_abs-1_inhalt-1_text-1"/>
                </akn:content>
             </akn:paragraph>
          </akn:article>

@@ -137,7 +137,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-1?atIsoDate=2017-03-01T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_art-1?atIsoDate=2017-03-01T00:00:00.000Z"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -155,7 +155,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_art-20?atIsoDate=INVALID"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -167,7 +167,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20"
+              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_art-20"
             )
         );
     }

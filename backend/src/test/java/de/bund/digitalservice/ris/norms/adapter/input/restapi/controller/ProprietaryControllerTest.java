@@ -312,7 +312,7 @@ class ProprietaryControllerTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
@@ -336,7 +336,7 @@ class ProprietaryControllerTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
@@ -364,7 +364,7 @@ class ProprietaryControllerTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
@@ -392,7 +392,7 @@ class ProprietaryControllerTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
@@ -422,7 +422,7 @@ class ProprietaryControllerTest {
     void updatesProprietarySuccess() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
 
       final Proprietary proprietary = Proprietary
@@ -433,7 +433,7 @@ class ProprietaryControllerTest {
             <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
                                 <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
                                     <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-                                    <ris:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                            <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                                         <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
                                         <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
                                         <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
@@ -478,7 +478,7 @@ class ProprietaryControllerTest {
     @Test
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
       // given
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
       when(

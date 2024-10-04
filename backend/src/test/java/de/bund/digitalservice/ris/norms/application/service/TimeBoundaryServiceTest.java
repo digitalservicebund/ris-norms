@@ -286,18 +286,18 @@ class TimeBoundaryServiceTest {
                         <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
                            <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-1" GUID="06fb52c3-fce1-4be8-accc-3035452378ff" type="substitution">
                               <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1" GUID="5384f580-110b-4f8a-8794-8b85c29aabdf" href="eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml" />
-                              <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1" GUID="2c26512f-fb04-45f2-8283-660274e52fdb" href="#para-9_abs-3" />
+                                      <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1" GUID="2c26512f-fb04-45f2-8283-660274e52fdb" href="#art-9_abs-3" />
                               <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1" GUID="45331583-4386-4e3f-b68f-5af327347874" period="#meta-1_geltzeiten-1_geltungszeitgr-2" />
                            </akn:textualMod>
                            <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2" GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2" type="substitution">
                               <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1" GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5" href="eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml" />
-                              <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#para-20_abs-1/100-126" />
+                                      <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#art-20_abs-1/100-126" />
                               <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1" GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb" period="#meta-1_geltzeiten-1_geltungszeitgr-3" />
                            </akn:textualMod>
                            <!-- Passive mod from different amending law -->
                            <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2" GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2" type="substitution">
                               <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1" GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5" href="eli/bund/bgbl-1/2024/120/2024-06-28/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml" />
-                              <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#para-20_abs-1/100-126" />
+                                      <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#art-20_abs-1/100-126" />
                               <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1" GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb" period="#meta-1_geltzeiten-1_geltungszeitgr-4" />
                            </akn:textualMod>
                         </akn:passiveModifications>
