@@ -25,13 +25,13 @@
     "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },
   "engines": {
-    "node": "20.17.0",
-    "npm": "10.8.3"
+    "node": "20.18.0",
+    "npm": "10.9.0"
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
-    "@digitalservicebund/ris-ui": "~1.1.0",
-    "@sentry/vue": "~8.32.0",
+    "@digitalservicebund/ris-ui": "~1.2.0",
+    "@sentry/vue": "~8.33.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
     "@vueuse/core": "~11.1.0",
@@ -67,7 +67,7 @@
     "dotenv": "~16.4.5",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "~9.1.0",
-    "eslint-plugin-import": "~2.30.0",
+    "eslint-plugin-import": "~2.31.0",
     "eslint-plugin-playwright": "~1.6.0",
     "eslint-plugin-prettier": "~5.2.0",
     "eslint-plugin-testing-library": "~6.3.0",
