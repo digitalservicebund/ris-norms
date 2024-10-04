@@ -66,28 +66,36 @@
             </akn:longTitle>
         </akn:preface>
         <akn:body GUID="2e4a7f34-0b58-4ffc-a8db-5f933ba1c267" eId="hauptteil-1">
-            <akn:article GUID="e7f236c8-e1a7-4a62-959e-d39f77fd39b9" eId="hauptteil-1_para-1" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
-                <akn:num GUID="6a5d55fa-176f-4f46-9141-b6bef0d791b9" eId="hauptteil-1_para-1_bezeichnung-1">
+            <akn:article GUID="e7f236c8-e1a7-4a62-959e-d39f77fd39b9" eId="hauptteil-1_art-1"
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+                <akn:num GUID="6a5d55fa-176f-4f46-9141-b6bef0d791b9" eId="hauptteil-1_art-1_bezeichnung-1">
                     § 1 </akn:num>
-                <akn:heading GUID="1969ccba-12d4-4825-810b-2350b629b8ba" eId="hauptteil-1_para-1_überschrift-1"> Anwendungsbereich von Beispielen </akn:heading>
-                <akn:paragraph GUID="d79db39b-609a-49cc-968e-95ddfd4bf984" eId="hauptteil-1_para-1_abs-1">
-                    <akn:num GUID="a38ae4be-8b33-44f2-9a53-11020f433b20" eId="hauptteil-1_para-1_abs-1_bezeichnung-1">
+                <akn:heading GUID="1969ccba-12d4-4825-810b-2350b629b8ba"
+                             eId="hauptteil-1_art-1_überschrift-1"> Anwendungsbereich von Beispielen </akn:heading>
+                <akn:paragraph GUID="d79db39b-609a-49cc-968e-95ddfd4bf984" eId="hauptteil-1_art-1_abs-1">
+                    <akn:num GUID="a38ae4be-8b33-44f2-9a53-11020f433b20" eId="hauptteil-1_art-1_abs-1_bezeichnung-1">
                         (1) </akn:num>
-                    <akn:content GUID="90ca46bd-1408-4772-a0d4-3490a29847e0" eId="hauptteil-1_para-1_abs-1_inhalt-1">
-                        <akn:p GUID="cd9f08c0-347f-4abb-8b87-2f00011565a2" eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1">Hier steht eine Regelung zum 1. Fall die es stehts zu beachten gilt. Die Gebühren, die daraus, sind nicht erstattungsfähig.</akn:p>
+                    <akn:content GUID="90ca46bd-1408-4772-a0d4-3490a29847e0" eId="hauptteil-1_art-1_abs-1_inhalt-1">
+                        <akn:p GUID="cd9f08c0-347f-4abb-8b87-2f00011565a2"
+                               eId="hauptteil-1_art-1_abs-1_inhalt-1_text-1">Hier steht eine Regelung zum 1. Fall die es stehts zu beachten gilt. Die Gebühren, die daraus, sind nicht erstattungsfähig.</akn:p>
                     </akn:content>
                 </akn:paragraph>
             </akn:article>
-            <akn:article GUID="350e50ca-3938-43ea-807e-cc023ced19fa" eId="hauptteil-1_para-2" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
-                <akn:num GUID="d2fcc3a9-1196-477d-8508-83cff3c167ba" eId="hauptteil-1_para-2_bezeichnung-1">
+            <akn:article GUID="350e50ca-3938-43ea-807e-cc023ced19fa" eId="hauptteil-1_art-2" period="#geltungszeitgr-1"
+                         refersTo="geltungszeitregel">
+                <akn:num GUID="d2fcc3a9-1196-477d-8508-83cff3c167ba" eId="hauptteil-1_art-2_bezeichnung-1">
                     Artikel 2</akn:num>
-                <akn:heading GUID="93b0e7e3-36e2-46d8-893e-d24b2001197b" eId="hauptteil-1_para-2_überschrift-1">Inkrafttreten</akn:heading>
-                <akn:paragraph GUID="8fc0669c-7480-4dde-bebc-d5d83704e822" eId="hauptteil-1_para-2_abs-1">
-                    <akn:num GUID="bcb266d9-7d6d-4c54-b36c-3483640ab7aa" eId="hauptteil-1_para-2_abs-1_bezeichnung-1">
+                <akn:heading GUID="93b0e7e3-36e2-46d8-893e-d24b2001197b"
+                             eId="hauptteil-1_art-2_überschrift-1">Inkrafttreten</akn:heading>
+                <akn:paragraph GUID="8fc0669c-7480-4dde-bebc-d5d83704e822" eId="hauptteil-1_art-2_abs-1">
+                    <akn:num GUID="bcb266d9-7d6d-4c54-b36c-3483640ab7aa" eId="hauptteil-1_art-2_abs-1_bezeichnung-1">
                     </akn:num>
-                    <akn:content GUID="5b03cb2e-7335-44f2-94b5-7bb05859078e" eId="hauptteil-1_para-2_abs-1_inhalt-1">
-                        <akn:p GUID="36690fc7-bd2b-4450-acaa-8e4110e39335" eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1"> Dieses Gesetz tritt
-                            <akn:date GUID="b7a170d0-b5fa-4864-80fd-4864324479fb" date="1001-01-02" eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1_datum-1" refersTo="inkrafttreten-datum">am Tag nach
+                    <akn:content GUID="5b03cb2e-7335-44f2-94b5-7bb05859078e" eId="hauptteil-1_art-2_abs-1_inhalt-1">
+                        <akn:p GUID="36690fc7-bd2b-4450-acaa-8e4110e39335"
+                               eId="hauptteil-1_art-2_abs-1_inhalt-1_text-1"> Dieses Gesetz tritt
+                            <akn:date GUID="b7a170d0-b5fa-4864-80fd-4864324479fb" date="1001-01-02"
+                                      eId="hauptteil-1_art-2_abs-1_inhalt-1_text-1_datum-1"
+                                      refersTo="inkrafttreten-datum">am Tag nach
                                 der Verkündung</akn:date> in Kraft.
                         </akn:p>
                     </akn:content>

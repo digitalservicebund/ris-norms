@@ -133,7 +133,7 @@
                               href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                               GUID="c42641b3-e987-4013-b713-52017ca0ca78"/>
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
-                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-27_abs-6_inhalt-1_text-1/302-338.xml"
+                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-27_abs-6_inhalt-1_text-1/302-338.xml"
                                    GUID="e99747be-63b9-4729-adf3-b4b4299e188b"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
                              eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
@@ -146,7 +146,7 @@
                               href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
                               GUID="c509c75e-4813-491a-a973-9b23e2b8be03"/>
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1"
-                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-71_abs-2"
+                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2"
                                    GUID="e1d7e59f-5c59-4834-847d-3dc1dbc26259"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
                              eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1"
@@ -285,7 +285,8 @@
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                                     GUID="a8786a31-bf59-41f9-b945-7785ed93861b">
-                                        In <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-27_abs-6_inhalt-1_text-1/302-338.xml"
+                                        In <akn:ref
+                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-27_abs-6_inhalt-1_text-1/302-338.xml"
                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"
                                        GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„"
                                               endQuote="“"
@@ -309,7 +310,8 @@
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="58161d8d-b02e-4d54-a362-25a734c5e79b"
                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1">
-                              <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-71_abs-2"
+                              <akn:ref
+                                      href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2"
                                        GUID="88c21ccc-f528-4dd1-ab38-48c562daf53c"
                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1">
                                             § 19 Absatz 2 Satz 3 wird wie folgt gefasst:</akn:ref>

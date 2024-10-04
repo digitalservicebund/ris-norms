@@ -86,7 +86,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
     }
 
@@ -108,7 +108,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-2"))
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-2"))
         .andExpect(jsonPath("$[1]").doesNotExist());
     }
 
@@ -885,7 +885,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-1?atIsoDate=2017-03-01T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-1?atIsoDate=2017-03-01T00:00:00.000Z"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -902,7 +902,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=thisIsNotADate"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=thisIsNotADate"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -914,7 +914,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20"
+              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20"
             )
         );
     }
@@ -928,7 +928,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=2017-03-01T00:00:00.000Z"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -945,7 +945,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20"
+              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20"
             )
         )
         .andExpect(
@@ -966,7 +966,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-9999?atIsoDate=2017-03-01T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-9999?atIsoDate=2017-03-01T00:00:00.000Z"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -977,19 +977,19 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Article with eid hauptteil-1_para-9999 does not exist in norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+              "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
             )
         )
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-9999"
+              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
             )
         )
         .andExpect(
           jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
         )
-        .andExpect(jsonPath("eid").value("hauptteil-1_para-9999"));
+        .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
     }
 
     @Test
@@ -1041,7 +1041,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                                          <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
                                              <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2" GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2" type="substitution">
                                                  <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1" GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"/>
-                                                 <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"/>
+                                                         <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"/>
                                                  <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1" GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
                                              </akn:textualMod>
                                          </akn:passiveModifications>
@@ -1066,7 +1066,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-23T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=2017-03-23T00:00:00.000Z"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -1086,7 +1086,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("instance")
             .value(
               equalTo(
-                "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_para-20"
+                "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-20"
               )
             )
         )
@@ -1141,7 +1141,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                                          <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
                                              <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2" GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2" type="substitution">
                                                  <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1" GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"/>
-                                                 <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"/>
+                                                         <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"/>
                                                  <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1" GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
                                              </akn:textualMod>
                                          </akn:passiveModifications>
@@ -1161,7 +1161,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-23T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=2017-03-23T00:00:00.000Z"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -1181,7 +1181,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("instance")
             .value(
               equalTo(
-                "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_para-20"
+                "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-20"
               )
             )
         )

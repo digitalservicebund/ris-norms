@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public enum EIdPartType {
   ANALYSIS("analysis", List.of("akn:analysis")),
   ANLAGE("anlage", List.of("akn:attachment")),
   ANLAGEN("anlagen", List.of("akn:attachments")),
-  ART("art", List.of("akn:article")), // two possible eIds for this element
+  ART("art", List.of("akn:article")),
   BEZEICHNUNG("bezeichnung", List.of("akn:num")),
   BEZUGSDOC("bezugsdoc", List.of("akn:affectedDocument")),
   BEZUGSDOK("bezugsdok", List.of("akn:relatedDocument")),
@@ -98,7 +97,6 @@ public enum EIdPartType {
   NEW("new", List.of("akn:new")),
   ORG("org", List.of("akn:organization")),
   ORT("ort", List.of("akn:location")),
-  PARA("para", List.of("akn:article")), // two possible eIds for this element
   PASMOD("pasmod", List.of("akn:passiveModifications")),
   PERSON("person", List.of("akn:person")),
   PREAMBEL("preambel", List.of("akn:preamble")),
@@ -156,69 +154,9 @@ public enum EIdPartType {
    * @return the type part of the last element of the eId for the given element
    */
   static Optional<EIdPartType> forAknElement(Node aknElement) {
-    // See Schematron rules SCH-00570 and SCH-00580
-    if (aknElement.getNodeName().equals("akn:article")) {
-      return Optional.of(forAknArticle(aknElement));
-    }
-
     return Arrays
       .stream(EIdPartType.values())
       .filter(partType -> partType.aknElements.contains(aknElement.getNodeName()))
       .findFirst();
-  }
-
-  private static EIdPartType forAknArticle(Node aknArticleElement) {
-    var isInQuotedStructure = NodeParser.getNodeFromExpression(
-      "ancestor::quotedStructure",
-      aknArticleElement
-    );
-
-    var refersToAttribute = aknArticleElement.getAttributes().getNamedItem("refersTo");
-    var typ = Optional.ofNullable(refersToAttribute).map(Node::getNodeValue).orElse("");
-
-    // SCH-00580
-    if (isInQuotedStructure.isPresent()) {
-      if ("vertragsgesetz".equals(typ) || "vertragsverordnung".equals(typ)) {
-        return EIdPartType.ART;
-      }
-
-      return EIdPartType.PARA;
-    }
-
-    var form = NodeParser.getValueFromExpression(
-      "//akomaNtoso/*/meta/proprietary/legalDocML.de_metadaten/form",
-      aknArticleElement
-    );
-
-    if (form.isEmpty()) {
-      throw new IllegalArgumentException(
-        "Could not determine expected eId for akn:article node. No meta:form found."
-      );
-    }
-
-    switch (form.get()) {
-      // SCH-00570-000 (second part)
-      case "eingebundene-stammform" -> {
-        return EIdPartType.PARA;
-      }
-      // SCH-00570-010
-      case "mantelform" -> {
-        return EIdPartType.ART;
-      }
-      case "stammform" -> {
-        // SCH-00570-005
-        if ("vertragsgesetz".equals(typ) || "vertragsverordnung".equals(typ)) {
-          return EIdPartType.ART;
-        }
-
-        // SCH-00570-000 (first part)
-        return EIdPartType.PARA;
-      }
-      default -> throw new IllegalArgumentException(
-        "Could not determine expected eId for akn:article node. Unexpected form (%s)".formatted(
-            form
-          )
-      );
-    }
   }
 }

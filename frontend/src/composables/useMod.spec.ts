@@ -12,7 +12,7 @@ describe("useMod", () => {
       getDestinationHref: vi
         .fn()
         .mockReturnValue(
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-126.xml",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml",
         ),
       getQuotedTextFirst: vi.fn().mockReturnValue("old text"),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
@@ -21,12 +21,12 @@ describe("useMod", () => {
       getDestinationRangeFrom: vi
         .fn()
         .mockReturnValue(
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-127.xml",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-127.xml",
         ),
       getDestinationRangeUpto: vi
         .fn()
         .mockReturnValue(
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-4_inhalt-4_text-1/100-128.xml",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-4_inhalt-4_text-1/100-128.xml",
         ),
       getQuotedStructureContent: vi
         .fn()
@@ -49,10 +49,10 @@ describe("useMod", () => {
     } = useMod("eli", "eid", `<xml></xml>`)
 
     expect(destinationHref.value).toBe(
-      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-127.xml",
+      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-127.xml",
     )
     expect(destinationUpToHref.value).toBe(
-      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-4_inhalt-4_text-1/100-128.xml",
+      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-4_inhalt-4_text-1/100-128.xml",
     )
     expect(textualModType.value).toBe("aenderungsbefehl-ersetzen")
     expect(quotedTextFirst.value).toBe("old text")
@@ -68,7 +68,7 @@ describe("useMod", () => {
       getDestinationHref: vi
         .fn()
         .mockReturnValue(
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-126.xml",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml",
         ),
       getQuotedTextFirst: vi.fn().mockReturnValue("old text"),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
@@ -78,7 +78,7 @@ describe("useMod", () => {
       getDestinationRangeUpto: vi
         .fn()
         .mockReturnValue(
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-4_inhalt-4_text-1/100-128.xml",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-4_inhalt-4_text-1/100-128.xml",
         ),
       useUpdateModData: vi.fn(),
       getQuotedStructureContent: vi
@@ -101,10 +101,10 @@ describe("useMod", () => {
     } = useMod("eli", "eid", `<xml></xml>`)
 
     expect(destinationHref.value).toBe(
-      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-126.xml",
+      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml",
     )
     expect(destinationUpToHref.value).toBe(
-      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-4_inhalt-4_text-1/100-128.xml",
+      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-4_inhalt-4_text-1/100-128.xml",
     )
     expect(textualModType.value).toBe("aenderungsbefehl-ersetzen")
     expect(quotedTextFirst.value).toBe("old text")

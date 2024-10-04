@@ -14,7 +14,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toNode(
       """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                  <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_art-1" refersTo="stammform">
         <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
 
               § 1
@@ -32,7 +32,7 @@ class ElementResponseMapperTest {
 
     // Then
     assertThat(output.getTitle()).isEqualTo("§ 1 Überschrift des Artikels");
-    assertThat(output.getEid()).isEqualTo("hauptteil-1_para-1");
+    assertThat(output.getEid()).isEqualTo("hauptteil-1_art-1");
     assertThat(output.getType()).isEqualTo("article");
   }
 
@@ -41,7 +41,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toNode(
       """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                  <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_art-1" refersTo="stammform">
         <akn:heading GUID="000" eId="hauptteil-1_überschrift-1">
           Überschrift des Artikels
         </akn:heading>
@@ -55,7 +55,7 @@ class ElementResponseMapperTest {
 
     // Then
     assertThat(output.getTitle()).isEqualTo("Überschrift des Artikels");
-    assertThat(output.getEid()).isEqualTo("hauptteil-1_para-1");
+    assertThat(output.getEid()).isEqualTo("hauptteil-1_art-1");
     assertThat(output.getType()).isEqualTo("article");
   }
 
@@ -64,7 +64,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toNode(
       """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                  <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_art-1" refersTo="stammform">
         <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
 
               § 1
@@ -79,7 +79,7 @@ class ElementResponseMapperTest {
 
     // Then
     assertThat(output.getTitle()).isEqualTo("§ 1");
-    assertThat(output.getEid()).isEqualTo("hauptteil-1_para-1");
+    assertThat(output.getEid()).isEqualTo("hauptteil-1_art-1");
     assertThat(output.getType()).isEqualTo("article");
   }
 
@@ -88,7 +88,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toNode(
       """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                  <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="000" eId="hauptteil-1_art-1" refersTo="stammform">
         <akn:paragraph GUID="000" eId="hauptteil-1_abs-1"></akn:paragraph>
       </akn:article>
       """
@@ -99,7 +99,7 @@ class ElementResponseMapperTest {
 
     // Then
     assertThat(output.getTitle()).isEmpty();
-    assertThat(output.getEid()).isEqualTo("hauptteil-1_para-1");
+    assertThat(output.getEid()).isEqualTo("hauptteil-1_art-1");
     assertThat(output.getType()).isEqualTo("article");
   }
 

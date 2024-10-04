@@ -54,9 +54,7 @@ class UpdateNormServiceTest {
           )
         );
       assertThat(passiveModification.getDestinationHref())
-        .contains(
-          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
-        );
+        .contains(new Href("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(passiveModification.getForcePeriodEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-4");
     }
@@ -97,9 +95,7 @@ class UpdateNormServiceTest {
           )
         );
       assertThat(newPassiveModification.getDestinationHref())
-        .contains(
-          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
-        );
+        .contains(new Href("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(
         updatedZf0Law.getStartDateForTemporalGroup(
           newPassiveModification.getForcePeriodEid().orElseThrow()
@@ -143,7 +139,7 @@ class UpdateNormServiceTest {
         );
       assertThat(newPassiveModification1.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
+          new Href("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
         );
       assertThat(
         updatedZfoLaw.getStartDateForTemporalGroup(
@@ -167,7 +163,7 @@ class UpdateNormServiceTest {
         );
       assertThat(newPassiveModification2.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
+          new Href("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34")
         );
       assertThat(
         updatedZfoLaw.getStartDateForTemporalGroup(
@@ -218,9 +214,7 @@ class UpdateNormServiceTest {
           )
         );
       assertThat(newPassiveModification.getDestinationHref())
-        .contains(
-          new Href("#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")
-        );
+        .contains(new Href("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(newPassiveModification.getForcePeriodEid()).isEmpty();
     }
 
@@ -234,7 +228,7 @@ class UpdateNormServiceTest {
         .getActiveModifications()
         .getFirst();
       activeMod.setDestinationUpTo(
-        "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml"
+        "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml"
       );
 
       final Norm zf0Law = NormFixtures.loadFromDisk(
@@ -262,11 +256,11 @@ class UpdateNormServiceTest {
       assertThat(firstPassMod.getSourceHref())
         .contains(
           new Href(
-            "eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
+            "eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
           )
         );
-      assertThat(firstPassMod.getDestinationHref()).contains(new Href("#hauptteil-1_para-2_abs-1"));
-      assertThat(firstPassMod.getDestinationUpTo()).contains(new Href("#hauptteil-1_para-2_abs-2"));
+      assertThat(firstPassMod.getDestinationHref()).contains(new Href("#hauptteil-1_art-2_abs-1"));
+      assertThat(firstPassMod.getDestinationUpTo()).contains(new Href("#hauptteil-1_art-2_abs-2"));
       assertThat(
         updatedZfoLaw.getStartDateForTemporalGroup(firstPassMod.getForcePeriodEid().orElseThrow())
       )
@@ -277,16 +271,16 @@ class UpdateNormServiceTest {
       assertThat(secondPassMod.getSourceHref())
         .contains(
           new Href(
-            "eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
+            "eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
           )
         );
       assertThat(secondPassMod.getDestinationHref())
         .contains(
-          new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b")
+          new Href("#hauptteil-1_art-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b")
         );
       assertThat(secondPassMod.getDestinationUpTo())
         .contains(
-          new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-f")
+          new Href("#hauptteil-1_art-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-f")
         );
       assertThat(
         updatedZfoLaw.getStartDateForTemporalGroup(secondPassMod.getForcePeriodEid().orElseThrow())
@@ -308,7 +302,7 @@ class UpdateNormServiceTest {
       String newCharacterRange = "20-25";
       String newDestinationHref =
         targetNormEli +
-        "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
+        "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newTimeBoundaryEid = "#time-boundary-eid";
@@ -350,11 +344,11 @@ class UpdateNormServiceTest {
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       ExpressionEli targetNormEli = targetNorm.getExpressionEli();
-      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHref =
-        targetNormEli + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEli + "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpTo =
-        targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
+        targetNormEli + "/hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newContent = "new-text";
 
@@ -394,9 +388,9 @@ class UpdateNormServiceTest {
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       ExpressionEli targetNormEli = targetNorm.getExpressionEli();
-      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHref =
-        targetNormEli + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEli + "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpTo = null;
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newContent = "new-text";
@@ -437,11 +431,11 @@ class UpdateNormServiceTest {
       Norm targetNormSetup = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       ExpressionEli targetNormEliSetup = targetNormSetup.getExpressionEli();
       String eIdSetup =
-        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHrefSetup =
-        targetNormEliSetup + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEliSetup + "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpToSetup =
-        targetNormEliSetup + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
+        targetNormEliSetup + "/hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
       String newTimeBoundaryEidSetup = "#time-boundary-eid";
       String newContentSetup = "new-text";
 
@@ -459,9 +453,9 @@ class UpdateNormServiceTest {
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       ExpressionEli targetNormEli = targetNorm.getExpressionEli();
-      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHref =
-        targetNormEli + "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+        targetNormEli + "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpTo = null;
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newContent = "new-text";
@@ -503,11 +497,11 @@ class UpdateNormServiceTest {
         "NormWithoutPassiveModsQuotedStructure.xml"
       );
       final String modEid =
-        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       final String newDestinationHref =
-        targetNorm.getExpressionEli() + "/hauptteil-1_para-2_abs-1.xml";
+        targetNorm.getExpressionEli() + "/hauptteil-1_art-2_abs-1.xml";
       final String newDestinationUpTo =
-        targetNorm.getExpressionEli() + "/hauptteil-1_para-2_abs-3.xml";
+        targetNorm.getExpressionEli() + "/hauptteil-1_art-2_abs-3.xml";
 
       final Optional<Mod> modBeforeUpdate = amendingLaw
         .getMods()
@@ -540,14 +534,14 @@ class UpdateNormServiceTest {
         .isPresent()
         .get()
         .hasToString(
-          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml"
+          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1.xml"
         );
       assertThat(updatedMod.get().getTargetRrefUpTo()).isPresent();
       assertThat(updatedMod.get().getTargetRrefUpTo())
         .isPresent()
         .get()
         .hasToString(
-          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3.xml"
+          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-3.xml"
         );
       assertThat(updatedMod.get().getNode().getTextContent())
         .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());
@@ -561,9 +555,9 @@ class UpdateNormServiceTest {
         "NormWithoutPassiveModsQuotedStructure.xml"
       );
       final String modEid =
-        "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       final String newDestinationHref =
-        targetNorm.getExpressionEli() + "/hauptteil-1_para-2_abs-2.xml";
+        targetNorm.getExpressionEli() + "/hauptteil-1_art-2_abs-2.xml";
 
       final Optional<Mod> modBeforeUpdate = amendingLaw
         .getMods()
@@ -597,7 +591,7 @@ class UpdateNormServiceTest {
         .isPresent()
         .get()
         .hasToString(
-          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml"
+          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml"
         );
       assertThat(updatedMod.get().getNode().getTextContent())
         .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());

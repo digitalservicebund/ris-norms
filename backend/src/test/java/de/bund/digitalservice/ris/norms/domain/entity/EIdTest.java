@@ -15,7 +15,7 @@ class EIdTest {
   @Test
   void getParts() {
     // given
-    var eid = new EId("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1");
+    var eid = new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
     // when
     var parts = eid.getParts();
     // then
@@ -28,45 +28,45 @@ class EIdTest {
   @Test
   void itShouldHaveAStringRepresentation() {
     // given
-    var eid = new EId("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1");
+    var eid = new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
     // when // then
-    assertThat(eid).hasToString("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1");
+    assertThat(eid).hasToString("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
   }
 
   @Test
   void addPart() {
     // given
-    var eid = new EId("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3");
+    var eid = new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3");
     // when
     var newEid = eid.addPart(new EIdPart("text-1"));
     // then
-    assertThat(eid).hasToString("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3");
-    assertThat(newEid).hasToString("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1");
+    assertThat(eid).hasToString("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3");
+    assertThat(newEid).hasToString("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
   }
 
   @Test
   void fromNode() {
     // given
     var node = XmlMapper.toNode(
-      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />"
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\" />"
     );
     // when
     var eId = EId.fromNode(node);
     // then
     assertThat(eId).isPresent();
-    assertThat(eId.get().value()).isEqualTo("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3");
+    assertThat(eId.get().value()).isEqualTo("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3");
   }
 
   @Test
   void fromMandatoryNode() {
     // given
     var node = XmlMapper.toNode(
-      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />"
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\" />"
     );
     // when
     var eId = EId.fromMandatoryNode(node);
     // then
-    assertThat(eId.value()).isEqualTo("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3");
+    assertThat(eId.value()).isEqualTo("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3");
   }
 
   @Test
@@ -106,7 +106,7 @@ class EIdTest {
     @Test
     void itShouldProvideEIdForNodeWithParent() {
       var node = XmlMapper.toNode(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\"><akn:p>Some text</akn:p></akn:mod>"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\"><akn:p>Some text</akn:p></akn:mod>"
       );
       // when
       var optionalEId = EId.forNode(node.getFirstChild());
@@ -114,14 +114,14 @@ class EIdTest {
       assertThat(optionalEId)
         .hasValueSatisfying(eId -> {
           assertThat(eId.value())
-            .isEqualTo("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1");
+            .isEqualTo("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
         });
     }
 
     @Test
     void itShouldProvideEIdForNodeWithSiblingsWithSameEIdTypeWithoutNestedNum() {
       var node = XmlMapper.toNode(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\"><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\">Some text 1</akn:p><akn:ref eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_ref-1\">Some other element</akn:ref><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\">Some text 2</akn:p><akn:p eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-2\">Some text 3</akn:p></akn:mod>"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\"><akn:p eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1\">Some text 1</akn:p><akn:ref eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_ref-1\">Some other element</akn:ref><akn:p eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1\">Some text 2</akn:p><akn:p eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-2\">Some text 3</akn:p></akn:mod>"
       );
       // when
       var optionalEId = EId.forNode(node.getChildNodes().item(2));
@@ -129,7 +129,7 @@ class EIdTest {
       assertThat(optionalEId)
         .hasValueSatisfying(eId -> {
           assertThat(eId.value())
-            .isEqualTo("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-2");
+            .isEqualTo("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-2");
         });
     }
   }

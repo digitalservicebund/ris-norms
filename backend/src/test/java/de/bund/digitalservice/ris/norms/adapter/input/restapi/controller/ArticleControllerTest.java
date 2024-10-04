@@ -118,7 +118,7 @@ class ArticleControllerTest {
           norm
             .getArticles()
             .stream()
-            .filter(article -> article.getEid().get().equals("hauptteil-1_para-1"))
+            .filter(article -> article.getEid().get().equals("hauptteil-1_art-1"))
             .toList()
         );
 
@@ -133,7 +133,7 @@ class ArticleControllerTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
 
       verify(loadArticlesFromNormUseCase, times(1))
@@ -158,7 +158,7 @@ class ArticleControllerTest {
           norm
             .getArticles()
             .stream()
-            .filter(article -> article.getEid().get().equals("hauptteil-1_para-1"))
+            .filter(article -> article.getEid().get().equals("hauptteil-1_art-1"))
             .toList()
         );
 
@@ -173,7 +173,7 @@ class ArticleControllerTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
 
       verify(loadArticlesFromNormUseCase, times(1))
@@ -456,7 +456,7 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=2017-03-01T00:00:00.000Z"
           )
             .accept(MediaType.TEXT_HTML)
         )

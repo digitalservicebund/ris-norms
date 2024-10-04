@@ -22,7 +22,7 @@ describe("RisModForm", () => {
     { date: "2026-06-15", temporalGroupEid: "eid-3" },
   ]
   const destinationHref =
-    "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-1_abs-1/5-53.xml"
+    "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/art-1_abs-1/5-53.xml"
   const quotedTextFirst = "Bundesministerium des Innern, für Bau und Heimat"
   const quotedTextSecond = "Bundesministerium des Innern und für Heimat"
   const quotedStructureContent = "<quotedStructure>content</quotedStructure>"
@@ -83,7 +83,7 @@ describe("RisModForm", () => {
       name: "zu ersetzende Textstelle",
     })
     expect(destinationHrefEidElement).toBeInTheDocument()
-    expect(destinationHrefEidElement).toHaveValue("para-1_abs-1/5-53.xml")
+    expect(destinationHrefEidElement).toHaveValue("art-1_abs-1/5-53.xml")
     expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
     // Quoted Text Second
@@ -115,7 +115,7 @@ describe("RisModForm", () => {
       screen.getByRole("textbox", {
         name: "zu ersetzende Textstelle",
       }),
-    ).toHaveValue("para-1_abs-1/5-53.xml")
+    ).toHaveValue("art-1_abs-1/5-53.xml")
 
     expect(screen.getByLabelText("zu ersetzender Text")).toHaveTextContent(
       "Target Law Content",
@@ -352,7 +352,7 @@ describe("RisModForm", () => {
         textualModType,
         timeBoundaries,
         destinationHref:
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-1_abs-1/5-53.xml",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/art-1_abs-1/5-53.xml",
         targetLawHtml: "<span data-eId='span-1'>Test</span>",
         targetLaw: `<akn:akonaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"><akn:span eId="span-1">Test</akn:span></akn:akonaNtoso>`,
       },

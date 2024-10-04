@@ -239,56 +239,56 @@
       <!-- Hauptteil -->
       <akn:body eId="hauptteil-1" GUID="e3303c64-06ff-4f34-8d2b-073b980ee3d3">
 <!-- § 9 -->
-         <akn:article eId="hauptteil-1_para-1"
+          <akn:article eId="hauptteil-1_art-1"
                       GUID="b2390631-4ed0-45f6-af24-dd4deeaeae06"
                       period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-1_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="5ef4111b-874d-4843-8467-bbccf6bceb96">
                § 9</akn:num>
-            <akn:heading eId="hauptteil-1_para-1_überschrift-1"
+            <akn:heading eId="hauptteil-1_art-1_überschrift-1"
                          GUID="c1717cbd-7785-4127-a9d5-b6423c49ab3d">Kennzeichenverbot</akn:heading>
             <!-- Absatz (1) -->
-            <akn:paragraph eId="hauptteil-1_para-1_abs-1"
+              <akn:paragraph eId="hauptteil-1_art-1_abs-1"
                            GUID="15f33532-babe-4c6f-817c-ccfd7e369191">
-               <akn:num eId="hauptteil-1_para-1_abs-1_bezeichnung-1"
+               <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
                         GUID="5df1db91-e49a-4195-9552-3dddc4304912">
                </akn:num>
-               <akn:list eId="hauptteil-1_para-1_abs-1_untergl-1"
+               <akn:list eId="hauptteil-1_art-1_abs-1_untergl-1"
                          GUID="582db518-f7ad-493f-b8b1-e21e4ebbb014">
-                  <akn:intro eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1"
+                  <akn:intro eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1"
                              GUID="f8685276-25df-43a8-81f2-90fe48c30639">
-                     <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1"
+                     <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1"
                             GUID="54473d0a-ad82-48c5-b537-7ea9cb49f91d">Kennzeichen des verbotenen Vereins dürfen
                         für die Dauer der Vollziehbarkeit des Verbots nicht mehr</akn:p>
                   </akn:intro>
-                  <akn:point eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1"
+                  <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
                              GUID="862be77d-ac5b-4dd7-8509-beb2d3620dda">
-                     <akn:num eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1"
+                     <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_bezeichnung-1"
                               GUID="a5e0f415-85f8-4e67-a944-5de26305f657">
                      </akn:num>
-                     <akn:content eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1"
+                     <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1"
                                   GUID="d9a79058-1058-477f-957d-0802540a3026">
-                        <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
+                        <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
                                GUID="976fe7d2-fd6e-4428-b3e3-e9bf8ea6bac3">öffentlich, in einer
                            Versammlung oder</akn:p>
                      </akn:content>
                   </akn:point>
-                  <akn:point eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2"
+                  <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
                              GUID="9bf3bfd3-9cc9-4a79-aaed-ca1306bbaa19">
-                     <akn:num eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1"
+                     <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1"
                               GUID="4633e320-e1b0-4e29-a642-f5cb7f65f6c6">
                      </akn:num>
-                     <akn:content eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1"
+                     <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1"
                                   GUID="c2146cd4-efb0-4dee-b3df-ee153329acc8">
-                        <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
+                        <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
                                GUID="e37987b6-5b22-4c0c-b4af-079722c45811">in Schriften,
                            Schallaufnahmen, Abbildungen oder Darstellungen, die verbreitet werden oder zur Verbreitung
                            bestimmt sind,</akn:p>
                      </akn:content>
                   </akn:point>
-                  <akn:wrapUp eId="hauptteil-1_para-1_abs-1_untergl-1_schlusstext-1"
+                  <akn:wrapUp eId="hauptteil-1_art-1_abs-1_untergl-1_schlusstext-1"
                               GUID="5d4ecf82-556b-4235-8103-f8ff4cfb13a6">
-                     <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_schlusstext-1_text-1"
+                     <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_schlusstext-1_text-1"
                             GUID="f5d07efa-ed20-4317-85ff-11501845009d">verwendet werden. Ausgenommen ist eine
                         Verwendung von Kennzeichen im Rahmen der staatsbürgerlichen Aufklärung, der Abwehr
                         verfassungswidriger Bestrebungen und ähnlicher
@@ -297,27 +297,27 @@
                </akn:list>
             </akn:paragraph>
             <!-- Absatz 2 -->
-            <akn:paragraph eId="hauptteil-1_para-1_abs-2"
+              <akn:paragraph eId="hauptteil-1_art-1_abs-2"
                            GUID="402455e1-4290-4ef6-9046-14c349d4ead3">
-               <akn:num eId="hauptteil-1_para-1_abs-2_bezeichnung-1"
+               <akn:num eId="hauptteil-1_art-1_abs-2_bezeichnung-1"
                         GUID="705fa60b-a782-48a3-b42d-115e20f4a0fc">
                   (2) </akn:num>
-               <akn:content eId="hauptteil-1_para-1_abs-2_inhalt-1"
+               <akn:content eId="hauptteil-1_art-1_abs-2_inhalt-1"
                             GUID="b516d734-edc0-4497-bd56-950241dbbcc3">
-                  <akn:p eId="hauptteil-1_para-1_abs-2_inhalt-1_text-1"
+                  <akn:p eId="hauptteil-1_art-1_abs-2_inhalt-1_text-1"
                          GUID="5b5cb25e-3d9f-44dc-a49e-c800df5e34f4">Kennzeichen im Sinnde des Absatzes 1 sind insbesondere
                      Fahnen, Abzeichen, Uniformstücke, Parolen und Grußformen.</akn:p>
                </akn:content>
             </akn:paragraph>
             <!-- Absatz 3 -->
-            <akn:paragraph eId="hauptteil-1_para-1_abs-3"
+              <akn:paragraph eId="hauptteil-1_art-1_abs-3"
                            GUID="87634142-4c46-456e-8f22-631810e868ff">
-               <akn:num eId="hauptteil-1_para-1_abs-3_bezeichnung-1"
+               <akn:num eId="hauptteil-1_art-1_abs-3_bezeichnung-1"
                         GUID="0e865617-4a90-4431-aeca-bdb70408008e">
                   (3) </akn:num>
-               <akn:content eId="hauptteil-1_para-1_abs-3_inhalt-1"
+               <akn:content eId="hauptteil-1_art-1_abs-3_inhalt-1"
                             GUID="b516ebae-eaa5-4f06-954a-963b4f07fc24">
-                  <akn:p eId="hauptteil-1_para-1_abs-3_inhalt-1_text-1"
+                  <akn:p eId="hauptteil-1_art-1_abs-3_inhalt-1_text-1"
                          GUID="3662b21f-73d9-4a93-b57c-399fea9cd4e6">Absatz 1 gilt entsprechend für Kennzeichen eines
                      verbotenen Vereins, die in im Wesentlichen gleicher Form von anderen nicht verbotenen
                      Teilorganisationen oder von selbständigen Vereinen
@@ -329,32 +329,32 @@
                </akn:content>
             </akn:paragraph>
          </akn:article>
-         <akn:article eId="hauptteil-1_para-2"
+         <akn:article eId="hauptteil-1_art-2"
                       GUID="b1b4bd3b-e007-4d84-af83-b8e36a0ae50b"
                       period="#geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_para-2_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="f82ab983-5498-49ab-918f-5cf5e730e5ec">
                § 20</akn:num>
-            <akn:paragraph eId="hauptteil-1_para-2_abs-1"
+            <akn:paragraph eId="hauptteil-1_art-2_abs-1"
                            GUID="6aa3a7ca-f30a-43b6-950b-b1e942fd1842">
-               <akn:num eId="hauptteil-1_para-2_abs-1_bezeichnung-1"
+               <akn:num eId="hauptteil-1_art-2_abs-1_bezeichnung-1"
                         GUID="e363f12d-7918-435c-b3a1-182c5e03ff43">
                   (1) </akn:num>
-               <akn:list eId="hauptteil-1_para-2_abs-1_untergl-1"
+               <akn:list eId="hauptteil-1_art-2_abs-1_untergl-1"
                          GUID="97e930bf-49f8-472a-a1fa-3c3a401caa13">
-                  <akn:intro eId="hauptteil-1_para-2_abs-1_untergl-1_intro-1"
+                  <akn:intro eId="hauptteil-1_art-2_abs-1_untergl-1_intro-1"
                              GUID="e2261ee5-feda-4691-b1a0-8a18f43720e7">
-                     <akn:p eId="hauptteil-1_para-2_abs-1_untergl-1_intro-1_text-1"
+                     <akn:p eId="hauptteil-1_art-2_abs-1_untergl-1_intro-1_text-1"
                             GUID="f5b78960-3376-4f19-a1de-05e24443a141">Wer</akn:p>
                   </akn:intro>
-                  <akn:point eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-1"
+                  <akn:point eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-1"
                              GUID="6f1b22e6-2fcc-4e29-b3c1-fd67d8cee45c">
-                     <akn:num eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-1_bezeichnung-1"
+                     <akn:num eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-1_bezeichnung-1"
                               GUID="7947817d-e127-49ca-82c3-a1dfeaa73748">
                         1. </akn:num>
-                     <akn:content eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-1_inhalt-1"
+                     <akn:content eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-1_inhalt-1"
                                   GUID="fff000f9-bed8-41eb-b26b-93a5da40ff5f">
-                        <akn:p eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
+                        <akn:p eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
                                GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem
                            vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf
                            andere Weise aufrechterhält, sich an ihm als
@@ -362,22 +362,22 @@
                            Satz 2) oder</akn:p>
                      </akn:content>
                   </akn:point>
-                  <akn:point eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-2"
+                  <akn:point eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-2"
                              GUID="94af45e6-d49b-4bcc-84b9-5e5c01d5a3ba">
-                     <akn:num eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-2_bezeichnung-1"
+                     <akn:num eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-2_bezeichnung-1"
                               GUID="18a496f3-c0e7-4fb3-a41d-5c9fd75374c7">
                         2. </akn:num>
-                     <akn:content eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-2_inhalt-1"
+                     <akn:content eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-2_inhalt-1"
                                   GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
-                        <akn:p eId="hauptteil-1_para-2_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
+                        <akn:p eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
                                GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9 Absatz 1 Satz
                            2, Absatz 2 oder 3 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation
                            verwendet,</akn:p>
                      </akn:content>
                   </akn:point>
-                  <akn:wrapUp eId="hauptteil-1_para-2_abs-1_untergl-1_schlusstext-1"
+                  <akn:wrapUp eId="hauptteil-1_art-2_abs-1_untergl-1_schlusstext-1"
                               GUID="107ed2fd-e041-4ee4-9eee-b559f84a4ce8">
-                     <akn:p eId="hauptteil-1_para-2_abs-1_untergl-1_schlusstext-1_text-1"
+                     <akn:p eId="hauptteil-1_art-2_abs-1_untergl-1_schlusstext-1_text-1"
                             GUID="53af6200-56c2-4fed-bd27-25ddefe7b204">wird mit Gefängnis bis zu einem Jahr
                         oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a,
                         128 oder 129 des Strafgesetzbuches, mit schwerer
@@ -385,38 +385,38 @@
                   </akn:wrapUp>
                </akn:list>
             </akn:paragraph>
-            <akn:paragraph eId="hauptteil-1_para-2_abs-2"
+            <akn:paragraph eId="hauptteil-1_art-2_abs-2"
                            GUID="f0f31024-8381-4a62-8980-5f432d03a925">
-               <akn:num eId="hauptteil-1_para-2_abs-2_bezeichnung-1"
+               <akn:num eId="hauptteil-1_art-2_abs-2_bezeichnung-1"
                         GUID="c0ea5d8c-8d91-4e0c-812e-429a7a24a1a2">
                   (2) </akn:num>
-               <akn:content eId="hauptteil-1_para-2_abs-2_inhalt-1"
+               <akn:content eId="hauptteil-1_art-2_abs-2_inhalt-1"
                             GUID="8b51c358-ca54-4949-b957-bcbe5e55f33d">
-                  <akn:p eId="hauptteil-1_para-2_abs-2_inhalt-1_text-1"
+                  <akn:p eId="hauptteil-1_art-2_abs-2_inhalt-1_text-1"
                          GUID="924d7140-bdfd-4a50-9b7f-feb006d19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5
                      und 6 des Strafgesetzbuches entsprechend.</akn:p>
                </akn:content>
             </akn:paragraph>
          </akn:article>
-         <akn:article eId="hauptteil-1_para-3"
+         <akn:article eId="hauptteil-1_art-3"
                       GUID="9aefac39-6322-462f-9b93-7d1a046f2913"
                       period="#geltungszeitgr-3"
                       refersTo="geltungszeitregel">
-            <akn:num eId="hauptteil-1_para-3_bezeichnung-1"
+            <akn:num eId="hauptteil-1_art-3_bezeichnung-1"
                      GUID="6ef44f75-f570-49f2-8d4d-1deeb5eacdbc">
                § 34 </akn:num>
-            <akn:paragraph eId="hauptteil-1_para-3_abs-1"
+            <akn:paragraph eId="hauptteil-1_art-3_abs-1"
                            GUID="33e50f7e-4639-4c56-8f7d-d53a423b305d">
-               <akn:num eId="hauptteil-1_para-3_abs-1_bezeichnung-1"
+               <akn:num eId="hauptteil-1_art-3_abs-1_bezeichnung-1"
                         GUID="573d539f-44e1-47a9-8259-307f8536005e">
                </akn:num>
-               <akn:content eId="hauptteil-1_para-3_abs-1_inhalt-1"
+               <akn:content eId="hauptteil-1_art-3_abs-1_inhalt-1"
                             GUID="1a983020-0a5c-4e20-8d65-7908affd6afc">
-                  <akn:p eId="hauptteil-1_para-3_abs-1_inhalt-1_text-1"
+                  <akn:p eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1"
                          GUID="7f60908e-6cd0-445b-903a-f56dec498743">Dieses Gesetz tritt
 
 
-                     <akn:date eId="hauptteil-1_para-3_abs-1_inhalt-1_text-1_datum-1"
+                     <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1"
                                GUID="bd2b689f-9333-4bac-8de4-8275141523f9"
                                date="1964-09-05"
                                refersTo="inkrafttreten-datum">einen Monat nach seiner Verkündung</akn:date> in Kraft.</akn:p>

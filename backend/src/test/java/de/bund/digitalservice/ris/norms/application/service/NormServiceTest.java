@@ -604,7 +604,7 @@ class NormServiceTest {
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
         zf0Norm.getExpressionEli().toString() +
-        "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
+        "/hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newContent = "new text";
@@ -665,7 +665,7 @@ class NormServiceTest {
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
         targetNormEli +
-        "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
+        "/hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newContent = "new text";
@@ -710,7 +710,7 @@ class NormServiceTest {
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
         zf0Norm.getExpressionEli().toString() +
-        "/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
+        "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
         newCharacterRange +
         ".xml";
       String newContent = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
@@ -920,7 +920,7 @@ class NormServiceTest {
       assertThat(mod.getTargetRefHref()).isPresent();
       assertThat(mod.getTargetRefHref().get().value())
         .contains(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
         );
       assertThat(mod.getNewText()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
       assertThat(result.targetNormZf0Xml()).isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
@@ -997,11 +997,11 @@ class NormServiceTest {
           amendingNormEli,
           List.of(
             new UpdateModsUseCase.NewModData(
-              "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
               "#meta-1_geltzeiten-1_geltungszeitgr-2"
             ),
             new UpdateModsUseCase.NewModData(
-              "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
               "#meta-1_geltzeiten-1_geltungszeitgr-2"
             )
           ),

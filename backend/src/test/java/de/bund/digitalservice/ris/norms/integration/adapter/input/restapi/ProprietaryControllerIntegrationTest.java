@@ -530,7 +530,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       // when
       mockMvc
@@ -552,7 +552,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_para-1/2024-06-03"
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1/2024-06-03"
             )
         )
         .andExpect(
@@ -567,7 +567,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
@@ -589,7 +589,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
@@ -611,7 +611,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
@@ -637,7 +637,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       // when
       mockMvc
@@ -661,7 +661,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_para-1/2024-06-03"
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1/2024-06-03"
             )
         )
         .andExpect(
@@ -676,7 +676,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));

@@ -18,8 +18,8 @@ class TextualModTest {
                   href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
       <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
                        GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                       href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-126.xml"
-                       upTo="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-4.xml"/>
+                               href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-126.xml"
+                               upTo="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-4.xml"/>
       <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
                  GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                  period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
@@ -72,7 +72,7 @@ class TextualModTest {
     assertThat(destinationHref)
       .contains(
         new Href(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-126.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-126.xml"
         )
       );
   }
@@ -81,7 +81,7 @@ class TextualModTest {
   void setDestinationHref() {
     // when
     textualMod.setDestinationHref(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
     );
     var destinationHref = textualMod.getDestinationHref();
 
@@ -89,7 +89,7 @@ class TextualModTest {
     assertThat(destinationHref)
       .contains(
         new Href(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
         )
       );
   }
@@ -98,7 +98,7 @@ class TextualModTest {
   void setDestinationUpto() {
     // when
     textualMod.setDestinationUpTo(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
     );
     var destinationUpTo = textualMod.getDestinationUpTo();
 
@@ -106,7 +106,7 @@ class TextualModTest {
     assertThat(destinationUpTo)
       .contains(
         new Href(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
         )
       );
   }
@@ -115,7 +115,7 @@ class TextualModTest {
   void deleteDestinationUpto() {
     // given
     textualMod.setDestinationUpTo(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
     );
 
     // when
