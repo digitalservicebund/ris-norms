@@ -41,6 +41,12 @@ class CreateZf0ServiceTest {
     assertThat(ManifestationEli.fromString(frbrManifestationZf0Law.getEli()).asExpressionEli())
       .isEqualTo(ExpressionEli.fromString(frbrExpressionZf0Law.getEli()));
     assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
+    assertThat(frbrManifestationZf0Law.getURI())
+      .hasToString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
 
     assertThat(
       targetLaw
@@ -102,6 +108,12 @@ class CreateZf0ServiceTest {
     assertThat(ManifestationEli.fromString(frbrManifestationZf0Law.getEli()).asExpressionEli())
       .isEqualTo(ExpressionEli.fromString(frbrExpressionZf0Law.getEli()));
     assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
+    assertThat(frbrManifestationZf0Law.getURI())
+      .hasToString(
+        "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
 
     assertThat(
       targetLaw

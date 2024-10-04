@@ -64,6 +64,7 @@ public class CreateZf0Service implements CreateZf0UseCase {
     final ManifestationEli zf0Eli = ManifestationEli.fromString(frbrManifestation.getEli());
     zf0Eli.setPointInTimeManifestation(date);
     frbrManifestation.setEli(zf0Eli.toString());
+    frbrManifestation.setURI(zf0Eli.toUri());
 
     // 2. FRBRdate --> current system date + @name="generierung"
     frbrManifestation.setFBRDate(date, "generierung");

@@ -1,7 +1,9 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.net.URI;
 import java.time.LocalDate;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -18,6 +20,7 @@ import org.w3c.dom.Node;
 public abstract class FRBR {
 
   private final Node node;
+  private static final String VALUE_ATTIBUTE = "value";
 
   /**
    * Returns the Eli as {@link String} from the FRBRThis of the specific FRBR level.
@@ -37,8 +40,38 @@ public abstract class FRBR {
     NodeParser
       .getMandatoryNodeFromExpression("./FRBRthis", node)
       .getAttributes()
-      .getNamedItem("value")
+      .getNamedItem(VALUE_ATTIBUTE)
       .setNodeValue(eli);
+  }
+
+  /**
+   * Returns the URI as {@link String} from the FRBRuri of the specific FRBR level.
+   *
+   * @return An URI
+   */
+  public URI getURI() {
+    return URI.create(NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRuri/@value", node));
+  }
+
+  /**
+   * Updates the URI of a Norm
+   *
+   * @param uri - the new URI
+   */
+  public void setURI(final URI uri) {
+    var optionalFRBRuri = NodeParser.getNodeFromExpression("./FRBRuri", node);
+
+    if (optionalFRBRuri.isEmpty()) {
+      var newFRBRuri = node
+        .getOwnerDocument()
+        .createElementNS("http://Inhaltsdaten.LegalDocML.de/1.7/", "FRBRuri");
+      newFRBRuri.setAttribute("GUID", UUID.randomUUID().toString());
+      newFRBRuri.setAttribute(VALUE_ATTIBUTE, uri.toString());
+      node.appendChild(newFRBRuri);
+      return;
+    }
+
+    optionalFRBRuri.get().getAttributes().getNamedItem(VALUE_ATTIBUTE).setNodeValue(uri.toString());
   }
 
   /**
