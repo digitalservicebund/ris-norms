@@ -3,8 +3,8 @@ DELETE
 FROM norms
 WHERE eli_expression = 'eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1';
 
-INSERT INTO norms (guid, xml)
-VALUES ('f260b43f-6218-4bd7-ac1a-f5f46d190bfb', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (xml)
+VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

@@ -93,7 +93,12 @@ class AnnouncementMapperTest {
 
     // Then
     assertThat(announcementDto).isNotNull();
-    assertThat(announcementDto.getNormDto().getGuid()).isEqualTo(announcement.getNorm().getGuid());
+    assertThat(
+      XmlMapper
+        .toDocument(announcementDto.getNormDto().getXml())
+        .isEqualNode(announcement.getNorm().getDocument())
+    )
+      .isTrue();
     assertThat(announcementDto.getReleasedByDocumentalistAt())
       .isEqualTo(announcement.getReleasedByDocumentalistAt());
   }

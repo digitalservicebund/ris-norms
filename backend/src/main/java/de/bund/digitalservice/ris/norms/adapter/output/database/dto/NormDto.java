@@ -36,7 +36,8 @@ public class NormDto {
   @GeneratedValue
   private UUID id;
 
-  @NotNull
+  @Generated(event = { INSERT, UPDATE })
+  @Column(name = "guid", updatable = false, insertable = false)
   private UUID guid;
 
   @Generated(event = { INSERT, UPDATE })

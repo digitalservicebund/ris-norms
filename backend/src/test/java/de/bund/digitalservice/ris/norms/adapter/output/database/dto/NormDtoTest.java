@@ -64,9 +64,9 @@ class NormDtoTest {
 
     // Then
     assertThat(violations)
-      .hasSize(2)
+      .hasSize(1)
       .extracting(violation -> violation.getPropertyPath().toString() + " " + violation.getMessage()
       )
-      .containsExactlyInAnyOrder("guid must not be null", "xml must not be null");
+      .containsExactlyInAnyOrder("xml must not be null");
   }
 }

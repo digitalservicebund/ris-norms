@@ -3,8 +3,8 @@ DELETE
 FROM norms
 where eli_expression = 'eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1';
 
-INSERT INTO norms (guid, xml)
-VALUES ('c2e78146-833b-4d78-a055-27f05eeaf018', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (xml)
+VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 <!--
 	##################################################################################
 	Discovery Metadaten&#x2D;Struktur für nichtdefinierte Metadaten auf LDML.de&#x2D;Ebene
