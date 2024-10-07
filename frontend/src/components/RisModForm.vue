@@ -1,22 +1,22 @@
 <script setup lang="ts">
+import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
-import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
-import Button from "primevue/button"
-import RisLawPreview from "@/components/RisLawPreview.vue"
-import { ModType } from "@/types/ModType"
-import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { computed, nextTick, ref, watch } from "vue"
-import IconErrorOutline from "~icons/ic/error-outline"
-import CheckIcon from "~icons/ic/check"
-import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useEIdRange } from "@/composables/useEIdRange"
-import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
+import { useEIdRange } from "@/composables/useEIdRange"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import { ModType } from "@/types/ModType"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import Button from "primevue/button"
 import InputText from "primevue/inputtext"
 import Toast from "primevue/toast"
 import { useToast } from "primevue/usetoast"
+import { computed, nextTick, ref, watch } from "vue"
+import IconCheck from "~icons/ic/baseline-check"
+import IconErrorOutline from "~icons/ic/error-outline"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -365,7 +365,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         :items="timeBoundaries"
         @change="$emit('generate-preview')"
       />
-      <div>
+      <div class="flex flex-col gap-6">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label class="ris-label2-regular" for="textualModeType"
           >Änderungstyp</label
@@ -513,10 +513,13 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       <div class="relative ml-auto">
         <Button
           label="Speichern"
-          :icon="CheckIcon"
           :loading="isUpdating"
           @click.prevent="$emit('update-mod')"
-        />
+        >
+          <template #icon>
+            <IconCheck />
+          </template>
+        </Button>
       </div>
     </div>
   </form>

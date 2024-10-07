@@ -231,11 +231,14 @@ watch(isUpdatingFinished, (finished) => {
         <div class="relative ml-auto">
           <Button
             label="Speichern"
-            :icon="CheckIcon"
             :loading="isUpdating"
             :disabled="timeBoundary === 'multiple'"
             @click.prevent="update"
-          />
+          >
+            <template #icon>
+              <CheckIcon />
+            </template>
+          </Button>
         </div>
       </div>
     </form>

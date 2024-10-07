@@ -2,9 +2,9 @@
 import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
-import Button from "primevue/button"
 import { useRef } from "@/composables/useRef"
 import { useDebounceFn } from "@vueuse/core"
+import Button from "primevue/button"
 import { ref, watch } from "vue"
 import CloseIcon from "~icons/ic/close"
 
@@ -90,11 +90,13 @@ watch(
   />
 
   <Button
-    severity="text"
-    label="Löschen"
-    icon-only
-    :icon="CloseIcon"
-    class="focus:-outline-offset-4"
+    aria-label="Löschen"
+    class="!h-40 !w-40 focus:-outline-offset-4"
+    text
     @click="$emit('delete')"
-  />
+  >
+    <template #icon>
+      <CloseIcon />
+    </template>
+  </Button>
 </template>

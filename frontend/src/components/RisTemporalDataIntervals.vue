@@ -46,7 +46,7 @@ watch(newDate, async (newDateValue) => {
 </script>
 
 <template>
-  <form class="grid grid-cols-[6rem,1fr,min-content] items-start gap-4">
+  <form class="grid grid-cols-[6rem,1fr,min-content] items-center gap-4">
     <Button
       label="Nach Datum sortieren"
       text
