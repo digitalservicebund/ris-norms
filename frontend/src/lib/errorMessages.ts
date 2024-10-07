@@ -84,10 +84,10 @@ export const errorMessages = {
   }),
 
   "/errors/target-node-not-present": (
-    e: ErrorResponse<{ targetNodeEid: string; eli: string }>,
+    e: ErrorResponse<{ eId: string; eli: string }>,
   ) => ({
     title: "Zielknoten nicht vorhanden",
-    message: `Der Zielknoten mit der eId "${e.targetNodeEid}" ist in der Vorab-Fassung (ZF0) "${e.eli}" nicht vorhanden.`,
+    message: `Der Zielknoten mit der eId "${e.eId}" ist in der Vorab-Fassung (ZF0) "${e.eli}" nicht vorhanden.`,
   }),
 
   "/errors/target-upto-node-not-present": (
