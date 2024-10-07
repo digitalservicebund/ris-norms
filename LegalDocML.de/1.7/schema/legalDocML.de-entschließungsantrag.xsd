@@ -3,7 +3,7 @@
            xmlns="http://Inhaltsdaten.LegalDocML.de/1.7/"
            targetNamespace="http://Inhaltsdaten.LegalDocML.de/1.7/"
            elementFormDefault="qualified"
-           version="LegalDocML.de 1.7 (irgendwann 2024)">
+           version="LegalDocML.de 1.7 (4. Oktober 2024)">
 <!-- ********************************* Hinweis zur Lizensierung ********************************* -->
     <xs:annotation>
       <xs:appinfo>
@@ -26,33 +26,47 @@ Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Ver
     <xs:element name="akomaNtoso">
       <xs:complexType>
          <xs:sequence>
-            <xs:element name="documentCollection" type="rechtsetzungsdokument"/>
+            <xs:element name="doc" type="entschließungsantrag"/>
          </xs:sequence>
       </xs:complexType>
    </xs:element>
-    <!-- #### Typen des Moduls "Rechtsetzungsdokument" #### -->
-    <xs:complexType name="rechtsetzungsdokument" mixed="false">
+    <!-- #### Typen des Moduls "Entschließungsantrag" #### -->
+    <xs:complexType name="entschließungsantrag" mixed="false">
       <xs:annotation>
-         <xs:documentation>Die Klasse "rechtsetzungsdokument" wird benutzt, um den Inhalt eines Rechtsetzungsdokuments in XML abzubilden. Auf Basis der Klasse "rechtsetzungsdokument" wird ein XML-Dokument erzeugt, worin durch Referenzierung die verschiedenen Bestandteile eines Rechtsetzungsdokuments eingebunden sind, die wiederum als separate XML-Dokumente angelegt werden. Auf Ebene des Schemas werden keine spezifischen Arten von Rechtsetzungsdokumenten unterschieden, da diese strukturell identisch aufgebaut sind. Die Darstellung spezifischer Rechtsetzungsdokumente erfolgt ausschließlich durch die Zuordnung von @name-Attributen.</xs:documentation>
+         <xs:documentation>Die Klasse "entschließungsantrag" bildet ein eigenständiges Teildokument eines Rechtsetzungsdokuments in der Entwurfsfassung in Form eines separaten XML-Dokuments, das durch die Klasse "rechtsetzungsdokument" referenziert und in dieser eingebunden wird.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="meta" type="metadatenMinimal"/>
-         <xs:element name="collectionBody" type="rechtsetzungsdokumentHauptteil"/>
+         <xs:element name="meta" type="metadatenOptionalErweitert"/>
+         <xs:element name="preface" type="dokumentenkopf"/>
+         <xs:element name="mainBody" type="entschließungsantragHauptteil"/>
+         <xs:element name="conclusions" type="entschließungsantragSchluss"/>
+         <xs:element name="components" type="teildokumente" minOccurs="0"/>
       </xs:sequence>
-      <xs:attribute name="name"
-                    use="required"
-                    type="nameLiterals.rechtsetzungsdokument"/>
+      <xs:attribute name="name" use="required" type="nameLiterals.entschließungsantrag"/>
    </xs:complexType>
-   <xs:complexType name="rechtsetzungsdokumentHauptteil" mixed="false">
+   <xs:complexType name="entschließungsantragHauptteil" mixed="false">
       <xs:annotation>
-         <xs:documentation>Die Klasse "rechtsetzungsdokumentHauptteil" wird benutzt, um die einzelnen Bestandteile eines Rechtsetzungsdokuments (die einzelnen XML-Dateien) zu referenzieren.</xs:documentation>
+         <xs:documentation>Die Klasse entschließungsantragHauptteil wird benutzt, um innerhalb des Entschließungsantrags einen Hauptteil einzufügen.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="component" type="teildokument" maxOccurs="unbounded"/>
+         <xs:group ref="inhaltselement" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="eId"
                     use="required"
-                    type="eIdLiterals.rechtsetzungsdokumentHauptteil"/>
+                    type="eIdLiterals.entschließungsantragHauptteil"/>
+      <xs:attribute name="GUID" use="required" type="GUIDLiterals"/>
+      <xs:attribute ref="xml:id" use="optional"/>
+   </xs:complexType>
+   <xs:complexType name="entschließungsantragSchluss" mixed="false">
+      <xs:annotation>
+         <xs:documentation>Die Klasse "entschließungsantragSchluss" wird benutzt, um innerhalb des Entschließungsantrags einen Schlussteil einzufügen.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="blockContainer" type="signaturblock"/>
+      </xs:sequence>
+      <xs:attribute name="eId"
+                    use="required"
+                    type="eIdLiterals.entschließungsantragSchluss"/>
       <xs:attribute name="GUID" use="required" type="GUIDLiterals"/>
       <xs:attribute ref="xml:id" use="optional"/>
    </xs:complexType>

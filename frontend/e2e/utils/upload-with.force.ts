@@ -11,7 +11,7 @@ export async function uploadAmendingLaw(
 ) {
   const filePath = path.join(
     __dirname,
-    "../../../LegalDocML.de/1.7-prerelease-2024-09-02/samples/amending-laws",
+    "../../../LegalDocML.de/1.7/samples/amending-laws",
     filename,
   )
   const fileContent = await fs.readFile(filePath)

@@ -3,7 +3,7 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            elementFormDefault="qualified"
            targetNamespace="http://MetadatenRIS.LegalDocML.de/1.7/"
-           version="LegalDocML.de 1.7 (irgendwann 2024)">
+           version="LegalDocML.de 1.7 (4. Oktober 2024)">
 <!-- ********************************* Hinweis zur Lizensierung ********************************* -->
     <xs:annotation>
       <xs:appinfo>

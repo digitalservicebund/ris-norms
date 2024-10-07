@@ -3,7 +3,7 @@
            xmlns="http://Inhaltsdaten.LegalDocML.de/1.7/"
            targetNamespace="http://Inhaltsdaten.LegalDocML.de/1.7/"
            elementFormDefault="qualified"
-           version="LegalDocML.de 1.7 (irgendwann 2024)">
+           version="LegalDocML.de 1.7 (4. Oktober 2024)">
 <!-- ********************************* Hinweis zur Lizensierung ********************************* -->
     <xs:annotation>
       <xs:appinfo>
@@ -1053,13 +1053,13 @@ Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Ver
    </xs:simpleType>
    <xs:simpleType name="eIdLiterals.einzelvorschrift">
       <xs:annotation>
-         <xs:documentation>Die ELI-Kurzbezeichnung für den fachlichen Typ "einzelvorschrift" (AKN-Typ "article") lautet in LegalDocML.de entweder "para" oder "art". Dieser wird zum einen die @eId
+         <xs:documentation>Die ELI-Kurzbezeichnung für den fachlichen Typ "einzelvorschrift" (AKN-Typ "article") lautet in LegalDocML.de "art". Dieser wird zum einen die @eId
                     des nächsten übergeordneten, eine @eId besitzenden Knotens als Präfix vorangestellt und mit einem Unterstrich ("_") verbunden, und zum
                     anderen die Positionsangabe des aktuellen Elements innerhalb seines Elternknotens als Suffix angehängt, verbunden durch einen Bindestrich
                     ("-").</xs:documentation>
       </xs:annotation>
       <xs:restriction base="xs:string">
-         <xs:pattern value="([a-zäöüß0-9]+-[1-9]{1}[0-9]*_)*(para|art)-[1-9]{1}[0-9]*"/>
+         <xs:pattern value="([a-zäöüß0-9]+-[1-9]{1}[0-9]*_)*(art)-[1-9]{1}[0-9]*"/>
       </xs:restriction>
    </xs:simpleType>
    <xs:simpleType name="eIdLiterals.elementUntergliederung">
@@ -3794,6 +3794,7 @@ Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Ver
          <xs:element name="item" type="listeListenelement" maxOccurs="unbounded"/>
          <xs:element name="listWrapUp" type="listeSchlusssatz" minOccurs="0"/>
       </xs:sequence>
+      <xs:attribute name="class" use="optional" type="classLiterals"/>
       <xs:attribute name="eId" use="required" type="eIdLiterals.liste"/>
       <xs:attribute name="GUID" use="required" type="GUIDLiterals"/>
       <xs:attribute ref="xml:id" use="optional"/>
@@ -4584,12 +4585,6 @@ Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Ver
          <xs:group ref="ANblock"/>
          <xs:group ref="HTMLblock"/>
          <xs:element name="block" type="block"/>
-      </xs:choice>
-   </xs:group>
-   <xs:group name="inhaltselementOhneAN">
-      <xs:choice>
-         <xs:element name="foreign" type="externesMarkup"/>
-         <xs:group ref="HTMLblock"/>
       </xs:choice>
    </xs:group>
    <xs:complexType name="sitzung" mixed="true">
@@ -5521,7 +5516,7 @@ Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Ver
          <xs:documentation>Die Klasse "schlussformel" wird benutzt, um die Schlussformel eines Regelungstextes einzufügen.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:group ref="inhaltselementOhneAN" maxOccurs="unbounded"/>
+         <xs:group ref="inhaltselement" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="eId" use="required" type="eIdLiterals.schlussformel"/>
       <xs:attribute name="GUID" use="required" type="GUIDLiterals"/>
@@ -5591,7 +5586,7 @@ Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Ver
          <xs:documentation>Die Klasse "eingangsformel" wird benutzt, um die Eingangsformel eines Dokumentes zu beschreiben. Bei Verordnungen und Verwaltungsvorschriften wird die Eingangsformel nicht verwendet.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:group ref="inhaltselementOhneAN" maxOccurs="unbounded"/>
+         <xs:group ref="inhaltselement" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="eId" use="required" type="eIdLiterals.eingangsformel"/>
       <xs:attribute name="GUID" use="required" type="GUIDLiterals"/>
@@ -5673,7 +5668,7 @@ Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische Ver
          <xs:documentation>Die Klasse "praeambelInhalt" wird benutzt, um den Inhalt einer Präambel darzustellen.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:group ref="inhaltselementOhneAN" maxOccurs="unbounded"/>
+         <xs:group ref="inhaltselement" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="eId" use="required" type="eIdLiterals.praeambelInhalt"/>
       <xs:attribute name="GUID" use="required" type="GUIDLiterals"/>

@@ -17,7 +17,7 @@ jobs:
         run: |
           xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd fixtures/SaatG_regelungstext.xml
       - name: Lint LDML.de 1.7 schema
-        working-directory: ./LegalDocML.de/1.7-prerelease-2024-09-02/
+        working-directory: ./LegalDocML.de/1.7/
         run: |
           xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd fixtures/SaatG_regelungstext.xml
       - name: Send status to Slack

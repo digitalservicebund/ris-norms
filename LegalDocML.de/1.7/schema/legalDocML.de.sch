@@ -2,7 +2,7 @@
 <sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron"
             xmlns:fkt="lokale-funktionen"
             queryBinding="xslt2"
-            schemaVersion="LegalDocML.de 1.7 (irgendwann 2024)">
+            schemaVersion="LegalDocML.de 1.7 (4. Oktober 2024)">
 <!--
 
 ********************************* Hinweis zur Lizensierung ***********************************
@@ -881,28 +881,6 @@
          <sch:assert id="SCH-00560-005"
                      test="if (. = 'regelungstext') then $ist-verkündungsfassung else true()"> Ein Regelungstext in der Verkündungsfassung darf nicht als Entwurfsfassung gekennzeichnet sein, wie es jedoch aktuell anhand
             von akn:FRBRWork/akn:FRBRdate/@name deklariert ist.</sch:assert>
-      </sch:rule>
-   </sch:pattern>
-   <!-- Regeln zum korrekten ELI-Kürzel für akn:article ("para" vs. "art") abhängig von der fachlichen Konstellation
-        (Form und Typ sowie außerhalb vs. innerhalb von Änderungsbefehlen) -->
-   <sch:pattern>
-      <sch:rule id="SCH-00570"
-                context="akn:article[not(ancestor::akn:quotedStructure)]">
-         <sch:assert id="SCH-00570-000"
-                     test="if (($form = $form-stammform and not($typ = ($typ-vertragsgesetz, $typ-vertragsverordnung))) or $form = $form-eingebundene-stammform) then matches(@eId, '.*art-.*$') else true()"> Der ELI-Kurzbezeichner für &lt;akn:article&gt; in einer Stammform oder eingebundenen Stammform muss "para" lauten. </sch:assert>
-         <sch:assert id="SCH-00570-005"
-                     test="if ($form = $form-stammform and $typ = ($typ-vertragsgesetz, $typ-vertragsverordnung)) then matches(@eId, '.*art-.*$') else true()"> Der ELI-Kurzbezeichner für &lt;akn:article&gt; in einem Vertragsgesetz oder einer Vertragsverordnung muss "art" lauten. </sch:assert>
-         <sch:assert id="SCH-00570-010"
-                     test="if ($form = $form-mantelform) then matches(@eId, '.*art-.*$') else true()">Der ELI-Kurzbezeichner für &lt;akn:article&gt; in einer Mantelform muss "art" lauten.</sch:assert>
-      </sch:rule>
-      <sch:rule id="SCH-00580" context="akn:article[ancestor::akn:quotedStructure]">
-         <sch:let name="lokaler-teil-des-eli-kürzels" value="tokenize(@eId, '_')[last()]"/>
-         <sch:assert id="SCH-00580-000"
-                     test="if (not(@refersTo = ($refersto-literal-vertragsgesetz, $refersto-literal-vertragsverordnung))) then starts-with($lokaler-teil-des-eli-kürzels, 'art-') else starts-with($lokaler-teil-des-eli-kürzels, 'art-')"> Der lokale Teil des ELI für eine Einzelvorschrift innerhalb eines
-            Änderungsbefehls (also eines &lt;akn:article&gt; mit dem Vorfahren &lt;quotedStructure&gt;) muss anhand des Kurzbezeichners "para" gebildet werden,
-            es sei denn, das zu ändernde Artefakt ist ein Vertragsrechtsakt (d. h. ein Vertragsgesetz oder eine Vertragsverordnung), in welchem Fall nur "art"
-            zulässig ist. Der lokale Bezeichner im vorliegenden Fall lautet "<sch:value-of select="$lokaler-teil-des-eli-kürzels"/>" in Kombination mit der
-            Qualifizierung des Zielartefaktes qua "<sch:value-of select="@refersTo"/>".</sch:assert>
       </sch:rule>
    </sch:pattern>
    <!-- Metadaten: proprietary -->
