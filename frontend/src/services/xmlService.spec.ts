@@ -43,7 +43,7 @@ describe("xmlService", () => {
       const result = xmlNodeToString(document)
       const document2 = xmlStringToDocument(result)
 
-      expect(document2.isEqualNode(document)).to.be.true
+      expect(document2.isEqualNode(document)).toBe(true)
     })
   })
 

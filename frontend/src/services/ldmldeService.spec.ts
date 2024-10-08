@@ -75,7 +75,7 @@ describe("ldmldeService", () => {
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
       )
 
-      expect(node).not.to.be.null
+      expect(node).not.toBeNull()
       expect(evaluateXPathOnce("@eId", node!)?.nodeValue).to.eq(
         "meta-1_analysis-1_activemod-1_textualmod-1",
       )

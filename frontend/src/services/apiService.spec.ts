@@ -105,7 +105,7 @@ describe("useApiFetch", () => {
     await flushPromises()
 
     expect(fetchSpy).toHaveBeenCalled()
-    expect(error.value).to.be.null
+    expect(error.value).toBeNull()
   })
 
   test("replaces the exception in case of an error with the response data", async () => {

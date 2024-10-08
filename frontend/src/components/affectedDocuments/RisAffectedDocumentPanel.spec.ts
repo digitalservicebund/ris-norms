@@ -230,6 +230,6 @@ describe("RisAffectedDocumentPanel", () => {
       global: { plugins: [router] },
     })
 
-    expect(screen.getByLabelText("Lädt...")).to.exist
+    expect(screen.getByLabelText("Lädt...")).toBeInTheDocument()
   })
 })
