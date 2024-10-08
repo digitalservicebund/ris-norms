@@ -15,7 +15,7 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import { computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import dayjs from "dayjs"
-import { useZf0Service } from "@/services/zf0Service"
+import { useNormXml } from "@/composables/useNormXml"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -132,7 +132,7 @@ const {
   data: originalTargetNormZf0Xml,
   error: targetNormZf0Error,
   isFetching: targetNormZf0IsFetching,
-} = useZf0Service(destinationHrefEli, eli)
+} = useNormXml(destinationHrefEli)
 
 const dayBeforeTimeBoundary = computed(() => {
   if (!timeBoundary.value?.date) {

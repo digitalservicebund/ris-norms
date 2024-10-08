@@ -44,9 +44,6 @@ class NormControllerTest {
   private LoadNormXmlUseCase loadNormXmlUseCase;
 
   @MockBean
-  private CreateZf0UseCase createZf0UseCase;
-
-  @MockBean
   private UpdateNormXmlUseCase updateNormXmlUseCase;
 
   @MockBean
@@ -467,44 +464,6 @@ class NormControllerTest {
         .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
-    }
-  }
-
-  @Nested
-  class getNormZf0Xml {
-
-    @Test
-    void itReturnsNormXml() throws Exception {
-      // When
-      when(loadNormUseCase.loadNorm(any()))
-        .thenReturn(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"));
-
-      // When // Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zf0?amendingNormEli=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-          )
-            .accept(MediaType.APPLICATION_XML)
-        )
-        .andExpect(status().isOk())
-        .andExpect(
-          xpath("//meta//FRBRManifestation/FRBRthis/@value")
-            .string("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
-        );
-
-      verify(loadNormUseCase, times(1))
-        .loadNorm(
-          argThat(arg ->
-            arg
-              .eli()
-              .equals(
-                ExpressionEli.fromString(
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-                )
-              )
-          )
-        );
     }
   }
 

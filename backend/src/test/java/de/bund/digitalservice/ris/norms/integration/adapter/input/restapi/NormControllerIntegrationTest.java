@@ -2289,31 +2289,4 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         );
     }
   }
-
-  @Test
-  void itReturnsTheZf0Norm() throws Exception {
-    // When
-    normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
-    normRepository.save(
-      NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"))
-    );
-    normRepository.save(
-      NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"))
-    );
-
-    // When
-    mockMvc
-      .perform(
-        get(
-          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zf0?amendingNormEli=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-        )
-          .accept(MediaType.APPLICATION_XML)
-      )
-      // Then
-      .andExpect(status().isOk())
-      .andExpect(
-        xpath("//meta//FRBRExpression/FRBRthis/@value")
-          .string("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-      );
-  }
 }

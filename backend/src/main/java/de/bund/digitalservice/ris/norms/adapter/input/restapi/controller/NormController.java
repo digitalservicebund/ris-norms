@@ -250,24 +250,4 @@ public class NormController {
 
     return ResponseEntity.ok(UpdateModsResponseMapper.fromResult(result));
   }
-
-  /**
-   * Retrieves the xml of a norm's zf0 version.
-   *
-   * @param eli Eli of the request
-   * @param amendingNormEli Eli of norm that should be used as the amending norm to create the zf0
-   *     if no zf0 exists yet.
-   * @return A {@link ResponseEntity} containing the retrieved zf0 norm's xml.
-   * @deprecated use the normal getNorm endpoint with an expression eli. It returns the zf0 if one exists.
-   */
-  @GetMapping(path = "/zf0", produces = { APPLICATION_XML_VALUE })
-  @Deprecated(forRemoval = true)
-  public ResponseEntity<String> getNormZf0Xml(
-    final ExpressionEli eli,
-    @RequestParam String amendingNormEli
-  ) {
-    var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-
-    return ResponseEntity.ok(XmlMapper.toString(targetNorm.getDocument()));
-  }
 }
