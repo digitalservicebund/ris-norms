@@ -9,7 +9,7 @@ describe("RisCharacterRangeSelect", () => {
       props: { render: "<span>TEST</span>", xml: "<akn:span>Test</akn:span>" },
     })
 
-    expect(screen.getByText("TEST")).exist
+    expect(screen.getByText("TEST")).toBeInTheDocument()
   })
 
   it("supports selecting text", async () => {

@@ -104,7 +104,7 @@ describe("RisRefSelectionPanel", () => {
     const updatedXmlNode = xmlStringToDocument(updatedXml)
 
     const newRef = getNodeByEid(updatedXmlNode, "quot-1_p-1_ref-1")
-    expect(newRef).exist
+    expect(newRef).toBeTruthy()
     expect(newRef?.textContent).toEqual("for a third")
 
     const selectedRefUpdateEvents = renderResult.emitted("update:selectedRef")

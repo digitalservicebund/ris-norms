@@ -1,12 +1,8 @@
-const {
-  RisUiPlugin,
-  RisUiPreset,
-} = require("@digitalservicebund/ris-ui/tailwind")
-
-const angie = require("@digitalservice4germany/angie")
+import angie from "@digitalservice4germany/angie"
+import { RisUiPlugin, RisUiPreset } from "@digitalservicebund/ris-ui/tailwind"
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ["./src/**/*.{html,vue,js,ts}"],
 
   presets: [RisUiPreset],

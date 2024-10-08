@@ -61,7 +61,7 @@ describe("deleteRef", () => {
     )
 
     const ref = getNodeByEid(ldmlDocument, "quot-1_ref-2")
-    expect(ref).exist
+    expect(ref).toBeTruthy()
 
     deleteRef(ref!)
 
