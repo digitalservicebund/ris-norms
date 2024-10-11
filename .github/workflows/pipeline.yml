@@ -84,7 +84,7 @@ jobs:
      secrets: inherit # e.g. sonar token
 
   # ######################
-  # # Deploy new versions
+  # # Deploy new versions to staging
   # ######################
 
    deploy-staging-job:
@@ -97,6 +97,18 @@ jobs:
      permissions:
        id-token: write
      uses: ./.github/workflows/deploy-staging-job.yml
+     secrets: inherit
+
+  # ######################
+  # # Deploy new versions to uat
+  # ######################
+   deploy-uat-job:
+     if: ${{ github.ref == 'refs/heads/main' }}
+     needs:
+       - deploy-staging-job
+     permissions:
+       id-token: write
+     uses: ./.github/workflows/deploy-uat-job.yml
      secrets: inherit
 
   # ########################
