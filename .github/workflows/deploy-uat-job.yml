@@ -4,7 +4,7 @@ on:
 jobs:
   deploy-uat:
     runs-on: ubuntu-latest
-    concurrency: deploy-uat
+    concurrency: deploy
     environment: uat
     permissions:
       id-token: write # Enable OIDC for gitsign

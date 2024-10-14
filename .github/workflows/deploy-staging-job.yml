@@ -4,7 +4,7 @@ on:
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
-    concurrency: deploy-staging
+    concurrency: deploy
     environment: staging
     permissions:
       id-token: write # Enable OIDC for gitsign
