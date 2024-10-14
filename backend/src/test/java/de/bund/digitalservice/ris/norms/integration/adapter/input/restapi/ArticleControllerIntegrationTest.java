@@ -59,10 +59,6 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("$[0].affectedDocumentEli")
             .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
         )
-        .andExpect(
-          jsonPath("$[0].affectedDocumentZf0Eli")
-            .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        )
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
         .andExpect(jsonPath("$[1].affectedDocumentEli").doesNotExist())
@@ -688,10 +684,6 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
         .andExpect(
           jsonPath("affectedDocumentEli")
-            .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        )
-        .andExpect(
-          jsonPath("affectedDocumentZf0Eli")
             .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
         );
     }

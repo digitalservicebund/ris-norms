@@ -59,7 +59,5 @@ class ArticleResponseMapperTest {
     assertThat(resultArticle.getTitle()).isEqualTo("Änderung des Vereinsgesetzes");
     assertThat(resultArticle.getAffectedDocumentEli())
       .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
-    assertThat(resultArticle.getAffectedDocumentZf0Eli())
-      .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
   }
 }

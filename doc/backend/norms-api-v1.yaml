@@ -758,8 +758,6 @@ components:
           type: string
         affectedDocumentEli:
           type: string
-        affectedDocumentZf0Eli:
-          type: string
 
     TimeBoundary:
       type: object

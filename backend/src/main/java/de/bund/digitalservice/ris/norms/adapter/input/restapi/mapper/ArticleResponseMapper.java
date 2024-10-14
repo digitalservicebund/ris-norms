@@ -21,7 +21,6 @@ public class ArticleResponseMapper {
       article.getEnumeration().orElse(null),
       article.getEid().orElse(null),
       article.getHeading().orElse(null),
-      article.getAffectedDocumentEli().map(ExpressionEli::toString).orElse(null),
       article.getAffectedDocumentEli().map(ExpressionEli::toString).orElse(null)
     );
   }
