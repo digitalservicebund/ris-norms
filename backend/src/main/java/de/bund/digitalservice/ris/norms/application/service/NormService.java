@@ -198,7 +198,6 @@ public class NormService
       )
     );
 
-    // Updates one passiv mod in one ZF0
     updateNormService.updateOnePassiveModification(
       new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli)
     );
@@ -291,8 +290,9 @@ public class NormService
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
-      updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(targetNorm));
+      // Since we only update time boundaries here (and not destination elis) it is fine to only update the zf0s and
+      // not create them when they are missing
+      updateNorm(amendingNorm);
     }
 
     return new UpdateModsUseCase.Result(
