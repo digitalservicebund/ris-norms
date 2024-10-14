@@ -85,16 +85,6 @@ class ArticleControllerTest {
         .andExpect(jsonPath("$[1].affectedDocumentZf0Eli").doesNotExist())
         .andExpect(jsonPath("$[2]").doesNotExist());
 
-      verify(loadNormUseCase, times(1))
-        .loadNorm(
-          argThat(argument ->
-            Objects.equals(
-              argument.eli(),
-              ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            )
-          )
-        );
-
       verify(loadArticlesFromNormUseCase, times(1))
         .loadArticlesFromNorm(
           argThat(argument ->
@@ -275,16 +265,6 @@ class ArticleControllerTest {
             Objects.equals(
               argument.eli(),
               ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
-            )
-          )
-        );
-
-      verify(loadNormUseCase, times(1))
-        .loadNorm(
-          argThat(argument ->
-            Objects.equals(
-              argument.eli(),
-              ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
             )
           )
         );

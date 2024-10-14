@@ -75,14 +75,7 @@ public class ArticleController {
     final var articlesWithZf0 = loadArticlesFromNormUseCase
       .loadArticlesFromNorm(query)
       .stream()
-      .map(article -> {
-        final var targetLawZf0 = article
-          .getAffectedDocumentEli()
-          .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-          .orElse(null);
-
-        return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
-      })
+      .map(ArticleResponseMapper::fromNormArticle)
       .toList();
 
     return ResponseEntity.ok(articlesWithZf0);
@@ -146,20 +139,15 @@ public class ArticleController {
   ) {
     final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
 
-    final var foundArticle = norm
+    // The response type is richer than the domain "Norm" type, hence the separate mapper
+    return norm
       .getArticles()
       .stream()
       .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
       .findFirst()
+      .map(ArticleResponseMapper::fromNormArticle)
+      .map(ResponseEntity::ok)
       .orElseThrow(() -> new ArticleNotFoundException(eli.toString(), eid));
-
-    final var targetLawZf0 = foundArticle
-      .getAffectedDocumentEli()
-      .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-      .orElse(null);
-
-    // The response type is richer than the domain "Norm" type, hence the separate mapper
-    return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(foundArticle, targetLawZf0));
   }
 
   /**
