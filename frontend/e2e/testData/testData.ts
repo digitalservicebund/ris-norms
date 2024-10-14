@@ -17,7 +17,6 @@ export const amendingLaws: (Norm & {
         eid: "hauptteil-1_art-1",
         title: "Änderung des Vereinsgesetzes",
         affectedDocumentEli: "",
-        affectedDocumentZf0Eli: "",
       },
     ],
     targetLaws: [
@@ -42,7 +41,6 @@ export const amendingLaws: (Norm & {
         eid: "hauptteil-1_art-1",
         title: "Änderung des Bundesverfassungsschutzgesetzes",
         affectedDocumentEli: "",
-        affectedDocumentZf0Eli: "",
       },
     ],
     targetLaws: [

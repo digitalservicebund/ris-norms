@@ -35,7 +35,6 @@ describe("RisAffectedDocumentPanel", () => {
   })
 
   const eli = "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1"
-  const zf0Eli = "eli/zf0"
 
   test("should show title, eli and edit metadata button", async () => {
     data.value = {
@@ -48,7 +47,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli, zf0Eli },
+      props: { eli },
       global: { plugins: [router] },
     })
 
@@ -73,7 +72,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli, zf0Eli },
+      props: { eli },
       global: { plugins: [router] },
     })
 
@@ -91,7 +90,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli, asListItem: true, zf0Eli },
+      props: { eli, asListItem: true },
       global: { plugins: [router] },
     })
 
@@ -108,7 +107,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli, asListItem: false, zf0Eli },
+      props: { eli, asListItem: false },
       global: { plugins: [router] },
     })
 
@@ -127,7 +126,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli, zf0Eli },
+      props: { eli },
       global: { plugins: [router] },
     })
 
@@ -145,7 +144,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli, zf0Eli },
+      props: { eli },
       global: { plugins: [router] },
     })
 
@@ -163,7 +162,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli: "foo", zf0Eli: "bar" },
+      props: { eli: "bar" },
       global: { plugins: [router] },
     })
 
@@ -187,7 +186,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli: "foo", zf0Eli: "bar" },
+      props: { eli: "foo" },
       global: { plugins: [router] },
     })
 
@@ -197,7 +196,7 @@ describe("RisAffectedDocumentPanel", () => {
       "href",
       // Due to the mocking the ELI param is undefined, but we don't care
       // about the specific value anyways
-      "#/amending-laws/undefined/affected-documents/bar/references",
+      "#/amending-laws/undefined/affected-documents/foo/references",
     )
   })
 
@@ -209,7 +208,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli: "foo", zf0Eli: "bar" },
+      props: { eli: "foo" },
       global: { plugins: [router] },
     })
 
@@ -226,7 +225,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
 
     render(RisAffectedDocumentPanel, {
-      props: { eli: "foo", zf0Eli: "bar" },
+      props: { eli: "foo" },
       global: { plugins: [router] },
     })
 

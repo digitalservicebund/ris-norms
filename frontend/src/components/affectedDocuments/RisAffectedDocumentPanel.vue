@@ -18,15 +18,9 @@ const props = defineProps<{
   asListItem?: boolean
 
   /**
-   * ELI of the affected document. This is needed both for display.
+   * ELI of the affected document.
    */
   eli: string
-
-  /**
-   * ELI of the first future version of the affected document.
-   * This is needed for linking to the correct page for metadata editing.
-   */
-  zf0Eli: string
 }>()
 
 const { data: norm, isFetching, error } = useGetNorm(props.eli)
@@ -36,13 +30,12 @@ const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
 const eliParam = useEliPathParameter()
 
 const editorUrl = computed<string>(
-  () =>
-    `/amending-laws/${eliParam.value}/affected-documents/${props.zf0Eli}/edit`,
+  () => `/amending-laws/${eliParam.value}/affected-documents/${props.eli}/edit`,
 )
 
 const referenceEditorUrl = computed<string>(
   () =>
-    `/amending-laws/${eliParam.value}/affected-documents/${props.zf0Eli}/references`,
+    `/amending-laws/${eliParam.value}/affected-documents/${props.eli}/references`,
 )
 </script>
 

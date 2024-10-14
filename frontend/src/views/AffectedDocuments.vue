@@ -29,10 +29,9 @@ onUnmounted(() => cleanupBreadcrumbs())
 
     <ul v-else class="space-y-16">
       <RisAffectedDocumentPanel
-        v-for="{ eli: affectedDocumentEli, zf0Eli } in affectedDocuments"
+        v-for="affectedDocumentEli in affectedDocuments"
         :key="affectedDocumentEli"
         :eli="affectedDocumentEli"
-        :zf0-eli="zf0Eli"
         as-list-item
       />
     </ul>

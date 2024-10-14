@@ -3,46 +3,14 @@ import { MaybeRefOrGetter, Ref, computed } from "vue"
 import { Article } from "@/types/article"
 import { SimpleUseFetchReturn } from "@/services/apiService"
 
-/**
- * Eli and zf0 eli of a norm affected by another norm
- */
-type AffectedDocument = {
-  /** The ELI of the target law. */
-  eli: string
-  /** The ELI of the first future version of the target law. */
-  zf0Eli: string
-}
-
 function isArticleWithAffectedDocument(article: Article): article is Article & {
   affectedDocumentEli: string
-  affectedDocumentZf0Eli: string
 } {
-  return (
-    article.affectedDocumentEli != null &&
-    article.affectedDocumentZf0Eli != null
-  )
+  return article.affectedDocumentEli != null
 }
 
-function mapArticleWithAffectedDocumentToAffectedDocument(
-  article: Article & {
-    affectedDocumentEli: string
-    affectedDocumentZf0Eli: string
-  },
-): AffectedDocument {
-  return {
-    eli: article.affectedDocumentEli,
-    zf0Eli: article.affectedDocumentZf0Eli,
-  }
-}
-
-function removeDuplicateAffectedDocuments(
-  documents: AffectedDocument[],
-): AffectedDocument[] {
-  return [
-    ...new Map(
-      documents.map(({ eli, zf0Eli }) => [eli, { eli, zf0Eli }]),
-    ).values(),
-  ]
+function removeDuplicateAffectedDocuments(documents: string[]): string[] {
+  return [...new Set(documents).values()]
 }
 
 /**
@@ -56,15 +24,13 @@ function removeDuplicateAffectedDocuments(
  */
 export function useAffectedDocuments(
   eli: MaybeRefOrGetter<string>,
-): SimpleUseFetchReturn<AffectedDocument[]> {
+): SimpleUseFetchReturn<string[]> {
   const articlesFetch = useArticles(eli)
 
-  const affectedDocuments: Ref<AffectedDocument[]> = computed(() => {
+  const affectedDocuments: Ref<string[]> = computed(() => {
     const affectedDocuments = (articlesFetch.data.value ?? [])
       .filter(isArticleWithAffectedDocument)
-      .map((article) =>
-        mapArticleWithAffectedDocumentToAffectedDocument(article),
-      )
+      .map((article) => article.affectedDocumentEli)
 
     return removeDuplicateAffectedDocuments(affectedDocuments)
   })
