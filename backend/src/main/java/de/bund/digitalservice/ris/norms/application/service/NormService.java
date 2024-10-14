@@ -86,11 +86,9 @@ public class NormService
     if (!existingNorm.getGuid().equals(normToBeUpdated.getGuid())) {
       throw new InvalidUpdateException("Changing the GUID is not supported.");
     }
-    var updatedNorm = updateNormPort
-      .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+    var updatedNorm = updateNorm(normToBeUpdated);
 
-    return XmlMapper.toString(updatedNorm.getDocument());
+    return XmlMapper.toString(updatedNorm.get(query.eli()).getDocument());
   }
 
   /**
