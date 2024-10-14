@@ -12,7 +12,7 @@ public interface UpdateActiveModificationsUseCase {
    * @param query The query contains the amendingNorm whose active modifications should be updated.
    * @return A {@link Norm} with the updated active modifications
    */
-  Norm updateActiveModifications(Query query);
+  Norm updateOneActiveModification(Query query);
 
   /**
    * A record representing the query for updating the active modifications of an amendingNorm.

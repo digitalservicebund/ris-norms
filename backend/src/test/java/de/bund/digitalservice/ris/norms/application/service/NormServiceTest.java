@@ -574,8 +574,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
 
       // when/than
       final UpdateModUseCase.Query query = new UpdateModUseCase.Query(
@@ -611,8 +611,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(zf0Norm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
@@ -672,8 +672,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
       when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
@@ -717,8 +717,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(zf0Norm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
@@ -742,7 +742,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
-        .updateActiveModifications(
+        .updateOneActiveModification(
           argThat(argument ->
             Objects.equals(argument.amendingNorm(), amendingNorm) &&
             Objects.equals(argument.eId(), eId) &&
@@ -751,7 +751,7 @@ class NormServiceTest {
           )
         );
       verify(updateNormService, times(1))
-        .updatePassiveModifications(
+        .updateOnePassiveModification(
           argThat(argument ->
             Objects.equals(argument.zf0Norm(), zf0Norm) &&
             Objects.equals(argument.amendingNorm(), amendingNorm)
@@ -787,8 +787,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(zf0Norm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
@@ -838,8 +838,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
       when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
@@ -874,8 +874,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(zf0Norm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
@@ -894,7 +894,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
-        .updateActiveModifications(
+        .updateOneActiveModification(
           argThat(argument ->
             Objects.equals(argument.amendingNorm(), amendingNorm) &&
             Objects.equals(argument.eId(), eId) &&
@@ -902,7 +902,7 @@ class NormServiceTest {
           )
         );
       verify(updateNormService, times(1))
-        .updatePassiveModifications(
+        .updateOnePassiveModification(
           argThat(argument ->
             Objects.equals(argument.zf0Norm(), zf0Norm) &&
             Objects.equals(argument.amendingNorm(), amendingNorm)
@@ -938,8 +938,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
@@ -966,8 +966,8 @@ class NormServiceTest {
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
-      verify(updateNormService, times(2)).updateActiveModifications(any());
-      verify(updateNormService, times(2)).updatePassiveModifications(any());
+      verify(updateNormService, times(2)).updateOneActiveModification(any());
+      verify(updateNormService, times(2)).updateOnePassiveModification(any());
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
     }
@@ -986,8 +986,8 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
         .thenReturn(Optional.of(targetNorm));
-      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
+      when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
@@ -1014,8 +1014,8 @@ class NormServiceTest {
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
-      verify(updateNormService, times(2)).updateActiveModifications(any());
-      verify(updateNormService, times(2)).updatePassiveModifications(any());
+      verify(updateNormService, times(2)).updateOneActiveModification(any());
+      verify(updateNormService, times(2)).updateOnePassiveModification(any());
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
     }

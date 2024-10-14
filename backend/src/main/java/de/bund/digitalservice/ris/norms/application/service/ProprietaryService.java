@@ -7,6 +7,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 /** Implements operations related to the "proprietary" of a {@link Norm} */
@@ -19,10 +21,16 @@ public class ProprietaryService
 
   final LoadNormPort loadNormPort;
   final UpdateNormPort updateNormPort;
+  private final NormService normService;
 
-  ProprietaryService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
+  ProprietaryService(
+    LoadNormPort loadNormPort,
+    UpdateNormPort updateNormPort,
+    NormService normService
+  ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
+    this.normService = normService;
   }
 
   @Override
@@ -102,9 +110,12 @@ public class ProprietaryService
       query.metadata().organisationsEinheit()
     );
 
-    updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
+    Map<ExpressionEli, Norm> updatedNorms = normService.updateNorm(norm);
 
-    return proprietary;
+    Norm updatedNorm = updatedNorms.get(query.eli());
+    if (updatedNorm != null) return updatedNorm
+      .getMeta()
+      .getOrCreateProprietary(); else return null;
   }
 
   @Override

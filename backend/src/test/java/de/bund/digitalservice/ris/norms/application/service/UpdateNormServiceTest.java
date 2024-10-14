@@ -28,7 +28,7 @@ class UpdateNormServiceTest {
       Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // When
-      var updatedZfoLaw = updateNormService.updatePassiveModifications(
+      var updatedZfoLaw = updateNormService.updateOnePassiveModification(
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
@@ -66,7 +66,7 @@ class UpdateNormServiceTest {
       Norm zf0Law = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
 
       // When
-      var updatedZf0Law = updateNormService.updatePassiveModifications(
+      var updatedZf0Law = updateNormService.updateOnePassiveModification(
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
@@ -112,7 +112,7 @@ class UpdateNormServiceTest {
       Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // When
-      var updatedZfoLaw = updateNormService.updatePassiveModifications(
+      var updatedZfoLaw = updateNormService.updateOnePassiveModification(
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
@@ -181,7 +181,7 @@ class UpdateNormServiceTest {
       Norm zf0Law = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
 
       // When
-      var updatedZf0Law = updateNormService.updatePassiveModifications(
+      var updatedZf0Law = updateNormService.updateOnePassiveModification(
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
@@ -239,7 +239,7 @@ class UpdateNormServiceTest {
       );
 
       // When
-      var updatedZfoLaw = updateNormService.updatePassiveModifications(
+      var updatedZfoLaw = updateNormService.updateOnePassiveModification(
         new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLawELi)
       );
 
@@ -309,7 +309,7 @@ class UpdateNormServiceTest {
       String newContent = "new-text";
 
       // When
-      var updatedAmendingNorm = updateNormService.updateActiveModifications(
+      var updatedAmendingNorm = updateNormService.updateOneActiveModification(
         new UpdateActiveModificationsUseCase.Query(
           amendingLaw,
           eId,
@@ -353,7 +353,7 @@ class UpdateNormServiceTest {
       String newContent = "new-text";
 
       // When
-      var updatedAmendingNorm = updateNormService.updateActiveModifications(
+      var updatedAmendingNorm = updateNormService.updateOneActiveModification(
         new UpdateActiveModificationsUseCase.Query(
           amendingLaw,
           eId,
@@ -396,7 +396,7 @@ class UpdateNormServiceTest {
       String newContent = "new-text";
 
       // When
-      var updatedAmendingNorm = updateNormService.updateActiveModifications(
+      var updatedAmendingNorm = updateNormService.updateOneActiveModification(
         new UpdateActiveModificationsUseCase.Query(
           amendingLaw,
           eId,
@@ -439,7 +439,7 @@ class UpdateNormServiceTest {
       String newTimeBoundaryEidSetup = "#time-boundary-eid";
       String newContentSetup = "new-text";
 
-      updateNormService.updateActiveModifications(
+      updateNormService.updateOneActiveModification(
         new UpdateActiveModificationsUseCase.Query(
           amendingLawSetup,
           eIdSetup,
@@ -461,7 +461,7 @@ class UpdateNormServiceTest {
       String newContent = "new-text";
 
       // When
-      var updatedAmendingNorm = updateNormService.updateActiveModifications(
+      var updatedAmendingNorm = updateNormService.updateOneActiveModification(
         new UpdateActiveModificationsUseCase.Query(
           amendingLaw,
           eId,
@@ -510,7 +510,7 @@ class UpdateNormServiceTest {
         .findFirst();
 
       // When
-      var updatedAmendingNorm = updateNormService.updateActiveModifications(
+      var updatedAmendingNorm = updateNormService.updateOneActiveModification(
         new UpdateActiveModificationsUseCase.Query(
           amendingLaw,
           modEid,
@@ -566,7 +566,7 @@ class UpdateNormServiceTest {
         .findFirst();
 
       // When
-      var updatedAmendingNorm = updateNormService.updateActiveModifications(
+      var updatedAmendingNorm = updateNormService.updateOneActiveModification(
         new UpdateActiveModificationsUseCase.Query(
           amendingLaw,
           modEid,

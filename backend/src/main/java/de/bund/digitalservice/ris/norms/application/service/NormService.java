@@ -10,10 +10,15 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNorm
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +94,65 @@ public class NormService
   }
 
   /**
+   * It not only saves a {@link Norm} but makes sure that all Eids are consistent and if it is an amending norm makes sure
+   * that all target norms have a passive modification for every active modification in the amending norm.
+   *
+   * @param normToBeUpdated the norm which shall be saved
+   * @return An {@link Map} containing the updated and saved {@link Norm}
+   * @throws NormNotFoundException if the norm cannot be found
+   */
+  public Map<ExpressionEli, Norm> updateNorm(Norm normToBeUpdated) {
+    // Collect all target norms' ELI without duplications
+    Set<ExpressionEli> allTargetLawsEli = normToBeUpdated
+      .getMeta()
+      .getAnalysis()
+      .map(analysis -> analysis.getActiveModifications().stream())
+      .orElse(Stream.empty())
+      .map(TextualMod::getDestinationHref)
+      .flatMap(Optional::stream)
+      .map(Href::getEli)
+      .flatMap(Optional::stream)
+      .map(ExpressionEli::fromString)
+      .collect(Collectors.toSet());
+
+    // Load all target norms
+    Map<ExpressionEli, Norm> zf0s = allTargetLawsEli
+      .stream()
+      .map(expressionEli -> {
+        Norm zf0 = loadNorm(new LoadNormUseCase.Query(expressionEli));
+        return new AbstractMap.SimpleImmutableEntry<>(expressionEli, zf0);
+      })
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+    // Update passive modifications for each target norm
+    zf0s.forEach((eli, zf0) ->
+      updateNormService.updateOnePassiveModification(
+        new UpdatePassiveModificationsUseCase.Query(zf0, normToBeUpdated, eli)
+      )
+    );
+
+    // Add the norm to be updated to the map of updated norms
+    Map<ExpressionEli, Norm> updatedNorms = new HashMap<>(zf0s);
+    updatedNorms.put(normToBeUpdated.getExpressionEli(), normToBeUpdated);
+
+    return updatedNorms
+      .entrySet()
+      .stream()
+      .map(entry -> {
+        Norm norm = entry.getValue();
+        EidConsistencyGuardian.eliminateDeadReferences(norm.getDocument());
+        EidConsistencyGuardian.correctEids(norm.getDocument());
+
+        Norm savedNorm = updateNormPort
+          .updateNorm(new UpdateNormPort.Command(norm))
+          .orElseThrow(() -> new NormNotFoundException(norm.getManifestationEli().toString()));
+
+        return new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), savedNorm);
+      })
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
+  /**
    * Updates the akn:mod, akn:activeModifications and akn:passiveModifications with the given eId.
    * The amendingNorm and zf0Norm are updated in place.
    *
@@ -124,8 +188,8 @@ public class NormService
         )
       );
 
-    // Update active mods (meta and body) in amending law
-    updateNormService.updateActiveModifications(
+    // Updates one active mod (meta and body) in amending law
+    updateNormService.updateOneActiveModification(
       new UpdateActiveModificationsUseCase.Query(
         amendingNorm,
         eId,
@@ -136,8 +200,8 @@ public class NormService
       )
     );
 
-    // Update passiv mods in ZF0
-    updateNormService.updatePassiveModifications(
+    // Updates one passiv mod in one ZF0
+    updateNormService.updateOnePassiveModification(
       new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli)
     );
 

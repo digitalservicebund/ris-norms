@@ -15,7 +15,7 @@ public interface UpdatePassiveModificationsUseCase {
    *     be used to update the passive modifications.
    * @return A {@link Norm} with the update passive modifications
    */
-  Norm updatePassiveModifications(Query query);
+  Norm updateOnePassiveModification(Query query);
 
   /**
    * A record representing the query for updating the passive modifications of a zf0Norm.

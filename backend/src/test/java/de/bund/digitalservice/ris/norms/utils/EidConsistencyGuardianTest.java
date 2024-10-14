@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xmlunit.builder.DiffBuilder;
@@ -217,6 +218,7 @@ class EidConsistencyGuardianTest {
     assertThat(diff.hasDifferences()).isFalse();
   }
 
+  @Disabled("we don't use eids in proprietary data")
   @Test
   void itCorrectComplexLDML() {
     // Given
