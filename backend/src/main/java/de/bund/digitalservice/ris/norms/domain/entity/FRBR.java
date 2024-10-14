@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.Eli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.net.URI;
 import java.time.LocalDate;
@@ -27,22 +28,7 @@ public abstract class FRBR {
    *
    * @return An Eli
    */
-  public String getEli() {
-    return NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", node);
-  }
-
-  /**
-   * Updates the Eli of a Norm
-   *
-   * @param eli - the new ELI
-   */
-  public void setEli(final String eli) {
-    NodeParser
-      .getMandatoryNodeFromExpression("./FRBRthis", node)
-      .getAttributes()
-      .getNamedItem(VALUE_ATTIBUTE)
-      .setNodeValue(eli);
-  }
+  public abstract Eli getEli();
 
   /**
    * Returns the URI as {@link String} from the FRBRuri of the specific FRBR level.

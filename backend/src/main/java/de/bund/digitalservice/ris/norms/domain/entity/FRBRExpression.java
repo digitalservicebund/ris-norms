@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
@@ -18,6 +19,30 @@ public class FRBRExpression extends FRBR {
 
   public FRBRExpression(final Node node) {
     super(node);
+  }
+
+  /**
+   * Returns the Eli as {@link String} from the FRBRThis of the specific FRBR level.
+   *
+   * @return An Eli
+   */
+  public ExpressionEli getEli() {
+    return ExpressionEli.fromString(
+      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getNode())
+    );
+  }
+
+  /**
+   * Updates the Eli of a Norm
+   *
+   * @param eli - the new ELI
+   */
+  public void setEli(final ExpressionEli eli) {
+    NodeParser
+      .getMandatoryNodeFromExpression("./FRBRthis", this.getNode())
+      .getAttributes()
+      .getNamedItem(VALUE_ATTIBUTE)
+      .setNodeValue(eli.toString());
   }
 
   /**

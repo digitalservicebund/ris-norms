@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.net.URI;
@@ -18,7 +19,7 @@ class FRBRManifestationTest {
         XmlMapper.toNode(
           """
            <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                 <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
+                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2020-01-01/regelungstext-1.xml"/>
                  <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
                  <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
                  <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
@@ -29,7 +30,7 @@ class FRBRManifestationTest {
       .build();
 
     assertThat(frbrManifestation.getEli())
-      .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2020-01-01/regelungstext-1.xml");
   }
 
   @Test
@@ -50,9 +51,14 @@ class FRBRManifestationTest {
       )
       .build();
 
-    frbrManifestation.setEli("new eli");
+    frbrManifestation.setEli(
+      ManifestationEli.fromString(
+        "eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/2025-01-01/regelungstext-1.xml"
+      )
+    );
 
-    assertThat(frbrManifestation.getEli()).isEqualTo("new eli");
+    assertThat(frbrManifestation.getEli())
+      .hasToString("eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/2025-01-01/regelungstext-1.xml");
   }
 
   @Test

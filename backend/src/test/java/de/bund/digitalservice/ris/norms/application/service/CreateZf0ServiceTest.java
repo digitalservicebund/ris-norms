@@ -6,8 +6,6 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -35,11 +33,11 @@ class CreateZf0ServiceTest {
     // Then
     final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
     assertThat(frbrExpressionZf0Law.getEli())
-      .contains(targetLaw.getMeta().getFRBRExpression().getEli());
+      .isEqualTo(targetLaw.getMeta().getFRBRExpression().getEli());
 
     final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
-    assertThat(ManifestationEli.fromString(frbrManifestationZf0Law.getEli()).asExpressionEli())
-      .isEqualTo(ExpressionEli.fromString(frbrExpressionZf0Law.getEli()));
+    assertThat(frbrManifestationZf0Law.getEli().asExpressionEli())
+      .isEqualTo(frbrExpressionZf0Law.getEli());
     assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
     assertThat(frbrManifestationZf0Law.getURI())
       .hasToString(
@@ -102,11 +100,11 @@ class CreateZf0ServiceTest {
     // Then
     final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
     assertThat(frbrExpressionZf0Law.getEli())
-      .contains(targetLaw.getMeta().getFRBRExpression().getEli());
+      .isEqualTo(targetLaw.getMeta().getFRBRExpression().getEli());
 
     final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
-    assertThat(ManifestationEli.fromString(frbrManifestationZf0Law.getEli()).asExpressionEli())
-      .isEqualTo(ExpressionEli.fromString(frbrExpressionZf0Law.getEli()));
+    assertThat(frbrManifestationZf0Law.getEli().asExpressionEli())
+      .isEqualTo(frbrExpressionZf0Law.getEli());
     assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
     assertThat(frbrManifestationZf0Law.getURI())
       .hasToString(

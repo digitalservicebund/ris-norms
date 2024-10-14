@@ -222,9 +222,7 @@ public class AnnouncementService
       loadNormPort
         .loadNorm(new LoadNormPort.Command(expressionEli))
         .ifPresent(targetNorm -> {
-          ManifestationEli manifestationEli = ManifestationEli.fromString(
-            targetNorm.getMeta().getFRBRManifestation().getEli()
-          );
+          ManifestationEli manifestationEli = targetNorm.getMeta().getFRBRManifestation().getEli();
           deleteNormPort.deleteNorm(new DeleteNormPort.Command(manifestationEli));
         })
     );
