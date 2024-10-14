@@ -891,7 +891,7 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
-      verify(loadNormPort, times(1))
+      verify(loadNormPort, times(2))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
         .updateOneActiveModification(
@@ -901,7 +901,7 @@ class NormServiceTest {
             Objects.equals(argument.timeBoundaryEid(), newTimeBoundaryEid)
           )
         );
-      verify(updateNormService, times(1))
+      verify(updateNormService, times(2))
         .updateOnePassiveModification(
           argThat(argument ->
             Objects.equals(argument.zf0Norm(), zf0Norm) &&
@@ -910,8 +910,6 @@ class NormServiceTest {
         );
       verify(updateNormPort, times(1))
         .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingNorm)));
-      verify(updateOrSaveNormPort, times(1))
-        .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
       final Document amendingXmlDocument = XmlMapper.toDocument(result.amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
@@ -964,12 +962,11 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
-      verify(loadNormPort, times(1))
+      verify(loadNormPort, times(2))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
       verify(updateNormService, times(2)).updateOneActiveModification(any());
-      verify(updateNormService, times(2)).updateOnePassiveModification(any());
-      verify(updateNormPort, times(1)).updateNorm(any());
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
+      verify(updateNormService, times(3)).updateOnePassiveModification(any());
+      verify(updateNormPort, times(2)).updateNorm(any());
     }
 
     @Test
@@ -1012,12 +1009,11 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
-      verify(loadNormPort, times(1))
+      verify(loadNormPort, times(2))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
       verify(updateNormService, times(2)).updateOneActiveModification(any());
-      verify(updateNormService, times(2)).updateOnePassiveModification(any());
-      verify(updateNormPort, times(1)).updateNorm(any());
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
+      verify(updateNormService, times(3)).updateOnePassiveModification(any());
+      verify(updateNormPort, times(2)).updateNorm(any());
     }
 
     @Test
