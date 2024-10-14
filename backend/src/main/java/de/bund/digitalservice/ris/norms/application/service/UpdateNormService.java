@@ -55,7 +55,7 @@ public class UpdateNormService
   }
 
   @Override
-  public Norm updatePassiveModifications(UpdatePassiveModificationsUseCase.Query query) {
+  public Norm updateOnePassiveModification(UpdatePassiveModificationsUseCase.Query query) {
     var norm = query.zf0Norm();
 
     // clean up existing passive modifications stemming from the amending zf0Norm
@@ -140,7 +140,7 @@ public class UpdateNormService
   }
 
   @Override
-  public Norm updateActiveModifications(UpdateActiveModificationsUseCase.Query query) {
+  public Norm updateOneActiveModification(UpdateActiveModificationsUseCase.Query query) {
     final Norm amendingNorm = query.amendingNorm();
 
     // Edit mod in meta

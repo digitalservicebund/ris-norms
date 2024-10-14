@@ -16,7 +16,7 @@ class EIdPartTypeTest {
       "<akn:li xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,listenelem",
       "<akn:point xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,listenelem",
       "<akn:passiveModifications xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,pasmod",
-        "<akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,art",
+      "<akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" />,art",
     }
   )
   void itShouldGetTheCorrectEIdPartTypeForAknElements(String xml, String eIdPartName) {

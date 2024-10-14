@@ -42,7 +42,7 @@ public class CreateZf0Service implements CreateZf0UseCase {
       .build();
 
     updateFRBRManifestation(zf0Norm);
-    updateNormService.updatePassiveModifications(
+    updateNormService.updateOnePassiveModification(
       new UpdatePassiveModificationsUseCase.Query(
         zf0Norm,
         amendingNorm,

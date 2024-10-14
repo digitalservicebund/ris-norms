@@ -24,9 +24,11 @@ class ProprietaryServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  final NormService normService = mock(NormService.class);
   final ProprietaryService proprietaryService = new ProprietaryService(
     loadNormPort,
-    updateNormPort
+    updateNormPort,
+    normService
   );
 
   @Nested
@@ -116,147 +118,6 @@ class ProprietaryServiceTest {
       assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromNorm(query))
         // then
         .isInstanceOf(NormNotFoundException.class);
-    }
-
-    @Test
-    void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() {
-      // given
-      var eli = ExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      );
-      var date = LocalDate.parse("2003-01-01");
-      var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithoutProprietary));
-
-      // when
-      var result = proprietaryService.updateProprietaryFrameFromNorm(
-        new UpdateProprietaryFrameFromNormUseCase.Query(
-          eli,
-          date,
-          new UpdateProprietaryFrameFromNormUseCase.Metadata(
-            "fna",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          )
-        )
-      );
-
-      // then
-      assertThat(result).isInstanceOf(Proprietary.class);
-      assertThat(result.getFna(date)).contains("fna");
-      assertThat(result.getArt(date)).isEmpty();
-      assertThat(result.getTyp(date)).isEmpty();
-      assertThat(result.getSubtyp(date)).isEmpty();
-      assertThat(result.getBezeichnungInVorlage(date)).isEmpty();
-      assertThat(result.getArtDerNorm(date)).isEmpty();
-      assertThat(result.getStaat(date)).isEmpty();
-      assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
-      assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
-      assertThat(result.getOrganisationsEinheit(date)).isEmpty();
-    }
-
-    @Test
-    void updatesProprietaryByCreatingNewMetadatenDsNodes() {
-      // given
-      var eli = ExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      );
-      var date = LocalDate.parse("2003-01-01");
-      var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithProprietary));
-
-      // when
-      var result = proprietaryService.updateProprietaryFrameFromNorm(
-        new UpdateProprietaryFrameFromNormUseCase.Query(
-          eli,
-          date,
-          new UpdateProprietaryFrameFromNormUseCase.Metadata(
-            "fna",
-            "art",
-            "typ",
-            "subtype",
-            "bezeichnungInVorlage",
-            "ÄN,ÜN",
-            "DDR",
-            "Landtag",
-            false,
-            "BMJ - Bundesministerium der Justiz",
-            "andere org einheit"
-          )
-        )
-      );
-
-      // then
-      assertThat(result).isInstanceOf(Proprietary.class);
-      assertThat(result.getFna(date)).contains("fna");
-      assertThat(result.getArt(date)).contains("art");
-      assertThat(result.getTyp(date)).contains("typ");
-      assertThat(result.getSubtyp(date)).contains("subtype");
-      assertThat(result.getBezeichnungInVorlage(date)).contains("bezeichnungInVorlage");
-      assertThat(result.getArtDerNorm(date)).contains("ÄN,ÜN");
-      assertThat(result.getStaat(date)).contains("DDR");
-      assertThat(result.getBeschliessendesOrgan(date)).contains("Landtag");
-      assertThat(result.getQualifizierteMehrheit(date)).contains(false);
-      assertThat(result.getRessort(date)).contains("BMJ - Bundesministerium der Justiz");
-      assertThat(result.getOrganisationsEinheit(date)).contains("andere org einheit");
-    }
-
-    @Test
-    void resetsAllFields() {
-      // given
-      var eli = ExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      );
-      var date = LocalDate.parse("2003-01-01");
-      var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithProprietary));
-
-      // when
-      var result = proprietaryService.updateProprietaryFrameFromNorm(
-        new UpdateProprietaryFrameFromNormUseCase.Query(
-          eli,
-          date,
-          new UpdateProprietaryFrameFromNormUseCase.Metadata(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          )
-        )
-      );
-
-      // then
-      assertThat(result).isInstanceOf(Proprietary.class);
-      // returns defaults from DE block
-      assertThat(result.getFna(date)).contains("754-28-1");
-      assertThat(result.getArt(date)).contains("rechtsetzungsdokument");
-      assertThat(result.getTyp(date)).contains("gesetz");
-      assertThat(result.getSubtyp(date)).isEmpty();
-      assertThat(result.getBezeichnungInVorlage(date)).isEmpty();
-      assertThat(result.getArtDerNorm(date)).isEmpty();
-      assertThat(result.getStaat(date)).isEmpty();
-      assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
-      assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
-      assertThat(result.getRessort(date)).isEmpty();
-      assertThat(result.getOrganisationsEinheit(date)).isEmpty();
     }
   }
 

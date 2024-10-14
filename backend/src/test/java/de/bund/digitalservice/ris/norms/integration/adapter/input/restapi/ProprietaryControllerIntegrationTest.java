@@ -394,6 +394,135 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void updatesProprietaryByCreatingNewMetadatenDsNodes() throws Exception {
+      // given
+      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final LocalDate date = LocalDate.parse("2003-01-01");
+      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+        .perform(
+          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              "{\"fna\": \"fna\"," +
+              "\"art\": \"art\"," +
+              "\"typ\": \"typ\"," +
+              "\"subtyp\": \"subtype\"," +
+              "\"bezeichnungInVorlage\": \"bezeichnungInVorlage\"," +
+              "\"artDerNorm\": \"ÄN,ÜN\"," +
+              "\"staat\": \"DDR\"," +
+              "\"beschliessendesOrgan\": \"Landtag\"," +
+              "\"qualifizierteMehrheit\": false," +
+              "\"ressort\": \"BMJ - Bundesministerium der Justiz\"," +
+              "\"organisationsEinheit\": \"andere org einheit\"}"
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("fna").value("fna"))
+        .andExpect(jsonPath("art").value("art"))
+        .andExpect(jsonPath("typ").value("typ"))
+        .andExpect(jsonPath("subtyp").value("subtype"))
+        .andExpect(jsonPath("bezeichnungInVorlage").value("bezeichnungInVorlage"))
+        .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
+        .andExpect(jsonPath("staat").value("DDR"))
+        .andExpect(jsonPath("beschliessendesOrgan").value("Landtag"))
+        .andExpect(jsonPath("qualifizierteMehrheit").value(false))
+        .andExpect(jsonPath("ressort").value("BMJ - Bundesministerium der Justiz"))
+        .andExpect(jsonPath("organisationsEinheit").value("andere org einheit"));
+
+      // then
+      final Norm normLoaded = NormMapper.mapToDomain(
+        normRepository.findFirstByEliExpressionOrderByEliManifestationDesc(eli).get()
+      );
+
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("fna");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("art");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("typ");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).contains("subtype");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+        .contains("bezeichnungInVorlage");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+        .contains("ÄN,ÜN");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DDR");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+        .contains("Landtag");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+        .contains(false);
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date))
+        .contains("BMJ - Bundesministerium der Justiz");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+        .contains("andere org einheit");
+    }
+
+    @Test
+    void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() throws Exception {
+      // given
+      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final LocalDate date = LocalDate.parse("2003-01-01");
+      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+        .perform(
+          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+              "{\"fna\": \"fna\"," +
+              "\"art\": \"\"," +
+              "\"typ\": \"\"," +
+              "\"subtyp\": \"\"," +
+              "\"bezeichnungInVorlage\": \"\"," +
+              "\"artDerNorm\": \"\"," +
+              "\"staat\": \"\"," +
+              "\"beschliessendesOrgan\": \"\"," +
+              "\"qualifizierteMehrheit\": false," +
+              "\"ressort\": \"\"," +
+              "\"organisationsEinheit\": \"\"}"
+            )
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("fna").value("fna"))
+        .andExpect(jsonPath("art").value("rechtsetzungsdokument")) // ds art is deleted and fallback is de art is delivered
+        .andExpect(jsonPath("typ").value("gesetz")) // fallback from de namespace
+        .andExpect(jsonPath("subtyp").isEmpty())
+        .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
+        .andExpect(jsonPath("artDerNorm").isEmpty())
+        .andExpect(jsonPath("staat").isEmpty())
+        .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
+        .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+        .andExpect(jsonPath("ressort").isEmpty())
+        .andExpect(jsonPath("organisationsEinheit").isEmpty());
+
+      // then
+      final Norm normLoaded = NormMapper.mapToDomain(
+        normRepository.findFirstByEliExpressionOrderByEliManifestationDesc(eli).get()
+      );
+
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("fna");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
+        .contains("rechtsetzungsdokument");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+        .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+        .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+        .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+        .isEmpty();
+    }
+
+    @Test
     void doesRemoveQualifizierteMehrheitFromBeschliessendesOrganWhenNull() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
