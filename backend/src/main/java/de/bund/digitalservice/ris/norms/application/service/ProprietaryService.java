@@ -135,7 +135,7 @@ public class ProprietaryService
       query.metadata().artDerNorm()
     );
 
-    updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
+    normService.updateNorm(norm);
 
     return proprietary;
   }
