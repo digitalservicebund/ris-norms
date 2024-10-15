@@ -11,12 +11,11 @@ import java.util.Optional;
 public interface UpdateNormPort {
   /**
    * Updates a {@link Norm} based on the provided data in the command.
-   *
-   * @deprecated This method is deprecated and should not be used. Use {@link NormService#updateNorm(Norm)} instead.
+   * <p>
+   * This method should not be used. Use {@link NormService#updateNorm(Norm)} instead to improve consistency of Norms.
    * @param command The command specifying the norm to be updated.
    * @return An {@link Optional} containing the {@link Norm} if found, or empty if not found.
    */
-  @Deprecated
   Optional<Norm> updateNorm(final Command command);
 
   /**
