@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.application.exception.ValidationExceptio
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -32,7 +31,6 @@ class NormServiceTest {
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final SingleModValidator singleModValidator = mock(SingleModValidator.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
-  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final NormService service = new NormService(
@@ -40,7 +38,6 @@ class NormServiceTest {
     updateNormPort,
     singleModValidator,
     updateNormService,
-    updateOrSaveNormPort,
     timeMachineService
   );
 
@@ -764,7 +761,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
       service.updateMod(
@@ -825,7 +821,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
       when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
 
       // When
@@ -870,7 +865,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
       var returnedXml = service.updateMod(
@@ -889,7 +883,7 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
-      verify(loadNormPort, times(1))
+      verify(loadNormPort, times(2))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
         .updateOneActiveModification(
@@ -900,7 +894,7 @@ class NormServiceTest {
             Objects.equals(argument.destinationHref(), newDestinationHref)
           )
         );
-      verify(updateNormService, times(1))
+      verify(updateNormService, times(2))
         .updateOnePassiveModification(
           argThat(argument ->
             Objects.equals(argument.zf0Norm(), zf0Norm) &&
@@ -909,8 +903,8 @@ class NormServiceTest {
         );
       verify(updateNormPort, times(1))
         .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingNorm)));
-      verify(updateOrSaveNormPort, times(1))
-        .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
+      verify(updateNormPort, times(1))
+        .updateNorm(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
       final Document amendingXmlDocument = XmlMapper.toDocument(returnedXml.amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
@@ -940,7 +934,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
       service.updateMods(
@@ -991,7 +984,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
       when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
 
       // When
@@ -1027,7 +1019,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
       var result = service.updateMods(
@@ -1089,7 +1080,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
       service.updateMods(
@@ -1136,7 +1126,6 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
       service.updateMods(

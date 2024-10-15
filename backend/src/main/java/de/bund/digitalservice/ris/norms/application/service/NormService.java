@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.application.exception.ValidationExceptio
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -36,7 +35,6 @@ public class NormService
   private final UpdateNormPort updateNormPort;
   private final SingleModValidator singleModValidator;
   private final UpdateNormService updateNormService;
-  private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final TimeMachineService timeMachineService;
 
   public NormService(
@@ -44,14 +42,12 @@ public class NormService
     UpdateNormPort updateNormPort,
     SingleModValidator singleModValidator,
     UpdateNormService updateNormService,
-    UpdateOrSaveNormPort updateOrSaveNormPort,
     TimeMachineService timeMachineService
   ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
     this.singleModValidator = singleModValidator;
     this.updateNormService = updateNormService;
-    this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.timeMachineService = timeMachineService;
   }
 
@@ -333,8 +329,7 @@ public class NormService
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
-      updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(targetNorm));
+      updateNorm(amendingNorm);
     }
 
     return new UpdateModUseCase.Result(
