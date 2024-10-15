@@ -207,7 +207,7 @@ class ElementControllerTest {
           new LoadElementsByTypeFromNormUseCase.Query(
             ExpressionEli.fromString("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"),
             eq(List.of("preface", "preamble", "article", "conclusions")),
-            "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")
           )
         )
       )

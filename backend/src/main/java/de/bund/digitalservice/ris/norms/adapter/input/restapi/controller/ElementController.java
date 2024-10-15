@@ -113,7 +113,7 @@ public class ElementController {
   public ResponseEntity<List<ElementResponseSchema>> getElementList(
     final ExpressionEli eli,
     @RequestParam final String[] type,
-    @RequestParam final Optional<String> amendedBy
+    @RequestParam final Optional<ExpressionEli> amendedBy
   ) {
     List<ElementResponseSchema> elements = loadElementsByTypeFromNormUseCase
       .loadElementsByTypeFromNorm(

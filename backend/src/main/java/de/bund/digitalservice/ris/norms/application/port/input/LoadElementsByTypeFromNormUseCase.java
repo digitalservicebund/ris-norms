@@ -28,7 +28,7 @@ public interface LoadElementsByTypeFromNormUseCase {
    * @param amendedBy EId of an amending command. If provided, filters the list to include only
    *     elements touched by that amending command.
    */
-  record Query(ExpressionEli eli, List<String> elementType, @Nullable String amendedBy) {
+  record Query(ExpressionEli eli, List<String> elementType, @Nullable ExpressionEli amendedBy) {
     public Query(ExpressionEli eli, List<String> elementType) {
       this(eli, elementType, null);
     }

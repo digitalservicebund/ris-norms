@@ -510,7 +510,7 @@ class ElementServiceTest {
         new LoadElementsByTypeFromNormUseCase.Query(
           targetNormEli,
           List.of("preface", "preamble", "article", "conclusions"),
-          "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+          ExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")
         )
       );
 
@@ -538,7 +538,7 @@ class ElementServiceTest {
         new LoadElementsByTypeFromNormUseCase.Query(
           targetNormEli,
           List.of("preface", "preamble", "article", "conclusions"),
-          "fake/eli"
+          ExpressionEli.fromString("eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1")
         )
       );
 
