@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import IconErrorOutline from "~icons/ic/outline-error-outline"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import { useErrorToast } from "@/lib/errorToast"
 import {
   BeschliessendesOrganValues,
   DocumentTypeValue,
@@ -32,13 +33,10 @@ import {
 } from "@/services/proprietaryService"
 import { RahmenProprietary } from "@/types/proprietary"
 import { produce } from "immer"
-import { computed, ref, watch } from "vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import InputText from "primevue/inputtext"
 import Button from "primevue/button"
-import Toast from "primevue/toast"
+import InputText from "primevue/inputtext"
 import { useToast } from "primevue/usetoast"
+import { computed, ref, watch } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -315,14 +313,11 @@ const {
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
 
 function showToast() {
   if (saveError.value) {
-    addToast({
-      group: "error-toast",
-      summary: "Speichern fehlgeschlagen",
-      severity: "error",
-    })
+    addErrorToast(saveError, sentryTraceId)
   } else {
     addToast({
       summary: "Gespeichert!",
@@ -510,23 +505,6 @@ watch(hasSaved, (finished) => {
             />
           </div>
         </Teleport>
-        <Toast group="error-toast">
-          <template #message="slot">
-            <div class="flex w-320 gap-10">
-              <IconErrorOutline class="text-red-800" />
-              <div>
-                <p class="ris-body2-bold">{{ slot.message.summary }}</p>
-                <div v-if="saveError" class="flex gap-8">
-                  <RisCopyableLabel
-                    name="Trace-ID"
-                    text="Trace-ID kopieren"
-                    :value="sentryTraceId"
-                  />
-                </div>
-              </div>
-            </div>
-          </template>
-        </Toast>
       </section>
     </div>
   </div>

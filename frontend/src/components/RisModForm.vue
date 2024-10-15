@@ -1,22 +1,20 @@
 <script setup lang="ts">
 import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import { useEIdRange } from "@/composables/useEIdRange"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import { useErrorToast } from "@/lib/errorToast"
 import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import Button from "primevue/button"
 import InputText from "primevue/inputtext"
-import Toast from "primevue/toast"
 import { useToast } from "primevue/usetoast"
 import { computed, nextTick, ref, watch } from "vue"
 import IconCheck from "~icons/ic/baseline-check"
-import IconErrorOutline from "~icons/ic/error-outline"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -277,14 +275,11 @@ function handleMouseDown(e: MouseEvent) {
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
 
 function showToast() {
   if (props.updateError) {
-    addToast({
-      group: "error-toast",
-      summary: "Fehler beim Speichern",
-      severity: "error",
-    })
+    addErrorToast(props.updateError, sentryTraceId)
   } else {
     addToast({
       summary: "Speichern erfolgreich",
@@ -487,23 +482,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         @blur="$emit('generate-preview')"
       />
     </div>
-    <Toast group="error-toast">
-      <template #message="slot">
-        <div class="flex w-320 gap-10">
-          <IconErrorOutline />
-          <div>
-            <p class="ris-body2-bold">{{ slot.message.summary }}</p>
-            <div v-if="props.updateError" class="mt-16 flex gap-8">
-              <RisCopyableLabel
-                name="Trace-ID"
-                text="Trace-ID kopieren"
-                :value="sentryTraceId"
-              />
-            </div>
-          </div>
-        </div>
-      </template>
-    </Toast>
     <div class="flex">
       <Button
         label="Vorschau"

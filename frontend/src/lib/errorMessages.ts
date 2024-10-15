@@ -53,6 +53,7 @@ export const errorMessages = {
   "/errors/xml-processing-error": () => ({
     title: "XML Verarbeitungsfehler",
     message: "Es gab einen Fehler bei der Verarbeitung der XML-Datei.",
+    suggestion: "Versuchen Sie, die Datei erneut hochzuladen.",
   }),
 
   "/errors/unsupported-element-type": (
@@ -95,6 +96,7 @@ export const errorMessages = {
   ) => ({
     title: '"Bis-Angabe" nicht vorhanden',
     message: `Die "Bis-Angabe" ("${e.targetUpToNodeEid}") der ausgewählten Zielelemente  existiert nicht in der Vorab-Fassung (ZF0) "${e.eli}".`,
+    suggestion: "Versuchen Sie, die Auswahl der Elemente neu zu definieren.",
   }),
 
   "/errors/target-and-upto-nodes-not-siblings": (
@@ -106,6 +108,7 @@ export const errorMessages = {
   ) => ({
     title: '"Bis-Angabe" nicht in derselben Ebene',
     message: `Die ausgewählte "Bis-Angabe" "${e.targetUpToNodeEid}" der Zielelemente befindet sich nicht auf derselben Hierarchieebene wie das Referenzelement.`,
+    suggestion: "Bitte überprüfen Sie die Einträge.",
   }),
 
   "/errors/target-node-before-upto-node": (
@@ -117,6 +120,7 @@ export const errorMessages = {
   ) => ({
     title: "Falsche Reihenfolge der Zielknoten",
     message: `Die ausgewählten "Von-" "${e.targetNodeEid}" und "Bis-Angaben" "${e.targetUpToNodeEid}" der Zielelemente sind nicht in der richtigen Reihenfolge angegeben.`,
+    suggestion: "Bitte überprüfen Sie die Einträge.",
   }),
 
   "/errors/character-range-not-present": (
@@ -150,6 +154,8 @@ export const errorMessages = {
   "/errors/http-message-not-readable-exception": () => ({
     title: "Nachricht nicht lesbar",
     message: "Die Nachricht konnte nicht gelesen werden.",
+    suggestion:
+      "Wenn das Problem bestehen bleibt, wenden Sie sich an den Betreiber",
   }),
 
   "/errors/input-validation-error": (e: ErrorResponse) => ({

@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import Button from "primevue/button"
-import IconErrorOutline from "~icons/ic/outline-error-outline"
+import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useTemporalData } from "@/composables/useTemporalData"
+import { useErrorToast } from "@/lib/errorToast"
 import { useGetEntryIntoForceHtml } from "@/services/temporalDataService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { onUnmounted, ref, watch } from "vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import Toast from "primevue/toast"
+import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
+import { onUnmounted, ref, watch } from "vue"
 
 const eli = useEliPathParameter()
 const dates = ref<TemporalDataResponse[]>([])
@@ -46,14 +44,11 @@ onUnmounted(() => cleanupBreadcrumbs())
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
 
 function showToast() {
   if (saveError.value) {
-    addToast({
-      group: "error-toast",
-      summary: "Fehler beim Speichern",
-      severity: "error",
-    })
+    addErrorToast(saveError, sentryTraceId)
   } else {
     addToast({
       summary: "Speichern erfolgreich",
@@ -108,23 +103,6 @@ watch(isSavingFinished, (finished) => {
         class="col-span-2"
       />
     </template>
-    <Toast group="error-toast">
-      <template #message="slot">
-        <div class="flex w-320 gap-10">
-          <IconErrorOutline class="text-red-800" />
-          <div>
-            <p class="ris-body2-bold">{{ slot.message.summary }}</p>
-            <div v-if="saveError" class="flex gap-8">
-              <RisCopyableLabel
-                name="Trace-ID"
-                text="Trace-ID kopieren"
-                :value="sentryTraceId"
-              />
-            </div>
-          </div>
-        </div>
-      </template>
-    </Toast>
     <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
       <div class="relative">
         <Button

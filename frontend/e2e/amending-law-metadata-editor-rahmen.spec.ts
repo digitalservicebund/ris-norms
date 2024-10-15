@@ -524,7 +524,7 @@ test.describe("metadata view", () => {
     await metadataPage.saveButton.click()
 
     // Then
-    await expect(page.getByText("Speichern fehlgeschlagen")).toBeVisible()
+    await expect(page.getByText(/Fehler beim Speichern/)).toBeVisible()
 
     await expect(
       page.getByRole("button", {
