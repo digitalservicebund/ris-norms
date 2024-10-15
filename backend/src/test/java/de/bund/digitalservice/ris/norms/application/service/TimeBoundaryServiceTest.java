@@ -15,7 +15,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundarie
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
@@ -23,6 +22,7 @@ import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -32,9 +32,9 @@ import org.slf4j.LoggerFactory;
 class TimeBoundaryServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
-  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  final NormService normService = mock(NormService.class);
 
-  final TimeBoundaryService service = new TimeBoundaryService(loadNormPort, updateNormPort);
+  final TimeBoundaryService service = new TimeBoundaryService(loadNormPort, normService);
 
   @Nested
   class loadTimeBoundariesOfNorm {
@@ -436,7 +436,8 @@ class TimeBoundaryServiceTest {
 
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(normAfter));
+      when(normService.updateNorm(any()))
+        .thenReturn(Map.of(normAfter.getExpressionEli(), normAfter));
 
       // When
       var timeBoundaryChangeDataOldStays = new TimeBoundaryChangeData(
@@ -451,8 +452,7 @@ class TimeBoundaryServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(updateNormPort, times(1))
-        .updateNorm(argThat(argument -> Objects.equals(argument.norm(), normAfter)));
+      verify(normService, times(1)).updateNorm(argThat(argument -> argument.equals(normAfter)));
 
       assertThat(result).isNotEmpty();
     }
@@ -513,6 +513,8 @@ class TimeBoundaryServiceTest {
 
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      // since we don't test results the return value is relevant but must be present
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
       // When
       var timeBoundaryChangeDataOldStays = new TimeBoundaryChangeData(
         "meta-1_lebzykl-1_ereignis-2",
@@ -533,18 +535,18 @@ class TimeBoundaryServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(updateNormPort, times(1))
+      verify(normService, times(1))
         .updateNorm(
           argThat(argument ->
             Objects.equals(
-              argument.norm().getTimeBoundaries().getFirst().getEventRef().getDate().get(),
+              argument.getTimeBoundaries().getFirst().getEventRef().getDate().get(),
               LocalDate.parse("2023-12-30")
             ) &&
             Objects.equals(
-              argument.norm().getTimeBoundaries().getLast().getEventRef().getDate().get(),
+              argument.getTimeBoundaries().getLast().getEventRef().getDate().get(),
               LocalDate.parse("2024-01-02")
             ) &&
-            argument.norm().getTimeBoundaries().size() == 2
+            argument.getTimeBoundaries().size() == 2
           )
         );
     }
@@ -610,6 +612,8 @@ class TimeBoundaryServiceTest {
 
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      // since we don't test results the return value is relevant but must be present
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
 
       // When
       var timeBoundaryChangeDataOldStays = new TimeBoundaryChangeData(
@@ -624,14 +628,14 @@ class TimeBoundaryServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(updateNormPort, times(1))
+      verify(normService, times(1))
         .updateNorm(
           argThat(argument ->
             Objects.equals(
-              argument.norm().getTimeBoundaries().getLast().getEventRef().getDate().get(),
+              argument.getTimeBoundaries().getLast().getEventRef().getDate().get(),
               LocalDate.parse("2023-12-30")
             ) &&
-            argument.norm().getTimeBoundaries().size() == 1
+            argument.getTimeBoundaries().size() == 1
           )
         );
     }
@@ -676,6 +680,8 @@ class TimeBoundaryServiceTest {
 
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      // since we don't test results the return value is relevant but must be present
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 = new TimeBoundaryChangeData(
@@ -697,18 +703,16 @@ class TimeBoundaryServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(updateNormPort, times(1))
+      verify(normService, times(1))
         .updateNorm(
           argThat(argument ->
             LocalDate
               .parse("1980-01-01")
-              .equals(
-                argument.norm().getTimeBoundaries().getFirst().getEventRef().getDate().get()
-              ) &&
+              .equals(argument.getTimeBoundaries().getFirst().getEventRef().getDate().get()) &&
             LocalDate
               .parse("1990-01-01")
-              .equals(argument.norm().getTimeBoundaries().get(1).getEventRef().getDate().get()) &&
-            argument.norm().getTimeBoundaries().size() == 2
+              .equals(argument.getTimeBoundaries().get(1).getEventRef().getDate().get()) &&
+            argument.getTimeBoundaries().size() == 2
           )
         );
     }
@@ -761,6 +765,8 @@ class TimeBoundaryServiceTest {
 
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      // since we don't test results the return value is relevant but must be present
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 = new TimeBoundaryChangeData(
@@ -775,7 +781,7 @@ class TimeBoundaryServiceTest {
       // Then
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(updateNormPort, times(1)).updateNorm(any());
+      verify(normService, times(1)).updateNorm(any());
 
       assertThat(
         memoryAppender.contains(
