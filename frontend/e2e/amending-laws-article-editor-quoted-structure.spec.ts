@@ -47,7 +47,7 @@ test.describe("Load mod details", () => {
     await expect(timeBoundariesElement).toBeVisible()
     await expect(timeBoundariesElement).toHaveValue("1002-01-11")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(3)
 
     // // Destination Href Eli
@@ -235,7 +235,7 @@ test.describe("Editing multiple mods", () => {
 
     await expect(timeBoundariesElement).toHaveValue("1002-01-11")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(4)
   })
 
@@ -366,7 +366,7 @@ test.describe("Range mod", () => {
     await expect(timeBoundariesElement).toBeVisible()
     await expect(timeBoundariesElement).toHaveValue("1002-01-11")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(3)
 
     // // Destination Href Eli

@@ -1,3 +1,5 @@
+/* eslint-disable playwright/no-raw-locators */
+
 import { expect, test } from "@playwright/test"
 import fs from "fs"
 import path from "node:path"

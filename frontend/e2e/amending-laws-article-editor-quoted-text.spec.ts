@@ -41,7 +41,7 @@ test.describe("Loading mod details", () => {
     await expect(timeBoundariesElement).toBeVisible()
     await expect(timeBoundariesElement).toHaveValue("2017-03-16")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(2)
 
     // // Destination Href Eli
@@ -327,7 +327,7 @@ test.describe("Editing multiple mods", () => {
 
     await expect(timeBoundariesElement).toHaveValue("multiple")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(4)
   })
 
