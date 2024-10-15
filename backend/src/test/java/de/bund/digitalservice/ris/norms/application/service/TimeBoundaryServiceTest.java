@@ -269,7 +269,9 @@ class TimeBoundaryServiceTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1";
+      var amendedBy = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1"
+      );
 
       var norm = Norm
         .builder()
@@ -362,7 +364,9 @@ class TimeBoundaryServiceTest {
       var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1";
+      var amendedBy = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1"
+      );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 

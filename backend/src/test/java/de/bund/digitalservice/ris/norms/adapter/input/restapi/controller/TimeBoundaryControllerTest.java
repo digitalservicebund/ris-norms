@@ -155,7 +155,7 @@ class TimeBoundaryControllerTest {
         .loadTimeBoundariesAmendedBy(
           argThat(query ->
             Objects.equals(query.eli(), ExpressionEli.fromString(eli)) &&
-            Objects.equals(query.amendingLawEli(), amendedBy)
+            Objects.equals(query.amendingLawEli(), ExpressionEli.fromString(amendedBy))
           )
         );
     }

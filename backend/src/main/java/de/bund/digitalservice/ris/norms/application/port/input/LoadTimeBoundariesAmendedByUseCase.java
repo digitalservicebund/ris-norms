@@ -25,5 +25,5 @@ public interface LoadTimeBoundariesAmendedByUseCase {
    * @param eli The ELI used to identify the norm in the query.
    * @param amendingLawEli The ELI of the amending law.
    */
-  record Query(ExpressionEli eli, String amendingLawEli) {}
+  record Query(ExpressionEli eli, ExpressionEli amendingLawEli) {}
 }

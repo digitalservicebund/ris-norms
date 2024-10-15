@@ -58,7 +58,8 @@ public class TimeBoundaryService
         f
           .getSourceHref()
           .map(href ->
-            href.getEli().isPresent() && href.getEli().get().equals(query.amendingLawEli())
+            href.getExpressionEli().isPresent() &&
+            href.getExpressionEli().get().equals(query.amendingLawEli())
           )
           .orElse(false)
       )

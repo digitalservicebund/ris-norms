@@ -52,7 +52,7 @@ public class TimeBoundaryController {
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<TimeBoundarySchema>> getTimeBoundaries(
     final ExpressionEli eli,
-    @RequestParam final Optional<String> amendedBy
+    @RequestParam final Optional<ExpressionEli> amendedBy
   ) {
     return ResponseEntity.ok(
       amendedBy
