@@ -504,6 +504,156 @@ class NormServiceTest {
   }
 
   @Nested
+  class updateNorm {
+
+    @Test
+    void itSavesANorm() {
+      // given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      ExpressionEli zf0EliTargetNorm = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
+
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetNorm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm)))
+        .thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(targetNorm)))
+        .thenReturn(Optional.of(targetNorm));
+      when(
+        updateNormService.updateOnePassiveModification(
+          new UpdatePassiveModificationsUseCase.Query(targetNorm, amendingNorm, zf0EliTargetNorm)
+        )
+      )
+        .thenReturn(targetNorm);
+
+      // when
+      service.updateNorm(amendingNorm);
+
+      // then
+      verify(loadNormPort, times(1))
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0EliTargetNorm)));
+      verify(updateNormPort, times(1))
+        .updateNorm(
+          argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(amendingNorm)))
+        );
+      verify(updateNormPort, times(1))
+        .updateNorm(
+          argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(targetNorm)))
+        );
+      verify(updateNormService, times(1))
+        .updateOnePassiveModification(
+          argThat(argument ->
+            Objects.equals(argument.zf0Norm(), targetNorm) &&
+            Objects.equals(argument.amendingNorm(), amendingNorm) &&
+            Objects.equals(argument.targetNormEli(), zf0EliTargetNorm)
+          )
+        );
+    }
+
+    @Test
+    void itThrowsAnExceptionIfNormIsNotFound() {
+      // given
+      String text =
+        """
+          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+              <akn:act name="regelungstext">
+                  <!-- Metadaten -->
+                  <akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
+                      <akn:analysis eId="meta-1_analysis-1"
+                                    GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1"
+                                    source="attributsemantik-noch-undefiniert">
+                          <akn:activeModifications eId="meta-1_analysis-1_activemod-1"
+                                                   GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
+                              <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
+                                              GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46"
+                                              type="substitution">
+                                  <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1"
+                                              GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
+                                              href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
+                                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
+                                                   GUID="94c1e417-e849-4269-8320-9f0173b39626"
+                                                   href="eli/bund/bgbl-1/2000/s111/2000-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"/>
+                                  <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
+                                             GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
+                                             period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                              </akn:textualMod>
+                              <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
+                                              GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46"
+                                              type="substitution">
+                                  <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1"
+                                              GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
+                                              href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
+                                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
+                                                   GUID="94c1e417-e849-4269-8320-9f0173b39626"
+                                                   href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"/>
+                                  <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
+                                             GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
+                                             period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                              </akn:textualMod>
+                          </akn:activeModifications>
+                      </akn:analysis>
+                  </akn:meta>
+              </akn:act>
+          </akn:akomaNtoso>
+        """;
+      Norm amendingNorm = new Norm(XmlMapper.toDocument(text));
+      amendingNorm.getMeta().getAnalysis().get().getActiveModifications();
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      ExpressionEli zf0EliTargetNorm = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
+      ExpressionEli zf0EliNonExistent = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2000/s111/2000-08-05/1/deu/regelungstext-1"
+      );
+
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(zf0EliTargetNorm)))
+        .thenReturn(Optional.of(targetNorm));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(zf0EliNonExistent)))
+        .thenReturn(Optional.empty());
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm)))
+        .thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(targetNorm)))
+        .thenReturn(Optional.of(targetNorm));
+      when(
+        updateNormService.updateOnePassiveModification(
+          new UpdatePassiveModificationsUseCase.Query(targetNorm, amendingNorm, zf0EliTargetNorm)
+        )
+      )
+        .thenReturn(targetNorm);
+
+      // when
+      Throwable thrown = catchThrowable(() -> {
+        service.updateNorm(amendingNorm);
+      });
+
+      // then
+      verify(loadNormPort, times(1))
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0EliNonExistent)));
+      verify(updateNormPort, never())
+        .updateNorm(
+          argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(amendingNorm)))
+        );
+      verify(updateNormPort, never())
+        .updateNorm(
+          argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(targetNorm)))
+        );
+      verify(updateNormService, never())
+        .updateOnePassiveModification(
+          argThat(argument ->
+            Objects.equals(argument.zf0Norm(), targetNorm) &&
+            Objects.equals(argument.amendingNorm(), amendingNorm) &&
+            Objects.equals(argument.targetNormEli(), zf0EliTargetNorm)
+          )
+        );
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
+    }
+  }
+
+  @Nested
   class UpdateMod {
 
     @Test
