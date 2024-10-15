@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.CreateZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.CreateZf0Port;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.DocumentUtils;
@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 public class CreateZf0Service implements CreateZf0UseCase {
 
   private final UpdateNormService updateNormService;
-  private final UpdateOrSaveNormPort updateOrSaveNormPort;
+  private final CreateZf0Port createZf0Port;
 
   public CreateZf0Service(
     final UpdateNormService updateNormService,
-    final UpdateOrSaveNormPort updateOrSaveNormPort
+    final CreateZf0Port createZf0Port
   ) {
     this.updateNormService = updateNormService;
-    this.updateOrSaveNormPort = updateOrSaveNormPort;
+    this.createZf0Port = createZf0Port;
   }
 
   @Override
@@ -51,7 +51,7 @@ public class CreateZf0Service implements CreateZf0UseCase {
     );
 
     if (shouldPersist) {
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      createZf0Port.create(new CreateZf0Port.Command(zf0Norm));
     }
     return zf0Norm;
   }

@@ -6,14 +6,14 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * Interface representing a port for saving or updating a {@link Norm}. Implementations of this
  * interface should provide functionality to update a norm using the specified command.
  */
-public interface UpdateOrSaveNormPort {
+public interface CreateZf0Port {
   /**
-   * Updates or saves a {@link Norm} based on the provided data in the command.
+   * Creates and saves a {@link Norm} based on the provided data in the command.
    *
    * @param command The command specifying the norm to be saved.
    * @return the saved {@link Norm}.
    */
-  Norm updateOrSave(final Command command);
+  Norm create(final Command command);
 
   /**
    * A record representing the command for updating or saving a norm.
