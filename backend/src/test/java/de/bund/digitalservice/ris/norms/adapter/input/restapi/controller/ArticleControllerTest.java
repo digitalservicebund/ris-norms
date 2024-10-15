@@ -166,7 +166,7 @@ class ArticleControllerTest {
         .loadArticlesFromNorm(
           new LoadArticlesFromNormUseCase.Query(
             ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"),
-            "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1",
+            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"),
             null
           )
         );

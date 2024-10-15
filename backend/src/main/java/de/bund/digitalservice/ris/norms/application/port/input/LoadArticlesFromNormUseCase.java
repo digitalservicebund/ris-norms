@@ -28,7 +28,7 @@ public interface LoadArticlesFromNormUseCase {
    *     modifications that will be applied at the date of this lifecycle event will be included in
    *     the result.
    */
-  record Query(ExpressionEli eli, @Nullable String amendedBy, @Nullable String amendedAt) {
+  record Query(ExpressionEli eli, @Nullable ExpressionEli amendedBy, @Nullable String amendedAt) {
     public Query(ExpressionEli eli) {
       this(eli, null, null);
     }

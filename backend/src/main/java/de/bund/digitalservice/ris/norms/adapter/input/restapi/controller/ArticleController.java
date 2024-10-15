@@ -63,7 +63,7 @@ public class ArticleController {
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ArticleResponseSchema>> getArticles(
     final ExpressionEli eli,
-    @RequestParam final Optional<String> amendedBy,
+    @RequestParam final Optional<ExpressionEli> amendedBy,
     @RequestParam final Optional<String> amendedAt
   ) {
     final var query = new LoadArticlesFromNormUseCase.Query(

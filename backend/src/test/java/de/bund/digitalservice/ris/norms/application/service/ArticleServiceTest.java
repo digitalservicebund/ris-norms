@@ -119,7 +119,9 @@ class ArticleServiceTest {
       final var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1";
+      final var amendedBy = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+      );
       final String amendedAt = null;
       final var norm = NormFixtures.loadFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
@@ -142,7 +144,7 @@ class ArticleServiceTest {
       final var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final String amendedBy = null;
+      final ExpressionEli amendedBy = null;
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
@@ -163,7 +165,9 @@ class ArticleServiceTest {
       final var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+      final var amendedBy = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
@@ -217,7 +221,9 @@ class ArticleServiceTest {
       final var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = "eli/bund/DOES-NOT-EXIST/2017/s419/2017-03-15/1/deu/regelungstext-1";
+      final var amendedBy = ExpressionEli.fromString(
+        "eli/bund/DOES-NOT-EXIST/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
@@ -237,7 +243,9 @@ class ArticleServiceTest {
       final var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+      final var amendedBy = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
       final var amendedAt = "DOES-NOT-EXIST";
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
@@ -257,7 +265,9 @@ class ArticleServiceTest {
       final var eli = ExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
-      final var amendedBy = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+      final var amendedBy = ExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
       final var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);

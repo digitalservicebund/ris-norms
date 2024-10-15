@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundExcept
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ArticleService
 
   private List<TextualMod> getPassiveModsAmendingByOrAt(
     final Norm fromNorm,
-    final String amendingBy,
+    final ExpressionEli amendingBy,
     final String amendingAt
   ) {
     if (amendingBy == null && amendingAt == null) return List.of();
@@ -99,7 +100,7 @@ public class ArticleService
 
         return passiveModification
           .getSourceHref()
-          .flatMap(Href::getEli)
+          .flatMap(Href::getExpressionEli)
           .map(sourceEli -> sourceEli.equals(amendingBy))
           .orElse(false);
       })
