@@ -37,21 +37,6 @@ public final class EidConsistencyGuardian {
         "eId",
         rootElement
       );
-      // Might be deleted. Decision pending
-      //      setRemovedReferencesToEmptyStringNew(
-      //        "//proprietary/Q{http://MetadatenRIS.LegalDocML.de/1.7/}legalDocML.de_metadaten/*",
-      //        "start",
-      //        "//lifecycle/eventRef",
-      //        "eId",
-      //        rootElement
-      //      );
-      //      setRemovedReferencesToEmptyStringNew(
-      //        "//proprietary/Q{http://MetadatenRIS.LegalDocML.de/1.7/}legalDocML.de_metadaten/*",
-      //        "end",
-      //        "//lifecycle/eventRef",
-      //        "eId",
-      //        rootElement
-      //      );
     }
   }
 
