@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.CreateZf0UseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.CreateZf0Port;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import java.time.LocalDate;
 import java.util.stream.Stream;
@@ -13,8 +13,11 @@ import org.junit.jupiter.api.Test;
 class CreateZf0ServiceTest {
 
   final UpdateNormService updateNormService = new UpdateNormService();
-  final CreateZf0Port createZf0Port = mock(CreateZf0Port.class);
-  final CreateZf0Service loadZf0Service = new CreateZf0Service(updateNormService, createZf0Port);
+  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final CreateZf0Service loadZf0Service = new CreateZf0Service(
+    updateNormService,
+    updateOrSaveNormPort
+  );
 
   @Test
   void itSuccessfullyCreatesZf0OutOfTargetLaw() {

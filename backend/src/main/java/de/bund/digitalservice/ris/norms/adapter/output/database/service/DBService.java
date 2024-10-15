@@ -32,7 +32,7 @@ public class DBService
     LoadAllAnnouncementsPort,
     UpdateNormPort,
     UpdateAnnouncementPort,
-    CreateZf0Port,
+    UpdateOrSaveNormPort,
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
     DeleteNormPort {
@@ -112,9 +112,14 @@ public class DBService
   }
 
   @Override
-  public Norm create(CreateZf0Port.Command command) {
-    final NormDto normDto = NormMapper.mapToDto(command.norm());
-    return NormMapper.mapToDomain(normRepository.save(normDto));
+  public Norm updateOrSave(UpdateOrSaveNormPort.Command command) {
+    final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Command(command.norm()));
+    if (updatedNorm.isEmpty()) {
+      final NormDto normDto = NormMapper.mapToDto(command.norm());
+      return NormMapper.mapToDomain(normRepository.save(normDto));
+    } else {
+      return updatedNorm.get();
+    }
   }
 
   @Override
