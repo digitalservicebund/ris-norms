@@ -91,7 +91,7 @@ class SingleModValidatorTest {
         .getPassiveModifications()
         .getFirst();
       passiveMod.setDestinationHref(
-        "#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        new Href("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
       );
 
       // when
@@ -128,12 +128,11 @@ class SingleModValidatorTest {
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
-      final String href = new Href.Builder()
+      final Href href = new Href.Builder()
         .setEli(amendingNormEli)
         .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange("9-112"))
-        .buildAbsolute()
-        .value();
+        .buildAbsolute();
 
       // 112 paragraph length
       amendingNorm
@@ -144,7 +143,7 @@ class SingleModValidatorTest {
         .getFirst()
         .setDestinationHref(href);
 
-      mod.setTargetRefHref(href);
+      mod.setTargetRefHref(href.toString());
       mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -162,12 +161,11 @@ class SingleModValidatorTest {
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
-      final String href = new Href.Builder()
+      final Href href = new Href.Builder()
         .setEli(amendingNormEli)
         .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange("0-34"))
-        .buildAbsolute()
-        .value();
+        .buildAbsolute();
 
       // 112 paragraph length
       amendingNorm
@@ -178,7 +176,7 @@ class SingleModValidatorTest {
         .getFirst()
         .setDestinationHref(href);
 
-      mod.setTargetRefHref(href);
+      mod.setTargetRefHref(href.toString());
       mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -217,7 +215,6 @@ class SingleModValidatorTest {
           .setEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(""))
           .buildInternalReference()
-          .value()
       );
 
       // when
@@ -274,7 +271,6 @@ class SingleModValidatorTest {
           .setEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(cr))
           .buildInternalReference()
-          .value()
       );
 
       // when
@@ -305,7 +301,6 @@ class SingleModValidatorTest {
           .setEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange("9-1113"))
           .buildInternalReference()
-          .value()
       );
 
       // when
@@ -435,7 +430,7 @@ class SingleModValidatorTest {
         .orElseThrow()
         .getPassiveModifications()
         .getFirst();
-      passiveMod.setDestinationHref("#hauptteil-1_art-2_abs-3");
+      passiveMod.setDestinationHref(new Href("#hauptteil-1_art-2_abs-3"));
       passiveMod.setDestinationUpTo("#hauptteil-1_art-2_abs-1");
 
       // when

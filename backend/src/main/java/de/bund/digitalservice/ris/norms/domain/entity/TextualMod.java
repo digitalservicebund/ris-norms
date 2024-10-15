@@ -83,8 +83,11 @@ public class TextualMod {
    *
    * @param destinationHref - the new destination href of the modification
    */
-  public void setDestinationHref(final String destinationHref) {
-    getOrCreateDestinationNode().getAttributes().getNamedItem("href").setNodeValue(destinationHref);
+  public void setDestinationHref(final Href destinationHref) {
+    getOrCreateDestinationNode()
+      .getAttributes()
+      .getNamedItem("href")
+      .setNodeValue(destinationHref.toString());
   }
 
   /**

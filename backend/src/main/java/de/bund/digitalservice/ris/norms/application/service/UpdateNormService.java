@@ -154,11 +154,7 @@ public class UpdateNormService
       )
       .findFirst()
       .ifPresent(activeMod -> {
-        if (query.destinationHref() != null) {
-          activeMod.setDestinationHref(query.destinationHref().toString());
-        } else {
-          activeMod.setDestinationHref(null);
-        }
+        activeMod.setDestinationHref(query.destinationHref());
         activeMod.setForcePeriodEid(query.timeBoundaryEid());
         if (query.destinationUpTo() != null) {
           activeMod.setDestinationUpTo(query.destinationUpTo().toString());

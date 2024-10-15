@@ -81,7 +81,7 @@ class TextualModTest {
   void setDestinationHref() {
     // when
     textualMod.setDestinationHref(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
+      new Href("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml")
     );
     var destinationHref = textualMod.getDestinationHref();
 
