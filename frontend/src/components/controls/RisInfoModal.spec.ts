@@ -9,6 +9,7 @@ describe("RisInfoModal", () => {
 
     render(RisInfoModal, {
       props: { title, description },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
 
     expect(screen.getByText(title)).toBeInTheDocument()
@@ -21,6 +22,7 @@ describe("RisInfoModal", () => {
 
     render(RisInfoModal, {
       props: { iconText, title },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
 
     const button = screen.getByText(iconText)

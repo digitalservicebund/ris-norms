@@ -36,6 +36,15 @@ describe("RisModRefsEditor", () => {
   })
 
   it("Should not render component if no mod was selected", async () => {
+    vi.doMock("vue-router", () => ({
+      useRoute: vi.fn().mockReturnValue({
+        params: {
+          refEid: undefined,
+        },
+      }),
+      useRouter: vi.fn(),
+    }))
+
     const { default: RisModRefsEditor } = await import(
       "@/components/references/RisModRefsEditor.vue"
     )
