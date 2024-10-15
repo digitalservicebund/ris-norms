@@ -154,9 +154,17 @@ public class UpdateNormService
       )
       .findFirst()
       .ifPresent(activeMod -> {
-        activeMod.setDestinationHref(query.destinationHref());
+        if (query.destinationHref() != null) {
+          activeMod.setDestinationHref(query.destinationHref().toString());
+        } else {
+          activeMod.setDestinationHref(null);
+        }
         activeMod.setForcePeriodEid(query.timeBoundaryEid());
-        activeMod.setDestinationUpTo(query.destinationUpTo());
+        if (query.destinationUpTo() != null) {
+          activeMod.setDestinationUpTo(query.destinationUpTo().toString());
+        } else {
+          activeMod.setDestinationUpTo(null);
+        }
       });
 
     // Edit mod in meta
@@ -170,7 +178,7 @@ public class UpdateNormService
           inTextMod.usesQuotedText() &&
           !query.newContent().equals(inTextMod.getNewText().orElse(""))
         ) {
-          inTextMod.setTargetRefHref(query.destinationHref());
+          inTextMod.setTargetRefHref(query.destinationHref().toString());
           inTextMod.setNewText(query.newContent());
         }
         if (inTextMod.usesQuotedStructure()) {
@@ -188,10 +196,17 @@ public class UpdateNormService
     final UpdateActiveModificationsUseCase.Query query,
     final Mod inTextMod
   ) {
-    if (StringUtils.isNotEmpty(query.destinationUpTo())) {
-      inTextMod.replaceRefWithRref(query.destinationHref(), query.destinationUpTo());
+    if (
+      query.destinationUpTo() != null && StringUtils.isNotEmpty(query.destinationUpTo().toString())
+    ) {
+      inTextMod.replaceRefWithRref(
+        query.destinationHref().toString(),
+        query.destinationUpTo().toString()
+      );
+    } else if (query.destinationHref() != null) {
+      inTextMod.setTargetRefHref(query.destinationHref().toString());
     } else {
-      inTextMod.setTargetRefHref(query.destinationHref());
+      inTextMod.setTargetRefHref(null);
     }
   }
 
@@ -199,11 +214,13 @@ public class UpdateNormService
     final UpdateActiveModificationsUseCase.Query query,
     final Mod inTextMod
   ) {
-    if (StringUtils.isNotEmpty(query.destinationUpTo())) {
-      inTextMod.setTargetRrefFrom(query.destinationHref());
-      inTextMod.setTargetRrefUpTo(query.destinationUpTo());
+    if (
+      query.destinationUpTo() != null && StringUtils.isNotEmpty(query.destinationUpTo().toString())
+    ) {
+      inTextMod.setTargetRrefFrom(query.destinationHref().toString());
+      inTextMod.setTargetRrefUpTo(query.destinationUpTo().toString());
     } else {
-      inTextMod.replaceRrefWithRef(query.destinationHref());
+      inTextMod.replaceRrefWithRef(query.destinationHref().toString());
     }
   }
 }

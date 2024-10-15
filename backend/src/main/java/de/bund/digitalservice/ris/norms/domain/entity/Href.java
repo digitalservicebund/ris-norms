@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Arrays;
 import java.util.Optional;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
  *
  * @param value the value of the href as {@link String}
  */
-public record Href(String value) {
+public record Href(@JsonValue String value) {
   static final int NUMBER_OF_ELI_PARTS = 9;
   static final int ABSOLUTE_POSITION_OF_EID = NUMBER_OF_ELI_PARTS;
   static final int RELATIVE_POSITION_OF_EID = 0;

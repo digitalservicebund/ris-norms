@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 
 /**
@@ -28,8 +29,8 @@ public interface UpdateActiveModificationsUseCase {
   record Query(
     Norm amendingNorm,
     String eId,
-    String destinationHref,
-    String destinationUpTo,
+    Href destinationHref,
+    Href destinationUpTo,
     String timeBoundaryEid,
     String newContent
   ) {}

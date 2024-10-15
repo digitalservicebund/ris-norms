@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import jakarta.validation.constraints.NotNull;
 import javax.annotation.Nullable;
 import lombok.AllArgsConstructor;
@@ -19,10 +20,10 @@ public class UpdateModRequestSchema {
   private String timeBoundaryEid;
 
   @NotNull
-  private String destinationHref;
+  private Href destinationHref;
 
   @Nullable
-  private String destinationUpTo;
+  private Href destinationUpTo;
 
   @NotNull
   private String newContent;

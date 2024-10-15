@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Optional;
@@ -40,8 +41,8 @@ public interface UpdateModUseCase {
     String eid,
     String refersTo,
     String timeBoundaryEid,
-    String destinationHref,
-    String destinationUpTo,
+    Href destinationHref,
+    Href destinationUpTo,
     String newContent,
     boolean dryRun
   ) {
@@ -50,8 +51,8 @@ public interface UpdateModUseCase {
       String eid,
       String refersTo,
       String timeBoundaryEid,
-      String destinationHref,
-      String destinationUpTo,
+      Href destinationHref,
+      Href destinationUpTo,
       String newContent
     ) {
       this(

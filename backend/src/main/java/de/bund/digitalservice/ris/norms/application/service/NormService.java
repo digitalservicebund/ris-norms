@@ -104,9 +104,8 @@ public class NormService
       .orElse(Stream.empty())
       .map(TextualMod::getDestinationHref)
       .flatMap(Optional::stream)
-      .map(Href::getEli)
+      .map(Href::getExpressionEli)
       .flatMap(Optional::stream)
-      .map(ExpressionEli::fromString)
       .collect(Collectors.toSet());
 
     // Load all target norms
@@ -162,17 +161,17 @@ public class NormService
     Norm amendingNorm,
     Norm zf0Norm,
     String eId,
-    String destinationHref,
-    String destinationUpTo,
+    Href destinationHref,
+    Href destinationUpTo,
     String timeBoundaryEId,
     String newContent
   ) {
-    var targetNormEli = new Href(destinationHref)
+    var targetNormEli = destinationHref
       .getExpressionEli()
       .orElseThrow(() ->
         new ValidationException(
           ValidationException.ErrorType.ELI_NOT_IN_HREF,
-          Pair.of(ValidationException.FieldName.DESTINATION_HREF, destinationHref)
+          Pair.of(ValidationException.FieldName.DESTINATION_HREF, destinationHref.toString())
         )
       );
 
@@ -283,7 +282,7 @@ public class NormService
             amendingNorm,
             targetNorm,
             newModData.eId(),
-            mod.getTargetRefHref().or(mod::getTargetRrefFrom).map(Href::value).orElse(null),
+            mod.getTargetRefHref().or(mod::getTargetRrefFrom).orElse(null),
             null,
             newModData.timeBoundaryEId(),
             mod.getNewText().orElse(null)
@@ -309,12 +308,16 @@ public class NormService
       .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
-    final var targetNormEli = new Href(query.destinationHref())
+    final var targetNormEli = query
+      .destinationHref()
       .getExpressionEli()
       .orElseThrow(() ->
         new ValidationException(
           ValidationException.ErrorType.ELI_NOT_IN_HREF,
-          Pair.of(ValidationException.FieldName.DESTINATION_HREF, query.destinationHref())
+          Pair.of(
+            ValidationException.FieldName.DESTINATION_HREF,
+            query.destinationHref().toString()
+          )
         )
       );
 

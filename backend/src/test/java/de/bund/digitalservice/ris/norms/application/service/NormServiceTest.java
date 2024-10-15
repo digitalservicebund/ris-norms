@@ -11,6 +11,8 @@ import de.bund.digitalservice.ris.norms.application.exception.ValidationExceptio
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -669,7 +671,7 @@ class NormServiceTest {
             "eid",
             "refersTo",
             "time-boundary-eid",
-            "destinanation-href",
+            new Href("destinanation-href"),
             null,
             "new text"
           )
@@ -698,7 +700,7 @@ class NormServiceTest {
         "eid",
         "refersTo",
         "time-boundary-eid",
-        "#destinanation-href",
+        new Href("#destinanation-href"),
         null,
         "new text"
       );
@@ -730,7 +732,7 @@ class NormServiceTest {
         "eid",
         "refersTo",
         "time-boundary-eid",
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
+        new Href("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"),
         null,
         "new text"
       );
@@ -749,11 +751,12 @@ class NormServiceTest {
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String newCharacterRange = "20-25";
       String newTimeBoundaryEid = "#time-boundary-eid";
-      String newDestinationHref =
-        zf0Norm.getExpressionEli().toString() +
-        "/hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
-        newCharacterRange +
-        ".xml";
+      Href newDestinationHref = new Href.Builder()
+        .setEli(zf0Norm.getExpressionEli())
+        .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+        .setCharacterRange(new CharacterRange(newCharacterRange))
+        .setFileExtension("xml")
+        .buildAbsolute();
       String newContent = "new text";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
@@ -809,11 +812,12 @@ class NormServiceTest {
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String newCharacterRange = "20-25";
       String newTimeBoundaryEid = "#time-boundary-eid";
-      String newDestinationHref =
-        targetNormEli +
-        "/hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
-        newCharacterRange +
-        ".xml";
+      Href newDestinationHref = new Href.Builder()
+        .setEli(targetNormEli)
+        .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+        .setCharacterRange(new CharacterRange(newCharacterRange))
+        .setFileExtension("xml")
+        .buildAbsolute();
       String newContent = "new text";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
@@ -853,11 +857,12 @@ class NormServiceTest {
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "9-34";
       String newTimeBoundaryEid = "#time-boundary-eid";
-      String newDestinationHref =
-        zf0Norm.getExpressionEli().toString() +
-        "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/" +
-        newCharacterRange +
-        ".xml";
+      Href newDestinationHref = new Href.Builder()
+        .setEli(zf0Norm.getExpressionEli())
+        .setEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+        .setCharacterRange(new CharacterRange(newCharacterRange))
+        .setFileExtension("xml")
+        .buildAbsolute();
       String newContent = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
@@ -911,7 +916,7 @@ class NormServiceTest {
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetRefHref()).isPresent();
-      assertThat(mod.getTargetRefHref().get().value()).contains(newDestinationHref);
+      assertThat(mod.getTargetRefHref()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newContent);
       assertThat(returnedXml.targetNormZf0Xml())
         .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
