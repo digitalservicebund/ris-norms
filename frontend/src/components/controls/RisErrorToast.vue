@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
+import RisExpandableText from "@/components/controls/RisExpandableText.vue"
 import { ERROR_TOAST_GROUP } from "@/lib/errorToast"
 import Toast from "primevue/toast"
 import IconErrorOutline from "~icons/ic/error-outline"
@@ -13,9 +14,12 @@ import IconErrorOutline from "~icons/ic/error-outline"
         <div class="mt-2">
           <p class="ris-label1-bold">{{ slot.message.summary }}</p>
 
-          <p v-if="slot.message.detail?.message" class="ris-label1-regular">
+          <RisExpandableText
+            v-if="slot.message.detail?.message"
+            class="ris-label1-regular"
+          >
             {{ slot.message.detail?.message }}
-          </p>
+          </RisExpandableText>
 
           <div v-if="slot.message.detail?.traceId" class="mt-8">
             <RisCopyableLabel
