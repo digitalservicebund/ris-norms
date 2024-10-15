@@ -36,36 +36,6 @@ class HrefTest {
   }
 
   @Nested
-  class getEli {
-
-    @Test
-    void itShouldBeEmptyForRelativeHrefs() {
-      // given
-      var href = new Href("#art-20_abs-1/100-126");
-
-      // when
-      var eli = href.getEli();
-
-      // then
-      assertThat(eli).isEmpty();
-    }
-
-    @Test
-    void itShouldProvideTheEli() {
-      // given // when
-      var href = new Href(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
-      );
-
-      // when
-      var eli = href.getEli();
-
-      // then
-      assertThat(eli).contains("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
-    }
-  }
-
-  @Nested
   class getExpressionEli {
 
     @Test

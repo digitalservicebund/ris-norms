@@ -31,28 +31,6 @@ public record Href(@JsonValue String value) {
    * Get the eli of the href
    *
    * @return The eli of the href or empty if no eli is included.
-   * @deprecated use getExpressionEli instead.
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<String> getEli() {
-    if (isRelative()) {
-      return Optional.empty();
-    }
-
-    return Optional
-      .of(
-        Arrays
-          .stream(value().split("/"))
-          .limit(NUMBER_OF_ELI_PARTS)
-          .collect(Collectors.joining("/"))
-      )
-      .map(Href::removeFileExtension);
-  }
-
-  /**
-   * Get the eli of the href
-   *
-   * @return The eli of the href or empty if no eli is included.
    */
   public Optional<ExpressionEli> getExpressionEli() {
     if (isRelative()) {
