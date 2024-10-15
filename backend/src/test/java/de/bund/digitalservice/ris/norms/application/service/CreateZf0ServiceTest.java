@@ -77,8 +77,8 @@ class CreateZf0ServiceTest {
       .toList()
       .getFirst();
     assertThat(passiveMod.getType()).isEqualTo(activeMod.getType());
-    assertThat(passiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getExpressionEli().toString());
+    assertThat(passiveMod.getSourceHref().orElseThrow().getExpressionEli().orElseThrow())
+      .isEqualTo(amendingLaw.getExpressionEli());
     assertThat(passiveMod.getDestinationHref().orElseThrow().getEId())
       .isEqualTo(activeMod.getDestinationHref().orElseThrow().getEId());
     assertThat(passiveMod.getForcePeriodEid()).isNotEmpty();
@@ -144,8 +144,8 @@ class CreateZf0ServiceTest {
       .toList()
       .getFirst();
     assertThat(firstPassiveMod.getType()).isEqualTo(firstActiveMod.getType());
-    assertThat(firstPassiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getExpressionEli().toString());
+    assertThat(firstPassiveMod.getSourceHref().orElseThrow().getExpressionEli().orElseThrow())
+      .isEqualTo(amendingLaw.getExpressionEli());
     assertThat(firstPassiveMod.getDestinationHref().orElseThrow().getEId())
       .isEqualTo(firstActiveMod.getDestinationHref().orElseThrow().getEId());
     assertThat(firstPassiveMod.getForcePeriodEid()).isNotEmpty();
@@ -169,8 +169,8 @@ class CreateZf0ServiceTest {
       .toList()
       .getLast();
     assertThat(secondPassiveMod.getType()).isEqualTo(secondActiveMod.getType());
-    assertThat(secondPassiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
-      .isEqualTo(amendingLaw.getExpressionEli().toString());
+    assertThat(secondPassiveMod.getSourceHref().orElseThrow().getExpressionEli().orElseThrow())
+      .isEqualTo(amendingLaw.getExpressionEli());
     assertThat(secondPassiveMod.getDestinationHref().orElseThrow().getEId())
       .isEqualTo(secondActiveMod.getDestinationHref().orElseThrow().getEId());
     assertThat(secondPassiveMod.getForcePeriodEid()).isNotEmpty();

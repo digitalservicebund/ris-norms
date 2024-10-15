@@ -129,7 +129,7 @@ class SingleModValidatorTest {
       final Mod mod = new Mod(modNode);
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final String href = new Href.Builder()
-        .setEli(amendingNormEli.toString())
+        .setEli(amendingNormEli)
         .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange("9-112"))
         .buildAbsolute()
@@ -163,7 +163,7 @@ class SingleModValidatorTest {
       final Mod mod = new Mod(modNode);
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final String href = new Href.Builder()
-        .setEli(amendingNormEli.toString())
+        .setEli(amendingNormEli)
         .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange("0-34"))
         .buildAbsolute()
@@ -198,7 +198,7 @@ class SingleModValidatorTest {
       final Mod mod = new Mod(modNode);
       mod.setTargetRefHref(
         new Href.Builder()
-          .setEli(amendingNormEli.toString())
+          .setEli(amendingNormEli)
           .setEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(""))
           .buildInternalReference()

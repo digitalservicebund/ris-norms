@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.application.exception.ValidationExceptio
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -83,8 +82,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       .flatMap((TextualMod passiveModification) -> {
         var sourceEli = passiveModification
           .getSourceHref()
-          .flatMap(Href::getEli)
-          .map(ExpressionEli::fromString)
+          .flatMap(Href::getExpressionEli)
           .orElseThrow(() ->
             new ValidationException(
               ValidationException.ErrorType.SOURCE_HREF_IN_META_MOD_MISSING,

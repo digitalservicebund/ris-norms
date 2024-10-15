@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +30,9 @@ public record Href(String value) {
    * Get the eli of the href
    *
    * @return The eli of the href or empty if no eli is included.
+   * @deprecated use getExpressionEli instead.
    */
+  @Deprecated(forRemoval = true)
   public Optional<String> getEli() {
     if (isRelative()) {
       return Optional.empty();
@@ -43,6 +46,27 @@ public record Href(String value) {
           .collect(Collectors.joining("/"))
       )
       .map(Href::removeFileExtension);
+  }
+
+  /**
+   * Get the eli of the href
+   *
+   * @return The eli of the href or empty if no eli is included.
+   */
+  public Optional<ExpressionEli> getExpressionEli() {
+    if (isRelative()) {
+      return Optional.empty();
+    }
+
+    return Optional
+      .of(
+        Arrays
+          .stream(value().split("/"))
+          .limit(NUMBER_OF_ELI_PARTS)
+          .collect(Collectors.joining("/"))
+      )
+      .map(Href::removeFileExtension)
+      .map(ExpressionEli::fromString);
   }
 
   /**
@@ -124,8 +148,8 @@ public record Href(String value) {
      * @param eli the eli
      * @return the builder instance
      */
-    public Builder setEli(String eli) {
-      this.eli = eli;
+    public Builder setEli(ExpressionEli eli) {
+      this.eli = eli.toString();
       return this;
     }
 

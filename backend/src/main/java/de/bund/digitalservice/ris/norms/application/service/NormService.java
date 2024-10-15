@@ -167,7 +167,14 @@ public class NormService
     String timeBoundaryEId,
     String newContent
   ) {
-    var targetNormEli = ExpressionEli.fromString(new Href(destinationHref).getEli().orElse(""));
+    var targetNormEli = new Href(destinationHref)
+      .getExpressionEli()
+      .orElseThrow(() ->
+        new ValidationException(
+          ValidationException.ErrorType.ELI_NOT_IN_HREF,
+          Pair.of(ValidationException.FieldName.DESTINATION_HREF, destinationHref)
+        )
+      );
 
     final Mod selectedMod = amendingNorm
       .getMods()
@@ -238,8 +245,7 @@ public class NormService
     final ExpressionEli targetNormEli = modObject
       .getTargetRefHref()
       .or(modObject::getTargetRrefFrom)
-      .flatMap(Href::getEli)
-      .map(ExpressionEli::fromString)
+      .flatMap(Href::getExpressionEli)
       .orElseThrow(() ->
         new InvalidUpdateException("No eli found in href of mod %s".formatted(queryModEId))
       );
@@ -252,11 +258,11 @@ public class NormService
           final var modNode = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
           final var eli = modNode
             .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
-            .flatMap(Href::getEli)
+            .flatMap(Href::getExpressionEli)
             .orElseThrow(() ->
               new InvalidUpdateException("No eli found in href of mod %s".formatted(modData.eId()))
             );
-          return eli.equals(targetNormEli.toString());
+          return eli.equals(targetNormEli);
         })
     ) {
       throw new InvalidUpdateException(
@@ -304,8 +310,7 @@ public class NormService
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     final var targetNormEli = new Href(query.destinationHref())
-      .getEli()
-      .map(ExpressionEli::fromString)
+      .getExpressionEli()
       .orElseThrow(() ->
         new ValidationException(
           ValidationException.ErrorType.ELI_NOT_IN_HREF,

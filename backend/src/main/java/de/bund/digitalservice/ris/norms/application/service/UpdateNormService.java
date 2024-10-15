@@ -38,8 +38,8 @@ public class UpdateNormService
       .filter(passiveModification ->
         passiveModification
           .getSourceHref()
-          .flatMap(Href::getEli)
-          .equals(Optional.of(sourceNormEli.toString()))
+          .flatMap(Href::getExpressionEli)
+          .equals(Optional.of(sourceNormEli))
       )
       .forEach(passiveModification -> {
         norm.deleteByEId(passiveModification.getEid().orElseThrow());
@@ -71,8 +71,8 @@ public class UpdateNormService
       .filter(activeModification ->
         activeModification
           .getDestinationHref()
-          .flatMap(Href::getEli)
-          .filter(eli -> eli.equals(query.targetNormEli().toString()))
+          .flatMap(Href::getExpressionEli)
+          .filter(eli -> eli.equals(query.targetNormEli()))
           .isPresent()
       )
       .toList();
@@ -108,7 +108,7 @@ public class UpdateNormService
         .addPassiveModification(
           activeModification.getType().orElseThrow(),
           new Href.Builder()
-            .setEli(query.amendingNorm().getExpressionEli().toString())
+            .setEli(query.amendingNorm().getExpressionEli())
             .setEId(activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
             .setFileExtension("xml")
             .buildAbsolute()

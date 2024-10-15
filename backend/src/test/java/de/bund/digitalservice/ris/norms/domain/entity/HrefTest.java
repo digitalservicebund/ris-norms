@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -61,6 +62,39 @@ class HrefTest {
 
       // then
       assertThat(eli).contains("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+    }
+  }
+
+  @Nested
+  class getExpressionEli {
+
+    @Test
+    void itShouldBeEmptyForRelativeHrefs() {
+      // given
+      var href = new Href("#art-20_abs-1/100-126");
+
+      // when
+      var eli = href.getExpressionEli();
+
+      // then
+      assertThat(eli).isEmpty();
+    }
+
+    @Test
+    void itShouldProvideTheEli() {
+      // given // when
+      var href = new Href(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
+      );
+
+      // when
+      var eli = href.getExpressionEli();
+
+      // then
+      assertThat(eli)
+        .contains(
+          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        );
     }
   }
 
@@ -177,7 +211,9 @@ class HrefTest {
     void itShouldCreateRelativeHrefWithCharacterCount() {
       // given // when
       var href = new Href.Builder()
-        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        .setEli(
+          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
         .setEId("art-20_abs-1")
         .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
         .setFileExtension("xml")
@@ -191,7 +227,9 @@ class HrefTest {
     void itShouldCreateRelativeHrefWithoutCharacterCount() {
       // given // when
       var href = new Href.Builder()
-        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        .setEli(
+          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
         .setEId("art-20_abs-1")
         .setFileExtension("xml")
         .buildInternalReference();
@@ -204,7 +242,9 @@ class HrefTest {
     void itShouldCreateAbsoluteHrefWithCharacterCount() {
       // given // when
       var href = new Href.Builder()
-        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        .setEli(
+          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
         .setEId("art-20_abs-1")
         .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
         .setFileExtension("xml")
@@ -221,7 +261,9 @@ class HrefTest {
     void itShouldCreateAbsoluteHrefWithoutCharacterCount() {
       // given // when
       var href = new Href.Builder()
-        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        .setEli(
+          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
         .setEId("art-20_abs-1")
         .setFileExtension("xml")
         .buildAbsolute();

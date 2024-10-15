@@ -176,9 +176,8 @@ public class AnnouncementService
       .stream()
       .map(TextualMod::getDestinationHref)
       .flatMap(Optional::stream)
-      .map(Href::getEli)
+      .map(Href::getExpressionEli)
       .flatMap(Optional::stream)
-      .map(ExpressionEli::fromString)
       .collect(Collectors.toSet());
   }
 
