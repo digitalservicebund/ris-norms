@@ -3,9 +3,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.LocalDate;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +22,11 @@ public class TimeBoundaryService
     LoadTimeBoundariesUseCase, LoadTimeBoundariesAmendedByUseCase, UpdateTimeBoundariesUseCase {
 
   private final LoadNormPort loadNormPort;
-  private final UpdateNormPort updateNormPort;
+  private final NormService normService;
 
-  public TimeBoundaryService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
+  public TimeBoundaryService(LoadNormPort loadNormPort, NormService normService) {
     this.loadNormPort = loadNormPort;
-    this.updateNormPort = updateNormPort;
+    this.normService = normService;
   }
 
   /**
@@ -104,12 +103,9 @@ public class TimeBoundaryService
 
     editTimeBoundaries(query.timeBoundaries(), norm);
 
-    EidConsistencyGuardian.eliminateDeadReferences(norm.getDocument());
-    EidConsistencyGuardian.correctEids(norm.getDocument());
+    Map<ExpressionEli, Norm> result = normService.updateNorm(norm);
 
-    updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
-
-    return norm.getTimeBoundaries();
+    return result.get(query.eli()).getTimeBoundaries();
   }
 
   private void editTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
