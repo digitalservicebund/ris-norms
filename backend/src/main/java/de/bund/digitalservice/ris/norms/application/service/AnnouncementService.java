@@ -40,7 +40,7 @@ public class AnnouncementService
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
-  private final CreateZf0Service loadZf0Service;
+  private final CreateZf0Service createZf0Service;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
   private final BillToActService billToActService;
   private final LdmlDeValidator ldmlDeValidator;
@@ -53,7 +53,7 @@ public class AnnouncementService
     LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
     LoadNormPort loadNormPort,
     LoadNormByGuidPort loadNormByGuidPort,
-    CreateZf0Service loadZf0Service,
+    CreateZf0Service createZf0Service,
     UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
     BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
@@ -65,7 +65,7 @@ public class AnnouncementService
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
-    this.loadZf0Service = loadZf0Service;
+    this.createZf0Service = createZf0Service;
     this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
     this.billToActService = billToActService;
     this.ldmlDeValidator = ldmlDeValidator;
@@ -247,7 +247,7 @@ public class AnnouncementService
       loadNormPort
         .loadNorm(new LoadNormPort.Command(eli))
         .ifPresent(targetNorm ->
-          loadZf0Service.createZf0(new CreateZf0UseCase.Query(norm, targetNorm, true))
+          createZf0Service.createZf0(new CreateZf0UseCase.Query(norm, targetNorm, true))
         )
     );
     // 3. Reference recognition
