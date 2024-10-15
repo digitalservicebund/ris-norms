@@ -1145,6 +1145,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml"))
       );
       normRepository.save(
+        NormMapper.mapToDto(
+          NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructureAndUpTo.xml")
+        )
+      );
+      normRepository.save(
         NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml"))
       );
       normRepository.save(
