@@ -14,6 +14,7 @@ vi.mock("@/lib/errorMessages", () => ({
     "/errors/bar": (e: ErrorResponse<{ example: string }>) => ({
       title: "Bar",
       message: `Example: ${e.example}`,
+      suggestion: "Try again",
     }),
   },
 }))
@@ -48,6 +49,18 @@ describe("RisErrorCallout", () => {
     render(component)
 
     expect(screen.getByText("Bar")).toBeInTheDocument()
+  })
+
+  test("displays a suggestion", () => {
+    const component = defineComponent({
+      components: { RisErrorCallout },
+      template: `
+        <RisErrorCallout :error="{ type: '/errors/bar' }">Bar</RisErrorCallout>`,
+    })
+
+    render(component)
+
+    expect(screen.getByText("Try again")).toBeInTheDocument()
   })
 
   test("displays sentry trace id", () => {

@@ -37,6 +37,8 @@ const effectiveTitle = computed(() => errorMessage.value?.title)
   >
     <p v-if="errorMessage?.message">{{ errorMessage.message }}</p>
 
+    <p v-if="errorMessage?.suggestion">{{ errorMessage.suggestion }}</p>
+
     <slot />
 
     <p>

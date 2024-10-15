@@ -58,4 +58,7 @@ export type MappedErrorResponse = {
 
   /** Optional additional detail information for the error message. */
   message?: string
+
+  /** Optional suggested solution for the error message. */
+  suggestion?: string
 }

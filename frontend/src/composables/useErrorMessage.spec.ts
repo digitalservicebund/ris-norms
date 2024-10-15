@@ -12,6 +12,7 @@ vi.mock("@/lib/errorMessages", () => ({
     "/errors/bar": (e: ErrorResponse<{ example: string }>) => ({
       title: "Bar",
       message: `Example: ${e.example}`,
+      suggestion: "Try again",
     }),
   },
 }))

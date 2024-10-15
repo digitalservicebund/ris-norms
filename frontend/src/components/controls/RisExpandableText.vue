@@ -28,9 +28,13 @@ watchEffect(() => {
 
 <template>
   <div>
-    <p :id="textId" ref="textContent" :class="{ [$style.truncate]: !expanded }">
+    <div
+      :id="textId"
+      ref="textContent"
+      :class="{ [$style.truncate]: !expanded }"
+    >
       <slot />
-    </p>
+    </div>
 
     <button
       v-if="canExpand"

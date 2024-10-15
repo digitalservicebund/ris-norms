@@ -15,6 +15,7 @@ vi.mock("@/lib/errorMessages", () => ({
     "/errors/bar": (e: ErrorResponse<{ example: string }>) => ({
       title: "Bar",
       message: `Example: ${e.example}`,
+      suggestion: "Try again",
     }),
   },
 }))
@@ -66,7 +67,11 @@ describe("mapErrorResponse", () => {
 
     const result = mapErrorResponse(e)
 
-    expect(result).toEqual({ title: "Bar", message: "Example: Example" })
+    expect(result).toEqual({
+      title: "Bar",
+      message: "Example: Example",
+      suggestion: "Try again",
+    })
   })
 
   test("returns the fallback response if the type has no mapping", () => {

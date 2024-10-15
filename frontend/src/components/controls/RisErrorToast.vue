@@ -21,6 +21,13 @@ import IconErrorOutline from "~icons/ic/error-outline"
             {{ slot.message.detail?.message }}
           </RisExpandableText>
 
+          <p
+            v-if="slot.message.detail?.suggestion"
+            class="ris-label1-regular mt-6"
+          >
+            {{ slot.message.detail.suggestion }}
+          </p>
+
           <div v-if="slot.message.detail?.traceId" class="mt-8">
             <RisCopyableLabel
               name="Trace-ID"

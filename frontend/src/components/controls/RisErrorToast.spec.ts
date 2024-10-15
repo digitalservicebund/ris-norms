@@ -34,6 +34,15 @@ describe("RisErrorToast", () => {
     expect(screen.getByText("test message")).toBeInTheDocument()
   })
 
+  test("renders the suggestion", () => {
+    renderWithError({
+      summary: "test title",
+      detail: { title: "test title", suggestion: "test suggestion" },
+    })
+
+    expect(screen.getByText("test suggestion")).toBeInTheDocument()
+  })
+
   test("renders the trace ID", () => {
     renderWithError({
       summary: "test title",

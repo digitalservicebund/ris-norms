@@ -20,6 +20,7 @@ vi.mock("@/lib/errorMessages", () => ({
     "/errors/bar": (e: ErrorResponse<{ example: string }>) => ({
       title: "Bar",
       message: `Example: ${e.example}`,
+      suggestion: "Try again",
     }),
   },
 }))
@@ -103,6 +104,7 @@ describe("errorToast", () => {
         detail: expect.objectContaining({
           title: "Bar",
           message: "Example: example",
+          suggestion: "Try again",
         }),
       }),
     )
