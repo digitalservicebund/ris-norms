@@ -1,6 +1,6 @@
 import { getFallbackError } from "@/lib/errorResponseMapper"
+import routerInstance from "@/router"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
-import type { Router } from "vue-router"
 
 /**
  * The same as UseFetchReturn, but without the methods to get more specific useFetch instances.
@@ -20,12 +20,6 @@ export type SimpleUseFetchReturn<T> = Omit<
   | "arrayBuffer"
   | "formData"
 >
-
-let routerInstance: Router | null = null
-
-export const initializeApiService = (router: Router) => {
-  routerInstance = router
-}
 
 /* -------------------------------------------------- *
  * Reactive API fetch                                 *

@@ -1,7 +1,6 @@
 import { INVALID_URL } from "@/services/apiService"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, test, vi } from "vitest"
-import { Router } from "vue-router"
 
 describe("useApiFetch", () => {
   beforeEach(() => {
@@ -66,20 +65,18 @@ describe("useApiFetch", () => {
       new Response("{}", { status: 404 }),
     )
 
-    const { useApiFetch, initializeApiService } = await import(
-      "@/services/apiService"
-    )
+    const mockPush = vi.fn().mockResolvedValue({})
+    vi.doMock("@/router", () => ({ default: { push: mockPush } }))
 
-    const mockRouter: Partial<Router> = {
-      push: vi.fn().mockResolvedValue(new Promise(() => {})),
-    }
-    initializeApiService(mockRouter as Router)
+    const { useApiFetch } = await import("@/services/apiService")
 
     useApiFetch("foo/bar")
 
     await vi.waitFor(() =>
-      expect(mockRouter.push).toHaveBeenCalledWith({ name: "NotFound" }),
+      expect(mockPush).toHaveBeenCalledWith({ name: "NotFound" }),
     )
+
+    vi.doUnmock("@/router")
   })
 
   test("aborts the request if the URL is marked as invalid", async () => {

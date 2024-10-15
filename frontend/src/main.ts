@@ -3,15 +3,12 @@ import { RisUiLocale, RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
 import "@digitalservicebund/ris-ui/primevue/style.css"
 import * as Sentry from "@sentry/vue"
 import PrimeVue from "primevue/config"
-import ToastService from "primevue/toastservice"
 import ConfirmationService from "primevue/confirmationservice"
+import ToastService from "primevue/toastservice"
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./router"
-import { initializeApiService } from "./services/apiService"
 import "./style.css"
-
-initializeApiService(router)
 
 const app = createApp(App)
 
