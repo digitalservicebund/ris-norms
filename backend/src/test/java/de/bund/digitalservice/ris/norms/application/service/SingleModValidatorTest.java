@@ -366,7 +366,7 @@ class SingleModValidatorTest {
         .orElseThrow()
         .getPassiveModifications()
         .getFirst();
-      passiveMod.setDestinationUpTo("#not-present-href");
+      passiveMod.setDestinationUpTo(new Href("#not-present-href"));
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
@@ -398,7 +398,7 @@ class SingleModValidatorTest {
         .getPassiveModifications()
         .getFirst();
       passiveMod.setDestinationUpTo(
-        "#hauptteil-1_art-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-2"
+        new Href("#hauptteil-1_art-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-2")
       );
 
       // when
@@ -431,7 +431,7 @@ class SingleModValidatorTest {
         .getPassiveModifications()
         .getFirst();
       passiveMod.setDestinationHref(new Href("#hauptteil-1_art-2_abs-3"));
-      passiveMod.setDestinationUpTo("#hauptteil-1_art-2_abs-1");
+      passiveMod.setDestinationUpTo(new Href("#hauptteil-1_art-2_abs-1"));
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));

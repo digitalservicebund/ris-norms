@@ -228,7 +228,9 @@ class UpdateNormServiceTest {
         .getActiveModifications()
         .getFirst();
       activeMod.setDestinationUpTo(
-        "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml"
+        new Href(
+          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml"
+        )
       );
 
       final Norm zf0Law = NormFixtures.loadFromDisk(

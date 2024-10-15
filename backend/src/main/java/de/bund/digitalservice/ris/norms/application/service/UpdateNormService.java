@@ -156,11 +156,7 @@ public class UpdateNormService
       .ifPresent(activeMod -> {
         activeMod.setDestinationHref(query.destinationHref());
         activeMod.setForcePeriodEid(query.timeBoundaryEid());
-        if (query.destinationUpTo() != null) {
-          activeMod.setDestinationUpTo(query.destinationUpTo().toString());
-        } else {
-          activeMod.setDestinationUpTo(null);
-        }
+        activeMod.setDestinationUpTo(query.destinationUpTo());
       });
 
     // Edit mod in meta

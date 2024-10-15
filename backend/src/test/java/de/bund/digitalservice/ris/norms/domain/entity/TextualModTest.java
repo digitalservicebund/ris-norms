@@ -98,7 +98,7 @@ class TextualModTest {
   void setDestinationUpto() {
     // when
     textualMod.setDestinationUpTo(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
+      new Href("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml")
     );
     var destinationUpTo = textualMod.getDestinationUpTo();
 
@@ -115,7 +115,7 @@ class TextualModTest {
   void deleteDestinationUpto() {
     // given
     textualMod.setDestinationUpTo(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml"
+      new Href("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-3/100-130.xml")
     );
 
     // when
