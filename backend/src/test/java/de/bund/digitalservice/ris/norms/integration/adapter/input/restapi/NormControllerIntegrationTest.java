@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.XmlMatcher;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
@@ -1880,7 +1881,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
             .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
-        .ifPresent(mod -> mod.setTargetRefHref("#href-without-eli"));
+        .ifPresent(mod -> mod.setTargetRefHref(new Href("#href-without-eli")));
       normRepository.save(NormMapper.mapToDto(norm));
 
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
@@ -1927,7 +1928,9 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .findFirst()
         .ifPresent(mod ->
           mod.setTargetRefHref(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/OTHER-ELI/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+            new Href(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/OTHER-ELI/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+            )
           )
         );
       normRepository.save(NormMapper.mapToDto(norm));

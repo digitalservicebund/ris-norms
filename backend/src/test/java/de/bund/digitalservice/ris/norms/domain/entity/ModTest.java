@@ -179,7 +179,7 @@ class ModTest {
   @Test
   void setTargetRefHref() {
     // when
-    quotedTextMod.setTargetRefHref("new-target-href");
+    quotedTextMod.setTargetRefHref(new Href("new-target-href"));
     var eid = quotedTextMod.getTargetRefHref();
 
     // then
@@ -203,7 +203,7 @@ class ModTest {
   @Test
   void setTargetRrefFrom() {
     // when
-    quotedStructureRrefMod.setTargetRrefFrom("new-target-href");
+    quotedStructureRrefMod.setTargetRrefFrom(new Href("new-target-href"));
     var eid = quotedStructureRrefMod.getTargetRrefFrom();
 
     // then
@@ -227,7 +227,7 @@ class ModTest {
   @Test
   void setTargetRrefUpTo() {
     // when
-    quotedStructureRrefMod.setTargetRrefUpTo("new-target-upTo");
+    quotedStructureRrefMod.setTargetRrefUpTo(new Href("new-target-upTo"));
     var eid = quotedStructureRrefMod.getTargetRrefUpTo();
 
     // then
@@ -401,7 +401,10 @@ class ModTest {
 
   @Test
   void replaceRefWithRref() {
-    quotedStructureRefMod.replaceRefWithRref("new-destination-href", "new-destination-upto");
+    quotedStructureRefMod.replaceRefWithRref(
+      new Href("new-destination-href"),
+      new Href("new-destination-upto")
+    );
 
     final Optional<Href> targetRefHref = quotedStructureRefMod.getTargetRefHref();
     assertThat(targetRefHref).isEmpty();
@@ -417,7 +420,7 @@ class ModTest {
 
   @Test
   void replaceRrefWithRef() {
-    quotedStructureRrefMod.replaceRrefWithRef("new-destination-href");
+    quotedStructureRrefMod.replaceRrefWithRef(new Href("new-destination-href"));
 
     final Optional<Href> targetRrefHref = quotedStructureRrefMod.getTargetRrefFrom();
     assertThat(targetRrefHref).isEmpty();

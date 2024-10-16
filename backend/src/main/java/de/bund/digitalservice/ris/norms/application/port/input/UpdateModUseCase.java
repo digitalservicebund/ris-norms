@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.util.Optional;
+import javax.annotation.Nullable;
 
 /**
  * Interface representing the use case for updating an amending command within an amending law. It
@@ -42,7 +43,7 @@ public interface UpdateModUseCase {
     String refersTo,
     String timeBoundaryEid,
     Href destinationHref,
-    Href destinationUpTo,
+    @Nullable Href destinationUpTo,
     String newContent,
     boolean dryRun
   ) {

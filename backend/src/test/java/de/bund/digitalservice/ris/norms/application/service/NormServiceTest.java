@@ -1213,7 +1213,7 @@ class NormServiceTest {
         .stream()
         .filter(mod -> mod.getMandatoryEid().equals(eid))
         .findFirst()
-        .ifPresent(m -> m.setTargetRefHref("#fake-href"));
+        .ifPresent(m -> m.setTargetRefHref(new Href("#fake-href")));
 
       ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       String newTimeBoundaryEid = "#time-boundary-eid";

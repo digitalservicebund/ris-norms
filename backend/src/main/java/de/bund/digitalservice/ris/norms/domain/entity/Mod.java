@@ -103,13 +103,13 @@ public class Mod {
    *
    * @param newHref - the new ELI + eId of the target law
    */
-  public void setTargetRefHref(final String newHref) {
+  public void setTargetRefHref(final Href newHref) {
     NodeParser
       .getNodeFromExpression(REF_XPATH, this.node)
       .orElseThrow()
       .getAttributes()
       .getNamedItem("href")
-      .setNodeValue(newHref);
+      .setNodeValue(newHref.toString());
   }
 
   /**
@@ -126,13 +126,13 @@ public class Mod {
    *
    * @param newFrom - the new ELI + eId of the target law
    */
-  public void setTargetRrefFrom(final String newFrom) {
+  public void setTargetRrefFrom(final Href newFrom) {
     NodeParser
       .getNodeFromExpression(RREF_XPATH, this.node)
       .orElseThrow()
       .getAttributes()
       .getNamedItem("from")
-      .setNodeValue(newFrom);
+      .setNodeValue(newFrom.toString());
   }
 
   /**
@@ -248,13 +248,13 @@ public class Mod {
    *
    * @param destinationUpTo - the UpTo attribute that should be updated
    */
-  public void setTargetRrefUpTo(final String destinationUpTo) {
+  public void setTargetRrefUpTo(final Href destinationUpTo) {
     NodeParser
       .getNodeFromExpression(RREF_XPATH, this.node)
       .orElseThrow()
       .getAttributes()
       .getNamedItem("upTo")
-      .setNodeValue(destinationUpTo);
+      .setNodeValue(destinationUpTo.toString());
   }
 
   /**
@@ -264,13 +264,13 @@ public class Mod {
    * @param destinationFrom the new destination from
    * @param destinationUpTo the new destination upTo
    */
-  public void replaceRefWithRref(final String destinationFrom, final String destinationUpTo) {
+  public void replaceRefWithRref(final Href destinationFrom, final Href destinationUpTo) {
     final Node refNode = NodeParser.getNodeFromExpression(REF_XPATH, this.node).orElseThrow();
 
     final Element rrefElement = NodeCreator.createElement("akn:rref", this.node);
     rrefElement.setAttribute("eId", EId.fromMandatoryNode(refNode).value());
-    rrefElement.setAttribute("from", destinationFrom);
-    rrefElement.setAttribute("upTo", destinationUpTo);
+    rrefElement.setAttribute("from", destinationFrom.toString());
+    rrefElement.setAttribute("upTo", destinationUpTo.toString());
 
     rrefElement.setTextContent(refNode.getTextContent());
 
@@ -283,12 +283,12 @@ public class Mod {
    *
    * @param destinationHref the new destination href
    */
-  public void replaceRrefWithRef(final String destinationHref) {
+  public void replaceRrefWithRef(final Href destinationHref) {
     final Node rrefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node).orElseThrow();
 
     final Element refElement = NodeCreator.createElement("akn:ref", this.node);
     refElement.setAttribute("eId", EId.fromMandatoryNode(rrefNode).value());
-    refElement.setAttribute("href", destinationHref);
+    refElement.setAttribute("href", destinationHref.toString());
 
     refElement.setTextContent(rrefNode.getTextContent());
 

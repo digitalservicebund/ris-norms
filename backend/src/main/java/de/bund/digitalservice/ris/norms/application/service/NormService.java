@@ -18,6 +18,7 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.Nullable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
@@ -162,7 +163,7 @@ public class NormService
     Norm zf0Norm,
     String eId,
     Href destinationHref,
-    Href destinationUpTo,
+    @Nullable Href destinationUpTo,
     String timeBoundaryEId,
     String newContent
   ) {

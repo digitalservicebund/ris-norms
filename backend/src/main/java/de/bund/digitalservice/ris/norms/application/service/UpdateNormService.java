@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /** Service for updating norms. */
@@ -170,7 +169,7 @@ public class UpdateNormService
           inTextMod.usesQuotedText() &&
           !query.newContent().equals(inTextMod.getNewText().orElse(""))
         ) {
-          inTextMod.setTargetRefHref(query.destinationHref().toString());
+          inTextMod.setTargetRefHref(query.destinationHref());
           inTextMod.setNewText(query.newContent());
         }
         if (inTextMod.usesQuotedStructure()) {
@@ -188,17 +187,10 @@ public class UpdateNormService
     final UpdateActiveModificationsUseCase.Query query,
     final Mod inTextMod
   ) {
-    if (
-      query.destinationUpTo() != null && StringUtils.isNotEmpty(query.destinationUpTo().toString())
-    ) {
-      inTextMod.replaceRefWithRref(
-        query.destinationHref().toString(),
-        query.destinationUpTo().toString()
-      );
-    } else if (query.destinationHref() != null) {
-      inTextMod.setTargetRefHref(query.destinationHref().toString());
+    if (query.destinationUpTo() != null) {
+      inTextMod.replaceRefWithRref(query.destinationHref(), query.destinationUpTo());
     } else {
-      inTextMod.setTargetRefHref(null);
+      inTextMod.setTargetRefHref(query.destinationHref());
     }
   }
 
@@ -206,13 +198,11 @@ public class UpdateNormService
     final UpdateActiveModificationsUseCase.Query query,
     final Mod inTextMod
   ) {
-    if (
-      query.destinationUpTo() != null && StringUtils.isNotEmpty(query.destinationUpTo().toString())
-    ) {
-      inTextMod.setTargetRrefFrom(query.destinationHref().toString());
-      inTextMod.setTargetRrefUpTo(query.destinationUpTo().toString());
+    if (query.destinationUpTo() != null && !query.destinationUpTo().toString().isEmpty()) {
+      inTextMod.setTargetRrefFrom(query.destinationHref());
+      inTextMod.setTargetRrefUpTo(query.destinationUpTo());
     } else {
-      inTextMod.replaceRrefWithRef(query.destinationHref().toString());
+      inTextMod.replaceRrefWithRef(query.destinationHref());
     }
   }
 }

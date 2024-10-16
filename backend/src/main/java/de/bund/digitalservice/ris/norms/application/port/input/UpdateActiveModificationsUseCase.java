@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import javax.annotation.Nullable;
 
 /**
  * Interface representing the use case for updating the akn:activeModifications of a {@link Norm}.
@@ -30,7 +31,7 @@ public interface UpdateActiveModificationsUseCase {
     Norm amendingNorm,
     String eId,
     Href destinationHref,
-    Href destinationUpTo,
+    @Nullable Href destinationUpTo,
     String timeBoundaryEid,
     String newContent
   ) {}

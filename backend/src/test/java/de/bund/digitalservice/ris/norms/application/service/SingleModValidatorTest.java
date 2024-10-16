@@ -143,7 +143,7 @@ class SingleModValidatorTest {
         .getFirst()
         .setDestinationHref(href);
 
-      mod.setTargetRefHref(href.toString());
+      mod.setTargetRefHref(href);
       mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -176,7 +176,7 @@ class SingleModValidatorTest {
         .getFirst()
         .setDestinationHref(href);
 
-      mod.setTargetRefHref(href.toString());
+      mod.setTargetRefHref(href);
       mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -200,7 +200,6 @@ class SingleModValidatorTest {
           .setEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
           .setCharacterRange(new CharacterRange(""))
           .buildInternalReference()
-          .value()
       );
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
