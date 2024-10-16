@@ -137,7 +137,7 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v4
         - name: Run Trivy vulnerability scanner in repo mode
-          uses: aquasecurity/trivy-action@5681af892cd0f4997658e2bacc62bd0a894cf564
+          uses: aquasecurity/trivy-action@fc1500abdcdc9fc681e98d8912a52fa70dbc67de
           env:
             ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
