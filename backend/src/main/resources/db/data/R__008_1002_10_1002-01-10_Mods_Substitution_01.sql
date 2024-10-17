@@ -3,8 +3,8 @@ FROM norms
 WHERE eli_expression = 'eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1';
 
 -- Target law
-INSERT INTO norms (xml)
-VALUES ('<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (publish_state, xml)
+VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">

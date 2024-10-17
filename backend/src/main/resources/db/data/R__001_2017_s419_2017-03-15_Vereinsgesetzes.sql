@@ -2,8 +2,8 @@
 DELETE
 FROM norms
 where eli_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1';
-INSERT INTO norms (xml)
-VALUES ('<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (publish_state, xml)
+VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <!--
    This is a modified example from the LDML.de specification.
 -->
