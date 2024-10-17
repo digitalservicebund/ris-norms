@@ -7,7 +7,7 @@ test.describe("Publishing flow for an amending law", () => {
     expectedDate: string,
     expectedTime: string,
   ): Promise<void> {
-    const timeElement = page.locator("time")
+    const timeElement = page.getByRole("time")
     await expect(timeElement).toHaveText(
       `${expectedDate} um ${expectedTime} Uhr. Die aktuelle Version kann hier eingesehen werden: `,
     )
@@ -37,7 +37,7 @@ test.describe("Publishing flow for an amending law", () => {
     )
 
     await expect(
-      page.locator('text="Das Gesetz wurde noch nicht veröffentlicht."'),
+      page.getByText("Das Gesetz wurde noch nicht veröffentlicht."),
     ).toBeVisible()
 
     // Trigger the publication of the amending law
@@ -61,14 +61,16 @@ test.describe("Publishing flow for an amending law", () => {
     const targetLawEli =
       "eli_bund_bgbl-1_1964_s593_1964-08-05_1_deu_regelungstext-1.xml"
 
-    const amendingLawLink = page.locator(
-      `a:has-text("${amendingLawEli.replace(/_/g, "/")}")`,
-    )
+    const amendingLawLink = page.getByRole("link", {
+      name: `${amendingLawEli.replace(/_/g, "/")}`,
+    })
+
     await expect(amendingLawLink).toHaveAttribute("download", amendingLawEli)
 
-    const targetLawLink = page.locator(
-      `a:has-text("${targetLawEli.replace(/_/g, "/")}")`,
-    )
+    const targetLawLink = page.getByRole("link", {
+      name: `${targetLawEli.replace(/_/g, "/")}`,
+    })
+
     await expect(targetLawLink).toHaveAttribute("download", targetLawEli)
 
     // Download and verify files

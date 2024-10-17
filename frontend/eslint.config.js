@@ -89,6 +89,12 @@ export default defineConfig(
       // to delete or comment out tests that don't behave as expected and we
       // don't have time to fix them immediately.
       "playwright/no-skipped-test": "off",
+
+      // Locator use should follow the Playwright recommendations, i.e. use
+      // accessibility attributes, labels etc. over CSS/XPath selectors.
+      // See https://playwright.dev/docs/locators#quick-guide
+      "playwright/no-raw-locators": "error",
+      "playwright/prefer-native-locators": "error",
     },
   },
 
