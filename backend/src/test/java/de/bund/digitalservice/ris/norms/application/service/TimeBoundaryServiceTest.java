@@ -765,7 +765,7 @@ class TimeBoundaryServiceTest {
 
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
-      // since we don't test results the return value is relevant but must be present
+      // since we don't test results the return value is not relevant but must be present
       when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
 
       // When
