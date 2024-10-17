@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xmlunit.builder.DiffBuilder;
@@ -218,7 +217,6 @@ class EidConsistencyGuardianTest {
     assertThat(diff.hasDifferences()).isFalse();
   }
 
-  @Disabled("we don't use eids in proprietary data")
   @Test
   void itCorrectComplexLDML() {
     // Given
@@ -264,13 +262,6 @@ class EidConsistencyGuardianTest {
                           </akn:textualMod>
                       </akn:passiveModifications>
                   </akn:analysis>
-                                                          <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
-                                  <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
-                                      <ris:celex start="non-existing-id-1">celex number</ris:celex>
-                                      <ris:subtyp start="non-existing-id-2">SN</ris:subtyp>
-                                      <ris:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</ris:aktenzeichen>
-                                  </ris:legalDocML.de_metadaten>
-                              </akn:proprietary>
               </akn:meta>
           </akn:act>
       </akn:akomaNtoso>
@@ -323,13 +314,6 @@ class EidConsistencyGuardianTest {
                           </akn:textualMod>
                       </akn:passiveModifications>
                   </akn:analysis>
-                              <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-1" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
-                                  <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
-                                      <ris:celex start="">celex number</ris:celex>
-                                      <ris:subtyp start="">SN</ris:subtyp>
-                                      <ris:aktenzeichen start="meta-1_lebzykl-1_ereignis-2">123456</ris:aktenzeichen>
-                                  </ris:legalDocML.de_metadaten>
-                              </akn:proprietary>
               </akn:meta>
           </akn:act>
       </akn:akomaNtoso>
