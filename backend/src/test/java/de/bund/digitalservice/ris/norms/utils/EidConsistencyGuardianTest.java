@@ -105,7 +105,7 @@ class EidConsistencyGuardianTest {
                </akn:p>
             </akn:meta>
           </root>
-          """;
+      """;
 
     // When
     final Document correctedDocument = XmlMapper.toDocument(sampleXml);
@@ -126,7 +126,7 @@ class EidConsistencyGuardianTest {
                </akn:p>
             </akn:meta>
           </root>
-          """;
+      """;
 
     final Diff diff = DiffBuilder
       .compare(Input.from(correctedDocument))
@@ -149,7 +149,7 @@ class EidConsistencyGuardianTest {
                </akn:p>
             </akn:meta>
           </root>
-          """;
+      """;
 
     // When
     final Document correctedDocument = XmlMapper.toDocument(sampleXml);
@@ -166,7 +166,7 @@ class EidConsistencyGuardianTest {
                </akn:p>
             </akn:meta>
           </root>
-          """;
+      """;
 
     final Diff diff = DiffBuilder
       .compare(Input.from(correctedDocument))
@@ -189,7 +189,7 @@ class EidConsistencyGuardianTest {
                </akn:p>
             </akn:meta>
           </root>
-          """;
+      """;
 
     // When
     final Document correctedDocument = XmlMapper.toDocument(sampleXml);
@@ -206,7 +206,7 @@ class EidConsistencyGuardianTest {
                </akn:p>
             </akn:meta>
           </root>
-          """;
+      """;
 
     final Diff diff = DiffBuilder
       .compare(Input.from(correctedDocument))
