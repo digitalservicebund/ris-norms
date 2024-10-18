@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,18 +26,18 @@ public final class ManifestationEli implements Eli {
   private String agent;
   private String year;
   private String naturalIdentifier;
-  private String pointInTime;
-  private String version;
+  private LocalDate pointInTime;
+  private Integer version;
   private String language;
-  private String pointInTimeManifestation;
+  private LocalDate pointInTimeManifestation;
   private String subtype;
 
   public ManifestationEli(
     String agent,
     String year,
     String naturalIdentifier,
-    String pointInTime,
-    String version,
+    LocalDate pointInTime,
+    Integer version,
     String language,
     String subtype
   ) {
@@ -54,25 +56,25 @@ public final class ManifestationEli implements Eli {
   @Override
   public String toString() {
     if (!hasPointInTimeManifestation()) {
-      return "eli/bund/%s/%s/%s/%s/%s/%s/%s.xml".formatted(
+      return "eli/bund/%s/%s/%s/%s/%d/%s/%s.xml".formatted(
           getAgent(),
           getYear(),
           getNaturalIdentifier(),
-          getPointInTime(),
+          getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
           getVersion(),
           getLanguage(),
           getSubtype()
         );
     }
 
-    return "eli/bund/%s/%s/%s/%s/%s/%s/%s/%s.xml".formatted(
+    return "eli/bund/%s/%s/%s/%s/%d/%s/%s/%s.xml".formatted(
         getAgent(),
         getYear(),
         getNaturalIdentifier(),
-        getPointInTime(),
+        getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
         getVersion(),
         getLanguage(),
-        getPointInTimeManifestation(),
+        getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
         getSubtype()
       );
   }
@@ -131,7 +133,7 @@ public final class ManifestationEli implements Eli {
    * @return a work eli
    */
   public WorkEli asWorkEli() {
-    return new WorkEli(getAgent(), getYear(), getNaturalIdentifier(), getPointInTime());
+    return new WorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
   }
 
   /**
@@ -155,10 +157,15 @@ public final class ManifestationEli implements Eli {
       matcher.group("agent"),
       matcher.group("year"),
       matcher.group("naturalIdentifier"),
-      matcher.group("pointInTime"),
-      matcher.group("version"),
+        LocalDate.parse(matcher.group("pointInTime"), DateTimeFormatter.ISO_LOCAL_DATE),
+        Integer.valueOf(matcher.group("version")),
       matcher.group("language"),
-      matcher.group("pointInTimeManifestation"),
+        matcher.group("pointInTimeManifestation") == null
+            ? null
+            : LocalDate.parse(
+            matcher.group("pointInTimeManifestation"),
+            DateTimeFormatter.ISO_LOCAL_DATE
+        ),
       matcher.group("subtype")
     );
   }
