@@ -157,6 +157,16 @@ watch(isUpdatingFinished, (finished) => {
     showToast()
   }
 })
+
+function handlePreview(event: MouseEvent) {
+  event.preventDefault()
+  preview()
+}
+
+function handleUpdate(event: MouseEvent) {
+  event.preventDefault()
+  update()
+}
 </script>
 <template>
   <!--
@@ -220,7 +230,7 @@ watch(isUpdatingFinished, (finished) => {
           label="Vorschau"
           severity="secondary"
           :disabled="timeBoundary === 'multiple'"
-          @click.prevent="preview"
+          @click="handlePreview"
         />
 
         <div class="relative ml-auto">
@@ -228,7 +238,7 @@ watch(isUpdatingFinished, (finished) => {
             label="Speichern"
             :loading="isUpdating"
             :disabled="timeBoundary === 'multiple'"
-            @click.prevent="update"
+            @click="handleUpdate"
           >
             <template #icon>
               <CheckIcon />
