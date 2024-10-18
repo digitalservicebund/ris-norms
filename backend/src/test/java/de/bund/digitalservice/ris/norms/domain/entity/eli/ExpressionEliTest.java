@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 class ExpressionEliTest {
@@ -16,6 +17,17 @@ class ExpressionEliTest {
     assertThat(eli.getVersion()).isEqualTo(1);
     assertThat(eli.getLanguage()).isEqualTo("deu");
     assertThat(eli.getSubtype()).isEqualTo("regelungstext-1");
+  }
+
+  @Test
+  void fromWorkEli() {
+    var eli = ExpressionEli.fromWorkEli(
+      WorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1"),
+      LocalDate.parse("2021-03-01"),
+      1,
+      "deu"
+    );
+    assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1");
   }
 
   @Test

@@ -53,11 +53,11 @@ public final class ExpressionEli implements Eli {
   @Override
   public URI toUri() {
     return URI.create(
-        "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
+      "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
           getAgent(),
           getYear(),
           getNaturalIdentifier(),
-            getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+          getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
           getVersion(),
           getLanguage()
         )
@@ -94,10 +94,36 @@ public final class ExpressionEli implements Eli {
       matcher.group("agent"),
       matcher.group("year"),
       matcher.group("naturalIdentifier"),
-        LocalDate.parse(matcher.group("pointInTime"), DateTimeFormatter.ISO_LOCAL_DATE),
-        Integer.valueOf(matcher.group("version")),
+      LocalDate.parse(matcher.group("pointInTime"), DateTimeFormatter.ISO_LOCAL_DATE),
+      Integer.valueOf(matcher.group("version")),
       matcher.group("language"),
       matcher.group("subtype")
+    );
+  }
+
+  /**
+   * Create an expression level eli from an work eli and the additional data for an expression eli.
+   *
+   * @param workEli     the work eli to use as a base
+   * @param pointInTime the date of the verkündung
+   * @param version     the version of the expression (to differentiate between multiple expressions with the same pointInTime)
+   * @param language    the language of the expression
+   * @return the eli
+   */
+  public static ExpressionEli fromWorkEli(
+    WorkEli workEli,
+    LocalDate pointInTime,
+    Integer version,
+    String language
+  ) {
+    return new ExpressionEli(
+      workEli.getAgent(),
+      workEli.getYear(),
+      workEli.getNaturalIdentifier(),
+      pointInTime,
+      version,
+      language,
+      workEli.getSubtype()
     );
   }
 
