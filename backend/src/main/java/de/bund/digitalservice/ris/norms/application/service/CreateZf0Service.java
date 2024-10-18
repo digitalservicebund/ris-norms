@@ -58,7 +58,7 @@ public class CreateZf0Service implements CreateZf0UseCase {
 
   private void updateFRBRManifestation(final Norm zf0Norm) {
     final FRBRManifestation frbrManifestation = zf0Norm.getMeta().getFRBRManifestation();
-    final String date = LocalDate.now().toString();
+    final LocalDate date = LocalDate.now();
 
     // 1.replace date of eli parts
     final ManifestationEli zf0Eli = frbrManifestation.getEli();
@@ -67,6 +67,6 @@ public class CreateZf0Service implements CreateZf0UseCase {
     frbrManifestation.setURI(zf0Eli.toUri());
 
     // 2. FRBRdate --> current system date + @name="generierung"
-    frbrManifestation.setFBRDate(date, "generierung");
+    frbrManifestation.setFBRDate(date.toString(), "generierung");
   }
 }

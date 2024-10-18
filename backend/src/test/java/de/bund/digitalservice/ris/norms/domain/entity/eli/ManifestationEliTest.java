@@ -82,7 +82,7 @@ class ManifestationEliTest {
       assertThat(eli.getYear()).isEqualTo("2021");
       assertThat(eli.getNaturalIdentifier()).isEqualTo("s4");
       assertThat(eli.getPointInTime()).isEqualTo("2021-03-01");
-      assertThat(eli.getVersion()).isEqualTo("1");
+      assertThat(eli.getVersion()).isEqualTo(1);
       assertThat(eli.getLanguage()).isEqualTo("deu");
       assertThat(eli.getPointInTimeManifestation()).isEqualTo("2021-03-03");
       assertThat(eli.getSubtype()).isEqualTo("regelungstext-1");
@@ -97,7 +97,7 @@ class ManifestationEliTest {
       assertThat(eli.getYear()).isEqualTo("2021");
       assertThat(eli.getNaturalIdentifier()).isEqualTo("s4");
       assertThat(eli.getPointInTime()).isEqualTo("2021-03-01");
-      assertThat(eli.getVersion()).isEqualTo("1");
+      assertThat(eli.getVersion()).isEqualTo(1);
       assertThat(eli.getLanguage()).isEqualTo("deu");
       assertThat(eli.getPointInTimeManifestation()).isNull();
       assertThat(eli.getSubtype()).isEqualTo("regelungstext-1");
@@ -138,7 +138,7 @@ class ManifestationEliTest {
       var eli = ManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
-      assertThat(eli.asWorkEli()).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01");
+      assertThat(eli.asWorkEli()).hasToString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
     }
   }
 }

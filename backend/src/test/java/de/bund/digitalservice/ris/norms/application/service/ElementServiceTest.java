@@ -472,7 +472,9 @@ class ElementServiceTest {
       assertThatThrownBy(() ->
           service.loadElementsByTypeFromNorm(
             new LoadElementsByTypeFromNormUseCase.Query(
-              new ExpressionEli(),
+              ExpressionEli.fromString(
+                "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+              ),
               List.of("invalid_type")
             )
           )
@@ -486,7 +488,7 @@ class ElementServiceTest {
       // Nothing given -> Loading should fail
 
       LoadElementsByTypeFromNormUseCase.Query query = new LoadElementsByTypeFromNormUseCase.Query(
-        new ExpressionEli(),
+        ExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"),
         List.of("article")
       );
 
