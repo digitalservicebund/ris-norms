@@ -192,45 +192,53 @@ test.describe("Editing a single mod", () => {
     )
   })
 
-  test("editing and saving the eid mod change by highlighting", async ({
-    page,
-  }) => {
-    const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle",
-    })
+  test(
+    "editing and saving the eid mod change by highlighting",
+    { tag: ["@RISDEV-4553"] },
+    async ({ page }) => {
+      const amendingLawSection = page.getByRole("region", {
+        name: "Änderungsbefehle",
+      })
 
-    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+      await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
-    const modFormSection = page.getByRole("region", {
-      name: "Änderungsbefehl bearbeiten",
-    })
+      const modFormSection = page.getByRole("region", {
+        name: "Änderungsbefehl bearbeiten",
+      })
 
-    await expect(
-      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
-    ).toHaveValue(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-    )
+      await expect(
+        modFormSection.getByRole("textbox", {
+          name: "zu ersetzende Textstelle",
+        }),
+      ).toHaveValue(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      )
 
-    const textBoundingBox = await modFormSection
-      .getByLabel("Zu ersetzender Text")
-      .getByText("entgegen § 9")
-      .boundingBox()
+      const textBoundingBox = await modFormSection
+        .getByLabel("Zu ersetzender Text")
+        .getByText("entgegen § 9")
+        .boundingBox()
 
-    await page.mouse.dblclick(textBoundingBox!.x + 50, textBoundingBox!.y + 5)
-    await page.mouse.click(0, 0)
+      await page.mouse.dblclick(textBoundingBox!.x + 50, textBoundingBox!.y + 5)
+      await page.mouse.click(0, 0)
 
-    await expect(
-      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
-    ).not.toHaveValue(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-    )
+      await expect(
+        modFormSection.getByRole("textbox", {
+          name: "zu ersetzende Textstelle",
+        }),
+      ).not.toHaveValue(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      )
 
-    await expect(
-      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
-    ).toHaveValue(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-8.xml",
-    )
-  })
+      await expect(
+        modFormSection.getByRole("textbox", {
+          name: "zu ersetzende Textstelle",
+        }),
+      ).toHaveValue(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-8.xml",
+      )
+    },
+  )
 
   test("selecting and saving the time boundary", async ({ page }) => {
     // use api to create new time boundary
