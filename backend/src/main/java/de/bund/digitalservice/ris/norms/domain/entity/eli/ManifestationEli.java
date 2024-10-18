@@ -157,16 +157,39 @@ public final class ManifestationEli implements Eli {
       matcher.group("agent"),
       matcher.group("year"),
       matcher.group("naturalIdentifier"),
-        LocalDate.parse(matcher.group("pointInTime"), DateTimeFormatter.ISO_LOCAL_DATE),
-        Integer.valueOf(matcher.group("version")),
+      LocalDate.parse(matcher.group("pointInTime"), DateTimeFormatter.ISO_LOCAL_DATE),
+      Integer.valueOf(matcher.group("version")),
       matcher.group("language"),
-        matcher.group("pointInTimeManifestation") == null
-            ? null
-            : LocalDate.parse(
-            matcher.group("pointInTimeManifestation"),
-            DateTimeFormatter.ISO_LOCAL_DATE
+      matcher.group("pointInTimeManifestation") == null
+        ? null
+        : LocalDate.parse(
+          matcher.group("pointInTimeManifestation"),
+          DateTimeFormatter.ISO_LOCAL_DATE
         ),
       matcher.group("subtype")
+    );
+  }
+
+  /**
+   * Create a manifestation level eli from an expression eli and the additional data for a manifestation eli.
+   *
+   * @param expressionEli            the expression eli to use as a base
+   * @param pointInTimeManifestation the date the manifestation was created
+   * @return the eli
+   */
+  public static ManifestationEli fromExpressionEli(
+    ExpressionEli expressionEli,
+    LocalDate pointInTimeManifestation
+  ) {
+    return new ManifestationEli(
+      expressionEli.getAgent(),
+      expressionEli.getYear(),
+      expressionEli.getNaturalIdentifier(),
+      expressionEli.getPointInTime(),
+      expressionEli.getVersion(),
+      expressionEli.getLanguage(),
+      pointInTimeManifestation,
+      expressionEli.getSubtype()
     );
   }
 
