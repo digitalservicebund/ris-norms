@@ -318,7 +318,7 @@ public class BillToActService {
       expressionEli.getPointInTime(),
       expressionEli.getVersion(),
       expressionEli.getLanguage(),
-      verkuendungsDate.format(formatter),
+      verkuendungsDate,
       expressionEli.getSubtype()
     );
     fRBRManifestationThis.setAttribute(VALUE, manifestationEli.toString());
