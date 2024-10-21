@@ -59,6 +59,7 @@ function onFileChoosing(event: { files: File[] }) {
 }
 
 async function upload() {
+  // @ts-expect-error: The `upload()` method exists at runtime but is not properly typed in PrimeVue's TypeScript definitions.
   uploadElement.value?.upload()
 }
 
