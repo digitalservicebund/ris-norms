@@ -46,6 +46,30 @@ public class FRBRExpression extends FRBR {
   }
 
   /**
+   * Returns the Version as {@link Integer} from the FRBRversionNumber.
+   *
+   * @return The version of the norm
+   */
+  public Optional<Integer> getFRBRVersionNumber() {
+    return NodeParser
+      .getValueFromExpression("./FRBRversionNumber/@value", this.getNode())
+      .map(Integer::parseInt);
+  }
+
+  /**
+   * Sets the FRBRversionNumber.
+   *
+   * @param version the new version
+   */
+  public void setFRBRVersionNumber(final Integer version) {
+    NodeParser
+      .getMandatoryNodeFromExpression("./FRBRversionNumber", this.getNode())
+      .getAttributes()
+      .getNamedItem(VALUE_ATTIBUTE)
+      .setNodeValue(version.toString());
+  }
+
+  /**
    * Retrieves the UUID of the previous version.
    *
    * @return the uuid

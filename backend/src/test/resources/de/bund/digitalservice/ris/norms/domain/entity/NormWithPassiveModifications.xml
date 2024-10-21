@@ -48,7 +48,7 @@
                              value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
                             GUID="3401c04f-c17d-468e-bc70-7650d74a4324"
-                            value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu"/>
+                            value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
                               GUID="a1e5c767-7742-4edd-a0ca-52318cb589aa"
                               name="vorherige-version-id"
@@ -62,7 +62,7 @@
                                href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
                              GUID="a8cca973-84e9-4bd1-8d43-40d51b4d1742"
-                             date="2017-03-15"
+                             date="1964-08-05"
                              name="aenderung"/>
                <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
                                  GUID="6dce29a4-0c51-4545-ab61-1c5b0e07ba98"
