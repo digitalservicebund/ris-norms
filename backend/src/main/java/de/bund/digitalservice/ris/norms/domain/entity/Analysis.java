@@ -98,4 +98,12 @@ public class Analysis {
 
     return new TextualMod(textualMod);
   }
+
+  /**
+   * Delete the provided passive modification.
+   * @param mod the modification to delete
+   */
+  public void deletePassiveModification(TextualMod mod) {
+    this.getOrCreatePassiveModificationsNode().removeChild(mod.getNode());
+  }
 }

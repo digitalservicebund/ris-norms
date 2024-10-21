@@ -105,13 +105,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
           .getMods()
           .stream()
           .filter(mod -> mod.getEid().equals(sourceEid))
-          .map(mod ->
-            new ModData(
-              passiveModification.getDestinationHref(),
-              passiveModification.getDestinationUpTo(),
-              mod
-            )
-          );
+          .map(mod -> new ModData(passiveModification, mod));
       })
       .forEach(modData -> applyMod(modData, norm));
 
@@ -120,14 +114,17 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     return norm;
   }
 
-  record ModData(Optional<Href> targetHref, Optional<Href> targetUpToRef, Mod mod) {}
+  record ModData(TextualMod passiveModification, Mod mod) {}
 
   private void applyMod(final ModData modData, final Norm targetZf0Norm) {
-    if (modData.targetHref().isEmpty() || modData.targetHref().get().getEId().isEmpty()) {
+    if (
+      modData.passiveModification().getDestinationHref().isEmpty() ||
+      modData.passiveModification().getDestinationHref().get().getEId().isEmpty()
+    ) {
       return;
     }
 
-    final var targetEid = modData.targetHref().get().getEId().get();
+    final var targetEid = modData.passiveModification().getDestinationHref().get().getEId().get();
     final var targetNode = NodeParser.getNodeFromExpression(
       String.format("//*[@eId='%s']", targetEid),
       targetZf0Norm.getDocument()
@@ -149,6 +146,14 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     } else if (modData.mod().getQuotedStructure().isPresent()) {
       applyQuotedStructure(modData, targetNode.get(), targetZf0Norm);
     }
+
+    if (targetZf0Norm.getMeta().getAnalysis().isPresent()) {
+      targetZf0Norm
+        .getMeta()
+        .getAnalysis()
+        .get()
+        .deletePassiveModification(modData.passiveModification());
+    }
   }
 
   private void applyQuotedText(final ModData modData, Node targetNode)
@@ -158,7 +163,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       .getSecondQuotedText()
       .orElseThrow(() -> new IllegalArgumentException("Second quoted text (new text) is empty."));
     final var targetHref = modData
-      .targetHref()
+      .passiveModification()
+      .getDestinationHref()
       .orElseThrow(() -> new IllegalArgumentException("Target href is empty."));
     final var characterRange = targetHref
       .getCharacterRange()
@@ -206,11 +212,16 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     if (mod.getQuotedStructure().isEmpty()) return;
 
     Optional<Node> upToTargetNode = Optional.empty();
-    if (modData.targetUpToRef().isPresent()) {
-      if (modData.targetUpToRef().get().getEId().isEmpty()) {
+    if (modData.passiveModification().getDestinationUpTo().isPresent()) {
+      if (modData.passiveModification().getDestinationUpTo().get().getEId().isEmpty()) {
         return;
       } else {
-        final var upToTargetNodeEid = modData.targetUpToRef().get().getEId().get();
+        final var upToTargetNodeEid = modData
+          .passiveModification()
+          .getDestinationUpTo()
+          .get()
+          .getEId()
+          .get();
         upToTargetNode =
         NodeParser.getNodeFromExpression(
           String.format("//*[@eId='%s']", upToTargetNodeEid),
