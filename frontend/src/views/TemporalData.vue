@@ -62,6 +62,11 @@ watch(isSavingFinished, (finished) => {
     showToast()
   }
 })
+
+function handleSaveTemporalData(event: MouseEvent) {
+  event.preventDefault()
+  saveTemporalData()
+}
 </script>
 
 <template>
@@ -109,7 +114,7 @@ watch(isSavingFinished, (finished) => {
           :disabled="isFetchingTemporalData || isFetchingEntryIntoForce"
           :loading="isSaving"
           label="Speichern"
-          @click="saveTemporalData"
+          @click="handleSaveTemporalData"
         />
       </div>
     </Teleport>
