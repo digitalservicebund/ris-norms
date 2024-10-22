@@ -62,14 +62,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /announcements/{eli}/release:
+  /announcements/{expressionEli}/release:
     get:
-      summary: Get the latest release of a specific announcement by the amending law eli
+      summary: Get the latest release of a specific announcement by the expression ELI of the amending law.
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the amending law
+          description: Expression ELI of the amending law
           schema:
             type: string
       responses:
@@ -92,12 +92,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
     put:
-      summary: Release the XML of a specific announcement by the amending law eli
+      summary: Release the XML of a specific announcement the expression ELI of the amending law.
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the amending law
+          description: Expression ELI of the amending law
           schema:
             type: string
       responses:
@@ -120,14 +120,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}:
+  /norms/{expressionEli}:
     get:
-      summary: Get a specific norm by eli
+      summary: Get a specific norm by its expression ELI.
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
         - name: showMetadata
@@ -168,12 +168,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
     put:
-      summary: Update a specific norm by eli
+      summary: Update a specific norm by its expression ELI.
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
       requestBody:
@@ -203,21 +203,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/elements:
+  /norms/{manifestationEli}:
+    get:
+      summary: Get a specific norm by its manifestation ELI.
+      parameters:
+        - name: manifestationEli
+          in: path
+          required: true
+          description: Manifestation ELI of the norm. Currently only `xml` is supported as the format.
+          example: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2023-12-30/regelungstext-1.xml"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested norm. The response format depends on the format as specified in the manifestation ELI.
+          content:
+            'application/xml':
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+        '404':
+          description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /norms/{expressionEli}/elements:
     get:
       summary: Get a norm's elements, filtered by the elements' types
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
           schema:
             type: string
         - name: type
           in: query
           required: true
-          description: Type(s) of elements to include in the result.
+          description: Type(s) of elements to include in the result
           schema:
             type: array
             items:
@@ -226,7 +257,7 @@ paths:
         - name: amendedBy
           in: query
           required: false
-          description: ELI of an amending law. The result is restricted to elements that are affected by that law. <br>Note that the validity of that ELI is not checked by this endpoint.
+          description: Expression ELI of an amending law. The result is restricted to elements that are affected by that law. <br>Note that the validity of that ELI is not checked by this endpoint.
           schema:
             type: string
           example: "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
@@ -252,14 +283,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/elements/{eid}:
+  /norms/{expressionEli}/elements/{eid}:
     get:
       summary: Get a single element inside a norm
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
           schema:
             type: string
@@ -301,14 +332,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/articles:
+  /norms/{expressionEli}/articles:
     get:
-      summary: Get a list of articles for a specific norm by eli
+      summary: Get a list of articles for a specific norm by its expression ELI.
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
         - name: refersTo
@@ -320,7 +351,7 @@ paths:
         - name: amendedBy
           in: query
           required: false
-          description: "Filter the articles to articles amended by the given norm. Must be the eli of the amending norm. Requires amendedAt. Only for `Content-Type: application/json`"
+          description: "Filter the articles to articles amended by the given norm. Must be the expression ELI of the amending norm. Requires amendedAt. Only for `Content-Type: application/json`"
           schema:
             type: string
         - name: amendedAt
@@ -348,20 +379,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/articles/{eid}:
+  /norms/{expressionEli}/articles/{eid}:
     get:
       summary: Get a specific article by eid for a given norm
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
         - name: eid
           in: path
           required: true
-          description: EID of the article
+          description: eId of the article
           schema:
             type: string
         - name: atIsoDate
@@ -387,14 +418,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/mods:
+  /norms/{expressionEli}/mods:
     patch:
       summary: Save changes to multiple akn:mod elements and update ZF0
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
         - name: dryRun
@@ -448,20 +479,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/mods/{eid}:
+  /norms/{expressionEli}/mods/{eid}:
     put:
       summary: Save an amending command and update ZF0
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
         - name: eid
           in: path
           required: true
-          description: the eId of the akn:mod
+          description: The eId of the akn:mod
           schema:
             type: string
         - name: dryRun
@@ -508,14 +539,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/timeBoundaries:
+  /norms/{expressionEli}/timeBoundaries:
     get:
       summary: Get all time boundaries for a given norm
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
       responses:
@@ -536,10 +567,10 @@ paths:
     put:
       summary: Update all time boundaries for a given norm
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
       requestBody:
@@ -573,20 +604,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/proprietary/{eid}/{atDate}:
+  /norms/{expressionEli}/proprietary/{eid}/{atDate}:
     get:
       summary: Get the proprietary metadata of a single element at the specified date
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
         - name: eid
           in: path
           required: true
-          description: the eId of the selected single element
+          description: The eId of the selected single element
           schema:
             type: string
         - name: atDate
@@ -614,16 +645,16 @@ paths:
       tags:
         - under construction
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: false
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
         - name: eid
           in: path
           required: true
-          description: the eId of the selected single element
+          description: The eId of the selected single element
           schema:
             type: string
         - name: atDate
@@ -654,21 +685,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{eli}/{eid}:
+  /norms/{expressionEli}/{eid}:
     get:
-      summary: Get an element of a norm by its EID (currently only in HTML preview format)
+      summary: Get an element of a norm by its eId (currently only in HTML preview format)
       parameters:
-        - name: eli
+        - name: expressionEli
           in: path
           required: true
-          description: ELI of the norm
+          description: Expression ELI of the norm
           schema:
             type: string
             example: eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1
         - name: eid
           in: path
           required: true
-          description: EID of the element in the norm
+          description: eId of the element in the norm
           schema:
             type: string
             example: hauptteil-1_art-3
