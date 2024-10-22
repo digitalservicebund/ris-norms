@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 
 /** Mapper class for converting between {@link AnnouncementDto} and {@link Announcement}. */
 public class AnnouncementMapper {
@@ -19,7 +20,7 @@ public class AnnouncementMapper {
     return Announcement
       .builder()
       .releasedByDocumentalistAt(announcementDto.getReleasedByDocumentalistAt())
-      .norm(NormMapper.mapToDomain(announcementDto.getNormDto()))
+      .eli(ExpressionEli.fromString(announcementDto.getEli()))
       .build();
   }
 
@@ -33,7 +34,7 @@ public class AnnouncementMapper {
     return AnnouncementDto
       .builder()
       .releasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt())
-      .normDto(NormMapper.mapToDto(announcement.getNorm()))
+      .eli(announcement.getEli().toString())
       .build();
   }
 }

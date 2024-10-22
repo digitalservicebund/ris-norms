@@ -47,6 +47,7 @@ public class AnnouncementService
   private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
   private final DeleteNormPort deleteNormPort;
   private final ReferenceService referenceService;
+  private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
   public AnnouncementService(
     LoadAllAnnouncementsPort loadAllAnnouncementsPort,
@@ -59,7 +60,8 @@ public class AnnouncementService
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
     DeleteNormPort deleteNormPort,
-    ReferenceService referenceService
+    ReferenceService referenceService,
+    UpdateOrSaveNormPort updateOrSaveNormPort
   ) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
@@ -72,6 +74,7 @@ public class AnnouncementService
     this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
     this.deleteNormPort = deleteNormPort;
     this.referenceService = referenceService;
+    this.updateOrSaveNormPort = updateOrSaveNormPort;
   }
 
   @Override
@@ -96,8 +99,8 @@ public class AnnouncementService
     LoadTargetNormsAffectedByAnnouncementUseCase.Query query
   ) {
     final Norm amendingNorm =
-      this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
-        .getNorm();
+      this.loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()))
+        .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return amendingNorm
       .getArticles()
@@ -228,7 +231,8 @@ public class AnnouncementService
   }
 
   private Announcement saveNewAnnouncement(Norm norm) {
-    var announcement = Announcement.builder().norm(norm).build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
     updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
       new UpdateOrSaveAnnouncementPort.Command(announcement)
     );

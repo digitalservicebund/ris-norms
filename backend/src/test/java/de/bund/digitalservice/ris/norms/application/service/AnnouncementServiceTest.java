@@ -44,6 +44,7 @@ class AnnouncementServiceTest {
   );
   final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
   final ReferenceService referenceService = mock(ReferenceService.class);
+  private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
   final AnnouncementService announcementService = new AnnouncementService(
     loadAllAnnouncementsPort,
@@ -56,7 +57,8 @@ class AnnouncementServiceTest {
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
     deleteNormPort,
-    referenceService
+    referenceService,
+    updateOrSaveNormPort
   );
 
   @Nested
@@ -65,9 +67,10 @@ class AnnouncementServiceTest {
     @Test
     void itReturnsAnnouncements() {
       // Given
+      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var announcement = Announcement
         .builder()
-        .norm(NormFixtures.loadFromDisk("SimpleNorm.xml"))
+        .eli(norm.getExpressionEli())
         .releasedByDocumentalistAt(Instant.now())
         .build();
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
@@ -123,7 +126,7 @@ class AnnouncementServiceTest {
       var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var announcement = Announcement
         .builder()
-        .norm(norm)
+        .eli(norm.getExpressionEli())
         .releasedByDocumentalistAt(Instant.now())
         .build();
 
@@ -153,14 +156,9 @@ class AnnouncementServiceTest {
       var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
-      var announcement = Announcement
-        .builder()
-        .norm(amendingNorm)
-        .releasedByDocumentalistAt(Instant.now())
-        .build();
-      when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
-        .thenReturn(Optional.of(announcement));
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(affectedNormZf0));
+      when(loadNormPort.loadNorm(any()))
+        .thenReturn(Optional.of(amendingNorm))
+        .thenReturn(Optional.of(affectedNormZf0));
 
       // When
       var norms = announcementService.loadTargetNormsAffectedByAnnouncement(
@@ -170,7 +168,13 @@ class AnnouncementServiceTest {
       );
 
       // Then
-      verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
+      verify(loadNormPort, times(2))
+        .loadNorm(
+          argThat(command ->
+            command.eli().equals(amendingNorm.getExpressionEli()) ||
+            command.eli().equals(affectedNormZf0.getExpressionEli())
+          )
+        );
       assertThat(norms).hasSize(1).containsExactly(affectedNormZf0);
     }
   }
@@ -215,7 +219,7 @@ class AnnouncementServiceTest {
 
       // Then
       verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
-      assertThat(announcement.getNorm().getExpressionEli())
+      assertThat(announcement.getEli())
         .hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
     }
 
@@ -479,7 +483,7 @@ class AnnouncementServiceTest {
 
       // Then
       verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
-      assertThat(announcement.getNorm().getExpressionEli())
+      assertThat(announcement.getEli())
         .hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
     }
   }

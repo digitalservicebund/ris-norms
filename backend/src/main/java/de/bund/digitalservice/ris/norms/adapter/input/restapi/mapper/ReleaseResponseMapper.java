@@ -29,7 +29,7 @@ public class ReleaseResponseMapper {
   ) {
     return ReleaseResponseSchema
       .builder()
-      .amendingLawEli(announcement.getNorm().getExpressionEli().toString())
+      .amendingLawEli(announcement.getEli().toString())
       .releaseAt(announcement.getReleasedByDocumentalistAt())
       .zf0Elis(
         affectedNorms.stream().map(Norm::getExpressionEli).map(ExpressionEli::toString).toList()

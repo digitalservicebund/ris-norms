@@ -137,7 +137,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var announcement = Announcement
       .builder()
       .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
-      .norm(norm)
+      .eli(norm.getExpressionEli())
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -220,16 +220,18 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       """;
 
     // When
+    var norm1 = Norm.builder().document(XmlMapper.toDocument(xml1)).build();
     var announcement1 = Announcement
       .builder()
       .releasedByDocumentalistAt(Instant.parse("2024-01-01T10:20:30.00Z"))
-      .norm(Norm.builder().document(XmlMapper.toDocument(xml1)).build())
+      .eli(norm1.getExpressionEli())
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
+    var norm2 = Norm.builder().document(XmlMapper.toDocument(xml2)).build();
     var announcement2 = Announcement
       .builder()
       .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
-      .norm(Norm.builder().document(XmlMapper.toDocument(xml2)).build())
+      .eli(norm2.getExpressionEli())
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
 
@@ -378,14 +380,14 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
     var announcement = Announcement
       .builder()
-      .norm(norm)
+      .eli(norm.getExpressionEli())
       .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
     var newAnnouncement = Announcement
       .builder()
-      .norm(norm)
+      .eli(norm.getExpressionEli())
       .releasedByDocumentalistAt(Instant.parse("2024-02-03T10:20:30.0Z"))
       .build();
 
@@ -443,7 +445,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
     var announcement = Announcement
       .builder()
-      .norm(norm)
+      .eli(norm.getExpressionEli())
       .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
       .build();
 

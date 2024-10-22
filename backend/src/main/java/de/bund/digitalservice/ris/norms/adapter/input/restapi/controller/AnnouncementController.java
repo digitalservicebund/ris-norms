@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResp
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
@@ -35,13 +36,15 @@ public class AnnouncementController {
   private final LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase;
   private final ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
   private final CreateAnnouncementUseCase createAnnouncementUseCase;
+  private final LoadNormUseCase loadNormUseCase;
 
   public AnnouncementController(
     LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
     LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
     LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase,
     ReleaseAnnouncementUseCase releaseAnnouncementUseCase,
-    CreateAnnouncementUseCase createAnnouncementUseCase
+    CreateAnnouncementUseCase createAnnouncementUseCase,
+    LoadNormUseCase loadNormUseCase
   ) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
     this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
@@ -49,6 +52,7 @@ public class AnnouncementController {
     loadTargetNormsAffectedByAnnouncementUseCase;
     this.releaseAnnouncementUseCase = releaseAnnouncementUseCase;
     this.createAnnouncementUseCase = createAnnouncementUseCase;
+    this.loadNormUseCase = loadNormUseCase;
   }
 
   /**
@@ -64,7 +68,9 @@ public class AnnouncementController {
     var responseSchemas = loadAllAnnouncementsUseCase
       .loadAllAnnouncements()
       .stream()
-      .map(Announcement::getNorm)
+      .map(Announcement::getEli)
+      .map(LoadNormUseCase.Query::new)
+      .map(loadNormUseCase::loadNorm)
       .map(NormResponseMapper::fromUseCaseData)
       .toList();
     return ResponseEntity.ok(responseSchemas);
@@ -142,6 +148,7 @@ public class AnnouncementController {
     var announcement = createAnnouncementUseCase.createAnnouncement(
       new CreateAnnouncementUseCase.Query(file, force)
     );
-    return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(announcement.getNorm()));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(announcement.getEli()));
+    return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 }
