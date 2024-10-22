@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.Eli;
 import java.util.Optional;
 
 /**
@@ -24,5 +24,5 @@ public interface LoadNormXmlUseCase {
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the norm in the query.
    */
-  record Query(ExpressionEli eli) {}
+  record Query(Eli eli) {}
 }
