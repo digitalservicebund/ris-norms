@@ -78,9 +78,8 @@ public class DBService
   public Optional<Announcement> loadAnnouncementByNormEli(
     LoadAnnouncementByNormEliPort.Command command
   ) {
-    // TODO: (Malte Laukötter, 2024-10-22) change command to expression eli
     return announcementRepository
-      .findByEli(command.eli().asExpressionEli().toString())
+      .findByEli(command.eli().toString())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -150,8 +149,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    // TODO: (Malte Laukötter, 2024-10-22) change command to expression eli
-    announcementRepository.deleteByEli(command.eli().asExpressionEli().toString());
+    announcementRepository.deleteByEli(command.eli().toString());
   }
 
   @Override

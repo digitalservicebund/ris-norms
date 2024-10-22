@@ -84,13 +84,8 @@ public class AnnouncementService
 
   @Override
   public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
-    var manifestationEli = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .map(Norm::getManifestationEli)
-      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
-
     return loadAnnouncementByNormEliPort
-      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(manifestationEli))
+      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
       .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
   }
 
@@ -140,7 +135,7 @@ public class AnnouncementService
     final boolean normFound = isNormRetrievableByEli(query.force(), norm);
 
     if (normFound && query.force()) {
-      deleteAnnouncement(norm.getManifestationEli());
+      deleteAnnouncement(norm.getExpressionEli());
     } else if (
       loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
     ) {
@@ -206,8 +201,8 @@ public class AnnouncementService
     return normExists;
   }
 
-  private void deleteAnnouncement(ManifestationEli manifestationEli) {
-    Optional<Norm> normToDelete = loadNormPort.loadNorm(new LoadNormPort.Command(manifestationEli));
+  private void deleteAnnouncement(ExpressionEli expressionEli) {
+    Optional<Norm> normToDelete = loadNormPort.loadNorm(new LoadNormPort.Command(expressionEli));
 
     if (normToDelete.isPresent()) {
       var activeModDestinationElis = getActiveModDestinationElis(normToDelete.get());
@@ -215,7 +210,7 @@ public class AnnouncementService
     }
 
     deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
-      new DeleteAnnouncementByNormEliPort.Command(manifestationEli)
+      new DeleteAnnouncementByNormEliPort.Command(expressionEli)
     );
   }
 
