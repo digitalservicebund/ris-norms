@@ -15,7 +15,7 @@
                <akn:FRBRsubtype GUID="480a140a-7a1a-4264-b0b6-e2a9dba88163" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="regelungstext-1"/>
             </akn:FRBRWork>
             <akn:FRBRExpression GUID="1ee2c30e-66fa-4c5d-ada6-9df44cb8b2de" eId="meta-1_ident-1_frbrexpression-1">
-               <akn:FRBRthis GUID="b0d55769-88c4-4624-ad42-613c08ed41c1" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1001/1/1001-02-01/1/deu/regelungstext-1"/>
+               <akn:FRBRthis GUID="b0d55769-88c4-4624-ad42-613c08ed41c1" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1"/>
                <akn:FRBRuri GUID="6340f500-b55e-4f57-ac06-ef605bba4d09" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu"/>
                <akn:FRBRalias GUID="5f41ecba-3ee1-4a34-8f05-1260529f0a34" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="5fa7f39a-da9e-444f-865c-1cf420a9fa90"/>
                <akn:FRBRauthor GUID="965a8fcc-591f-44e2-b0b0-f0becdea95ff" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>

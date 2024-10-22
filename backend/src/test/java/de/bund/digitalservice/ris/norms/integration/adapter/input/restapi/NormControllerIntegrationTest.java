@@ -825,9 +825,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           NormFixtures.loadFromDisk("NormWithoutPassiveModificationsSameTarget.xml")
         )
       );
-      normRepository.save(
-        NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModificationsSameTarget.xml"))
-      );
 
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
       String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-2";
@@ -917,7 +914,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1001/1/1001-02-01/1/deu/regelungstext-1")
+          get("/api/v1/norms/eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1")
             .accept(MediaType.APPLICATION_XML)
         )
         .andExpect(status().isOk())

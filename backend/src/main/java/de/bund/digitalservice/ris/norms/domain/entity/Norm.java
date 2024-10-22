@@ -27,6 +27,10 @@ public class Norm {
 
   private final Document document;
 
+  public Norm(Norm norm) {
+    this.document = (Document) norm.getDocument().cloneNode(true);
+  }
+
   /**
    * Returns the expression Eli of the {@link Norm}.
    *

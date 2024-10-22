@@ -40,7 +40,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
    * @return the Norm with the applied passive modifications that are in effect before the date
    */
   public Norm applyPassiveModifications(ApplyPassiveModificationsUseCase.Query query) {
-    var norm = query.norm();
+    var norm = new Norm(query.norm()); // create a copy of the norm to work on
     var date = query.date();
     var customNorms = query
       .customNorms()

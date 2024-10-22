@@ -126,6 +126,26 @@ class TimeMachineServiceTest {
     }
 
     @Test
+    void applyPassiveModificationsDoesNotModifyTheParameter() {
+      // given
+      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
+      );
+
+      // then
+      assertThat(result).isNotEqualTo(norm);
+      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
+      assertThat(norm.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isPresent();
+    }
+
+    @Test
     void applyPassiveModificationsWhereTargetNodeEqualsNodeToChange() {
       // given
       final var norm = NormFixtures.loadFromDisk(
