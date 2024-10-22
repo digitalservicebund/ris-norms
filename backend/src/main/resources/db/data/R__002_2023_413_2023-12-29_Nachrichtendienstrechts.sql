@@ -1,3 +1,4 @@
+-- REAPPLY
 -- TARGET LAW
 DELETE
 FROM norms
