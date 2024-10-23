@@ -599,7 +599,7 @@ class NormServiceTest {
               </akn:act>
           </akn:akomaNtoso>
         """;
-      Norm amendingNorm = new Norm(XmlMapper.toDocument(text));
+      Norm amendingNorm = Norm.builder().document(XmlMapper.toDocument(text)).build();
       amendingNorm.getMeta().getAnalysis().get().getActiveModifications();
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       ExpressionEli zf0EliTargetNorm = ExpressionEli.fromString(

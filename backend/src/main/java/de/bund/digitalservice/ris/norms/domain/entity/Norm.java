@@ -10,7 +10,9 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,6 +32,10 @@ public class Norm {
   public Norm(Norm norm) {
     this.document = (Document) norm.getDocument().cloneNode(true);
   }
+
+  @Setter
+  @Builder.Default
+  private NormPublishState publishState = NormPublishState.UNPUBLISHED;
 
   /**
    * Returns the expression Eli of the {@link Norm}.

@@ -37,7 +37,7 @@ class TimeBoundaryTest {
   void getDate() {
     // given
 
-    Norm norm = new Norm(toDocument(xml));
+    Norm norm = Norm.builder().document(toDocument(xml)).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
@@ -53,7 +53,7 @@ class TimeBoundaryTest {
   void getEventRefEid() {
     // given
 
-    Norm norm = new Norm(toDocument(xml));
+    Norm norm = Norm.builder().document(toDocument(xml)).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
@@ -68,7 +68,7 @@ class TimeBoundaryTest {
   @Test
   void getTimeIntervalEid() {
     // given
-    Norm norm = new Norm(toDocument(xml));
+    Norm norm = Norm.builder().document(toDocument(xml)).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
