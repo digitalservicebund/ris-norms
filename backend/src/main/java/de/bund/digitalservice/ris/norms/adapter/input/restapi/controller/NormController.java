@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller for norm-related actions.
  *
- * <p>Path Parameters, they represent the eli of a norm and can be used to create an {@link ExpressionEli}:
- * agent - DE: "Verkündungsblatt" year - DE "Verkündungsjahr" naturalIdentifier - DE: "Seitenzahl /
- * Verkündungsnummer" pointInTime - DE: "Versionsdatum" version - DE: "Versionsnummer" language -
- * DE: "Sprache" subtype - DE: "Dokumentenart"
+ * Path parameters represent the eli of the expression of a norm and can be used to create an
+ * {@link ExpressionEli}: agent - DE: "Verkündungsblatt" year - DE "Verkündungsjahr"
+ * naturalIdentifier - DE: "Seitenzahl / Verkündungsnummer" pointInTime - DE: "Versionsdatum"
+ * version - DE: "Versionsnummer" language - DE: "Sprache" subtype - DE: "Dokumentenart"
  */
 @RestController
 @RequestMapping(
@@ -62,8 +62,7 @@ public class NormController {
   }
 
   /**
-   * Retrieves a norm based on its expression ELI. The ELI's components are interpreted as query
-   * parameters.
+   * Retrieves a norm based on its expression ELI.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
    * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
@@ -80,11 +79,7 @@ public class NormController {
   }
 
   /**
-   * Retrieves a norm's xml based on its expression ELI. The ELI's components are interpreted as
-   * query parameters.
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * Retrieves a norm's xml based on its expression ELI.
    *
    * @param eli Eli of the request
    * @return A {@link ResponseEntity} containing the retrieved norm's xml.
@@ -97,11 +92,7 @@ public class NormController {
   }
 
   /**
-   * Retrieves a norm's html render based on its expression ELI. The ELI's components are
-   * interpreted as query parameters.
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * Retrieves a norm's html render based on its expression ELI.
    *
    * @param eli Eli of the request
    * @param showMetadata Boolean indicating whether to include metadata in the HTML response.
@@ -145,11 +136,7 @@ public class NormController {
   }
 
   /**
-   * Updates the XML representation of an amending law based on its expression ELI. The ELI's
-   * components are interpreted as query parameters.
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * Updates the XML representation of an amending law based on its expression ELI.
    *
    * @param eli Eli of the request
    * @param xml - the XML representation of the amending law
