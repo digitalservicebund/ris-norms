@@ -89,7 +89,7 @@ public class RenderingController {
     final Set<Norm> customNorms = previewRequestSchema
       .getCustomNorms()
       .stream()
-      .map(xml -> new Norm(XmlMapper.toDocument(xml)))
+      .map(xml -> Norm.builder().document(XmlMapper.toDocument(xml)).build())
       .collect(Collectors.toSet());
 
     Norm normWithAppliedModifications = applyPassiveModificationsUseCase.applyPassiveModifications(

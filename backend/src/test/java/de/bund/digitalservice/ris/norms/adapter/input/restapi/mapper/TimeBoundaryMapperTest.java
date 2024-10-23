@@ -45,7 +45,7 @@ class TimeBoundaryMapperTest {
   @Test
   void canMapFromUseCaseData() {
     // Given
-    Norm norm = new Norm(toDocument(xml));
+    Norm norm = Norm.builder().document(toDocument(xml)).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();

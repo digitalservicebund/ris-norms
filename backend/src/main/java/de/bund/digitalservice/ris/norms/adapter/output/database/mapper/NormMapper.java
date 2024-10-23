@@ -17,7 +17,11 @@ public class NormMapper {
    * @return A new {@link Norm} mapped from the input {@link NormDto}.
    */
   public static Norm mapToDomain(final NormDto normDto) {
-    return Norm.builder().document(XmlMapper.toDocument(normDto.getXml())).build();
+    return Norm
+      .builder()
+      .document(XmlMapper.toDocument(normDto.getXml()))
+      .publishState(normDto.getPublishState())
+      .build();
   }
 
   /**
@@ -27,6 +31,10 @@ public class NormMapper {
    * @return A new {@link NormDto} mapped from the input {@link Norm}.
    */
   public static NormDto mapToDto(final Norm norm) {
-    return NormDto.builder().xml(XmlMapper.toString(norm.getDocument())).build();
+    return NormDto
+      .builder()
+      .xml(XmlMapper.toString(norm.getDocument()))
+      .publishState(norm.getPublishState())
+      .build();
   }
 }

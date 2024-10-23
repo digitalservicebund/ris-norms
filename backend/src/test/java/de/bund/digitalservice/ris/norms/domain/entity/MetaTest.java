@@ -410,7 +410,7 @@ class MetaTest {
       </akn:akomaNtoso>
       """;
 
-    var norm = new Norm(XmlMapper.toDocument(normXml));
+    var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
 
     // When
     var result = norm.getMeta().getOrCreateProprietary();
@@ -459,7 +459,7 @@ class MetaTest {
       </akn:akomaNtoso>
       """;
 
-    var norm = new Norm(XmlMapper.toDocument(normXml));
+    var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
 
     // When
     var result = norm.getMeta().getProprietary();

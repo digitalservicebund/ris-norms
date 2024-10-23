@@ -67,7 +67,7 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
+      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
 
       // When
@@ -130,7 +130,7 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
+      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
 
       // When / Then
@@ -176,7 +176,7 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
+      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
@@ -243,7 +243,7 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
+      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
@@ -291,7 +291,7 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
+      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(
         timeMachineService.applyPassiveModifications(
@@ -367,7 +367,7 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
+      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(
         timeMachineService.applyPassiveModifications(

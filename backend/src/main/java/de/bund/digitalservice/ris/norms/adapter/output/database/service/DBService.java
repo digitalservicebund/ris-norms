@@ -104,7 +104,7 @@ public class DBService
       .findByEliManifestation(command.norm().getManifestationEli().toString())
       .map(normDto -> {
         normDto.setXml(normXml);
-        // we do not update the GUID or ELI as they may not change
+        normDto.setPublishState(command.norm().getPublishState());
         return NormMapper.mapToDomain(normRepository.save(normDto));
       });
   }
