@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(
   "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}"
 )
-public class NormController {
+public class NormExpressionController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final LoadNormXmlUseCase loadNormXmlUseCase;
@@ -43,7 +43,7 @@ public class NormController {
   private final UpdateModUseCase updateModUseCase;
   private final UpdateModsUseCase updateModsUseCase;
 
-  public NormController(
+  public NormExpressionController(
     LoadNormUseCase loadNormUseCase,
     LoadNormXmlUseCase loadNormXmlUseCase,
     UpdateNormXmlUseCase updateNormXmlUseCase,

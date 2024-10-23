@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-class NormControllerIntegrationTest extends BaseIntegrationTest {
+class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
