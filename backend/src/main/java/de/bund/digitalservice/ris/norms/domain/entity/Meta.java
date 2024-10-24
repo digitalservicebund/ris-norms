@@ -114,16 +114,23 @@ public class Meta {
   /**
    * Gets the akn:proprietary element of the norm, or creates it if it does not yet exist.
    *
-   * @return the akn:proprietary element of the norm
+   * @return {@link Proprietary} metadata of the norm.
    */
   public Proprietary getOrCreateProprietary() {
-    return NodeParser
-      .getNodeFromExpression("./proprietary", node)
-      .map(Proprietary::new)
+    return this.getProprietary()
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElementWithEidAndGuid("akn:proprietary", node);
         newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
         return new Proprietary(newElement);
       });
+  }
+
+  /**
+   * Gets the akn:proprietary element of the norm.
+   *
+   * @return {@link Optional} with the {@link Proprietary} metadata of the norm.
+   */
+  public Optional<Proprietary> getProprietary() {
+    return NodeParser.getNodeFromExpression("./proprietary", node).map(Proprietary::new);
   }
 }
