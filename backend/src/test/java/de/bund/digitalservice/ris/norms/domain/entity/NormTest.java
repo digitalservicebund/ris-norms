@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -22,7 +23,7 @@ import org.w3c.dom.Node;
 class NormTest {
 
   @Test
-  void getEli() {
+  void getExpressionEli() {
     // given
     Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
     ExpressionEli expectedEli = ExpressionEli.fromString(
@@ -34,6 +35,19 @@ class NormTest {
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);
+  }
+
+  @Test
+  void getWorkEli() {
+    // given
+    Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+    // when
+    var actualEli = norm.getWorkEli();
+
+    // then
+    assertThat(actualEli)
+      .isEqualTo(WorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1"));
   }
 
   @Test

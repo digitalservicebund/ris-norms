@@ -46,6 +46,10 @@ public class NormDto {
   private UUID guid;
 
   @Generated(event = { INSERT, UPDATE })
+  @Column(name = "eli_work", updatable = false, insertable = false)
+  private String eliWork;
+
+  @Generated(event = { INSERT, UPDATE })
   @Column(name = "eli_expression", updatable = false, insertable = false)
   private String eliExpression;
 

@@ -4,6 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpr
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -36,6 +37,17 @@ public class Norm {
   @Setter
   @Builder.Default
   private NormPublishState publishState = NormPublishState.UNPUBLISHED;
+
+  /**
+   * Returns the work Eli of the {@link Norm}.
+   *
+   * @return The work Eli
+   */
+  public WorkEli getWorkEli() {
+    return WorkEli.fromString(
+      NodeParser.getValueFromMandatoryNodeFromExpression("//FRBRWork/FRBRthis/@value", document)
+    );
+  }
 
   /**
    * Returns the expression Eli of the {@link Norm}.
