@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -146,5 +147,30 @@ class CreateNewVersionOfNormServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
       );
     assertThat(manifestationOldExpression.getFBRDate()).isEqualTo(currentDate);
+  }
+
+  @Test
+  void createNewManifestation() {
+    // Given
+    var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+    // When
+    var result = createNewVersionOfNormService.createNewManifestation(
+      norm,
+      LocalDate.parse("2024-01-01")
+    );
+
+    // Then
+    assertThat(result.getExpressionEli()).isEqualTo(norm.getExpressionEli());
+    assertThat(result.getManifestationEli())
+      .isEqualTo(
+        ManifestationEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01/regelungstext-1.xml"
+        )
+      );
+    FRBRManifestation manifestationOldExpression = result.getMeta().getFRBRManifestation();
+    assertThat(manifestationOldExpression.getURI())
+      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01/regelungstext-1.xml");
+    assertThat(manifestationOldExpression.getFBRDate()).isEqualTo("2024-01-01");
   }
 }

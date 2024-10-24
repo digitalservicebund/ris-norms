@@ -32,6 +32,7 @@ public class Norm {
 
   public Norm(Norm norm) {
     this.document = (Document) norm.getDocument().cloneNode(true);
+    this.publishState = NormPublishState.UNPUBLISHED;
   }
 
   @Setter
