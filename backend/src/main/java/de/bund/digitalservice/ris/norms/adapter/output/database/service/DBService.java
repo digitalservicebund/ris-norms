@@ -36,7 +36,7 @@ public class DBService
     UpdateOrSaveNormPort,
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
-    DeleteNormPort,
+    DeleteUnpublishedNormPort,
     DeleteQueuedNormsPort {
 
   private final AnnouncementRepository announcementRepository;
@@ -156,8 +156,11 @@ public class DBService
 
   @Override
   @Transactional
-  public void deleteNorm(DeleteNormPort.Command command) {
-    normRepository.deleteByEliManifestation(command.eli().toString());
+  public void deleteUnpublishedNorm(DeleteUnpublishedNormPort.Command command) {
+    normRepository.deleteByEliManifestationAndPublishState(
+      command.eli().toString(),
+      NormPublishState.UNPUBLISHED
+    );
   }
 
   @Override

@@ -50,11 +50,15 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
   void deleteAllByGuid(final UUID guid);
 
   /**
-   * Deletes a {@link NormDto} by its manifestation ELI (European Legislation Identifier).
+   * Deletes a {@link NormDto} by its manifestation ELI (European Legislation Identifier) if it is in the given publish state.
    *
    * @param manifestationEli The ELI to search for.
+   * @param publishState The publishState to search for.
    */
-  void deleteByEliManifestation(final String manifestationEli);
+  void deleteByEliManifestationAndPublishState(
+    final String manifestationEli,
+    final NormPublishState publishState
+  );
 
   /**
    * Deletes all {@link NormDto} of the given work ELI that are in the given publish state.
