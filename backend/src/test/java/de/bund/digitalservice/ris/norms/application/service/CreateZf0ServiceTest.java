@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import java.time.LocalDate;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +13,13 @@ class CreateZf0ServiceTest {
 
   final UpdateNormService updateNormService = new UpdateNormService();
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
+    CreateNewVersionOfNormService.class
+  );
   final CreateZf0Service loadZf0Service = new CreateZf0Service(
     updateNormService,
-    updateOrSaveNormPort
+    updateOrSaveNormPort,
+    createNewVersionOfNormService
   );
 
   @Test
@@ -24,6 +27,12 @@ class CreateZf0ServiceTest {
     // Given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+    final Norm targetLawNewManifestation = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModificationsNoNextVersion.xml"
+    );
+
+    when(createNewVersionOfNormService.createNewManifestation(any()))
+      .thenReturn(targetLawNewManifestation);
 
     // When
     final Norm zf0Norm = loadZf0Service.createZf0(
@@ -31,21 +40,7 @@ class CreateZf0ServiceTest {
     );
 
     // Then
-    final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
-    assertThat(frbrExpressionZf0Law.getEli())
-      .isEqualTo(targetLaw.getMeta().getFRBRExpression().getEli());
-
-    final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
-    assertThat(frbrManifestationZf0Law.getEli().asExpressionEli())
-      .isEqualTo(frbrExpressionZf0Law.getEli());
-    assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
-    assertThat(frbrManifestationZf0Law.getURI())
-      .hasToString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().toString()
-          )
-      );
-
+    verify(createNewVersionOfNormService, times(1)).createNewManifestation(targetLaw);
     assertThat(
       targetLaw
         .getMeta()
@@ -91,6 +86,12 @@ class CreateZf0ServiceTest {
     final Norm targetLaw = NormFixtures.loadFromDisk(
       "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
     );
+    final Norm targetLawNewManifestation = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
+    );
+
+    when(createNewVersionOfNormService.createNewManifestation(any()))
+      .thenReturn(targetLawNewManifestation);
 
     // When
     final Norm zf0Norm = loadZf0Service.createZf0(
@@ -98,20 +99,6 @@ class CreateZf0ServiceTest {
     );
 
     // Then
-    final FRBRExpression frbrExpressionZf0Law = zf0Norm.getMeta().getFRBRExpression();
-    assertThat(frbrExpressionZf0Law.getEli())
-      .isEqualTo(targetLaw.getMeta().getFRBRExpression().getEli());
-
-    final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
-    assertThat(frbrManifestationZf0Law.getEli().asExpressionEli())
-      .isEqualTo(frbrExpressionZf0Law.getEli());
-    assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
-    assertThat(frbrManifestationZf0Law.getURI())
-      .hasToString(
-        "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().toString()
-          )
-      );
 
     assertThat(
       targetLaw

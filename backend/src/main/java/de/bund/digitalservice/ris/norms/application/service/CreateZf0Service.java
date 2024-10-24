@@ -4,9 +4,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.CreateZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.utils.DocumentUtils;
-import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,13 +15,16 @@ public class CreateZf0Service implements CreateZf0UseCase {
 
   private final UpdateNormService updateNormService;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
+  private final CreateNewVersionOfNormService createNewVersionOfNormService;
 
   public CreateZf0Service(
     final UpdateNormService updateNormService,
-    final UpdateOrSaveNormPort updateOrSaveNormPort
+    final UpdateOrSaveNormPort updateOrSaveNormPort,
+    CreateNewVersionOfNormService createNewVersionOfNormService
   ) {
     this.updateNormService = updateNormService;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
+    this.createNewVersionOfNormService = createNewVersionOfNormService;
   }
 
   @Override
@@ -36,12 +36,8 @@ public class CreateZf0Service implements CreateZf0UseCase {
   }
 
   private Norm createAndPersistZf0(boolean shouldPersist, Norm amendingNorm, Norm targetNorm) {
-    final Norm zf0Norm = Norm
-      .builder()
-      .document(DocumentUtils.cloneDocument(targetNorm.getDocument()))
-      .build();
+    final Norm zf0Norm = createNewVersionOfNormService.createNewManifestation(targetNorm);
 
-    updateFRBRManifestation(zf0Norm);
     updateNormService.updateOnePassiveModification(
       new UpdatePassiveModificationsUseCase.Query(
         zf0Norm,
@@ -54,19 +50,5 @@ public class CreateZf0Service implements CreateZf0UseCase {
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
     return zf0Norm;
-  }
-
-  private void updateFRBRManifestation(final Norm zf0Norm) {
-    final FRBRManifestation frbrManifestation = zf0Norm.getMeta().getFRBRManifestation();
-    final LocalDate date = LocalDate.now();
-
-    // 1.replace date of eli parts
-    final ManifestationEli zf0Eli = frbrManifestation.getEli();
-    zf0Eli.setPointInTimeManifestation(date);
-    frbrManifestation.setEli(zf0Eli);
-    frbrManifestation.setURI(zf0Eli.toUri());
-
-    // 2. FRBRdate --> current system date + @name="generierung"
-    frbrManifestation.setFBRDate(date.toString(), "generierung");
   }
 }
