@@ -10,10 +10,13 @@ import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnounceme
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -87,5 +90,31 @@ class ReleaseServiceTest {
     assertThat(commandCaptor.getValue().announcement().getEli()).isEqualTo(announcement.getEli());
     assertThat(commandCaptor.getValue().announcement().getReleasedByDocumentalistAt())
       .isAfter(instantBeforeRelease);
+  }
+
+  @Nested
+  class prepareForRelease {
+
+    @Test
+    void removesOrganisationsEinheitFromMetadata() {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+      var proprietary = norm.getMeta().getProprietary().get();
+
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1)))
+        .contains("Aktuelle Organisationseinheit");
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2028, 6, 1)))
+        .contains("Nächste Organisationseinheit");
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2029, 6, 1)))
+        .contains("Übernächste Organisationseinheit");
+
+      // When
+      releaseService.prepareForRelease(norm);
+
+      // Then
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1))).isEmpty();
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2028, 6, 1))).isEmpty();
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2029, 6, 1))).isEmpty();
+    }
   }
 }
