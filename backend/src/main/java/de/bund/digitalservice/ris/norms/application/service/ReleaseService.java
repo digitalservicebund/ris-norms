@@ -100,6 +100,15 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
         .forEach(normsToPublish::add);
     }
 
+    // Delete the files from a previous release of the same announcement if they are still queued for publishing.
+    // This is to prevent residual files from remaining if some time boundaries changed and this release will create
+    // different expressions.
+    normsToPublish.forEach(norm ->
+      deleteQueuedNormsPort.deleteQueuedForPublishNorms(
+        new DeleteQueuedNormsPort.Command(norm.getWorkEli())
+      )
+    );
+
     // generate all future versions for all norms that will be published
     Set<Norm> allVersionsOfAllNormsToPublish = new HashSet<>();
     for (Norm norm : normsToPublish) {
@@ -134,15 +143,6 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
 
       allVersionsOfAllNormsToPublish.add(latestNormExpression);
     }
-
-    // Delete the files from a previous release of the same announcement if they are still queued for publishing.
-    // This is to prevent residual files from remaining if some time boundaries changed and this release will create
-    // different expressions.
-    normsToPublish.forEach(norm ->
-      deleteQueuedNormsPort.deleteQueuedForPublishNorms(
-        new DeleteQueuedNormsPort.Command(norm.getWorkEli())
-      )
-    );
 
     allVersionsOfAllNormsToPublish.forEach(norm ->
       norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH)
