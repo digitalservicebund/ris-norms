@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
@@ -651,6 +652,144 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
             equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
         );
+
+      var publishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedManifestationOfAmendingNorm).isPresent();
+      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedZf0ManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedZf0ManifestationOfTargetNorm).isPresent();
+      assertThat(publishedZf0ManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedManifestationOfTargetNormAtFirstTimeBoundary =
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().toString()
+            )
+        );
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary).isPresent();
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var newUnpublishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      var newUnpublishedManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfTargetNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
+      assertThat(normRepository.findAll()).hasSize(6);
+    }
+
+    @Test
+    void releasingAnAnnouncementASecondTimeCreatesTheSameFilesAndCleansUpOldRelease()
+      throws Exception {
+      // Given
+      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      affectedNorm.setPublishState(NormPublishState.PUBLISHED);
+      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var announcement = Announcement
+        .builder()
+        .eli(amendingNorm.getExpressionEli())
+        .releasedByDocumentalistAt(null)
+        .build();
+
+      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+
+      // When // Then
+      mockMvc
+        .perform(
+          put(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          )
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk());
+
+      // release norm a second time
+      mockMvc
+        .perform(
+          put(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          )
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk());
+
+      var publishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedManifestationOfAmendingNorm).isPresent();
+      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedZf0ManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedZf0ManifestationOfTargetNorm).isPresent();
+      assertThat(publishedZf0ManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedManifestationOfTargetNormAtFirstTimeBoundary =
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().toString()
+            )
+        );
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary).isPresent();
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var newUnpublishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      var newUnpublishedManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfTargetNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
+      assertThat(normRepository.findAll()).hasSize(6);
     }
   }
 
