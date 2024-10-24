@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
@@ -35,7 +36,8 @@ public class DBService
     UpdateOrSaveNormPort,
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
-    DeleteNormPort {
+    DeleteNormPort,
+    DeleteQueuedNormsPort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -156,5 +158,14 @@ public class DBService
   @Transactional
   public void deleteNorm(DeleteNormPort.Command command) {
     normRepository.deleteByEliManifestation(command.eli().toString());
+  }
+
+  @Override
+  @Transactional
+  public void deleteQueuedForPublishNorms(DeleteQueuedNormsPort.Command command) {
+    normRepository.deleteAllByEliWorkAndPublishState(
+      command.eli().toString(),
+      NormPublishState.QUEUED_FOR_PUBLISH
+    );
   }
 }
