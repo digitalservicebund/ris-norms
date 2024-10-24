@@ -108,7 +108,7 @@ jobs:
       - name: Install cosign
         uses: sigstore/cosign-installer@b929758a8661a1dc05fce750bdb02eef5acf2c37
       - name: Log into container registry
-        uses: docker/login-action@1f36f5b7a2d2f7bfd524795fc966e6d88c37baa9
+        uses: docker/login-action@5d8785b43a795ee002a17dbf1a2235dc1997224b
         with:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
