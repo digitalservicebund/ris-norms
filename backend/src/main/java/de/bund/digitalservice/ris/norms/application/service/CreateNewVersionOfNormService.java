@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -48,7 +47,7 @@ public class CreateNewVersionOfNormService {
    * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
    */
   public CreateNewExpressionResult createNewExpression(Norm norm, LocalDate date) {
-    var newExpression = createCopyOfNorm(norm);
+    var newExpression = new Norm(norm);
     var newExpressionEli = eliService.findNextExpressionEli(
       newExpression.getExpressionEli().asWorkEli(),
       date,
@@ -72,7 +71,7 @@ public class CreateNewVersionOfNormService {
    * @return the newly created manifestation.
    */
   public Norm createNewManifestation(Norm norm) {
-    var newManifestation = createCopyOfNorm(norm);
+    var newManifestation = new Norm(norm);
     var newManifestationEli = ManifestationEli.fromExpressionEli(
       newManifestation.getExpressionEli(),
       LocalDate.now()
@@ -135,15 +134,6 @@ public class CreateNewVersionOfNormService {
     }
 
     return previousExpression.get();
-  }
-
-  /**
-   * Create a copy of the norm.
-   * @param norm the norm to copy
-   * @return the copy of the norm
-   */
-  private Norm createCopyOfNorm(Norm norm) {
-    return new Norm(XmlMapper.toDocument(XmlMapper.toString(norm.getDocument())));
   }
 
   /**

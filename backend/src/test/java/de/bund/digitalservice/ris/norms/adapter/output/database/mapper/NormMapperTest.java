@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,7 @@ class NormMapperTest {
       .builder()
       .xml(xml)
       .guid(UUID.fromString("c01334e2-f12b-4055-ac82-15ac03c74c78"))
+      .publishState(NormPublishState.QUEUED_FOR_PUBLISH)
       .build();
 
     // When
@@ -45,6 +47,7 @@ class NormMapperTest {
 
     // Then
     assertThat(norm).isNotNull();
+    assertThat(norm.getPublishState()).isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
     assertThat(norm.getDocument().isEqualNode(XmlMapper.toDocument(xml))).isTrue();
   }
 
@@ -72,13 +75,18 @@ class NormMapperTest {
            </akn:act>
         </akn:akomaNtoso>
       """;
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+    var norm = Norm
+      .builder()
+      .document(XmlMapper.toDocument(xml))
+      .publishState(NormPublishState.PUBLISHED)
+      .build();
 
     // When
     final NormDto normDto = NormMapper.mapToDto(norm);
 
     // Then
     assertThat(normDto).isNotNull();
+    assertThat(normDto.getPublishState()).isEqualTo(NormPublishState.PUBLISHED);
     assertThat(XmlMapper.toDocument(normDto.getXml()).isEqualNode(norm.getDocument())).isTrue();
   }
 }
