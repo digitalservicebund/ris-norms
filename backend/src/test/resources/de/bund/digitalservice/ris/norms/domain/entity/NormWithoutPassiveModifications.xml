@@ -11,6 +11,9 @@
                              source="attributsemantik-noch-undefiniert">
             <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1"
                           GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                             GUID="b82cc174-8fff-43bf-a434-5646de09e802"
+                             value="eli/bund/bgbl-1/1964/s593/regelungstext-1"/>
                <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
                                GUID="b82cc174-8fff-43bf-a434-5646de09e807"
                                value="s593"/>
