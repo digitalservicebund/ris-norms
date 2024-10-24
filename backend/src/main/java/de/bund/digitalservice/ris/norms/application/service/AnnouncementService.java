@@ -207,6 +207,7 @@ public class AnnouncementService
     if (normToDelete.isPresent()) {
       var activeModDestinationElis = getActiveModDestinationElis(normToDelete.get());
       deleteTargetNormsZf0(activeModDestinationElis);
+      // TODO: (Malte Laukötter, 2024-10-24) delete the queued stuff if a release was already created
     }
 
     deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
