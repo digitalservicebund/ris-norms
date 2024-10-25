@@ -67,6 +67,10 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
    * Previous releases of the same announcement of the current date are replaced by this release. Also, new
    * unpublished manifestations are created for the amending norm and the current expression of the target norms to
    * enable further work on the announcement.
+   * <p></p>
+   * NOTE: This is currently always creating new expressions for every time boundary (so what is necessary for the
+   * prätext-abgabe). When only metadata has changed to the previous abgabe no new expressions should be generated. This
+   * is not handled by this method yet.
    *
    * @param query The query specifying the {@link Announcement} to be loaded.
    * @return The information about the announcement published.
