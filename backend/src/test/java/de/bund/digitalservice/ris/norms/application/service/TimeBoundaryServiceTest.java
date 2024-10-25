@@ -727,7 +727,7 @@ class TimeBoundaryServiceTest {
       Logger logger = (Logger) LoggerFactory.getLogger(TimeBoundaryService.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-      logger.setLevel(Level.ALL);
+      logger.setLevel(Level.TRACE);
       logger.addAppender(memoryAppender);
       memoryAppender.start();
 
