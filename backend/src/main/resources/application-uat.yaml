@@ -8,7 +8,13 @@ spring:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     url: jdbc:p6spy:postgresql://${database.host:localhost}:${database.port:5432}/${database.database:risnorms}?currentSchema=${database.schema:norms}
-
   data:
     redis:
       host: redis
+
+otc:
+  obs:
+    public:
+      bucket-name: ris-norms-uat-public-ldml-data
+    private:
+      bucket-name: ris-norms-uat-private-ldml-public-data
