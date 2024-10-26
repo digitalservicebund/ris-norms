@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: docker load -i /tmp/images/fullstack-image.tar
       - name: Log into container registry
-        uses: docker/login-action@5d8785b43a795ee002a17dbf1a2235dc1997224b
+        uses: docker/login-action@06895751d15a223ec091bea144ad5c7f50d228d0
         with:
           registry: ${{ inputs.container-registry }}
           username: ${{ github.actor }}
