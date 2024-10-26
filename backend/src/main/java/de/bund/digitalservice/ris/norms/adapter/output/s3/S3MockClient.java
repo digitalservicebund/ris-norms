@@ -5,6 +5,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.List;
 import java.util.stream.Stream;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -19,6 +20,7 @@ import software.amazon.awssdk.services.s3.model.*;
 @Slf4j
 public class S3MockClient implements S3Client {
 
+  @Setter
   @Value("${local.file-storage}")
   private Path relativeLocalStorageDirectory;
 
@@ -49,18 +51,6 @@ public class S3MockClient implements S3Client {
     } catch (IOException e) {
       log.error("Could not create local storage directory", e);
     }
-  }
-
-  @Override
-  public PutObjectResponse putObject(PutObjectRequest putObjectRequest, RequestBody requestBody) {
-    final Path filePath = localStorageDirectory.resolve(putObjectRequest.key());
-    try (InputStream inputStream = requestBody.contentStreamProvider().newStream()) {
-      Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-      log.info("File stored at: {}", filePath);
-    } catch (IOException e) {
-      log.error("Failed to store file: {}", filePath, e);
-    }
-    return PutObjectResponse.builder().build();
   }
 
   @Override
@@ -98,6 +88,18 @@ public class S3MockClient implements S3Client {
       log.error("Failed to retrieve object: {}", filePath, e);
     }
     return null;
+  }
+
+  @Override
+  public PutObjectResponse putObject(PutObjectRequest putObjectRequest, RequestBody requestBody) {
+    final Path filePath = localStorageDirectory.resolve(putObjectRequest.key());
+    try (InputStream inputStream = requestBody.contentStreamProvider().newStream()) {
+      Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+      log.info("File stored at: {}", filePath);
+    } catch (IOException e) {
+      log.error("Failed to store file: {}", filePath, e);
+    }
+    return PutObjectResponse.builder().build();
   }
 
   @Override
