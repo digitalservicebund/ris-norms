@@ -338,4 +338,23 @@ public class NormsAppExceptionHandler {
     problemDetail.setProperty("errors", e.getErrors());
     return problemDetail;
   }
+
+  /**
+   * Exception handler method for handling {@link BucketPublishException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
+   */
+  @ExceptionHandler(BucketPublishException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ProblemDetail handleException(final BucketPublishException e) {
+    log.error("BucketPublishException: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.INTERNAL_SERVER_ERROR
+    );
+    problemDetail.setProperty("eli", e.getManifestationEli());
+    problemDetail.setProperty("bucketName", e.getBucketName());
+    return problemDetail;
+  }
 }

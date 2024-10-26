@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.config;
 
-import de.bund.digitalservice.ris.norms.utils.S3MockClient;
+import de.bund.digitalservice.ris.norms.adapter.output.s3.S3MockClient;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.beans.factory.annotation.Value;
