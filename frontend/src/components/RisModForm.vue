@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
@@ -12,6 +11,7 @@ import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import Button from "primevue/button"
 import InputText from "primevue/inputtext"
+import Select from "primevue/select"
 import { useToast } from "primevue/usetoast"
 import { computed, nextTick, ref, watch } from "vue"
 import IconCheck from "~icons/ic/baseline-check"
@@ -353,13 +353,20 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     class="grid h-full max-h-full grid-cols-1 grid-rows-[min-content,min-content,1fr,min-content] gap-y-12 overflow-auto"
   >
     <div class="grid grid-cols-2 gap-x-16">
-      <RisDropdownInput
-        id="timeBoundaries"
-        v-model="selectedElement"
-        label="Zeitgrenze"
-        :items="timeBoundaries"
-        @change="$emit('generate-preview')"
-      />
+      <div class="flex flex-col gap-6">
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label id="timeBoundariesLabel" class="ris-label2-regular"
+          >Zeitgrenze</label
+        >
+        <Select
+          v-model="selectedElement"
+          :options="timeBoundaries"
+          option-label="label"
+          option-value="value"
+          aria-labelledby="timeBoundariesLabel"
+          @change="$emit('generate-preview')"
+        />
+      </div>
       <div class="flex flex-col gap-6">
         <label class="ris-label2-regular" for="textualModeType"
           >Änderungstyp</label
