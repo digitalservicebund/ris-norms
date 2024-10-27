@@ -14,7 +14,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 
 /**
  * Configuration class for setting up Amazon S3 clients for private and public buckets.
- * This class defines beans for the S3 clients based on the active Spring profile.
+ * This class defines beans for the S3 clients based on the active Spring profile. For local development and tests a mock client is used for both buckets.
  *
  * <p>The configuration properties for the S3 clients are loaded from the application properties file.</p>
  */
@@ -25,17 +25,17 @@ public class OtcObsConfig {
   private String endpoint;
 
   // Private bucket
-  @Value("${otc.obs.private.access-key-id}")
+  @Value("${otc.obs.private.access-key-id:test}")
   private String privateAccessKeyId;
 
-  @Value("${otc.obs.private.secret-access-key}")
+  @Value("${otc.obs.private.secret-access-key:test}")
   private String privateSecretAccessKey;
 
   // Public bucket
-  @Value("${otc.obs.public.access-key-id}")
+  @Value("${otc.obs.public.access-key-id:test}")
   private String publicAccessKeyId;
 
-  @Value("${otc.obs.public.secret-access-key}")
+  @Value("${otc.obs.public.secret-access-key:test}")
   private String publicSecretAccessKey;
 
   /**
@@ -46,19 +46,10 @@ public class OtcObsConfig {
    * @return an instance of {@link S3Client} configured for the private bucket.
    * @throws URISyntaxException if the endpoint URI is malformed.
    */
-  @Bean
+  @Bean(name = "privateS3Client")
   @Profile({ "staging", "uat", "production" })
   public S3Client privateS3Client() throws URISyntaxException {
-    return S3Client
-      .builder()
-      .credentialsProvider(
-        StaticCredentialsProvider.create(
-          AwsBasicCredentials.create(privateAccessKeyId, privateSecretAccessKey)
-        )
-      )
-      .endpointOverride(new URI(endpoint))
-      .region(Region.of("eu-de"))
-      .build();
+    return createS3Client(privateAccessKeyId, privateSecretAccessKey);
   }
 
   /**
@@ -69,31 +60,47 @@ public class OtcObsConfig {
    * @return an instance of {@link S3Client} configured for the public bucket.
    * @throws URISyntaxException if the endpoint URI is malformed.
    */
-  @Bean
+  @Bean(name = "publicS3Client")
   @Profile({ "staging", "uat", "production" })
   public S3Client publicS3Client() throws URISyntaxException {
-    return S3Client
-      .builder()
-      .credentialsProvider(
-        StaticCredentialsProvider.create(
-          AwsBasicCredentials.create(publicAccessKeyId, publicSecretAccessKey)
-        )
-      )
-      .endpointOverride(new URI(endpoint))
-      .region(Region.of("eu-de"))
-      .build();
+    return createS3Client(publicAccessKeyId, publicSecretAccessKey);
   }
 
   /**
-   * Creates a mock S3 client for testing purposes.
+   * Creates a mock S3 client for the private client for local development and testing purposes.
    *
    * <p>This bean is available when the active profile is not "staging", "uat", or "production".</p>
    *
    * @return an instance of {@link S3MockClient} for local testing.
    */
-  @Bean
-  @Profile({ "!staging & !uat & !production" })
-  public S3Client amazonS3Mock() {
+  @Bean(name = "privateS3Client")
+  @Profile("!staging & !uat & !production")
+  public S3Client privateS3MockClient() {
     return new S3MockClient();
+  }
+
+  /**
+   * Creates a mock S3 client for the public client for local development and testing purposes.
+   *
+   * <p>This bean is available when the active profile is not "staging", "uat", or "production".</p>
+   *
+   * @return an instance of {@link S3MockClient} for local testing.
+   */
+  @Bean(name = "publicS3Client")
+  @Profile("!staging & !uat & !production")
+  public S3Client publicS3MockClient() {
+    return new S3MockClient();
+  }
+
+  private S3Client createS3Client(final String accessKeyId, final String secretAccessKey)
+    throws URISyntaxException {
+    return S3Client
+      .builder()
+      .credentialsProvider(
+        StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey))
+      )
+      .endpointOverride(new URI(endpoint))
+      .region(Region.of("eu-de"))
+      .build();
   }
 }

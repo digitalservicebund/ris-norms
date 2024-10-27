@@ -26,14 +26,7 @@ import org.testcontainers.utility.DockerImageName;
 @DirtiesContext
 @SpringBootTest(
   webEnvironment = WebEnvironment.RANDOM_PORT,
-  properties = {
-    "spring.flyway.locations=classpath:db/migration",
-    "otc.obs.private.access-key-id=mockAccessKeyId",
-    "otc.obs.private.secret-access-key=mockSecretAccessKey",
-    "otc.obs.public.access-key-id=mockPublicAccessKeyId",
-    "otc.obs.public.secret-access-key=mockPublicSecretAccessKey",
-    "local.file-storage=.local-storage",
-  }
+  properties = "spring.flyway.locations=classpath:db/migration"
 )
 @AutoConfigureDataJpa
 @AutoConfigureMockMvc
