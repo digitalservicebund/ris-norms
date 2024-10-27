@@ -9,7 +9,6 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -47,14 +46,13 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
  * @see BucketPublishException
  */
 @Service
-@Profile({ "staging", "uat", "production" })
 @Slf4j
 public class BucketService implements PublishPublicNormPort, PublishPrivateNormPort {
 
-  @Value("${otc.obs.private.bucket-name}")
+  @Value("${otc.obs.private.bucket-name:private}")
   private String privateBucketName;
 
-  @Value("${otc.obs.public.bucket-name}")
+  @Value("${otc.obs.public.bucket-name:public}")
   private String publicBucketName;
 
   private final S3Client privateS3Client;

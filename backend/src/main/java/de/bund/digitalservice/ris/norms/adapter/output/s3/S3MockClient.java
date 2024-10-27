@@ -92,10 +92,15 @@ public class S3MockClient implements S3Client {
 
   @Override
   public PutObjectResponse putObject(PutObjectRequest putObjectRequest, RequestBody requestBody) {
-    final Path filePath = localStorageDirectory.resolve(putObjectRequest.key());
-    try (InputStream inputStream = requestBody.contentStreamProvider().newStream()) {
-      Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-      log.info("File stored at: {}", filePath);
+    final Path filePath = putObjectRequest.bucket() != null
+      ? localStorageDirectory.resolve(putObjectRequest.bucket()).resolve(putObjectRequest.key())
+      : localStorageDirectory.resolve(putObjectRequest.key());
+    try {
+      Files.createDirectories(filePath.getParent());
+      try (InputStream inputStream = requestBody.contentStreamProvider().newStream()) {
+        Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        log.info("File stored at: {}", filePath);
+      }
     } catch (IOException e) {
       log.error("Failed to store file: {}", filePath, e);
     }
