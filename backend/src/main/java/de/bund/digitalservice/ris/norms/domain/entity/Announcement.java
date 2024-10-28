@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +23,13 @@ public class Announcement {
   private ExpressionEli eli;
 
   @Builder.Default
-  private List<Release> releases = List.of();
+  private List<Release> releases = new ArrayList<>();
+
+  /**
+   * Add a new release to the announcement.
+   * @param release the new release
+   */
+  public void addRelease(Release release) {
+    releases.add(release);
+  }
 }

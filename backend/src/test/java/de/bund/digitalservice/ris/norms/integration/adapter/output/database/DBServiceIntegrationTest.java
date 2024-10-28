@@ -410,7 +410,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(releaseOptional).isPresent();
     assertThat(releaseOptional.get().getPublishedNorms()).hasSize(1);
-    assertThat(releaseOptional.get().getPublishedNorms().getFirst().getManifestationEli())
+    assertThat(
+      releaseOptional.get().getPublishedNorms().stream().findFirst().get().getManifestationEli()
+    )
       .isEqualTo(
         ManifestationEli.fromString(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"

@@ -109,6 +109,11 @@ class ReleaseServiceTest {
       .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
     assertThat(newNewestUnpublishedManifestationOfNorm.getPublishState())
       .isEqualTo(NormPublishState.UNPUBLISHED);
+
+    assertThat(announcement.getReleases()).hasSize(1);
+    assertThat(announcement.getReleases().getFirst().getPublishedNorms()).hasSize(1);
+    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
+      .contains(manifestationOfNormToQueue);
   }
 
   @Test
@@ -226,6 +231,15 @@ class ReleaseServiceTest {
 
     // the announcement is updated
     verify(updateAnnouncementPort, times(1)).updateAnnouncement(any());
+
+    assertThat(announcement.getReleases()).hasSize(1);
+    assertThat(announcement.getReleases().getFirst().getPublishedNorms()).hasSize(3);
+    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
+      .contains(manifestationOfAmendingNormToQueue);
+    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
+      .contains(manifestationOfTargetNormToQueue);
+    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
+      .contains(manifestationOfTargetNormToUseInTimeMachine);
   }
 
   @Test
@@ -260,6 +274,8 @@ class ReleaseServiceTest {
     verify(updateAnnouncementPort, times(1))
       .updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
     assertThat(announcement.getReleasedByDocumentalistAt()).isAfter(instantBeforeRelease);
+    assertThat(announcement.getReleases()).hasSize(1);
+    assertThat(announcement.getReleases().getFirst().getReleasedAt()).isAfter(instantBeforeRelease);
   }
 
   @Test

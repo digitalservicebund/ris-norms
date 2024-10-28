@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -181,7 +182,13 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(nextManifestationOfNorm));
     });
 
+    var release = Release
+      .builder()
+      .publishedNorms(allVersionsOfAllNormsToPublish)
+      .releasedAt(Instant.now())
+      .build();
     announcement.setReleasedByDocumentalistAt(Instant.now());
+    announcement.addRelease(release);
     updateAnnouncementPort.updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
     return announcement;
   }
