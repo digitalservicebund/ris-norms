@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
-import RisDropdownInput, {
-  DropdownItem,
-} from "@/components/controls/RisDropdownInput.vue"
+import { DropdownItem } from "@/types/dropdownItem"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -37,6 +35,7 @@ import Button from "primevue/button"
 import InputText from "primevue/inputtext"
 import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
+import Select from "primevue/select"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -89,16 +88,12 @@ watch(savedData, (newData) => {
  * -------------------------------------------------- */
 
 const {
-  documentTypeId,
   fnaId,
   bezeichnungInVorlageId,
   artNormSnId,
   artNormAnId,
   artNormUnId,
-  staatId,
-  beschliessendesOrganId,
   qualifizierteMehrheitId,
-  ressortId,
   organisationsEinheitId,
 } = useElementId()
 
@@ -386,11 +381,16 @@ watch(hasSaved, (finished) => {
               <fieldset class="contents">
                 <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
-                <label :for="documentTypeId">Dokumenttyp</label>
-                <RisDropdownInput
-                  :id="documentTypeId"
+                <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+                <label id="documentTypeId" class="ris-label2-regular"
+                  >Zeitgrenze</label
+                >
+                <Select
                   v-model="documentType"
-                  :items="documentTypeItems"
+                  :options="documentTypeItems"
+                  option-label="label"
+                  option-value="value"
+                  aria-labelledby="documentTypeId"
                 />
 
                 <label :for="artNormSnId" class="self-start">
@@ -426,25 +426,29 @@ watch(hasSaved, (finished) => {
               <fieldset class="contents">
                 <legend class="ris-label2-bold col-span-2">Normgeber</legend>
 
-                <label :for="staatId"
+                <label id="staatIdLabel"
                   ><abbr
                     title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
                     >Staat</abbr
                   ></label
                 >
-                <RisDropdownInput
-                  :id="staatId"
+                <Select
                   v-model="staat"
-                  :items="staatItems"
+                  :options="staatItems"
+                  option-label="label"
+                  option-value="value"
+                  aria-labelledby="staatIdLabel"
                 />
 
-                <label :for="beschliessendesOrganId">
+                <label id="beschliessendesOrganId">
                   beschließendes Organ
                 </label>
-                <RisDropdownInput
-                  :id="beschliessendesOrganId"
+                <Select
                   v-model="beschliessendesOrgan"
-                  :items="beschliessendesOrganItems"
+                  :options="beschliessendesOrganItems"
+                  option-label="label"
+                  option-value="value"
+                  aria-labelledby="beschliessendesOrganId"
                 />
 
                 <label :for="qualifizierteMehrheitId">
@@ -459,11 +463,13 @@ watch(hasSaved, (finished) => {
               <fieldset class="contents">
                 <legend class="ris-label2-bold col-span-2">Federführung</legend>
 
-                <label :for="ressortId">Ressort</label>
-                <RisDropdownInput
-                  :id="ressortId"
+                <label id="ressortId">Ressort</label>
+                <Select
                   v-model="ressort"
-                  :items="ressortItems"
+                  :options="ressortItems"
+                  option-label="label"
+                  option-value="value"
+                  aria-labelledby="ressortId"
                 />
 
                 <label :for="organisationsEinheitId">
