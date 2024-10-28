@@ -3,10 +3,14 @@ import { render, screen, waitFor } from "@testing-library/vue"
 import { userEvent } from "@testing-library/user-event"
 import RisRefEditor from "@/components/references/RisRefEditor.vue"
 import { flushPromises } from "@vue/test-utils"
+import PrimeVue from "primevue/config"
 
 describe("RisRefEditor", () => {
   it("Should render a a select for the refersTo and an input for the href", async () => {
     render(RisRefEditor, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -15,7 +19,7 @@ describe("RisRefEditor", () => {
     const refersToSelect = screen.getByRole("combobox", { name: "Typ" })
     expect(refersToSelect).toBeInTheDocument()
     expect(refersToSelect).toHaveTextContent("Zitierung")
-    expect(refersToSelect).toHaveValue("zitierung")
+    expect(refersToSelect).toHaveTextContent("Zitierung")
 
     const hrefInput = screen.getByRole("textbox", {
       name: "ELI mit Zielstelle",
@@ -30,15 +34,25 @@ describe("RisRefEditor", () => {
     const user = userEvent.setup()
 
     const result = render(RisRefEditor, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml">§4 Abs. 3 StVO</akn:ref>`,
       },
     })
 
-    await user.selectOptions(
-      screen.getByRole("combobox", { name: "Typ" }),
-      screen.getByRole("option", { name: "Zitierung" }),
-    )
+    const dropdown = screen.getByRole("combobox", {
+      name: "Typ",
+    })
+
+    await user.click(dropdown)
+
+    const optionElements = screen.getByRole("option", {
+      name: "Zitierung",
+    })
+
+    await user.click(optionElements)
 
     await expect.poll(() => result.emitted("update:xmlSnippet")).toHaveLength(1)
     expect(result.emitted("update:xmlSnippet")[0]).toEqual([
@@ -50,6 +64,9 @@ describe("RisRefEditor", () => {
     const user = userEvent.setup()
 
     const result = render(RisRefEditor, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -73,6 +90,9 @@ describe("RisRefEditor", () => {
 
   it("Can send delete event", async () => {
     const result = render(RisRefEditor, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -86,6 +106,9 @@ describe("RisRefEditor", () => {
   it("Can send the focus previous event", async () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditor, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -99,6 +122,9 @@ describe("RisRefEditor", () => {
   it("Can send the focus next event", async () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditor, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -111,6 +137,9 @@ describe("RisRefEditor", () => {
 
   it("Focuses the input", async () => {
     const { rerender } = render(RisRefEditor, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
         grabFocus: false,
