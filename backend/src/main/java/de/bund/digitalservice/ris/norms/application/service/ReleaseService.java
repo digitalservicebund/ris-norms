@@ -9,8 +9,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -148,12 +148,10 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       allVersionsOfAllNormsToPublish.add(latestNormExpression);
     }
 
-    allVersionsOfAllNormsToPublish.forEach(norm ->
-      norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH)
-    );
-    allVersionsOfAllNormsToPublish.forEach(norm ->
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm))
-    );
+    allVersionsOfAllNormsToPublish.forEach(norm -> {
+      norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+    });
 
     // Create new manifestations for the expressions that are directly targeted by this announcement (so not the once
     // only created by the time-machine, but all the other once) so the newest manifestation is still unpublished and
