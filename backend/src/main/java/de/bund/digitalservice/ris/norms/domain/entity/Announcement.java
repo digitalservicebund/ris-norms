@@ -2,7 +2,9 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
@@ -18,4 +20,7 @@ public class Announcement {
   private Instant releasedByDocumentalistAt;
 
   private ExpressionEli eli;
+
+  @Builder.Default
+  private List<Release> releases = List.of();
 }

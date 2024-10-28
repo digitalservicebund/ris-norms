@@ -6,10 +6,12 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.Announcem
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
@@ -31,6 +33,7 @@ public class DBService
     LoadNormByGuidPort,
     LoadAnnouncementByNormEliPort,
     LoadAllAnnouncementsPort,
+    LoadLatestReleasePort,
     UpdateNormPort,
     UpdateAnnouncementPort,
     UpdateOrSaveNormPort,
@@ -41,10 +44,16 @@ public class DBService
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
+  private final ReleaseRepository releaseRepository;
 
-  public DBService(AnnouncementRepository announcementRepository, NormRepository normRepository) {
+  public DBService(
+    AnnouncementRepository announcementRepository,
+    NormRepository normRepository,
+    ReleaseRepository releaseRepository
+  ) {
     this.announcementRepository = announcementRepository;
     this.normRepository = normRepository;
+    this.releaseRepository = releaseRepository;
   }
 
   @Override
@@ -170,5 +179,16 @@ public class DBService
       command.eli().toString(),
       NormPublishState.QUEUED_FOR_PUBLISH
     );
+  }
+
+  @Override
+  public Optional<Release> loadLatestRelease(LoadLatestReleasePort.Command command) {
+    return announcementRepository
+      .findByEli(command.eli().toString())
+      .stream()
+      .map(AnnouncementMapper::mapToDomain)
+      .map(Announcement::getReleases)
+      .flatMap(List::stream)
+      .findFirst();
   }
 }

@@ -21,6 +21,7 @@ public class AnnouncementMapper {
       .builder()
       .releasedByDocumentalistAt(announcementDto.getReleasedByDocumentalistAt())
       .eli(ExpressionEli.fromString(announcementDto.getEli()))
+      .releases(announcementDto.getReleases().stream().map(ReleaseMapper::mapToDomain).toList())
       .build();
   }
 
@@ -35,6 +36,7 @@ public class AnnouncementMapper {
       .builder()
       .releasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt())
       .eli(announcement.getEli().toString())
+      .releases(announcement.getReleases().stream().map(ReleaseMapper::mapToDto).toList())
       .build();
   }
 }

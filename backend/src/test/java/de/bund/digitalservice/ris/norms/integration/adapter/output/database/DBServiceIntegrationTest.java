@@ -2,16 +2,20 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -34,6 +38,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
   private NormRepository normRepository;
+
+  @Autowired
+  private ReleaseRepository releaseRepository;
 
   @AfterEach
   void cleanUp() {
@@ -380,5 +387,34 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // Then
     assertThat(announcementFromDatabase).isEqualTo(announcement);
+  }
+
+  @Test
+  void itFindsReleaseOnDB() {
+    // Given
+    var norm = normRepository.save(
+      NormMapper.mapToDto(NormFixtures.loadFromDisk("SimpleNorm.xml"))
+    );
+    var release = ReleaseDto.builder().norms(List.of(norm)).build();
+    announcementRepository.save(
+      AnnouncementDto.builder().eli(norm.getEliExpression()).releases(List.of(release)).build()
+    );
+
+    // When
+    final Optional<Release> releaseOptional = dbService.loadLatestRelease(
+      new LoadLatestReleasePort.Command(
+        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      )
+    );
+
+    // Then
+    assertThat(releaseOptional).isPresent();
+    assertThat(releaseOptional.get().getPublishedNorms()).hasSize(1);
+    assertThat(releaseOptional.get().getPublishedNorms().getFirst().getManifestationEli())
+      .isEqualTo(
+        ManifestationEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      );
   }
 }
