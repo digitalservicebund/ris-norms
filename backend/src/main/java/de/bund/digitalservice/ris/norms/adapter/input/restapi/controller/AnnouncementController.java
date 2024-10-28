@@ -10,12 +10,13 @@ import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncemen
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,6 @@ public class AnnouncementController {
 
   private final LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
   private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
-  private final LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase;
   private final ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
   private final CreateAnnouncementUseCase createAnnouncementUseCase;
   private final LoadNormUseCase loadNormUseCase;
@@ -41,15 +41,12 @@ public class AnnouncementController {
   public AnnouncementController(
     LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
     LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
-    LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase,
     ReleaseAnnouncementUseCase releaseAnnouncementUseCase,
     CreateAnnouncementUseCase createAnnouncementUseCase,
     LoadNormUseCase loadNormUseCase
   ) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
     this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
-    this.loadTargetNormsAffectedByAnnouncementUseCase =
-    loadTargetNormsAffectedByAnnouncementUseCase;
     this.releaseAnnouncementUseCase = releaseAnnouncementUseCase;
     this.createAnnouncementUseCase = createAnnouncementUseCase;
     this.loadNormUseCase = loadNormUseCase;
@@ -77,7 +74,7 @@ public class AnnouncementController {
   }
 
   /**
-   * Retrieves a release of an {@link Announcement} based on its {@link Norm}'s expression ELI. The
+   * Retrieves the latest release of an {@link Announcement} based on its {@link Norm}'s expression ELI. The
    * ELI's components are interpreted as query parameters.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
@@ -96,12 +93,15 @@ public class AnnouncementController {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliUseCase.Query(eli)
     );
-    var affectedNorms =
-      loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli)
-      );
+    var latestRelease = announcement
+      .getReleases()
+      .stream()
+      .max(Comparator.comparing(Release::getReleasedAt));
 
-    return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
+    return latestRelease
+      .map(ReleaseResponseMapper::fromRelease)
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound().build());
   }
 
   /**
@@ -124,13 +124,13 @@ public class AnnouncementController {
     var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
       new ReleaseAnnouncementUseCase.Query(eli)
     );
+    var latestRelease = announcement
+      .getReleases()
+      .stream()
+      .max(Comparator.comparing(Release::getReleasedAt))
+      .orElseThrow();
 
-    var affectedNorms =
-      loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli)
-      );
-
-    return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
+    return ResponseEntity.ok(ReleaseResponseMapper.fromRelease(latestRelease));
   }
 
   /**

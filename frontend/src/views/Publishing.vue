@@ -23,56 +23,38 @@ const {
   },
   isFetching,
   error: fetchError,
+  statusCode: fetchStatusCode,
 } = useAmendingLawRelease(eli)
-const blobUrl = ref("")
-const zf0BlobUrls = ref<BlobUrlItem[]>([])
+const blobUrls = ref<BlobUrlItem[]>([])
 
 interface BlobUrlItem {
-  zf0Eli: string
-  zf0BlobUrl: string
+  releasedNormEli: string
+  blobUrl: string
 }
 
 watch(release, async () => {
-  if (release?.value?.amendingLawEli) {
-    const { data: xmlContent } = await useGetNormXml(
-      release.value.amendingLawEli,
-    )
-
-    const blob = new Blob([xmlContent.value ?? ""], { type: "application/xml" })
-    const newBlobUrl = URL.createObjectURL(blob)
-
-    if (blobUrl.value) {
-      URL.revokeObjectURL(blobUrl.value)
-    }
-    blobUrl.value = newBlobUrl
-  }
-
-  if (release.value?.zf0Elis) {
-    const newZf0BlobUrls = []
-    for (const zf0Eli of release.value.zf0Elis) {
-      const { data: xmlContent } = await useGetNormXml(zf0Eli)
+  if (release.value?.norms) {
+    const newBlobUrls = []
+    for (const releasedNormEli of release.value.norms) {
+      const { data: xmlContent } = await useGetNormXml(releasedNormEli)
 
       const blob = new Blob([xmlContent.value ?? ""], {
         type: "application/xml",
       })
-      const blobUrlForZf0 = URL.createObjectURL(blob)
-      newZf0BlobUrls.push({ zf0Eli, zf0BlobUrl: blobUrlForZf0 })
-
-      zf0BlobUrls.value.forEach((item) => {
-        URL.revokeObjectURL(item.zf0BlobUrl)
-      })
-      zf0BlobUrls.value = newZf0BlobUrls
+      const blobUrl = URL.createObjectURL(blob)
+      newBlobUrls.push({ releasedNormEli, blobUrl })
     }
+
+    blobUrls.value.forEach((item) => {
+      URL.revokeObjectURL(item.blobUrl)
+    })
+    blobUrls.value = newBlobUrls
   }
 })
 
 onBeforeUnmount(() => {
-  if (blobUrl.value) {
-    URL.revokeObjectURL(blobUrl.value)
-  }
-
-  zf0BlobUrls.value.forEach((item) => {
-    URL.revokeObjectURL(item.zf0BlobUrl)
+  blobUrls.value.forEach((item) => {
+    URL.revokeObjectURL(item.blobUrl)
   })
 })
 async function onRelease() {
@@ -114,7 +96,7 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
         <RisErrorCallout :error="releaseError" />
       </div>
 
-      <div v-else-if="fetchError">
+      <div v-else-if="fetchError && fetchStatusCode !== 404">
         <RisErrorCallout :error="fetchError" />
       </div>
 
@@ -131,23 +113,16 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
           </time>
         </p>
         <ul class="list-disc pl-20">
-          <li>
+          <li
+            v-for="{ releasedNormEli, blobUrl } in blobUrls"
+            :key="releasedNormEli"
+          >
             <a
-              v-if="release"
               :href="blobUrl"
-              :download="formatEliForDownload(release.amendingLawEli)"
+              :download="formatEliForDownload(releasedNormEli)"
               target="_blank"
               class="underline"
-              >{{ release.amendingLawEli }}.xml</a
-            >
-          </li>
-          <li v-for="{ zf0Eli, zf0BlobUrl } in zf0BlobUrls" :key="zf0Eli">
-            <a
-              :href="zf0BlobUrl"
-              :download="formatEliForDownload(zf0Eli)"
-              target="_blank"
-              class="underline"
-              >{{ zf0Eli }}.xml</a
+              >{{ releasedNormEli }}</a
             >
           </li>
         </ul>
