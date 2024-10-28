@@ -1,10 +1,13 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedNormsPort;
@@ -12,11 +15,13 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeleteUnpublishe
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +41,7 @@ class ReleaseServiceTest {
   private final DeleteUnpublishedNormPort deleteUnpublishedNormPort = mock(
     DeleteUnpublishedNormPort.class
   );
+  private final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
   private final ReleaseService releaseService = new ReleaseService(
     loadAnnouncementByNormEliUseCase,
     updateAnnouncementPort,
@@ -44,7 +50,8 @@ class ReleaseServiceTest {
     timeMachineService,
     createNewVersionOfNormService,
     deleteQueuedNormsPort,
-    deleteUnpublishedNormPort
+    deleteUnpublishedNormPort,
+    ldmlDeValidator
   );
 
   @Test
@@ -85,6 +92,9 @@ class ReleaseServiceTest {
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
     verify(createNewVersionOfNormService, times(1))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
+    verify(ldmlDeValidator, times(1))
+      .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
+    verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(deleteQueuedNormsPort, times(1))
       .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(norm.getWorkEli()));
     verify(updateOrSaveNormPort, times(1))
@@ -165,6 +175,10 @@ class ReleaseServiceTest {
     );
 
     // Then
+    // results are validated
+    verify(ldmlDeValidator, times(1))
+      .parseAndValidate(XmlMapper.toString(manifestationOfAmendingNormToQueue.getDocument()));
+    verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfAmendingNormToQueue);
 
     // previously queued norms are deleted
     verify(deleteQueuedNormsPort, times(1))
@@ -246,6 +260,120 @@ class ReleaseServiceTest {
     verify(updateAnnouncementPort, times(1))
       .updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
     assertThat(announcement.getReleasedByDocumentalistAt()).isAfter(instantBeforeRelease);
+  }
+
+  @Test
+  void itShouldThrowWhenTryingToReleaseXsdInvalidNorm() {
+    // Given
+    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+    // these are just arbitrary norm files, it's not important what is in them just that they are all different.
+    var manifestationOfNormToQueue = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModifications.xml"
+    );
+    var newNewestUnpublishedManifestationOfNorm = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModificationsNoNextVersion.xml"
+    );
+
+    var announcement = Announcement
+      .builder()
+      .eli(norm.getExpressionEli())
+      .releasedByDocumentalistAt(null)
+      .build();
+
+    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
+      .thenReturn(announcement);
+    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
+      .thenReturn(norm);
+    when(createNewVersionOfNormService.createNewManifestation(any()))
+      .thenReturn(manifestationOfNormToQueue);
+    when(
+      createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
+    )
+      .thenReturn(newNewestUnpublishedManifestationOfNorm);
+    when(ldmlDeValidator.parseAndValidate(any())).thenThrow(new LdmlDeNotValidException(List.of()));
+
+    // When
+    assertThatThrownBy(() ->
+        releaseService.releaseAnnouncement(
+          new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
+        )
+      )
+      .isInstanceOf(LdmlDeNotValidException.class);
+
+    // Then
+    verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
+    verify(ldmlDeValidator, times(1))
+      .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
+    verify(ldmlDeValidator, times(0)).validateSchematron(any());
+    verify(createNewVersionOfNormService, times(0))
+      .createNewManifestation(norm, LocalDate.now().plusDays(1));
+    verify(deleteQueuedNormsPort, times(0)).deleteQueuedForPublishNorms(any());
+    verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    verify(deleteUnpublishedNormPort, times(0)).deleteUnpublishedNorm(any());
+    verify(updateAnnouncementPort, times(0)).updateAnnouncement(any());
+
+    assertThat(manifestationOfNormToQueue.getPublishState())
+      .isEqualTo(NormPublishState.UNPUBLISHED);
+  }
+
+  @Test
+  void itShouldThrowWhenTryingToReleaseSchematronInvalidNorm() {
+    // Given
+    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+    // these are just arbitrary norm files, it's not important what is in them just that they are all different.
+    var manifestationOfNormToQueue = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModifications.xml"
+    );
+    var newNewestUnpublishedManifestationOfNorm = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModificationsNoNextVersion.xml"
+    );
+
+    var announcement = Announcement
+      .builder()
+      .eli(norm.getExpressionEli())
+      .releasedByDocumentalistAt(null)
+      .build();
+
+    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
+      .thenReturn(announcement);
+    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
+      .thenReturn(norm);
+    when(createNewVersionOfNormService.createNewManifestation(any()))
+      .thenReturn(manifestationOfNormToQueue);
+    when(
+      createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
+    )
+      .thenReturn(newNewestUnpublishedManifestationOfNorm);
+    doThrow(new LdmlDeSchematronException(List.of()))
+      .when(ldmlDeValidator)
+      .validateSchematron(any());
+
+    // When
+    assertThatThrownBy(() ->
+        releaseService.releaseAnnouncement(
+          new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
+        )
+      )
+      .isInstanceOf(LdmlDeSchematronException.class);
+
+    // Then
+    verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
+    verify(ldmlDeValidator, times(1))
+      .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
+    verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
+    verify(createNewVersionOfNormService, times(0))
+      .createNewManifestation(norm, LocalDate.now().plusDays(1));
+    verify(deleteQueuedNormsPort, times(0)).deleteQueuedForPublishNorms(any());
+    verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    verify(deleteUnpublishedNormPort, times(0)).deleteUnpublishedNorm(any());
+    verify(updateAnnouncementPort, times(0)).updateAnnouncement(any());
+
+    assertThat(manifestationOfNormToQueue.getPublishState())
+      .isEqualTo(NormPublishState.UNPUBLISHED);
   }
 
   @Nested
