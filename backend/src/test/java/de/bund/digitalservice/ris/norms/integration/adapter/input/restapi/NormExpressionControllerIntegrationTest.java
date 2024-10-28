@@ -354,6 +354,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
               <!-- Metadaten -->
               <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                  <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8e">
+                       <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c70" value="eli/bund/bgbl-1/1964/s593/regelungstext-1" />
+                    </akn:FRBRWork>
                     <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                        <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
@@ -421,73 +424,21 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itExtractsAndReturnsTimeBoundariesFromNorm() throws Exception {
       // Given
-      final String xml =
-        """
-        <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-            <akn:act name="regelungstext">
-               <!-- Metadaten -->
-               <akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">
-                  <akn:identification GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
-                     <akn:FRBRExpression GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d" eId="meta-1_ident-1_frbrexpression-1">
-                        <akn:FRBRthis GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
-                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
-                        <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
-                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
-                     </akn:FRBRExpression>
-                          <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
-                                                 GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
-                                           GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
-                                               value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"/>
-                             <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
-                                          GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
-                                              value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"/>
-                             <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
-                                           GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
-                                           date="2022-08-23"
-                                           name="generierung"/>
-                             <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
-                                             GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
-                                             href="recht.bund.de"/>
-                             <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
-                                             GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
-                                             value="xml"/>
-                          </akn:FRBRManifestation>
-                 </akn:identification>
-                 <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
-                      <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
-                          source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
-                      <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
-                          source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
-                 </akn:lifecycle>
-                 <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
-                                     <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
-                                        <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
-                                     </akn:temporalGroup>
-                  </akn:temporalData>
-               </akn:meta>
-               <akn:body>
-                  <akn:p eId="one">old text</akn:p>
-                  <akn:p eId="two">old text</akn:p>
-              </akn:body>
-            </akn:act>
-          </akn:akomaNtoso>""";
-
-      // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/timeBoundaries"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries"
           )
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].date", is("2023-12-30")));
+        .andExpect(jsonPath("$", hasSize(2)))
+        .andExpect(jsonPath("$[0].date", is("2023-12-30")))
+        .andExpect(jsonPath("$[1].date", is("2023-12-30")));
     }
 
     @Test
@@ -500,6 +451,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
                <!-- Metadaten -->
                <akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">
                   <akn:identification GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
+                      <akn:FRBRWork GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8e" eId="meta-1_ident-1_frbrwork-1">
+                        <akn:FRBRthis GUID="c01334e2-f12b-4055-ac82-15ac03c74c70" eId="meta-1_ident-1_frbrwork-1_frbrthis-1" value="eli/bund/bgbl-1/1964/s593/regelungstext-1"/>
+                     </akn:FRBRWork>
                      <akn:FRBRExpression GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d" eId="meta-1_ident-1_frbrexpression-1">
                         <akn:FRBRthis GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
                         <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>

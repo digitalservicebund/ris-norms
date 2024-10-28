@@ -45,7 +45,7 @@ public class AnnouncementService
   private final BillToActService billToActService;
   private final LdmlDeValidator ldmlDeValidator;
   private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
-  private final DeleteNormPort deleteNormPort;
+  private final DeleteUnpublishedNormPort deleteUnpublishedNormPort;
   private final ReferenceService referenceService;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
@@ -59,7 +59,7 @@ public class AnnouncementService
     BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
-    DeleteNormPort deleteNormPort,
+    DeleteUnpublishedNormPort deleteUnpublishedNormPort,
     ReferenceService referenceService,
     UpdateOrSaveNormPort updateOrSaveNormPort
   ) {
@@ -72,7 +72,7 @@ public class AnnouncementService
     this.billToActService = billToActService;
     this.ldmlDeValidator = ldmlDeValidator;
     this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
-    this.deleteNormPort = deleteNormPort;
+    this.deleteUnpublishedNormPort = deleteUnpublishedNormPort;
     this.referenceService = referenceService;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
   }
@@ -207,6 +207,7 @@ public class AnnouncementService
     if (normToDelete.isPresent()) {
       var activeModDestinationElis = getActiveModDestinationElis(normToDelete.get());
       deleteTargetNormsZf0(activeModDestinationElis);
+      // TODO: (Malte Laukötter, 2024-10-24) delete the queued stuff if a release was already created
     }
 
     deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
@@ -220,7 +221,9 @@ public class AnnouncementService
         .loadNorm(new LoadNormPort.Command(expressionEli))
         .ifPresent(targetNorm -> {
           ManifestationEli manifestationEli = targetNorm.getMeta().getFRBRManifestation().getEli();
-          deleteNormPort.deleteNorm(new DeleteNormPort.Command(manifestationEli));
+          deleteUnpublishedNormPort.deleteUnpublishedNorm(
+            new DeleteUnpublishedNormPort.Command(manifestationEli)
+          );
         })
     );
   }

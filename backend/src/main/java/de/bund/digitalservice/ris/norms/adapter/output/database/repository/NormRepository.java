@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,9 +50,20 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
   void deleteAllByGuid(final UUID guid);
 
   /**
-   * Deletes a {@link NormDto} by its manifestation ELI (European Legislation Identifier).
+   * Deletes a {@link NormDto} by its manifestation ELI (European Legislation Identifier) if it is in the given publish state.
    *
    * @param manifestationEli The ELI to search for.
+   * @param publishState The publishState to search for.
    */
-  void deleteByEliManifestation(final String manifestationEli);
+  void deleteByEliManifestationAndPublishState(
+    final String manifestationEli,
+    final NormPublishState publishState
+  );
+
+  /**
+   * Deletes all {@link NormDto} of the given work ELI that are in the given publish state.
+   * @param workEli The ELI to search for.
+   * @param publishState The publishState to search for.
+   */
+  void deleteAllByEliWorkAndPublishState(final String workEli, final NormPublishState publishState);
 }

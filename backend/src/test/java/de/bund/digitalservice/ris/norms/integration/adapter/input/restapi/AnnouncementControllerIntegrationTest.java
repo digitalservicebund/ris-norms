@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
@@ -74,6 +75,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
                                   <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                      <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                                         <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+                                           <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c7a" value="eli/bund/bgbl-1/2023/413/regelungstext-1" />
                                            <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="413" />
                                            <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
                                            <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="2023-12-29" name="verkuendungsfassung" />
@@ -199,6 +201,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
                   <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                      <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                        <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8a">
+                           <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c7a" value="eli/bund/bgbl-1/2023/413/regelungstext-1" />
+                        </akn:FRBRWork>
                         <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                            <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1" />
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
@@ -321,6 +326,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
                   <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                      <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                        <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8a">
+                           <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c7a" value="eli/bund/bgbl-1/2023/413/regelungstext-1" />
+                        </akn:FRBRWork>
                         <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                            <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1" />
                            <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
@@ -402,6 +410,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
                     <!-- Metadaten -->
                     <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                        <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                          <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8a">
+                             <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c7a" value="eli/bund/bgbl-1/1964/s593/regelungstext-1" />
+                          </akn:FRBRWork>
                           <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                              <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
                              <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
@@ -448,6 +459,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
                     <!-- Metadaten -->
                     <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                        <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                          <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8a">
+                             <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c7a" value="eli/bund/bgbl-1/1964/s593/regelungstext-1" />
+                          </akn:FRBRWork>
                           <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                              <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1" />
                              <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e" name="vorherige-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
@@ -638,6 +652,144 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
             equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
         );
+
+      var publishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedManifestationOfAmendingNorm).isPresent();
+      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedZf0ManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedZf0ManifestationOfTargetNorm).isPresent();
+      assertThat(publishedZf0ManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedManifestationOfTargetNormAtFirstTimeBoundary =
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().toString()
+            )
+        );
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary).isPresent();
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var newUnpublishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      var newUnpublishedManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfTargetNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
+      assertThat(normRepository.findAll()).hasSize(6);
+    }
+
+    @Test
+    void releasingAnAnnouncementASecondTimeCreatesTheSameFilesAndCleansUpOldRelease()
+      throws Exception {
+      // Given
+      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      affectedNorm.setPublishState(NormPublishState.PUBLISHED);
+      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var announcement = Announcement
+        .builder()
+        .eli(amendingNorm.getExpressionEli())
+        .releasedByDocumentalistAt(null)
+        .build();
+
+      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+
+      // When // Then
+      mockMvc
+        .perform(
+          put(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          )
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk());
+
+      // release norm a second time
+      mockMvc
+        .perform(
+          put(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          )
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk());
+
+      var publishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedManifestationOfAmendingNorm).isPresent();
+      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedZf0ManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().toString()
+          )
+      );
+      assertThat(publishedZf0ManifestationOfTargetNorm).isPresent();
+      assertThat(publishedZf0ManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var publishedManifestationOfTargetNormAtFirstTimeBoundary =
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().toString()
+            )
+        );
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary).isPresent();
+      assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var newUnpublishedManifestationOfAmendingNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      var newUnpublishedManifestationOfTargetNorm = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+            LocalDate.now().plusDays(1).toString()
+          )
+      );
+      assertThat(newUnpublishedManifestationOfTargetNorm).isPresent();
+      assertThat(newUnpublishedManifestationOfTargetNorm.get().getPublishState())
+        .isEqualTo(NormPublishState.UNPUBLISHED);
+
+      // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
+      assertThat(normRepository.findAll()).hasSize(6);
     }
   }
 

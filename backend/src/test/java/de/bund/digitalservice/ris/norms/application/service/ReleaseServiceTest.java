@@ -7,18 +7,18 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedNormsPort;
+import de.bund.digitalservice.ris.norms.application.port.output.DeleteUnpublishedNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Objects;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 class ReleaseServiceTest {
 
@@ -26,45 +26,208 @@ class ReleaseServiceTest {
     LoadAnnouncementByNormEliUseCase.class
   );
   private final UpdateAnnouncementPort updateAnnouncementPort = mock(UpdateAnnouncementPort.class);
+  private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  private final NormService normService = mock(NormService.class);
+  private final TimeMachineService timeMachineService = mock(TimeMachineService.class);
+  private final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
+    CreateNewVersionOfNormService.class
+  );
+  private final DeleteQueuedNormsPort deleteQueuedNormsPort = mock(DeleteQueuedNormsPort.class);
+  private final DeleteUnpublishedNormPort deleteUnpublishedNormPort = mock(
+    DeleteUnpublishedNormPort.class
+  );
   private final ReleaseService releaseService = new ReleaseService(
     loadAnnouncementByNormEliUseCase,
-    updateAnnouncementPort
+    updateAnnouncementPort,
+    updateOrSaveNormPort,
+    normService,
+    timeMachineService,
+    createNewVersionOfNormService,
+    deleteQueuedNormsPort,
+    deleteUnpublishedNormPort
   );
 
   @Test
-  void itShouldReleaseAnnouncement() {
+  void itShouldReleaseAnAnnouncementWithoutTargetNorms() {
     // Given
-    var norm = Norm
-      .builder()
-      .document(
-        XmlMapper.toDocument(
-          """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                       http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-               <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                        </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-               </akn:act>
-            </akn:akomaNtoso>
-          """
-        )
-      )
-      .build();
+    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    // these are just arbitrary norm files, it's not important what is in them just that they are all different.
+    var manifestationOfNormToQueue = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModifications.xml"
+    );
+    var newNewestUnpublishedManifestationOfNorm = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModificationsNoNextVersion.xml"
+    );
+
     var announcement = Announcement
       .builder()
       .eli(norm.getExpressionEli())
       .releasedByDocumentalistAt(null)
       .build();
+
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
+    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
+      .thenReturn(norm);
+    when(createNewVersionOfNormService.createNewManifestation(any()))
+      .thenReturn(manifestationOfNormToQueue);
+    when(
+      createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
+    )
+      .thenReturn(newNewestUnpublishedManifestationOfNorm);
+
+    // When
+    releaseService.releaseAnnouncement(
+      new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
+    );
+
+    // Then
+    verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
+    verify(createNewVersionOfNormService, times(1))
+      .createNewManifestation(norm, LocalDate.now().plusDays(1));
+    verify(deleteQueuedNormsPort, times(1))
+      .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(norm.getWorkEli()));
+    verify(updateOrSaveNormPort, times(1))
+      .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfNormToQueue));
+    verify(updateOrSaveNormPort, times(1))
+      .updateOrSave(new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfNorm));
+    verify(deleteUnpublishedNormPort, times(1))
+      .deleteUnpublishedNorm(new DeleteUnpublishedNormPort.Command(norm.getManifestationEli()));
+    verify(updateAnnouncementPort, times(1)).updateAnnouncement(any());
+
+    assertThat(manifestationOfNormToQueue.getPublishState())
+      .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+    assertThat(newNewestUnpublishedManifestationOfNorm.getPublishState())
+      .isEqualTo(NormPublishState.UNPUBLISHED);
+  }
+
+  @Test
+  void itShouldReleaseAnAnnouncementWithTargetNorm() {
+    // Given
+    var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    var targetNorm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    // these are just arbitrary norm files, it's not important what is in them just that they are all different.
+    var targetNormExpressionAtDateOne = NormFixtures.loadFromDisk(
+      "NormWithAppliedQuotedStructure.xml"
+    );
+    var manifestationOfAmendingNormToQueue = NormFixtures.loadFromDisk(
+      "NormWithModsSameTarget.xml"
+    );
+    var manifestationOfTargetNormToUseForCreatingExpressions = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModificationsNoNextVersion.xml"
+    );
+    var manifestationOfTargetNormToUseInTimeMachine = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModificationsSameTarget.xml"
+    );
+    var manifestationOfTargetNormToQueue = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModsQuotedStructure.xml"
+    );
+    var newNewestUnpublishedManifestationOfAmendingNorm = NormFixtures.loadFromDisk(
+      "NormWithMultipleMods.xml"
+    );
+    var newNewestUnpublishedManifestationOfTargetNorm = NormFixtures.loadFromDisk(
+      "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
+    );
+
+    var announcement = Announcement
+      .builder()
+      .eli(amendingNorm.getExpressionEli())
+      .releasedByDocumentalistAt(null)
+      .build();
+
+    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
+      .thenReturn(announcement);
+    when(normService.loadNorm(any())).thenReturn(amendingNorm).thenReturn(targetNorm);
+    when(createNewVersionOfNormService.createNewManifestation(amendingNorm))
+      .thenReturn(manifestationOfAmendingNormToQueue);
+    when(createNewVersionOfNormService.createNewManifestation(targetNorm))
+      .thenReturn(manifestationOfTargetNormToUseForCreatingExpressions);
+    when(
+      createNewVersionOfNormService.createNewExpression(any(), eq(LocalDate.parse("2017-03-23")))
+    )
+      .thenReturn(
+        new CreateNewVersionOfNormService.CreateNewExpressionResult(
+          targetNormExpressionAtDateOne,
+          manifestationOfTargetNormToUseInTimeMachine
+        )
+      );
+    when(timeMachineService.applyPassiveModifications(any()))
+      .thenReturn(manifestationOfTargetNormToQueue);
+    when(
+      createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
+    )
+      .thenReturn(newNewestUnpublishedManifestationOfAmendingNorm)
+      .thenReturn(newNewestUnpublishedManifestationOfTargetNorm);
+
+    // When
+    releaseService.releaseAnnouncement(
+      new ReleaseAnnouncementUseCase.Query(amendingNorm.getExpressionEli())
+    );
+
+    // Then
+
+    // previously queued norms are deleted
+    verify(deleteQueuedNormsPort, times(1))
+      .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(amendingNorm.getWorkEli()));
+    verify(deleteQueuedNormsPort, times(1))
+      .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(targetNorm.getWorkEli()));
+
+    // the queue norms are saved
+    verify(updateOrSaveNormPort, times(1))
+      .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfAmendingNormToQueue));
+    assertThat(manifestationOfAmendingNormToQueue.getPublishState())
+      .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+    verify(updateOrSaveNormPort, times(1))
+      .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfTargetNormToQueue));
+    assertThat(manifestationOfTargetNormToQueue.getPublishState())
+      .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+    verify(updateOrSaveNormPort, times(1))
+      .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfTargetNormToUseInTimeMachine));
+    assertThat(manifestationOfTargetNormToUseInTimeMachine.getPublishState())
+      .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+
+    // the old manifestations for editing are deleted (as they might no longer be the newest manifestation, that's why new once are created)
+    verify(deleteUnpublishedNormPort, times(1))
+      .deleteUnpublishedNorm(
+        new DeleteUnpublishedNormPort.Command(amendingNorm.getManifestationEli())
+      );
+    verify(deleteUnpublishedNormPort, times(1))
+      .deleteUnpublishedNorm(
+        new DeleteUnpublishedNormPort.Command(targetNorm.getManifestationEli())
+      );
+
+    // new manifestations for further editing are saved
+    verify(updateOrSaveNormPort, times(1))
+      .updateOrSave(
+        new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfAmendingNorm)
+      );
+    assertThat(newNewestUnpublishedManifestationOfAmendingNorm.getPublishState())
+      .isEqualTo(NormPublishState.UNPUBLISHED);
+    verify(updateOrSaveNormPort, times(1))
+      .updateOrSave(
+        new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfTargetNorm)
+      );
+    assertThat(newNewestUnpublishedManifestationOfTargetNorm.getPublishState())
+      .isEqualTo(NormPublishState.UNPUBLISHED);
+
+    // the announcement is updated
+    verify(updateAnnouncementPort, times(1)).updateAnnouncement(any());
+  }
+
+  @Test
+  void itShouldUpdateTheReleasedByDocumentalistAtDate() {
+    // Given
+    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var announcement = Announcement
+      .builder()
+      .eli(norm.getExpressionEli())
+      .releasedByDocumentalistAt(null)
+      .build();
+
+    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
+      .thenReturn(announcement);
+    when(normService.loadNorm(any())).thenReturn(norm);
+    when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(norm);
 
     // When
     var instantBeforeRelease = Instant.now();
@@ -77,19 +240,12 @@ class ReleaseServiceTest {
     // Then
     verify(loadAnnouncementByNormEliUseCase, times(1))
       .loadAnnouncementByNormEli(
-        argThat(argument ->
-          Objects.equals(
-            argument.eli().toString(),
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
-        )
+        new LoadAnnouncementByNormEliUseCase.Query(norm.getExpressionEli())
       );
 
-    var commandCaptor = ArgumentCaptor.forClass(UpdateAnnouncementPort.Command.class);
-    verify(updateAnnouncementPort, times(1)).updateAnnouncement(commandCaptor.capture());
-    assertThat(commandCaptor.getValue().announcement().getEli()).isEqualTo(announcement.getEli());
-    assertThat(commandCaptor.getValue().announcement().getReleasedByDocumentalistAt())
-      .isAfter(instantBeforeRelease);
+    verify(updateAnnouncementPort, times(1))
+      .updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
+    assertThat(announcement.getReleasedByDocumentalistAt()).isAfter(instantBeforeRelease);
   }
 
   @Nested

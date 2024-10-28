@@ -66,15 +66,26 @@ public class CreateNewVersionOfNormService {
   }
 
   /**
-   * Creates a new manifestation of the given norm. Uses the current date as the date of the creation.
+   * Creates a new manifestation of the given norm. Uses the current date for the point-in-time-manifestation.
    * @param norm the norm for which a new manifestation should be created.
    * @return the newly created manifestation.
    */
   public Norm createNewManifestation(Norm norm) {
+    return createNewManifestation(norm, LocalDate.now());
+  }
+
+  /**
+   * Creates a new manifestation of the given norm.
+   * @param norm the norm for which a new manifestation should be created.
+   * @param pointInTimeManifestation the date for the point-in-time-manifestation
+   *
+   * @return the newly created manifestation.
+   */
+  public Norm createNewManifestation(Norm norm, LocalDate pointInTimeManifestation) {
     var newManifestation = new Norm(norm);
     var newManifestationEli = ManifestationEli.fromExpressionEli(
       newManifestation.getExpressionEli(),
-      LocalDate.now()
+      pointInTimeManifestation
     );
     setNewManifestationMetadata(newManifestation, newManifestationEli);
 
