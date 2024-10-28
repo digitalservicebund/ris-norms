@@ -2,6 +2,9 @@ spring:
   flyway:
     locations: classpath:db/migration,classpath:db/data
 
+local:
+  file-storage: .local-storage
+
 #logging:
 #  level:
 #    org.springframework: DEBUG

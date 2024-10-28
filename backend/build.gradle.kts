@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.bouncycastle.bcprov)
     implementation(libs.bouncycastle.bcpkix)
     implementation(libs.google.protobuf.java)
+    implementation(platform(libs.aws.bom))
+    implementation(libs.aws.s3)
 
     compileOnly(libs.lombok)
 

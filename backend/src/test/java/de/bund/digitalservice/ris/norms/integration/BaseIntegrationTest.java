@@ -26,13 +26,18 @@ import org.testcontainers.utility.DockerImageName;
 @DirtiesContext
 @SpringBootTest(
   webEnvironment = WebEnvironment.RANDOM_PORT,
-  properties = "spring.flyway.locations=classpath:db/migration"
+  properties = {
+    "spring.flyway.locations=classpath:db/migration",
+    "local.file-storage=" + BaseIntegrationTest.LOCAL_STORAGE_PATH,
+  }
 )
 @AutoConfigureDataJpa
 @AutoConfigureMockMvc
 @Testcontainers(disabledWithoutDocker = true)
 @Tag("integration")
 public abstract class BaseIntegrationTest {
+
+  protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test";
 
   @Container
   static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:14")
