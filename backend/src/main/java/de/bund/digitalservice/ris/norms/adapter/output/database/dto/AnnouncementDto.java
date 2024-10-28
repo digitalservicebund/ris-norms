@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -36,9 +36,6 @@ public class AnnouncementDto {
   @GeneratedValue
   private UUID id;
 
-  @Column(name = "released_by_documentalist_at")
-  private Instant releasedByDocumentalistAt;
-
   @Column(name = "eli")
   private String eli;
 
@@ -48,5 +45,6 @@ public class AnnouncementDto {
     joinColumns = @JoinColumn(name = "announcement_id"),
     inverseJoinColumns = @JoinColumn(name = "release_id")
   )
-  private List<ReleaseDto> releases;
+  @Builder.Default
+  private List<ReleaseDto> releases = new ArrayList<>();
 }

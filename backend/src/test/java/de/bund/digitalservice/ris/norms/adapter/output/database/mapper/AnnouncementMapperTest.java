@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import java.time.Instant;
 import org.junit.jupiter.api.Test;
 
 class AnnouncementMapperTest {
@@ -15,7 +14,6 @@ class AnnouncementMapperTest {
     // Given
     var announcementDto = AnnouncementDto
       .builder()
-      .releasedByDocumentalistAt(Instant.now())
       .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
       .build();
 
@@ -25,8 +23,7 @@ class AnnouncementMapperTest {
     // Then
     assertThat(announcement).isNotNull();
     assertThat(announcement.getEli()).hasToString(announcementDto.getEli());
-    assertThat(announcement.getReleasedByDocumentalistAt())
-      .isEqualTo(announcementDto.getReleasedByDocumentalistAt());
+    // TODO: (Malte Laukötter, 2024-10-28) test release mapping
   }
 
   @Test
@@ -35,7 +32,6 @@ class AnnouncementMapperTest {
     var announcement = Announcement
       .builder()
       .eli(ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))
-      .releasedByDocumentalistAt(Instant.now())
       .build();
 
     // When
@@ -44,7 +40,6 @@ class AnnouncementMapperTest {
     // Then
     assertThat(announcementDto).isNotNull();
     assertThat(announcementDto.getEli()).isEqualTo(announcement.getEli().toString());
-    assertThat(announcementDto.getReleasedByDocumentalistAt())
-      .isEqualTo(announcement.getReleasedByDocumentalistAt());
+    // TODO: (Malte Laukötter, 2024-10-28) test release mapping
   }
 }

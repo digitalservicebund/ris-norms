@@ -46,5 +46,6 @@ public class ReleaseDto {
       referencedColumnName = "eli_manifestation"
     )
   )
-  private List<NormDto> norms;
+  @Builder.Default
+  private List<NormDto> norms = List.of();
 }

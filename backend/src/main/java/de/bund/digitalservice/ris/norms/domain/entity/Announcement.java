@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -17,8 +16,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 public class Announcement {
-
-  private Instant releasedByDocumentalistAt;
 
   private ExpressionEli eli;
 

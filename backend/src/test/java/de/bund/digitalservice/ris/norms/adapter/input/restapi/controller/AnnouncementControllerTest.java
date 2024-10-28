@@ -16,6 +16,7 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
@@ -106,11 +107,7 @@ class AnnouncementControllerTest {
           )
         )
         .build();
-      var announcement1 = Announcement
-        .builder()
-        .eli(norm1.getExpressionEli())
-        .releasedByDocumentalistAt(null)
-        .build();
+      var announcement1 = Announcement.builder().eli(norm1.getExpressionEli()).build();
 
       var norm2 = Norm
         .builder()
@@ -152,11 +149,7 @@ class AnnouncementControllerTest {
           )
         )
         .build();
-      var announcement2 = Announcement
-        .builder()
-        .eli(norm2.getExpressionEli())
-        .releasedByDocumentalistAt(null)
-        .build();
+      var announcement2 = Announcement.builder().eli(norm2.getExpressionEli()).build();
 
       // When
       when(loadAllAnnouncementsUseCase.loadAllAnnouncements())
@@ -288,7 +281,9 @@ class AnnouncementControllerTest {
       var announcement = Announcement
         .builder()
         .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+        .releases(
+          List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+        )
         .build();
 
       when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
@@ -423,7 +418,9 @@ class AnnouncementControllerTest {
       var announcement = Announcement
         .builder()
         .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+        .releases(
+          List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+        )
         .build();
 
       when(releaseAnnouncementUseCase.releaseAnnouncement(any())).thenReturn(announcement);

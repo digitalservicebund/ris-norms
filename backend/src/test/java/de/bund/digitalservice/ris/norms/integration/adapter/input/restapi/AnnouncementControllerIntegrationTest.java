@@ -13,11 +13,13 @@ import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -121,11 +123,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
         .build();
-      var announcement = Announcement
-        .builder()
-        .eli(norm.getExpressionEli())
-        .releasedByDocumentalistAt(null)
-        .build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       normRepository.save(NormMapper.mapToDto(norm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -274,11 +272,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .build();
       normRepository.save(NormMapper.mapToDto(amendingNorm));
 
-      var announcement = Announcement
-        .builder()
-        .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(null)
-        .build();
+      var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When // Then
@@ -498,7 +492,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var announcement = Announcement
         .builder()
         .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+        .releases(
+          List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+        )
         .build();
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -574,11 +570,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itDoesNotReleaseButReturnsNotFoundIfTargetLawNotFound() throws Exception {
       // Given
       var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(null)
-        .build();
+      var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -617,11 +609,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(null)
-        .build();
+      var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -711,11 +699,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       affectedNorm.setPublishState(NormPublishState.PUBLISHED);
       var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(null)
-        .build();
+      var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -803,7 +787,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var announcement = Announcement
         .builder()
         .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(null)
         .build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
@@ -856,7 +839,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var announcement = Announcement
         .builder()
         .eli(amendingNorm.getExpressionEli())
-        .releasedByDocumentalistAt(null)
         .build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));

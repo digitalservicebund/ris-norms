@@ -144,7 +144,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
     var announcement = Announcement
       .builder()
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
+      .releases(
+        List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+      )
       .eli(norm.getExpressionEli())
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -229,14 +231,18 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var norm1 = Norm.builder().document(XmlMapper.toDocument(xml1)).build();
     var announcement1 = Announcement
       .builder()
-      .releasedByDocumentalistAt(Instant.parse("2024-01-01T10:20:30.00Z"))
+      .releases(
+        List.of(Release.builder().releasedAt(Instant.parse("2024-01-01T10:20:30.0Z")).build())
+      )
       .eli(norm1.getExpressionEli())
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
     var norm2 = Norm.builder().document(XmlMapper.toDocument(xml2)).build();
     var announcement2 = Announcement
       .builder()
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
+      .releases(
+        List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+      )
       .eli(norm2.getExpressionEli())
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
@@ -312,14 +318,18 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var announcement = Announcement
       .builder()
       .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+      .releases(
+        List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+      )
       .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
     var newAnnouncement = Announcement
       .builder()
       .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(Instant.parse("2024-02-03T10:20:30.0Z"))
+      .releases(
+        List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+      )
       .build();
 
     // When
@@ -377,7 +387,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var announcement = Announcement
       .builder()
       .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+      .releases(
+        List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+      )
       .build();
 
     // When

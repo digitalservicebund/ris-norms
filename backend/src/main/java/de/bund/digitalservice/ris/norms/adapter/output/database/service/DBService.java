@@ -136,12 +136,11 @@ public class DBService
     var announcement = command.announcement();
     return announcementRepository
       .findByEli(command.announcement().getEli().toString())
-      .map(announcementDto -> {
-        announcementDto.setReleasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt());
-        // It is not possible to change the norm associated with an announcement.
-        // Therefore, we don't update that relationship.
-        return AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto));
-      });
+      // It is not possible to change the norm associated with an announcement.
+      // Therefore, we don't update that relationship.
+      .map(announcementDto ->
+        AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto))
+      );
   }
 
   @Override

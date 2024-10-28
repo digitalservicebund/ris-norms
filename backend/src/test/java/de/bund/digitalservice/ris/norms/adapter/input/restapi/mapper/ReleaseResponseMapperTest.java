@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
@@ -107,7 +108,9 @@ class ReleaseResponseMapperTest {
     var announcement = Announcement
       .builder()
       .eli(amendingNorm.getExpressionEli())
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+      .releases(
+        List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
+      )
       .build();
 
     // When

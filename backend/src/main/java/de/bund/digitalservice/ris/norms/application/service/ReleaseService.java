@@ -187,7 +187,6 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       .publishedNorms(allVersionsOfAllNormsToPublish)
       .releasedAt(Instant.now())
       .build();
-    announcement.setReleasedByDocumentalistAt(Instant.now());
     announcement.addRelease(release);
     updateAnnouncementPort.updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
     return announcement;

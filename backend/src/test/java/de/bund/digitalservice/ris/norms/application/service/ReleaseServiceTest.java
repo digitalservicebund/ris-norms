@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronEx
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedNormsPort;
+import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedNormsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteUnpublishedNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
@@ -66,11 +67,7 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement
-      .builder()
-      .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(null)
-      .build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -144,11 +141,7 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
     );
 
-    var announcement = Announcement
-      .builder()
-      .eli(amendingNorm.getExpressionEli())
-      .releasedByDocumentalistAt(null)
-      .build();
+    var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -246,11 +239,7 @@ class ReleaseServiceTest {
   void itShouldUpdateTheReleasedByDocumentalistAtDate() {
     // Given
     var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    var announcement = Announcement
-      .builder()
-      .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(null)
-      .build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -273,7 +262,6 @@ class ReleaseServiceTest {
 
     verify(updateAnnouncementPort, times(1))
       .updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
-    assertThat(announcement.getReleasedByDocumentalistAt()).isAfter(instantBeforeRelease);
     assertThat(announcement.getReleases()).hasSize(1);
     assertThat(announcement.getReleases().getFirst().getReleasedAt()).isAfter(instantBeforeRelease);
   }
@@ -294,7 +282,6 @@ class ReleaseServiceTest {
     var announcement = Announcement
       .builder()
       .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(null)
       .build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
@@ -349,7 +336,6 @@ class ReleaseServiceTest {
     var announcement = Announcement
       .builder()
       .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(null)
       .build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))

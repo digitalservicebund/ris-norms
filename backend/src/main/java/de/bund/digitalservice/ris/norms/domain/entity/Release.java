@@ -2,7 +2,9 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
@@ -15,5 +17,7 @@ import lombok.experimental.SuperBuilder;
 public class Release {
 
   private Instant releasedAt;
-  private Collection<Norm> publishedNorms;
+
+  @Builder.Default
+  private Collection<Norm> publishedNorms = List.of();
 }

@@ -35,3 +35,5 @@ ALTER TABLE  announcement_releases ADD CONSTRAINT fk_announcement_id
 ALTER TABLE  announcement_releases ADD CONSTRAINT fk_release_id
     FOREIGN KEY (release_id)
         REFERENCES releases (id);
+
+ALTER TABLE announcements DROP COLUMN released_by_documentalist_at;
