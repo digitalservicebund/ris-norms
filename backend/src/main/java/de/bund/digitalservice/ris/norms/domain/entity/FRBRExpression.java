@@ -156,7 +156,12 @@ public class FRBRExpression extends FRBR {
         );
         nextVersionAlias.setAttribute("name", "nachfolgende-version-id");
         nextVersionAlias.setAttribute(VALUE_ATTIBUTE, uuid.toString());
-        getNode().appendChild(nextVersionAlias);
+
+        // FRBR metadata needs to be in the correct order, so we're inserting it before the author, which is the
+        // element that has to follow the aliases in a valid document.
+        var author = NodeParser.getMandatoryNodeFromExpression("./FRBRauthor", getNode());
+        getNode().insertBefore(nextVersionAlias, author);
+
         return nextVersionAlias;
       })
       .getAttributes()
