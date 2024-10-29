@@ -92,11 +92,11 @@ class ReleaseServiceTest {
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
     verify(createNewVersionOfNormService, times(1))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
+    verify(deleteQueuedNormsPort, times(1))
+      .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(norm.getWorkEli()));
     verify(ldmlDeValidator, times(1))
       .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
-    verify(deleteQueuedNormsPort, times(1))
-      .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(norm.getWorkEli()));
     verify(updateOrSaveNormPort, times(1))
       .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfNormToQueue));
     verify(updateOrSaveNormPort, times(1))
@@ -175,16 +175,16 @@ class ReleaseServiceTest {
     );
 
     // Then
-    // results are validated
-    verify(ldmlDeValidator, times(1))
-      .parseAndValidate(XmlMapper.toString(manifestationOfAmendingNormToQueue.getDocument()));
-    verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfAmendingNormToQueue);
-
     // previously queued norms are deleted
     verify(deleteQueuedNormsPort, times(1))
       .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(amendingNorm.getWorkEli()));
     verify(deleteQueuedNormsPort, times(1))
       .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(targetNorm.getWorkEli()));
+
+    // results are validated
+    verify(ldmlDeValidator, times(1))
+      .parseAndValidate(XmlMapper.toString(manifestationOfAmendingNormToQueue.getDocument()));
+    verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfAmendingNormToQueue);
 
     // the queue norms are saved
     verify(updateOrSaveNormPort, times(1))
@@ -303,12 +303,13 @@ class ReleaseServiceTest {
 
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
+    verify(deleteQueuedNormsPort, times(1))
+      .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(norm.getWorkEli()));
     verify(ldmlDeValidator, times(1))
       .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
     verify(ldmlDeValidator, times(0)).validateSchematron(any());
     verify(createNewVersionOfNormService, times(0))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
-    verify(deleteQueuedNormsPort, times(0)).deleteQueuedForPublishNorms(any());
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     verify(deleteUnpublishedNormPort, times(0)).deleteUnpublishedNorm(any());
@@ -361,12 +362,13 @@ class ReleaseServiceTest {
 
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
+    verify(deleteQueuedNormsPort, times(1))
+      .deleteQueuedForPublishNorms(new DeleteQueuedNormsPort.Command(norm.getWorkEli()));
     verify(ldmlDeValidator, times(1))
       .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(createNewVersionOfNormService, times(0))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
-    verify(deleteQueuedNormsPort, times(0)).deleteQueuedForPublishNorms(any());
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     verify(deleteUnpublishedNormPort, times(0)).deleteUnpublishedNorm(any());
