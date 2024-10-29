@@ -36,12 +36,12 @@ spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-sta
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-aws-bom = { module = "software.amazon.awssdk:bom", version = "2.29.1" }
+aws-bom = { module = "software.amazon.awssdk:bom", version = "2.29.2" }
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
-sentry = "io.sentry.jvm.gradle:4.12.0"
+sentry = "io.sentry.jvm.gradle:4.13.0"
 sonarqube = "org.sonarqube:5.1.0.4882"
 spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
