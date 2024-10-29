@@ -177,11 +177,9 @@ public final class NodeParser {
 
     final var hasContent = nodeListToList(node.getChildNodes())
       .stream()
-      .anyMatch(childNode -> {
-        return (
-          childNode.getNodeType() != Node.TEXT_NODE || !childNode.getTextContent().trim().isEmpty()
-        );
-      });
+      .anyMatch(childNode ->
+        childNode.getNodeType() != Node.TEXT_NODE || !childNode.getTextContent().trim().isEmpty()
+      );
 
     return !hasContent;
   }

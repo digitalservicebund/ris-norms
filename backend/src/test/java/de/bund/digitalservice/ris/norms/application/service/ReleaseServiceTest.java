@@ -293,12 +293,10 @@ class ReleaseServiceTest {
       .thenReturn(newNewestUnpublishedManifestationOfNorm);
     when(ldmlDeValidator.parseAndValidate(any())).thenThrow(new LdmlDeNotValidException(List.of()));
 
+    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
+
     // When
-    assertThatThrownBy(() ->
-        releaseService.releaseAnnouncement(
-          new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
-        )
-      )
+    assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
       .isInstanceOf(LdmlDeNotValidException.class);
 
     // Then
@@ -352,12 +350,10 @@ class ReleaseServiceTest {
       .when(ldmlDeValidator)
       .validateSchematron(any());
 
+    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
+
     // When
-    assertThatThrownBy(() ->
-        releaseService.releaseAnnouncement(
-          new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
-        )
-      )
+    assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
       .isInstanceOf(LdmlDeSchematronException.class);
 
     // Then
