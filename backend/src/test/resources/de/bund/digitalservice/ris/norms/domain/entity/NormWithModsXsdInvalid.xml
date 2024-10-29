@@ -15,13 +15,15 @@
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
    <akn:act name="regelungstext">
         <!-- Metadaten -->
-       <akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
+       <akn:meta eId="meta-1" GUID="invalid-guid-to-break-xsd">
          <akn:identification eId="meta-1_ident-1"
                              GUID="be8ecb75-0f1a-4209-b3a4-17d55bdffb47"
                              source="attributsemantik-noch-undefiniert">
             <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1"
                           GUID="d4f77434-7c1f-4496-917a-262a82a7070c">
-               <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"/>
+               <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                             GUID="ad47b5be-0012-447a-90db-71438b38650e"
+                             value="eli/bund/bgbl-1/2017/s419/regelungstext-1" />
                <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
                             GUID="a739e012-fe1d-4411-91b8-58e0de76fc28"
                             value="eli/bund/bgbl-1/2017/s419"/>
@@ -79,6 +81,25 @@
                                       GUID="de475d52-7263-4c05-8014-e92a7785b784"
                                       value="1"/>
             </akn:FRBRExpression>
+             <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                    GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
+                 <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                               GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
+                               value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"/>
+                 <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                              GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                              value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"/>
+                 <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                               GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
+                               date="2022-08-23"
+                               name="generierung"/>
+                 <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                 GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                 href="recht.bund.de"/>
+                 <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                                 GUID="dcf3aa47-de13-4ef6-9dce-1325a121fb4d"
+                                 value="xml"/>
+             </akn:FRBRManifestation>
          </akn:identification>
          <akn:lifecycle eId="meta-1_lebzykl-1"
                         GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b"
