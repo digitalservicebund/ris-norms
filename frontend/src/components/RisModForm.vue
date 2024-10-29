@@ -358,7 +358,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         <label id="timeBoundariesLabel" class="ris-label2-regular"
           >Zeitgrenze</label
         >
-        <!-- NOSONAR -->
         <Select
           v-model="selectedElement"
           :options="timeBoundaries"
