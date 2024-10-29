@@ -1,8 +1,8 @@
-package de.bund.digitalservice.ris.norms.application.exception;
+package de.bund.digitalservice.ris.norms.adapter.output.exception;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.PublishException;
 import lombok.Getter;
 
 /**
@@ -11,13 +11,17 @@ import lombok.Getter;
  * manifestation that could not be published.
  */
 @Getter
-public class BucketPublishException extends RuntimeException implements NormsAppException {
+public class BucketPublishException extends PublishException {
 
   private final String bucketName;
   private final transient ManifestationEli manifestationEli;
 
-  public BucketPublishException(final String bucketName, final ManifestationEli manifestationEli) {
-    super("Norm %s could not be uploaded to bucket %s".formatted(manifestationEli, bucketName));
+  public BucketPublishException(
+    final String bucketName,
+    final ManifestationEli manifestationEli,
+    final Exception e
+  ) {
+    super("Norm %s could not be uploaded to bucket %s".formatted(manifestationEli, bucketName), e);
     this.bucketName = bucketName;
     this.manifestationEli = manifestationEli;
   }

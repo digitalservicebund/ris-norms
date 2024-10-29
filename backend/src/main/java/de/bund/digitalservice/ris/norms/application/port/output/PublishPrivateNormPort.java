@@ -15,8 +15,9 @@ public interface PublishPrivateNormPort {
    *
    * @param command a {@link Command} object containing the {@link Norm} entity to be stored
    *                in the private storage location.
+   * @return if the publish process succeeded.
    */
-  void publishPrivateNorm(final Command command);
+  boolean publishPrivateNorm(final Command command);
 
   /**
    * A record representing the command used for publishing a {@link Norm} to the private storage location.

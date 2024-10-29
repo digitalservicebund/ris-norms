@@ -12,12 +12,11 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeleteUnpublishe
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import java.time.Instant;
 import java.time.LocalDate;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ReleaseServiceTest {
@@ -246,31 +245,5 @@ class ReleaseServiceTest {
     verify(updateAnnouncementPort, times(1))
       .updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
     assertThat(announcement.getReleasedByDocumentalistAt()).isAfter(instantBeforeRelease);
-  }
-
-  @Nested
-  class prepareForRelease {
-
-    @Test
-    void removesOrganisationsEinheitFromMetadata() {
-      // Given
-      var norm = NormFixtures.loadFromDisk("NormToBeReleased.xml");
-      var proprietary = norm.getMeta().getProprietary().get();
-
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1)))
-        .contains("Aktuelle Organisationseinheit");
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2028, 6, 1)))
-        .contains("Nächste Organisationseinheit");
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2029, 6, 1)))
-        .contains("Übernächste Organisationseinheit");
-
-      // When
-      releaseService.prepareForRelease(norm);
-
-      // Then
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1))).isEmpty();
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2028, 6, 1))).isEmpty();
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2029, 6, 1))).isEmpty();
-    }
   }
 }

@@ -37,7 +37,8 @@ public class DBService
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
     DeleteUnpublishedNormPort,
-    DeleteQueuedNormsPort {
+    DeleteQueuedNormsPort,
+    LoadNormsByPublishStatePort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -170,5 +171,14 @@ public class DBService
       command.eli().toString(),
       NormPublishState.QUEUED_FOR_PUBLISH
     );
+  }
+
+  @Override
+  public List<Norm> loadNormsByPublishState(LoadNormsByPublishStatePort.Command command) {
+    return normRepository
+      .findByPublishState(command.publishState())
+      .stream()
+      .map(NormMapper::mapToDomain)
+      .toList();
   }
 }

@@ -3,6 +3,8 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.s3;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
+import de.bund.digitalservice.ris.norms.application.port.output.DeletePrivateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.DeletePublicNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPrivateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPublicNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -40,9 +42,9 @@ class BucketServiceIntegrationTest extends BaseIntegrationTest {
   void itPublishesNormToPublicBucket() {
     // Given
     final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
 
     // When
+    final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
     bucketService.publishPublicNorm(command);
 
     // Then
@@ -58,9 +60,9 @@ class BucketServiceIntegrationTest extends BaseIntegrationTest {
   void itPublishesNormToPrivateBucket() {
     // Given
     final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    final PublishPrivateNormPort.Command command = new PublishPrivateNormPort.Command(norm);
 
     // When
+    final PublishPrivateNormPort.Command command = new PublishPrivateNormPort.Command(norm);
     bucketService.publishPrivateNorm(command);
 
     // Then
@@ -70,5 +72,45 @@ class BucketServiceIntegrationTest extends BaseIntegrationTest {
       norm.getManifestationEli().toString()
     );
     assertThat(Files.exists(filePath)).isTrue();
+  }
+
+  @Test
+  void itDeletesNormFromPublicBucket() {
+    // Given
+    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final PublishPublicNormPort.Command commandPublish = new PublishPublicNormPort.Command(norm);
+    bucketService.publishPublicNorm(commandPublish);
+
+    // When
+    final DeletePublicNormPort.Command commandDelete = new DeletePublicNormPort.Command(norm);
+    bucketService.deletePublicNorm(commandDelete);
+
+    // Then
+    final Path filePath = Paths.get(
+      LOCAL_STORAGE_PATH,
+      PUBLIC_BUCKET,
+      norm.getManifestationEli().toString()
+    );
+    assertThat(Files.exists(filePath)).isFalse();
+  }
+
+  @Test
+  void itDeletesNormFromPrivateBucket() {
+    // Given
+    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final PublishPrivateNormPort.Command commandPublish = new PublishPrivateNormPort.Command(norm);
+    bucketService.publishPrivateNorm(commandPublish);
+
+    // When
+    final DeletePrivateNormPort.Command commandDelete = new DeletePrivateNormPort.Command(norm);
+    bucketService.deletePrivateNorm(commandDelete);
+
+    // Then
+    final Path filePath = Paths.get(
+      LOCAL_STORAGE_PATH,
+      PRIVATE_BUCKET,
+      norm.getManifestationEli().toString()
+    );
+    assertThat(Files.exists(filePath)).isFalse();
   }
 }

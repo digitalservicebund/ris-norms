@@ -55,3 +55,6 @@ sentry:
 otc:
   obs:
     endpoint: https://obs.eu-de.otc.t-systems.com
+
+publish:
+  cron: "0 0 0 * * ?" # Runs at 0 AM every day
