@@ -115,13 +115,20 @@ test.describe("sidebar navigation", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit",
     )
 
-    const select = page.getByRole("combobox", { name: "Zeitgrenze" })
-    const options = select.getByRole("option")
+    const timeBoundarySelectSection = page.getByRole("complementary", {
+      name: "Inhaltsverzeichnis",
+    })
+
+    const select = timeBoundarySelectSection.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
+    const options = page.getByRole("option")
 
     // First entry selected by default
-    await expect(select).toHaveValue("2023-12-30")
+    await expect(select).toHaveText("30.12.2023")
 
     // Time boundaries available as options
+    await select.click()
     await expect(options).toHaveText(["30.12.2023", "01.06.2024"], {
       useInnerText: true,
     })
@@ -132,9 +139,13 @@ test.describe("sidebar navigation", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
+    const timeBoundarySelectSection = page.getByRole("complementary", {
+      name: "Inhaltsverzeichnis",
+    })
+
     await expect(
-      page.getByRole("combobox", { name: "Zeitgrenze" }),
-    ).toHaveValue("2023-12-30")
+      timeBoundarySelectSection.getByRole("combobox", { name: "Zeitgrenze" }),
+    ).toHaveText("30.12.2023")
   })
 
   test("shows an error when the elements could not be loaded", async ({

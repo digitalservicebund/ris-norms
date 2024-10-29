@@ -383,7 +383,7 @@ watch(hasSaved, (finished) => {
 
                 <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
                 <label id="documentTypeId" class="ris-label2-regular"
-                  >Zeitgrenze</label
+                  >Dokumenttyp</label
                 >
                 <Select
                   v-model="documentType"

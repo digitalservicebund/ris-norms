@@ -61,9 +61,13 @@ test.describe("navigate to page", () => {
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
 
     // When
+    await page.getByRole("combobox", { name: "Zeitgrenze" }).click()
+
     await page
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("2023-12-30")
+      .getByRole("option", {
+        name: "30.12.2023",
+      })
+      .click()
 
     await nav
       .getByRole("link", {
@@ -136,10 +140,19 @@ test.describe("preview", () => {
 
     await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
 
+    const timeBoundarySelectSection = page.getByRole("complementary", {
+      name: "Inhaltsverzeichnis",
+    })
     // When
-    await page
+    await timeBoundarySelectSection
       .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("2024-06-01")
+      .click()
+
+    await page
+      .getByRole("option", {
+        name: "01.06.2024",
+      })
+      .click()
 
     // Then
     await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)

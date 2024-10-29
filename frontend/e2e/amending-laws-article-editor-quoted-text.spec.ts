@@ -39,10 +39,11 @@ test.describe("Loading mod details", () => {
       name: "Zeitgrenze",
     })
     await expect(timeBoundariesElement).toBeVisible()
-    await expect(timeBoundariesElement).toHaveValue("2017-03-16")
+    await expect(timeBoundariesElement).toHaveText("16.03.2017")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
-    await expect(timeBoundaryOptionElements).toHaveCount(2)
+    await timeBoundariesElement.click()
+
+    await expect(page.getByRole("option")).toHaveCount(2)
 
     // // Destination Href Eli
     const destinationHrefEliElement = modFormSection.getByRole("textbox", {
@@ -270,9 +271,13 @@ test.describe("Editing a single mod", () => {
       name: "Änderungsbefehl bearbeiten",
     })
 
-    await page
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("2023-10-10")
+    await modFormSection
+      .getByRole("combobox", {
+        name: "Zeitgrenze",
+      })
+      .click()
+
+    await page.getByRole("option", { name: "10.10.2023" }).click()
 
     const saveResponsePromise = page.waitForResponse("**/norms/eli/**")
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
@@ -333,9 +338,11 @@ test.describe("Editing multiple mods", () => {
       name: "Zeitgrenze",
     })
 
-    await expect(timeBoundariesElement).toHaveValue("multiple")
+    await expect(timeBoundariesElement).toHaveText("Mehrere")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
+    await timeBoundariesElement.click()
+
+    const timeBoundaryOptionElements = page.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(4)
   })
 
@@ -370,9 +377,13 @@ test.describe("Editing multiple mods", () => {
       .getByText("4. Fall")
       .click({ modifiers: ["ControlOrMeta"] })
 
+    await page.getByRole("combobox", { name: "Zeitgrenze" }).click()
+
     await page
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("Keine Angabe")
+      .getByRole("option", {
+        name: "Keine Angabe",
+      })
+      .click()
 
     await page.getByRole("button", { name: "Speichern" }).click()
 
@@ -391,10 +402,14 @@ test.describe("Editing multiple mods", () => {
     })
 
     await amendingLawSection.getByText("1. Fall").click()
+    await page.getByRole("combobox", { name: "Zeitgrenze" }).click()
 
     await page
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("Keine Angabe")
+      .getByRole("option", {
+        name: "Keine Angabe",
+      })
+      .click()
+
     await page.getByRole("button", { name: "Speichern" }).click()
 
     await expect(page.getByText("Speichern erfolgreich")).toBeVisible()
@@ -403,9 +418,9 @@ test.describe("Editing multiple mods", () => {
       .getByText("2. Beispiel")
       .click({ modifiers: ["ControlOrMeta"] })
 
-    await expect(
-      page.getByRole("combobox", { name: "Zeitgrenze" }),
-    ).toHaveValue("multiple")
+    await expect(page.getByRole("combobox", { name: "Zeitgrenze" })).toHaveText(
+      "Mehrere",
+    )
 
     await expect(
       page.getByText(
