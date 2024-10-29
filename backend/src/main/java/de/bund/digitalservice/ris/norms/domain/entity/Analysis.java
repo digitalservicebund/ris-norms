@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -49,9 +50,17 @@ public class Analysis {
    * @return the akn:passiveModifications element of the norm
    */
   public Node getOrCreatePassiveModificationsNode() {
-    return NodeParser
-      .getNodeFromExpression("./passiveModifications", node)
+    return getPassiveModificationsNode()
       .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:passiveModifications", node));
+  }
+
+  /**
+   * Gets the akn:passiveModifications element of the norm if it exists.
+   *
+   * @return {@link Optional} containing the akn:passiveModifications element if it exists, empty otherwise
+   */
+  public Optional<Node> getPassiveModificationsNode() {
+    return NodeParser.getNodeFromExpression("./passiveModifications", node);
   }
 
   /**
@@ -100,10 +109,21 @@ public class Analysis {
   }
 
   /**
-   * Delete the provided passive modification.
+   * Delete the provided passive modification. If no passive modifications remain after the deletion, the passive
+   * modifications element is deleted as well.
+   *
    * @param mod the modification to delete
    */
   public void deletePassiveModification(TextualMod mod) {
-    this.getOrCreatePassiveModificationsNode().removeChild(mod.getNode());
+    this.getPassiveModificationsNode()
+      .ifPresent(passiveModsNode -> {
+        passiveModsNode.removeChild(mod.getNode());
+
+        // If there are no more passive modifications left after deleting, we'll need to remove the entire element
+        // as an empty passive mods element would be invalid.
+        if (NodeParser.isEmptyIgnoringWhitespace(passiveModsNode)) node.removeChild(
+          passiveModsNode
+        );
+      });
   }
 }
