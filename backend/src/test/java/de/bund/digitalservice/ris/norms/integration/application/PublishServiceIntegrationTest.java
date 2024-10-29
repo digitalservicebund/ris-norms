@@ -9,12 +9,14 @@ import de.bund.digitalservice.ris.norms.application.service.PublishService;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class PublishServiceIntegrationTest extends BaseIntegrationTest {
+class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
   @Autowired
   private PublishService publishService;
@@ -42,5 +44,9 @@ class PublishServiceIntegrationTest extends BaseIntegrationTest {
       .hasValueSatisfying(loadedNormDto ->
         assertThat(loadedNormDto.getPublishState()).isEqualTo(NormPublishState.PUBLISHED)
       );
+    final Path publicFilePath = getPublicPath(norm);
+    assertThat(Files.exists(publicFilePath)).isTrue();
+    final Path privateFilePath = getPublicPath(norm);
+    assertThat(Files.exists(privateFilePath)).isTrue();
   }
 }
