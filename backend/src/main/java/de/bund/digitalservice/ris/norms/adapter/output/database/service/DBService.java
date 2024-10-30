@@ -159,7 +159,9 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
+    var announcementDto = announcementRepository.findByEli(command.eli().toString());
     announcementRepository.deleteByEli(command.eli().toString());
+    announcementDto.ifPresent(dto -> releaseRepository.deleteAll(dto.getReleases()));
   }
 
   @Override
