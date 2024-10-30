@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -153,7 +153,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class getRelease {
+  class getReleases {
 
     @Test
     void itDoesNotReturnReleaseBecauseAmendingLawNotFound() throws Exception {
@@ -163,7 +163,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -181,7 +181,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+              "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
             )
         )
         .andExpect(
@@ -190,7 +190,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itDoesNotReturnReleaseButReturnsNotFoundIfTargetLawNotFound() throws Exception {
+    void itDoesReturnNoReleasesIfNoneFound() throws Exception {
       // Given
       var amendingNorm = Norm
         .builder()
@@ -285,29 +285,12 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
-        .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
-        .andExpect(jsonPath("status").value(404))
-        .andExpect(
-          jsonPath("detail")
-            .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
-            )
-        )
-        .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
-            )
-        )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        );
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("[0]").doesNotExist());
     }
 
     @Test
@@ -519,29 +502,31 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
-        .andExpect(jsonPath("norms[3]").doesNotExist())
+        .andExpect(jsonPath("[0]").exists())
+        .andExpect(jsonPath("[1]").doesNotExist())
+        .andExpect(jsonPath("[0].releaseAt", equalTo("2024-01-02T10:20:30Z")))
+        .andExpect(jsonPath("[0].norms[3]").doesNotExist())
         .andExpect(
           jsonPath(
-            "norms[0]",
+            "[0].norms[0]",
             equalTo("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2022-08-23/regelungstext-1.xml")
           )
         )
         .andExpect(
           jsonPath(
-            "norms[1]",
+            "[0].norms[1]",
             equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
           )
         )
         .andExpect(
           jsonPath(
-            "norms[2]",
+            "[0].norms[2]",
             equalTo("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/2022-08-23/regelungstext-1.xml")
           )
         );
@@ -549,7 +534,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class putRelease {
+  class postReleases {
 
     @Test
     void itDoesNotReleaseBecauseAmendingLawNotFound() throws Exception {
@@ -558,8 +543,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -577,7 +562,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+              "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
             )
         )
         .andExpect(
@@ -596,8 +581,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -614,7 +599,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+              "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
             )
         )
         .andExpect(
@@ -638,39 +623,24 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("releaseAt").exists())
-        .andExpect(jsonPath("norms[0]").exists())
         .andExpect(jsonPath("norms[3]").doesNotExist())
         .andExpect(
           jsonPath(
-            "norms[0]",
-            equalTo(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-                  LocalDate.now().toString()
-                )
-            )
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "norms[1]",
-            equalTo(
+            "norms",
+            containsInAnyOrder(
               "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
                   LocalDate.now().toString()
-                )
-            )
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "norms[2]",
-            equalTo(
+                ),
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+                  LocalDate.now().toString()
+                ),
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
                   LocalDate.now().toString()
                 )
@@ -746,8 +716,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -756,8 +726,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // release norm a second time
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -821,10 +791,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       affectedNormZf0.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var announcement = Announcement
-        .builder()
-        .eli(amendingNorm.getExpressionEli())
-        .build();
+      var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -835,8 +802,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
@@ -873,10 +840,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var amendingNorm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml");
       var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(amendingNorm.getExpressionEli())
-        .build();
+      var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -887,8 +851,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )

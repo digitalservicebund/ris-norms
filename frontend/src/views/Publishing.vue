@@ -3,7 +3,7 @@ import RisCallout from "@/components/controls/RisCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import Button from "primevue/button"
-import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
+import { useAmendingLawReleases } from "@/composables/useAmendingLawReleases"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNormXml } from "@/services/normService"
 import { computed, onBeforeUnmount, onUnmounted, ref, watch } from "vue"
@@ -15,7 +15,7 @@ onUnmounted(() => cleanupBreadcrumbs())
 
 const eli = useEliPathParameter()
 const {
-  data: release,
+  data: releases,
   release: {
     execute: releaseAmendingLaw,
     isFetching: isReleasing,
@@ -24,7 +24,7 @@ const {
   isFetching,
   error: fetchError,
   statusCode: fetchStatusCode,
-} = useAmendingLawRelease(eli)
+} = useAmendingLawReleases(eli)
 const blobUrls = ref<BlobUrlItem[]>([])
 
 interface BlobUrlItem {
@@ -32,10 +32,10 @@ interface BlobUrlItem {
   blobUrl: string
 }
 
-watch(release, async () => {
-  if (release.value?.norms) {
+watch(releases, async () => {
+  if (releases.value?.[0]?.norms) {
     const newBlobUrls = []
-    for (const releasedNormEli of release.value.norms) {
+    for (const releasedNormEli of releases.value[0].norms) {
       const { data: xmlContent } = await useGetNormXml(releasedNormEli)
 
       const blob = new Blob([xmlContent.value ?? ""], {
@@ -62,7 +62,7 @@ async function onRelease() {
 }
 
 const releasedAt = computed(() =>
-  release.value?.releaseAt ? new Date(release.value.releaseAt) : null,
+  releases.value?.[0]?.releaseAt ? new Date(releases.value[0].releaseAt) : null,
 )
 const publishedAtDateTime = computed(() => releasedAt.value?.toISOString())
 const publishedAtTimeString = computed(() =>

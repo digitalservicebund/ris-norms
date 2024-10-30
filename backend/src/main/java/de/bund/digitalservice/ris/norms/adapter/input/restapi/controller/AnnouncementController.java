@@ -21,7 +21,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,22 +85,17 @@ public class AnnouncementController {
    *     <p>Returns HTTP 404 (Not Found) if no release is found.
    */
   @GetMapping(
-    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
+    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/releases",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<ReleaseResponseSchema> getRelease(final ExpressionEli eli) {
+  public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final ExpressionEli eli) {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliUseCase.Query(eli)
     );
-    var latestRelease = announcement
-      .getReleases()
-      .stream()
-      .max(Comparator.comparing(Release::getReleasedAt));
 
-    return latestRelease
-      .map(ReleaseResponseMapper::fromRelease)
-      .map(ResponseEntity::ok)
-      .orElse(ResponseEntity.notFound().build());
+    return ResponseEntity.ok(
+      announcement.getReleases().stream().map(ReleaseResponseMapper::fromRelease).toList()
+    );
   }
 
   /**
@@ -116,11 +110,11 @@ public class AnnouncementController {
    *     <p>Returns HTTP 200 (OK) and the release was successful.
    *     <p>Returns HTTP 404 (Not Found) if no {@link Announcement} is found.
    */
-  @PutMapping(
-    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
+  @PostMapping(
+    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/releases",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<ReleaseResponseSchema> putRelease(final ExpressionEli eli) {
+  public ResponseEntity<ReleaseResponseSchema> postReleases(final ExpressionEli eli) {
     var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
       new ReleaseAnnouncementUseCase.Query(eli)
     );

@@ -212,23 +212,23 @@ class AnnouncementControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
-        .andExpect(jsonPath("norms[0]").exists())
-        .andExpect(jsonPath("norms[2]").doesNotExist())
+        .andExpect(jsonPath("[0].releaseAt", equalTo("2024-01-02T10:20:30Z")))
+        .andExpect(jsonPath("[0].norms[0]").exists())
+        .andExpect(jsonPath("[0].norms[2]").doesNotExist())
         .andExpect(
           jsonPath(
-            "norms[0]",
+            "[0].norms[0]",
             equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml")
           )
         )
         .andExpect(
           jsonPath(
-            "norms[1]",
+            "[0].norms[1]",
             equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
           )
         );
@@ -262,8 +262,8 @@ class AnnouncementControllerTest {
       // When // Then
       mockMvc
         .perform(
-          put(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release"
+          post(
+            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
         )
