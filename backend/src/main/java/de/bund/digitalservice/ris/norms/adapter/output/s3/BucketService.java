@@ -135,10 +135,10 @@ public class BucketService
   }
 
   private void updateChangelogInS3(
-    S3Client s3Client,
-    String bucketName,
-    String operation,
-    Norm norm
+    final S3Client s3Client,
+    final String bucketName,
+    final String operation,
+    final Norm norm
   ) {
     try {
       final List<Map<String, Object>> changelog = loadChangelog(s3Client, bucketName);
@@ -162,7 +162,10 @@ public class BucketService
     }
   }
 
-  private List<Map<String, Object>> loadChangelog(S3Client s3Client, String bucketName) {
+  private List<Map<String, Object>> loadChangelog(
+    final S3Client s3Client,
+    final String bucketName
+  ) {
     try {
       final GetObjectRequest getRequest = GetObjectRequest
         .builder()
