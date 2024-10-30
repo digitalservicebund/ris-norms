@@ -2,7 +2,7 @@
 flyway = "10.20.1"
 # @keep
 jacoco = "0.8.11"
-org-bouncycastle = "1.78.1"
+org-bouncycastle = "1.79"
 org-testcontainers = "1.20.3"
 spring-boot = "3.3.5"
 
@@ -36,7 +36,7 @@ spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-sta
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-aws-bom = { module = "software.amazon.awssdk:bom", version = "2.29.2" }
+aws-bom = { module = "software.amazon.awssdk:bom", version = "2.29.3" }
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 
 [plugins]
