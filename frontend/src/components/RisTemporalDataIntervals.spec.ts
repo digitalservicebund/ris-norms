@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/vue"
 import dayjs from "dayjs"
 import { describe, expect, it, vi } from "vitest"
 import RisTemporalDataIntervals from "./RisTemporalDataIntervals.vue"
+import PrimeVue from "primevue/config"
 
 describe("RisTemporalDateIntervals", () => {
   it("renders the correct number of date inputs and checks their values", async () => {
@@ -11,6 +12,9 @@ describe("RisTemporalDateIntervals", () => {
       { date: "2023-02-01", eid: "event-2", eventRefEid: "ref-2" },
     ]
     render(RisTemporalDataIntervals, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: { dates },
     })
 
@@ -28,7 +32,11 @@ describe("RisTemporalDateIntervals", () => {
   })
 
   it("should contain a sort button", () => {
-    render(RisTemporalDataIntervals)
+    render(RisTemporalDataIntervals, {
+      global: {
+        plugins: [PrimeVue],
+      },
+    })
     const sortButton = screen.getByText("Nach Datum sortieren")
     expect(sortButton).toBeInTheDocument()
   })
@@ -42,6 +50,9 @@ describe("RisTemporalDateIntervals", () => {
     ]
 
     render(RisTemporalDataIntervals, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: { dates },
     })
 
@@ -61,6 +72,9 @@ describe("RisTemporalDateIntervals", () => {
   it("disables the delete button when there is only one date input", async () => {
     const dates = [{ date: "2023-01-01", eid: "event-1", eventRefEid: "ref-1" }]
     render(RisTemporalDataIntervals, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: { dates },
     })
 
@@ -79,6 +93,9 @@ describe("RisTemporalDateIntervals", () => {
     ]
 
     render(RisTemporalDataIntervals, {
+      global: {
+        plugins: [PrimeVue],
+      },
       props: { dates, "onUpdate:dates": onUpdate },
     })
 
