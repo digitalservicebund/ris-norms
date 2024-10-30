@@ -56,7 +56,10 @@ public class S3MockClient implements S3Client {
 
   @Override
   public ListObjectsV2Response listObjectsV2(ListObjectsV2Request listObjectsV2Request) {
-    try (Stream<Path> files = Files.list(localStorageDirectory)) {
+    final Path filePath = listObjectsV2Request.bucket() != null
+      ? localStorageDirectory.resolve(listObjectsV2Request.bucket())
+      : localStorageDirectory;
+    try (Stream<Path> files = Files.list(filePath)) {
       final List<S3Object> s3Objects = files
         .map(Path::getFileName)
         .map(Path::toString)
@@ -74,7 +77,9 @@ public class S3MockClient implements S3Client {
     GetObjectRequest getObjectRequest,
     ResponseTransformer<GetObjectResponse, T> responseTransformer
   ) {
-    final Path filePath = localStorageDirectory.resolve(getObjectRequest.key());
+    final Path filePath = getObjectRequest.bucket() != null
+      ? localStorageDirectory.resolve(getObjectRequest.bucket()).resolve(getObjectRequest.key())
+      : localStorageDirectory.resolve(getObjectRequest.key());
     try {
       byte[] fileBytes = Files.readAllBytes(filePath);
       final GetObjectResponse getObjectResponse = GetObjectResponse

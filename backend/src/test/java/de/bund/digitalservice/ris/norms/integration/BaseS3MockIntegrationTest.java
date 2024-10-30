@@ -23,8 +23,16 @@ public abstract class BaseS3MockIntegrationTest extends BaseIntegrationTest {
     FileUtils.deleteDirectory(new File(LOCAL_STORAGE_PATH));
   }
 
+  protected static Path getPublicPath() {
+    return Paths.get(LOCAL_STORAGE_PATH, PUBLIC_BUCKET);
+  }
+
   protected static Path getPublicPath(Norm norm) {
     return Paths.get(LOCAL_STORAGE_PATH, PUBLIC_BUCKET, norm.getManifestationEli().toString());
+  }
+
+  protected static Path getPrivatePath() {
+    return Paths.get(LOCAL_STORAGE_PATH, PRIVATE_BUCKET);
   }
 
   protected static Path getPrivatePath(Norm norm) {

@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.s3;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePrivateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePublicNormPort;
@@ -7,6 +9,12 @@ import de.bund.digitalservice.ris.norms.application.port.output.PublishPrivateNo
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPublicNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.io.InputStream;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +22,7 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 /**
@@ -53,6 +62,11 @@ public class BucketService
   implements
     PublishPublicNormPort, PublishPrivateNormPort, DeletePublicNormPort, DeletePrivateNormPort {
 
+  private static final String PUT = "PUT";
+  private static final String DELETE = "DELETE";
+  private static final String CHANGELOG_KEY = "changelog.json";
+  private static final ObjectMapper objectMapper = new ObjectMapper();
+
   @Value("${otc.obs.private.bucket-name:private}")
   private String privateBucketName;
 
@@ -73,21 +87,25 @@ public class BucketService
   @Override
   public void publishPublicNorm(PublishPublicNormPort.Command command) throws BucketException {
     uploadToBucket(publicS3Client, publicBucketName, command.norm());
+    updateChangelogInS3(publicS3Client, publicBucketName, PUT, command.norm());
   }
 
   @Override
   public void publishPrivateNorm(PublishPrivateNormPort.Command command) throws BucketException {
     uploadToBucket(privateS3Client, privateBucketName, command.norm());
+    updateChangelogInS3(privateS3Client, privateBucketName, PUT, command.norm());
   }
 
   @Override
   public void deletePrivateNorm(DeletePrivateNormPort.Command command) throws BucketException {
     deleteFromBucket(privateS3Client, privateBucketName, command.norm());
+    updateChangelogInS3(privateS3Client, privateBucketName, DELETE, command.norm());
   }
 
   @Override
   public void deletePublicNorm(DeletePublicNormPort.Command command) throws BucketException {
     deleteFromBucket(publicS3Client, publicBucketName, command.norm());
+    updateChangelogInS3(publicS3Client, publicBucketName, DELETE, command.norm());
   }
 
   private void uploadToBucket(final S3Client s3Client, final String bucketName, final Norm norm) {
@@ -99,7 +117,7 @@ public class BucketService
         .build();
       s3Client.putObject(request, RequestBody.fromString(XmlMapper.toString(norm.getDocument())));
     } catch (final Exception e) {
-      throw new BucketException("PUT", bucketName, norm.getManifestationEli(), e);
+      throw new BucketException(PUT, bucketName, norm.getManifestationEli(), e);
     }
   }
 
@@ -112,7 +130,50 @@ public class BucketService
         .build();
       s3Client.deleteObject(request);
     } catch (final Exception e) {
-      throw new BucketException("DELETE", bucketName, norm.getManifestationEli(), e);
+      throw new BucketException(DELETE, bucketName, norm.getManifestationEli(), e);
+    }
+  }
+
+  private void updateChangelogInS3(
+    S3Client s3Client,
+    String bucketName,
+    String operation,
+    Norm norm
+  ) {
+    try {
+      final List<Map<String, Object>> changelog = loadChangelog(s3Client, bucketName);
+      // Add new entry to the changelog
+      final Map<String, Object> logEntry = new HashMap<>();
+      logEntry.put("operation", operation);
+      logEntry.put("norm", norm.getManifestationEli().toString());
+      logEntry.put("timestamp", Instant.now().toString()); // Returns the timestamp in ISO 8601 format (UTC)
+      changelog.add(logEntry);
+
+      // Convert changelog to JSON and save it back to S3
+      final String updatedChangelog = objectMapper.writeValueAsString(changelog);
+      final PutObjectRequest putRequest = PutObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(CHANGELOG_KEY)
+        .build();
+      s3Client.putObject(putRequest, RequestBody.fromString(updatedChangelog));
+    } catch (final Exception e) {
+      log.error("Failed to update changelog in bucket %s with error %s".formatted(bucketName, e));
+    }
+  }
+
+  private List<Map<String, Object>> loadChangelog(S3Client s3Client, String bucketName) {
+    try {
+      final GetObjectRequest getRequest = GetObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(CHANGELOG_KEY)
+        .build();
+      final InputStream changelogStream = s3Client.getObject(getRequest);
+      return objectMapper.readValue(changelogStream, new TypeReference<>() {});
+    } catch (final Exception e) {
+      log.warn("Changelog not found or failed to load, creating new changelog.");
+      return new ArrayList<>(); // Return an empty list if no changelog exists
     }
   }
 }
