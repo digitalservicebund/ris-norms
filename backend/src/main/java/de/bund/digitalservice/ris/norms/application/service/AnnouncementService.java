@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
@@ -45,7 +46,7 @@ public class AnnouncementService
   private final BillToActService billToActService;
   private final LdmlDeValidator ldmlDeValidator;
   private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
-  private final DeleteUnpublishedNormPort deleteUnpublishedNormPort;
+  private final DeleteNormPort deleteNormPort;
   private final ReferenceService referenceService;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
@@ -59,7 +60,7 @@ public class AnnouncementService
     BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
-    DeleteUnpublishedNormPort deleteUnpublishedNormPort,
+    DeleteNormPort deleteNormPort,
     ReferenceService referenceService,
     UpdateOrSaveNormPort updateOrSaveNormPort
   ) {
@@ -72,7 +73,7 @@ public class AnnouncementService
     this.billToActService = billToActService;
     this.ldmlDeValidator = ldmlDeValidator;
     this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
-    this.deleteUnpublishedNormPort = deleteUnpublishedNormPort;
+    this.deleteNormPort = deleteNormPort;
     this.referenceService = referenceService;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
   }
@@ -221,8 +222,8 @@ public class AnnouncementService
         .loadNorm(new LoadNormPort.Command(expressionEli))
         .ifPresent(targetNorm -> {
           ManifestationEli manifestationEli = targetNorm.getMeta().getFRBRManifestation().getEli();
-          deleteUnpublishedNormPort.deleteUnpublishedNorm(
-            new DeleteUnpublishedNormPort.Command(manifestationEli)
+          deleteNormPort.deleteNorm(
+            new DeleteNormPort.Command(manifestationEli, NormPublishState.UNPUBLISHED)
           );
         })
     );

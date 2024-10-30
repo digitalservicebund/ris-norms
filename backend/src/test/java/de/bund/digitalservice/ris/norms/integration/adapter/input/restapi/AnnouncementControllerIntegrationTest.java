@@ -5,15 +5,17 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
@@ -39,9 +41,13 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private NormRepository normRepository;
 
+  @Autowired
+  private ReleaseRepository releaseRepository;
+
   @AfterEach
   void cleanUp() {
     announcementRepository.deleteAll();
+    releaseRepository.deleteAll();
     normRepository.deleteAll();
   }
 
@@ -489,17 +495,25 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
         .build();
-      var announcement = Announcement
-        .builder()
-        .eli(amendingNorm.getExpressionEli())
-        .releases(
-          List.of(Release.builder().releasedAt(Instant.parse("2024-01-02T10:20:30.0Z")).build())
-        )
-        .build();
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+
+      var normDto1 = normRepository.save(NormMapper.mapToDto(amendingNorm));
+      var normDto2 = normRepository.save(NormMapper.mapToDto(affectedNorm));
+      var normDto3 = normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+
+      var releaseDto = releaseRepository.save(
+        ReleaseDto
+          .builder()
+          .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+          .norms(List.of(normDto1, normDto2, normDto3))
+          .build()
+      );
+      announcementRepository.save(
+        AnnouncementDto
+          .builder()
+          .eli(amendingNorm.getExpressionEli().toString())
+          .releases(List.of(releaseDto))
+          .build()
+      );
 
       // When
       mockMvc
@@ -512,18 +526,23 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
+        .andExpect(jsonPath("norms[3]").doesNotExist())
         .andExpect(
           jsonPath(
-            "amendingLawEli",
-            equalTo("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+            "norms[0]",
+            equalTo("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2022-08-23/regelungstext-1.xml")
           )
         )
-        .andExpect(jsonPath("zf0Elis[0]").exists())
-        .andExpect(jsonPath("zf0Elis[1]").doesNotExist())
         .andExpect(
           jsonPath(
-            "zf0Elis[0]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+            "norms[1]",
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
+          )
+        )
+        .andExpect(
+          jsonPath(
+            "norms[2]",
+            equalTo("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/2022-08-23/regelungstext-1.xml")
           )
         );
     }
@@ -626,18 +645,36 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("releaseAt").exists())
+        .andExpect(jsonPath("norms[0]").exists())
+        .andExpect(jsonPath("norms[3]").doesNotExist())
         .andExpect(
           jsonPath(
-            "amendingLawEli",
-            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+            "norms[0]",
+            equalTo(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+                  LocalDate.now().toString()
+                )
+            )
           )
         )
-        .andExpect(jsonPath("zf0Elis[0]").exists())
-        .andExpect(jsonPath("zf0Elis[1]").doesNotExist())
         .andExpect(
           jsonPath(
-            "zf0Elis[0]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+            "norms[1]",
+            equalTo(
+              "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
+                  LocalDate.now().toString()
+                )
+            )
+          )
+        )
+        .andExpect(
+          jsonPath(
+            "norms[2]",
+            equalTo(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+                  LocalDate.now().toString()
+                )
+            )
           )
         );
 

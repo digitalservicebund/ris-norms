@@ -41,7 +41,7 @@ class AnnouncementServiceTest {
   final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort = mock(
     DeleteAnnouncementByNormEliPort.class
   );
-  final DeleteUnpublishedNormPort deleteUnpublishedNormPort = mock(DeleteUnpublishedNormPort.class);
+  final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
   final ReferenceService referenceService = mock(ReferenceService.class);
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
@@ -55,7 +55,7 @@ class AnnouncementServiceTest {
     billToActService,
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
-    deleteUnpublishedNormPort,
+    deleteNormPort,
     referenceService,
     updateOrSaveNormPort
   );

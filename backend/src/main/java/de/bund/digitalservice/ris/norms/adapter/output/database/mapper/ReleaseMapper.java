@@ -30,10 +30,6 @@ public class ReleaseMapper {
    * @return A new {@link ReleaseDto} mapped from the input {@link Release}.
    */
   public static ReleaseDto mapToDto(final Release release) {
-    return ReleaseDto
-      .builder()
-      .releasedAt(release.getReleasedAt())
-      .norms(release.getPublishedNorms().stream().map(NormMapper::mapToDto).toList())
-      .build();
+    return ReleaseDto.builder().releasedAt(release.getReleasedAt()).build();
   }
 }

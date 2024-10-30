@@ -2,8 +2,10 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
@@ -39,8 +41,10 @@ public class DBService
     UpdateOrSaveNormPort,
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
-    DeleteUnpublishedNormPort,
-    DeleteQueuedNormsPort {
+    DeleteNormPort,
+    DeleteQueuedNormsPort,
+    SaveReleaseToAnnouncementPort,
+    DeleteQueuedReleasesPort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -133,14 +137,10 @@ public class DBService
 
   @Override
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
-    var announcement = command.announcement();
     return announcementRepository
       .findByEli(command.announcement().getEli().toString())
-      // It is not possible to change the norm associated with an announcement.
-      // Therefore, we don't update that relationship.
-      .map(announcementDto ->
-        AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto))
-      );
+      // There is no field in an announcement that can change, so we do nothing here
+      .map(AnnouncementMapper::mapToDomain);
   }
 
   @Override
@@ -164,10 +164,10 @@ public class DBService
 
   @Override
   @Transactional
-  public void deleteUnpublishedNorm(DeleteUnpublishedNormPort.Command command) {
+  public void deleteNorm(DeleteNormPort.Command command) {
     normRepository.deleteByEliManifestationAndPublishState(
       command.eli().toString(),
-      NormPublishState.UNPUBLISHED
+      command.publishState()
     );
   }
 
@@ -189,5 +189,59 @@ public class DBService
       .map(Announcement::getReleases)
       .flatMap(List::stream)
       .findFirst();
+  }
+
+  @Override
+  public Release saveReleaseToAnnouncement(SaveReleaseToAnnouncementPort.Command command) {
+    final ReleaseDto releaseDto = ReleaseMapper.mapToDto(command.release());
+
+    command
+      .release()
+      .getPublishedNorms()
+      .forEach(norm ->
+        normRepository
+          .findByEliManifestation(norm.getManifestationEli().toString())
+          .ifPresent(normDto -> releaseDto.getNorms().add(normDto))
+      );
+
+    var release = releaseRepository.save(releaseDto);
+
+    announcementRepository
+      .findByEli(command.announcement().getEli().toString())
+      .ifPresent(announcementDto -> {
+        announcementDto.getReleases().add(release);
+        announcementRepository.save(announcementDto);
+      });
+
+    return ReleaseMapper.mapToDomain(release);
+  }
+
+  @Override
+  public List<Release> deleteQueuedReleases(DeleteQueuedReleasesPort.Command command) {
+    var announcementDto = announcementRepository.findByEli(command.eli().toString());
+
+    if (announcementDto.isEmpty()) {
+      return List.of();
+    }
+
+    var queuedReleaseDtos = announcementDto
+      .get()
+      .getReleases()
+      .stream()
+      .filter(releaseDto ->
+        releaseDto
+          .getNorms()
+          .stream()
+          .map(NormMapper::mapToDomain)
+          .allMatch(norm -> norm.getPublishState() == NormPublishState.QUEUED_FOR_PUBLISH)
+      )
+      .toList();
+
+    queuedReleaseDtos.forEach(releaseDto -> announcementDto.get().getReleases().remove(releaseDto));
+    announcementRepository.save(announcementDto.get());
+
+    releaseRepository.deleteAll(queuedReleaseDtos);
+
+    return queuedReleaseDtos.stream().map(ReleaseMapper::mapToDomain).toList();
   }
 }

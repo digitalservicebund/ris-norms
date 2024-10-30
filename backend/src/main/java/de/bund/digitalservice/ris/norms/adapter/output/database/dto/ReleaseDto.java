@@ -10,6 +10,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -47,5 +48,5 @@ public class ReleaseDto {
     )
   )
   @Builder.Default
-  private List<NormDto> norms = List.of();
+  private List<NormDto> norms = new ArrayList<>();
 }

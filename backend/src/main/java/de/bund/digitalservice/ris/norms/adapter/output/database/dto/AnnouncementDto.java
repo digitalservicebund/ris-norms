@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,7 +38,7 @@ public class AnnouncementDto {
   @Column(name = "eli")
   private String eli;
 
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(
     name = "announcement_releases",
     joinColumns = @JoinColumn(name = "announcement_id"),
