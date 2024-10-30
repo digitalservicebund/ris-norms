@@ -44,7 +44,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishPrivateNorm(command);
 
     // Then
-    final Path filePath = getPublicPath(norm);
+    final Path filePath = getPrivatePath(norm);
     assertThat(Files.exists(filePath)).isTrue();
   }
 
