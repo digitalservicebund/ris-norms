@@ -1264,7 +1264,7 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
-      final var temporalData = norm.getMeta().getOrCreateTemporalDataNode();
+      final var temporalData = norm.getMeta().getOrCreateTemporalData();
 
       // then
       assertThat(temporalData).isNotNull();
