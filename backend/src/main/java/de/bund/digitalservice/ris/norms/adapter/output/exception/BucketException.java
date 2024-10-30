@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.exception;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.utils.exceptions.PublishException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
 import lombok.Getter;
 
 /**
@@ -11,18 +11,21 @@ import lombok.Getter;
  * manifestation that could not be published.
  */
 @Getter
-public class BucketPublishException extends PublishException {
+public class BucketException extends StorageException {
 
-  private final String bucketName;
-  private final transient ManifestationEli manifestationEli;
-
-  public BucketPublishException(
+  public BucketException(
     final String bucketName,
+    final String operation,
     final ManifestationEli manifestationEli,
     final Exception e
   ) {
-    super("Norm %s could not be uploaded to bucket %s".formatted(manifestationEli, bucketName), e);
-    this.bucketName = bucketName;
-    this.manifestationEli = manifestationEli;
+    super(
+      "%s operation unsuccessful for bucket %s and norm %s".formatted(
+          operation,
+          manifestationEli,
+          bucketName
+        ),
+      e
+    );
   }
 }

@@ -1,13 +1,12 @@
 package de.bund.digitalservice.ris.norms.adapter.output.s3;
 
-import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketPublishException;
+import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePrivateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePublicNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPrivateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPublicNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,11 +41,11 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
  * <p>Usage:</p>
  * This service is used by invoking either {@code publishPublicNorm} or {@code publishPrivateNorm}
  * to upload a norm document to the respective storage. In case of a failure during the upload,
- * a {@link BucketPublishException} is thrown, encapsulating the bucket name and norm details.
+ * a {@link BucketException} is thrown, encapsulating the bucket name and norm details.
  *
  * @see PublishPublicNormPort
  * @see PublishPrivateNormPort
- * @see BucketPublishException
+ * @see BucketException
  */
 @Service
 @Slf4j
@@ -72,33 +71,26 @@ public class BucketService
   }
 
   @Override
-  public boolean publishPublicNorm(PublishPublicNormPort.Command command)
-    throws BucketPublishException {
-    return uploadToBucket(publicS3Client, publicBucketName, command.norm());
+  public void publishPublicNorm(PublishPublicNormPort.Command command) throws BucketException {
+    uploadToBucket(publicS3Client, publicBucketName, command.norm());
   }
 
   @Override
-  public boolean publishPrivateNorm(PublishPrivateNormPort.Command command)
-    throws BucketPublishException {
-    return uploadToBucket(privateS3Client, privateBucketName, command.norm());
+  public void publishPrivateNorm(PublishPrivateNormPort.Command command) throws BucketException {
+    uploadToBucket(privateS3Client, privateBucketName, command.norm());
   }
 
   @Override
-  public void deletePrivateNorm(DeletePrivateNormPort.Command command)
-    throws BucketPublishException {
+  public void deletePrivateNorm(DeletePrivateNormPort.Command command) throws BucketException {
     deleteFromBucket(privateS3Client, privateBucketName, command.norm());
   }
 
   @Override
-  public void deletePublicNorm(DeletePublicNormPort.Command command) throws BucketPublishException {
+  public void deletePublicNorm(DeletePublicNormPort.Command command) throws BucketException {
     deleteFromBucket(publicS3Client, publicBucketName, command.norm());
   }
 
-  private boolean uploadToBucket(
-    final S3Client s3Client,
-    final String bucketName,
-    final Norm norm
-  ) {
+  private void uploadToBucket(final S3Client s3Client, final String bucketName, final Norm norm) {
     try {
       final PutObjectRequest request = PutObjectRequest
         .builder()
@@ -106,23 +98,21 @@ public class BucketService
         .key(norm.getManifestationEli().toString())
         .build();
       s3Client.putObject(request, RequestBody.fromString(XmlMapper.toString(norm.getDocument())));
-      return true;
     } catch (final Exception e) {
-      throw new BucketPublishException(bucketName, norm.getManifestationEli(), e);
+      throw new BucketException("PUT", bucketName, norm.getManifestationEli(), e);
     }
   }
 
-  private void deleteFromBucket(final S3Client s3Client, final String bucketName, final Norm norm)
-    throws XmlProcessingException {
-    final DeleteObjectRequest request = DeleteObjectRequest
-      .builder()
-      .bucket(bucketName)
-      .key(norm.getManifestationEli().toString())
-      .build();
+  private void deleteFromBucket(final S3Client s3Client, final String bucketName, final Norm norm) {
     try {
+      final DeleteObjectRequest request = DeleteObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(norm.getManifestationEli().toString())
+        .build();
       s3Client.deleteObject(request);
     } catch (final Exception e) {
-      throw new BucketPublishException(bucketName, norm.getManifestationEli(), e);
+      throw new BucketException("DELETE", bucketName, norm.getManifestationEli(), e);
     }
   }
 }

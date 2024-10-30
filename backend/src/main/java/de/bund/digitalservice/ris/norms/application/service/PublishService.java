@@ -4,7 +4,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.PublishException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -52,26 +52,45 @@ public class PublishService implements PublishNormUseCase {
       )
       .forEach(norm -> {
         prepareForPublish(norm);
-        boolean isPushedToPublic = false;
-        boolean isPushedToPrivate = false;
+        boolean isPublicPublished = false;
+        boolean isPrivatePublished = false;
         try {
-          isPushedToPublic =
+          // Try to publish publicly
           publishPublicNormPort.publishPublicNorm(new PublishPublicNormPort.Command(norm));
-          isPushedToPrivate =
+          isPublicPublished = true;
+          // Only if public publish succeeds, try private publish
           publishPrivateNormPort.publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+          isPrivatePublished = true;
+          // If both succeeds, then update publish state
           norm.setPublishState(NormPublishState.PUBLISHED);
           updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-        } catch (final PublishException e) {
+        } catch (final Exception e) {
           log.error(e.getMessage());
-          // Rollback logic
-          if (isPushedToPublic) {
-            deletePublicNormPort.deletePublicNorm(new DeletePublicNormPort.Command(norm));
+          // Rollback logic based on what succeeded (also for the case that DB update failed)
+          if (isPublicPublished) {
+            rollbackPublicPublish(norm);
           }
-          if (isPushedToPrivate) {
-            deletePrivateNormPort.deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
+          if (isPublicPublished && isPrivatePublished) {
+            rollbackPrivatePublish(norm);
           }
         }
       });
+  }
+
+  private void rollbackPublicPublish(Norm norm) {
+    try {
+      deletePublicNormPort.deletePublicNorm(new DeletePublicNormPort.Command(norm));
+    } catch (final StorageException e) {
+      log.error(e.getMessage());
+    }
+  }
+
+  private void rollbackPrivatePublish(Norm norm) {
+    try {
+      deletePrivateNormPort.deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
+    } catch (StorageException e) {
+      log.error(e.getMessage());
+    }
   }
 
   /**

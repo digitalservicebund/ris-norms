@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketPublishException;
+import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -94,9 +94,7 @@ class PublishServiceTest {
       // Given
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
-      when(publishPublicNormPort.publishPublicNorm(any())).thenReturn(true);
-      when(publishPrivateNormPort.publishPrivateNorm(any()))
-        .thenThrow(BucketPublishException.class);
+      doThrow(BucketException.class).when(publishPrivateNormPort).publishPrivateNorm(any());
 
       // When
       publishService.processQueuedFilesForPublish();
@@ -122,7 +120,7 @@ class PublishServiceTest {
       // Given
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
-      when(publishPublicNormPort.publishPublicNorm(any())).thenThrow(BucketPublishException.class);
+      doThrow(BucketException.class).when(publishPublicNormPort).publishPublicNorm(any());
 
       // When
       publishService.processQueuedFilesForPublish();

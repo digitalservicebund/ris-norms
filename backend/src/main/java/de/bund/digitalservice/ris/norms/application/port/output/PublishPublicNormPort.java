@@ -15,9 +15,8 @@ public interface PublishPublicNormPort {
    *
    * @param command a {@link Command} object containing the {@link Norm} entity to be stored
    *                in the public storage location.
-   * @return if the publish process succeeded.
    */
-  boolean publishPublicNorm(final Command command);
+  void publishPublicNorm(final Command command);
 
   /**
    * A record representing the command used for publishing a {@link Norm} to the public storage location.
