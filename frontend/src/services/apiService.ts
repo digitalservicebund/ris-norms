@@ -1,4 +1,5 @@
 import { getFallbackError } from "@/lib/errorResponseMapper"
+import routerInstance from "@/router"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
 
 /**
@@ -58,13 +59,15 @@ export const useApiFetch = createFetch({
     },
 
     onFetchError(fetchContext) {
-      /*if (fetchContext.response?.status === 404 && routerInstance) {
+      // We'll probably remove this again because we don't want a blanket
+      // redirect to 404 if anything goes wrong.
+      if (fetchContext.response?.status === 404 && routerInstance) {
         routerInstance.push({ name: "NotFound" }).catch((err) => {
           if (err.name !== "NavigationDuplicated") {
             console.error("Failed to navigate to 404 page:", err)
           }
         })
-      }*/
+      }
       // this error is sometimes throws when previous requests are automatically aborted as
       // some of the data changed and refetch is true. It seems to only be throws when the request
       // is aborted before it was actually send.
