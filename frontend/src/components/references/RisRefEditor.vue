@@ -4,7 +4,6 @@ import Select from "primevue/select"
 import { useRef } from "@/composables/useRef"
 import { useDebounceFn } from "@vueuse/core"
 import Button from "primevue/button"
-// import Select from "primevue/select"
 import { ref, watch } from "vue"
 import CloseIcon from "~icons/ic/close"
 
@@ -73,7 +72,6 @@ watch(
     :options="refersToOptions"
     option-label="label"
     option-value="value"
-    placeholder=" "
     aria-label="Typ"
     class="-mr-1"
   />

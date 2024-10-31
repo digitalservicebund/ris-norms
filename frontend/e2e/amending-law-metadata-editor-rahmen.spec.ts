@@ -502,63 +502,63 @@ test.describe("metadata view", () => {
     })
   })
 
-  // test("shows an error if the metadata could not be loaded", async ({
-  //   page,
-  // }) => {
-  //   const metadataPage = new MetadataEditorRahmenPage(page)
-  //
-  //   // Given
-  //   await page.route(/\/proprietary\/2023-12-30$/, (request) => {
-  //     request.abort()
-  //   })
-  //
-  //   await metadataPage.gotoTimeBoundary("2023-12-30")
-  //
-  //   const editorRegion = page.getByRole("region", {
-  //     name: "Metadaten dokumentieren",
-  //   })
-  //
-  //   // Then
-  //   await expect(
-  //     editorRegion.getByText("Ein unbekannter Fehler ist aufgetreten."),
-  //   ).toBeVisible()
-  // })
-  //
-  // test("displays a success message when the data has been saved", async ({
-  //   page,
-  // }) => {
-  //   const metadataPage = new MetadataEditorRahmenPage(page)
-  //   // Given
-  //   await metadataPage.gotoTimeBoundary("2023-12-30")
-  //
-  //   // When
-  //   await metadataPage.saveMetadata()
-  //
-  //   // Then
-  //   const toastMessage = page.getByRole("alert")
-  //   await expect(toastMessage).toHaveText("Gespeichert!")
-  // })
-  //
-  // test("shows an error if the data could not be saved", async ({ page }) => {
-  //   const metadataPage = new MetadataEditorRahmenPage(page)
-  //   // Given
-  //   await page.route(/\/proprietary\/2023-12-30$/, (route) => {
-  //     if (route.request().method() === "PUT") route.abort("failed")
-  //     else route.continue()
-  //   })
-  //
-  //   await metadataPage.gotoTimeBoundary("2023-12-30")
-  //
-  //   // When
-  //   await metadataPage.saveButton.click()
-  //
-  //   // Then
-  //   await expect(page.getByText(/Fehler beim Speichern/)).toBeVisible()
-  //
-  //   await expect(
-  //     page.getByRole("button", {
-  //       name: "Trace-ID in die Zwischenablage kopieren",
-  //     }),
-  //   ).toBeVisible()
-  // })
+  test("shows an error if the metadata could not be loaded", async ({
+    page,
+  }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
+
+    // Given
+    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
+      request.abort()
+    })
+
+    await metadataPage.gotoTimeBoundary("2023-12-30")
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten dokumentieren",
+    })
+
+    // Then
+    await expect(
+      editorRegion.getByText("Ein unbekannter Fehler ist aufgetreten."),
+    ).toBeVisible()
+  })
+
+  test("displays a success message when the data has been saved", async ({
+    page,
+  }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
+    // Given
+    await metadataPage.gotoTimeBoundary("2023-12-30")
+
+    // When
+    await metadataPage.saveMetadata()
+
+    // Then
+    const toastMessage = page.getByRole("alert")
+    await expect(toastMessage).toHaveText("Gespeichert!")
+  })
+
+  test("shows an error if the data could not be saved", async ({ page }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
+    // Given
+    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
+      if (route.request().method() === "PUT") route.abort("failed")
+      else route.continue()
+    })
+
+    await metadataPage.gotoTimeBoundary("2023-12-30")
+
+    // When
+    await metadataPage.saveButton.click()
+
+    // Then
+    await expect(page.getByText(/Fehler beim Speichern/)).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Trace-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+  })
 })
