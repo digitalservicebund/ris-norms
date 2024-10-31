@@ -3,7 +3,6 @@ import { getByText, render, screen } from "@testing-library/vue"
 import RisModForm from "@/components/RisModForm.vue"
 import { userEvent } from "@testing-library/user-event"
 import { ModType } from "@/types/ModType"
-import PrimeVue from "primevue/config"
 
 const add = vi.fn()
 vi.mock("primevue/usetoast", () => {
@@ -30,9 +29,6 @@ describe("RisModForm", () => {
 
   it("Should render the form with only mandatory fields", () => {
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -97,9 +93,6 @@ describe("RisModForm", () => {
 
   it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen'", () => {
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -133,9 +126,6 @@ describe("RisModForm", () => {
 
   it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen' and there is a quotedStructureContent", () => {
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -172,9 +162,6 @@ describe("RisModForm", () => {
 
   it("Should render the form when timeBoundaries are empty", () => {
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -189,9 +176,6 @@ describe("RisModForm", () => {
 
   it("Should render the form when a timeBoundary is pre selected", () => {
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -222,9 +206,6 @@ describe("RisModForm", () => {
 
   it("Should render the form with quoted structure content", () => {
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -260,9 +241,6 @@ describe("RisModForm", () => {
     }
 
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props,
     })
 
@@ -292,9 +270,6 @@ describe("RisModForm", () => {
     }
 
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props,
     })
 
@@ -325,9 +300,6 @@ describe("RisModForm", () => {
     }
 
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props,
     })
 
@@ -344,9 +316,6 @@ describe("RisModForm", () => {
     const user = userEvent.setup()
 
     const result = render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -394,9 +363,6 @@ describe("RisModForm", () => {
     }
 
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props,
     })
 
@@ -431,9 +397,6 @@ describe("RisModForm", () => {
     }
 
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props,
     })
 
@@ -451,9 +414,6 @@ describe("RisModForm", () => {
     const onGeneratePreview = vi.fn()
 
     render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,
@@ -479,9 +439,6 @@ describe("RisModForm", () => {
     const onUpdateMod = vi.fn()
 
     const { rerender } = render(RisModForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         id: "risModForm",
         textualModType,

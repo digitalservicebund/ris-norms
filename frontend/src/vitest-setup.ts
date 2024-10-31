@@ -2,6 +2,8 @@
 // unit tests.
 
 import "@testing-library/jest-dom"
+import { config } from "@vue/test-utils"
+import PrimeVue from "primevue/config"
 import { vi } from "vitest"
 import { useNamespaces } from "xpath"
 
@@ -22,3 +24,6 @@ vi.mock("@/services/xmlService", async (importOriginal) => ({
 // JSDom doesn't implement layout-related functionality such as scrollIntoView. This
 // is used in many places (e.g. wherever the Preview is used), so mocking it globally.
 Element.prototype.scrollIntoView ??= vi.fn()
+
+// Enable PrimeVue plugin because we need that in many tests
+config.global.plugins = [PrimeVue]
