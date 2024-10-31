@@ -159,7 +159,7 @@ public class FRBRExpression extends FRBR {
 
         // FRBR metadata needs to be in the correct order, so we're inserting it before the author, which is the
         // element that has to follow the aliases in a valid document.
-        var author = NodeParser.getMandatoryNodeFromExpression("./FRBRauthor", getNode());
+        final var author = NodeParser.getMandatoryNodeFromExpression("./FRBRauthor", getNode());
         getNode().insertBefore(nextVersionAlias, author);
 
         return nextVersionAlias;
