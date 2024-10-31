@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -372,9 +373,9 @@ class ModTest {
   void hasRrefFalse() {
     String rangeRefString =
       """
-                              <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der
-                    <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt
-          </akn:mod>
+      <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der
+        <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt
+      </akn:mod>
       """;
     quotedStructureRefMod = Mod.builder().node(XmlMapper.toNode(rangeRefString)).build();
 
@@ -416,6 +417,9 @@ class ModTest {
     final Optional<Href> targetRrefUpTo = quotedStructureRefMod.getTargetRrefUpTo();
     assertThat(targetRrefUpTo).isPresent();
     assertThat(targetRrefUpTo.get().value()).isEqualTo("new-destination-upto");
+
+    assertThat(NodeParser.getValueFromExpression("./rref/@GUID", quotedStructureRefMod.getNode()))
+      .isPresent();
   }
 
   @Test
@@ -428,5 +432,8 @@ class ModTest {
     final Optional<Href> targetRefHref = quotedStructureRrefMod.getTargetRefHref();
     assertThat(targetRefHref).isPresent();
     assertThat(targetRefHref.get().value()).isEqualTo("new-destination-href");
+
+    assertThat(NodeParser.getValueFromExpression("./ref/@GUID", quotedStructureRrefMod.getNode()))
+      .isPresent();
   }
 }
