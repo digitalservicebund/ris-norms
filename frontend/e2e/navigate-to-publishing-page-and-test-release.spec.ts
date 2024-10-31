@@ -25,7 +25,7 @@ test.describe(
 
     test("publishing a norm", async ({ page }) => {
       await page.goto(
-        "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/publishing",
+        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
 
       await page.getByRole("button", { name: "Jetzt abgeben" }).click()
@@ -45,29 +45,44 @@ test.describe(
       // Verify Links
       await expect(
         page.getByRole("link", {
-          name: `eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          name: `eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         }),
       ).toBeVisible()
       await expect(
         page.getByRole("link", {
-          name: `eli/bund/bgbl-1/1990/s2954/2024-06-01/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          name: `eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         }),
       ).toBeVisible()
       await expect(
         page.getByRole("link", {
-          name: `eli/bund/bgbl-1/1990/s2954/2023-12-30/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          name: `eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         }),
       ).toBeVisible()
-      await expect(
-        page.getByRole("link", {
-          name: `eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
-        }),
-      ).toBeVisible()
+      const manifestationOfPreviouslyPublishedExpression =
+        await page.request.get(
+          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+        )
+      expect(
+        await manifestationOfPreviouslyPublishedExpression.text(),
+      ).toContain(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml",
+      )
+      expect(
+        await manifestationOfPreviouslyPublishedExpression.text(),
+      ).toContain(
+        "Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet",
+      )
 
-      // TODO: (Malte Laukötter, 2024-10-30) check that further editing doesn't change published norms
-      // TODO: (Malte Laukötter, 2024-10-30) check that further editing & then publishing again does change published norms (at same date)
-      // TODO: (Malte Laukötter, 2024-10-30) check published file content?
+      const expressionAtFirstTimeBoundary = await page.request.get(
+        `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+      )
+      expect(await expressionAtFirstTimeBoundary.text()).toContain(
+        "Absatz 2 oder 3 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet",
+      )
     })
+
+    // TODO: (Malte Laukötter, 2024-10-30) check that further editing doesn't change published norms
+    // TODO: (Malte Laukötter, 2024-10-30) check that further editing & then publishing again does change published norms (at same date)
 
     async function verifyPublicationTime(
       page: Page,
