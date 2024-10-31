@@ -791,6 +791,112 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
       assertThat(normRepository.findAll()).hasSize(6);
     }
+
+    @Test
+    void failsWhenTryingToReleaseAnXsdInvalidNorm() throws Exception {
+      // Given
+      var amendingNorm = NormFixtures.loadFromDisk("NormWithModsXsdInvalid.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      affectedNormZf0.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      var announcement = Announcement
+        .builder()
+        .eli(amendingNorm.getExpressionEli())
+        .releasedByDocumentalistAt(null)
+        .build();
+
+      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+
+      // When // Then
+      // Request is refused
+      mockMvc
+        .perform(
+          put(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          )
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isUnprocessableEntity())
+        .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")));
+
+      // Content of the DB should be unchanged = 3 sample norms, all unpublished
+      assertThat(normRepository.findAll()).hasSize(3);
+      assertThat(
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        )
+      )
+        .isNotEmpty();
+      assertThat(
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      )
+        .isNotEmpty();
+
+      var originalNormWithPassiveMods = normRepository.findByEliManifestation(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+
+      assertThat(originalNormWithPassiveMods).isNotEmpty();
+      assertThat(originalNormWithPassiveMods.get().getPublishState())
+        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+    }
+
+    @Test
+    void failsWhenTryingToReleaseASchematronInvalidNorm() throws Exception {
+      // Given
+      var amendingNorm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var announcement = Announcement
+        .builder()
+        .eli(amendingNorm.getExpressionEli())
+        .releasedByDocumentalistAt(null)
+        .build();
+
+      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+
+      // When // Then
+      // Request is refused
+      mockMvc
+        .perform(
+          put(
+            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/release"
+          )
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isUnprocessableEntity())
+        .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-schematron-valid")));
+
+      // Content of the DB should be unchanged = 3 sample norms, all unpublished
+      assertThat(normRepository.findAll()).hasSize(3);
+      assertThat(
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        )
+      )
+        .isNotEmpty();
+      assertThat(
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      )
+        .isNotEmpty();
+      assertThat(
+        normRepository.findByEliManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
+        )
+      )
+        .isNotEmpty();
+    }
   }
 
   @Nested
@@ -979,7 +1085,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")))
         .andExpect(
-          jsonPath("errors[0].type", equalTo("/errors/ldml-de-not-valid/cvc-complex-type.4"))
+          jsonPath("errors[0].type", equalTo("/errors/ldml-de-not-valid/cvc-pattern-valid"))
         );
     }
 

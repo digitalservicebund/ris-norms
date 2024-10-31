@@ -2,7 +2,7 @@
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
         <!-- Metadaten -->
        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
@@ -14,22 +14,41 @@
                <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
                              GUID="b82cc174-8fff-43bf-a434-5646de09e802"
                              value="eli/bund/bgbl-1/1964/s593/regelungstext-1"/>
+                <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                             GUID="a739e012-fe1d-4411-91b8-58e0de76fc28"
+                             value="eli/bund/bgbl-1/1964/s593"/>
+                <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1"
+                               GUID="42ae272d-4b4a-4d25-9965-79e76c741b5b"
+                               name="übergreifende-id"
+                               value="c53036e4-14ac-420f-b01a-bae05a0a9756"/>
+                <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
+                              GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a"
+                              date="1964-08-05"
+                              name="verkuendungsfassung"/>
+                <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                                GUID="27fa3047-26e1-4c59-8701-76dd34043d71"
+                                href="recht.bund.de/institution/bundesregierung"/>
+                <akn:FRBRcountry eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"
+                                 GUID="fa3d22d4-4f01-4486-9d45-c1edcf50729e"
+                                 value="de"/>
                <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
                                GUID="b82cc174-8fff-43bf-a434-5646de09e807"
                                value="s593"/>
                <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1"
                              GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327"
-                             value="BGBl. I"/>
-               <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
-                             GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a"
-                             date="1964-08-05"
-                             name="verkuendungsfassung"/>
+                             value="bgbl-1"/>
+                <akn:FRBRsubtype eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"
+                                 GUID="c5bc9d46-575f-4808-90e8-a354a227d701"
+                                 value="regelungstext-1"/>
             </akn:FRBRWork>
             <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
                                 GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
                              GUID="b82cc174-8fff-43bf-a434-5646de09e807"
                              value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
+                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                             GUID="5a2c4542-56cc-4c70-8b80-e2041b5b75e1"
+                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
                               GUID="b82cc174-8fff-43bf-a434-5646de09eaaa"
                               name="aktuelle-version-id"
@@ -38,20 +57,35 @@
                               GUID="a1e5c767-7742-4edd-a0ca-52318cb555ba"
                               name="nachfolgende-version-id"
                               value="8de2c22c-d706-498a-9d96-930d7a03d224"/>
+                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                                GUID="9063f5e7-c3c5-4ab4-8e15-459b11d7a9f2"
+                                href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
                              GUID="1bfbd095-93f3-4674-8096-be18041cbc65"
                              date="1964-08-05"
                              name="verkuendung"/>
+                <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
+                                  GUID="9c61581b-ce24-4589-8db8-533262149b90"
+                                  language="deu"/>
+                <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"
+                                       GUID="de475d52-7263-4c05-8014-e92a7785b784"
+                                       value="1"/>
             </akn:FRBRExpression>
             <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
                                    GUID="bd2375e5-3e81-435d-a4f8-159d8572c46b">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="9dcc818e-3ed8-4414-b562-342bd5f405b3"
                              value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"/>
+                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                             GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
+                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                              GUID="f3288a2a-3511-454e-ada1-9de8c33f6dbe"
                              date="1964-08-05"
                              name="generierung"/>
+                <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                                GUID="f9d34cba-d819-4468-b6a7-4a3d76046a26"
+                                href="recht.bund.de"/>
                <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
                                GUID="634de2b4-5d14-4144-9e8e-80548da73b73"
                                value="xml"/>
@@ -85,7 +119,7 @@
                           type="repeal"
                           refersTo="ausserkrafttreten"/>
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-5"
-                          GUID="d4404741-e72f-414f-98d0-4cbcdcdcdefg"
+                          GUID="d4404741-e72f-414f-98d0-4cbcdcdcdeff"
                           date="2017-03-01"
                           source="attributsemantik-noch-undefiniert"
                           type="amendment"
@@ -127,9 +161,26 @@
                <meta:initiant>bundesregierung</meta:initiant>
                <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
                <meta:fna>nicht-vorhanden</meta:fna>
+               <meta:gesta>nicht-vorhanden</meta:gesta>
+               <meta:federfuehrung>
+                   <meta:federfuehrend ab="1964-08-05" bis="unbestimmt">BMI</meta:federfuehrend>
+               </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
+       <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">
+           <akn:longTitle eId="einleitung-1_doktitel-1" GUID="185fcdbe-04f8-4b17-ac7c-2208c7f2f9df">
+               <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a9694e02-330d-40e3-b0d1-50b2059f020c">
+                   <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
+                                 GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes</akn:docTitle>
+               </akn:p>
+           </akn:longTitle>
+           <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44"
+                      name="attributsemantik-noch-undefiniert">
+               <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273"
+                         refersTo="ausfertigung-datum" date="1900-01-01">Vom 01.01.1900</akn:date>
+           </akn:block>
+       </akn:preface>
       <akn:body eId="hauptteil-1" GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff9c">
             <!-- § 9 -->
           <akn:article eId="hauptteil-1_art-1"

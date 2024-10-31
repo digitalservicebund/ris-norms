@@ -1264,7 +1264,7 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
-      final var temporalData = norm.getMeta().getOrCreateTemporalDataNode();
+      final var temporalData = norm.getMeta().getOrCreateTemporalData();
 
       // then
       assertThat(temporalData).isNotNull();
@@ -1283,7 +1283,7 @@ class NormTest {
       // then
       assertThat(temporalData).isNotNull();
       assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getNode()))
-        .contains("2fcdfa3e-1460-4ef4-b22b-5ff4a897538f");
+        .contains("f866d5a3-98c8-4927-8cab-1630c5832f3c");
     }
   }
 

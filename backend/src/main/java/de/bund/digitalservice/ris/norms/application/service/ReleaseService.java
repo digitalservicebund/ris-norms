@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -37,6 +38,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final DeleteQueuedNormsPort deleteQueuedNormsPort;
   private final DeleteUnpublishedNormPort deleteUnpublishedNormPort;
+  private final LdmlDeValidator ldmlDeValidator;
 
   public ReleaseService(
     LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
@@ -46,7 +48,8 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     TimeMachineService timeMachineService,
     CreateNewVersionOfNormService createNewVersionOfNormService,
     DeleteQueuedNormsPort deleteQueuedNormsPort,
-    DeleteUnpublishedNormPort deleteUnpublishedNormPort
+    DeleteUnpublishedNormPort deleteUnpublishedNormPort,
+    LdmlDeValidator ldmlDeValidator
   ) {
     this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
     this.updateAnnouncementPort = updateAnnouncementPort;
@@ -56,6 +59,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.deleteQueuedNormsPort = deleteQueuedNormsPort;
     this.deleteUnpublishedNormPort = deleteUnpublishedNormPort;
+    this.ldmlDeValidator = ldmlDeValidator;
   }
 
   /**
@@ -147,6 +151,12 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
 
       allVersionsOfAllNormsToPublish.add(latestNormExpression);
     }
+
+    // Validate all resulting versions
+    allVersionsOfAllNormsToPublish.forEach(norm -> {
+      ldmlDeValidator.parseAndValidate(XmlMapper.toString(norm.getDocument()));
+      ldmlDeValidator.validateSchematron(norm);
+    });
 
     allVersionsOfAllNormsToPublish.forEach(norm -> {
       norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
