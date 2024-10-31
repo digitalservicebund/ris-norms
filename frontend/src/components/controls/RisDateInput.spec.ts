@@ -1,16 +1,24 @@
 import { ValidationError } from "@/types/validationError"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, test, beforeAll } from "vitest"
 import { nextTick } from "vue"
 import RisDateInput from "./RisDateInput.vue"
 import PrimeVue from "primevue/config"
+
+beforeAll(() => {
+  Object.defineProperty(HTMLElement.prototype, "offsetParent", {
+    get() {
+      return this.parentNode
+    },
+  })
+})
 
 function renderComponent(options?: {
   modelValue?: string
   validationError?: ValidationError
   isReadOnly?: boolean
-  size?: "regular" | "medium" | "small"
+  stubs?: Record<string, object>
 }) {
   const user = userEvent.setup()
   const props = {
@@ -18,12 +26,12 @@ function renderComponent(options?: {
     modelValue: options?.modelValue,
     validationError: options?.validationError,
     isReadOnly: options?.isReadOnly,
-    size: options?.size,
   }
   const utils = render(RisDateInput, {
     props,
     global: {
       plugins: [PrimeVue],
+      stubs: options?.stubs,
     },
   })
   return { user, props, ...utils }
@@ -38,8 +46,14 @@ describe("DateInput", () => {
     expect(input?.type).toBe("text")
   })
 
-  test("allows to type date inside input", async () => {
-    renderComponent()
+  test("allows typing a date inside input (stubbed inputMask)", async () => {
+    renderComponent({
+      stubs: {
+        InputMask: {
+          template: `<input />`,
+        },
+      },
+    })
     const input = screen.getByRole("textbox")
 
     await userEvent.type(input, "12.05.2020")
@@ -55,8 +69,19 @@ describe("DateInput", () => {
   })
 
   test("emits model update event when input completed and valid", async () => {
+    const CustomInputMaskStub = {
+      props: ["modelValue"],
+      template: `<input
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
+  />`,
+    }
+
     const { emitted } = renderComponent({
       modelValue: "2022-05-13T18:08:14.036Z",
+      stubs: {
+        InputMask: CustomInputMaskStub,
+      },
     })
     const input = screen.getByRole("textbox")
     expect(input).toHaveValue("13.05.2022")
@@ -93,8 +118,15 @@ describe("DateInput", () => {
   })
 
   test("removes validation errors on backspace delete", async () => {
+    const CustomInputMaskStub = {
+      props: ["modelValue"],
+      template: `<input :value="modelValue" />`,
+    }
     const { emitted } = renderComponent({
       modelValue: "2022-05-13",
+      stubs: {
+        InputMask: CustomInputMaskStub,
+      },
     })
     const input = screen.getByRole("textbox")
     expect(input).toHaveValue("13.05.2022")
@@ -107,7 +139,19 @@ describe("DateInput", () => {
   })
 
   test("does not allow invalid dates", async () => {
-    const { emitted } = renderComponent()
+    const CustomInputMaskStub = {
+      props: ["modelValue"],
+      template: `<input
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
+  />`,
+    }
+
+    const { emitted } = renderComponent({
+      stubs: {
+        InputMask: CustomInputMaskStub,
+      },
+    })
     const input = screen.getByRole("textbox")
     await userEvent.type(input, "29.02.2001")
     await nextTick()
