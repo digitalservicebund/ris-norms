@@ -36,7 +36,7 @@ spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-sta
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-aws-bom = { module = "software.amazon.awssdk:bom", version = "2.29.3" }
+aws-bom = { module = "software.amazon.awssdk:bom", version = "2.29.4" }
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 
 [plugins]
