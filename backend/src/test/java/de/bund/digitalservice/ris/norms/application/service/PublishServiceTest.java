@@ -10,63 +10,36 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-/**
- * This unit tests uses a slightly different set-up as the other unit tests (manually instantiating the service to be tested
- * and passing the mocked dependencies). In order to test that the task is successfully scheduled and runs we need to spy on the {@link PublishService}.
- * To have a {@link SpyBean} we need to {@link MockBean} the dependencies and to use these two annotations we would need whether {@link org.springframework.boot.test.context.SpringBootTest}
- * or {@link SpringExtension}. The first one would load the entire application context and would require an extra test config so that flyway is not initiated.
- * The second one does not load the entire application context and is enough for enabling Spring features like the dependency injection.
- * Furthermore, since the {@link PublishService} has a {@link org.springframework.scheduling.annotation.Scheduled} method we need to manually override
- * the application property of the cron expression (so that we don't do this for all tests) using {@link TestPropertySource} and to do this we need one of the two
- * test annotations mentioned before.
- */
-@ExtendWith(SpringExtension.class)
-@EnableScheduling
-@TestPropertySource(properties = "publish.cron=*/10 * * * * *") // Runs every 5 seconds
 class PublishServiceTest {
 
-  @MockBean
-  private LoadNormsByPublishStatePort loadNormsByPublishStatePort;
+  final LoadNormsByPublishStatePort loadNormsByPublishStatePort = mock(
+    LoadNormsByPublishStatePort.class
+  );
 
-  @MockBean
-  private PublishPublicNormPort publishPublicNormPort;
+  final PublishPublicNormPort publishPublicNormPort = mock(PublishPublicNormPort.class);
 
-  @MockBean
-  private PublishPrivateNormPort publishPrivateNormPort;
+  final PublishPrivateNormPort publishPrivateNormPort = mock(PublishPrivateNormPort.class);
 
-  @MockBean
-  private UpdateOrSaveNormPort updateOrSaveNormPort;
+  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
-  @MockBean
-  private DeletePublicNormPort deletePublicNormPort;
+  final DeletePublicNormPort deletePublicNormPort = mock(DeletePublicNormPort.class);
 
-  @MockBean
-  private DeletePrivateNormPort deletePrivateNormPort;
+  final DeletePrivateNormPort deletePrivateNormPort = mock(DeletePrivateNormPort.class);
 
-  @SpyBean
-  private PublishService publishService;
+  final PublishService publishService = new PublishService(
+    loadNormsByPublishStatePort,
+    publishPublicNormPort,
+    publishPrivateNormPort,
+    updateOrSaveNormPort,
+    deletePublicNormPort,
+    deletePrivateNormPort
+  );
 
   @Nested
   class processQueuedFilesForPublish {
-
-    @Test
-    void taskIsScheduled() {
-      Awaitility
-        .await()
-        .atMost(11, TimeUnit.SECONDS)
-        .untilAsserted(() -> verify(publishService, times(1)).processQueuedFilesForPublish());
-    }
 
     @Test
     void publishNormToPublicAndPrivateStorage() {

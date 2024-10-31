@@ -6,8 +6,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,8 +40,6 @@ public class PublishService implements PublishNormUseCase {
     this.deletePrivateNormPort = deletePrivateNormPort;
   }
 
-  @Scheduled(cron = "${publish.cron}")
-  @Profile({ "staging", "uat", "production" })
   @Override
   public void processQueuedFilesForPublish() {
     loadNormsByPublishStatePort
@@ -77,6 +73,15 @@ public class PublishService implements PublishNormUseCase {
       });
   }
 
+  /**
+   * Takes a norm and makes any changes needed in preparation for publishing it.
+   *
+   * @param normToBeReleased Norm that will be released
+   */
+  public void prepareForPublish(final Norm normToBeReleased) {
+    normToBeReleased.getMeta().getProprietary().ifPresent(this::removePrivateMetadata);
+  }
+
   private void rollbackPublicPublish(Norm norm) {
     try {
       deletePublicNormPort.deletePublicNorm(new DeletePublicNormPort.Command(norm));
@@ -91,15 +96,6 @@ public class PublishService implements PublishNormUseCase {
     } catch (StorageException e) {
       log.error(e.getMessage());
     }
-  }
-
-  /**
-   * Takes a norm and makes any changes needed in preparation for publishing it.
-   *
-   * @param normToBeReleased Norm that will be released
-   */
-  public void prepareForPublish(final Norm normToBeReleased) {
-    normToBeReleased.getMeta().getProprietary().ifPresent(this::removePrivateMetadata);
   }
 
   private void removePrivateMetadata(final Proprietary proprietary) {
