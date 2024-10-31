@@ -38,9 +38,6 @@ const hasPlaceholder = computed(() =>
 
 <template>
   <div class="grid gap-2">
-    <!-- Label should come from the surrounding context -->
-    <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label v-if="label" :for="id" class="ds-label">
       {{ label }}
     </label>

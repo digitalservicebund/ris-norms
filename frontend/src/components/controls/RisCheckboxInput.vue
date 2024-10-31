@@ -35,7 +35,6 @@ const checked = defineModel<boolean | undefined>({ default: false })
       type="checkbox"
       @keydown.space.prevent="checked = !checked"
     />
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label v-if="label" :for="id" class="ds-label">
       {{ label }}
     </label>
