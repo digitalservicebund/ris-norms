@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import Button from "primevue/button"
 import { useAmendingLawReleases } from "@/composables/useAmendingLawReleases"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useGetNormXml } from "@/services/normService"
-import { computed, onBeforeUnmount, onUnmounted, ref, watch } from "vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import Button from "primevue/button"
+import Message from "primevue/message"
+import { computed, onUnmounted } from "vue"
 
 const { pushBreadcrumb } = useHeaderContext()
 const cleanupBreadcrumbs = pushBreadcrumb({ title: "Abgabe" })
@@ -25,38 +24,7 @@ const {
   error: fetchError,
   statusCode: fetchStatusCode,
 } = useAmendingLawReleases(eli)
-const blobUrls = ref<BlobUrlItem[]>([])
 
-interface BlobUrlItem {
-  releasedNormEli: string
-  blobUrl: string
-}
-
-watch(releases, async () => {
-  if (releases.value?.[0]?.norms) {
-    const newBlobUrls = []
-    for (const releasedNormEli of releases.value[0].norms) {
-      const { data: xmlContent } = await useGetNormXml(releasedNormEli)
-
-      const blob = new Blob([xmlContent.value ?? ""], {
-        type: "application/xml",
-      })
-      const blobUrl = URL.createObjectURL(blob)
-      newBlobUrls.push({ releasedNormEli, blobUrl })
-    }
-
-    blobUrls.value.forEach((item) => {
-      URL.revokeObjectURL(item.blobUrl)
-    })
-    blobUrls.value = newBlobUrls
-  }
-})
-
-onBeforeUnmount(() => {
-  blobUrls.value.forEach((item) => {
-    URL.revokeObjectURL(item.blobUrl)
-  })
-})
 async function onRelease() {
   await releaseAmendingLaw()
 }
@@ -65,6 +33,7 @@ const releasedAt = computed(() =>
   releases.value?.[0]?.releaseAt ? new Date(releases.value[0].releaseAt) : null,
 )
 const publishedAtDateTime = computed(() => releasedAt.value?.toISOString())
+
 const publishedAtTimeString = computed(() =>
   releasedAt.value?.toLocaleTimeString("de-DE", {
     hour: "2-digit",
@@ -77,7 +46,15 @@ const publishedAtDateString = computed(() =>
   }),
 )
 
-const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
+const downloadLinks = computed(() => {
+  const norms = releases.value?.[0].norms
+  if (!norms) return []
+
+  return norms.map((norm) => ({
+    url: `/api/v1/norms/${norm}`,
+    title: norm,
+  }))
+})
 </script>
 
 <template>
@@ -100,33 +77,25 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
         <RisErrorCallout :error="fetchError" />
       </div>
 
-      <RisCallout
-        v-else-if="releasedAt"
-        title="Die Abgabe ist aktuell als Prototyp verfügbar."
-        variant="warning"
-      >
-        <p class="mt-4 leading-snug">
+      <Message v-else-if="releasedAt" severity="warn">
+        <p class="ris-label2-bold my-6">
+          Die Abgabe ist aktuell als Prototyp verfügbar.
+        </p>
+        <p class="ris-label2-regular mb-6">
           Dieses Änderungsgesetz wurde zuletzt abgegeben am
           <time :datetime="publishedAtDateTime">
             {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr. Die
             aktuelle Version kann hier eingesehen werden:
           </time>
         </p>
-        <ul class="list-disc pl-20">
-          <li
-            v-for="{ releasedNormEli, blobUrl } in blobUrls"
-            :key="releasedNormEli"
-          >
-            <a
-              :href="blobUrl"
-              :download="formatEliForDownload(releasedNormEli)"
-              target="_blank"
-              class="underline"
-              >{{ releasedNormEli }}</a
-            >
+        <ul class="ris-label2-regular list-disc pl-20">
+          <li v-for="download in downloadLinks" :key="download.url">
+            <a :href="download.url" target="_blank" class="underline">{{
+              download.title
+            }}</a>
           </li>
         </ul>
-      </RisCallout>
+      </Message>
 
       <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
       <Button
