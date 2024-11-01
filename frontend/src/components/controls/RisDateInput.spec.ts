@@ -1,17 +1,21 @@
 import { ValidationError } from "@/types/validationError"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, beforeAll } from "vitest"
+import { describe, expect, test, beforeEach, vi, afterEach } from "vitest"
 import { nextTick } from "vue"
 import RisDateInput from "./RisDateInput.vue"
 import InputText from "primevue/inputtext"
 
-beforeAll(() => {
-  Object.defineProperty(HTMLElement.prototype, "offsetParent", {
-    get() {
-      return this.parentNode
+beforeEach(() => {
+  vi.spyOn(HTMLElement.prototype, "offsetParent", "get").mockImplementation(
+    function (this: HTMLElement) {
+      return this.parentNode as Element
     },
-  })
+  )
+})
+
+afterEach(() => {
+  vi.restoreAllMocks()
 })
 
 function renderComponent(options?: {
