@@ -174,6 +174,15 @@ public class LdmlDeValidator {
 
         return !rulesCheckingPointInTimeManifestation.contains(ruleId);
       })
+      .filter(node ->
+        // Allow warnings
+        Optional
+          .ofNullable(node.getAttributes().getNamedItem("role"))
+          .map(role -> !role.getNodeValue().equals("warn"))
+          // This should not happen, but if it does, assume the message should be included, i.e. only exclude items
+          // if they're explicitly declared as "warn"
+          .orElse(true)
+      )
       .map(node -> {
         // The location includes an XPath with expanded QNames
         // (Q{namespace}<localPart>).
