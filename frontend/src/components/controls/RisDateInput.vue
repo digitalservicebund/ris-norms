@@ -2,10 +2,9 @@
 import { ValidationError } from "@/types/validationError"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
-import { MaskaDetail } from "maska"
-import { vMaska } from "maska/vue"
 import { computed, ref, watch } from "vue"
 import IconErrorOutline from "~icons/ic/baseline-error-outline"
+import InputMask from "primevue/inputmask"
 
 const props = withDefaults(
   defineProps<{
@@ -49,7 +48,10 @@ const emit = defineEmits<{
   "update:validationError": [value?: ValidationError]
 }>()
 
-const inputCompleted = ref<boolean>(false)
+const inputCompleted = computed(() => {
+  const datePattern = /^\d{2}\.\d{2}\.\d{4}$/
+  return datePattern.test(inputValue.value || "")
+})
 
 const inputValue = ref(
   props.modelValue ? dayjs(props.modelValue).format("DD.MM.YYYY") : undefined,
@@ -84,17 +86,6 @@ const isValidDate = computed(() => {
   return dayjs(inputValue.value, "DD.MM.YYYY", true).isValid()
 })
 
-const onMaska = (event: CustomEvent<MaskaDetail>) => {
-  inputCompleted.value = event.detail.completed
-}
-
-const conditionalClasses = computed(() => ({
-  "has-error": effectiveHasError.value,
-  "ds-input-medium": props.size === "medium",
-  "label-left": props.labelPosition === "left",
-  "ds-input-small": props.size === "small" || !props.size,
-}))
-
 function validateInput() {
   if (inputCompleted.value) {
     if (isValidDate.value) {
@@ -119,7 +110,6 @@ function validateInput() {
 
 function backspaceDelete() {
   emit("update:validationError", undefined)
-  if (inputValue.value === "") emit("update:modelValue", inputValue.value)
 }
 
 function onBlur() {
@@ -151,41 +141,38 @@ watch(inputCompleted, (is) => {
 </script>
 
 <template>
-  <label
-    :for="id"
+  <div
     :class="[
-      'ds-label',
+      'flex w-full gap-2',
       {
+        'flex-col items-center bg-red-900': props.labelPosition === 'above',
         'grid grid-cols-[min-content,1fr] items-center':
           props.labelPosition === 'left',
-        'grid-rows-[1fr,min-content]': localValidationError,
       },
-      `shrink-0`,
+      { 'grid-rows-[1fr,min-content]': localValidationError },
     ]"
   >
-    <span class="min-w-[6rem]">
+    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+    <label class="ris-label2-regular min-w-[6rem]" :for="id">
       {{ label }}
-    </span>
-    <input
+    </label>
+
+    <InputMask
       :id="id"
       v-model="inputValue"
-      v-maska
-      class="ds-input w-full"
-      :class="conditionalClasses"
-      data-maska="##.##.####"
       placeholder="TT.MM.JJJJ"
       :readonly="isReadOnly"
+      :auto-clear="false"
+      mask="99.99.9999"
+      :invalid="effectiveHasError"
+      class="w-full"
       @blur="onBlur"
-      @keydown.delete="backspaceDelete"
-      @maska="onMaska"
+      @keydown="backspaceDelete"
     />
-    <span
-      v-if="localValidationError"
-      class="col-start-2 mb-4 mt-4 flex items-start text-sm text-red-800"
-    >
-      <IconErrorOutline class="mr-4 text-red-800" />
 
+    <small v-if="localValidationError" :id="`${id}-hint`">
+      <IconErrorOutline />
       {{ errorMessage }}
-    </span>
-  </label>
+    </small>
+  </div>
 </template>

@@ -28,7 +28,7 @@ describe("RisTemporalDateIntervals", () => {
   })
 
   it("should contain a sort button", () => {
-    render(RisTemporalDataIntervals)
+    render(RisTemporalDataIntervals, {})
     const sortButton = screen.getByText("Nach Datum sortieren")
     expect(sortButton).toBeInTheDocument()
   })
