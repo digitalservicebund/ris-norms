@@ -69,7 +69,7 @@ public class Meta {
    *
    * @return the akn:temporalData element of the norm
    */
-  public TemporalData getOrCreateTemporalDataNode() {
+  public TemporalData getOrCreateTemporalData() {
     try {
       return getTemporalData();
     } catch (final MandatoryNodeNotFoundException e) {
@@ -107,6 +107,12 @@ public class Meta {
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElementWithEidAndGuid("akn:analysis", node);
         newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+
+        // Metadata needs to be in the correct order, so we're inserting it before temporal data, which is the
+        // element that has to follow the analysis in a valid document.
+        final var insertInOrderSiblibg = getOrCreateTemporalData().getNode();
+        node.insertBefore(newElement, insertInOrderSiblibg);
+
         return new Analysis(newElement);
       });
   }

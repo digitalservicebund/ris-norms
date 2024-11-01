@@ -63,29 +63,21 @@ class LdmlDeValidatorTest {
         .satisfies(e -> {
           if (e instanceof LdmlDeNotValidException ldmlDeNotValidException) {
             assertThat(ldmlDeNotValidException.getErrors())
-              .hasSize(3)
+              .hasSize(2)
               .contains(
                 new LdmlDeNotValidException.ValidationError(
-                  URI.create("/errors/ldml-de-not-valid/cvc-complex-type.4"),
-                  24,
-                  74,
-                  "cvc-complex-type.4: Attribute 'value' must appear on element 'akn:FRBRthis'."
+                  URI.create("/errors/ldml-de-not-valid/cvc-pattern-valid"),
+                  18,
+                  64,
+                  "cvc-pattern-valid: Value 'invalid-guid-to-break-xsd' is not facet-valid with respect to pattern '([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\})' for type 'GUIDLiterals'."
                 )
               )
               .contains(
                 new LdmlDeNotValidException.ValidationError(
-                  URI.create("/errors/ldml-de-not-valid/cvc-complex-type.4"),
-                  24,
-                  74,
-                  "cvc-complex-type.4: Attribute 'GUID' must appear on element 'akn:FRBRthis'."
-                )
-              )
-              .contains(
-                new LdmlDeNotValidException.ValidationError(
-                  URI.create("/errors/ldml-de-not-valid/cvc-complex-type.2.4.b"),
-                  82,
-                  31,
-                  "cvc-complex-type.2.4.b: The content of element 'akn:identification' is not complete. One of '{\"http://Inhaltsdaten.LegalDocML.de/1.7/\":FRBRManifestation}' is expected."
+                  URI.create("/errors/ldml-de-not-valid/cvc-attribute.3"),
+                  18,
+                  64,
+                  "cvc-attribute.3: The value 'invalid-guid-to-break-xsd' of attribute 'GUID' on element 'akn:meta' is not valid with respect to its type, 'GUIDLiterals'."
                 )
               );
           }
@@ -97,7 +89,7 @@ class LdmlDeValidatorTest {
   class validateSchematron {
 
     @Test
-    void itShouldValidateNorm() {
+    void itShouldSuccessfullyValidateNorm() {
       // Given
       Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
 
@@ -106,7 +98,7 @@ class LdmlDeValidatorTest {
     }
 
     @Test
-    void itShouldValidateAInvalidNorm() {
+    void itShouldValidateAInvalidNormWithError() {
       // Given
       Norm norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml", true);
 
@@ -152,6 +144,15 @@ class LdmlDeValidatorTest {
               );
           }
         });
+    }
+
+    @Test
+    void itShouldSuccessfullyValidateANormWithWarnings() {
+      // Given
+      Norm norm = NormFixtures.loadFromDisk("NormWithModsSchematronWarning.xml", true);
+
+      // When // Then
+      assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
     }
   }
 }

@@ -16,7 +16,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +41,7 @@ class AnnouncementServiceTest {
   final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort = mock(
     DeleteAnnouncementByNormEliPort.class
   );
-  final DeleteUnpublishedNormPort deleteUnpublishedNormPort = mock(DeleteUnpublishedNormPort.class);
+  final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
   final ReferenceService referenceService = mock(ReferenceService.class);
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
@@ -56,7 +55,7 @@ class AnnouncementServiceTest {
     billToActService,
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
-    deleteUnpublishedNormPort,
+    deleteNormPort,
     referenceService,
     updateOrSaveNormPort
   );
@@ -68,11 +67,7 @@ class AnnouncementServiceTest {
     void itReturnsAnnouncements() {
       // Given
       var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(norm.getExpressionEli())
-        .releasedByDocumentalistAt(Instant.now())
-        .build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
 
       // When
@@ -124,11 +119,7 @@ class AnnouncementServiceTest {
     void itReturnsAnnouncement() {
       // Given
       var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(norm.getExpressionEli())
-        .releasedByDocumentalistAt(Instant.now())
-        .build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))

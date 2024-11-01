@@ -146,7 +146,8 @@
                               href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
                               GUID="c509c75e-4813-491a-a973-9b23e2b8be03"/>
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1"
-                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2"
+                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2_untergl-1_intro-1_text-1"
+                                   upTo=""
                                    GUID="e1d7e59f-5c59-4834-847d-3dc1dbc26259"/>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
                              eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1"
@@ -310,11 +311,11 @@
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="58161d8d-b02e-4d54-a362-25a734c5e79b"
                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1">
-                              <akn:ref
-                                      href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2"
-                                       GUID="88c21ccc-f528-4dd1-ab38-48c562daf53c"
-                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1">
-                                            § 19 Absatz 2 Satz 3 wird wie folgt gefasst:</akn:ref>
+                              <akn:rref GUID="9ba5f8e5-7cf9-4333-b83a-70c59d89a6a9"
+                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_bref-1"
+                                        from="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2_untergl-1_intro-1_text-1"
+                                        upTo="">
+                                            § 19 Absatz 2 Satz 3 wird wie folgt gefasst:</akn:rref>
                               <akn:quotedStructure endQuote="“"
                                                    startQuote="„"
                                                    GUID="2785f9b5-51ee-4876-af06-17219ddd9351"

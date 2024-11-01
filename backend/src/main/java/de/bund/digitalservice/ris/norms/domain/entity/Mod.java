@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -268,6 +269,7 @@ public class Mod {
     final Node refNode = NodeParser.getNodeFromExpression(REF_XPATH, this.node).orElseThrow();
 
     final Element rrefElement = NodeCreator.createElement("akn:rref", this.node);
+    rrefElement.setAttribute("GUID", UUID.randomUUID().toString());
     rrefElement.setAttribute("eId", EId.fromMandatoryNode(refNode).value());
     rrefElement.setAttribute("from", destinationFrom.toString());
     rrefElement.setAttribute("upTo", destinationUpTo.toString());
@@ -287,6 +289,7 @@ public class Mod {
     final Node rrefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node).orElseThrow();
 
     final Element refElement = NodeCreator.createElement("akn:ref", this.node);
+    refElement.setAttribute("GUID", UUID.randomUUID().toString());
     refElement.setAttribute("eId", EId.fromMandatoryNode(rrefNode).value());
     refElement.setAttribute("href", destinationHref.toString());
 

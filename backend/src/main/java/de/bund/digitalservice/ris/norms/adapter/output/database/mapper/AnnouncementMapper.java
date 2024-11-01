@@ -3,6 +3,8 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /** Mapper class for converting between {@link AnnouncementDto} and {@link Announcement}. */
 public class AnnouncementMapper {
@@ -19,8 +21,14 @@ public class AnnouncementMapper {
   public static Announcement mapToDomain(final AnnouncementDto announcementDto) {
     return Announcement
       .builder()
-      .releasedByDocumentalistAt(announcementDto.getReleasedByDocumentalistAt())
       .eli(ExpressionEli.fromString(announcementDto.getEli()))
+      .releases(
+        announcementDto
+          .getReleases()
+          .stream()
+          .map(ReleaseMapper::mapToDomain)
+          .collect(Collectors.toCollection(ArrayList::new))
+      )
       .build();
   }
 
@@ -33,8 +41,8 @@ public class AnnouncementMapper {
   public static AnnouncementDto mapToDto(final Announcement announcement) {
     return AnnouncementDto
       .builder()
-      .releasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt())
       .eli(announcement.getEli().toString())
+      .releases(announcement.getReleases().stream().map(ReleaseMapper::mapToDto).toList())
       .build();
   }
 }

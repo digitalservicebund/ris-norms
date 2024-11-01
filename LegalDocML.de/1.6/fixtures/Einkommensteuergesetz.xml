@@ -15,7 +15,7 @@
                <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="0b3ed103-3c9f-4df9-970f-4e296b2e6811" date="2009-10-08" name="verkuendungsfassung"></akn:FRBRdate>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" GUID="2fa426b3-6592-40ed-a1ff-65fd5ddc07d1" href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
                <akn:FRBRcountry eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" GUID="0b8bfe94-3e70-4db2-94b5-cf3f1a37fc7e" value="de"></akn:FRBRcountry>
-               <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="439e34d4-7228-48e3-bfb3-9c6f30fefdc5" value="S3366"></akn:FRBRnumber>
+               <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="439e34d4-7228-48e3-bfb3-9c6f30fefdc5" value="s3366"></akn:FRBRnumber>
                <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="a70716e1-c0c7-44d3-a795-a04fcc25cca8" value="bgbl-1"></akn:FRBRname>
                <akn:FRBRsubtype eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" GUID="af948830-e615-4dd5-8237-b8c830939f78" value="regelungstext-1"></akn:FRBRsubtype>
             </akn:FRBRWork>

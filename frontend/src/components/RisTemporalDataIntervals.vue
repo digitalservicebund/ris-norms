@@ -46,7 +46,7 @@ watch(newDate, async (newDateValue) => {
 </script>
 
 <template>
-  <form class="grid grid-cols-[6rem,1fr,min-content] items-center gap-4">
+  <form class="grid grid-cols-[6rem,1fr,min-content] items-center gap-8">
     <Button
       label="Nach Datum sortieren"
       text
@@ -88,7 +88,7 @@ watch(newDate, async (newDateValue) => {
       v-model="newDate"
       label="Zeitgrenze hinzufügen"
       label-position="left"
-      class="col-span-2 -mt-4 grid w-full grid-cols-subgrid"
+      class="col-span-2 grid w-full grid-cols-subgrid"
       label-class="w-[6rem]"
     />
   </form>

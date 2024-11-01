@@ -68,7 +68,6 @@ export const useApiFetch = createFetch({
           }
         })
       }
-
       // this error is sometimes throws when previous requests are automatically aborted as
       // some of the data changed and refetch is true. It seems to only be throws when the request
       // is aborted before it was actually send.

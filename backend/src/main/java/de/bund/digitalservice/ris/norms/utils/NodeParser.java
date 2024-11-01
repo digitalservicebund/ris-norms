@@ -166,6 +166,24 @@ public final class NodeParser {
     return nodes;
   }
 
+  /**
+   * Determines if a node has no children, ignoring text nodes with no content or containing only whitespace.
+   *
+   * @param node The node that should be checked
+   * @return True if the node is empty or contains only empty text nodes
+   */
+  public static boolean isEmptyIgnoringWhitespace(final Node node) {
+    if (!node.hasChildNodes()) return true;
+
+    final var hasContent = nodeListToList(node.getChildNodes())
+      .stream()
+      .anyMatch(childNode ->
+        childNode.getNodeType() != Node.TEXT_NODE || !childNode.getTextContent().trim().isEmpty()
+      );
+
+    return !hasContent;
+  }
+
   private static MandatoryNodeNotFoundException throwMandatoryNotFoundException(
     String xPathExpression,
     Node sourceNode

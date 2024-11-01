@@ -131,6 +131,10 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                <meta:initiant>bundesregierung</meta:initiant>
                <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
                <meta:fna>nicht-vorhanden</meta:fna>
+               <meta:gesta>nicht-vorhanden</meta:gesta>
+               <meta:federfuehrung>
+                  <meta:federfuehrend ab="1002-01-01" bis="unbestimmt">nicht-vorhanden</meta:federfuehrend>
+               </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

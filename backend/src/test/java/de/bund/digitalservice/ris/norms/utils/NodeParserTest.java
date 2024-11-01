@@ -85,6 +85,30 @@ class NodeParserTest {
     assertThat(nodes).isEmpty();
   }
 
+  @Test
+  void returnTrueIfNodeIsEmpty() {
+    Node node = XmlMapper.toNode("<foo></foo>");
+    assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isTrue();
+  }
+
+  @Test
+  void returnTrueIfNodeContentIsOnlyWhitespace() {
+    Node node = XmlMapper.toNode("<foo>\n\t  </foo>");
+    assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isTrue();
+  }
+
+  @Test
+  void returnFalseIfNodeHasTextContent() {
+    Node node = XmlMapper.toNode("<foo>Bar</foo>");
+    assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isFalse();
+  }
+
+  @Test
+  void returnFalseIfNodeHasChildNode() {
+    Node node = XmlMapper.toNode("<foo><bar></bar></foo>");
+    assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isFalse();
+  }
+
   @ParameterizedTest
   @CsvSource(
     { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7/}act/@name" }

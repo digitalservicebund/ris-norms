@@ -46,7 +46,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                                 value="de"/>
                <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
                                GUID="439e34d4-7228-48e3-bfb3-9c6f30fefdc5"
-                               value="S3366"/>
+                               value="s3366"/>
                <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1"
                              GUID="a70716e1-c0c7-44d3-a795-a04fcc25cca8"
                              value="bgbl-1"/>

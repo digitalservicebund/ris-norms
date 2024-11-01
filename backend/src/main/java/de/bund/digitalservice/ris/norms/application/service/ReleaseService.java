@@ -1,15 +1,17 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedNormsPort;
-import de.bund.digitalservice.ris.norms.application.port.output.DeleteUnpublishedNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedReleasesPort;
+import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -28,32 +30,35 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReleaseService implements ReleaseAnnouncementUseCase {
 
   private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
-  private final UpdateAnnouncementPort updateAnnouncementPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final NormService normService;
   private final TimeMachineService timeMachineService;
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
-  private final DeleteQueuedNormsPort deleteQueuedNormsPort;
-  private final DeleteUnpublishedNormPort deleteUnpublishedNormPort;
+  private final DeleteNormPort deleteNormPort;
+  private final SaveReleaseToAnnouncementPort saveReleaseToAnnouncementPort;
+  private final DeleteQueuedReleasesPort deleteQueuedReleasesPort;
+  private final LdmlDeValidator ldmlDeValidator;
 
   public ReleaseService(
     LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
-    UpdateAnnouncementPort updateAnnouncementPort,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     NormService normService,
     TimeMachineService timeMachineService,
     CreateNewVersionOfNormService createNewVersionOfNormService,
-    DeleteQueuedNormsPort deleteQueuedNormsPort,
-    DeleteUnpublishedNormPort deleteUnpublishedNormPort
+    DeleteNormPort deleteNormPort,
+    SaveReleaseToAnnouncementPort saveReleaseToAnnouncementPort,
+    DeleteQueuedReleasesPort deleteQueuedReleasesPort,
+    LdmlDeValidator ldmlDeValidator
   ) {
     this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
-    this.updateAnnouncementPort = updateAnnouncementPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.normService = normService;
     this.timeMachineService = timeMachineService;
     this.createNewVersionOfNormService = createNewVersionOfNormService;
-    this.deleteQueuedNormsPort = deleteQueuedNormsPort;
-    this.deleteUnpublishedNormPort = deleteUnpublishedNormPort;
+    this.deleteNormPort = deleteNormPort;
+    this.saveReleaseToAnnouncementPort = saveReleaseToAnnouncementPort;
+    this.deleteQueuedReleasesPort = deleteQueuedReleasesPort;
+    this.ldmlDeValidator = ldmlDeValidator;
   }
 
   /**
@@ -105,11 +110,20 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     // Delete the files from a previous release of the same announcement if they are still queued for publishing.
     // This is to prevent residual files from remaining if some time boundaries changed and this release will create
     // different expressions.
-    normsToPublish.forEach(norm ->
-      deleteQueuedNormsPort.deleteQueuedForPublishNorms(
-        new DeleteQueuedNormsPort.Command(norm.getWorkEli())
-      )
+    var deletedReleases = deleteQueuedReleasesPort.deleteQueuedReleases(
+      new DeleteQueuedReleasesPort.Command(announcement.getEli())
     );
+    deletedReleases
+      .stream()
+      .flatMap(release -> release.getPublishedNorms().stream())
+      .forEach(queuedNorm ->
+        deleteNormPort.deleteNorm(
+          new DeleteNormPort.Command(
+            queuedNorm.getManifestationEli(),
+            NormPublishState.QUEUED_FOR_PUBLISH
+          )
+        )
+      );
 
     // generate all future versions for all norms that will be published
     Set<Norm> allVersionsOfAllNormsToPublish = new HashSet<>();
@@ -146,6 +160,12 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       allVersionsOfAllNormsToPublish.add(latestNormExpression);
     }
 
+    // Validate all resulting versions
+    allVersionsOfAllNormsToPublish.forEach(norm -> {
+      ldmlDeValidator.parseAndValidate(XmlMapper.toString(norm.getDocument()));
+      ldmlDeValidator.validateSchematron(norm);
+    });
+
     allVersionsOfAllNormsToPublish.forEach(norm -> {
       norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
@@ -163,14 +183,23 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
         LocalDate.now().plusDays(1)
       );
       // delete the old unpublished manifestation so no residual data remains in the database
-      deleteUnpublishedNormPort.deleteUnpublishedNorm(
-        new DeleteUnpublishedNormPort.Command(norm.getManifestationEli())
+      deleteNormPort.deleteNorm(
+        new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
       );
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(nextManifestationOfNorm));
     });
 
-    announcement.setReleasedByDocumentalistAt(Instant.now());
-    updateAnnouncementPort.updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
+    var release = Release
+      .builder()
+      .publishedNorms(allVersionsOfAllNormsToPublish.stream().toList())
+      .releasedAt(Instant.now())
+      .build();
+    announcement.addRelease(release);
+
+    saveReleaseToAnnouncementPort.saveReleaseToAnnouncement(
+      new SaveReleaseToAnnouncementPort.Command(release, announcement)
+    );
+
     return announcement;
   }
 }

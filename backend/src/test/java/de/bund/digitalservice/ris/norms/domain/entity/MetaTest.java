@@ -3,10 +3,12 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class MetaTest {
 
@@ -235,7 +237,7 @@ class MetaTest {
       )
       .build();
 
-    assertThat(meta.getOrCreateTemporalDataNode()).isNotNull();
+    assertThat(meta.getOrCreateTemporalData()).isNotNull();
     assertThat(meta.getTemporalData()).isNotNull();
   }
 
@@ -320,6 +322,41 @@ class MetaTest {
 
     assertThat(analysis).isNotNull();
     assertThat(meta.getAnalysis()).isNotEmpty();
+  }
+
+  @Test
+  void insertsAnalysisInOrder() {
+    final Meta meta = Meta
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+          <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+              <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorgaenger-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87" />
+                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
+                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
+              </akn:FRBRExpression>
+            </akn:identification>
+            <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert"></akn:temporalData>
+          </akn:meta>
+          """
+        )
+      )
+      .build();
+
+    meta.getOrCreateAnalysis();
+    final var children = NodeParser
+      .nodeListToList(meta.getNode().getChildNodes())
+      .stream()
+      .filter(node -> node.getNodeType() != Node.TEXT_NODE)
+      .toList();
+
+    assertThat(children.getFirst().getNodeName()).isEqualTo("akn:identification");
+    assertThat(children.get(1).getNodeName()).isEqualTo("akn:analysis");
+    assertThat(children.get(2).getNodeName()).isEqualTo("akn:temporalData");
   }
 
   @Test

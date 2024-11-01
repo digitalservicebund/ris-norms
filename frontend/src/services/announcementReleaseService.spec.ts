@@ -7,32 +7,33 @@ describe("announcementReleaseService", () => {
     vi.resetAllMocks()
   })
 
-  describe("useGetRelease", () => {
-    it("sends a GET request and returns the release status", async () => {
-      const expectedRelease = {
-        releaseAt: "2024-03-25T10:37:29.658954Z",
-        amendingLawEli:
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        zf0Elis: [
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-        ],
-      }
+  describe("useGetReleases", () => {
+    it("sends a GET request and returns the releases", async () => {
+      const expectedReleases = [
+        {
+          releaseAt: "2024-03-25T10:37:29.658954Z",
+          norms: [
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+          ],
+        },
+      ]
 
       const fetchSpy = vi
         .spyOn(global, "fetch")
-        .mockResolvedValue(new Response(JSON.stringify(expectedRelease)))
+        .mockResolvedValue(new Response(JSON.stringify(expectedReleases)))
 
-      const { useGetRelease } = await import("./announcementReleaseService")
+      const { useGetReleases } = await import("./announcementReleaseService")
 
-      const { isFinished, data } = useGetRelease(
+      const { isFinished, data } = useGetReleases(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
       await vi.waitUntil(() => isFinished.value)
 
-      expect(data.value).toEqual(expectedRelease)
+      expect(data.value).toEqual(expectedReleases)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release`,
+        `/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases`,
         expect.objectContaining({
           method: "GET",
           headers: expect.objectContaining({
@@ -43,55 +44,55 @@ describe("announcementReleaseService", () => {
     })
 
     it("reacts to eli changes", async () => {
-      const expectedRelease = {
-        releaseAt: "2024-03-25T10:37:29.658954Z",
-        amendingLawEli:
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        zf0Elis: [
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-        ],
-      }
+      const expectedReleases = [
+        {
+          releaseAt: "2024-03-25T10:37:29.658954Z",
+          norms: [
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+          ],
+        },
+      ]
 
       const fetchSpy = vi
         .spyOn(global, "fetch")
-        .mockResolvedValueOnce(new Response(JSON.stringify(expectedRelease)))
-        .mockResolvedValueOnce(new Response(JSON.stringify(null)))
+        .mockResolvedValueOnce(new Response(JSON.stringify(expectedReleases)))
+        .mockResolvedValueOnce(new Response(JSON.stringify([])))
 
-      const { useGetRelease } = await import("./announcementReleaseService")
+      const { useGetReleases } = await import("./announcementReleaseService")
 
       const eli = ref(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
-      const { isFinished, data } = useGetRelease(eli)
+      const { isFinished, data } = useGetReleases(eli)
       await vi.waitUntil(() => isFinished.value)
 
-      expect(data.value).toEqual(expectedRelease)
+      expect(data.value).toEqual(expectedReleases)
 
       eli.value = "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1"
       await nextTick()
       await vi.waitUntil(() => isFinished.value)
 
-      expect(data.value).toEqual(null)
+      expect(data.value).toEqual([])
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release`,
+        `/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases`,
         expect.anything(),
       )
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/announcements/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1/release`,
+        `/api/v1/announcements/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1/releases`,
         expect.anything(),
       )
     })
   })
 
-  describe("usePutRelease", () => {
-    it("sends a PUT request and returns the release information", async () => {
+  describe("usePostRelease", () => {
+    it("sends a POST request and returns the release information", async () => {
       const mockReleaseResponse = {
         releaseAt: "2024-03-25T10:37:29.658954Z",
-        amendingLawEli:
+        norms: [
           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        zf0Elis: [
           "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         ],
       }
@@ -100,9 +101,9 @@ describe("announcementReleaseService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify(mockReleaseResponse)))
 
-      const { usePutRelease } = await import("./announcementReleaseService")
+      const { usePostRelease } = await import("./announcementReleaseService")
 
-      const { data, execute } = usePutRelease(
+      const { data, execute } = usePostRelease(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
       await execute()
@@ -110,9 +111,9 @@ describe("announcementReleaseService", () => {
       expect(data.value).toEqual(mockReleaseResponse)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release`,
+        `/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases`,
         expect.objectContaining({
-          method: "PUT",
+          method: "POST",
           headers: expect.objectContaining({
             Accept: "application/json",
           }),
@@ -123,9 +124,8 @@ describe("announcementReleaseService", () => {
     it("reacts to eli changes and does not auto-refetch", async () => {
       const mockReleaseResponse = {
         releaseAt: "2024-03-25T10:37:29.658954Z",
-        amendingLawEli:
+        norms: [
           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        zf0Elis: [
           "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         ],
       }
@@ -136,12 +136,12 @@ describe("announcementReleaseService", () => {
           new Response(JSON.stringify(mockReleaseResponse)),
         )
 
-      const { usePutRelease } = await import("./announcementReleaseService")
+      const { usePostRelease } = await import("./announcementReleaseService")
 
       const eli = ref(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
-      const { data, execute } = usePutRelease(eli)
+      const { data, execute } = usePostRelease(eli)
       eli.value = "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1"
       await nextTick()
       await execute()
@@ -150,9 +150,9 @@ describe("announcementReleaseService", () => {
 
       expect(fetchSpy).toHaveBeenCalledOnce()
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/announcements/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1/release`,
+        `/api/v1/announcements/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1/releases`,
         expect.objectContaining({
-          method: "PUT",
+          method: "POST",
         }),
       )
     })

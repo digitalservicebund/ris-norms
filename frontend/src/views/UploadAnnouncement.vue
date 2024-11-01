@@ -220,8 +220,6 @@ function resetUploadPage() {
           :value="errorList"
           class="ml-auto"
         />
-
-        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label :for="errorListId" class="sr-only">Fehlerliste</label>
         <output
           :id="errorListId"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import RisDropdownInput, {
-  DropdownItem,
-} from "@/components/controls/RisDropdownInput.vue"
+import { DropdownItem } from "@/types/dropdownItem"
+import Select from "primevue/select"
 import { useRef } from "@/composables/useRef"
 import { useDebounceFn } from "@vueuse/core"
 import Button from "primevue/button"
@@ -68,15 +67,14 @@ watch(
 </script>
 
 <template>
-  <RisDropdownInput
-    id="ref-refersTo-select"
+  <Select
     v-model="refersTo"
-    :items="refersToOptions"
-    placeholder=" "
-    select-classes="bg-blue-300"
-    class="-mr-1"
+    :options="refersToOptions"
+    option-label="label"
+    option-value="value"
     aria-label="Typ"
-  ></RisDropdownInput>
+    class="-mr-1"
+  />
 
   <input
     ref="inputEl"

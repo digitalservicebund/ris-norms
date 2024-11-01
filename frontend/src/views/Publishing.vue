@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import Button from "primevue/button"
-import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
+import { useAmendingLawReleases } from "@/composables/useAmendingLawReleases"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useGetNormXml } from "@/services/normService"
-import { computed, onBeforeUnmount, onUnmounted, ref, watch } from "vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import Button from "primevue/button"
+import Message from "primevue/message"
+import { computed, onUnmounted } from "vue"
 
 const { pushBreadcrumb } = useHeaderContext()
 const cleanupBreadcrumbs = pushBreadcrumb({ title: "Abgabe" })
@@ -15,7 +14,7 @@ onUnmounted(() => cleanupBreadcrumbs())
 
 const eli = useEliPathParameter()
 const {
-  data: release,
+  data: releases,
   release: {
     execute: releaseAmendingLaw,
     isFetching: isReleasing,
@@ -23,66 +22,18 @@ const {
   },
   isFetching,
   error: fetchError,
-} = useAmendingLawRelease(eli)
-const blobUrl = ref("")
-const zf0BlobUrls = ref<BlobUrlItem[]>([])
+  statusCode: fetchStatusCode,
+} = useAmendingLawReleases(eli)
 
-interface BlobUrlItem {
-  zf0Eli: string
-  zf0BlobUrl: string
-}
-
-watch(release, async () => {
-  if (release?.value?.amendingLawEli) {
-    const { data: xmlContent } = await useGetNormXml(
-      release.value.amendingLawEli,
-    )
-
-    const blob = new Blob([xmlContent.value ?? ""], { type: "application/xml" })
-    const newBlobUrl = URL.createObjectURL(blob)
-
-    if (blobUrl.value) {
-      URL.revokeObjectURL(blobUrl.value)
-    }
-    blobUrl.value = newBlobUrl
-  }
-
-  if (release.value?.zf0Elis) {
-    const newZf0BlobUrls = []
-    for (const zf0Eli of release.value.zf0Elis) {
-      const { data: xmlContent } = await useGetNormXml(zf0Eli)
-
-      const blob = new Blob([xmlContent.value ?? ""], {
-        type: "application/xml",
-      })
-      const blobUrlForZf0 = URL.createObjectURL(blob)
-      newZf0BlobUrls.push({ zf0Eli, zf0BlobUrl: blobUrlForZf0 })
-
-      zf0BlobUrls.value.forEach((item) => {
-        URL.revokeObjectURL(item.zf0BlobUrl)
-      })
-      zf0BlobUrls.value = newZf0BlobUrls
-    }
-  }
-})
-
-onBeforeUnmount(() => {
-  if (blobUrl.value) {
-    URL.revokeObjectURL(blobUrl.value)
-  }
-
-  zf0BlobUrls.value.forEach((item) => {
-    URL.revokeObjectURL(item.zf0BlobUrl)
-  })
-})
 async function onRelease() {
   await releaseAmendingLaw()
 }
 
 const releasedAt = computed(() =>
-  release.value?.releaseAt ? new Date(release.value.releaseAt) : null,
+  releases.value?.[0]?.releaseAt ? new Date(releases.value[0].releaseAt) : null,
 )
 const publishedAtDateTime = computed(() => releasedAt.value?.toISOString())
+
 const publishedAtTimeString = computed(() =>
   releasedAt.value?.toLocaleTimeString("de-DE", {
     hour: "2-digit",
@@ -95,7 +46,15 @@ const publishedAtDateString = computed(() =>
   }),
 )
 
-const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
+const downloadLinks = computed(() => {
+  const norms = releases.value?.[0].norms
+  if (!norms) return []
+
+  return norms.map((norm) => ({
+    url: `/api/v1/norms/${norm}`,
+    title: norm,
+  }))
+})
 </script>
 
 <template>
@@ -114,44 +73,29 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
         <RisErrorCallout :error="releaseError" />
       </div>
 
-      <div v-else-if="fetchError">
+      <div v-else-if="fetchError && fetchStatusCode !== 404">
         <RisErrorCallout :error="fetchError" />
       </div>
 
-      <RisCallout
-        v-else-if="releasedAt"
-        title="Die Abgabe ist aktuell als Prototyp verfügbar."
-        variant="warning"
-      >
-        <p class="mt-4 leading-snug">
+      <Message v-else-if="releasedAt" severity="warn">
+        <p class="ris-label2-bold my-6">
+          Die Abgabe ist aktuell als Prototyp verfügbar.
+        </p>
+        <p class="ris-label2-regular mb-6">
           Dieses Änderungsgesetz wurde zuletzt abgegeben am
           <time :datetime="publishedAtDateTime">
             {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr. Die
             aktuelle Version kann hier eingesehen werden:
           </time>
         </p>
-        <ul class="list-disc pl-20">
-          <li>
-            <a
-              v-if="release"
-              :href="blobUrl"
-              :download="formatEliForDownload(release.amendingLawEli)"
-              target="_blank"
-              class="underline"
-              >{{ release.amendingLawEli }}.xml</a
-            >
-          </li>
-          <li v-for="{ zf0Eli, zf0BlobUrl } in zf0BlobUrls" :key="zf0Eli">
-            <a
-              :href="zf0BlobUrl"
-              :download="formatEliForDownload(zf0Eli)"
-              target="_blank"
-              class="underline"
-              >{{ zf0Eli }}.xml</a
-            >
+        <ul class="ris-label2-regular list-disc pl-20">
+          <li v-for="download in downloadLinks" :key="download.url">
+            <a :href="download.url" target="_blank" class="underline">{{
+              download.title
+            }}</a>
           </li>
         </ul>
-      </RisCallout>
+      </Message>
 
       <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
       <Button

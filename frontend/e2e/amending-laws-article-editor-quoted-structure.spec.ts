@@ -45,9 +45,11 @@ test.describe("Load mod details", () => {
       name: "Zeitgrenze",
     })
     await expect(timeBoundariesElement).toBeVisible()
-    await expect(timeBoundariesElement).toHaveValue("1002-01-11")
+    await expect(timeBoundariesElement).toHaveText("11.01.1002")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
+    await timeBoundariesElement.click()
+
+    const timeBoundaryOptionElements = sharedPage.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(3)
 
     // // Destination Href Eli
@@ -136,15 +138,23 @@ test.describe("Editing a single mod", () => {
     })
 
     await sharedPage
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("1002-01-10")
+      .getByRole("combobox", {
+        name: "Zeitgrenze",
+      })
+      .click()
+
+    await sharedPage
+      .getByRole("option", {
+        name: "10.01.1002",
+      })
+      .click()
 
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
     await amendingLawSection.getByRole("tab", { name: "xml" }).click()
 
     await expect(
       sharedPage.getByRole("combobox", { name: "Zeitgrenze" }),
-    ).toHaveValue("1002-01-10")
+    ).toHaveText("10.01.1002")
   })
 
   test("select another target node and see preview", async () => {
@@ -233,9 +243,9 @@ test.describe("Editing multiple mods", () => {
       name: "Zeitgrenze",
     })
 
-    await expect(timeBoundariesElement).toHaveValue("1002-01-11")
-
-    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
+    await expect(timeBoundariesElement).toHaveText("11.1.1002")
+    await timeBoundariesElement.click()
+    const timeBoundaryOptionElements = sharedPage.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(4)
   })
 
@@ -270,9 +280,13 @@ test.describe("Editing multiple mods", () => {
       .getByText("Aufgrund der Spezifikation")
       .click({ modifiers: ["ControlOrMeta"] })
 
+    await sharedPage.getByRole("combobox", { name: "Zeitgrenze" }).click()
+
     await sharedPage
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("Keine Angabe")
+      .getByRole("option", {
+        name: "Keine Angabe",
+      })
+      .click()
 
     await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
@@ -296,9 +310,14 @@ test.describe("Editing multiple mods", () => {
 
     await amendingLawSection.getByText("Fiktives Beispielgesetz").click()
 
+    await sharedPage.getByRole("combobox", { name: "Zeitgrenze" }).click()
+
     await sharedPage
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("Keine Angabe")
+      .getByRole("option", {
+        name: "Keine Angabe",
+      })
+      .click()
+
     await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
     await expect(sharedPage.getByText("Speichern erfolgreich")).toBeVisible()
@@ -309,7 +328,7 @@ test.describe("Editing multiple mods", () => {
 
     await expect(
       sharedPage.getByRole("combobox", { name: "Zeitgrenze" }),
-    ).toHaveValue("multiple")
+    ).toHaveText("Mehrere")
 
     await expect(
       sharedPage.getByText(
@@ -364,9 +383,11 @@ test.describe("Range mod", () => {
       name: "Zeitgrenze",
     })
     await expect(timeBoundariesElement).toBeVisible()
-    await expect(timeBoundariesElement).toHaveValue("1002-01-11")
+    await expect(timeBoundariesElement).toHaveText("11.01.1002")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.getByRole("option")
+    await timeBoundariesElement.click()
+
+    const timeBoundaryOptionElements = sharedPage.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(3)
 
     // // Destination Href Eli

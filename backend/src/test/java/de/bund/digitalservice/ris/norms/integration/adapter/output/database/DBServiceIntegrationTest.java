@@ -2,25 +2,30 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,9 +40,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private NormRepository normRepository;
 
+  @Autowired
+  private ReleaseRepository releaseRepository;
+
   @AfterEach
   void cleanUp() {
     announcementRepository.deleteAll();
+    releaseRepository.deleteAll();
     normRepository.deleteAll();
   }
 
@@ -135,11 +144,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsAnnouncementOnDB() {
     // Given
     var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    var announcement = Announcement
-      .builder()
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
-      .eli(norm.getExpressionEli())
-      .build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
     // When
@@ -220,18 +225,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // When
     var norm1 = Norm.builder().document(XmlMapper.toDocument(xml1)).build();
-    var announcement1 = Announcement
-      .builder()
-      .releasedByDocumentalistAt(Instant.parse("2024-01-01T10:20:30.00Z"))
-      .eli(norm1.getExpressionEli())
-      .build();
+    var announcement1 = Announcement.builder().eli(norm1.getExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
     var norm2 = Norm.builder().document(XmlMapper.toDocument(xml2)).build();
-    var announcement2 = Announcement
-      .builder()
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
-      .eli(norm2.getExpressionEli())
-      .build();
+    var announcement2 = Announcement.builder().eli(norm2.getExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
 
     // When
@@ -257,71 +254,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(normRepository.findAll()).hasSize(1);
     assertThat(normFromDatabase).contains(newNorm);
-  }
-
-  @Test
-  void itUpdatesAnnouncement() {
-    // Given
-    final String xml =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                       <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                       <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorgaenger-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                       <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
-                       <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                    </akn:FRBRExpression>
-                        <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
-                               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"/>
-                           <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="791a8124-d12e-45e1-9c80-5f0438e4d046" date="2022-08-23" name="generierung"/>
-                        </akn:FRBRManifestation>
-                </akn:identification>
-              </akn:meta>
-
-              <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">
-                 <akn:longTitle eId="einleitung-1_doktitel-1" GUID="185fcdbe-04f8-4b17-ac7c-2208c7f2f9df">
-                    <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a9694e02-330d-40e3-b0d1-50b2059f020c">
-                       <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1" GUID="884b29f7-584f-41e2-9329-d8780d33a3d7">Verkündungsfassung</akn:docStage>
-                       <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Gesetz zum ersten Teil der
-                          Reform des Nachrichtendienstrechts</akn:docTitle>
-                    </akn:p>
-                 </akn:longTitle>
-                 <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
-                    <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="2023-12-29">Vom
-                       29.12.2023</akn:date>
-                 </akn:block>
-              </akn:preface>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
-    var announcement = Announcement
-      .builder()
-      .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-      .build();
-    announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-
-    var newAnnouncement = Announcement
-      .builder()
-      .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(Instant.parse("2024-02-03T10:20:30.0Z"))
-      .build();
-
-    // When
-    var announcementFromDatabase = dbService.updateAnnouncement(
-      new UpdateAnnouncementPort.Command(newAnnouncement)
-    );
-
-    // Then
-    assertThat(announcementFromDatabase).contains(newAnnouncement);
   }
 
   @Test
@@ -367,11 +299,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         </akn:akomaNtoso>
       """;
     var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
-    var announcement = Announcement
-      .builder()
-      .eli(norm.getExpressionEli())
-      .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-      .build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     // When
     var announcementFromDatabase = dbService.updateOrSaveAnnouncement(
@@ -380,5 +308,100 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // Then
     assertThat(announcementFromDatabase).isEqualTo(announcement);
+  }
+
+  @Test
+  void itFindsReleaseOnDB() {
+    // Given
+    var norm = normRepository.save(
+      NormMapper.mapToDto(NormFixtures.loadFromDisk("SimpleNorm.xml"))
+    );
+    var release = releaseRepository.save(ReleaseDto.builder().norms(List.of(norm)).build());
+    announcementRepository.save(
+      AnnouncementDto.builder().eli(norm.getEliExpression()).releases(List.of(release)).build()
+    );
+
+    // When
+    final Optional<Release> releaseOptional = dbService.loadLatestRelease(
+      new LoadLatestReleasePort.Command(
+        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      )
+    );
+
+    // Then
+    assertThat(releaseOptional).isPresent();
+    assertThat(releaseOptional.get().getPublishedNorms()).hasSize(1);
+    assertThat(
+      releaseOptional.get().getPublishedNorms().stream().findFirst().get().getManifestationEli()
+    )
+      .isEqualTo(
+        ManifestationEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      );
+  }
+
+  @Nested
+  class saveReleaseToAnnouncement {
+
+    @Test
+    void itUpdatesAnnouncementAndSavesRelease() {
+      // Given
+      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var release = Release.builder().publishedNorms(List.of(norm)).build();
+
+      normRepository.save(NormMapper.mapToDto(norm));
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+
+      // When
+      dbService.saveReleaseToAnnouncement(
+        new SaveReleaseToAnnouncementPort.Command(release, announcement)
+      );
+
+      var savedAnnouncement = announcementRepository.findByEli(norm.getExpressionEli().toString());
+
+      assertThat(savedAnnouncement).isPresent();
+      assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
+      assertThat(savedAnnouncement.get().getReleases().getFirst().getNorms()).hasSize(1);
+      assertThat(
+        savedAnnouncement.get().getReleases().getFirst().getNorms().getFirst().getEliManifestation()
+      )
+        .isEqualTo(norm.getManifestationEli().toString());
+    }
+  }
+
+  @Nested
+  class deleteQueuedReleases {
+
+    @Test
+    void itDeletesQueuedReleases() {
+      // Given
+      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var release = Release.builder().publishedNorms(List.of(norm)).build();
+
+      var normDto = normRepository.save(NormMapper.mapToDto(norm));
+
+      var releaseDto = ReleaseMapper.mapToDto(release);
+      releaseDto.setNorms(List.of(normDto));
+      releaseRepository.save(releaseDto);
+
+      var announcementDto = AnnouncementMapper.mapToDto(announcement);
+      announcementDto.setReleases(List.of(releaseDto));
+      announcementRepository.save(announcementDto);
+
+      // When
+      dbService.deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
+
+      // Then
+      var savedAnnouncement = announcementRepository.findByEli(norm.getExpressionEli().toString());
+      assertThat(savedAnnouncement).isPresent();
+      assertThat(savedAnnouncement.get().getReleases()).isEmpty();
+
+      var savedNorm = normRepository.findByEliManifestation(norm.getManifestationEli().toString());
+      assertThat(savedNorm).isPresent();
+    }
   }
 }
