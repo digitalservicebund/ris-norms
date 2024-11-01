@@ -62,9 +62,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /announcements/{expressionEli}/release:
+  /announcements/{expressionEli}/releases:
     get:
-      summary: Get the latest release of a specific announcement by the expression ELI of the amending law.
+      summary: Get the releases of a specific announcement by the expression ELI of the amending law.
       parameters:
         - name: expressionEli
           in: path
@@ -74,11 +74,13 @@ paths:
             type: string
       responses:
         '200':
-          description: Information about a released announcement
+          description: Information about releases
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReleaseResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReleaseResponse'
         '404':
           description: Announcement not found
           content:
@@ -91,8 +93,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
-    put:
-      summary: Release the XML of a specific announcement the expression ELI of the amending law.
+    post:
+      summary: Release the norms affected by a specific announcement
       parameters:
         - name: expressionEli
           in: path
@@ -835,12 +837,11 @@ components:
         releaseAt:
           type: string
           format: date-time
-        amendingLawEli:
-          type: string
-        zf0Elis:
+        norms:
           type: array
           items:
             type: string
+            description: A manifestation eli
 
     RenderRequest:
       type: object

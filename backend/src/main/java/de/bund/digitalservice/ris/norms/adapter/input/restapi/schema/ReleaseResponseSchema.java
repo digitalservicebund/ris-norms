@@ -17,6 +17,5 @@ import lombok.experimental.SuperBuilder;
 public class ReleaseResponseSchema {
 
   private Instant releaseAt;
-  private String amendingLawEli;
-  private List<String> zf0Elis;
+  private List<String> norms;
 }

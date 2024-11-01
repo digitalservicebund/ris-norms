@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,8 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Data Transfer Object (DTO) class representing an announcement entity. This class is annotated
- * with Lombok annotations for generating getters, setters, constructors, and builder methods.
+ * Data Transfer Object (DTO) class representing a release entity.
  */
 @Getter
 @Setter
@@ -28,22 +28,25 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "announcements")
-public class AnnouncementDto {
+@Table(name = "releases")
+public class ReleaseDto {
 
   @Id
   @GeneratedValue
   private UUID id;
 
-  @Column(name = "eli")
-  private String eli;
+  @Column(name = "released_at")
+  private Instant releasedAt;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(
-    name = "announcement_releases",
-    joinColumns = @JoinColumn(name = "announcement_id"),
-    inverseJoinColumns = @JoinColumn(name = "release_id")
+    name = "release_norms",
+    joinColumns = @JoinColumn(name = "release_id"),
+    inverseJoinColumns = @JoinColumn(
+      name = "norm_eli_manifestation",
+      referencedColumnName = "eli_manifestation"
+    )
   )
   @Builder.Default
-  private List<ReleaseDto> releases = new ArrayList<>();
+  private List<NormDto> norms = new ArrayList<>();
 }
