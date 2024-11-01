@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.output.s3;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -143,12 +143,12 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     if (contains) {
       assertThat(set).isNotNull();
-      assertThat(set.contains(norm.getManifestationEli().toString())).isTrue();
+      assertThat(set).contains(norm.getManifestationEli().toString());
     } else {
       if (set == null) {
         return;
       }
-      assertThat(set.contains(norm.getManifestationEli().toString())).isFalse();
+      assertThat(set).contains(norm.getManifestationEli().toString());
     }
   }
 }

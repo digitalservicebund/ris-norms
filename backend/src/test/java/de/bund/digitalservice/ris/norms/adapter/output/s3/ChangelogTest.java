@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.output.s3;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
