@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
@@ -17,6 +16,7 @@ import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
+import Select from "primevue/select"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -216,13 +216,20 @@ function handleUpdate(event: MouseEvent) {
 
     <form v-else class="grid grid-cols-1 gap-y-12">
       <div class="grid grid-cols-2 gap-x-40">
-        <RisDropdownInput
-          id="timeBoundaries"
-          v-model="timeBoundary"
-          label="Zeitgrenze"
-          :items="timeBoundaryItems"
-          @change="preview"
-        />
+        <div class="flex flex-col gap-6">
+          <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+          <label id="timeBoundariesLabel" class="ris-label2-regular"
+            >Zeitgrenze</label
+          >
+          <Select
+            v-model="timeBoundary"
+            :options="timeBoundaryItems"
+            option-label="label"
+            option-value="value"
+            aria-labelledby="timeBoundariesLabel"
+            @change="() => preview"
+          />
+        </div>
       </div>
 
       <div class="flex">

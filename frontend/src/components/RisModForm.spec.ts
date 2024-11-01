@@ -27,7 +27,8 @@ describe("RisModForm", () => {
   const quotedStructureContent = "<quotedStructure>content</quotedStructure>"
   const targetLawHtml = "<p>Target Law Content</p>"
 
-  it("Should render the form with only mandatory fields", () => {
+  it("Should render the form with only mandatory fields", async () => {
+    const user = userEvent.setup()
     render(RisModForm, {
       props: {
         id: "risModForm",
@@ -53,16 +54,18 @@ describe("RisModForm", () => {
     const timeBoundariesElement = screen.getByRole("combobox", {
       name: "Zeitgrenze",
     })
+
     expect(timeBoundariesElement).toBeInTheDocument()
-    expect(timeBoundariesElement).toHaveValue("no_choice")
-    expect(timeBoundariesElement).toHaveDisplayValue(["Keine Angabe"])
+    expect(timeBoundariesElement).toHaveTextContent("Keine Angabe")
     expect(timeBoundariesElement).not.toHaveAttribute("readonly")
+
+    await user.click(timeBoundariesElement)
 
     const timeBoundaryOptionElements = screen.getAllByRole("option")
     expect(timeBoundaryOptionElements.length).toBe(4)
-    expect(timeBoundaryOptionElements[0]).toHaveValue(timeBoundaries[0].date)
-    expect(timeBoundaryOptionElements[1]).toHaveValue(timeBoundaries[1].date)
-    expect(timeBoundaryOptionElements[2]).toHaveValue(timeBoundaries[2].date)
+    expect(timeBoundaryOptionElements[0]).toHaveTextContent("31.12.2024")
+    expect(timeBoundaryOptionElements[1]).toHaveTextContent("01.01.2025")
+    expect(timeBoundaryOptionElements[2]).toHaveTextContent("15.06.2026")
 
     // Destination Href Eli
     const destinationHrefEliElement = screen.getByRole("textbox", {
@@ -160,7 +163,8 @@ describe("RisModForm", () => {
     ).not.toBeInTheDocument()
   })
 
-  it("Should render the form when timeBoundaries are empty", () => {
+  it("Should render the form when timeBoundaries are empty", async () => {
+    const user = userEvent.setup()
     render(RisModForm, {
       props: {
         id: "risModForm",
@@ -170,11 +174,16 @@ describe("RisModForm", () => {
       },
     })
 
+    const timeBoundariesElement = screen.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
+    await user.click(timeBoundariesElement)
     const timeBoundaryOptionElements = screen.getAllByRole("option")
     expect(timeBoundaryOptionElements.length).toBe(1)
   })
 
-  it("Should render the form when a timeBoundary is pre selected", () => {
+  it("Should render the form when a timeBoundary is pre selected", async () => {
+    const user = userEvent.setup()
     render(RisModForm, {
       props: {
         id: "risModForm",
@@ -188,19 +197,17 @@ describe("RisModForm", () => {
     const timeBoundariesElement = screen.getByRole("combobox", {
       name: "Zeitgrenze",
     })
-    expect(timeBoundariesElement).toBeInTheDocument()
-    expect(timeBoundariesElement).toHaveDisplayValue(["01.01.2025"])
 
-    const timeBoundaryOptionElements = screen.getAllByRole(
-      "option",
-    ) as HTMLOptionElement[]
+    expect(timeBoundariesElement).toHaveTextContent("01.01.2025")
 
+    await user.click(timeBoundariesElement)
+    const timeBoundaryOptionElements = screen.getAllByRole("option")
     const noChoiceOptionIndex = timeBoundaryOptionElements.findIndex(
-      (option) => option.value === "no_choice",
+      (option) => option.textContent === "Keine Angabe",
     )
-    expect(noChoiceOptionIndex).toBeGreaterThan(-1)
-    expect(timeBoundaryOptionElements[noChoiceOptionIndex]).toHaveValue(
-      "no_choice",
+    expect(noChoiceOptionIndex).not.toBe(-1)
+    expect(timeBoundaryOptionElements[noChoiceOptionIndex]).toHaveTextContent(
+      "Keine Angabe",
     )
   })
 
@@ -247,12 +254,14 @@ describe("RisModForm", () => {
     const dropdown = screen.getByRole("combobox", {
       name: "Zeitgrenze",
     })
-    expect(dropdown).toBeInTheDocument()
 
-    await user.selectOptions(dropdown, timeBoundaries[2].date)
+    await user.click(dropdown)
 
+    const timeBoundaryOptionElements = screen.getByRole("option", {
+      name: "15.06.2026",
+    })
+    await user.click(timeBoundaryOptionElements)
     expect(props.selectedTimeBoundary).toStrictEqual(timeBoundaries[1])
-
     expect(onUpdateSelectedTimeBoundary).toHaveBeenCalledWith(timeBoundaries[2])
     expect(onGeneratePreview).toHaveBeenCalled()
   })

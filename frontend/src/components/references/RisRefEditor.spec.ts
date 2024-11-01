@@ -15,7 +15,7 @@ describe("RisRefEditor", () => {
     const refersToSelect = screen.getByRole("combobox", { name: "Typ" })
     expect(refersToSelect).toBeInTheDocument()
     expect(refersToSelect).toHaveTextContent("Zitierung")
-    expect(refersToSelect).toHaveValue("zitierung")
+    expect(refersToSelect).toHaveTextContent("Zitierung")
 
     const hrefInput = screen.getByRole("textbox", {
       name: "ELI mit Zielstelle",
@@ -35,10 +35,17 @@ describe("RisRefEditor", () => {
       },
     })
 
-    await user.selectOptions(
-      screen.getByRole("combobox", { name: "Typ" }),
-      screen.getByRole("option", { name: "Zitierung" }),
-    )
+    const dropdown = screen.getByRole("combobox", {
+      name: "Typ",
+    })
+
+    await user.click(dropdown)
+
+    const optionElements = screen.getByRole("option", {
+      name: "Zitierung",
+    })
+
+    await user.click(optionElements)
 
     await expect.poll(() => result.emitted("update:xmlSnippet")).toHaveLength(1)
     expect(result.emitted("update:xmlSnippet")[0]).toEqual([

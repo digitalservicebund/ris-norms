@@ -15,9 +15,12 @@ import dayjs from "dayjs"
 import { computed, ref, watchEffect } from "vue"
 import { useRouter } from "vue-router"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import Select from "primevue/select"
+import { useElementId } from "@/composables/useElementId"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
+const { timeBoundariesId } = useElementId("timeBoundaries")
 
 const router = useRouter()
 
@@ -64,11 +67,16 @@ const {
 })
 
 const sortedTimeBoundaries = computed(() =>
-  (timeBoundaries.value ?? []).toSorted((a, b) => {
-    if (a.date < b.date) return -1
-    else if (a.date > b.date) return 1
-    else return 0
-  }),
+  (timeBoundaries.value ?? [])
+    .toSorted((a, b) => {
+      if (a.date < b.date) return -1
+      else if (a.date > b.date) return 1
+      else return 0
+    })
+    .map((boundary) => ({
+      ...boundary,
+      formattedDate: dayjs(boundary.date).format("DD.MM.YYYY"),
+    })),
 )
 
 const { timeBoundary: selectedTimeBoundary } = useTimeBoundaryPathParameter()
@@ -171,23 +179,20 @@ const elementLinks = computed(() => {
 
           <!-- Time boundary selection -->
           <div class="px-16 pb-20 pt-10">
-            <label for="timeBoundarySelect">
-              <span class="ris-label3-regular">Zeitgrenze</span>
+            <div class="flex flex-col gap-6">
+              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+              <label :id="timeBoundariesId">
+                <span class="ris-label3-regular">Zeitgrenze</span>
+              </label>
 
-              <select
-                id="timeBoundarySelect"
+              <Select
                 v-model="selectedTimeBoundary"
-                class="ds-select ds-select-small"
-              >
-                <option
-                  v-for="timeBoundary in sortedTimeBoundaries"
-                  :key="timeBoundary.eventRefEid"
-                  :value="timeBoundary.date"
-                >
-                  {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}
-                </option>
-              </select>
-            </label>
+                :options="sortedTimeBoundaries"
+                option-label="formattedDate"
+                option-value="date"
+                :aria-labelledby="timeBoundariesId"
+              />
+            </div>
           </div>
 
           <RisCallout
