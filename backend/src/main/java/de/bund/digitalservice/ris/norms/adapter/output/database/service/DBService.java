@@ -44,7 +44,8 @@ public class DBService
     DeleteNormPort,
     DeleteQueuedNormsPort,
     SaveReleaseToAnnouncementPort,
-    DeleteQueuedReleasesPort {
+    DeleteQueuedReleasesPort,
+    LoadNormsByPublishStatePort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -245,5 +246,14 @@ public class DBService
     releaseRepository.deleteAll(queuedReleaseDtos);
 
     return queuedReleaseDtos.stream().map(ReleaseMapper::mapToDomain).toList();
+  }
+
+  @Override
+  public List<Norm> loadNormsByPublishState(LoadNormsByPublishStatePort.Command command) {
+    return normRepository
+      .findByPublishState(command.publishState())
+      .stream()
+      .map(NormMapper::mapToDomain)
+      .toList();
   }
 }

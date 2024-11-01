@@ -1,17 +1,22 @@
 package de.bund.digitalservice.ris.norms.adapter.output.s3;
 
-import de.bund.digitalservice.ris.norms.application.exception.BucketPublishException;
+import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
+import de.bund.digitalservice.ris.norms.application.port.output.DeletePrivateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.DeletePublicNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPrivateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPublicNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 /**
@@ -39,15 +44,17 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
  * <p>Usage:</p>
  * This service is used by invoking either {@code publishPublicNorm} or {@code publishPrivateNorm}
  * to upload a norm document to the respective storage. In case of a failure during the upload,
- * a {@link BucketPublishException} is thrown, encapsulating the bucket name and norm details.
+ * a {@link BucketException} is thrown, encapsulating the bucket name and norm details.
  *
  * @see PublishPublicNormPort
  * @see PublishPrivateNormPort
- * @see BucketPublishException
+ * @see BucketException
  */
 @Service
 @Slf4j
-public class BucketService implements PublishPublicNormPort, PublishPrivateNormPort {
+public class BucketService
+  implements
+    PublishPublicNormPort, PublishPrivateNormPort, DeletePublicNormPort, DeletePrivateNormPort {
 
   @Value("${otc.obs.private.bucket-name:private}")
   private String privateBucketName;
@@ -67,22 +74,98 @@ public class BucketService implements PublishPublicNormPort, PublishPrivateNormP
   }
 
   @Override
-  public void publishPublicNorm(PublishPublicNormPort.Command command) {
+  public void publishPublicNorm(PublishPublicNormPort.Command command) throws BucketException {
     uploadToBucket(publicS3Client, publicBucketName, command.norm());
+    updateChangelogInS3(publicS3Client, publicBucketName, Changelog.CHANGED, command.norm());
   }
 
   @Override
-  public void publishPrivateNorm(PublishPrivateNormPort.Command command) {
+  public void publishPrivateNorm(PublishPrivateNormPort.Command command) throws BucketException {
     uploadToBucket(privateS3Client, privateBucketName, command.norm());
+    updateChangelogInS3(privateS3Client, privateBucketName, Changelog.CHANGED, command.norm());
   }
 
-  private void uploadToBucket(final S3Client s3Client, final String bucketName, final Norm norm)
-    throws XmlProcessingException {
-    final PutObjectRequest request = PutObjectRequest
-      .builder()
-      .bucket(bucketName)
-      .key(norm.getManifestationEli().toString())
-      .build();
-    s3Client.putObject(request, RequestBody.fromString(XmlMapper.toString(norm.getDocument())));
+  @Override
+  public void deletePrivateNorm(DeletePrivateNormPort.Command command) throws BucketException {
+    deleteFromBucket(privateS3Client, privateBucketName, command.norm());
+    updateChangelogInS3(privateS3Client, privateBucketName, Changelog.DELETED, command.norm());
+  }
+
+  @Override
+  public void deletePublicNorm(DeletePublicNormPort.Command command) throws BucketException {
+    deleteFromBucket(publicS3Client, publicBucketName, command.norm());
+    updateChangelogInS3(publicS3Client, publicBucketName, Changelog.DELETED, command.norm());
+  }
+
+  private void uploadToBucket(final S3Client s3Client, final String bucketName, final Norm norm) {
+    try {
+      final PutObjectRequest request = PutObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(norm.getManifestationEli().toString())
+        .build();
+      s3Client.putObject(request, RequestBody.fromString(XmlMapper.toString(norm.getDocument())));
+    } catch (final Exception e) {
+      throw new BucketException(
+        BucketException.Operation.PUT,
+        bucketName,
+        norm.getManifestationEli().toString(),
+        e
+      );
+    }
+  }
+
+  private void deleteFromBucket(final S3Client s3Client, final String bucketName, final Norm norm) {
+    try {
+      final DeleteObjectRequest request = DeleteObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(norm.getManifestationEli().toString())
+        .build();
+      s3Client.deleteObject(request);
+    } catch (final Exception e) {
+      throw new BucketException(
+        BucketException.Operation.DELETE,
+        bucketName,
+        norm.getManifestationEli().toString(),
+        e
+      );
+    }
+  }
+
+  private void updateChangelogInS3(
+    final S3Client s3Client,
+    final String bucketName,
+    final String operation,
+    final Norm norm
+  ) {
+    try {
+      final Changelog changelog = loadChangelog(s3Client, bucketName);
+      changelog.addContent(operation, norm.getManifestationEli().toString());
+      final PutObjectRequest putRequest = PutObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(changelog.getFileName())
+        .build();
+      s3Client.putObject(putRequest, RequestBody.fromString(changelog.getContent()));
+    } catch (final Exception e) {
+      log.error("Failed to update changelog in bucket %s with error %s".formatted(bucketName, e));
+    }
+  }
+
+  private Changelog loadChangelog(final S3Client s3Client, final String bucketName) {
+    final Changelog changelog = new Changelog();
+    try {
+      final GetObjectRequest getRequest = GetObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(changelog.getFileName())
+        .build();
+      final InputStream changelogStream = s3Client.getObject(getRequest);
+      changelog.setContent(new String(changelogStream.readAllBytes(), StandardCharsets.UTF_8));
+    } catch (final Exception e) {
+      log.warn("Changelog not found or failed to load, creating an empty changelog.");
+    }
+    return changelog;
   }
 }

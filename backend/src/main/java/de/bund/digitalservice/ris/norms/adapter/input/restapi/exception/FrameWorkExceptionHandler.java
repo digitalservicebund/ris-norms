@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
+package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import java.net.URI;
 import java.util.List;
