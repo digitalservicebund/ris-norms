@@ -60,6 +60,7 @@ public class PublishService implements PublishNormUseCase {
           // If both succeeds, then update publish state
           norm.setPublishState(NormPublishState.PUBLISHED);
           updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+          log.info("Published norm: {}", norm.getManifestationEli().toString());
         } catch (final Exception e) {
           log.error(e.getMessage());
           // Rollback logic based on what succeeded (also for the case that DB update failed)
