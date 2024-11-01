@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/vue"
 import { describe, expect, test, beforeAll } from "vitest"
 import { nextTick } from "vue"
 import RisDateInput from "./RisDateInput.vue"
-import PrimeVue from "primevue/config"
+import InputText from "primevue/inputtext"
 
 beforeAll(() => {
   Object.defineProperty(HTMLElement.prototype, "offsetParent", {
@@ -30,7 +30,6 @@ function renderComponent(options?: {
   const utils = render(RisDateInput, {
     props,
     global: {
-      plugins: [PrimeVue],
       stubs: options?.stubs,
     },
   })
@@ -49,9 +48,7 @@ describe("DateInput", () => {
   test("allows typing a date inside input (stubbed inputMask)", async () => {
     renderComponent({
       stubs: {
-        InputMask: {
-          template: `<input />`,
-        },
+        InputMask: InputText,
       },
     })
     const input = screen.getByRole("textbox")
@@ -69,18 +66,10 @@ describe("DateInput", () => {
   })
 
   test("emits model update event when input completed and valid", async () => {
-    const CustomInputMaskStub = {
-      props: ["modelValue"],
-      template: `<input
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
-  />`,
-    }
-
     const { emitted } = renderComponent({
       modelValue: "2022-05-13T18:08:14.036Z",
       stubs: {
-        InputMask: CustomInputMaskStub,
+        InputMask: InputText,
       },
     })
     const input = screen.getByRole("textbox")
@@ -118,14 +107,10 @@ describe("DateInput", () => {
   })
 
   test("removes validation errors on backspace delete", async () => {
-    const CustomInputMaskStub = {
-      props: ["modelValue"],
-      template: `<input :value="modelValue" />`,
-    }
     const { emitted } = renderComponent({
       modelValue: "2022-05-13",
       stubs: {
-        InputMask: CustomInputMaskStub,
+        InputMask: InputText,
       },
     })
     const input = screen.getByRole("textbox")
@@ -139,17 +124,9 @@ describe("DateInput", () => {
   })
 
   test("does not allow invalid dates", async () => {
-    const CustomInputMaskStub = {
-      props: ["modelValue"],
-      template: `<input
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
-  />`,
-    }
-
     const { emitted } = renderComponent({
       stubs: {
-        InputMask: CustomInputMaskStub,
+        InputMask: InputText,
       },
     })
     const input = screen.getByRole("textbox")
