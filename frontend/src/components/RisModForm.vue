@@ -361,7 +361,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         @change="$emit('generate-preview')"
       />
       <div class="flex flex-col gap-6">
-        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label class="ris-label2-regular" for="textualModeType"
           >Änderungstyp</label
         >
@@ -374,7 +373,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     </div>
 
     <div class="flex flex-col gap-6">
-      <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
       <label class="ris-label2-regular" for="destinationHrefEli"
         >ELI Zielgesetz</label
       >
@@ -391,7 +389,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       class="grid max-h-full grid-cols-subgrid grid-rows-[2fr,1fr] gap-y-12 overflow-hidden"
     >
       <div class="flex flex-col gap-2 overflow-hidden">
-        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label"
           >Zu ersetzendes Element</label
         >
@@ -422,7 +419,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         />
       </div>
       <div class="flex flex-col gap-2 overflow-hidden">
-        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
@@ -440,7 +436,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       class="grid max-h-full grid-cols-subgrid grid-rows-[min-content,2fr,1fr] gap-y-12 overflow-hidden"
     >
       <div class="flex flex-col gap-6">
-        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label class="ris-label2-regular" for="destinationHrefEid"
           >zu ersetzende Textstelle</label
         >

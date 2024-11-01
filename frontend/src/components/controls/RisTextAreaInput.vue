@@ -50,7 +50,6 @@ const localValue = computed({
 
 <template>
   <div class="flex flex-col gap-2">
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label v-if="label" :for="id" class="ds-label">
       {{ label }}
     </label>

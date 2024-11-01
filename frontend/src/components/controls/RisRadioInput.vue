@@ -45,7 +45,6 @@ const modelValue = defineModel<string>({ default: undefined })
       }"
       type="radio"
     />
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label v-if="label" :for="id" class="ds-label">{{ label }}</label>
   </div>
 </template>
