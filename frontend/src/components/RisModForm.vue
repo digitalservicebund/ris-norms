@@ -15,6 +15,7 @@ import Select from "primevue/select"
 import { useToast } from "primevue/usetoast"
 import { computed, nextTick, ref, watch } from "vue"
 import IconCheck from "~icons/ic/baseline-check"
+import { useElementId } from "@/composables/useElementId"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -81,6 +82,8 @@ const selectedElement = computed({
         : props.timeBoundaries.find((tb) => tb.date === value)
   },
 })
+
+const { timeBoundariesId } = useElementId("timeBoundaries")
 
 const isQuotedStructure = computed(() => !!props.quotedStructureContent)
 
@@ -355,7 +358,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     <div class="grid grid-cols-2 gap-x-16">
       <div class="flex flex-col gap-6">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-        <label id="timeBoundariesLabel" class="ris-label2-regular"
+        <label :id="timeBoundariesId" class="ris-label2-regular"
           >Zeitgrenze</label
         >
         <Select
@@ -363,7 +366,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           :options="timeBoundaries"
           option-label="label"
           option-value="value"
-          aria-labelledby="timeBoundariesLabel"
+          :aria-labelledby="timeBoundariesId"
           @change="$emit('generate-preview')"
         />
       </div>

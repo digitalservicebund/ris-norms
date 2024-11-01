@@ -88,12 +88,16 @@ watch(savedData, (newData) => {
  * -------------------------------------------------- */
 
 const {
+  documentTypeId,
   fnaId,
   bezeichnungInVorlageId,
   artNormSnId,
   artNormAnId,
   artNormUnId,
+  staatId,
+  beschliessendesOrganId,
   qualifizierteMehrheitId,
+  ressortId,
   organisationsEinheitId,
 } = useElementId()
 
@@ -382,7 +386,7 @@ watch(hasSaved, (finished) => {
                 <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
                 <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-                <label id="documentTypeId" class="ris-label2-regular"
+                <label :id="documentTypeId" class="ris-label2-regular"
                   >Dokumenttyp</label
                 >
                 <Select
@@ -390,7 +394,7 @@ watch(hasSaved, (finished) => {
                   :options="documentTypeItems"
                   option-label="label"
                   option-value="value"
-                  aria-labelledby="documentTypeId"
+                  :aria-labelledby="documentTypeId"
                 />
 
                 <label :for="artNormSnId" class="self-start">
@@ -426,7 +430,7 @@ watch(hasSaved, (finished) => {
               <fieldset class="contents">
                 <legend class="ris-label2-bold col-span-2">Normgeber</legend>
 
-                <label id="staatIdLabel"
+                <label :id="staatId"
                   ><abbr
                     title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
                     >Staat</abbr
@@ -437,10 +441,10 @@ watch(hasSaved, (finished) => {
                   :options="staatItems"
                   option-label="label"
                   option-value="value"
-                  aria-labelledby="staatIdLabel"
+                  :aria-labelledby="staatId"
                 />
 
-                <label id="beschliessendesOrganId">
+                <label :id="beschliessendesOrganId">
                   beschließendes Organ
                 </label>
                 <Select
@@ -448,7 +452,7 @@ watch(hasSaved, (finished) => {
                   :options="beschliessendesOrganItems"
                   option-label="label"
                   option-value="value"
-                  aria-labelledby="beschliessendesOrganId"
+                  :aria-labelledby="beschliessendesOrganId"
                 />
 
                 <label :for="qualifizierteMehrheitId">
@@ -463,13 +467,13 @@ watch(hasSaved, (finished) => {
               <fieldset class="contents">
                 <legend class="ris-label2-bold col-span-2">Federführung</legend>
 
-                <label id="ressortId">Ressort</label>
+                <label :id="ressortId">Ressort</label>
                 <Select
                   v-model="ressort"
                   :options="ressortItems"
                   option-label="label"
                   option-value="value"
-                  aria-labelledby="ressortId"
+                  :aria-labelledby="ressortId"
                 />
 
                 <label :for="organisationsEinheitId">

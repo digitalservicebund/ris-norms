@@ -16,9 +16,11 @@ import { computed, ref, watchEffect } from "vue"
 import { useRouter } from "vue-router"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Select from "primevue/select"
+import { useElementId } from "@/composables/useElementId"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
+const { timeBoundariesId } = useElementId("timeBoundaries")
 
 const router = useRouter()
 
@@ -179,7 +181,7 @@ const elementLinks = computed(() => {
           <div class="px-16 pb-20 pt-10">
             <div class="flex flex-col gap-6">
               <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label id="timeBoundarySelect">
+              <label :id="timeBoundariesId">
                 <span class="ris-label3-regular">Zeitgrenze</span>
               </label>
 
@@ -188,8 +190,7 @@ const elementLinks = computed(() => {
                 :options="sortedTimeBoundaries"
                 option-label="formattedDate"
                 option-value="date"
-                aria-labelledby="timeBoundarySelect"
-                placeholder="Select a date"
+                :aria-labelledby="timeBoundariesId"
               />
             </div>
           </div>
