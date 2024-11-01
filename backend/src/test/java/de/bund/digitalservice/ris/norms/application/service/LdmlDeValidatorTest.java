@@ -89,7 +89,7 @@ class LdmlDeValidatorTest {
   class validateSchematron {
 
     @Test
-    void itShouldValidateNorm() {
+    void itShouldSuccessfullyValidateNorm() {
       // Given
       Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
 
@@ -98,7 +98,7 @@ class LdmlDeValidatorTest {
     }
 
     @Test
-    void itShouldValidateAInvalidNorm() {
+    void itShouldValidateAInvalidNormWithError() {
       // Given
       Norm norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml", true);
 
@@ -144,6 +144,15 @@ class LdmlDeValidatorTest {
               );
           }
         });
+    }
+
+    @Test
+    void itShouldSuccessfullyValidateANormWithWarnings() {
+      // Given
+      Norm norm = NormFixtures.loadFromDisk("NormWithModsSchematronWarning.xml", true);
+
+      // When // Then
+      assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
     }
   }
 }
