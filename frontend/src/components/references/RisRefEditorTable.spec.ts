@@ -4,7 +4,6 @@ import { getByRole, render, screen, waitFor } from "@testing-library/vue"
 import { flushPromises } from "@vue/test-utils"
 import { describe, expect, it } from "vitest"
 import { nextTick } from "vue"
-import PrimeVue from "primevue/config"
 
 describe("RisRefEditorTable", () => {
   it("Should not render the ref editor because no akn:ref present in the xml snippet", async () => {
@@ -23,9 +22,6 @@ describe("RisRefEditorTable", () => {
 
   it("Should render a ref editor for every akn:ref of the xml snippet", async () => {
     render(RisRefEditorTable, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
@@ -43,9 +39,6 @@ describe("RisRefEditorTable", () => {
   it("Should delete a ref when the delete icon is clicked", async () => {
     const user = userEvent.setup()
     const result = render(RisRefEditorTable, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
@@ -65,9 +58,6 @@ describe("RisRefEditorTable", () => {
   it("Selects a ref when it's href input is clicked", async () => {
     const user = userEvent.setup()
     const result = render(RisRefEditorTable, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
@@ -91,9 +81,6 @@ describe("RisRefEditorTable", () => {
   it("Selects a ref when it is navigated to using keyboard navigation", async () => {
     const user = userEvent.setup()
     const result = render(RisRefEditorTable, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
@@ -116,9 +103,6 @@ describe("RisRefEditorTable", () => {
   it("Selects next and previous refs by pressing arrow keys", async () => {
     const user = userEvent.setup()
     render(RisRefEditorTable, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
@@ -135,9 +119,6 @@ describe("RisRefEditorTable", () => {
   it("Does not move past the last ref", async () => {
     const user = userEvent.setup()
     render(RisRefEditorTable, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
@@ -158,9 +139,6 @@ describe("RisRefEditorTable", () => {
   it("Does not move above the first ref", async () => {
     const user = userEvent.setup()
     render(RisRefEditorTable, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",

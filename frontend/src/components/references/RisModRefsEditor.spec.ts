@@ -3,7 +3,6 @@ import { getByRole, render, screen } from "@testing-library/vue"
 import { nextTick, reactive, ref } from "vue"
 import { userEvent } from "@testing-library/user-event"
 import { RouteLocationRaw } from "vue-router"
-import PrimeVue from "primevue/config"
 
 const renderData = ref<string>()
 const renderIsFetching = ref<boolean>()
@@ -83,9 +82,6 @@ describe("RisModRefsEditor", () => {
     )
 
     render(RisModRefsEditor, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         normXml: `
           <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
@@ -147,7 +143,6 @@ describe("RisModRefsEditor", () => {
         saveError: null,
       },
       global: {
-        plugins: [PrimeVue],
         stubs: {
           // we are stubbing the RisRefSelectionPanel here to not need to model the complex interactions in this unit test
           RisRefSelectionPanel: {
@@ -219,7 +214,6 @@ describe("RisModRefsEditor", () => {
         saveError: null,
       },
       global: {
-        plugins: [PrimeVue],
         stubs: {
           // we are stubbing the RisRefEditorTable here to not need to model the complex interactions in this unit test
           RisRefEditorTable: {
@@ -275,9 +269,6 @@ describe("RisModRefsEditor", () => {
       "@/components/references/RisModRefsEditor.vue"
     )
     render(RisModRefsEditor, {
-      global: {
-        plugins: [PrimeVue],
-      },
       props: {
         normXml: `
           <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">

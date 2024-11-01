@@ -357,7 +357,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   >
     <div class="grid grid-cols-2 gap-x-16">
       <div class="flex flex-col gap-6">
-        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label :id="timeBoundariesId" class="ris-label2-regular"
           >Zeitgrenze</label
         >
