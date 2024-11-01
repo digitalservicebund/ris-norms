@@ -15,14 +15,16 @@ import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
+
+  private static final String CHANGED = "changed";
+  private static final String DELETED = "deleted";
 
   @Autowired
   private BucketService bucketService;
@@ -41,7 +43,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // Then
     final Path filePath = getPublicPath(norm);
     assertThat(Files.exists(filePath)).isTrue();
-    assertChangelogContains(PUBLIC_BUCKET, "PUT", norm);
+    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
   }
 
   @Test
@@ -56,7 +58,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // Then
     final Path filePath = getPrivatePath(norm);
     assertThat(Files.exists(filePath)).isTrue();
-    assertChangelogContains(PRIVATE_BUCKET, "PUT", norm);
+    assertChangelogContains(true, PRIVATE_BUCKET, CHANGED, norm);
   }
 
   @Test
@@ -73,7 +75,8 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // Then
     final Path filePath = getPublicPath(norm);
     assertThat(Files.exists(filePath)).isFalse();
-    assertChangelogContains(PUBLIC_BUCKET, "DELETE", norm);
+    assertChangelogContains(false, PUBLIC_BUCKET, DELETED, norm);
+    assertChangelogContains(false, PUBLIC_BUCKET, CHANGED, norm);
   }
 
   @Test
@@ -90,7 +93,8 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // Then
     final Path filePath = getPrivatePath(norm);
     assertThat(Files.exists(filePath)).isFalse();
-    assertChangelogContains(PRIVATE_BUCKET, "DELETE", norm);
+    assertChangelogContains(false, PRIVATE_BUCKET, DELETED, norm);
+    assertChangelogContains(false, PRIVATE_BUCKET, CHANGED, norm);
   }
 
   @Test
@@ -98,31 +102,35 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // Given
     final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
     final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
-    bucketService.publishPublicNorm(command);
     final Norm anotherNorm = NormFixtures.loadFromDisk("NormToBeReleased.xml");
-    // When
     final PublishPublicNormPort.Command commandAnotherNorm = new PublishPublicNormPort.Command(
       anotherNorm
     );
+    // When
+    bucketService.publishPublicNorm(command);
     bucketService.publishPublicNorm(commandAnotherNorm);
-    final DeletePublicNormPort.Command deleteCommand = new DeletePublicNormPort.Command(norm);
-    bucketService.deletePublicNorm(deleteCommand);
 
     // Then
-    assertChangelogContains(PUBLIC_BUCKET, "PUT", norm);
-    assertChangelogContains(PUBLIC_BUCKET, "PUT", anotherNorm);
-    assertChangelogContains(PUBLIC_BUCKET, "DELETE", norm);
+    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
+    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, anotherNorm);
   }
 
-  private void assertChangelogContains(final String location, String operation, Norm norm) {
+  private void assertChangelogContains(
+    final boolean contains,
+    final String location,
+    final String operation,
+    final Norm norm
+  ) {
     Path changeLogPath;
     if (Objects.equals(location, PUBLIC_BUCKET)) {
-      changeLogPath = getPublicPath().resolve("changelog.json");
+      changeLogPath =
+      getPublicPath().resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
     } else {
-      changeLogPath = getPrivatePath().resolve("changelog.json");
+      changeLogPath =
+      getPrivatePath().resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
     }
 
-    final List<Map<String, Object>> changelogEntries;
+    final Map<String, Set<String>> changelogEntries;
     try {
       final String json = Files.readString(changeLogPath);
       changelogEntries = OBJECT_MAPPER.readValue(json, new TypeReference<>() {});
@@ -130,18 +138,17 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
       throw new RuntimeException("Failed to read changelog file", e);
     }
 
-    assertThat(
-      changelogEntries
-        .stream()
-        .anyMatch(entry ->
-          operation.equals(entry.get("operation")) &&
-          norm.getManifestationEli().toString().equals(entry.get("norm")) &&
-          entry
-            .get("timestamp")
-            .toString()
-            .startsWith(LocalDate.now().format(DateTimeFormatter.ISO_DATE))
-        )
-    )
-      .isTrue();
+    // Get the set for the specified operation
+    final Set<String> set = changelogEntries.get(operation);
+
+    if (contains) {
+      assertThat(set).isNotNull();
+      assertThat(set.contains(norm.getManifestationEli().toString())).isTrue();
+    } else {
+      if (set == null) {
+        return;
+      }
+      assertThat(set.contains(norm.getManifestationEli().toString())).isFalse();
+    }
   }
 }

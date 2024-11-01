@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.output.exception;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
 import lombok.Getter;
 
@@ -13,17 +12,25 @@ import lombok.Getter;
 @Getter
 public class BucketException extends StorageException {
 
+  /**
+   * Enum for the type of operation when communicating with the buckets.
+   */
+  public enum Operation {
+    PUT,
+    DELETE,
+  }
+
   public BucketException(
+    final Operation operation,
     final String bucketName,
-    final String operation,
-    final ManifestationEli manifestationEli,
+    final String key,
     final Exception e
   ) {
     super(
-      "%s operation unsuccessful for bucket %s and norm %s".formatted(
-          operation,
-          manifestationEli,
-          bucketName
+      "%s operation unsuccessful for bucket %s and key %s".formatted(
+          operation.name(),
+          bucketName,
+          key
         ),
       e
     );
