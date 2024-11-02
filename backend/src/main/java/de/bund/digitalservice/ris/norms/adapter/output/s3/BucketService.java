@@ -139,8 +139,8 @@ public class BucketService
     final String operation,
     final Norm norm
   ) {
+    final Changelog changelog = loadChangelog(s3Client, bucketName);
     try {
-      final Changelog changelog = loadChangelog(s3Client, bucketName);
       changelog.addContent(operation, norm.getManifestationEli().toString());
       final PutObjectRequest putRequest = PutObjectRequest
         .builder()
@@ -149,7 +149,13 @@ public class BucketService
         .build();
       s3Client.putObject(putRequest, RequestBody.fromString(changelog.getContent()));
     } catch (final Exception e) {
-      log.error("Failed to update changelog in bucket %s with error %s".formatted(bucketName, e));
+      log.error(
+        "Failed to update changelog with name %s in bucket %s with error %s".formatted(
+            changelog.getFileName(),
+            bucketName,
+            e
+          )
+      );
     }
   }
 
@@ -164,7 +170,13 @@ public class BucketService
       final InputStream changelogStream = s3Client.getObject(getRequest);
       changelog.setContent(new String(changelogStream.readAllBytes(), StandardCharsets.UTF_8));
     } catch (final Exception e) {
-      log.warn("Changelog not found or failed to load, creating an empty changelog.");
+      log.warn(
+        "Changelog not found or failed to load with name %s in bucket %s, creating an empty changelog. Error: %s".formatted(
+            changelog.getFileName(),
+            bucketName,
+            e
+          )
+      );
     }
     return changelog;
   }

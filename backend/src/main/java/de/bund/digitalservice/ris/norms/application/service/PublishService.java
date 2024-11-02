@@ -62,7 +62,7 @@ public class PublishService implements PublishNormUseCase {
           updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
           log.info("Published norm: {}", norm.getManifestationEli().toString());
         } catch (final Exception e) {
-          log.error(e.getMessage());
+          log.error(e.getMessage(), e);
           // Rollback logic based on what succeeded (also for the case that DB update failed)
           if (isPublicPublished) {
             rollbackPublicPublish(norm);
@@ -86,16 +86,24 @@ public class PublishService implements PublishNormUseCase {
   private void rollbackPublicPublish(Norm norm) {
     try {
       deletePublicNormPort.deletePublicNorm(new DeletePublicNormPort.Command(norm));
+      log.info(
+        "Deleted public norm on rollback strategy: {}",
+        norm.getManifestationEli().toString()
+      );
     } catch (final StorageException e) {
-      log.error(e.getMessage());
+      log.error(e.getMessage(), e);
     }
   }
 
   private void rollbackPrivatePublish(Norm norm) {
     try {
       deletePrivateNormPort.deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
+      log.info(
+        "Deleted privated norm on rollback strategy: {}",
+        norm.getManifestationEli().toString()
+      );
     } catch (StorageException e) {
-      log.error(e.getMessage());
+      log.error(e.getMessage(), e);
     }
   }
 
