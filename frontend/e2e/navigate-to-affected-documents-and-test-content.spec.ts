@@ -31,7 +31,7 @@ test.describe("Affected documents page", () => {
       }
 
       // Back
-      await page.getByText("Zurück").click()
+      await page.getByRole("link", { name: "Zurück" }).click()
       await expect(page).toHaveURL("/amending-laws")
     })
   }
