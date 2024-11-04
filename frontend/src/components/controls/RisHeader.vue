@@ -16,6 +16,7 @@ import {
 import { RouteLocationRaw, RouterLink, useRouter } from "vue-router"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
 import { useDebounceFn } from "@vueuse/core"
+import Breadcrumb from "primevue/breadcrumb"
 
 const props = withDefaults(
   defineProps<{
@@ -70,10 +71,51 @@ onMounted(() => {
  */
 const localBreadcrumbs = shallowRef<HeaderBreadcrumb[]>([])
 
-const allBreadcrumbs = computed(() => [
-  ...props.breadcrumbs,
-  ...localBreadcrumbs.value,
-])
+const allBreadcrumbs = computed(() => {
+  const breadcrumbs = []
+
+  if (props.backDestination) {
+    const backDestination = props.backDestination
+
+    if (backDestination === "breadcrumb-back") {
+      const currentFullPath = router.resolve(router.currentRoute.value).fullPath
+
+      const previousBreadcrumb = [
+        ...props.breadcrumbs,
+        ...localBreadcrumbs.value,
+      ]
+        .filter((i) => Boolean(i.to))
+        .findLast((i) => {
+          // @ts-expect-error `to` is not undefined, trust me
+          const resolvedPath = router.resolve(i.to).fullPath
+          return resolvedPath !== currentFullPath
+        })
+      breadcrumbs.push({
+        key: "back-button",
+        title: "Zurück",
+        to: previousBreadcrumb?.to || "history-back",
+        type: "breadcrumb-back",
+      })
+    } else if (backDestination === "history-back") {
+      breadcrumbs.push({
+        key: "back-button",
+        title: "Zurück",
+        type: "history-back",
+      })
+    } else {
+      breadcrumbs.push({
+        key: "back-button",
+        title: "Zurück",
+        to: backDestination,
+        type: "route-back",
+      })
+    }
+  }
+
+  breadcrumbs.push(...props.breadcrumbs, ...localBreadcrumbs.value)
+
+  return breadcrumbs
+})
 
 function removeBreadcrumb(key: string) {
   const index = localBreadcrumbs.value.findIndex((i) => i.key === key)
@@ -108,34 +150,6 @@ provide(HeaderContextProvider, {
   pushBreadcrumb,
   actionTeleportTarget: safeActionTargetId,
 })
-
-/* -------------------------------------------------- *
- * Back button                                        *
- * -------------------------------------------------- */
-
-const backbuttonTo = computed(() => {
-  if (props.backDestination === "breadcrumb-back") {
-    const current = router.resolve(router.currentRoute.value).fullPath
-
-    return allBreadcrumbs.value
-      .filter((i) => Boolean(i.to))
-      .findLast((i) => {
-        // @ts-expect-error `to` is not undefined, trust me
-        const resolved = router.resolve(i.to).fullPath
-        return resolved !== current
-      })?.to
-  } else if (props.backDestination === "history-back") {
-    return undefined
-  } else {
-    return props.backDestination
-  }
-})
-
-const showBackButtonSeparator = computed(
-  () =>
-    (backbuttonTo.value || props.backDestination === "history-back") &&
-    allBreadcrumbs.value?.length,
-)
 </script>
 
 <script lang="ts">
@@ -206,58 +220,73 @@ export function useHeaderContext() {
     v-bind="$attrs"
   >
     <section class="flex items-center">
-      <!-- Back button -->
-      <RouterLink
-        v-if="backbuttonTo"
-        :to="backbuttonTo"
-        class="ds-button ds-button-small ds-button-ghost ds-button-with-icon ds-button-with-icon-only"
-      >
-        <IcBaselineArrowBack />
-        <span class="sr-only">Zurück</span>
-      </RouterLink>
-      <Button
-        v-else-if="backDestination === 'history-back'"
-        label="Zurück"
-        severity="text"
-        @click="router.back()"
-      >
-        <template #icon>
-          <IcBaselineArrowBack />
-        </template>
-      </Button>
-
-      <span
-        v-if="showBackButtonSeparator"
-        class="mr-8 text-gray-700"
-        data-testid="back-button-separator"
-        >/</span
-      >
-
-      <!-- Bread crumbs -->
-      <nav class="line-clamp-2 leading-5">
-        <span
-          v-for="crumb in allBreadcrumbs"
-          :key="crumb.key"
-          class="ris-body1-regular after:mx-8 after:inline-block after:text-gray-700 after:content-['/'] last-of-type:after:hidden"
-        >
-          <RouterLink v-if="crumb.to" v-slot="link" :to="crumb.to" custom>
-            <a
-              v-if="!link.isExactActive"
-              class="ris-link1-bold underline"
-              :href="link.href"
-              @click="debouncedBreadcrumbClick(crumb.to)"
+      <Breadcrumb :model="allBreadcrumbs">
+        <template #item="{ item, props: slotProps }">
+          <template v-if="item.key === 'back-button'">
+            <RouterLink
+              v-if="item.to && item.to !== 'history-back'"
+              v-slot="{ href }"
+              :to="item.to"
+              custom
             >
-              {{ toValue(crumb.title) }}
-            </a>
-            <span v-else data-testid="current-route-breadcrumb">
-              {{ toValue(crumb.title) }}
+              <a
+                :href="href"
+                @click.prevent="debouncedBreadcrumbClick(item.to)"
+              >
+                <IcBaselineArrowBack />
+                <span class="sr-only">Zurück</span>
+              </a>
+            </RouterLink>
+
+            <Button
+              v-else-if="item.to === 'history-back' || !item.to"
+              label="Zurück"
+              severity="text"
+              @click="router.back()"
+            >
+              <template #icon>
+                <IcBaselineArrowBack />
+              </template>
+            </Button>
+          </template>
+
+          <template v-else>
+            <RouterLink
+              v-if="item.to"
+              v-slot="{ href, isExactActive }"
+              :to="item.to"
+              custom
+            >
+              <a
+                v-if="!isExactActive"
+                :href="href"
+                v-bind="slotProps.action"
+                @click.prevent="debouncedBreadcrumbClick(item.to)"
+              >
+                <span class="line-clamp-1">{{ toValue(item.title) }}</span>
+              </a>
+              <span
+                v-else
+                class="line-clamp-1"
+                data-testid="current-route-breadcrumb"
+              >
+                {{ toValue(item.title) }}
+              </span>
+            </RouterLink>
+            <span
+              v-else
+              data-testid="text-only-breadcrumb"
+              class="line-clamp-1"
+            >
+              {{ toValue(item.title) }}
             </span>
-          </RouterLink>
-          <span v-else data-testid="text-only-breadcrumb">
-            {{ toValue(crumb.title) }}
-          </span>
-        </span>
-      </nav>
+          </template>
+        </template>
+
+        <template #separator>
+          <span>/</span>
+        </template>
+      </Breadcrumb>
     </section>
 
     <!-- Actions -->
