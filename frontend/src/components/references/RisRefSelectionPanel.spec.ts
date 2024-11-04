@@ -76,7 +76,7 @@ describe("RisRefSelectionPanel", () => {
   })
 
   it("Highlighting a part of the text creates a new akn:ref element, the xmlSnippet is updated and the newly created element is selected", async () => {
-    const renderResult = render(RisRefSelectionPanel, {
+    const { emitted } = render(RisRefSelectionPanel, {
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
@@ -97,7 +97,7 @@ describe("RisRefSelectionPanel", () => {
       { keys: "[/MouseLeft]" },
     ])
 
-    const updateXmlSnippetEvents = renderResult.emitted("update:xmlSnippet")
+    const updateXmlSnippetEvents = emitted("update:xmlSnippet")
     expect(updateXmlSnippetEvents).toHaveLength(1)
 
     const updatedXml = updateXmlSnippetEvents[0] as string
@@ -107,13 +107,13 @@ describe("RisRefSelectionPanel", () => {
     expect(newRef).toBeTruthy()
     expect(newRef?.textContent).toEqual("for a third")
 
-    const selectedRefUpdateEvents = renderResult.emitted("update:selectedRef")
+    const selectedRefUpdateEvents = emitted("update:selectedRef")
     expect(selectedRefUpdateEvents).toHaveLength(1)
     expect(selectedRefUpdateEvents[0]).toEqual(["quot-1_p-1_ref-1"])
   })
 
   it("selects a akn:ref element if it is clicked on", async () => {
-    const renderResult = render(RisRefSelectionPanel, {
+    const { emitted } = render(RisRefSelectionPanel, {
       props: {
         xmlSnippet: "<xml></xml>",
       },
@@ -123,7 +123,7 @@ describe("RisRefSelectionPanel", () => {
 
     await userEvent.click(screen.getByText("a ref"))
 
-    const selectedRefUpdateEvents = renderResult.emitted("update:selectedRef")
+    const selectedRefUpdateEvents = emitted("update:selectedRef")
     expect(selectedRefUpdateEvents).toHaveLength(1)
     expect(selectedRefUpdateEvents[0]).toEqual(["quot-1_ref-1"])
   })
@@ -142,7 +142,7 @@ describe("RisRefSelectionPanel", () => {
   })
 
   it("click on the delete icon deletes the akn:ref element", async () => {
-    const renderResult = render(RisRefSelectionPanel, {
+    const { emitted } = render(RisRefSelectionPanel, {
       props: {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref></akn:quotedText>",
@@ -154,7 +154,7 @@ describe("RisRefSelectionPanel", () => {
     await userEvent.click(screen.getByText("a ref"))
     await userEvent.click(screen.getByRole("button", { name: "Löschen" }))
 
-    const updateXmlSnippetEvents = renderResult.emitted("update:xmlSnippet")
+    const updateXmlSnippetEvents = emitted("update:xmlSnippet")
     expect(updateXmlSnippetEvents).toHaveLength(1)
     expect(updateXmlSnippetEvents[0]).toEqual([
       `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1">Render of a ref and <akn:ref eId="quot-1_ref-2">a second ref</akn:ref></akn:quotedText>`,

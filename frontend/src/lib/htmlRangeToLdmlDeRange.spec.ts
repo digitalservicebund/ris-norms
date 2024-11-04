@@ -1,3 +1,5 @@
+// ESLint confuses htmlRenderRangeToLdmlDeRange with the testing library render method
+/* eslint testing-library/render-result-naming-convention: 0 */
 import { describe, expect, test } from "vitest"
 import {
   findHtmlNodeInLdml,

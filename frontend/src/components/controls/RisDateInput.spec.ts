@@ -9,6 +9,7 @@ import InputText from "primevue/inputtext"
 beforeEach(() => {
   vi.spyOn(HTMLElement.prototype, "offsetParent", "get").mockImplementation(
     function (this: HTMLElement) {
+      // eslint-disable-next-line testing-library/no-node-access -- Needed for mocking
       return this.parentNode as Element
     },
   )

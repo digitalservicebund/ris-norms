@@ -25,6 +25,7 @@ const variant = computed<"simple" | "extended">(() =>
     <component
       :is="icon"
       v-if="icon"
+      data-testid="empty-state-icon"
       class="ds-button-icon mx-auto mb-16 text-4xl text-blue-700"
     />
 

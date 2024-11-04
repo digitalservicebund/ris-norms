@@ -69,7 +69,7 @@ describe("RisModSelectionPanel", () => {
   })
 
   it("Clicking on a akn:mod element emits an update for the model with the eid of the clicked on akn:mod element", async () => {
-    const renderResult = render(RisModSelectionPanel, {
+    const { emitted } = render(RisModSelectionPanel, {
       props: {
         normXml: "<xml></xml>",
       },
@@ -80,7 +80,7 @@ describe("RisModSelectionPanel", () => {
     screen.getByText("a mod").click()
     screen.getByText("a second mod").click()
 
-    const updateModelValueEvents = renderResult.emitted("update:modelValue")
+    const updateModelValueEvents = emitted("update:modelValue")
     expect(updateModelValueEvents).toHaveLength(2)
     expect(updateModelValueEvents[0]).toEqual(["eid-1"])
     expect(updateModelValueEvents[1]).toEqual(["eid-2"])

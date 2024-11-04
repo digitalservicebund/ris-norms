@@ -20,18 +20,18 @@ describe("RisEmptyState", () => {
     })
 
     expect(screen.getByText("No announcements available")).toBeInTheDocument()
-    expect(screen.queryByText("Add new announcements")).toBeInTheDocument()
+    expect(screen.getByText("Add new announcements")).toBeInTheDocument()
   })
 
   test("should render the icon", () => {
-    const { container } = render(RisEmptyState, {
+    render(RisEmptyState, {
       props: {
         textContent: "No announcements available",
         icon: markRaw(UploadFileOutlineRounded),
       },
     })
 
-    expect(container.querySelector("svg")).toBeInTheDocument()
+    expect(screen.getByTestId("empty-state-icon")).toBeInTheDocument()
   })
 
   test("should detect the simple variant based on the props", () => {

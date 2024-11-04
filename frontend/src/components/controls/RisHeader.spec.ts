@@ -471,7 +471,7 @@ describe("RisHeader", () => {
       ).toBeInTheDocument()
     })
 
-    test("renders teleported content in the actions section", () => {
+    test("renders teleported content in the actions section", async () => {
       // Given
       const child = defineComponent({
         setup() {
@@ -492,7 +492,7 @@ describe("RisHeader", () => {
       render(component, { global })
 
       // Then
-      vi.waitFor(() => {
+      await vi.waitFor(() => {
         const button = screen.getByRole("button", { name: "Click me" })
         expect(button).toBeInTheDocument()
       })

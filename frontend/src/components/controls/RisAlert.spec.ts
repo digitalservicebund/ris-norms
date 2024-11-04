@@ -18,7 +18,7 @@ describe("RisAlert", () => {
   })
 
   test("emits close event", () => {
-    const renderResult = render(RisAlert, {
+    const { emitted } = render(RisAlert, {
       props: {
         variant: "error",
       },
@@ -30,6 +30,6 @@ describe("RisAlert", () => {
     const alert = screen.getByRole("alert")
     within(alert).getByRole("button", { name: "Schließen" }).click()
 
-    expect(renderResult.emitted().close.length).toBe(1)
+    expect(emitted().close.length).toBe(1)
   })
 })
