@@ -1,9 +1,11 @@
 import { includeIgnoreFile } from "@eslint/compat"
 import js from "@eslint/js"
+import vitest from "@vitest/eslint-plugin"
 import prettierConfig from "@vue/eslint-config-prettier"
 import vueTsEslintConfig from "@vue/eslint-config-typescript"
 import importPlugin from "eslint-plugin-import"
 import playwrightPlugin from "eslint-plugin-playwright"
+import testingLibraryPlugin from "eslint-plugin-testing-library"
 import vuePlugin from "eslint-plugin-vue"
 import vueA11yPlugin from "eslint-plugin-vuejs-accessibility"
 import globals from "globals"
@@ -13,7 +15,6 @@ import {
   configs as tsEslintConfigs,
 } from "typescript-eslint"
 import vueEslintParser from "vue-eslint-parser"
-import testingLibraryPlugin from "eslint-plugin-testing-library"
 
 export default defineConfig(
   // Files
@@ -36,9 +37,17 @@ export default defineConfig(
   },
 
   // Additional rules for unit tests
+  // Note that in order to avoid conflicts or plugins replacing parts of each
+  // other, this needs to be two separate blocks. Also the vitest plugin must
+  // be called `vitest`, otherwise it will break ¯\_(ツ)_/¯
   {
     files: ["src/**/*.spec.ts"],
     ...testingLibraryPlugin.configs["flat/vue"],
+  },
+  {
+    files: ["src/**/*.spec.ts"],
+    plugins: { vitest },
+    rules: { ...vitest.configs.recommended.rules },
   },
 
   {
@@ -116,6 +125,14 @@ export default defineConfig(
       // might need to create a bunch of wrapper components / advanced
       // examples to test certain types of behavior (e.g. slots).
       "vue/one-component-per-file": "off",
+
+      // Test format (naming and method use) should be consistent
+      "vitest/consistent-test-it": "error",
+      "vitest/prefer-lowercase-title": "error",
+
+      // Hooks should be easy to find
+      "vitest/prefer-hooks-in-order": "error",
+      "vitest/prefer-hooks-on-top": "error",
     },
   },
 
