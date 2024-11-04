@@ -38,7 +38,7 @@ describe("risModForm", () => {
     })
 
     // Form
-    const formElement = screen.getByRole("form")
+    const formElement = screen.getByTestId("mod-form")
     expect(formElement).toBeInTheDocument()
 
     // Textual Mode Type

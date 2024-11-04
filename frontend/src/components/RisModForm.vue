@@ -350,7 +350,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 
 <template>
   <form
-    role="form"
+    data-testid="mod-form"
     class="grid h-full max-h-full grid-cols-1 grid-rows-[min-content,min-content,1fr,min-content] gap-y-12 overflow-auto"
   >
     <div class="grid grid-cols-2 gap-x-16">
