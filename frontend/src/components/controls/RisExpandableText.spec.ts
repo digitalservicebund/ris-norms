@@ -1,15 +1,15 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import RisExpandableText from "./RisExpandableText.vue"
 import { userEvent } from "@testing-library/user-event"
 
-describe("RisExpandableText", () => {
-  test("renders the text", () => {
+describe("risExpandableText", () => {
+  it("renders the text", () => {
     render(RisExpandableText, { slots: { default: "Test" } })
     expect(screen.getByText("Test")).toBeInTheDocument()
   })
 
-  test("renders an expand button", async () => {
+  it("renders an expand button", async () => {
     // Need to mock these properties as JSDOM doesn't implement layout so they would always be 0
     vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(100)
     vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(50)
@@ -22,7 +22,7 @@ describe("RisExpandableText", () => {
     })
   })
 
-  test("expands the text", async () => {
+  it("expands the text", async () => {
     // Need to mock these properties as JSDOM doesn't implement layout so they would always be 0
     vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(100)
     vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(50)
@@ -39,7 +39,7 @@ describe("RisExpandableText", () => {
     expect(screen.getByRole("button")).toHaveAttribute("aria-expanded", "true")
   })
 
-  test("collapses the text", async () => {
+  it("collapses the text", async () => {
     // Need to mock these properties as JSDOM doesn't implement layout so they would always be 0
     vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(100)
     vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(50)
@@ -56,7 +56,7 @@ describe("RisExpandableText", () => {
     expect(screen.getByRole("button")).toHaveAttribute("aria-expanded", "false")
   })
 
-  test("renders a collapse button", async () => {
+  it("renders a collapse button", async () => {
     // Need to mock these properties as JSDOM doesn't implement layout so they would always be 0
     vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(100)
     vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(50)
@@ -72,7 +72,7 @@ describe("RisExpandableText", () => {
     })
   })
 
-  test("does not render the expand/collapse button if the text is not truncated", async () => {
+  it("does not render the expand/collapse button if the text is not truncated", async () => {
     // Need to mock these properties as JSDOM doesn't implement layout so they would always be 0
     // Need to mock these properties as JSDOM doesn't implement layout so they would always be 0
     vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(100)

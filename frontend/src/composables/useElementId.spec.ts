@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test, vi } from "vitest"
+import { afterEach, describe, expect, it, vi } from "vitest"
 import { useElementId } from "./useElementId"
 
 describe("useElementId", () => {
@@ -6,12 +6,12 @@ describe("useElementId", () => {
     vi.unstubAllGlobals()
   })
 
-  test("returns an identifier", () => {
+  it("returns an identifier", () => {
     const { identifier } = useElementId()
     expect(identifier).toBeTruthy()
   })
 
-  test("returns multiple identifiers with destructuring", () => {
+  it("returns multiple identifiers with destructuring", () => {
     const { id1, id2, id3, id4, id5 } = useElementId()
     expect(id1).toBeTruthy()
     expect(typeof id1).toBe("string")
@@ -25,7 +25,7 @@ describe("useElementId", () => {
     expect(typeof id5).toBe("string")
   })
 
-  test("returns multiple identifiers with object access", () => {
+  it("returns multiple identifiers with object access", () => {
     const ids = useElementId()
     expect(ids.id1).toBeTruthy()
     expect(typeof ids.id1).toBe("string")
@@ -39,7 +39,7 @@ describe("useElementId", () => {
     expect(typeof ids.id5).toBe("string")
   })
 
-  test("returns different identifiers when called multiple times", () => {
+  it("returns different identifiers when called multiple times", () => {
     const ids = new Array(1000)
       .fill(undefined)
       .map(() => useElementId().someId)
@@ -49,12 +49,12 @@ describe("useElementId", () => {
     expect(ids.size).toBe(1000)
   })
 
-  test("returns an ID with the default prefix", () => {
+  it("returns an ID with the default prefix", () => {
     const { identifier } = useElementId("element")
     expect(identifier.startsWith("element-")).toBe(true)
   })
 
-  test("returns an ID with a custom prefix", () => {
+  it("returns an ID with a custom prefix", () => {
     const { identifier } = useElementId("test")
     expect(identifier.startsWith("test-")).toBe(true)
   })

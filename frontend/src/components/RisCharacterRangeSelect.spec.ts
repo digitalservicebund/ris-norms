@@ -1,9 +1,9 @@
-import { render, screen } from "@testing-library/vue"
-import { describe, expect, it } from "vitest"
 import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
 import { userEvent } from "@testing-library/user-event"
+import { render, screen } from "@testing-library/vue"
+import { describe, expect, it } from "vitest"
 
-describe("RisCharacterRangeSelect", () => {
+describe("risCharacterRangeSelect", () => {
   it("renders the norm html", async () => {
     render(RisCharacterRangeSelect, {
       props: { render: "<span>TEST</span>", xml: "<akn:span>Test</akn:span>" },

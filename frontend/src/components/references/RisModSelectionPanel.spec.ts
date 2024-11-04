@@ -17,8 +17,8 @@ vi.mock("@/composables/useNormRender", () => ({
   }),
 }))
 
-describe("RisModSelectionPanel", () => {
-  it("Should render the html of the norm", async () => {
+describe("risModSelectionPanel", () => {
+  it("should render the html of the norm", async () => {
     render(RisModSelectionPanel, {
       props: {
         normXml: "<xml></xml>",
@@ -31,7 +31,7 @@ describe("RisModSelectionPanel", () => {
     expect(renderedMod).toBeInTheDocument()
   })
 
-  it("Should show loading state while loading", async () => {
+  it("should show loading state while loading", async () => {
     renderIsFetching.value = true
 
     render(RisModSelectionPanel, {
@@ -51,7 +51,7 @@ describe("RisModSelectionPanel", () => {
     expect(loadingIndicator).not.toBeInTheDocument()
   })
 
-  it("Should show error when one exists", async () => {
+  it("should show error when one exists", async () => {
     renderError.value = "A error"
 
     render(RisModSelectionPanel, {
@@ -68,7 +68,7 @@ describe("RisModSelectionPanel", () => {
     expect(errorMessage).toBeInTheDocument()
   })
 
-  it("Clicking on a akn:mod element emits an update for the model with the eid of the clicked on akn:mod element", async () => {
+  it("clicking on a akn:mod element emits an update for the model with the eid of the clicked on akn:mod element", async () => {
     const { emitted } = render(RisModSelectionPanel, {
       props: {
         normXml: "<xml></xml>",
@@ -86,7 +86,7 @@ describe("RisModSelectionPanel", () => {
     expect(updateModelValueEvents[1]).toEqual(["eid-2"])
   })
 
-  it("The value of the model is selected", async () => {
+  it("the value of the model is selected", async () => {
     render(RisModSelectionPanel, {
       props: {
         normXml: "<xml></xml>",

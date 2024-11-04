@@ -5,8 +5,8 @@ import { flushPromises } from "@vue/test-utils"
 import { describe, expect, it } from "vitest"
 import { nextTick } from "vue"
 
-describe("RisRefEditorTable", () => {
-  it("Should not render the ref editor because no akn:ref present in the xml snippet", async () => {
+describe("risRefEditorTable", () => {
+  it("should not render the ref editor because no akn:ref present in the xml snippet", async () => {
     render(RisRefEditorTable, {
       props: {
         xmlSnippet:
@@ -20,7 +20,7 @@ describe("RisRefEditorTable", () => {
     expect(emptyState).toBeInTheDocument()
   })
 
-  it("Should render a ref editor for every akn:ref of the xml snippet", async () => {
+  it("should render a ref editor for every akn:ref of the xml snippet", async () => {
     render(RisRefEditorTable, {
       props: {
         xmlSnippet:
@@ -36,7 +36,7 @@ describe("RisRefEditorTable", () => {
     expect(refEditor2).toBeInTheDocument()
   })
 
-  it("Should delete a ref when the delete icon is clicked", async () => {
+  it("should delete a ref when the delete icon is clicked", async () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditorTable, {
       props: {
@@ -57,7 +57,7 @@ describe("RisRefEditorTable", () => {
     )
   })
 
-  it("Selects a ref when it's href input is clicked", async () => {
+  it("selects a ref when it's href input is clicked", async () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditorTable, {
       props: {
@@ -78,7 +78,7 @@ describe("RisRefEditorTable", () => {
     expect(emitted("update:selectedRef")[0]).toEqual(["quot-1_ref-2"])
   })
 
-  it("Selects a ref when it is navigated to using keyboard navigation", async () => {
+  it("selects a ref when it is navigated to using keyboard navigation", async () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditorTable, {
       props: {
@@ -98,7 +98,7 @@ describe("RisRefEditorTable", () => {
     expect(emitted("update:selectedRef")[1]).toEqual(["quot-1_ref-2"])
   })
 
-  it("Selects next and previous refs by pressing arrow keys", async () => {
+  it("selects next and previous refs by pressing arrow keys", async () => {
     const user = userEvent.setup()
     render(RisRefEditorTable, {
       props: {
@@ -114,7 +114,7 @@ describe("RisRefEditorTable", () => {
     await waitFor(() => expect(inputs[1]).toHaveFocus())
   })
 
-  it("Does not move past the last ref", async () => {
+  it("does not move past the last ref", async () => {
     const user = userEvent.setup()
     render(RisRefEditorTable, {
       props: {
@@ -134,7 +134,7 @@ describe("RisRefEditorTable", () => {
     expect(inputs[1]).toHaveFocus()
   })
 
-  it("Does not move above the first ref", async () => {
+  it("does not move above the first ref", async () => {
     const user = userEvent.setup()
     render(RisRefEditorTable, {
       props: {

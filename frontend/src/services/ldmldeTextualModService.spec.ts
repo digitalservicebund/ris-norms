@@ -13,7 +13,7 @@ describe("ldmldeTextualModService", () => {
         </akn:textualMod>
       `).childNodes.item(0)
 
-      expect(getForcePeriod(node)).to.eq("meta-1_geltzeiten-1_geltungszeitgr-1")
+      expect(getForcePeriod(node)).toBe("meta-1_geltzeiten-1_geltungszeitgr-1")
     })
   })
 })

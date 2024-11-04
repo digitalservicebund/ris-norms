@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { reactive } from "vue"
 
 describe("useEliPathParameter", () => {
@@ -7,7 +7,7 @@ describe("useEliPathParameter", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide a valid ELI", async () => {
+  it("should provide a valid ELI", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(
         reactive({
@@ -33,7 +33,7 @@ describe("useEliPathParameter", () => {
     )
   })
 
-  test("should provide a valid ELI with named parameters", async () => {
+  it("should provide a valid ELI with named parameters", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(
         reactive({
@@ -59,7 +59,7 @@ describe("useEliPathParameter", () => {
     )
   })
 
-  test("should react to route param changes", async () => {
+  it("should react to route param changes", async () => {
     const route = reactive({
       params: {
         eliJurisdiction: "bund",
@@ -93,7 +93,7 @@ describe("useEliPathParameter", () => {
     )
   })
 
-  test("should react to route param changes with named parameters", async () => {
+  it("should react to route param changes with named parameters", async () => {
     const route = reactive({
       params: {
         testEliJurisdiction: "bund",
@@ -127,7 +127,7 @@ describe("useEliPathParameter", () => {
     )
   })
 
-  test("should throw if ELI parameters are missing", async () => {
+  it("should throw if ELI parameters are missing", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(
         reactive({
@@ -144,7 +144,7 @@ describe("useEliPathParameter", () => {
     )
   })
 
-  test("should throw if named ELI parameters are missing", async () => {
+  it("should throw if named ELI parameters are missing", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(
         reactive({
@@ -168,7 +168,7 @@ describe("createEliPathParameter", () => {
     vi.resetAllMocks()
   })
 
-  test("creates a valid path", async () => {
+  it("creates a valid path", async () => {
     const getPath = vi
       .fn()
       .mockResolvedValue(
@@ -202,7 +202,7 @@ describe("createEliPathParameter", () => {
     expect(path).toBe(expectedPath)
   })
 
-  test("creates a path with a prefix", async () => {
+  it("creates a path with a prefix", async () => {
     const getPath = vi.fn((prefix) =>
       Promise.resolve(
         `eli/:${prefix}EliJurisdiction(bund)` +

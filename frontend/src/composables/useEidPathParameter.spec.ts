@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { reactive } from "vue"
 
 describe("useEidPathParameter", () => {
@@ -7,7 +7,7 @@ describe("useEidPathParameter", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide the eId from the route", async () => {
+  it("should provide the eId from the route", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(
         reactive({
@@ -22,7 +22,7 @@ describe("useEidPathParameter", () => {
     expect(eid.value).toBe("foo")
   })
 
-  test("should return undefined if the route doesn't include an eId", async () => {
+  it("should return undefined if the route doesn't include an eId", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(
         reactive({

@@ -1,6 +1,6 @@
 import { INVALID_URL } from "@/services/apiService"
 import { flushPromises } from "@vue/test-utils"
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 
 describe("useApiFetch", () => {
   beforeEach(() => {
@@ -8,7 +8,7 @@ describe("useApiFetch", () => {
     vi.resetModules()
   })
 
-  test("defaults to JSON for request and response bodies", async () => {
+  it("defaults to JSON for request and response bodies", async () => {
     const fetchSpy = vi
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("{}"))
@@ -30,7 +30,7 @@ describe("useApiFetch", () => {
     )
   })
 
-  test("allows replacing the content headers", async () => {
+  it("allows replacing the content headers", async () => {
     const fetchSpy = vi
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("{}"))
@@ -60,7 +60,7 @@ describe("useApiFetch", () => {
     )
   })
 
-  test("redirects to the 404 page if the API returns a 404", async () => {
+  it("redirects to the 404 page if the API returns a 404", async () => {
     vi.spyOn(window, "fetch").mockResolvedValue(
       new Response("{}", { status: 404 }),
     )
@@ -79,7 +79,7 @@ describe("useApiFetch", () => {
     vi.doUnmock("@/router")
   })
 
-  test("aborts the request if the URL is marked as invalid", async () => {
+  it("aborts the request if the URL is marked as invalid", async () => {
     const fetchSpy = vi
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("{}"))
@@ -92,7 +92,7 @@ describe("useApiFetch", () => {
     expect(fetchSpy).not.toHaveBeenCalled()
   })
 
-  test("does not set error if it is an abort error", async () => {
+  it("does not set error if it is an abort error", async () => {
     const fetchSpy = vi
       .spyOn(window, "fetch")
       .mockRejectedValue(new DOMException("aborted", "AbortError"))
@@ -105,7 +105,7 @@ describe("useApiFetch", () => {
     expect(error.value).toBeNull()
   })
 
-  test("replaces the exception in case of an error with the response data", async () => {
+  it("replaces the exception in case of an error with the response data", async () => {
     vi.spyOn(window, "fetch").mockResolvedValue(
       new Response('{"type":"/errors/example"}', { status: 404 }),
     )
@@ -119,7 +119,7 @@ describe("useApiFetch", () => {
     })
   })
 
-  test("replaces the exception with a fallback error if the response does not contain data", async () => {
+  it("replaces the exception with a fallback error if the response does not contain data", async () => {
     vi.spyOn(window, "fetch").mockResolvedValue(
       new Response(null, { status: 404 }),
     )

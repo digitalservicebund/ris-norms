@@ -26,7 +26,7 @@ describe("ldmldeService", () => {
       `)
 
       const node = getNodeByEid(document, "hauptteil-1_art-1_bezeichnung-1")
-      expect(node?.textContent?.trim()).to.eq("Artikel 1")
+      expect(node?.textContent?.trim()).toBe("Artikel 1")
     })
   })
 
@@ -76,7 +76,7 @@ describe("ldmldeService", () => {
       )
 
       expect(node).not.toBeNull()
-      expect(evaluateXPathOnce("@eId", node!)?.nodeValue).to.eq(
+      expect(evaluateXPathOnce("@eId", node!)?.nodeValue).toBe(
         "meta-1_analysis-1_activemod-1_textualmod-1",
       )
     })

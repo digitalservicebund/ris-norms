@@ -1,7 +1,7 @@
 import { ErrorToastPayload } from "@/lib/errorToast"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import RisErrorToast from "./RisErrorToast.vue"
 
 function renderWithError(message: Partial<ErrorToastPayload>) {
@@ -19,13 +19,13 @@ function renderWithError(message: Partial<ErrorToastPayload>) {
   })
 }
 
-describe("RisErrorToast", () => {
-  test("renders the title", () => {
+describe("risErrorToast", () => {
+  it("renders the title", () => {
     renderWithError({ summary: "test title" })
     expect(screen.getByText("test title")).toBeInTheDocument()
   })
 
-  test("renders the message", () => {
+  it("renders the message", () => {
     renderWithError({
       summary: "test title",
       detail: { title: "test title", message: "test message" },
@@ -34,7 +34,7 @@ describe("RisErrorToast", () => {
     expect(screen.getByText("test message")).toBeInTheDocument()
   })
 
-  test("renders the suggestion", () => {
+  it("renders the suggestion", () => {
     renderWithError({
       summary: "test title",
       detail: { title: "test title", suggestion: "test suggestion" },
@@ -43,7 +43,7 @@ describe("RisErrorToast", () => {
     expect(screen.getByText("test suggestion")).toBeInTheDocument()
   })
 
-  test("renders the trace ID", () => {
+  it("renders the trace ID", () => {
     renderWithError({
       summary: "test title",
       detail: { title: "test title", traceId: "4711" },
@@ -52,7 +52,7 @@ describe("RisErrorToast", () => {
     expect(screen.getByText("Trace-ID kopieren")).toBeInTheDocument()
   })
 
-  test("sets the trace ID value", async () => {
+  it("sets the trace ID value", async () => {
     const user = userEvent.setup()
     const spy = vi.spyOn(navigator.clipboard, "writeText")
     renderWithError({

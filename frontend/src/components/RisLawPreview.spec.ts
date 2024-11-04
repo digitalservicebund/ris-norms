@@ -1,11 +1,11 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 import RisLawPreview from "./RisLawPreview.vue"
 
-describe("RisLawPreview", () => {
-  test("should render provided content", () => {
+describe("risLawPreview", () => {
+  it("should render provided content", () => {
     render(RisLawPreview, {
       props: { content: "<span class='longTitle'>Test Title</span>" },
     })
@@ -13,7 +13,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByText("Test Title").className).contain("longTitle")
   })
 
-  test("should emit click event", async () => {
+  it("should emit click event", async () => {
     const handler = vi.fn()
 
     render(RisLawPreview, {
@@ -36,7 +36,7 @@ describe("RisLawPreview", () => {
     })
   })
 
-  test("should emit click event when using keyboard navigation without arrows", async () => {
+  it("should emit click event when using keyboard navigation without arrows", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
@@ -66,7 +66,7 @@ describe("RisLawPreview", () => {
     })
   })
 
-  test("should emit click event when using keyboard navigation with arrows", async () => {
+  it("should emit click event when using keyboard navigation with arrows", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
@@ -95,7 +95,7 @@ describe("RisLawPreview", () => {
     })
   })
 
-  test("should move the focus up and down then using keyboard navigation with arrows", async () => {
+  it("should move the focus up and down then using keyboard navigation with arrows", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
@@ -140,7 +140,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
   })
 
-  test("should not move the focus before the first element", async () => {
+  it("should not move the focus before the first element", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
@@ -169,7 +169,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
   })
 
-  test("should not move the focus past the last element", async () => {
+  it("should not move the focus past the last element", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
@@ -204,7 +204,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
   })
 
-  test("should automatically focus the selected element", async () => {
+  it("should automatically focus the selected element", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
@@ -238,7 +238,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
   })
 
-  test("should focus the clicked on element", async () => {
+  it("should focus the clicked on element", async () => {
     const user = userEvent.setup()
 
     render(RisLawPreview, {
@@ -266,7 +266,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
   })
 
-  test("should set the active descendant", async () => {
+  it("should set the active descendant", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
@@ -298,7 +298,7 @@ describe("RisLawPreview", () => {
     expect(textbox).toHaveAttribute("aria-activedescendant", selected.id)
   })
 
-  test("should have .selected class for selected elements", async () => {
+  it("should have .selected class for selected elements", async () => {
     render(RisLawPreview, {
       props: {
         content:
@@ -313,7 +313,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByText("MOD")).toHaveClass("selected")
   })
 
-  test("should update selected elements", async () => {
+  it("should update selected elements", async () => {
     const { rerender } = render(RisLawPreview, {
       props: {
         content:
@@ -335,7 +335,7 @@ describe("RisLawPreview", () => {
     expect(screen.getByText("MOD")).toHaveClass("selected")
   })
 
-  test("should support changing the content", async () => {
+  it("should support changing the content", async () => {
     const handler = vi.fn()
 
     const { rerender } = render(RisLawPreview, {
@@ -369,7 +369,7 @@ describe("RisLawPreview", () => {
     expect(handler).toHaveBeenCalledTimes(2)
   })
 
-  test("should set and update classes of element with the specified eId", async () => {
+  it("should set and update classes of element with the specified eId", async () => {
     const { rerender } = render(RisLawPreview, {
       props: {
         content:

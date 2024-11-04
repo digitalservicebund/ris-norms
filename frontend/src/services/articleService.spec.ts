@@ -1,10 +1,10 @@
-import { describe, expect, test, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 import { useArticles } from "@/services/articleService"
 
 describe("articleService", () => {
   describe("useArticles", () => {
-    test("should provide the articles", async () => {
+    it("should provide the articles", async () => {
       const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValueOnce(
         new Response(
           JSON.stringify([
@@ -45,7 +45,7 @@ describe("articleService", () => {
       )
     })
 
-    test("should load the articles when the ELI changes", async () => {
+    it("should load the articles when the ELI changes", async () => {
       const fetchSpy = vi
         .spyOn(global, "fetch")
         .mockResolvedValueOnce(new Response())

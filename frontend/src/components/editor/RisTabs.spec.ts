@@ -18,7 +18,7 @@ const ParentComponent = {
   },
 }
 
-describe("RisTabs", () => {
+describe("risTabs", () => {
   it("activates the first tab by default", async () => {
     const tabs = [
       { id: "tab1", label: "Tab 1" },

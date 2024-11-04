@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue"
-import { beforeAll, describe, expect, test, vi } from "vitest"
+import { beforeAll, describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 import RisCodeEditor from "./RisCodeEditor.vue"
 import { EditorView } from "codemirror"
 
-describe("RisCodeEditor", () => {
+describe("risCodeEditor", () => {
   // We can't reliably test user interactions with the component in a unit test as parts of codemirror that get
   // called on interactions require a real browser. We therefore are creating some transactions on codemirror directly
   // to test the interactions between our component and codemirror.
@@ -29,7 +29,7 @@ describe("RisCodeEditor", () => {
     )
   })
 
-  test("renders initial content", async () => {
+  it("renders initial content", async () => {
     render(RisCodeEditor, {
       props: {
         modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
@@ -45,7 +45,7 @@ describe("RisCodeEditor", () => {
     )
   })
 
-  test("renders changed content when the initial content changes", async () => {
+  it("renders changed content when the initial content changes", async () => {
     const { rerender } = render(RisCodeEditor, {
       props: {
         modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
@@ -63,7 +63,7 @@ describe("RisCodeEditor", () => {
     expect(screen.getByRole("textbox").textContent).toBe("<xml></xml>")
   })
 
-  test("changing the content creates a change event", async () => {
+  it("changing the content creates a change event", async () => {
     const { emitted } = render(RisCodeEditor, {
       props: {
         modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
@@ -88,7 +88,7 @@ describe("RisCodeEditor", () => {
     ])
   })
 
-  test("changing the content and then updating the initial content to the same content does not cause a recreation of the editor", async () => {
+  it("changing the content and then updating the initial content to the same content does not cause a recreation of the editor", async () => {
     const { rerender } = render(RisCodeEditor, {
       props: {
         modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',

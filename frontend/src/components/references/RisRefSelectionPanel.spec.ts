@@ -18,7 +18,7 @@ vi.mock("@/composables/useNormRender", () => ({
   }),
 }))
 
-describe("RisRefSelectionPanel", () => {
+describe("risRefSelectionPanel", () => {
   beforeEach(() => {
     renderData.value =
       "<div class='akn-quotedText' data-eId='quot-1'>Render of <div class='akn-ref' data-eId='quot-1_ref-1'>a ref</div> and <div class='akn-ref' data-eId='quot-1_ref-2'>a second ref</div> and <p class='akn-p' data-eId='quot-1_p-1'>place for a third ref</p></div>"
@@ -26,7 +26,7 @@ describe("RisRefSelectionPanel", () => {
     renderError.value = undefined
   })
 
-  it("Should render the html of the xml snippet", async () => {
+  it("should render the html of the xml snippet", async () => {
     render(RisRefSelectionPanel, {
       props: {
         xmlSnippet: "<xml></xml>",
@@ -39,7 +39,7 @@ describe("RisRefSelectionPanel", () => {
     expect(renderedRef).toBeInTheDocument()
   })
 
-  it("Should show loading state while loading", async () => {
+  it("should show loading state while loading", async () => {
     renderIsFetching.value = true
 
     render(RisRefSelectionPanel, {
@@ -58,7 +58,7 @@ describe("RisRefSelectionPanel", () => {
     expect.poll(() => loadingIndicator).not.toBeInTheDocument()
   })
 
-  it("Should show error when one exists", async () => {
+  it("should show error when one exists", async () => {
     renderError.value = "A error"
 
     render(RisRefSelectionPanel, {
@@ -75,7 +75,7 @@ describe("RisRefSelectionPanel", () => {
     expect(errorMessage).toBeInTheDocument()
   })
 
-  it("Highlighting a part of the text creates a new akn:ref element, the xmlSnippet is updated and the newly created element is selected", async () => {
+  it("highlighting a part of the text creates a new akn:ref element, the xmlSnippet is updated and the newly created element is selected", async () => {
     const { emitted } = render(RisRefSelectionPanel, {
       props: {
         xmlSnippet:

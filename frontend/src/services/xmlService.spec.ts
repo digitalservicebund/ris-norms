@@ -22,8 +22,8 @@ describe("xmlService", () => {
         </akn:akomaNtoso>
       `)
 
-      expect(document.getRootNode().childNodes.length).to.eq(2)
-      expect(document.getRootNode().childNodes.item(1).nodeName).eq(
+      expect(document.getRootNode().childNodes.length).toBe(2)
+      expect(document.getRootNode().childNodes.item(1).nodeName).toBe(
         "akn:akomaNtoso",
       )
     })
@@ -59,7 +59,7 @@ describe("xmlService", () => {
       `)
 
       const result = evaluateXPathOnce("//akn:act/@name", document)
-      expect(result?.nodeValue).to.eq("regelungstext")
+      expect(result?.nodeValue).toBe("regelungstext")
     })
   })
 
@@ -78,8 +78,8 @@ describe("xmlService", () => {
 
       const result = evaluateXPath("//akn:act/@name", document)
       expect(result).toHaveLength(2)
-      expect(result[0].nodeValue).to.eq("regelungstext")
-      expect(result[1].nodeValue).to.eq("regelungstext-2")
+      expect(result[0].nodeValue).toBe("regelungstext")
+      expect(result[1].nodeValue).toBe("regelungstext-2")
     })
   })
 })

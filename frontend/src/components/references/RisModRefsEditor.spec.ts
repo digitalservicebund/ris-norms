@@ -24,7 +24,7 @@ vi.mock("primevue/usetoast", () => {
   }
 })
 
-describe("RisModRefsEditor", () => {
+describe("risModRefsEditor", () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
@@ -35,7 +35,7 @@ describe("RisModRefsEditor", () => {
     renderError.value = undefined
   })
 
-  it("Should not render component if no mod was selected", async () => {
+  it("should not render component if no mod was selected", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -67,7 +67,7 @@ describe("RisModRefsEditor", () => {
     expect(emptyState).toBeInTheDocument()
   })
 
-  it("Should render the html of the second quotedText of the selected mod", async () => {
+  it("should render the html of the second quotedText of the selected mod", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -108,7 +108,7 @@ describe("RisModRefsEditor", () => {
     expect(renderedRef).toBeInTheDocument()
   })
 
-  it("Should save the updated xml from the RisRefSelectionPanel", async () => {
+  it("should save the updated xml from the RisRefSelectionPanel", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -179,7 +179,7 @@ describe("RisModRefsEditor", () => {
     ])
   })
 
-  it("Should save the updated xml from the RisRefEditorTable", async () => {
+  it("should save the updated xml from the RisRefEditorTable", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -249,7 +249,7 @@ describe("RisModRefsEditor", () => {
     ])
   })
 
-  it("Should sync selected refs", async () => {
+  it("should sync selected refs", async () => {
     const route: RouteLocationRaw = reactive({
       params: {
         refEid: undefined,

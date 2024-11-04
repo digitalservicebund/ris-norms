@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue"
-import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 import { createRouter, createWebHashHistory } from "vue-router"
 import { ref } from "vue"
 import { Norm } from "@/types/norm"
 
-describe("RisAffectedDocumentPanel", () => {
+describe("risAffectedDocumentPanel", () => {
   const data = ref<Norm | null>(null)
   const isFetching = ref(false)
   const error = ref<Error | null>(null)
@@ -36,7 +36,7 @@ describe("RisAffectedDocumentPanel", () => {
 
   const eli = "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1"
 
-  test("should show title, eli and edit metadata button", async () => {
+  it("should show title, eli and edit metadata button", async () => {
     data.value = {
       title: "Some title",
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
@@ -61,7 +61,7 @@ describe("RisAffectedDocumentPanel", () => {
     ).toBeInTheDocument()
   })
 
-  test("should render fna", async () => {
+  it("should render fna", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
       fna: "1234",
@@ -80,7 +80,7 @@ describe("RisAffectedDocumentPanel", () => {
     expect(document.body).not.toHaveTextContent("FNA 1234-")
   })
 
-  test("should render as a list item", async () => {
+  it("should render as a list item", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
     }
@@ -97,7 +97,7 @@ describe("RisAffectedDocumentPanel", () => {
     expect(screen.getByRole("listitem")).toBeInTheDocument()
   })
 
-  test("should render as a regular container if not told to be a list item", async () => {
+  it("should render as a regular container if not told to be a list item", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
     }
@@ -114,7 +114,7 @@ describe("RisAffectedDocumentPanel", () => {
     expect(screen.queryByRole("listitem")).not.toBeInTheDocument()
   })
 
-  test("should render fna and short title", async () => {
+  it("should render fna and short title", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
       fna: "1234",
@@ -133,7 +133,7 @@ describe("RisAffectedDocumentPanel", () => {
     expect(document.body).toHaveTextContent("FNA 1234-SomeShortTitle")
   })
 
-  test("should render short title without fna", async () => {
+  it("should render short title without fna", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
       shortTitle: "SomeShortTitle",
@@ -152,7 +152,7 @@ describe("RisAffectedDocumentPanel", () => {
     expect(document.body).not.toHaveTextContent("FNA")
   })
 
-  test("should link to the metadata editor", async () => {
+  it("should link to the metadata editor", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
     }
@@ -176,7 +176,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
   })
 
-  test("should link to the reference editor", async () => {
+  it("should link to the reference editor", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
     }
@@ -200,7 +200,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
   })
 
-  test("should show an error message", async () => {
+  it("should show an error message", async () => {
     error.value = new Error("A error message")
 
     const { default: RisAffectedDocumentPanel } = await import(
@@ -217,7 +217,7 @@ describe("RisAffectedDocumentPanel", () => {
     )
   })
 
-  test("should show a loading indicator", async () => {
+  it("should show a loading indicator", async () => {
     isFetching.value = true
 
     const { default: RisAffectedDocumentPanel } = await import(

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
 describe("useAffectedDocuments", () => {
@@ -7,7 +7,7 @@ describe("useAffectedDocuments", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide the affected documents", async () => {
+  it("should provide the affected documents", async () => {
     const useArticles = vi.fn().mockReturnValue({
       data: ref([
         {

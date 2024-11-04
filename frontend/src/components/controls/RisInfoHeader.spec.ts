@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import RisInfoHeader from "./RisInfoHeader.vue"
 
-describe("RisInfoHeader", () => {
-  test("renders heading and subtitle", () => {
+describe("risInfoHeader", () => {
+  it("renders heading and subtitle", () => {
     const heading = "Test Heading"
     const subtitle = "Test Title"
 

@@ -13,7 +13,7 @@ vi.mock("primevue/usetoast", () => {
   }
 })
 
-describe("RisModForm", () => {
+describe("risModForm", () => {
   const textualModType: ModType = "aenderungsbefehl-ersetzen"
   const timeBoundaries = [
     { date: "2024-12-31", temporalGroupEid: "eid-1" },
@@ -27,7 +27,7 @@ describe("RisModForm", () => {
   const quotedStructureContent = "<quotedStructure>content</quotedStructure>"
   const targetLawHtml = "<p>Target Law Content</p>"
 
-  it("Should render the form with only mandatory fields", async () => {
+  it("should render the form with only mandatory fields", async () => {
     const user = userEvent.setup()
     render(RisModForm, {
       props: {
@@ -93,7 +93,7 @@ describe("RisModForm", () => {
     expect(quotedTextSecondElement).not.toHaveAttribute("readonly")
   })
 
-  it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen'", () => {
+  it("should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen'", () => {
     render(RisModForm, {
       props: {
         textualModType,
@@ -125,7 +125,7 @@ describe("RisModForm", () => {
     expect(screen.queryByTestId("replacingElement")).not.toBeInTheDocument()
   })
 
-  it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen' and there is a quotedStructureContent", () => {
+  it("should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen' and there is a quotedStructureContent", () => {
     render(RisModForm, {
       props: {
         textualModType,
@@ -160,7 +160,7 @@ describe("RisModForm", () => {
     ).not.toBeInTheDocument()
   })
 
-  it("Should render the form when timeBoundaries are empty", async () => {
+  it("should render the form when timeBoundaries are empty", async () => {
     const user = userEvent.setup()
     render(RisModForm, {
       props: {
@@ -178,7 +178,7 @@ describe("RisModForm", () => {
     expect(timeBoundaryOptionElements.length).toBe(1)
   })
 
-  it("Should render the form when a timeBoundary is pre selected", async () => {
+  it("should render the form when a timeBoundary is pre selected", async () => {
     const user = userEvent.setup()
     render(RisModForm, {
       props: {
@@ -206,7 +206,7 @@ describe("RisModForm", () => {
     )
   })
 
-  it("Should render the form with quoted structure content", () => {
+  it("should render the form with quoted structure content", () => {
     render(RisModForm, {
       props: {
         textualModType,

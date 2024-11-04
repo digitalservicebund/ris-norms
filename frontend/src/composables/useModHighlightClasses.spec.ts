@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, beforeEach } from "vitest"
+import { describe, it, expect, vi, beforeEach } from "vitest"
 
 describe("useModEidSelection", () => {
   beforeEach(() => {
@@ -6,7 +6,7 @@ describe("useModEidSelection", () => {
     vi.resetAllMocks()
   })
 
-  test("if there are no mods no classes are returned", async () => {
+  it("if there are no mods no classes are returned", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue([]),
     }))
@@ -17,7 +17,7 @@ describe("useModEidSelection", () => {
     expect(classes.value).toEqual({})
   })
 
-  test("mods get classes in order of dates (oldest gets the first color)", async () => {
+  it("mods get classes in order of dates (oldest gets the first color)", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue(["eid-1", "eid-2"]),
       getTimeBoundaryDate: vi
@@ -71,7 +71,7 @@ describe("useModEidSelection", () => {
     ])
   })
 
-  test("when more than 10 dates exist the later dates get the default color", async () => {
+  it("when more than 10 dates exist the later dates get the default color", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi
         .fn()
@@ -209,7 +209,7 @@ describe("useModEidSelection", () => {
     ])
   })
 
-  test("missing time boundaries get the last color", async () => {
+  it("missing time boundaries get the last color", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue(["eid-1", "eid-2"]),
       getTimeBoundaryDate: vi
@@ -254,7 +254,7 @@ describe("useModEidSelection", () => {
     ])
   })
 
-  test("time boundaries with the same date but different temporal groups get different colors", async () => {
+  it("time boundaries with the same date but different temporal groups get different colors", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue(["eid-1", "eid-2", "eid-3"]),
       getTimeBoundaryDate: vi
@@ -327,7 +327,7 @@ describe("useModEidSelection", () => {
     ])
   })
 
-  test("mods with the same time boundary get the same color", async () => {
+  it("mods with the same time boundary get the same color", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue(["eid-1", "eid-2", "eid-3"]),
       getTimeBoundaryDate: vi
@@ -396,7 +396,7 @@ describe("useModEidSelection", () => {
     ])
   })
 
-  test("selected mods get different classes", async () => {
+  it("selected mods get different classes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue(["eid-1", "eid-2", "eid-3"]),
       getTimeBoundaryDate: vi
