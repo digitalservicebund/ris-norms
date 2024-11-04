@@ -99,7 +99,7 @@ describe("risHeader", () => {
       expect(link).toBeInTheDocument()
       expect(link).toHaveAttribute("href", "#/foo")
     })
-
+  })
   describe("breadcrumbs", () => {
     it("renders breadcrumbs", () => {
       // Given
