@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import { createRouter, createWebHistory } from "vue-router"
 import type { Router, RouteRecordRaw, RouteLocationRaw } from "vue-router"
 import RisNavbarSide from "./RisNavbarSide.vue"
 
-describe("NavbarSide", () => {
-  test("it displays the go back label with related route", async () => {
+describe("navbarSide", () => {
+  it("displays the go back label with related route", async () => {
     await renderComponent({
       goBackLabel: "Zur Übersicht",
     })
@@ -14,7 +14,7 @@ describe("NavbarSide", () => {
     expect(goBackItem).toBeVisible()
   })
 
-  test("it renders sidenav with multiple items and correct routes", async () => {
+  it("renders sidenav with multiple items and correct routes", async () => {
     const menuItems = [
       { label: "first item", route: "/first-route" },
       { label: "second item", route: "/second-route" },
@@ -31,7 +31,7 @@ describe("NavbarSide", () => {
     expect(secondItem).toHaveAttribute("href", "/second-route")
   })
 
-  test("it shows all level two items of an active level one item", async () => {
+  it("shows all level two items of an active level one item", async () => {
     const menuItems = [
       {
         label: "first level one",
@@ -53,7 +53,7 @@ describe("NavbarSide", () => {
     expect(screen.queryByText("second level two")).toBeVisible()
   })
 
-  test("it underlines the expanded level one item with children", async () => {
+  it("underlines the expanded level one item with children", async () => {
     const menuItems = [
       {
         label: "underlined level one",
@@ -73,7 +73,7 @@ describe("NavbarSide", () => {
     expect(screen.getByLabelText("child one")).toHaveClass("underline")
   })
 
-  test("it applies special class to menu item which matches current route", async () => {
+  it("applies special class to menu item which matches current route", async () => {
     const menuItems = [
       { label: "active item", route: { path: "/matching" } },
       { label: "passive item", route: { path: "/not-matching" } },
@@ -87,7 +87,7 @@ describe("NavbarSide", () => {
     expect(screen.getByLabelText("passive item")).not.toHaveClass("bg-blue-200")
   })
 
-  test("hides the back button if no route is provided", () => {
+  it("hides the back button if no route is provided", () => {
     renderComponent({ goBackRoute: undefined })
 
     expect(screen.queryByLabelText("Zurück")).not.toBeInTheDocument()

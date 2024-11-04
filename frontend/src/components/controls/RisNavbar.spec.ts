@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import RisNavbar from "./RisNavbar.vue"
 import { createRouter, createWebHashHistory } from "vue-router"
 
-describe("RisNavbar", () => {
-  test("should show 'Rechtsinformationen' and 'des Bundes'", () => {
+describe("risNavbar", () => {
+  it("should show 'Rechtsinformationen' and 'des Bundes'", () => {
     const router = createRouter({
       history: createWebHashHistory(),
       routes: [{ name: "Home", path: "/", component: () => {} }],

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { reactive } from "vue"
 
 describe("useTimeBoundaryPathParameter", () => {
@@ -7,7 +7,7 @@ describe("useTimeBoundaryPathParameter", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide a valid time boundary", async () => {
+  it("should provide a valid time boundary", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi
         .fn()
@@ -23,7 +23,7 @@ describe("useTimeBoundaryPathParameter", () => {
     expect(timeBoundary.value).toBe("2024-05-10")
   })
 
-  test("should react to route param changes", async () => {
+  it("should react to route param changes", async () => {
     const route = reactive({ params: { timeBoundary: "2024-05-10" } })
 
     vi.doMock("vue-router", () => ({
@@ -41,7 +41,7 @@ describe("useTimeBoundaryPathParameter", () => {
     expect(timeBoundary.value).toBe("2024-05-11")
   })
 
-  test("should update route param when changed", async () => {
+  it("should update route param when changed", async () => {
     const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({
@@ -61,7 +61,7 @@ describe("useTimeBoundaryPathParameter", () => {
     })
   })
 
-  test("returns the current value as a date", async () => {
+  it("returns the current value as a date", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi
         .fn()
@@ -77,7 +77,7 @@ describe("useTimeBoundaryPathParameter", () => {
     expect(timeBoundaryAsDate.value).toEqual(new Date("2024-05-10"))
   })
 
-  test("should not set the time boundary to an empty value", async () => {
+  it("should not set the time boundary to an empty value", async () => {
     const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({

@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import {
   hasElementAsParentElement,
   limitSelectionToOneElement,
@@ -6,7 +6,7 @@ import {
 
 describe("useAknTextSelection", () => {
   describe("hasElementAsParentElement", () => {
-    test("returns true if the parent element is the direct parent", () => {
+    it("returns true if the parent element is the direct parent", () => {
       const htmlElement = document.createElement("div")
       htmlElement.innerHTML = `<span>Test</span>`
 
@@ -17,7 +17,7 @@ describe("useAknTextSelection", () => {
       expect(result).toBe(true)
     })
 
-    test("returns false if the parent element is a child", () => {
+    it("returns false if the parent element is a child", () => {
       const htmlElement = document.createElement("div")
       htmlElement.innerHTML = `<span>Test</span>`
 
@@ -28,7 +28,7 @@ describe("useAknTextSelection", () => {
       expect(result).toBe(false)
     })
 
-    test("returns true if the parent element is a grandparent", () => {
+    it("returns true if the parent element is a grandparent", () => {
       const htmlElement = document.createElement("div")
       htmlElement.innerHTML = `<span>Test</span>`
 
@@ -41,7 +41,7 @@ describe("useAknTextSelection", () => {
   })
 
   describe("limitSelectionToOneElement", () => {
-    test("selection stays the same if it only has one node", () => {
+    it("selection stays the same if it only has one node", () => {
       document.documentElement.innerHTML = `<span id="test">Test</span>`
       const textNode = document.getElementById("test")!.firstChild!
 
@@ -56,7 +56,7 @@ describe("useAknTextSelection", () => {
       expect(selection.focusOffset).toEqual(3)
     })
 
-    test("selection ends at the end of the first selected node if the other node is behind it", () => {
+    it("selection ends at the end of the first selected node if the other node is behind it", () => {
       document.documentElement.innerHTML = `<span id="test-1">Test</span><span id="test-2">No. 2</span>`
       const textNode1 = document.getElementById("test-1")!.firstChild!
       const textNode2 = document.getElementById("test-2")!.firstChild!
@@ -73,7 +73,7 @@ describe("useAknTextSelection", () => {
       expect(selection.focusOffset).toEqual(4)
     })
 
-    test("selection beginns at the start of the first selected node if the other node is in front of it", () => {
+    it("selection beginns at the start of the first selected node if the other node is in front of it", () => {
       document.documentElement.innerHTML = `<span id="test-1">Test</span><span id="test-2">No. 2</span>`
       const textNode1 = document.getElementById("test-1")!.firstChild!
       const textNode2 = document.getElementById("test-2")!.firstChild!
@@ -91,7 +91,7 @@ describe("useAknTextSelection", () => {
     })
   })
 
-  test("selection is not limited if selecting over another node", () => {
+  it("selection is not limited if selecting over another node", () => {
     document.documentElement.innerHTML = `<span id="test">Test <span>No.</span> 2</span>`
     const textNode1 = document.getElementById("test")!.firstChild!
     const textNode2 = document.getElementById("test")!.lastChild!

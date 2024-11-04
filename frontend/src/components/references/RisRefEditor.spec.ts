@@ -4,8 +4,8 @@ import { userEvent } from "@testing-library/user-event"
 import RisRefEditor from "@/components/references/RisRefEditor.vue"
 import { flushPromises } from "@vue/test-utils"
 
-describe("RisRefEditor", () => {
-  it("Should render a a select for the refersTo and an input for the href", async () => {
+describe("risRefEditor", () => {
+  it("should render a a select for the refersTo and an input for the href", async () => {
     render(RisRefEditor, {
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
@@ -26,10 +26,10 @@ describe("RisRefEditor", () => {
     )
   })
 
-  it("Can select a new refersTo value", async () => {
+  it("can select a new refersTo value", async () => {
     const user = userEvent.setup()
 
-    const result = render(RisRefEditor, {
+    const { emitted } = render(RisRefEditor, {
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -47,16 +47,16 @@ describe("RisRefEditor", () => {
 
     await user.click(optionElements)
 
-    await expect.poll(() => result.emitted("update:xmlSnippet")).toHaveLength(1)
-    expect(result.emitted("update:xmlSnippet")[0]).toEqual([
+    await expect.poll(() => emitted("update:xmlSnippet")).toHaveLength(1)
+    expect(emitted("update:xmlSnippet")[0]).toEqual([
       '<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>',
     ])
   })
 
-  it("Can change href", async () => {
+  it("can change href", async () => {
     const user = userEvent.setup()
 
-    const result = render(RisRefEditor, {
+    const { emitted } = render(RisRefEditor, {
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -72,14 +72,14 @@ describe("RisRefEditor", () => {
       "eli/bund/bgbl-1/2001/s1/2022-12-19/1/deu/regelungstext-1/art-4_abs-3.xml",
     )
 
-    await expect.poll(() => result.emitted("update:xmlSnippet")).toHaveLength(1)
-    expect(result.emitted("update:xmlSnippet")[0]).toEqual([
+    await expect.poll(() => emitted("update:xmlSnippet")).toHaveLength(1)
+    expect(emitted("update:xmlSnippet")[0]).toEqual([
       '<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/2001/s1/2022-12-19/1/deu/regelungstext-1/art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>',
     ])
   })
 
-  it("Can send delete event", async () => {
-    const result = render(RisRefEditor, {
+  it("can send delete event", async () => {
+    const { emitted } = render(RisRefEditor, {
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
@@ -87,10 +87,10 @@ describe("RisRefEditor", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "Löschen" }))
 
-    expect(result.emitted("delete")).toHaveLength(1)
+    expect(emitted("delete")).toHaveLength(1)
   })
 
-  it("Can send the focus previous event", async () => {
+  it("can send the focus previous event", async () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditor, {
       props: {
@@ -103,7 +103,7 @@ describe("RisRefEditor", () => {
     expect(emitted("selectPrevious")).toBeTruthy()
   })
 
-  it("Can send the focus next event", async () => {
+  it("can send the focus next event", async () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditor, {
       props: {
@@ -116,7 +116,7 @@ describe("RisRefEditor", () => {
     expect(emitted("selectNext")).toBeTruthy()
   })
 
-  it("Focuses the input", async () => {
+  it("focuses the input", async () => {
     const { rerender } = render(RisRefEditor, {
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,

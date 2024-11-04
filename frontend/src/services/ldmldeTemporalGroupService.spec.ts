@@ -17,7 +17,7 @@ describe("ldmldeTemporalGroupModService", () => {
         </akn:temporalGroup>
       `).childNodes.item(0)
 
-      expect(getStartEventRefEid(node)).to.eq("meta-1_lebzykl-1_ereignis-2")
+      expect(getStartEventRefEid(node)).toBe("meta-1_lebzykl-1_ereignis-2")
     })
   })
 
@@ -29,7 +29,7 @@ describe("ldmldeTemporalGroupModService", () => {
         </akn:temporalGroup>
       `).childNodes.item(0)
 
-      expect(getTemporalGroupEId(node)).to.eq(
+      expect(getTemporalGroupEId(node)).toBe(
         "meta-1_geltzeiten-1_geltungszeitgr-1",
       )
     })
@@ -66,7 +66,7 @@ describe("ldmldeTemporalGroupModService", () => {
       `)
 
       const node = getNodeByEid(xml, "meta-1_geltzeiten-1_geltungszeitgr-1")!
-      expect(getTemporalGroupDate(node)).to.equal("2023-12-30")
+      expect(getTemporalGroupDate(node)).toBe("2023-12-30")
     })
   })
 
@@ -105,10 +105,10 @@ describe("ldmldeTemporalGroupModService", () => {
 
       const nodes = getTemporalGroupNodes(xml)
       expect(nodes).toHaveLength(2)
-      expect(getTemporalGroupEId(nodes[0])).to.eq(
+      expect(getTemporalGroupEId(nodes[0])).toBe(
         "meta-1_geltzeiten-1_geltungszeitgr-1",
       )
-      expect(getTemporalGroupEId(nodes[1])).to.eq(
+      expect(getTemporalGroupEId(nodes[1])).toBe(
         "meta-1_geltzeiten-1_geltungszeitgr-2",
       )
     })

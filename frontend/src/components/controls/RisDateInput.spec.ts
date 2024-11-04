@@ -1,7 +1,7 @@
 import { ValidationError } from "@/types/validationError"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, beforeEach, vi, afterEach } from "vitest"
+import { describe, expect, it, beforeEach, vi, afterEach } from "vitest"
 import { nextTick } from "vue"
 import RisDateInput from "./RisDateInput.vue"
 import InputText from "primevue/inputtext"
@@ -9,6 +9,7 @@ import InputText from "primevue/inputtext"
 beforeEach(() => {
   vi.spyOn(HTMLElement.prototype, "offsetParent", "get").mockImplementation(
     function (this: HTMLElement) {
+      // eslint-disable-next-line testing-library/no-node-access -- Needed for mocking
       return this.parentNode as Element
     },
   )
@@ -40,8 +41,8 @@ function renderComponent(options?: {
   return { user, props, ...utils }
 }
 
-describe("DateInput", () => {
-  test("shows an date input element", () => {
+describe("dateInput", () => {
+  it("shows an date input element", () => {
     renderComponent()
     const input = screen.getByRole<HTMLInputElement>("textbox")
 
@@ -49,7 +50,7 @@ describe("DateInput", () => {
     expect(input?.type).toBe("text")
   })
 
-  test("allows typing a date inside input (stubbed inputMask)", async () => {
+  it("allows typing a date inside input (stubbed inputMask)", async () => {
     renderComponent({
       stubs: {
         InputMask: InputText,
@@ -62,14 +63,14 @@ describe("DateInput", () => {
     expect(input).toHaveValue("12.05.2020")
   })
 
-  test("displays modelValue in correct format", async () => {
+  it("displays modelValue in correct format", async () => {
     renderComponent({ modelValue: "2022-05-13" })
     const input = screen.getByRole("textbox")
 
     expect(input).toHaveValue("13.05.2022")
   })
 
-  test("emits model update event when input completed and valid", async () => {
+  it("emits model update event when input completed and valid", async () => {
     const { emitted } = renderComponent({
       modelValue: "2022-05-13T18:08:14.036Z",
       stubs: {
@@ -90,7 +91,7 @@ describe("DateInput", () => {
     ])
   })
 
-  test("updates when the model is changed to empty string", async () => {
+  it("updates when the model is changed to empty string", async () => {
     const { rerender } = renderComponent({ modelValue: "2024-04-22" })
 
     const input = screen.getByRole("textbox")
@@ -100,7 +101,7 @@ describe("DateInput", () => {
     expect(input).toHaveValue("")
   })
 
-  test("updates when the model is changed to undefined", async () => {
+  it("updates when the model is changed to undefined", async () => {
     const { rerender } = renderComponent({ modelValue: "2024-04-22" })
 
     const input = screen.getByRole("textbox")
@@ -110,7 +111,7 @@ describe("DateInput", () => {
     expect(input).toHaveValue("")
   })
 
-  test("removes validation errors on backspace delete", async () => {
+  it("removes validation errors on backspace delete", async () => {
     const { emitted } = renderComponent({
       modelValue: "2022-05-13",
       stubs: {
@@ -127,7 +128,7 @@ describe("DateInput", () => {
     expect(emitted()["update:validationError"]).toBeTruthy()
   })
 
-  test("does not allow invalid dates", async () => {
+  it("does not allow invalid dates", async () => {
     const { emitted } = renderComponent({
       stubs: {
         InputMask: InputText,
@@ -150,7 +151,7 @@ describe("DateInput", () => {
     ).toBe("Kein valides Datum")
   })
 
-  test("does not allow letters", async () => {
+  it("does not allow letters", async () => {
     renderComponent()
     const input = screen.getByRole("textbox")
 
@@ -160,7 +161,7 @@ describe("DateInput", () => {
     expect(input).toHaveTextContent("")
   })
 
-  test("does not allow incomplete dates", async () => {
+  it("does not allow incomplete dates", async () => {
     const { emitted } = renderComponent()
     const input = screen.getByRole("textbox")
 
@@ -180,17 +181,17 @@ describe("DateInput", () => {
     ).toBe(true)
   })
 
-  test("sets the input to readonly", () => {
+  it("sets the input to readonly", () => {
     renderComponent({ isReadOnly: true })
     expect(screen.getByRole("textbox")).toHaveAttribute("readonly")
   })
 
-  test("sets the input to editable", () => {
+  it("sets the input to editable", () => {
     renderComponent({ isReadOnly: false })
     expect(screen.getByRole("textbox")).not.toHaveAttribute("readonly")
   })
 
-  test("shows error message block for external validation errors", async () => {
+  it("shows error message block for external validation errors", async () => {
     const validationError = {
       message: "Externes Fehler",
       instance: "identifier",

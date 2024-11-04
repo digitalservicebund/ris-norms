@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
 describe("useMod", () => {
@@ -7,7 +7,7 @@ describe("useMod", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide the data about a mod", async () => {
+  it("should provide the data about a mod", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi
         .fn()
@@ -63,7 +63,7 @@ describe("useMod", () => {
     )
   })
 
-  test("should fallback to getDestinationHref if getDestinationRangeFrom is not present", async () => {
+  it("should fallback to getDestinationHref if getDestinationRangeFrom is not present", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi
         .fn()
@@ -115,7 +115,7 @@ describe("useMod", () => {
     )
   })
 
-  test("should provide default values without a mod eid", async () => {
+  it("should provide default values without a mod eid", async () => {
     const { useMod } = await import("./useMod")
 
     const {
@@ -135,7 +135,7 @@ describe("useMod", () => {
     expect(quotedStructureContent.value).toBeUndefined()
   })
 
-  test("should support changing the values of the returned refs", async () => {
+  it("should support changing the values of the returned refs", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
       getDestinationRangeFrom: vi.fn(),
@@ -161,7 +161,7 @@ describe("useMod", () => {
     expect(quotedTextSecond.value).toBe("newer text")
   })
 
-  test("should overwrite the changed values when the eid changes", async () => {
+  it("should overwrite the changed values when the eid changes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
       getDestinationRangeFrom: vi.fn(),
@@ -193,7 +193,7 @@ describe("useMod", () => {
     expect(quotedTextSecond.value).toBe("new text")
   })
 
-  test("should overwrite the changed values when the xml changes", async () => {
+  it("should overwrite the changed values when the xml changes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
       getDestinationRangeFrom: vi.fn(),
@@ -225,7 +225,7 @@ describe("useMod", () => {
     expect(quotedTextSecond.value).toBe("new text")
   })
 
-  test("should create update and preview using useUpdateModData", async () => {
+  it("should create update and preview using useUpdateModData", async () => {
     const eli = "test-eli"
     const eid = "test-eid"
 

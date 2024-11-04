@@ -28,7 +28,7 @@ function renderComponent(
   return render(RadioInput, { props: effectiveProps, attrs })
 }
 
-describe("RisRadioInput", () => {
+describe("risRadioInput", () => {
   it("renders a radio", () => {
     renderComponent()
     const input = screen.getByRole("radio")

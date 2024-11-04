@@ -1,7 +1,6 @@
 import { ErrorResponse } from "@/types/errorResponse"
-import { describe, expect, test, vi } from "vitest"
+import { afterAll, describe, expect, it, vi } from "vitest"
 import { useErrorToast } from "./errorToast"
-import { afterEach } from "node:test"
 
 const { add } = vi.hoisted(() => ({
   add: vi.fn(),
@@ -26,11 +25,11 @@ vi.mock("@/lib/errorMessages", () => ({
 }))
 
 describe("errorToast", () => {
-  afterEach(() => {
+  afterAll(() => {
     vi.resetAllMocks()
   })
 
-  test("shows a toast with a known error message", () => {
+  it("shows a toast with a known error message", () => {
     const source: ErrorResponse = { type: "/errors/foo" }
     const { addErrorToast } = useErrorToast()
     addErrorToast(source)
@@ -42,7 +41,7 @@ describe("errorToast", () => {
     )
   })
 
-  test("shows a toast with a fallback message for an unkown error type", () => {
+  it("shows a toast with a fallback message for an unkown error type", () => {
     const source: ErrorResponse = { type: "/errors/non-existent-error" }
     const { addErrorToast } = useErrorToast()
     addErrorToast(source)
@@ -54,7 +53,7 @@ describe("errorToast", () => {
     )
   })
 
-  test("shows a toast with a fallback message for errors of a different format", () => {
+  it("shows a toast with a fallback message for errors of a different format", () => {
     const source = { foo: "bar" }
     const { addErrorToast } = useErrorToast()
     addErrorToast(source)
@@ -66,7 +65,7 @@ describe("errorToast", () => {
     )
   })
 
-  test("shows a toast with a fallback message if the error is undefined", () => {
+  it("shows a toast with a fallback message if the error is undefined", () => {
     const source = undefined
     const { addErrorToast } = useErrorToast()
     addErrorToast(source)
@@ -78,7 +77,7 @@ describe("errorToast", () => {
     )
   })
 
-  test("includes the trace ID if provided", () => {
+  it("includes the trace ID if provided", () => {
     const source: ErrorResponse = { type: "/errors/foo" }
     const { addErrorToast } = useErrorToast()
     addErrorToast(source, "4711")
@@ -90,7 +89,7 @@ describe("errorToast", () => {
     )
   })
 
-  test("includes the message details if applicable", () => {
+  it("includes the message details if applicable", () => {
     const source: ErrorResponse<{ example: string }> = {
       type: "/errors/bar",
       example: "example",

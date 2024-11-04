@@ -1,25 +1,25 @@
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import { useEIdRange } from "@/composables/useEIdRange"
 import { ref } from "vue"
 
 describe("useEIdRange", () => {
-  test("empty startEId -> empty range", () => {
+  it("empty startEId -> empty range", () => {
     const eIds = useEIdRange(ref(null), ref(""), ref())
     expect(eIds.value).toHaveLength(0)
   })
 
-  test("empty endEId -> range is only the start eId", () => {
+  it("empty endEId -> range is only the start eId", () => {
     const eIds = useEIdRange(ref("eid-1"), ref(""), ref())
     expect(eIds.value).toHaveLength(1)
     expect(eIds.value).toContain("eid-1")
   })
 
-  test("empty html -> range is empty", () => {
+  it("empty html -> range is empty", () => {
     const eIds = useEIdRange(ref("eid-1"), ref("eid-3"), ref())
     expect(eIds.value).toHaveLength(0)
   })
 
-  test("finds all eIds between", () => {
+  it("finds all eIds between", () => {
     const eIds = useEIdRange(
       ref(
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2",

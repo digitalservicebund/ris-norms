@@ -10,7 +10,7 @@ fileignoreconfig:
   - filename: frontend/Dockerfile
     checksum: 0db2e063587f46b2150f978f8dd9c5ce3d001fa8b89a1b67904f7a8363a6bd2a
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
-    checksum: a71106dff57951e5d873a7e5cfe6f407b71e832b0b73072328c7577412f8d2f6
+    checksum: e252d2546a75459a49ac1c4073dd76a3a48861b64843b11fa8271b675490cfd8
   - filename: DockerfileApp
     checksum: 79dcfe570176f7ad6b8341bd0b358b2676355b34ba654c29ae267d54a03f7e64
   - filename: docker-compose.yaml

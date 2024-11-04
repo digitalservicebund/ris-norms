@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { reactive } from "vue"
 
 describe("useModEidPathParameter", () => {
@@ -7,7 +7,7 @@ describe("useModEidPathParameter", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide a valid eid", async () => {
+  it("should provide a valid eid", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(
         reactive({
@@ -25,7 +25,7 @@ describe("useModEidPathParameter", () => {
     expect(modEid.value).toBe("unknown-eid-1")
   })
 
-  test("should react to route param changes", async () => {
+  it("should react to route param changes", async () => {
     const route = reactive({
       params: {
         modEid: "unknown-eid-1",
@@ -45,7 +45,7 @@ describe("useModEidPathParameter", () => {
     expect(modEid.value).toBe("unknown-eid-2")
   })
 
-  test("should update route when changed", async () => {
+  it("should update route when changed", async () => {
     const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({
@@ -64,7 +64,7 @@ describe("useModEidPathParameter", () => {
     })
   })
 
-  test("should update route when changed to empty", async () => {
+  it("should update route when changed to empty", async () => {
     const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({

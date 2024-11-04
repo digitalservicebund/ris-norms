@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
 describe("useMods", () => {
@@ -7,7 +7,7 @@ describe("useMods", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide the data about the mods", async () => {
+  it("should provide the data about the mods", async () => {
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({}),
     }))
@@ -37,7 +37,7 @@ describe("useMods", () => {
     expect(mods.value[1].textualModType).toBe("aenderungsbefehl-ersetzen")
   })
 
-  test("should react if the eids change", async () => {
+  it("should react if the eids change", async () => {
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({}),
     }))
@@ -71,7 +71,7 @@ describe("useMods", () => {
     expect(mods.value[1].timeBoundary?.date).toBe("2024-04-04")
   })
 
-  test("should support changing the value of the returned data", async () => {
+  it("should support changing the value of the returned data", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getTimeBoundaryDate: vi.fn().mockImplementation((xml, eid) => {
         switch (eid) {
@@ -105,7 +105,7 @@ describe("useMods", () => {
     expect(mods.value[0].timeBoundary?.date).toBe("2022-03-03")
   })
 
-  test("should overwrite the changed values when the eid changes", async () => {
+  it("should overwrite the changed values when the eid changes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getTimeBoundaryDate: vi.fn().mockImplementation((xml, eid) => {
         switch (eid) {
@@ -144,7 +144,7 @@ describe("useMods", () => {
     expect(mods.value[0].timeBoundary?.date).toBe("2022-02-02")
   })
 
-  test("should create preview and update using useUpdateMods", async () => {
+  it("should create preview and update using useUpdateMods", async () => {
     const useUpdateMods = vi.fn()
 
     vi.doMock("@/services/ldmldeModService", () => ({

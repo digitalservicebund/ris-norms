@@ -1,4 +1,6 @@
-import { describe, expect, test } from "vitest"
+// ESLint confuses htmlRenderRangeToLdmlDeRange with the testing library render method
+/* eslint testing-library/render-result-naming-convention: 0 */
+import { describe, expect, it } from "vitest"
 import {
   findHtmlNodeInLdml,
   findLdmlNodeInHtml,
@@ -10,7 +12,7 @@ import { xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 
 describe("findHtmlNodeInLdml", () => {
-  test("finds the node (element)", () => {
+  it("finds the node (element)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
@@ -24,7 +26,7 @@ describe("findHtmlNodeInLdml", () => {
     expect((result as Element).getAttribute("eId")).toEqual("quot-1_ref-1")
   })
 
-  test("finds the node (text node)", () => {
+  it("finds the node (text node)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
@@ -40,7 +42,7 @@ describe("findHtmlNodeInLdml", () => {
     expect(result?.nodeType).toEqual(Node.TEXT_NODE)
   })
 
-  test("finds nothing if eId does not match (element)", () => {
+  it("finds nothing if eId does not match (element)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
@@ -52,7 +54,7 @@ describe("findHtmlNodeInLdml", () => {
     expect(result).toBeNull()
   })
 
-  test("finds nothing if eId does not match (text node)", () => {
+  it("finds nothing if eId does not match (text node)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
@@ -69,7 +71,7 @@ describe("findHtmlNodeInLdml", () => {
 })
 
 describe("findLdmlNodeInHtml", () => {
-  test("finds the node (element)", () => {
+  it("finds the node (element)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
@@ -85,7 +87,7 @@ describe("findLdmlNodeInHtml", () => {
     expect((result as Element).getAttribute("data-eid")).toEqual("quot-1_ref-1")
   })
 
-  test("finds the node (text node)", () => {
+  it("finds the node (text node)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
@@ -100,7 +102,7 @@ describe("findLdmlNodeInHtml", () => {
     expect(result?.textContent).toEqual("Test")
   })
 
-  test("finds nothing if eId does not match (element)", () => {
+  it("finds nothing if eId does not match (element)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
@@ -115,7 +117,7 @@ describe("findLdmlNodeInHtml", () => {
     expect(result).toBeNull()
   })
 
-  test("finds nothing if eId does not match (text node)", () => {
+  it("finds nothing if eId does not match (text node)", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
@@ -145,7 +147,7 @@ describe("findOffsetInOtherNode", () => {
 
   for (let i = 0; i < (htmlElement.firstChild?.textContent?.length ?? 0); i++) {
     if (!htmlElement.firstChild?.textContent?.charAt(i).match(/\s/)) {
-      test(`finds the same character for non white-space indexes (Index: ${i})`, () => {
+      it(`finds the same character for non white-space indexes (Index: ${i})`, () => {
         const offset = findOffsetInOtherNode(
           htmlElement.firstChild!,
           i,
@@ -160,7 +162,7 @@ describe("findOffsetInOtherNode", () => {
 })
 
 describe("htmlRenderRangeToLdmlDeRange", () => {
-  test("creates correct range for a simple range", () => {
+  it("creates correct range for a simple range", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test text 123</div>`
 
@@ -184,7 +186,7 @@ describe("htmlRenderRangeToLdmlDeRange", () => {
     expect(result?.endOffset).toEqual(15)
   })
 
-  test("creates correct range for range over nested element", () => {
+  it("creates correct range for range over nested element", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-quotedText" data-eId="quot-1">Test <span class="akn:ref" data-eId="quot-1_ref-1">text</span> 123</div>`
 
@@ -213,7 +215,7 @@ describe("htmlRenderRangeToLdmlDeRange", () => {
 })
 
 describe("ldmlRenderRangeToHtmlRange", () => {
-  test("creates correct range for a simple range", () => {
+  it("creates correct range for a simple range", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test text    123</div>`
 
@@ -237,7 +239,7 @@ describe("ldmlRenderRangeToHtmlRange", () => {
     expect(result?.endOffset).toEqual(15)
   })
 
-  test("creates correct range for range over nested element", () => {
+  it("creates correct range for range over nested element", () => {
     const htmlElement = document.createElement("div")
     htmlElement.innerHTML = `<div class="akn-quotedText" data-eId="quot-1">Test <span class="akn:ref" data-eId="quot-1_ref-1">text</span>    123</div>`
 

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
 
@@ -8,7 +8,7 @@ describe("useNormXml", () => {
     vi.resetAllMocks()
   })
 
-  test("should provide the target law xml", async () => {
+  it("should provide the target law xml", async () => {
     const dataRef = ref<string>()
     vi.doMock("@/services/normService", () => ({
       useGetNormXml: vi.fn().mockReturnValue({
@@ -31,7 +31,7 @@ describe("useNormXml", () => {
     expect(data.value).toEqual("<xml></xml>")
   })
 
-  test("should update the xml", async () => {
+  it("should update the xml", async () => {
     const updateRef = ref<string>()
     vi.doMock("@/services/normService", () => ({
       useGetNormXml: vi.fn().mockReturnValue({

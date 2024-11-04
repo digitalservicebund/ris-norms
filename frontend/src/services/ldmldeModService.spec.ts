@@ -55,7 +55,7 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).childNodes.item(0)
 
-      expect(getQuotedTextSecond(node)).to.eq("nach Ablauf von fünf Jahren")
+      expect(getQuotedTextSecond(node)).toBe("nach Ablauf von fünf Jahren")
     })
   })
 
@@ -73,7 +73,7 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).childNodes.item(0)
 
-      expect(getQuotedTextFirst(node)).to.eq(
+      expect(getQuotedTextFirst(node)).toBe(
         "am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt,",
       )
     })
@@ -93,7 +93,7 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).childNodes.item(0)
 
-      expect(getDestinationHref(node)).to.eq(
+      expect(getDestinationHref(node)).toBe(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml",
       )
     })
@@ -113,7 +113,7 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).documentElement
 
-      expect(getTextualModType(node)).to.eq("aenderungsbefehl-ersetzen")
+      expect(getTextualModType(node)).toEqual("aenderungsbefehl-ersetzen")
     })
   })
 
@@ -152,7 +152,7 @@ describe("ldmldeModService", () => {
           xml,
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
         ),
-      ).to.deep.equal({
+      ).toEqual({
         date: "2023-12-30",
         temporalGroupEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
       })
@@ -337,7 +337,7 @@ describe("ldmldeModService", () => {
             </akn:mod>
       `).childNodes.item(0)
 
-      expect(getDestinationRangeFrom(node)).to.be.eq(
+      expect(getDestinationRangeFrom(node)).toBe(
         "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1.xml",
       )
     })
@@ -367,7 +367,7 @@ describe("ldmldeModService", () => {
             </akn:mod>
       `).childNodes.item(0)
 
-      expect(getDestinationRangeUpto(node)).to.be.eq(
+      expect(getDestinationRangeUpto(node)).toBe(
         "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml",
       )
     })
