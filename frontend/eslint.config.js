@@ -13,6 +13,7 @@ import {
   configs as tsEslintConfigs,
 } from "typescript-eslint"
 import vueEslintParser from "vue-eslint-parser"
+import testingLibraryPlugin from "eslint-plugin-testing-library"
 
 export default defineConfig(
   // Files
@@ -32,6 +33,12 @@ export default defineConfig(
   {
     files: ["e2e/**/*.ts"],
     ...playwrightPlugin.configs["flat/recommended"],
+  },
+
+  // Additional rules for unit tests
+  {
+    files: ["src/**/*.spec.ts"],
+    ...testingLibraryPlugin.configs["flat/vue"],
   },
 
   {
