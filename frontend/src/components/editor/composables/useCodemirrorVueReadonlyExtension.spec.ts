@@ -1,10 +1,10 @@
 import { nextTick, ref, shallowRef } from "vue"
 import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
 import { EditorView } from "@codemirror/view"
-import { describe, test, expect } from "vitest"
+import { describe, it, expect } from "vitest"
 
 describe("useCodemirrorVueReadonlyExtension", () => {
-  test("Sets initial state", () => {
+  it("sets initial state", () => {
     const readOnly = ref(true)
     const editorView = shallowRef<EditorView | null>(null)
     const extension = useCodemirrorVueReadonlyExtension(editorView, readOnly)
@@ -13,7 +13,7 @@ describe("useCodemirrorVueReadonlyExtension", () => {
     expect(editorView.value?.state.readOnly).toBe(true)
   })
 
-  test("Updates state", async () => {
+  it("updates state", async () => {
     const readOnly = ref(false)
     const editorView = shallowRef<EditorView | null>(null)
     const extension = useCodemirrorVueReadonlyExtension(editorView, readOnly)

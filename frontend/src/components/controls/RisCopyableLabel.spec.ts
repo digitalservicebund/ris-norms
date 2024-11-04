@@ -1,15 +1,15 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import RisCopyableLabel from "./RisCopyableLabel.vue"
 import { userEvent } from "@testing-library/user-event"
 
-describe("RisCopyableLabel", () => {
-  test("renders", () => {
+describe("risCopyableLabel", () => {
+  it("renders", () => {
     render(RisCopyableLabel, { props: { text: "Foo" } })
     expect(screen.getByText("Foo")).toBeInTheDocument()
   })
 
-  test("renders an accessible label with the default value", () => {
+  it("renders an accessible label with the default value", () => {
     render(RisCopyableLabel, { props: { text: "Foo" } })
 
     expect(
@@ -19,7 +19,7 @@ describe("RisCopyableLabel", () => {
     ).toBeInTheDocument()
   })
 
-  test("renders an accessible label with a custom value", () => {
+  it("renders an accessible label with a custom value", () => {
     render(RisCopyableLabel, { props: { text: "Foo", name: "Bar" } })
 
     expect(
@@ -29,7 +29,7 @@ describe("RisCopyableLabel", () => {
     ).toBeInTheDocument()
   })
 
-  test("copies the text if no value is provided", async () => {
+  it("copies the text if no value is provided", async () => {
     const user = userEvent.setup()
     const spy = vi.spyOn(navigator.clipboard, "writeText")
     render(RisCopyableLabel, { props: { text: "Foo" } })
@@ -39,7 +39,7 @@ describe("RisCopyableLabel", () => {
     expect(spy).toHaveBeenCalledWith("Foo")
   })
 
-  test("copies the value if provided", async () => {
+  it("copies the value if provided", async () => {
     const user = userEvent.setup()
     const spy = vi.spyOn(navigator.clipboard, "writeText")
     render(RisCopyableLabel, { props: { text: "Foo", value: "Bar" } })

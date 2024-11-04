@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { defineComponent, ref } from "vue"
 import RisErrorCallout from "./RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
@@ -19,19 +19,19 @@ vi.mock("@/lib/errorMessages", () => ({
   },
 }))
 
-describe("RisErrorCallout", () => {
+describe("risErrorCallout", () => {
   vi.mock("@/composables/useSentryTraceId", () => ({
     useSentryTraceId: () => ref("000000000000000000000000"),
   }))
 
   useSentryTraceId()
 
-  test("renders", () => {
+  it("renders", () => {
     render(RisErrorCallout, { props: { error: { type: "/errors/foo" } } })
     expect(screen.getByText("Error of type /errors/foo")).toBeInTheDocument()
   })
 
-  test("shows as error variant", () => {
+  it("shows as error variant", () => {
     render(RisErrorCallout, { props: { error: { type: "/errors/foo" } } })
     expect(screen.getByTestId("error-callout")).toHaveAttribute(
       "data-variant",
@@ -39,7 +39,7 @@ describe("RisErrorCallout", () => {
     )
   })
 
-  test("displays a message", () => {
+  it("displays a message", () => {
     const component = defineComponent({
       components: { RisErrorCallout },
       template: `
@@ -51,7 +51,7 @@ describe("RisErrorCallout", () => {
     expect(screen.getByText("Bar")).toBeInTheDocument()
   })
 
-  test("displays a suggestion", () => {
+  it("displays a suggestion", () => {
     const component = defineComponent({
       components: { RisErrorCallout },
       template: `
@@ -63,7 +63,7 @@ describe("RisErrorCallout", () => {
     expect(screen.getByText("Try again")).toBeInTheDocument()
   })
 
-  test("displays sentry trace id", () => {
+  it("displays sentry trace id", () => {
     render(RisErrorCallout, { props: { error: { type: "/errors/foo" } } })
 
     expect(screen.getByText("000000000000000000000000")).toBeInTheDocument()

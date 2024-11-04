@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
+import { markRaw } from "vue"
 import UploadFileOutlineRounded from "~icons/ic/baseline-upload-file"
 import RisEmptyState from "./RisEmptyState.vue"
-import { markRaw } from "vue"
 
-describe("RisEmptyState", () => {
-  test("should render text content", () => {
+describe("risEmptyState", () => {
+  it("should render text content", () => {
     render(RisEmptyState, {
       props: { textContent: "Hello, world!" },
     })
@@ -13,28 +13,28 @@ describe("RisEmptyState", () => {
     expect(screen.getByText("Hello, world!")).toBeInTheDocument()
   })
 
-  test("should render the recommended action", () => {
+  it("should render the recommended action", () => {
     render(RisEmptyState, {
       props: { textContent: "No announcements available" },
       slots: { "recommended-action": "Add new announcements" },
     })
 
     expect(screen.getByText("No announcements available")).toBeInTheDocument()
-    expect(screen.queryByText("Add new announcements")).toBeInTheDocument()
+    expect(screen.getByText("Add new announcements")).toBeInTheDocument()
   })
 
-  test("should render the icon", () => {
-    const { container } = render(RisEmptyState, {
+  it("should render the icon", () => {
+    render(RisEmptyState, {
       props: {
         textContent: "No announcements available",
         icon: markRaw(UploadFileOutlineRounded),
       },
     })
 
-    expect(container.querySelector("svg")).toBeInTheDocument()
+    expect(screen.getByTestId("empty-state-icon")).toBeInTheDocument()
   })
 
-  test("should detect the simple variant based on the props", () => {
+  it("should detect the simple variant based on the props", () => {
     render(RisEmptyState, {
       props: { textContent: "No announcements available" },
     })
@@ -45,7 +45,7 @@ describe("RisEmptyState", () => {
     )
   })
 
-  test("should detect the extended variant based on the props", () => {
+  it("should detect the extended variant based on the props", () => {
     render(RisEmptyState, {
       props: {
         textContent: "No announcements available",

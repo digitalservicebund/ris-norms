@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import RisInfoModal from "./RisInfoModal.vue"
 
-describe("RisInfoModal", () => {
-  test("renders title and description", () => {
+describe("risInfoModal", () => {
+  it("renders title and description", () => {
     const title = "Test Title"
     const description = "Test Description"
 
@@ -16,7 +16,7 @@ describe("RisInfoModal", () => {
     expect(screen.getByText(description)).toBeInTheDocument()
   })
 
-  test("renders a button with the correct label", () => {
+  it("renders a button with the correct label", () => {
     const iconText = "Icon Text"
     const title = "Dummy Title"
 

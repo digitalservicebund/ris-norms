@@ -1,16 +1,16 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { defineComponent } from "vue"
 import RisCallout from "./RisCallout.vue"
 
-describe("RisCallout", () => {
-  test("renders", () => {
+describe("risCallout", () => {
+  it("renders", () => {
     render(RisCallout, { props: { title: "Foo" } })
     expect(screen.getByText("Foo")).toBeInTheDocument()
   })
 
-  test("shows as neutral variant", () => {
+  it("shows as neutral variant", () => {
     render(RisCallout, { props: { title: "Foo", variant: "neutral" } })
     expect(screen.getByTestId("callout-wrapper")).toHaveAttribute(
       "data-variant",
@@ -18,7 +18,7 @@ describe("RisCallout", () => {
     )
   })
 
-  test("shows as error variant", () => {
+  it("shows as error variant", () => {
     render(RisCallout, { props: { title: "Foo", variant: "error" } })
     expect(screen.getByTestId("callout-wrapper")).toHaveAttribute(
       "data-variant",
@@ -26,7 +26,7 @@ describe("RisCallout", () => {
     )
   })
 
-  test("shows as warning variant", () => {
+  it("shows as warning variant", () => {
     render(RisCallout, { props: { title: "Foo", variant: "warning" } })
     expect(screen.getByTestId("callout-wrapper")).toHaveAttribute(
       "data-variant",
@@ -34,7 +34,7 @@ describe("RisCallout", () => {
     )
   })
 
-  test("shows as success variant", () => {
+  it("shows as success variant", () => {
     render(RisCallout, { props: { title: "Foo", variant: "success" } })
     expect(screen.getByTestId("callout-wrapper")).toHaveAttribute(
       "data-variant",
@@ -42,7 +42,7 @@ describe("RisCallout", () => {
     )
   })
 
-  test("shows as neutral variant by default", () => {
+  it("shows as neutral variant by default", () => {
     render(RisCallout, { props: { title: "Foo" } })
     expect(screen.getByTestId("callout-wrapper")).toHaveAttribute(
       "data-variant",
@@ -50,7 +50,7 @@ describe("RisCallout", () => {
     )
   })
 
-  test("displays a message", () => {
+  it("displays a message", () => {
     const component = defineComponent({
       components: { RisCallout },
       template: `<RisCallout title="Foo">Bar</RisCallout>`,
@@ -61,7 +61,7 @@ describe("RisCallout", () => {
     expect(screen.getByText("Bar")).toBeInTheDocument()
   })
 
-  test("displays a custom icon", () => {
+  it("displays a custom icon", () => {
     const component = defineComponent({
       components: { RisCallout },
       template: `
@@ -76,28 +76,28 @@ describe("RisCallout", () => {
     expect(screen.getByText("🐸")).toBeInTheDocument()
   })
 
-  test("shows a dismiss button", () => {
+  it("shows a dismiss button", () => {
     render(RisCallout, { props: { title: "Foo", allowDismiss: true } })
     expect(
       screen.getByRole("button", { name: "Hinweis schließen" }),
     ).toBeInTheDocument()
   })
 
-  test("doesn't show the dismiss button", () => {
+  it("doesn't show the dismiss button", () => {
     render(RisCallout, { props: { title: "Foo", allowDismiss: false } })
     expect(
       screen.queryByRole("button", { name: "Hinweis schließen" }),
     ).not.toBeInTheDocument()
   })
 
-  test("doesn't show the dismiss button by default", () => {
+  it("doesn't show the dismiss button by default", () => {
     render(RisCallout, { props: { title: "Foo", allowDismiss: false } })
     expect(
       screen.queryByRole("button", { name: "Hinweis schließen" }),
     ).not.toBeInTheDocument()
   })
 
-  test("is hidden on dismiss", async () => {
+  it("is hidden on dismiss", async () => {
     const update = vi.fn()
     render(RisCallout, {
       props: { title: "Foo", allowDismiss: true, "onUpdate:visible": update },
@@ -109,17 +109,17 @@ describe("RisCallout", () => {
     expect(update).toHaveBeenCalled()
   })
 
-  test("is visible based on the model value", () => {
+  it("is visible based on the model value", () => {
     render(RisCallout, { props: { title: "Foo", visible: true } })
     expect(screen.getByText("Foo")).toBeVisible()
   })
 
-  test("is hidden based on the model value", () => {
+  it("is hidden based on the model value", () => {
     render(RisCallout, { props: { title: "Foo", visible: false } })
     expect(screen.queryByRole("Foo")).not.toBeInTheDocument()
   })
 
-  test("is visible by default", () => {
+  it("is visible by default", () => {
     render(RisCallout, { props: { title: "Foo" } })
     expect(screen.getByText("Foo")).toBeVisible()
   })

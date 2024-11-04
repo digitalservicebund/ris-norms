@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, beforeEach } from "vitest"
+import { describe, it, expect, vi, beforeEach } from "vitest"
 import { nextTick, ref } from "vue"
 
 describe("useModEidSelection", () => {
@@ -7,7 +7,7 @@ describe("useModEidSelection", () => {
     vi.resetAllMocks()
   })
 
-  test("values is initially empty", async () => {
+  it("values is initially empty", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -18,7 +18,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toHaveLength(0)
   })
 
-  test("selects new value on mouse click", async () => {
+  it("selects new value on mouse click", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -36,7 +36,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-1")
   })
 
-  test("selects new value on keyboard event", async () => {
+  it("selects new value on keyboard event", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -54,7 +54,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-1")
   })
 
-  test("normal click replaces the selection", async () => {
+  it("normal click replaces the selection", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -77,7 +77,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-2")
   })
 
-  test("extends the selection if the meta key is pressed", async () => {
+  it("extends the selection if the meta key is pressed", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -105,7 +105,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-2")
   })
 
-  test("extends the selection if the ctrl key is pressed", async () => {
+  it("extends the selection if the ctrl key is pressed", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -133,7 +133,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-2")
   })
 
-  test("deselects just the clicked element if the ctrl key is pressed", async () => {
+  it("deselects just the clicked element if the ctrl key is pressed", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -166,7 +166,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-3")
   })
 
-  test("deselectAll clears the selection", async () => {
+  it("deselectAll clears the selection", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -188,7 +188,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toHaveLength(0)
   })
 
-  test("shift click allows to select a range", async () => {
+  it("shift click allows to select a range", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -220,7 +220,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-4")
   })
 
-  test("shift click allows to select a range (inverse direction)", async () => {
+  it("shift click allows to select a range (inverse direction)", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -251,7 +251,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-4")
   })
 
-  test("shift click starts range selection add last clicked element", async () => {
+  it("shift click starts range selection add last clicked element", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -292,7 +292,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-4")
   })
 
-  test("shift click starts range selection add last clicked element, even if it was deselected", async () => {
+  it("shift click starts range selection add last clicked element, even if it was deselected", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -328,7 +328,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-4")
   })
 
-  test("shift + ctrl click allows to add selection of a range", async () => {
+  it("shift + ctrl click allows to add selection of a range", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -365,7 +365,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-5")
   })
 
-  test("shift + ctrl click allows to deselect a range of a selection", async () => {
+  it("shift + ctrl click allows to deselect a range of a selection", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -405,7 +405,7 @@ describe("useModEidSelection", () => {
     expect(values.value).toContain("eid-5")
   })
 
-  test("shift + ctrl click allows to add selection of a range over already selected elements", async () => {
+  it("shift + ctrl click allows to add selection of a range over already selected elements", async () => {
     vi.doMock("./useModEidPathParameter", () => ({
       useModEidPathParameter: vi.fn().mockReturnValue(ref("")),
     }))
@@ -444,7 +444,7 @@ describe("useModEidSelection", () => {
   })
 
   describe("path parameter", () => {
-    test("values takes initial value from path", async () => {
+    it("values takes initial value from path", async () => {
       vi.doMock("./useModEidPathParameter", () => ({
         useModEidPathParameter: vi.fn().mockReturnValue(ref("eid-1")),
       }))
@@ -457,7 +457,7 @@ describe("useModEidSelection", () => {
       expect(values.value).toContain("eid-1")
     })
 
-    test("path parameter includes the selected eid if only one is selected", async () => {
+    it("path parameter includes the selected eid if only one is selected", async () => {
       const pathParameter = ref("")
       vi.doMock("./useModEidPathParameter", () => ({
         useModEidPathParameter: vi.fn().mockReturnValue(pathParameter),
@@ -477,7 +477,7 @@ describe("useModEidSelection", () => {
       expect(pathParameter.value).toBe("eid-1")
     })
 
-    test("path parameter is empty when multiple eids are selected", async () => {
+    it("path parameter is empty when multiple eids are selected", async () => {
       const pathParameter = ref("")
       vi.doMock("./useModEidPathParameter", () => ({
         useModEidPathParameter: vi.fn().mockReturnValue(pathParameter),

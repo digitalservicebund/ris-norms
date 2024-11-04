@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.FrameWorkExceptionHandler;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.exception.FrameWorkExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRef;

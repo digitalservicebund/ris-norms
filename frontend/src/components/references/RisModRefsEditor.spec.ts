@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { getByRole, render, screen } from "@testing-library/vue"
+import { render, screen, within } from "@testing-library/vue"
 import { nextTick, reactive, ref } from "vue"
 import { userEvent } from "@testing-library/user-event"
 import { RouteLocationRaw } from "vue-router"
@@ -24,7 +24,7 @@ vi.mock("primevue/usetoast", () => {
   }
 })
 
-describe("RisModRefsEditor", () => {
+describe("risModRefsEditor", () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
@@ -35,7 +35,7 @@ describe("RisModRefsEditor", () => {
     renderError.value = undefined
   })
 
-  it("Should not render component if no mod was selected", async () => {
+  it("should not render component if no mod was selected", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -67,7 +67,7 @@ describe("RisModRefsEditor", () => {
     expect(emptyState).toBeInTheDocument()
   })
 
-  it("Should render the html of the second quotedText of the selected mod", async () => {
+  it("should render the html of the second quotedText of the selected mod", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -108,7 +108,7 @@ describe("RisModRefsEditor", () => {
     expect(renderedRef).toBeInTheDocument()
   })
 
-  it("Should save the updated xml from the RisRefSelectionPanel", async () => {
+  it("should save the updated xml from the RisRefSelectionPanel", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -123,7 +123,7 @@ describe("RisModRefsEditor", () => {
     )
     const user = userEvent.setup()
 
-    const renderResult = render(RisModRefsEditor, {
+    const { emitted } = render(RisModRefsEditor, {
       props: {
         normXml: `
           <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
@@ -164,8 +164,8 @@ describe("RisModRefsEditor", () => {
     await user.click(screen.getByText("RisRefSelectionPanel"))
     await user.click(screen.getByRole("button", { name: "Speichern" }))
 
-    expect(renderResult.emitted("save")).toHaveLength(1)
-    expect(renderResult.emitted("save")[0]).toEqual([
+    expect(emitted("save")).toHaveLength(1)
+    expect(emitted("save")[0]).toEqual([
       `<akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
             <akn:mod eId="mod-1">
                <akn:quotedText eId="mod-1_quot-1">First mod old text</akn:quotedText>
@@ -179,7 +179,7 @@ describe("RisModRefsEditor", () => {
     ])
   })
 
-  it("Should save the updated xml from the RisRefEditorTable", async () => {
+  it("should save the updated xml from the RisRefEditorTable", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
         params: {
@@ -194,7 +194,7 @@ describe("RisModRefsEditor", () => {
     )
     const user = userEvent.setup()
 
-    const renderResult = render(RisModRefsEditor, {
+    const { emitted } = render(RisModRefsEditor, {
       props: {
         normXml: `
           <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
@@ -234,8 +234,8 @@ describe("RisModRefsEditor", () => {
     await user.click(screen.getByText("RisRefEditorTable"))
     await user.click(screen.getByRole("button", { name: "Speichern" }))
 
-    expect(renderResult.emitted("save")).toHaveLength(1)
-    expect(renderResult.emitted("save")[0]).toEqual([
+    expect(emitted("save")).toHaveLength(1)
+    expect(emitted("save")[0]).toEqual([
       `<akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
             <akn:mod eId="mod-1">
                <akn:quotedText eId="mod-1_quot-1">First mod old text</akn:quotedText>
@@ -249,7 +249,7 @@ describe("RisModRefsEditor", () => {
     ])
   })
 
-  it("Should sync selected refs", async () => {
+  it("should sync selected refs", async () => {
     const route: RouteLocationRaw = reactive({
       params: {
         refEid: undefined,
@@ -305,7 +305,7 @@ describe("RisModRefsEditor", () => {
     expect(ref2Highlight).toHaveClass("selected")
 
     await userEvent.click(
-      getByRole(ref1Region, "textbox", { name: "ELI mit Zielstelle" }),
+      within(ref1Region).getByRole("textbox", { name: "ELI mit Zielstelle" }),
     )
 
     expect(ref1Region).toHaveClass("bg-blue-300")

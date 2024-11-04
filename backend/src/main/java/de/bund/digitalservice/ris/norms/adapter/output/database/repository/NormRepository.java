@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -66,4 +67,11 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
    * @param publishState The publishState to search for.
    */
   void deleteAllByEliWorkAndPublishState(final String workEli, final NormPublishState publishState);
+
+  /**
+   * Retrieves all {@link NormDto}s with a specific {@link NormPublishState}
+   * @param normPublishState the publish state to filter with
+   * @return the list of all norms matching that state
+   */
+  List<NormDto> findByPublishState(final NormPublishState normPublishState);
 }

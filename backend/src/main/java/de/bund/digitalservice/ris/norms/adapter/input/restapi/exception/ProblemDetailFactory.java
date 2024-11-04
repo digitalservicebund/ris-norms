@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
+package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;

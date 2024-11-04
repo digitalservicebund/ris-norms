@@ -1,6 +1,6 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import TextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 
 type TextAreaInputProps = InstanceType<typeof TextAreaInput>["$props"]
@@ -21,8 +21,8 @@ function renderComponent(
   return render(TextAreaInput, { props: defaultProps, attrs })
 }
 
-describe("TextAreaInput", () => {
-  test("shows an textarea element", () => {
+describe("textAreaInput", () => {
+  it("shows an textarea element", () => {
     renderComponent({})
     const input: HTMLTextAreaElement | null = screen.queryByRole("textbox")
 
@@ -30,19 +30,19 @@ describe("TextAreaInput", () => {
     expect(input?.tagName).toBe("TEXTAREA")
   })
 
-  test("sets the ID of the textarea", () => {
+  it("sets the ID of the textarea", () => {
     renderComponent({ id: "test-id" })
     const input: HTMLTextAreaElement | null = screen.queryByRole("textbox")
     expect(input).toHaveAttribute("id", "test-id")
   })
 
-  test("shows textarea with a placeholder", () => {
+  it("shows textarea with a placeholder", () => {
     renderComponent({ placeholder: "Test Placeholder" })
     const textarea = screen.queryByPlaceholderText("Test Placeholder")
     expect(textarea).toBeInTheDocument()
   })
 
-  test("allows to type text inside textarea", async () => {
+  it("allows to type text inside textarea", async () => {
     const user = userEvent.setup()
     renderComponent({ modelValue: "one" })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
@@ -53,14 +53,14 @@ describe("TextAreaInput", () => {
     expect(textarea).toHaveValue("one two")
   })
 
-  test("displays the model value", () => {
+  it("displays the model value", () => {
     renderComponent({ modelValue: "one" })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
 
     expect(textarea).toHaveValue("one")
   })
 
-  test("updates the model value", async () => {
+  it("updates the model value", async () => {
     const user = userEvent.setup()
     let testModel = "one"
     renderComponent({
@@ -73,7 +73,7 @@ describe("TextAreaInput", () => {
     expect(testModel).toBe("one two")
   })
 
-  test("emits blur event when textarea loses focus", async () => {
+  it("emits blur event when textarea loses focus", async () => {
     const { emitted } = renderComponent({})
     const textarea = screen.getByRole("textbox") as HTMLTextAreaElement
     await userEvent.type(textarea, " two")
@@ -81,43 +81,43 @@ describe("TextAreaInput", () => {
     expect(emitted("blur")).toBeTruthy()
   })
 
-  test("sets the textarea to readonly", () => {
+  it("sets the textarea to readonly", () => {
     renderComponent({ readOnly: true })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
     expect(textarea).toHaveAttribute("readonly")
   })
 
-  test("sets the tabindex to -1 when readonly", () => {
+  it("sets the tabindex to -1 when readonly", () => {
     renderComponent({ readOnly: true })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
     expect(textarea).toHaveAttribute("tabindex", "-1")
   })
 
-  test("doesn't set the textarea to readonly", () => {
+  it("doesn't set the textarea to readonly", () => {
     renderComponent({ readOnly: false })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
     expect(textarea).not.toHaveAttribute("readonly")
   })
 
-  test("leaves the tabindex alone when not readonly", () => {
+  it("leaves the tabindex alone when not readonly", () => {
     renderComponent({ readOnly: false })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
     expect(textarea).not.toHaveAttribute("tabindex")
   })
 
-  test("sets the tabindex to the given value", () => {
+  it("sets the tabindex to the given value", () => {
     renderComponent({}, { tabindex: 815 })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
     expect(textarea).toHaveAttribute("tabindex", "815")
   })
 
-  test("renders the number of rows", () => {
+  it("renders the number of rows", () => {
     renderComponent({ rows: 5 })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
     expect(textarea).toHaveAttribute("rows", "5")
   })
 
-  test("renders a label when provided and associates it with the textarea", () => {
+  it("renders a label when provided and associates it with the textarea", () => {
     const labelText = "Test Label"
     renderComponent({ label: labelText, id: "test-id" })
 

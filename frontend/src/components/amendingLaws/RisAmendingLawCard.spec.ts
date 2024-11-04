@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import RisAmendingLawCard from "./RisAmendingLawCard.vue"
 
-describe("RisAmendingLawCard", () => {
-  test("should render overview of open print amending law", () => {
+describe("risAmendingLawCard", () => {
+  it("should render overview of open print amending law", () => {
     render(RisAmendingLawCard, {
       props: {
         eli: "someEli",
@@ -15,7 +15,7 @@ describe("RisAmendingLawCard", () => {
     expect(screen.getByText("GazetteName 2021 S. 456")).toBeInTheDocument()
   })
 
-  test("should render overview of open digital amending law", () => {
+  it("should render overview of open digital amending law", () => {
     render(RisAmendingLawCard, {
       props: {
         eli: "someEli",

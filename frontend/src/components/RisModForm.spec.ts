@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest"
-import { getByText, render, screen } from "@testing-library/vue"
+import { render, screen, within } from "@testing-library/vue"
 import RisModForm from "@/components/RisModForm.vue"
 import { userEvent } from "@testing-library/user-event"
 import { ModType } from "@/types/ModType"
@@ -13,7 +13,7 @@ vi.mock("primevue/usetoast", () => {
   }
 })
 
-describe("RisModForm", () => {
+describe("risModForm", () => {
   const textualModType: ModType = "aenderungsbefehl-ersetzen"
   const timeBoundaries = [
     { date: "2024-12-31", temporalGroupEid: "eid-1" },
@@ -27,11 +27,10 @@ describe("RisModForm", () => {
   const quotedStructureContent = "<quotedStructure>content</quotedStructure>"
   const targetLawHtml = "<p>Target Law Content</p>"
 
-  it("Should render the form with only mandatory fields", async () => {
+  it("should render the form with only mandatory fields", async () => {
     const user = userEvent.setup()
     render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         destinationHref,
@@ -39,7 +38,7 @@ describe("RisModForm", () => {
     })
 
     // Form
-    const formElement = document.querySelector(`#risModForm`)
+    const formElement = screen.getByTestId("mod-form")
     expect(formElement).toBeInTheDocument()
 
     // Textual Mode Type
@@ -94,10 +93,9 @@ describe("RisModForm", () => {
     expect(quotedTextSecondElement).not.toHaveAttribute("readonly")
   })
 
-  it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen'", () => {
+  it("should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen'", () => {
     render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         destinationHref,
@@ -127,10 +125,9 @@ describe("RisModForm", () => {
     expect(screen.queryByTestId("replacingElement")).not.toBeInTheDocument()
   })
 
-  it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen' and there is a quotedStructureContent", () => {
+  it("should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen' and there is a quotedStructureContent", () => {
     render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         destinationHref,
@@ -163,11 +160,10 @@ describe("RisModForm", () => {
     ).not.toBeInTheDocument()
   })
 
-  it("Should render the form when timeBoundaries are empty", async () => {
+  it("should render the form when timeBoundaries are empty", async () => {
     const user = userEvent.setup()
     render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries: [],
         destinationHref,
@@ -182,11 +178,10 @@ describe("RisModForm", () => {
     expect(timeBoundaryOptionElements.length).toBe(1)
   })
 
-  it("Should render the form when a timeBoundary is pre selected", async () => {
+  it("should render the form when a timeBoundary is pre selected", async () => {
     const user = userEvent.setup()
     render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         selectedTimeBoundary: timeBoundaries[1],
@@ -211,10 +206,9 @@ describe("RisModForm", () => {
     )
   })
 
-  it("Should render the form with quoted structure content", () => {
+  it("should render the form with quoted structure content", () => {
     render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         destinationHref,
@@ -238,7 +232,6 @@ describe("RisModForm", () => {
     const onGeneratePreview = vi.fn()
 
     const props = {
-      id: "risModForm",
       textualModType,
       timeBoundaries,
       selectedTimeBoundary: timeBoundaries[1],
@@ -271,7 +264,6 @@ describe("RisModForm", () => {
     const onUpdateDestinationHref = vi.fn()
 
     const props = {
-      id: "risModForm",
       textualModType,
       timeBoundaries,
       destinationHref,
@@ -301,7 +293,6 @@ describe("RisModForm", () => {
     const onGeneratePreview = vi.fn()
 
     const props = {
-      id: "risModForm",
       textualModType,
       timeBoundaries,
       destinationHref,
@@ -324,9 +315,8 @@ describe("RisModForm", () => {
   it("emits an update & generate preview when the a new destination is selected", async () => {
     const user = userEvent.setup()
 
-    const result = render(RisModForm, {
+    const { emitted } = render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         destinationHref:
@@ -339,7 +329,9 @@ describe("RisModForm", () => {
     await user.pointer([
       {
         keys: "[MouseLeft>]",
-        target: getByText(screen.getByLabelText("zu ersetzender Text"), "Test"),
+        target: within(screen.getByLabelText("zu ersetzender Text")).getByText(
+          "Test",
+        ),
         offset: 1,
       },
       {
@@ -348,12 +340,12 @@ describe("RisModForm", () => {
       { keys: "[/MouseLeft]" },
     ])
 
-    expect(result.emitted("update:destinationHref")).toHaveLength(1)
-    expect(result.emitted("update:destinationHref")[0]).toContain(
+    expect(emitted("update:destinationHref")).toHaveLength(1)
+    expect(emitted("update:destinationHref")[0]).toContain(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/span-1/1-3.xml",
     )
 
-    expect(result.emitted("generate-preview")).toHaveLength(1)
+    expect(emitted("generate-preview")).toHaveLength(1)
   })
 
   it("emits an update when the quotedTextSecond input is changed", async () => {
@@ -362,7 +354,6 @@ describe("RisModForm", () => {
     const onGeneratePreview = vi.fn()
 
     const props = {
-      id: "risModForm",
       textualModType,
       timeBoundaries,
       destinationHref,
@@ -397,7 +388,6 @@ describe("RisModForm", () => {
     const onGeneratePreview = vi.fn()
 
     const props = {
-      id: "risModForm",
       textualModType,
       timeBoundaries,
       destinationHref,
@@ -424,7 +414,6 @@ describe("RisModForm", () => {
 
     render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         destinationHref,
@@ -449,7 +438,6 @@ describe("RisModForm", () => {
 
     const { rerender } = render(RisModForm, {
       props: {
-        id: "risModForm",
         textualModType,
         timeBoundaries,
         destinationHref,

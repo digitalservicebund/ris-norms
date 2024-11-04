@@ -18,8 +18,6 @@ import IconCheck from "~icons/ic/baseline-check"
 import { useElementId } from "@/composables/useElementId"
 
 const props = defineProps<{
-  /** Unique ID for the dro. */
-  id: string
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
@@ -352,7 +350,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 
 <template>
   <form
-    :id="id"
+    data-testid="mod-form"
     class="grid h-full max-h-full grid-cols-1 grid-rows-[min-content,min-content,1fr,min-content] gap-y-12 overflow-auto"
   >
     <div class="grid grid-cols-2 gap-x-16">

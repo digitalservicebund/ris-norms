@@ -1,5 +1,5 @@
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { beforeEach, describe, expect, test, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
 describe("useArticle", () => {
@@ -7,7 +7,7 @@ describe("useArticle", () => {
     vi.resetModules()
   })
 
-  test("should provide the article", async () => {
+  it("should provide the article", async () => {
     const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(
         JSON.stringify({
@@ -35,7 +35,7 @@ describe("useArticle", () => {
     )
   })
 
-  test("should load the article when the identifier changes", async () => {
+  it("should load the article when the identifier changes", async () => {
     const fetchSpy = vi.spyOn(global, "fetch")
 
     const { useArticle } = await import("./useArticle")

@@ -1,9 +1,9 @@
 import { render, screen, within } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { describe, expect, it } from "vitest"
 import RisAlert from "@/components/controls/RisAlert.vue"
 
-describe("RisAlert", () => {
-  test("renders slot content", () => {
+describe("risAlert", () => {
+  it("renders slot content", () => {
     render(RisAlert, {
       props: {
         variant: "success",
@@ -17,8 +17,8 @@ describe("RisAlert", () => {
     expect(within(alert).getByText("This was a success")).toBeInTheDocument()
   })
 
-  test("emits close event", () => {
-    const renderResult = render(RisAlert, {
+  it("emits close event", () => {
+    const { emitted } = render(RisAlert, {
       props: {
         variant: "error",
       },
@@ -30,6 +30,6 @@ describe("RisAlert", () => {
     const alert = screen.getByRole("alert")
     within(alert).getByRole("button", { name: "Schließen" }).click()
 
-    expect(renderResult.emitted().close.length).toBe(1)
+    expect(emitted().close.length).toBe(1)
   })
 })

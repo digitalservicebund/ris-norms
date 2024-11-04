@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("TemporalDataService", () => {
+describe("temporalDataService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()

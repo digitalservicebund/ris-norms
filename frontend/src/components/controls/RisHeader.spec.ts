@@ -1,11 +1,11 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen, within } from "@testing-library/vue"
-import { afterAll, beforeAll, describe, expect, test, vi } from "vitest"
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest"
 import { defineComponent, nextTick, onUnmounted, ref } from "vue"
 import { Router, createRouter, createWebHashHistory } from "vue-router"
 import RisHeader, { useHeaderContext } from "./RisHeader.vue"
 
-describe("RisHeader", () => {
+describe("risHeader", () => {
   let global = {}
   let router: Router
 
@@ -31,7 +31,7 @@ describe("RisHeader", () => {
     vi.resetAllMocks()
   })
 
-  test("renders", () => {
+  it("renders", () => {
     // Given
     render(RisHeader, { global, props: { breadcrumbs: [] } })
 
@@ -40,7 +40,7 @@ describe("RisHeader", () => {
   })
 
   describe("back button", () => {
-    test("renders the history back button", () => {
+    it("renders the history back button", () => {
       // Given
       render(RisHeader, {
         global,
@@ -51,7 +51,7 @@ describe("RisHeader", () => {
       expect(screen.getByRole("button", { name: "Zurück" })).toBeInTheDocument()
     })
 
-    test("goes back on clicking the history back button", async () => {
+    it("goes back on clicking the history back button", async () => {
       // Given
       render(RisHeader, {
         global,
@@ -67,7 +67,7 @@ describe("RisHeader", () => {
       expect(routerBack).toHaveBeenCalled()
     })
 
-    test("renders a link when a custom back destination is provided", () => {
+    it("renders a link when a custom back destination is provided", () => {
       // Given
       render(RisHeader, {
         global,
@@ -80,7 +80,7 @@ describe("RisHeader", () => {
       expect(link).toHaveAttribute("href", "#/")
     })
 
-    test("renders the link to a previous breadcrumb", async () => {
+    it("renders the link to a previous breadcrumb", async () => {
       // Given
       render(RisHeader, {
         global,
@@ -99,10 +99,9 @@ describe("RisHeader", () => {
       expect(link).toBeInTheDocument()
       expect(link).toHaveAttribute("href", "#/foo")
     })
-  })
 
   describe("breadcrumbs", () => {
-    test("renders breadcrumbs", () => {
+    it("renders breadcrumbs", () => {
       // Given
       render(RisHeader, {
         global,
@@ -120,7 +119,7 @@ describe("RisHeader", () => {
       expect(links[1]).toHaveTextContent("Bar")
     })
 
-    test("renders a text-only breadcrumb", () => {
+    it("renders a text-only breadcrumb", () => {
       // Given
       render(RisHeader, {
         global,
@@ -135,7 +134,7 @@ describe("RisHeader", () => {
       expect(within(navigation).queryByRole("link")).toBeFalsy()
     })
 
-    test("renders a link breadcrumb", () => {
+    it("renders a link breadcrumb", () => {
       // Given
       render(RisHeader, {
         global,
@@ -149,7 +148,7 @@ describe("RisHeader", () => {
       expect(link).toHaveTextContent("Foo")
     })
 
-    test("renders a breadcrumb with a dynamic title", async () => {
+    it("renders a breadcrumb with a dynamic title", async () => {
       // Given
       const title = ref("Foo")
       render(RisHeader, {
@@ -169,7 +168,7 @@ describe("RisHeader", () => {
       expect(link).toHaveTextContent("Bar")
     })
 
-    test("updates breadcrumbs when the prop value changes", async () => {
+    it("updates breadcrumbs when the prop value changes", async () => {
       // Given
       const { rerender } = render(RisHeader, {
         global,
@@ -195,7 +194,7 @@ describe("RisHeader", () => {
       expect(links[0]).toHaveTextContent("Baz")
     })
 
-    test("allows adding breadcrumbs from child components", async () => {
+    it("allows adding breadcrumbs from child components", async () => {
       // Given
       const dummyChild = defineComponent({
         setup() {
@@ -223,7 +222,7 @@ describe("RisHeader", () => {
       })
     })
 
-    test("cleans up breadcrumbs from children when they're unmounted", async () => {
+    it("cleans up breadcrumbs from children when they're unmounted", async () => {
       // Given
       const user = userEvent.setup()
 
@@ -268,7 +267,7 @@ describe("RisHeader", () => {
       })
     })
 
-    test("shows dynamic titles on breadcrumbs from children", async () => {
+    it("shows dynamic titles on breadcrumbs from children", async () => {
       // Given
       const user = userEvent.setup()
 
@@ -317,7 +316,7 @@ describe("RisHeader", () => {
       })
     })
 
-    test("renders parent and child breadcrumbs", async () => {
+    it("renders parent and child breadcrumbs", async () => {
       // Given
       const dummyChild = defineComponent({
         setup() {
@@ -347,7 +346,7 @@ describe("RisHeader", () => {
       })
     })
 
-    test("renders breadcrumbs from nested children", async () => {
+    it("renders breadcrumbs from nested children", async () => {
       // Given
       const dummyInnerChild = defineComponent({
         setup() {
@@ -387,7 +386,7 @@ describe("RisHeader", () => {
       })
     })
 
-    test("renders link as plain text if the link points to the current route", async () => {
+    it("renders link as plain text if the link points to the current route", async () => {
       // Given
       render(RisHeader, {
         global,
@@ -408,7 +407,7 @@ describe("RisHeader", () => {
   })
 
   describe("action slot", () => {
-    test("renders slot content in the actions section", () => {
+    it("renders slot content in the actions section", () => {
       // Given
       const component = defineComponent({
         components: { RisHeader },
@@ -428,7 +427,7 @@ describe("RisHeader", () => {
       ).toBeInTheDocument()
     })
 
-    test("renders teleported content in the actions section", () => {
+    it("renders teleported content in the actions section", async () => {
       // Given
       const child = defineComponent({
         setup() {
@@ -449,7 +448,7 @@ describe("RisHeader", () => {
       render(component, { global })
 
       // Then
-      vi.waitFor(() => {
+      await vi.waitFor(() => {
         const button = screen.getByRole("button", { name: "Click me" })
         expect(button).toBeInTheDocument()
       })

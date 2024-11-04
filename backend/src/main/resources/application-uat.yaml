@@ -17,4 +17,4 @@ otc:
     public:
       bucket-name: ris-norms-uat-public-ldml-data
     private:
-      bucket-name: ris-norms-uat-private-ldml-public-data
+      bucket-name: ris-norms-uat-private-ldml-data
