@@ -231,6 +231,7 @@ export function useHeaderContext() {
             >
               <a
                 :href="href"
+                v-bind="slotProps.action"
                 @click.prevent="debouncedBreadcrumbClick(item.to)"
               >
                 <IcBaselineArrowBack />
