@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -42,36 +43,38 @@ public class PublishService implements PublishNormUseCase {
 
   @Override
   public void processQueuedFilesForPublish() {
-    loadNormsByPublishStatePort
-      .loadNormsByPublishState(
-        new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
-      )
-      .forEach(norm -> {
-        prepareForPublish(norm);
-        boolean isPublicPublished = false;
-        boolean isPrivatePublished = false;
-        try {
-          // Try to publish publicly
-          publishPublicNormPort.publishPublicNorm(new PublishPublicNormPort.Command(norm));
-          isPublicPublished = true;
-          // Only if public publish succeeds, try private publish
-          publishPrivateNormPort.publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
-          isPrivatePublished = true;
-          // If both succeeds, then update publish state
-          norm.setPublishState(NormPublishState.PUBLISHED);
-          updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-          log.info("Published norm: {}", norm.getManifestationEli().toString());
-        } catch (final Exception e) {
-          log.error(e.getMessage(), e);
-          // Rollback logic based on what succeeded (also for the case that DB update failed)
-          if (isPublicPublished) {
-            rollbackPublicPublish(norm);
-          }
-          if (isPublicPublished && isPrivatePublished) {
-            rollbackPrivatePublish(norm);
-          }
+    final List<Norm> norms = loadNormsByPublishStatePort.loadNormsByPublishState(
+      new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+    );
+
+    log.info("Loaded {} norms for publishing", norms.size());
+    norms.forEach(norm -> {
+      prepareForPublish(norm);
+      boolean isPublicPublished = false;
+      boolean isPrivatePublished = false;
+      try {
+        // Try to publish publicly
+        publishPublicNormPort.publishPublicNorm(new PublishPublicNormPort.Command(norm));
+        isPublicPublished = true;
+        // Only if public publish succeeds, try private publish
+        publishPrivateNormPort.publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+        isPrivatePublished = true;
+        // If both succeeds, then update publish state
+        norm.setPublishState(NormPublishState.PUBLISHED);
+        updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+        log.info("Published norm: {}", norm.getManifestationEli().toString());
+      } catch (final Exception e) {
+        log.error("Norm {} could not be published", norm.getManifestationEli().toString());
+        log.error(e.getMessage(), e);
+        // Rollback logic based on what succeeded (also for the case that DB update failed)
+        if (isPublicPublished) {
+          rollbackPublicPublish(norm);
         }
-      });
+        if (isPublicPublished && isPrivatePublished) {
+          rollbackPrivatePublish(norm);
+        }
+      }
+    });
   }
 
   /**

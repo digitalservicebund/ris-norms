@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.scheduler;
 
 import de.bund.digitalservice.ris.norms.application.port.input.PublishNormUseCase;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  * making it suitable for components that handle specific infrastructure or operational tasks like scheduling.</p>
  */
 @Component
+@Slf4j
 public class Scheduler {
 
   private final PublishNormUseCase publishNormUseCase;
@@ -33,6 +35,7 @@ public class Scheduler {
   @Scheduled(cron = "${publish.cron}", zone = "Europe/Berlin")
   @Profile({ "staging", "uat", "production" })
   public void runPublishProcess() {
+    log.info("Job for publishing QUEUED_FOR_PUBLISH norms started.");
     publishNormUseCase.processQueuedFilesForPublish();
   }
 }
