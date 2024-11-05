@@ -286,7 +286,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // Then
         .andExpect(status().is5xxServerError())
-        .andExpect(jsonPath("type").value("/errors/internal-server-error"))
+        .andExpect(jsonPath("type").value("/errors/missing-required-parameter"))
         .andExpect(jsonPath("status").value(500))
         .andExpect(
           jsonPath("detail")
