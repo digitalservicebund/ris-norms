@@ -99,51 +99,7 @@ describe("risHeader", () => {
       expect(link).toBeInTheDocument()
       expect(link).toHaveAttribute("href", "#/foo")
     })
-
-    it("renders a separator between back button and breadcrumbs", () => {
-      // Given
-      render(RisHeader, {
-        global,
-        props: {
-          breadcrumbs: [{ title: "Bar", key: "0", to: { name: "Bar" } }],
-        },
-      })
-
-      // Then
-      expect(screen.getByTestId("back-button-separator")).toBeInTheDocument()
-    })
-
-    it("renders no separator if no back button exists", async () => {
-      // Given
-      render(RisHeader, {
-        global,
-        props: {
-          breadcrumbs: [{ title: "Foo", key: "0", to: { name: "Foo" } }],
-        },
-      })
-
-      // When
-      await router.push({ name: "Foo" })
-
-      // Then
-      expect(screen.queryByTestId("back-button-separator")).toBeFalsy()
-    })
-
-    it("renders no separator if no breadcrumbs exists", () => {
-      // Given
-      render(RisHeader, {
-        global,
-        props: {
-          backDestination: "history-back",
-          breadcrumbs: [],
-        },
-      })
-
-      // Then
-      expect(screen.queryByTestId("back-button-separator")).toBeFalsy()
-    })
   })
-
   describe("breadcrumbs", () => {
     it("renders breadcrumbs", () => {
       // Given
