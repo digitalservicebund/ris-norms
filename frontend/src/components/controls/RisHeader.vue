@@ -264,7 +264,7 @@ export function useHeaderContext() {
                 v-bind="slotProps.action"
                 @click.prevent="debouncedBreadcrumbClick(item.to)"
               >
-                <span class="ris-link1-bold line-clamp-1">{{
+                <span class="line-clamp-1 font-bold underline">{{
                   toValue(item.title)
                 }}</span>
               </a>
