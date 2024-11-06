@@ -4,16 +4,15 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.Announcement
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
@@ -45,20 +44,24 @@ public class DBService
     DeleteQueuedNormsPort,
     SaveReleaseToAnnouncementPort,
     DeleteQueuedReleasesPort,
-    LoadNormsByPublishStatePort {
+    LoadNormsByPublishStatePort,
+    LoadMigrationLogByDatePort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
   private final ReleaseRepository releaseRepository;
+  private final MigrationLogRepository migrationLogRepository;
 
   public DBService(
     AnnouncementRepository announcementRepository,
     NormRepository normRepository,
-    ReleaseRepository releaseRepository
+    ReleaseRepository releaseRepository,
+    MigrationLogRepository migrationLogRepository
   ) {
     this.announcementRepository = announcementRepository;
     this.normRepository = normRepository;
     this.releaseRepository = releaseRepository;
+    this.migrationLogRepository = migrationLogRepository;
   }
 
   @Override
@@ -255,5 +258,12 @@ public class DBService
       .stream()
       .map(NormMapper::mapToDomain)
       .toList();
+  }
+
+  @Override
+  public Optional<MigrationLog> loadMigrationLogByDate(LoadMigrationLogByDatePort.Command command) {
+    return migrationLogRepository
+      .findByCreatedAt(command.date())
+      .map(MigrationLogMapper::mapToDomain);
   }
 }

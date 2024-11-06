@@ -5,22 +5,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,11 +43,15 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private ReleaseRepository releaseRepository;
 
+  @Autowired
+  private MigrationLogRepository migrationLogRepository;
+
   @AfterEach
   void cleanUp() {
     announcementRepository.deleteAll();
     releaseRepository.deleteAll();
     normRepository.deleteAll();
+    migrationLogRepository.deleteAll();
   }
 
   @Test
@@ -402,6 +406,33 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       var savedNorm = normRepository.findByEliManifestation(norm.getManifestationEli().toString());
       assertThat(savedNorm).isPresent();
+    }
+  }
+
+  @Nested
+  class loadsMigrationLog {
+
+    @Test
+    void itLoadsMigrationLogByDate() {
+      // Given
+      var date1 = LocalDate.parse("2024-11-06");
+      var migrationLog1 = new MigrationLog(5, date1.atStartOfDay().toInstant(ZoneOffset.UTC));
+
+      var date2 = LocalDate.parse("2024-11-05");
+      var migrationLog2 = new MigrationLog(12, date2.atStartOfDay().toInstant(ZoneOffset.UTC));
+
+      migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog1));
+      migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog2));
+
+      // When
+      final Optional<MigrationLog> migrationLogOptional = dbService.loadMigrationLogByDate(
+        new LoadMigrationLogByDatePort.Command(date1)
+      );
+
+      // Then
+      assertThat(migrationLogOptional)
+        .isPresent()
+        .satisfies(log -> assertThat(log).contains(migrationLog1));
     }
   }
 }

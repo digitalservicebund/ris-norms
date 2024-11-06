@@ -24,4 +24,18 @@ public class MigrationLogMapper {
       .createdAt(migrationLogDto.getCreatedAt())
       .build();
   }
+
+  /**
+   * Maps a {@link MigrationLog} to the domain {@link MigrationLogDto}.
+   *
+   * @param migrationLog The input {@link MigrationLog} to be mapped.
+   * @return A new {@link MigrationLogDto} mapped from the input {@link MigrationLog}.
+   */
+  public static MigrationLogDto mapToDto(final MigrationLog migrationLog) {
+    return MigrationLogDto
+      .builder()
+      .createdAt(migrationLog.getCreatedAt())
+      .size(migrationLog.getSize())
+      .build();
+  }
 }
