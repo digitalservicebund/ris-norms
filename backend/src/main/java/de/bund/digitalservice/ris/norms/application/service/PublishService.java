@@ -5,6 +5,9 @@ import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,9 @@ public class PublishService implements PublishNormUseCase {
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final DeletePublicNormPort deletePublicNormPort;
   private final DeletePrivateNormPort deletePrivateNormPort;
+  private final LoadMigrationLogByDatePort loadMigrationLogByDatePort;
+  private final DeleteAllPublicNormsPort deleteAllPublicNormsPort;
+  private final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort;
 
   public PublishService(
     LoadNormsByPublishStatePort loadNormsByPublishStatePort,
@@ -31,7 +37,10 @@ public class PublishService implements PublishNormUseCase {
     PublishPrivateNormPort publishPrivateNormPort,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     DeletePublicNormPort deletePublicNormPort,
-    DeletePrivateNormPort deletePrivateNormPort
+    DeletePrivateNormPort deletePrivateNormPort,
+    LoadMigrationLogByDatePort loadMigrationLogByDatePort,
+    DeleteAllPublicNormsPort deleteAllPublicNormsPort,
+    DeleteAllPrivateNormsPort deleteAllPrivateNormsPort
   ) {
     this.loadNormsByPublishStatePort = loadNormsByPublishStatePort;
     this.publishPublicNormPort = publishPublicNormPort;
@@ -39,6 +48,9 @@ public class PublishService implements PublishNormUseCase {
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.deletePublicNormPort = deletePublicNormPort;
     this.deletePrivateNormPort = deletePrivateNormPort;
+    this.loadMigrationLogByDatePort = loadMigrationLogByDatePort;
+    this.deleteAllPublicNormsPort = deleteAllPublicNormsPort;
+    this.deleteAllPrivateNormsPort = deleteAllPrivateNormsPort;
   }
 
   @Override
@@ -48,6 +60,22 @@ public class PublishService implements PublishNormUseCase {
     );
 
     log.info("Loaded {} norms for publishing", norms.size());
+
+    loadMigrationLogByDatePort
+      .loadMigrationLogByDate(new LoadMigrationLogByDatePort.Command(LocalDate.now()))
+      .ifPresent(migrationLog -> {
+        log.info(
+          "Migration log found with timestamp {}. Deleting all norms in both buckets",
+          migrationLog
+            .getCreatedAt()
+            .atOffset(ZoneOffset.UTC)
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        );
+        deleteAllPublicNormsPort.deleteAllPublicNorms();
+        deleteAllPrivateNormsPort.deleteAllPrivateNorms();
+        log.info("Deleted all norms in both buckets");
+      });
+
     norms.forEach(norm -> {
       prepareForPublish(norm);
       boolean isPublicPublished = false;

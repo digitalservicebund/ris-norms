@@ -5,11 +5,14 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.domain.entity.MigrationLog;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -29,13 +32,24 @@ class PublishServiceTest {
 
   final DeletePrivateNormPort deletePrivateNormPort = mock(DeletePrivateNormPort.class);
 
+  final DeleteAllPublicNormsPort deleteAllPublicNormsPort = mock(DeleteAllPublicNormsPort.class);
+
+  final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort = mock(DeleteAllPrivateNormsPort.class);
+
+  final LoadMigrationLogByDatePort loadMigrationLogByDatePort = mock(
+    LoadMigrationLogByDatePort.class
+  );
+
   final PublishService publishService = new PublishService(
     loadNormsByPublishStatePort,
     publishPublicNormPort,
     publishPrivateNormPort,
     updateOrSaveNormPort,
     deletePublicNormPort,
-    deletePrivateNormPort
+    deletePrivateNormPort,
+    loadMigrationLogByDatePort,
+    deleteAllPublicNormsPort,
+    deleteAllPrivateNormsPort
   );
 
   @Nested
@@ -112,6 +126,70 @@ class PublishServiceTest {
       verify(deletePrivateNormPort, never())
         .deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Command.class));
+    }
+
+    @Test
+    void deleteAllNormsIfMigrationLogExists() {
+      // Given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final MigrationLog migrationLog = MigrationLog
+        .builder()
+        .size(5)
+        .createdAt(Instant.now())
+        .build();
+
+      when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
+      when(loadMigrationLogByDatePort.loadMigrationLogByDate(any()))
+        .thenReturn(Optional.of(migrationLog)); // Migration log found
+
+      // When
+      publishService.processQueuedFilesForPublish();
+
+      // Then
+      verify(loadNormsByPublishStatePort, times(1))
+        .loadNormsByPublishState(
+          new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+        );
+
+      // Check that deletion was called
+      verify(deleteAllPublicNormsPort, times(1)).deleteAllPublicNorms();
+      verify(deleteAllPrivateNormsPort, times(1)).deleteAllPrivateNorms();
+
+      // Verify norm publishing actions
+      verify(publishPublicNormPort, times(1))
+        .publishPublicNorm(new PublishPublicNormPort.Command(norm));
+      verify(publishPrivateNormPort, times(1))
+        .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+    }
+
+    @Test
+    void doNotDeleteNormsIfNoMigrationLogExists() {
+      // Given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
+      when(loadMigrationLogByDatePort.loadMigrationLogByDate(any())).thenReturn(Optional.empty()); // No migration log found
+
+      // When
+      publishService.processQueuedFilesForPublish();
+
+      // Then
+      verify(loadNormsByPublishStatePort, times(1))
+        .loadNormsByPublishState(
+          new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+        );
+
+      // Verify that deletion was NOT called
+      verify(deleteAllPublicNormsPort, never()).deleteAllPublicNorms();
+      verify(deleteAllPrivateNormsPort, never()).deleteAllPrivateNorms();
+
+      // Verify norm publishing actions
+      verify(publishPublicNormPort, times(1))
+        .publishPublicNorm(new PublishPublicNormPort.Command(norm));
+      verify(publishPrivateNormPort, times(1))
+        .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
     }
   }
 
