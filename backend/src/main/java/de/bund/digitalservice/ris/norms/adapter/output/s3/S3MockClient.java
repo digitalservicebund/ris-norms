@@ -57,15 +57,26 @@ public class S3MockClient implements S3Client {
 
   @Override
   public ListObjectsV2Response listObjectsV2(ListObjectsV2Request listObjectsV2Request) {
-    final Path filePath = listObjectsV2Request.bucket() != null
+    final Path basePath = listObjectsV2Request.bucket() != null
       ? localStorageDirectory.resolve(listObjectsV2Request.bucket())
       : localStorageDirectory;
-    try (Stream<Path> files = Files.list(filePath)) {
+
+    try (Stream<Path> files = Files.walk(basePath)) {
       final List<S3Object> s3Objects = files
-        .map(Path::getFileName)
-        .map(Path::toString)
-        .map(name -> S3Object.builder().key(name).build())
+        .filter(Files::isRegularFile)
+        .map(path -> {
+          String key;
+          // If the file is under the 'eli' folder, return full path starting with 'eli'
+          if (path.toString().contains("/eli/")) {
+            key = basePath.relativize(path).toString();
+          } else {
+            // If the file is not under 'eli', return only the file name
+            key = path.getFileName().toString();
+          }
+          return S3Object.builder().key(key).build();
+        })
         .toList();
+
       return ListObjectsV2Response.builder().contents(s3Objects).build();
     } catch (IOException e) {
       log.error("Failed to list objects", e);
@@ -162,15 +173,32 @@ public class S3MockClient implements S3Client {
           : localStorageDirectory.resolve(objIdentifier.key());
 
         try {
+          // Delete the specified file
           Files.deleteIfExists(filePath);
           log.info("File deleted: {}", filePath);
+
+          // Traverse up from the file, deleting empty parent directories
+          final Path stopAtDirectory = deleteObjectsRequest.bucket() != null
+            ? localStorageDirectory.resolve(deleteObjectsRequest.bucket())
+            : localStorageDirectory;
+          Path parent = filePath.getParent();
+          while (parent != null && !parent.equals(stopAtDirectory)) {
+            if (FileUtils.isEmptyDirectory(parent.toFile())) {
+              Files.delete(parent);
+              log.info("Deleted empty directory: {}", parent);
+              parent = parent.getParent();
+            } else {
+              break; // Directory is not empty, so stop the loop
+            }
+          }
+
           return DeletedObject.builder().key(objIdentifier.key()).build();
         } catch (IOException e) {
           log.error("Failed to delete file: {}", filePath, e);
-          return null;
+          return null; // Return null on error, will be filtered out in the next step
         }
       })
-      .filter(Objects::nonNull)
+      .filter(Objects::nonNull) // Filter out null entries (failed deletions)
       .toList();
 
     // Return a DeleteObjectsResponse including the successfully deleted objects
