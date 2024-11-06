@@ -23,14 +23,14 @@ public class BucketException extends StorageException {
   public BucketException(
     final Operation operation,
     final String bucketName,
-    final String key,
+    final String message,
     final Exception e
   ) {
     super(
-      "%s operation unsuccessful for bucket %s and key %s".formatted(
+      "%s operation unsuccessful for bucket %s. %s".formatted(
           operation.name(),
           bucketName,
-          key
+          message
         ),
       e
     );

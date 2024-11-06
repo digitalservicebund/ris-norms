@@ -98,6 +98,54 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   }
 
   @Test
+  void itDeletesAllNormsFromPublicBucket() {
+    // Given
+    final Norm norm1 = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm2 = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+    final PublishPublicNormPort.Command commandPublish1 = new PublishPublicNormPort.Command(norm1);
+    final PublishPublicNormPort.Command commandPublish2 = new PublishPublicNormPort.Command(norm2);
+    bucketService.publishPublicNorm(commandPublish1);
+    bucketService.publishPublicNorm(commandPublish2);
+
+    // When
+    bucketService.deleteAllPublicNorms();
+
+    // Then
+    final Path filePath1 = getPublicPath(norm1);
+    final Path filePath2 = getPublicPath(norm2);
+    assertThat(Files.exists(filePath1)).isFalse();
+    assertThat(Files.exists(filePath2)).isFalse();
+    assertChangelogContains(false, PUBLIC_BUCKET, DELETED, norm1);
+    assertChangelogContains(false, PUBLIC_BUCKET, DELETED, norm2);
+  }
+
+  @Test
+  void itDeletesAllNormsFromPrivateBucket() {
+    // Given
+    final Norm norm1 = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm2 = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+    final PublishPrivateNormPort.Command commandPublish1 = new PublishPrivateNormPort.Command(
+      norm1
+    );
+    final PublishPrivateNormPort.Command commandPublish2 = new PublishPrivateNormPort.Command(
+      norm2
+    );
+    bucketService.publishPrivateNorm(commandPublish1);
+    bucketService.publishPrivateNorm(commandPublish2);
+
+    // When
+    bucketService.deleteAllPrivateNorms();
+
+    // Then
+    final Path filePath1 = getPrivatePath(norm1);
+    final Path filePath2 = getPrivatePath(norm2);
+    assertThat(Files.exists(filePath1)).isFalse();
+    assertThat(Files.exists(filePath2)).isFalse();
+    assertChangelogContains(false, PRIVATE_BUCKET, DELETED, norm1);
+    assertChangelogContains(false, PRIVATE_BUCKET, DELETED, norm2);
+  }
+
+  @Test
   void itAddsToExistingChangelog() {
     // Given
     final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");

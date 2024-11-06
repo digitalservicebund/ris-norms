@@ -6,12 +6,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.regex.Pattern;
 import lombok.Getter;
 
 /**
  * Class for holding a changelog data.
  */
 public class Changelog {
+
+  public static final String FILE_NAME_PREFFIX = "changelog-";
+  public static final String FILE_NAME_SUFFIX = ".json";
+  public static final Pattern FILE_NAME_PATTERN = Pattern.compile(
+    FILE_NAME_PREFFIX + "\\d{4}-\\d{2}-\\d{2}" + FILE_NAME_SUFFIX
+  );
 
   public static final String CHANGED = "changed";
   public static final String DELETED = "deleted";
@@ -23,7 +30,7 @@ public class Changelog {
   private final String fileName;
 
   public Changelog() {
-    this.fileName = "changelog-%s.json".formatted(LocalDate.now().toString());
+    this.fileName = FILE_NAME_PREFFIX + LocalDate.now() + FILE_NAME_SUFFIX;
   }
 
   /**
