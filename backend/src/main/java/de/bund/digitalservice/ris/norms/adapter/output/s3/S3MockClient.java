@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -145,5 +146,34 @@ public class S3MockClient implements S3Client {
     }
 
     return DeleteObjectResponse.builder().build();
+  }
+
+  @Override
+  public DeleteObjectsResponse deleteObjects(DeleteObjectsRequest deleteObjectsRequest) {
+    final List<DeletedObject> deletedObjects = deleteObjectsRequest
+      .delete()
+      .objects()
+      .stream()
+      .map(objIdentifier -> {
+        Path filePath = deleteObjectsRequest.bucket() != null
+          ? localStorageDirectory
+            .resolve(deleteObjectsRequest.bucket())
+            .resolve(objIdentifier.key())
+          : localStorageDirectory.resolve(objIdentifier.key());
+
+        try {
+          Files.deleteIfExists(filePath);
+          log.info("File deleted: {}", filePath);
+          return DeletedObject.builder().key(objIdentifier.key()).build();
+        } catch (IOException e) {
+          log.error("Failed to delete file: {}", filePath, e);
+          return null;
+        }
+      })
+      .filter(Objects::nonNull)
+      .toList();
+
+    // Return a DeleteObjectsResponse including the successfully deleted objects
+    return DeleteObjectsResponse.builder().deleted(deletedObjects).build();
   }
 }

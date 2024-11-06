@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.*;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
@@ -127,5 +129,69 @@ class S3MockClientTest {
 
     // Then
     assertThat(Files.exists(tempDirectory.resolve(key))).isFalse();
+  }
+
+  @Test
+  void testDeleteObjects() {
+    // Given
+
+    // Mock some object keys (some matching the changelog pattern and some not)
+    final String changelogKey = "changelog-2024.json";
+    final String normalKey1 = "norm1.txt";
+    final String normalKey2 = "norm2.txt";
+
+    // Upload mock objects to the bucket
+    s3MockClient.putObject(
+      PutObjectRequest.builder().key(changelogKey).build(),
+      RequestBody.fromString("Changelog content")
+    );
+    s3MockClient.putObject(
+      PutObjectRequest.builder().key(normalKey1).build(),
+      RequestBody.fromString("Norm 1 content")
+    );
+    s3MockClient.putObject(
+      PutObjectRequest.builder().key(normalKey2).build(),
+      RequestBody.fromString("Norm 2 content")
+    );
+
+    // When
+    // Prepare delete request for the normal files (excluding changelog)
+    final List<ObjectIdentifier> objectsToDelete = Arrays.asList(
+      ObjectIdentifier.builder().key(normalKey1).build(),
+      ObjectIdentifier.builder().key(normalKey2).build()
+    );
+
+    final DeleteObjectsRequest deleteRequest = DeleteObjectsRequest
+      .builder()
+      .delete(d -> d.objects(objectsToDelete))
+      .build();
+
+    // Call the deleteObjects method
+    final DeleteObjectsResponse deleteResponse = s3MockClient.deleteObjects(deleteRequest);
+
+    // Then
+    // Check that the deleted objects response contains the expected deleted objects
+    assertThat(deleteResponse.deleted()).hasSize(2);
+    assertThat(
+      deleteResponse
+        .deleted()
+        .stream()
+        .anyMatch(deletedObject -> deletedObject.key().equals(normalKey1))
+    )
+      .isTrue();
+    assertThat(
+      deleteResponse
+        .deleted()
+        .stream()
+        .anyMatch(deletedObject -> deletedObject.key().equals(normalKey2))
+    )
+      .isTrue();
+
+    // Check that the deleted files are actually removed from the local storage (mocked S3)
+    assertThat(Files.exists(tempDirectory.resolve(normalKey1))).isFalse();
+    assertThat(Files.exists(tempDirectory.resolve(normalKey2))).isFalse();
+
+    // Check that changelog file still exists in the mock storage
+    assertThat(Files.exists(tempDirectory.resolve(changelogKey))).isTrue();
   }
 }
