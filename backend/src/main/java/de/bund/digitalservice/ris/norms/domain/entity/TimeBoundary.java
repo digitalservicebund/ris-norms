@@ -23,7 +23,7 @@ public class TimeBoundary {
    * @return The eId of the eventRef
    */
   public Optional<String> getEventRefEid() {
-    return EId.fromNode(eventRef.getNode()).map(EId::value);
+    return Optional.of(EId.fromMandatoryNode(eventRef.getNode()).value());
   }
 
   /**
@@ -32,7 +32,7 @@ public class TimeBoundary {
    * @return The eId of the timeInterval
    */
   public Optional<String> getTimeIntervalEid() {
-    return EId.fromNode(timeInterval.getNode()).map(EId::value);
+    return Optional.of(EId.fromMandatoryNode(timeInterval.getNode()).value());
   }
 
   /**
@@ -41,7 +41,7 @@ public class TimeBoundary {
    * @return The eId of the temporal group
    */
   public Optional<String> getTemporalGroupEid() {
-    return EId.fromNode(temporalGroup.getNode()).map(EId::value);
+    return Optional.of(EId.fromMandatoryNode(temporalGroup.getNode()).value());
   }
 
   /**

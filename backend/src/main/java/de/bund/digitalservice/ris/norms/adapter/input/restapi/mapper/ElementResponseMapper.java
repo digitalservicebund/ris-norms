@@ -56,7 +56,7 @@ public class ElementResponseMapper {
     return ElementResponseSchema
       .builder()
       .title(getNodeTitle(node))
-      .eid(EId.fromNode(node).map(EId::value).orElseThrow())
+      .eid(EId.fromMandatoryNode(node).value())
       .type(getNodeType(node))
       .build();
   }

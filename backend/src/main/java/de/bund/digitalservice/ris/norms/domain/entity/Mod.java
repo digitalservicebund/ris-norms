@@ -36,7 +36,7 @@ public class Mod {
    * @return The eId of the mod
    */
   public Optional<String> getEid() {
-    return EId.fromNode(getNode()).map(EId::value);
+    return Optional.of(EId.fromMandatoryNode(getNode()).value());
   }
 
   /**

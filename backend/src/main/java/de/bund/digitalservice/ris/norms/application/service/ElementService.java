@@ -166,7 +166,7 @@ public class ElementService
         // no amending law -> all elements are fine
         if (query.amendedBy() == null) return true;
 
-        var eId = EId.fromNode(element).map(EId::value).orElseThrow();
+        var eId = EId.fromMandatoryNode(element).value();
         return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
       })
       .toList();
