@@ -32,7 +32,7 @@ public class Scheduler {
    * <p>Using the {@code @Profile} annotation, this method will only run in staging, UAT, and production environments.
    * The cron schedule is controlled by the property {@code publish.cron}.</p>
    */
-  @Scheduled(cron = "${publish.cron}", zone = "Europe/Berlin")
+  @Scheduled(cron = "${publish.cron}")
   @Profile({ "staging", "uat", "production" })
   public void runPublishProcess() {
     log.info("Job for publishing QUEUED_FOR_PUBLISH norms started.");

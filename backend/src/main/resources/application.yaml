@@ -57,4 +57,4 @@ otc:
     endpoint: https://obs.eu-de.otc.t-systems.com
 
 publish:
-  cron: "0 0 1 * * ?" # Runs at 1 AM every day
+  cron: "0 0 2 * * ?" # # Runs at 2:00 AM UTC (3:00 AM Berlin time in CET)
