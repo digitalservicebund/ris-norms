@@ -10,12 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * Global exception handler for handling spring exceptions related to the input request schema and
@@ -31,7 +33,7 @@ public class FrameWorkExceptionHandler {
    * Exception handler method for letting Spring handle {@link HttpMessageNotReadableException}.
    *
    * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 400 status and the exception message.
+   * @return A {@link ProblemDetail} with the information about the error.
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -52,7 +54,7 @@ public class FrameWorkExceptionHandler {
    * validation on the request schemas of controllers.
    *
    * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 400 status and the exception message.
+   * @return A {@link ProblemDetail} with the information about the error.
    */
   @ExceptionHandler(HandlerMethodValidationException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -83,7 +85,7 @@ public class FrameWorkExceptionHandler {
    * java.util.Optional}.orElseThrow.
    *
    * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 422 status and the exception message.
+   * @return A {@link ProblemDetail} with the information about the error.
    */
   @ExceptionHandler(NoSuchElementException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -102,7 +104,7 @@ public class FrameWorkExceptionHandler {
    * when the passed parameters could not be transformed to the expected types.
    *
    * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 400 status and the exception message.
+   * @return A {@link ProblemDetail} with the information about the error.
    */
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -119,10 +121,52 @@ public class FrameWorkExceptionHandler {
   }
 
   /**
+   * Exception handler method for {@link NoResourceFoundException} produced by spring when trying to access an
+   * endpoint that doesn't exist.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ProblemDetail} with the information about the error.
+   */
+  @ExceptionHandler(NoResourceFoundException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ProblemDetail handleNoResourceFoundException(final NoResourceFoundException e) {
+    log.error("No static resource found: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+      HttpStatus.INTERNAL_SERVER_ERROR,
+      e.getMessage()
+    );
+    problemDetail.setTitle("No static resource found");
+    problemDetail.setType(URI.create("/errors/no-static-resource"));
+    return problemDetail;
+  }
+
+  /**
+   * Exception handler method for {@link MissingServletRequestParameterException} produced by spring when calling
+   * an endpoint with a required parameter missing.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ProblemDetail} with the information about the error.
+   */
+  @ExceptionHandler(MissingServletRequestParameterException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ProblemDetail handleMissingServletRequestParameterException(
+    final MissingServletRequestParameterException e
+  ) {
+    log.error("Required parameter is not present: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+      HttpStatus.INTERNAL_SERVER_ERROR,
+      e.getMessage()
+    );
+    problemDetail.setTitle("Required parameter is not present");
+    problemDetail.setType(URI.create("/errors/missing-required-parameter"));
+    return problemDetail;
+  }
+
+  /**
    * Exception handler method for handling general exceptions.
    *
    * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 500 status and the exception message.
+   * @return A {@link ProblemDetail} with the information about the error.
    */
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -130,7 +174,9 @@ public class FrameWorkExceptionHandler {
     log.error("Internal server error: {}", e.getMessage(), e);
     final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
       HttpStatus.INTERNAL_SERVER_ERROR,
-      e.getMessage()
+      // The error message is intentionally vague because we don't want to accidentally leak internal
+      // information (such as DB constraints, stack traces, etc.)
+      "An unexpected error has occurred"
     );
     problemDetail.setType(URI.create("/errors/internal-server-error"));
     return problemDetail;

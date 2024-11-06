@@ -83,8 +83,8 @@ public class NormManifestationControllerIntegrationTest extends BaseIntegrationT
       mockMvc
         .perform(get("/api/v1/norms/{eli}", eli))
         .andExpect(status().isInternalServerError())
-        .andExpect(jsonPath("type").value("/errors/internal-server-error"))
-        .andExpect(jsonPath("title").value("Internal Server Error"))
+        .andExpect(jsonPath("type").value("/errors/no-static-resource"))
+        .andExpect(jsonPath("title").value("No static resource found"))
         .andExpect(jsonPath("status").value(500))
         .andExpect(
           jsonPath("detail")

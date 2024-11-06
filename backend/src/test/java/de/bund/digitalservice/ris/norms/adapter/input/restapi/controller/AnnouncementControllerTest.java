@@ -341,5 +341,31 @@ class AnnouncementControllerTest {
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
         );
     }
+
+    @Test
+    void itShouldNotExposeInternalInformationOnUnexpectedErrors() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      final MockMultipartFile file = new MockMultipartFile(
+        "file",
+        "norm.txt",
+        "text/plain",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+
+      when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
+      when(loadNormUseCase.loadNorm(any()))
+        .thenThrow(new RuntimeException("Should not be visible in the output"));
+
+      // When // Then
+      mockMvc
+        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isInternalServerError())
+        .andExpect(jsonPath("type", equalTo("/errors/internal-server-error")))
+        .andExpect(jsonPath("title", equalTo("Internal Server Error")))
+        .andExpect(jsonPath("detail", equalTo("An unexpected error has occurred")));
+    }
   }
 }
