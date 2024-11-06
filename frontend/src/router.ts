@@ -23,41 +23,53 @@ const routes: readonly RouteRecordRaw[] = [
       {
         path: "",
         name: "AmendingLaws",
-        component: () => import("@/views/AmendingLaws.vue"),
+        component: () => import("@/views/amending-laws/AmendingLaws.view.vue"),
       },
       {
         path: "upload",
         name: "UploadAnnouncement",
-        component: () => import("@/views/UploadAnnouncement.vue"),
+        component: () =>
+          import("@/views/amending-law/upload/UploadAnnouncement.view.vue"),
       },
       {
         path: createEliPathParameter(),
-        component: () => import("@/views/AmendingLaw.vue"),
+        component: () => import("@/views/amending-law/AmendingLaw.view.vue"),
         children: [
           {
             path: "",
             name: "AmendingLaw",
-            component: () => import("@/views/AmendingLawOverview.vue"),
+            component: () =>
+              import(
+                "@/views/amending-law/overview/AmendingLawOverview.view.vue"
+              ),
           },
           {
             path: "temporal-data",
             name: "TemporalData",
-            component: () => import("@/views/TemporalData.vue"),
+            component: () =>
+              import(
+                "@/views/amending-law/temporal-data/TemporalData.view.vue"
+              ),
           },
           {
             path: "affected-documents",
             name: "AmendingLawAffectedDocuments",
-            component: () => import("@/views/AffectedDocuments.vue"),
+            component: () =>
+              import(
+                "@/views/amending-law/affected-documents/AffectedDocuments.view.vue"
+              ),
           },
           {
             path: "articles",
             name: "AmendingLawArticles",
-            component: () => import("@/views/Articles.vue"),
+            component: () =>
+              import("@/views/amending-law/articles/Articles.view.vue"),
           },
           {
             path: "publishing",
             name: "AmendingLawPublishing",
-            component: () => import("@/views/Publishing.vue"),
+            component: () =>
+              import("@/views/amending-law/publishing/Publishing.view.vue"),
           },
         ],
       },
@@ -66,53 +78,75 @@ const routes: readonly RouteRecordRaw[] = [
   {
     path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
     name: "AmendingLawArticleEditor",
-    component: () => import("@/views/AmendingLawArticleEditor.vue"),
+    component: () =>
+      import(
+        "@/views/amending-law/articles/editor/AmendingLawArticleEditor.view.vue"
+      ),
     children: [
       {
         path: ":modEid",
         name: "AmendingLawArticleEditorSingleMod",
         component: () =>
-          import("@/views/AmendingLawArticleEditorSingleMod.vue"),
+          import(
+            "@/views/amending-law/articles/editor/single-mods/AmendingLawArticleEditorSingleMod.view.vue"
+          ),
       },
       {
         path: "",
         name: "AmendingLawArticleEditorMultiMod",
-        component: () => import("@/views/AmendingLawArticleEditorMultiMod.vue"),
+        component: () =>
+          import(
+            "@/views/amending-law/articles/editor/multiple-mods/AmendingLawArticleEditorMultiMod.view.vue"
+          ),
       },
     ],
   },
   {
     path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/edit`,
     name: "AmendingLawMetadataEditor",
-    component: () => import("@/views/AmendingLawMetadataEditor.vue"),
+    component: () =>
+      import(
+        "@/views/amending-law/affected-documents/metadata-editor/AmendingLawMetadataEditor.view.vue"
+      ),
     children: [
       {
         path: ":timeBoundary?",
         name: "AmendingLawMetadataEditorRahmen",
-        component: () => import("@/views/AmendingLawMetadataEditorRahmen.vue"),
+        component: () =>
+          import(
+            "@/views/amending-law/affected-documents/metadata-editor/rahmen/AmendingLawMetadataEditorRahmen.view.vue"
+          ),
       },
       {
         path: ":timeBoundary/:eid",
         name: "AmendingLawMetadataEditorElement",
-        component: () => import("@/views/AmendingLawMetadataEditorElement.vue"),
+        component: () =>
+          import(
+            "@/views/amending-law/affected-documents/metadata-editor/element/AmendingLawMetadataEditorElement.view.vue"
+          ),
       },
       {
         path: ":timeBoundary/outline/:eid",
         name: "AmendingLawMetadataEditorOutlineElement",
         component: () =>
-          import("@/views/AmendingLawMetadataEditorOutlineElement.vue"),
+          import(
+            "@/views/amending-law/affected-documents/metadata-editor/outline-element/AmendingLawMetadataEditorOutlineElement.view.vue"
+          ),
       },
     ],
   },
   {
     path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/references/:modEid?/:refEid?`,
     name: "References",
-    component: () => import("@/views/References.vue"),
+    component: () =>
+      import(
+        "@/views/amending-law/affected-documents/references/References.view.vue"
+      ),
   },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("@/views/404NotFound.vue"),
+    component: () => import("@/views/404/404NotFound.view.vue"),
   },
 ]
 
