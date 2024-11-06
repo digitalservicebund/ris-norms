@@ -590,7 +590,7 @@ class NormTest {
     assertThat(actualArticles).hasSize(expectedNumberOfArticles);
     assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
-    assertThat(actualArticles.get(0).getEid()).contains(firstArticleEid);
+    assertThat(actualArticles.get(0).getEid()).isEqualTo(firstArticleEid);
     assertThat(actualArticles.get(0).getAffectedDocumentEli())
       .contains(
         ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
@@ -598,7 +598,7 @@ class NormTest {
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
     assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
-    assertThat(actualArticles.get(1).getEid()).contains(secondArticleEid);
+    assertThat(actualArticles.get(1).getEid()).isEqualTo(secondArticleEid);
     assertThat(actualArticles.get(1).getAffectedDocumentEli()).isNotPresent();
   }
 

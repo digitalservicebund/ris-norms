@@ -46,16 +46,7 @@ public class Article {
    *
    * @return The eId of the article
    */
-  public Optional<String> getEid() {
-    return Optional.of(EId.fromMandatoryNode(getNode()).value());
-  }
-
-  /**
-   * Returns the eId as {@link String} from a {@link Node} in a {@link Norm}.
-   *
-   * @return The eId of the article
-   */
-  public String getMandatoryEid() {
+  public String getEid() {
     return EId.fromMandatoryNode(getNode()).value();
   }
 
