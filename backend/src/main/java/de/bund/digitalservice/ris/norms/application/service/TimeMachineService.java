@@ -86,7 +86,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
           .orElseThrow(() ->
             new ValidationException(
               ValidationException.ErrorType.SOURCE_HREF_IN_META_MOD_MISSING,
-              Pair.of(ValidationException.FieldName.EID, passiveModification.getEid().orElse(""))
+              Pair.of(ValidationException.FieldName.EID, passiveModification.getEid())
             )
           );
 

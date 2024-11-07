@@ -39,7 +39,7 @@ class TextualModTest {
     var eid = textualMod.getEid();
 
     // then
-    assertThat(eid).contains("meta-1_analysis-1_activemod-1_textualmod-1");
+    assertThat(eid).isEqualTo("meta-1_analysis-1_activemod-1_textualmod-1");
   }
 
   @Test

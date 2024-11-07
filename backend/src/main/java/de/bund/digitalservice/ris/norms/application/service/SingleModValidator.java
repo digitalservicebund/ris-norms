@@ -69,7 +69,7 @@ public class SingleModValidator {
     Node targetNode
   ) throws ValidationException {
     final Href destinationHref = passivemod.getDestinationHref().orElseThrow();
-    final String passiveModEid = passivemod.getEid().orElseThrow();
+    final String passiveModEid = passivemod.getEid();
     final CharacterRange characterRange = destinationHref
       .getCharacterRange()
       .orElseThrow(() ->

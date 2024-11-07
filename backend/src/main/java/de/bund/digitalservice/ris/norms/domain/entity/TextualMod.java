@@ -22,8 +22,8 @@ public class TextualMod {
    *
    * @return The eId of the modification
    */
-  public Optional<String> getEid() {
-    return Optional.of(EId.fromMandatoryNode(getNode()).value());
+  public String getEid() {
+    return EId.fromMandatoryNode(getNode()).value();
   }
 
   /**
@@ -69,7 +69,7 @@ public class TextualMod {
         var newElement = getNode().getOwnerDocument().createElement("akn:destination");
         newElement.setAttribute(
           "eId",
-          new EId(this.getEid().orElseThrow()).addPart(new EIdPart("destination", "1")).value()
+          new EId(this.getEid()).addPart(new EIdPart("destination", "1")).value()
         );
         newElement.setAttribute("GUID", UUID.randomUUID().toString());
         getNode().appendChild(newElement);
@@ -123,7 +123,7 @@ public class TextualMod {
         var newElement = getNode().getOwnerDocument().createElement("akn:force");
         newElement.setAttribute(
           "eId",
-          new EId(this.getEid().orElseThrow()).addPart(new EIdPart("gelzeitnachw", "1")).value()
+          new EId(this.getEid()).addPart(new EIdPart("gelzeitnachw", "1")).value()
         );
         newElement.setAttribute("GUID", UUID.randomUUID().toString());
         getNode().appendChild(newElement);

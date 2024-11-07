@@ -41,7 +41,7 @@ public class UpdateNormService
           .equals(Optional.of(sourceNormEli))
       )
       .forEach(passiveModification -> {
-        norm.deleteByEId(passiveModification.getEid().orElseThrow());
+        norm.deleteByEId(passiveModification.getEid());
 
         final var temporalGroup = passiveModification
           .getForcePeriodEid()
