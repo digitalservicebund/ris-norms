@@ -335,7 +335,7 @@ class UpdateNormServiceTest {
       final Mod mod = updatedAmendingNorm
         .getMods()
         .stream()
-        .filter(f -> f.getEid().orElseThrow().equals(eId))
+        .filter(f -> f.getEid().equals(eId))
         .findFirst()
         .orElseThrow();
       assertThat(mod.getNewText()).contains(newContent);
@@ -513,7 +513,7 @@ class UpdateNormServiceTest {
       final Optional<Mod> modBeforeUpdate = amendingLaw
         .getMods()
         .stream()
-        .filter(m -> m.getMandatoryEid().equals(modEid))
+        .filter(m -> m.getEid().equals(modEid))
         .findFirst();
 
       // When
@@ -532,7 +532,7 @@ class UpdateNormServiceTest {
       final Optional<Mod> updatedMod = updatedAmendingNorm
         .getMods()
         .stream()
-        .filter(m -> m.getMandatoryEid().equals(modEid))
+        .filter(m -> m.getEid().equals(modEid))
         .findFirst();
       assertThat(updatedMod).isPresent();
       assertThat(updatedMod.get().getTargetRefHref()).isEmpty();
@@ -570,7 +570,7 @@ class UpdateNormServiceTest {
       final Optional<Mod> modBeforeUpdate = amendingLaw
         .getMods()
         .stream()
-        .filter(m -> m.getMandatoryEid().equals(modEid))
+        .filter(m -> m.getEid().equals(modEid))
         .findFirst();
 
       // When
@@ -589,7 +589,7 @@ class UpdateNormServiceTest {
       final Optional<Mod> updatedMod = updatedAmendingNorm
         .getMods()
         .stream()
-        .filter(m -> m.getMandatoryEid().equals(modEid))
+        .filter(m -> m.getEid().equals(modEid))
         .findFirst();
       assertThat(updatedMod).isPresent();
       assertThat(updatedMod.get().getTargetRrefFrom()).isEmpty();

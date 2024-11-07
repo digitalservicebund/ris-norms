@@ -1828,7 +1828,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .stream()
         .filter(mod ->
           mod
-            .getMandatoryEid()
+            .getEid()
             .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
@@ -1873,7 +1873,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .stream()
         .filter(mod ->
           mod
-            .getMandatoryEid()
+            .getEid()
             .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()

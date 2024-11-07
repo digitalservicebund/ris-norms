@@ -179,7 +179,7 @@ public class NormService
     final Mod selectedMod = amendingNorm
       .getMods()
       .stream()
-      .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
+      .filter(m -> m.getEid().equals(eId))
       .findFirst()
       .orElseThrow(() ->
         new ValidationException(

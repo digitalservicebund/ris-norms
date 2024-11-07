@@ -104,7 +104,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         return amendingLaw
           .getMods()
           .stream()
-          .filter(mod -> mod.getEid().equals(sourceEid))
+          .filter(mod -> mod.getEid().equals(sourceEid.get()))
           .map(mod -> new ModData(passiveModification, mod));
       })
       .forEach(modData -> applyMod(modData, norm));
@@ -139,7 +139,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         applyQuotedText(modData, targetNode.get());
       } catch (IllegalArgumentException | IndexOutOfBoundsException exception) {
         log.info(
-          "Could not apply quoted text mod (%s)".formatted(modData.mod().getMandatoryEid()),
+          "Could not apply quoted text mod (%s)".formatted(modData.mod().getEid()),
           exception
         );
       }

@@ -287,7 +287,7 @@ class ArticleTest {
 
     // then
     assertThat(mod).isNotEmpty();
-    assertThat(mod.get(0).getEid()).contains(expectedModEId);
+    assertThat(mod.get(0).getEid()).isEqualTo(expectedModEId);
   }
 
   @Test
@@ -400,6 +400,6 @@ class ArticleTest {
 
     // then
     assertThat(mods).isNotEmpty().hasSize(2);
-    assertThat(mods.get(0).getEid()).contains(expectedModEId);
+    assertThat(mods.get(0).getEid()).isEqualTo(expectedModEId);
   }
 }

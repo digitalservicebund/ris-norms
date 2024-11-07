@@ -162,7 +162,7 @@ public class UpdateNormService
     amendingNorm
       .getMods()
       .stream()
-      .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
+      .filter(mod -> mod.getEid().equals(query.eId()))
       .findFirst()
       .ifPresent(inTextMod -> {
         if (

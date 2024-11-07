@@ -23,7 +23,7 @@ public class SingleModValidator {
    * @throws ValidationException if a validation step fails
    */
   public void validate(final Norm zf0Norm, final Mod activeMod) throws ValidationException {
-    final String modEId = activeMod.getMandatoryEid();
+    final String modEId = activeMod.getEid();
     final ExpressionEli zf0NormEli = zf0Norm.getExpressionEli();
 
     final TextualMod affectedPassiveMod = zf0Norm
