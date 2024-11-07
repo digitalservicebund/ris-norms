@@ -179,7 +179,7 @@ public class NormService
     final Mod selectedMod = amendingNorm
       .getMods()
       .stream()
-      .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
+      .filter(m -> m.getEid().equals(eId))
       .findFirst()
       .orElseThrow(() ->
         new ValidationException(
@@ -209,10 +209,7 @@ public class NormService
     final Instant atDate = amendingNorm
       .getTimeBoundaries()
       .stream()
-      .filter(timeBoundary ->
-        timeBoundary.getTemporalGroupEid().isPresent() &&
-        timeBoundary.getTemporalGroupEid().get().equals(timeBoundaryEId)
-      )
+      .filter(timeBoundary -> timeBoundary.getTemporalGroupEid().equals(timeBoundaryEId))
       .findFirst()
       .map(filtered -> filtered.getEventRef().getDate())
       .flatMap(date -> date.map(d -> d.minusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant()))

@@ -50,7 +50,7 @@ public class ArticleService
     return norm
       .getArticles()
       .stream()
-      .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
+      .filter(article -> article.getEid().equals(query.eid()))
       .findFirst()
       .map(article -> XmlMapper.toString(article.getNode()))
       .map(xml ->
@@ -156,7 +156,7 @@ public class ArticleService
           // Modifications can be either on the article itself or anywhere
           // inside the article, hence the "contains" rather than exact
           // matching.
-          destinationEid.contains(article.getEid().orElseThrow())
+          destinationEid.contains(article.getEid())
         );
   }
 }

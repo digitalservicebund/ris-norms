@@ -204,9 +204,7 @@ public class Norm {
       .getTemporalData()
       .getTemporalGroups()
       .stream()
-      .filter(temporalGroup ->
-        temporalGroup.getEid().map(eid -> eid.equals(temporalGroupEid)).orElse(false)
-      )
+      .filter(temporalGroup -> temporalGroup.getEid().equals(temporalGroupEid))
       .findFirst()
       .flatMap(m -> m.getTimeInterval().getEventRefEId());
   }

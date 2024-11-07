@@ -344,7 +344,7 @@ class AnalysisTest {
     // then
     assertThat(analysis.getPassiveModifications()).hasSize(1);
     assertThat(analysis.getPassiveModifications().getFirst().getEid())
-      .contains("meta-1_analysis-1_activemod-2_textualmod-1");
+      .isEqualTo("meta-1_analysis-1_activemod-2_textualmod-1");
   }
 
   @Test

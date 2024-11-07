@@ -799,10 +799,8 @@ class NormServiceTest {
         .getMods()
         .stream()
         .filter(m ->
-          m.getEid().isPresent() &&
           m
             .getEid()
-            .get()
             .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
@@ -972,10 +970,8 @@ class NormServiceTest {
         .getMods()
         .stream()
         .filter(m ->
-          m.getEid().isPresent() &&
           m
             .getEid()
-            .get()
             .equals("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
         )
         .findFirst()
@@ -1211,7 +1207,7 @@ class NormServiceTest {
       amendingNorm
         .getMods()
         .stream()
-        .filter(mod -> mod.getMandatoryEid().equals(eid))
+        .filter(mod -> mod.getEid().equals(eid))
         .findFirst()
         .ifPresent(m -> m.setTargetRefHref(new Href("#fake-href")));
 

@@ -104,7 +104,7 @@ class ArticleControllerTest {
           norm
             .getArticles()
             .stream()
-            .filter(article -> article.getEid().get().equals("hauptteil-1_art-1"))
+            .filter(article -> article.getEid().equals("hauptteil-1_art-1"))
             .toList()
         );
 
@@ -144,7 +144,7 @@ class ArticleControllerTest {
           norm
             .getArticles()
             .stream()
-            .filter(article -> article.getEid().get().equals("hauptteil-1_art-1"))
+            .filter(article -> article.getEid().equals("hauptteil-1_art-1"))
             .toList()
         );
 

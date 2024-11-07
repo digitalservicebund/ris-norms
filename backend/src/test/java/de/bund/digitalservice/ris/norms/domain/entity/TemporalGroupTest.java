@@ -27,7 +27,7 @@ class TemporalGroupTest {
     var eid = temporalGroup.getEid();
 
     // then
-    assertThat(eid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
+    assertThat(eid).isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1");
   }
 
   @Test

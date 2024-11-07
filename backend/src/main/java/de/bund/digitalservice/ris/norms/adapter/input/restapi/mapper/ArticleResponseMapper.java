@@ -19,7 +19,7 @@ public class ArticleResponseMapper {
   public static ArticleResponseSchema fromNormArticle(final Article article) {
     return new ArticleResponseSchema(
       article.getEnumeration().orElse(null),
-      article.getEid().orElse(null),
+      article.getEid(),
       article.getHeading().orElse(null),
       article.getAffectedDocumentEli().map(ExpressionEli::toString).orElse(null)
     );

@@ -35,17 +35,8 @@ public class Mod {
    *
    * @return The eId of the mod
    */
-  public Optional<String> getEid() {
-    return EId.fromNode(getNode()).map(EId::value);
-  }
-
-  /**
-   * Returns the value of the eId as {@link String}.
-   *
-   * @return the eId of the mod
-   */
-  public String getMandatoryEid() {
-    return NodeParser.getValueFromMandatoryNodeFromExpression("./@eId", this.node);
+  public String getEid() {
+    return EId.fromMandatoryNode(getNode()).value();
   }
 
   /**
