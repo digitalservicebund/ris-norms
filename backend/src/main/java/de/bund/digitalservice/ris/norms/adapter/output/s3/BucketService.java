@@ -18,22 +18,12 @@ import software.amazon.awssdk.services.s3.model.*;
 
 /**
  * Service responsible for uploading, deleting, and managing {@link Norm} XML documents in designated private and public AWS S3 buckets.
- * This service provides methods to publish norms, delete norms, and manage the contents of the S3 buckets by implementing
- * the following interfaces:
- * <ul>
- *   <li>{@link PublishPublicNormPort} - to publish norms to a public S3 bucket.</li>
- *   <li>{@link PublishPrivateNormPort} - to publish norms to a private S3 bucket.</li>
- *   <li>{@link DeletePublicNormPort} - to delete norms from a public S3 bucket.</li>
- *   <li>{@link DeletePrivateNormPort} - to delete norms from a private S3 bucket.</li>
- *   <li>{@link DeleteAllPublicNormsPort} - to delete all norms from a public S3 bucket, except changelog entries.</li>
- *   <li>{@link DeleteAllPrivateNormsPort} - to delete all norms from a private S3 bucket, except changelog entries.</li>
- * </ul>
+ * This service provides methods to publish norms, delete norms, and manage the contents of the S3 buckets.
  * <p>
  * Each bucket is associated with a dedicated S3 client, configured through Spring and injected based on
  * specific application profiles for staging, UAT, and production environments. The service uses AWS SDK
  * to interact with the S3 service and to manage document storage, utilizing XML transformation utilities
  * for document conversion and changelog management.
- * </p>
  *
  * <p>Configuration:</p>
  * <ul>
@@ -50,14 +40,6 @@ import software.amazon.awssdk.services.s3.model.*;
  * This service is used by invoking the appropriate methods to publish or delete norm documents, or manage all norms in the buckets.
  * In case of a failure during any operation (upload, delete, etc.), a {@link BucketException} is thrown, encapsulating the bucket name
  * and norm details.
- *
- * @see PublishPublicNormPort
- * @see PublishPrivateNormPort
- * @see DeletePublicNormPort
- * @see DeletePrivateNormPort
- * @see DeleteAllPublicNormsPort
- * @see DeleteAllPrivateNormsPort
- * @see BucketException
  */
 @Service
 @Slf4j
