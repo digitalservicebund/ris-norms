@@ -22,8 +22,8 @@ public class TimeBoundary {
    *
    * @return The eId of the eventRef
    */
-  public Optional<String> getEventRefEid() {
-    return Optional.of(EId.fromMandatoryNode(eventRef.getNode()).value());
+  public String getEventRefEid() {
+    return EId.fromMandatoryNode(eventRef.getNode()).value();
   }
 
   /**

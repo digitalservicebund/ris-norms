@@ -96,8 +96,8 @@ class TimeBoundaryServiceTest {
       // handle 1st time boundary
       assertThat(timeBoundaries.getFirst().getEventRef().getDate())
         .contains(LocalDate.parse("2023-12-30"));
-      assertThat(timeBoundaries.getFirst().getEventRefEid().get())
-        .contains("meta-1_lebzykl-1_ereignis-2");
+      assertThat(timeBoundaries.getFirst().getEventRefEid())
+        .isEqualTo("meta-1_lebzykl-1_ereignis-2");
       assertThat(
         timeBoundaries
           .getFirst()
@@ -151,13 +151,12 @@ class TimeBoundaryServiceTest {
           .getNamedItem("start")
           .getNodeValue()
       )
-        .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
+        .contains("#" + timeBoundaries.get(0).getEventRefEid());
 
       // handle 2nd time boundary
       assertThat(timeBoundaries.get(1).getEventRef().getDate())
         .contains(LocalDate.parse("2024-01-01"));
-      assertThat(timeBoundaries.get(1).getEventRefEid().get())
-        .contains("meta-1_lebzykl-1_ereignis-3");
+      assertThat(timeBoundaries.get(1).getEventRefEid()).isEqualTo("meta-1_lebzykl-1_ereignis-3");
       assertThat(
         timeBoundaries
           .get(1)
@@ -211,7 +210,7 @@ class TimeBoundaryServiceTest {
           .getNamedItem("start")
           .getNodeValue()
       )
-        .contains("#" + timeBoundaries.get(1).getEventRefEid().get());
+        .contains("#" + timeBoundaries.get(1).getEventRefEid());
     }
 
     @Test
@@ -349,13 +348,14 @@ class TimeBoundaryServiceTest {
       assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
       assertThat(timeBoundaries.getFirst().getEventRefEid())
-        .contains("meta-1_lebzykl-1_ereignis-3");
+        .isEqualTo("meta-1_lebzykl-1_ereignis-3");
 
       assertThat(timeBoundaries.getLast().getTemporalGroupEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-3");
       assertThat(timeBoundaries.getLast().getTimeIntervalEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1");
-      assertThat(timeBoundaries.getLast().getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-4");
+      assertThat(timeBoundaries.getLast().getEventRefEid())
+        .isEqualTo("meta-1_lebzykl-1_ereignis-4");
     }
 
     @Test

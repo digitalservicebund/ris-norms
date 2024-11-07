@@ -62,7 +62,7 @@ class TimeBoundaryTest {
     TimeBoundary tb = new TimeBoundary(timeInterval, eventRef, temporalGroup);
 
     // then
-    assertThat(tb.getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(tb.getEventRefEid()).isEqualTo("meta-1_lebzykl-1_ereignis-2");
   }
 
   @Test
