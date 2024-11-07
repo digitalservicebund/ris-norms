@@ -99,10 +99,10 @@ jobs:
            current_hour=$(TZ=UTC date "+%H")
            if [ "$current_hour" -ge 2 ] && [ "$current_hour" -lt 6 ]; then
              echo "Should not deploy automatically. Current hour is $current_hour"
-             echo "should-auto-deploy=false" >> "$GITHUB_ENV"
+             echo "should-auto-deploy=false" >> "$GITHUB_OUTPUT"
            else
              echo "Should deploy automatically. Current hour is $current_hour"
-             echo "should-auto-deploy=true" >> "$GITHUB_ENV"
+             echo "should-auto-deploy=true" >> "$GITHUB_OUTPUT"
            fi
 
   # ######################
