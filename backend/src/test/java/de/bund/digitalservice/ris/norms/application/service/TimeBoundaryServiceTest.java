@@ -344,14 +344,14 @@ class TimeBoundaryServiceTest {
       assertThat(timeBoundaries).hasSize(2);
 
       assertThat(timeBoundaries.getFirst().getTemporalGroupEid())
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
+        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2");
       assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
         .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
       assertThat(timeBoundaries.getFirst().getEventRefEid())
         .isEqualTo("meta-1_lebzykl-1_ereignis-3");
 
       assertThat(timeBoundaries.getLast().getTemporalGroupEid())
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-3");
+        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-3");
       assertThat(timeBoundaries.getLast().getTimeIntervalEid())
         .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1");
       assertThat(timeBoundaries.getLast().getEventRefEid())

@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -40,8 +39,8 @@ public class TimeBoundary {
    *
    * @return The eId of the temporal group
    */
-  public Optional<String> getTemporalGroupEid() {
-    return Optional.of(EId.fromMandatoryNode(temporalGroup.getNode()).value());
+  public String getTemporalGroupEid() {
+    return EId.fromMandatoryNode(temporalGroup.getNode()).value();
   }
 
   /**

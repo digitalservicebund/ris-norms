@@ -21,7 +21,7 @@ public class TimeBoundaryMapper {
       .builder()
       .date(timeBoundary.getEventRef().getDate().orElse(null))
       .eventRefEid(timeBoundary.getEventRefEid())
-      .temporalGroupEid(timeBoundary.getTemporalGroupEid().orElse(null))
+      .temporalGroupEid(timeBoundary.getTemporalGroupEid())
       .build();
   }
 
