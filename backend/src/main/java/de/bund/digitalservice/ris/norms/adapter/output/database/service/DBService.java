@@ -20,6 +20,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -254,7 +255,7 @@ public class DBService
   @Override
   public List<Norm> loadNormsByPublishState(LoadNormsByPublishStatePort.Command command) {
     return normRepository
-      .findByPublishState(command.publishState())
+      .findByPublishState(command.publishState(), PageRequest.of(command.page(), command.size()))
       .stream()
       .map(NormMapper::mapToDomain)
       .toList();

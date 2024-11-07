@@ -67,7 +67,7 @@ class PublishServiceTest {
       // Then
       verify(loadNormsByPublishStatePort, times(1))
         .loadNormsByPublishState(
-          new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
       verify(publishPublicNormPort, times(1))
         .publishPublicNorm(new PublishPublicNormPort.Command(norm));
@@ -89,7 +89,7 @@ class PublishServiceTest {
       // Then
       verify(loadNormsByPublishStatePort, times(1))
         .loadNormsByPublishState(
-          new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
       verify(publishPublicNormPort, times(1))
         .publishPublicNorm(new PublishPublicNormPort.Command(norm));
@@ -115,7 +115,7 @@ class PublishServiceTest {
       // Then
       verify(loadNormsByPublishStatePort, times(1))
         .loadNormsByPublishState(
-          new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
       verify(publishPublicNormPort, times(1))
         .publishPublicNorm(new PublishPublicNormPort.Command(norm));
@@ -148,7 +148,7 @@ class PublishServiceTest {
       // Then
       verify(loadNormsByPublishStatePort, times(1))
         .loadNormsByPublishState(
-          new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
 
       // Check that deletion was called
@@ -177,7 +177,7 @@ class PublishServiceTest {
       // Then
       verify(loadNormsByPublishStatePort, times(1))
         .loadNormsByPublishState(
-          new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
 
       // Verify that deletion was NOT called

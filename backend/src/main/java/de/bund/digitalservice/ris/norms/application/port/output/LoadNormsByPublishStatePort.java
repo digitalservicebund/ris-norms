@@ -17,9 +17,15 @@ public interface LoadNormsByPublishStatePort {
   List<Norm> loadNormsByPublishState(final Command command);
 
   /**
-   * A record representing the command for loading a norm by its publish state.
+   * A record representing the command for loading a norm by its publish state in a paginated way
    *
-   * @param publishState the state of the publish
+   * @param publishState the state of the publish, indicating whether the norm is queued for publishing, published, etc.
+   * @param page the page number for pagination. This determines which set of norms to fetch.
+   * @param size the number of norms to fetch per page, used for controlling the batch size of the results.
    */
-  record Command(NormPublishState publishState) {}
+  record Command(NormPublishState publishState, int page, int size) {
+    public Command(NormPublishState publishState) {
+      this(publishState, 0, 10); // Default values
+    }
+  }
 }

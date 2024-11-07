@@ -10,6 +10,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class PublishService implements PublishNormUseCase {
+
+  @Value("${publish.batch-size:200}")
+  private int batchSize;
 
   private final LoadNormsByPublishStatePort loadNormsByPublishStatePort;
   private final PublishPublicNormPort publishPublicNormPort;
@@ -55,12 +59,6 @@ public class PublishService implements PublishNormUseCase {
 
   @Override
   public void processQueuedFilesForPublish() {
-    final List<Norm> norms = loadNormsByPublishStatePort.loadNormsByPublishState(
-      new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
-    );
-
-    log.info("Loaded {} norms for publishing", norms.size());
-
     loadMigrationLogByDatePort
       .loadMigrationLogByDate(new LoadMigrationLogByDatePort.Command(LocalDate.now()))
       .ifPresent(migrationLog -> {
@@ -76,6 +74,31 @@ public class PublishService implements PublishNormUseCase {
         log.info("Deleted all norms in both buckets");
       });
 
+    int page = 0;
+    List<Norm> normsRetrieved;
+    int numberOfAmounts = 0;
+
+    do {
+      // Load the norms in batches
+      normsRetrieved =
+      loadNormsByPublishStatePort.loadNormsByPublishState(
+        new LoadNormsByPublishStatePort.Command(
+          NormPublishState.QUEUED_FOR_PUBLISH,
+          page,
+          batchSize
+        )
+      );
+      log.info("Processing {} batch with {} norms", page + 1, normsRetrieved.size());
+      // Process batch
+      processBatch(normsRetrieved);
+      numberOfAmounts += normsRetrieved.size();
+      page++;
+    } while (normsRetrieved.size() == batchSize); // Keep loading more if the size retrieved same as batch size
+
+    log.info("Total of {} norms published", numberOfAmounts);
+  }
+
+  private void processBatch(List<Norm> norms) {
     norms.forEach(norm -> {
       prepareForPublish(norm);
       boolean isPublicPublished = false;
@@ -87,14 +110,14 @@ public class PublishService implements PublishNormUseCase {
         // Only if public publish succeeds, try private publish
         publishPrivateNormPort.publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
         isPrivatePublished = true;
-        // If both succeeds, then update publish state
+        // If both succeed, update the publish state
         norm.setPublishState(NormPublishState.PUBLISHED);
         updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
         log.info("Published norm: {}", norm.getManifestationEli().toString());
       } catch (final Exception e) {
         log.error("Norm {} could not be published", norm.getManifestationEli().toString());
         log.error(e.getMessage(), e);
-        // Rollback logic based on what succeeded (also for the case that DB update failed)
+        // Rollback logic based on what succeeded
         if (isPublicPublished) {
           rollbackPublicPublish(norm);
         }
