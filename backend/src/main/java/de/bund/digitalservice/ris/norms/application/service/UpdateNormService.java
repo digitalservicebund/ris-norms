@@ -95,7 +95,7 @@ public class UpdateNormService
         final var temporalGroup = norm.addTimeBoundary(startDate.get(), EventRefType.AMENDMENT);
         amendingNormTemporalGroupEidsToNormTemporalGroupEids.put(
           forcePeriodEid,
-          temporalGroup.getEid().orElseThrow()
+          temporalGroup.getEid()
         );
       });
 

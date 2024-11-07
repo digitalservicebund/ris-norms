@@ -72,7 +72,7 @@ public class TimeBoundaryService
       .getTemporalData()
       .getTemporalGroups()
       .stream()
-      .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid().orElseThrow()))
+      .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid()))
       .toList();
     return norm.getTimeBoundaries(temporalGroups);
   }
