@@ -89,6 +89,7 @@ jobs:
   # ######################
 
    check-auto-deploy:
+     if: ${{ github.ref == 'refs/heads/main' }}
      runs-on: ubuntu-latest
      outputs:
        should-auto-deploy: ${{ steps.check-time.outputs.should-auto-deploy }}
