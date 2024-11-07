@@ -84,12 +84,35 @@ jobs:
      secrets: inherit # e.g. sonar token
 
   # ######################
+  # # Check time for automatic deployments
+  # # Should only deploy automatically outside the hours when migration/publishing jobs run
+  # ######################
+
+   check-auto-deploy:
+     if: ${{ github.ref == 'refs/heads/main' }}
+     runs-on: ubuntu-latest
+     outputs:
+       should-auto-deploy: ${{ steps.check-time.outputs.should-auto-deploy }}
+     steps:
+       - id: check-time
+         run: |
+           current_hour=$(TZ=UTC date "+%H")
+           if [ "$current_hour" -ge 2 ] && [ "$current_hour" -lt 6 ]; then
+             echo "Should not deploy automatically. Current hour is $current_hour"
+             echo "should-auto-deploy=false" >> "$GITHUB_OUTPUT"
+           else
+             echo "Should deploy automatically. Current hour is $current_hour"
+             echo "should-auto-deploy=true" >> "$GITHUB_OUTPUT"
+           fi
+
+  # ######################
   # # Deploy new versions to staging
   # ######################
 
    deploy-staging-job:
-     if: ${{ github.ref == 'refs/heads/main' }}
+     if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
      needs:
+       - check-auto-deploy
        - frontend-jobs
        - backend-jobs
        - push-docker-image-job
@@ -102,6 +125,7 @@ jobs:
   # ######################
   # # Deploy new versions to uat
   # ######################
+
    deploy-uat-job:
      if: ${{ github.ref == 'refs/heads/main' }}
      needs:
