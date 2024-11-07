@@ -31,8 +31,8 @@ public class TimeBoundary {
    *
    * @return The eId of the timeInterval
    */
-  public Optional<String> getTimeIntervalEid() {
-    return Optional.of(EId.fromMandatoryNode(timeInterval.getNode()).value());
+  public String getTimeIntervalEid() {
+    return EId.fromMandatoryNode(timeInterval.getNode()).value();
   }
 
   /**

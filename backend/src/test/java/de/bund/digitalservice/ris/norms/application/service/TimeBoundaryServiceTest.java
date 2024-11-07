@@ -120,8 +120,8 @@ class TimeBoundaryServiceTest {
           .getNodeValue()
       )
         .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
-      assertThat(timeBoundaries.getFirst().getTimeIntervalEid().get())
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
+      assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
+        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
       assertThat(
         timeBoundaries
           .getFirst()
@@ -179,8 +179,8 @@ class TimeBoundaryServiceTest {
           .getNodeValue()
       )
         .contains("fdfaeef0-0300-4e5b-9e8b-14d2162bfb00");
-      assertThat(timeBoundaries.get(1).getTimeIntervalEid().get())
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
+      assertThat(timeBoundaries.get(1).getTimeIntervalEid())
+        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
       assertThat(
         timeBoundaries
           .get(1)
@@ -346,14 +346,14 @@ class TimeBoundaryServiceTest {
       assertThat(timeBoundaries.getFirst().getTemporalGroupEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
       assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
+        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
       assertThat(timeBoundaries.getFirst().getEventRefEid())
         .isEqualTo("meta-1_lebzykl-1_ereignis-3");
 
       assertThat(timeBoundaries.getLast().getTemporalGroupEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-3");
       assertThat(timeBoundaries.getLast().getTimeIntervalEid())
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1");
+        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1");
       assertThat(timeBoundaries.getLast().getEventRefEid())
         .isEqualTo("meta-1_lebzykl-1_ereignis-4");
     }

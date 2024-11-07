@@ -78,6 +78,6 @@ class TimeBoundaryTest {
 
     // then
     assertThat(tb.getTimeIntervalEid())
-      .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
+      .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
   }
 }

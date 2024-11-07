@@ -966,8 +966,8 @@ class NormTest {
         .getNodeValue()
     )
       .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
-    assertThat(timeBoundaries.get(0).getTimeIntervalEid().get())
-      .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
+    assertThat(timeBoundaries.get(0).getTimeIntervalEid())
+      .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
     assertThat(
       timeBoundaries
         .get(0)
@@ -1025,8 +1025,8 @@ class NormTest {
         .getNodeValue()
     )
       .isNotEmpty();
-    assertThat(timeBoundaries.get(1).getTimeIntervalEid().get())
-      .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
+    assertThat(timeBoundaries.get(1).getTimeIntervalEid())
+      .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
     assertThat(
       timeBoundaries
         .get(1)
@@ -1128,8 +1128,8 @@ class NormTest {
         .getNodeValue()
     )
       .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
-    assertThat(timeBoundaries.get(0).getTimeIntervalEid().get())
-      .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
+    assertThat(timeBoundaries.get(0).getTimeIntervalEid())
+      .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
     assertThat(
       timeBoundaries
         .get(0)
