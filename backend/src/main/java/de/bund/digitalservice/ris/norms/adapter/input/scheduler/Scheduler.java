@@ -2,6 +2,8 @@ package de.bund.digitalservice.ris.norms.adapter.input.scheduler;
 
 import de.bund.digitalservice.ris.norms.application.port.input.PublishNormUseCase;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.core.LockAssert;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -33,8 +35,11 @@ public class Scheduler {
    * The cron schedule is controlled by the property {@code publish.cron}.</p>
    */
   @Scheduled(cron = "${publish.cron}")
+  @SchedulerLock(name = "scheduledPublishToBucket", lockAtMostFor = "240m", lockAtLeastFor = "120m")
   @Profile({ "staging", "uat", "production" })
   public void runPublishProcess() {
+    // To assert that the lock is held (prevents misconfiguration errors)
+    LockAssert.assertLocked();
     log.info("Job for publishing QUEUED_FOR_PUBLISH norms started.");
     publishNormUseCase.processQueuedFilesForPublish();
   }
