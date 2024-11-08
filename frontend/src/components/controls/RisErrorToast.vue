@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
+import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
 import RisExpandableText from "@/components/controls/RisExpandableText.vue"
 import { ERROR_TOAST_GROUP } from "@/lib/errorToast"
 import Toast from "primevue/toast"

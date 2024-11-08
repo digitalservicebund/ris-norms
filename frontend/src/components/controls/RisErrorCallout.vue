@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
+import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
 import { useErrorMessage } from "@/composables/useErrorMessage"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { computed } from "vue"
