@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisEmptyState from "@/components/RisEmptyState.vue"
+import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisHeader, {
   HeaderBreadcrumb,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import RisRefEditorTable from "@/views/amending-law/affected-documents/references/RisRefEditorTable.vue"
-import RisEmptyState from "@/components/RisEmptyState.vue"
+import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import Button from "primevue/button"
 import RisRefSelectionPanel from "@/views/amending-law/affected-documents/references/RisRefSelectionPanel.vue"
 import { computed, ref, triggerRef, watch } from "vue"

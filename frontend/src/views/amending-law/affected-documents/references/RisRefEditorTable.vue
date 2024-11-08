@@ -10,7 +10,7 @@ import {
 } from "@/services/xmlService"
 import { useDebounceFn } from "@vueuse/core"
 import { deleteRef } from "@/lib/ref"
-import RisEmptyState from "@/components/RisEmptyState.vue"
+import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 
 /**
  * The eId of the currently selected akn:ref element.
