@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.cloud.starter.kubernetes.client.config)
+    implementation(libs.shedlock)
+    implementation(libs.shedlockJdbc)
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
     implementation(libs.flyway.postgres)

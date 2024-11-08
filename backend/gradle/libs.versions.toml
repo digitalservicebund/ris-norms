@@ -24,6 +24,9 @@ postgresql = "org.postgresql:postgresql:42.7.4"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.13.6"
 saxon-he = "net.sf.saxon:Saxon-HE:12.5"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
+shedlock = "net.javacrumbs.shedlock:shedlock-spring:5.16.0"
+shedlockJdbc = "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:5.16.0"
+
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
