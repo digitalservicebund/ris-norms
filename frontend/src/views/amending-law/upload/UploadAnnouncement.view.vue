@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
+import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
