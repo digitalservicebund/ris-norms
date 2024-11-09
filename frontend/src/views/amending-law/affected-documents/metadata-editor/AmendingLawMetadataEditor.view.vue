@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/controls/RisEmptyState.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -17,6 +16,7 @@ import { useRouter } from "vue-router"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Select from "primevue/select"
 import { useElementId } from "@/composables/useElementId"
+import Message from "primevue/message"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -195,12 +195,14 @@ const elementLinks = computed(() => {
             </div>
           </div>
 
-          <RisCallout
+          <Message
             v-if="!selectedTimeBoundary"
-            variant="warning"
-            title="Keine Zeitgrenze ausgewählt."
+            severity="warn"
             class="mx-16 mb-8"
-          />
+            closable
+          >
+            <p>Keine Zeitgrenze ausgewählt.</p>
+          </Message>
 
           <!-- Frame link -->
           <!-- Render conditionally on selectedTimeBoundary to prevent missing param errors in the route -->

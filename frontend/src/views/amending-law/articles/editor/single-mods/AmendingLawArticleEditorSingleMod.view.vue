@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisModForm from "@/views/amending-law/articles/editor/single-mods/RisModForm.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -16,6 +15,7 @@ import { computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import dayjs from "dayjs"
 import { useNormXml } from "@/composables/useNormXml"
+import Message from "primevue/message"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -189,10 +189,9 @@ watch(
     </div>
 
     <div v-else-if="textualModType !== 'aenderungsbefehl-ersetzen'">
-      <RisCallout
-        title='Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.'
-        variant="warning"
-      />
+      <Message severity="warn" closable>
+        Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.
+      </Message>
     </div>
 
     <div v-else-if="loadTimeBoundariesError">
