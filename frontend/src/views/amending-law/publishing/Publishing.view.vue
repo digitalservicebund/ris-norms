@@ -29,8 +29,18 @@ async function onRelease() {
   await releaseAmendingLaw()
 }
 
+const latestRelease = computed(
+  () =>
+    releases.value?.toSorted(
+      (a, b) =>
+        new Date(b.releaseAt).valueOf() - new Date(a.releaseAt).valueOf(),
+    )?.[0],
+)
+
 const releasedAt = computed(() =>
-  releases.value?.[0]?.releaseAt ? new Date(releases.value[0].releaseAt) : null,
+  latestRelease.value?.releaseAt
+    ? new Date(latestRelease.value?.releaseAt)
+    : null,
 )
 const publishedAtDateTime = computed(() => releasedAt.value?.toISOString())
 
@@ -47,7 +57,7 @@ const publishedAtDateString = computed(() =>
 )
 
 const downloadLinks = computed(() => {
-  const norms = releases.value?.[0].norms
+  const norms = latestRelease.value?.norms
   if (!norms) return []
 
   return norms.map((norm) => ({
