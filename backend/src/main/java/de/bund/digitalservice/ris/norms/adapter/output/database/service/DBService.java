@@ -195,7 +195,7 @@ public class DBService
       .map(AnnouncementMapper::mapToDomain)
       .map(Announcement::getReleases)
       .flatMap(List::stream)
-      .findFirst();
+      .max(Comparator.comparing(Release::getReleasedAt));
   }
 
   @Override

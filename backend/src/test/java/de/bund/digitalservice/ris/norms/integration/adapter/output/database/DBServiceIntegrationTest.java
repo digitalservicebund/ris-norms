@@ -19,6 +19,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -320,9 +321,29 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var norm = normRepository.save(
       NormMapper.mapToDto(NormFixtures.loadFromDisk("SimpleNorm.xml"))
     );
-    var release = releaseRepository.save(ReleaseDto.builder().norms(List.of(norm)).build());
+    var norm2 = normRepository.save(
+      NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml"))
+    );
+    var release1 = releaseRepository.save(
+      ReleaseDto
+        .builder()
+        .releasedAt(Instant.parse("2024-01-01T00:00:00Z"))
+        .norms(List.of(norm2))
+        .build()
+    );
+    var release2 = releaseRepository.save(
+      ReleaseDto
+        .builder()
+        .releasedAt(Instant.parse("2024-02-01T00:00:00Z"))
+        .norms(List.of(norm))
+        .build()
+    );
     announcementRepository.save(
-      AnnouncementDto.builder().eli(norm.getEliExpression()).releases(List.of(release)).build()
+      AnnouncementDto
+        .builder()
+        .eli(norm.getEliExpression())
+        .releases(List.of(release1, release2))
+        .build()
     );
 
     // When
@@ -334,6 +355,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // Then
     assertThat(releaseOptional).isPresent();
+    assertThat(releaseOptional.get().getReleasedAt()).isEqualTo("2024-02-01T00:00:00Z");
     assertThat(releaseOptional.get().getPublishedNorms()).hasSize(1);
     assertThat(
       releaseOptional.get().getPublishedNorms().stream().findFirst().get().getManifestationEli()
