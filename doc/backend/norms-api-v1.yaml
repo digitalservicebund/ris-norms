@@ -11,15 +11,15 @@ paths:
         - Announcements
       summary: Get a list of all announcements
       responses:
-        '200':
+        "200":
           description: List of announcements
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Norm'
-        '500':
+                  $ref: "#/components/schemas/Norm"
+        "500":
           $ref: "#/components/responses/InternalServerError"
     post:
       tags:
@@ -43,15 +43,15 @@ paths:
                   type: string
                   format: binary
       responses:
-        '200':
+        "200":
           description: Norm was successfully created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Norm'
-        '422':
+                $ref: "#/components/schemas/Norm"
+        "422":
           $ref: "#/components/responses/ValidationError"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /announcements/{expressionEli}/releases:
@@ -67,17 +67,17 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Information about releases
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ReleaseResponse'
-        '404':
+                  $ref: "#/components/schemas/ReleaseResponse"
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
     post:
       tags:
@@ -91,15 +91,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successfully released an announcement
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReleaseResponse'
-        '404':
+                $ref: "#/components/schemas/ReleaseResponse"
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}:
@@ -127,23 +127,23 @@ paths:
             format: date-time
           description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
-        '200':
+        "200":
           description: Expression of the requested norm
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Norm'
+                $ref: "#/components/schemas/Norm"
             application/xml:
               schema:
-                $ref: '#/components/schemas/LegalDocML.de'
+                $ref: "#/components/schemas/LegalDocML.de"
             text/html:
               schema:
                 type: string
-        '400':
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
     put:
       tags:
@@ -162,17 +162,17 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/LegalDocML.de'
+              $ref: "#/components/schemas/LegalDocML.de"
       responses:
-        '200':
+        "200":
           description: Updated expression of the norm
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-        '404':
+                $ref: "#/components/schemas/LegalDocML.de"
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/elements:
@@ -196,7 +196,20 @@ paths:
             type: array
             items:
               type: string
-              enum: [article, chapter, book, part, conclusions, preface, preamble, subsection, section, title, subtitle]
+              enum:
+                [
+                  article,
+                  chapter,
+                  book,
+                  part,
+                  conclusions,
+                  preface,
+                  preamble,
+                  subsection,
+                  section,
+                  title,
+                  subtitle,
+                ]
         - name: amendedBy
           in: query
           required: false
@@ -205,19 +218,19 @@ paths:
             type: string
           example: "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
       responses:
-        '200':
+        "200":
           description: Successful response returning list of elements. If none matched, the list is empty.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ElementResponse'
-        '400':
+                  $ref: "#/components/schemas/ElementResponse"
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/elements/{eid}:
@@ -249,20 +262,20 @@ paths:
             type: string
             format: date-time
       responses:
-        '200':
+        "200":
           description: "The element inside the norm"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ElementResponse'
+                $ref: "#/components/schemas/ElementResponse"
             text/html:
               schema:
                 type: string
-        '400':
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/articles:
@@ -296,22 +309,22 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: The list of articles in the requested norm
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Article'
+                  $ref: "#/components/schemas/Article"
             text/html:
               schema:
                 type: string
-        '400':
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/articles/{eid}:
@@ -339,20 +352,20 @@ paths:
             format: date-time
           description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
-        '200':
+        "200":
           description: The article with the requested eId
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Article'
+                $ref: "#/components/schemas/Article"
             text/html:
               schema:
                 type: string
-        '400':
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/mods:
@@ -382,9 +395,9 @@ paths:
               type: object
               description: object mapping between eids and the change mods
               additionalProperties:
-                $ref: '#/components/schemas/TimeBoundaryMod'
+                $ref: "#/components/schemas/TimeBoundaryMod"
       responses:
-        '200':
+        "200":
           description: Updated norm
           content:
             application/json:
@@ -399,13 +412,13 @@ paths:
                     items:
                       type: string
                       format: LegalDocML.de XML
-        '400':
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '422':
+        "422":
           $ref: "#/components/responses/ValidationError"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/mods/{eid}:
@@ -438,9 +451,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Mod'
+              $ref: "#/components/schemas/Mod"
       responses:
-        '200':
+        "200":
           description: Updated norm
           content:
             application/json:
@@ -451,13 +464,13 @@ paths:
                     type: string
                   targetNormXml:
                     type: string
-        '400':
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '422':
+        "422":
           $ref: "#/components/responses/ValidationError"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/timeBoundaries:
@@ -473,17 +486,17 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: List of time boundaries
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TimeBoundary'
-        '404':
+                  $ref: "#/components/schemas/TimeBoundary"
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
     put:
       tags:
@@ -504,21 +517,21 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/TimeBoundary'
+                $ref: "#/components/schemas/TimeBoundary"
       responses:
-        '200':
+        "200":
           description: Updated time boundaries
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TimeBoundary'
-        '400':
+                  $ref: "#/components/schemas/TimeBoundary"
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/proprietary/{eid}/{atDate}:
@@ -547,17 +560,17 @@ paths:
             type: string
             format: date
       responses:
-        '200':
+        "200":
           description: List of proprietary metadata at that date for the single element
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SingleElementMetadata'
-        '400':
+                $ref: "#/components/schemas/SingleElementMetadata"
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
     put:
       summary: Replace the proprietary metadata of a single element at the specified date
@@ -589,19 +602,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SingleElementMetadata'
+              $ref: "#/components/schemas/SingleElementMetadata"
       responses:
-        '200':
+        "200":
           description: Metadata for a single element was updated successfully. Returns the updated metadata.
           content:
-            'application/json':
+            "application/json":
               schema:
-                $ref: '#/components/schemas/SingleElementMetadata'
-        '400':
+                $ref: "#/components/schemas/SingleElementMetadata"
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/{eid}:
@@ -625,15 +638,15 @@ paths:
             type: string
             example: hauptteil-1_art-3
       responses:
-        '200':
+        "200":
           description: An HTML rendering of the element
           content:
             text/html:
               schema:
                 type: string
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /norms/{manifestationEli}:
@@ -650,15 +663,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: The requested norm. The response format depends on the format as specified in the manifestation ELI.
           content:
-            'application/xml':
+            "application/xml":
               schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-        '404':
+                $ref: "#/components/schemas/LegalDocML.de"
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
   /renderings:
@@ -683,9 +696,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RenderRequest'
+              $ref: "#/components/schemas/RenderRequest"
       responses:
-        '200':
+        "200":
           description: HTML rendering the provided LDML.de XML
           content:
             text/html:
@@ -694,9 +707,9 @@ paths:
             application/xml:
               schema:
                 type: string
-        '400':
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerError"
 
 components:
@@ -801,7 +814,7 @@ components:
       type: object
       xml:
         name: akomaNtoso
-        namespace: 'http://Inhaltsdaten.LegalDocML.de/1.7'
+        namespace: "http://Inhaltsdaten.LegalDocML.de/1.7"
         prefix: akn
 
     ElementResponse:
@@ -813,7 +826,20 @@ components:
           type: string
         type:
           type: string
-          enum: [ preface, preamble, article, conclusions, book, chapter, part, section, subsection, title, subtitle ]
+          enum:
+            [
+              preface,
+              preamble,
+              article,
+              conclusions,
+              book,
+              chapter,
+              part,
+              section,
+              subsection,
+              title,
+              subtitle,
+            ]
 
     Metadata:
       type: object
@@ -895,7 +921,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/ProblemDetail'
+            $ref: "#/components/schemas/ProblemDetail"
 
     InternalServerError:
       description: Internal server error
