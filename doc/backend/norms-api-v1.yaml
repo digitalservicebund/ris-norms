@@ -12,7 +12,7 @@ paths:
       summary: Get a list of all announcements
       responses:
         '200':
-          description: Successful response
+          description: List of announcements
           content:
             application/json:
               schema:
@@ -58,7 +58,7 @@ paths:
     get:
       tags:
         - Announcements
-      summary: Get the releases of a specific announcement by the expression ELI of the amending law.
+      summary: Get the releases of a specific announcement by the expression ELI of the amending law
       parameters:
         - name: expressionEli
           in: path
@@ -106,7 +106,7 @@ paths:
     get:
       tags:
         - Norm expression
-      summary: Get a specific norm by its expression ELI.
+      summary: Get a specific norm by its expression ELI
       parameters:
         - name: expressionEli
           in: path
@@ -128,7 +128,7 @@ paths:
           description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
-          description: Successful response
+          description: Expression of the requested norm
           content:
             application/json:
               schema:
@@ -148,7 +148,7 @@ paths:
     put:
       tags:
         - Norm expression
-      summary: Update a specific norm by its expression ELI.
+      summary: Update a specific norm by its expression ELI
       parameters:
         - name: expressionEli
           in: path
@@ -165,7 +165,7 @@ paths:
               $ref: '#/components/schemas/LegalDocML.de'
       responses:
         '200':
-          description: Successful response
+          description: Updated expression of the norm
           content:
             application/xml:
               schema:
@@ -269,7 +269,7 @@ paths:
     get:
       tags:
         - Norm expression
-      summary: Get a list of articles for a specific norm by its expression ELI.
+      summary: Get a list of articles for a specific norm by its expression ELI
       parameters:
         - name: expressionEli
           in: path
@@ -297,7 +297,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: The list of articles in the requested norm
           content:
             application/json:
               schema:
@@ -318,7 +318,7 @@ paths:
     get:
       tags:
         - Norm expression
-      summary: Get a specific article by eid for a given norm
+      summary: Get a specific article by eId for a given norm
       parameters:
         - name: expressionEli
           in: path
@@ -340,7 +340,7 @@ paths:
           description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
-          description: Successful response
+          description: The article with the requested eId
           content:
             application/json:
               schema:
@@ -385,7 +385,7 @@ paths:
                 $ref: '#/components/schemas/TimeBoundaryMod'
       responses:
         '200':
-          description: Successful update
+          description: Updated norm
           content:
             application/json:
               schema:
@@ -441,7 +441,7 @@ paths:
               $ref: '#/components/schemas/Mod'
       responses:
         '200':
-          description: Successful update
+          description: Updated norm
           content:
             application/json:
               schema:
@@ -474,7 +474,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: List of time boundaries
           content:
             application/json:
               schema:
@@ -507,7 +507,7 @@ paths:
                 $ref: '#/components/schemas/TimeBoundary'
       responses:
         '200':
-          description: Successful update
+          description: Updated time boundaries
           content:
             application/json:
               schema:
@@ -640,7 +640,7 @@ paths:
     get:
       tags:
         - Norm manifestation
-      summary: Get a specific norm by its manifestation ELI.
+      summary: Get a specific norm by its manifestation ELI
       parameters:
         - name: manifestationEli
           in: path
@@ -787,7 +787,7 @@ components:
       type: object
       properties:
         norm:
-          description: The xml of the norm which should be rendered.
+          description: The xml of the norm which should be rendered
           type: string
           format: LegalDocML.de XML
         customNorms:
@@ -847,7 +847,7 @@ components:
           description: Boolean value if beschliessendesOrgan had a ("Qualifizierte Mehrheit") when deciding
         organisationsEinheit:
           type: string
-          description: ("Organisationseinheit")
+          description: ("Organisationseinheit") of the norm
 
     SingleElementMetadata:
       type: object
