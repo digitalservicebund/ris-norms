@@ -65,7 +65,8 @@ class PublishServiceTest {
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
-      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
+        .thenReturn(Optional.of(norm));
 
       // When
       publishService.processQueuedFilesForPublish();
@@ -89,7 +90,8 @@ class PublishServiceTest {
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
-      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
+        .thenReturn(Optional.of(norm));
       doThrow(BucketException.class).when(publishPrivateNormPort).publishPrivateNorm(any());
 
       // When
@@ -118,7 +120,8 @@ class PublishServiceTest {
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
-      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
+        .thenReturn(Optional.of(norm));
       doThrow(BucketException.class).when(publishPublicNormPort).publishPublicNorm(any());
 
       // When
@@ -153,7 +156,8 @@ class PublishServiceTest {
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
-      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
+        .thenReturn(Optional.of(norm));
       when(loadMigrationLogByDatePort.loadMigrationLogByDate(any()))
         .thenReturn(Optional.of(migrationLog)); // Migration log found
 
@@ -186,7 +190,8 @@ class PublishServiceTest {
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
-      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
+        .thenReturn(Optional.of(norm));
       when(loadMigrationLogByDatePort.loadMigrationLogByDate(any())).thenReturn(Optional.empty()); // No migration log found
 
       // When

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -78,10 +79,15 @@ public class PublishService implements PublishNormUseCase {
       new LoadNormIdsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
     );
 
+    log.info("Found {} norms that are queued for publishing", normIds.size());
+
     normIds.forEach(publishId -> {
-      log.info("Processing norm with id {} norms", publishId);
-      Norm norm = loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(publishId));
-      processNorm(norm);
+      log.info("Processing norm with id {}", publishId);
+      Optional<Norm> norm = loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(publishId));
+      norm.ifPresent(this::processNorm);
+      if (norm.isEmpty()) {
+        log.error("Norm with id {} not found", publishId);
+      }
     });
   }
 

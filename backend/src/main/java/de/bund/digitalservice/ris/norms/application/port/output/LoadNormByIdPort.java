@@ -15,7 +15,7 @@ public interface LoadNormByIdPort {
    * @param command The command specifying the GUID to identify the norm to be loaded.
    * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
    */
-  Norm loadNormById(final Command command);
+  Optional<Norm> loadNormById(final Command command);
 
   /**
    * A record representing the command for loading a norm. The command includes the GUID to identify

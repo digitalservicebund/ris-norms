@@ -259,8 +259,8 @@ public class DBService
   }
 
   @Override
-  public Norm loadNormById(LoadNormByIdPort.Command command) {
-    return normRepository.findById(command.id()).map(NormMapper::mapToDomain).orElseThrow();
+  public Optional<Norm> loadNormById(LoadNormByIdPort.Command command) {
+    return normRepository.findById(command.id()).map(NormMapper::mapToDomain);
   }
 
   @Override
