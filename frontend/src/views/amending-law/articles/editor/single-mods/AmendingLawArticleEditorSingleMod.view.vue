@@ -189,7 +189,7 @@ watch(
     </div>
 
     <div v-else-if="textualModType !== 'aenderungsbefehl-ersetzen'">
-      <Message severity="warn" closable>
+      <Message severity="warn">
         Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.
       </Message>
     </div>

@@ -199,7 +199,6 @@ const elementLinks = computed(() => {
             v-if="!selectedTimeBoundary"
             severity="warn"
             class="mx-16 mb-8"
-            closable
           >
             <p>Keine Zeitgrenze ausgewählt.</p>
           </Message>

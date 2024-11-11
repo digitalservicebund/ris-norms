@@ -67,7 +67,7 @@ const {
         class="mt-32 flex flex-col gap-8"
         aria-label="Metadaten dokumentieren"
       >
-        <Message severity="warn" closable>
+        <Message severity="warn">
           Aktuell sind keine Metadaten auf Gliederungsebene implementiert.
         </Message>
       </section>

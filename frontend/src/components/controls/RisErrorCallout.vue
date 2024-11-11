@@ -32,7 +32,7 @@ const effectiveTitle = computed(() => errorMessage.value?.title)
   <Message
     data-testid="error-callout"
     severity="error"
-    closable
+    :closable="allowDismiss"
     data-variant="error"
   >
     <p class="ris-body1-bold">
