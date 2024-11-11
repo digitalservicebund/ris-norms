@@ -20,11 +20,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Norm'
         '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/InternalServerError"
     post:
       tags:
         - Announcements
@@ -53,18 +49,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Norm'
-        '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
         '422':
-          description: Validation errors, the norm already exists, or the uploaded file has an invalid format
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/ValidationError"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /announcements/{expressionEli}/releases:
     get:
@@ -88,17 +76,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/ReleaseResponse'
         '404':
-          description: Announcement not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
         '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/InternalServerError"
     post:
       tags:
         - Announcements
@@ -118,17 +98,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ReleaseResponse'
         '404':
-          description: Announcement not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
         '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}:
     get:
@@ -167,18 +139,12 @@ paths:
             text/html:
               schema:
                 type: string
+        '400':
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
         '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/InternalServerError"
     put:
       tags:
         - Norm expression
@@ -205,17 +171,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
         '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
         '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/elements:
     get:
@@ -255,18 +213,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ElementResponse'
+        '400':
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: Norm could not be found by its ELI.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
         '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/elements/{eid}:
     get:
@@ -307,17 +259,11 @@ paths:
               schema:
                 type: string
         '400':
-          description: "Some parameter is invalid, e.g. `atIsoDate` could not be parsed into a date."
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: "The norm or the element could not be found."
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/articles:
     get:
@@ -361,12 +307,12 @@ paths:
             text/html:
               schema:
                 type: string
+        '400':
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: "The norm could not be found."
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/articles/{eid}:
     get:
@@ -402,12 +348,12 @@ paths:
             text/html:
               schema:
                 type: string
+        '400':
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: Norm or article not found.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/mods:
     patch:
@@ -454,23 +400,13 @@ paths:
                       type: string
                       format: LegalDocML.de XML
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
-        '422':
-          description: Validation errors
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '422':
+          $ref: "#/components/responses/ValidationError"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/mods/{eid}:
     put:
@@ -516,23 +452,13 @@ paths:
                   targetNormXml:
                     type: string
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/BadRequest"
         '422':
-          description: Validation errors
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/ValidationError"
         '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/timeBoundaries:
     get:
@@ -556,11 +482,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/TimeBoundary'
         '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
     put:
       tags:
         - Norm expression
@@ -591,17 +515,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/TimeBoundary'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/proprietary/{eid}/{atDate}:
     get:
@@ -635,12 +553,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SingleElementMetadata'
+        '400':
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: If the norm, single element, or the time boundary does not exist.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
     put:
       summary: Replace the proprietary metadata of a single element at the specified date
       tags:
@@ -679,12 +597,12 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/SingleElementMetadata'
+        '400':
+          $ref: "#/components/responses/BadRequest"
         '404':
-          description: If the norm, single element, or the time boundary does not exist.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{expressionEli}/{eid}:
     get:
@@ -714,11 +632,9 @@ paths:
               schema:
                 type: string
         '404':
-          description: Norm or element not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{manifestationEli}:
     get:
@@ -741,17 +657,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
         '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/NotFound"
         '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/InternalServerError"
 
   /renderings:
     post:
@@ -787,11 +695,9 @@ paths:
               schema:
                 type: string
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
 components:
   schemas:
@@ -982,3 +888,32 @@ components:
           type: object
           additionalProperties: true
           description: "Optional additional fields to convey extra information."
+
+  responses:
+    NotFound:
+      description: One or more resource(s) not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetail"
+
+    BadRequest:
+      description: Malformed request (e.g. required parameters are missing or in the wrong format)
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetail"
+
+    ValidationError:
+      description: Input data is invalid
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetail"
