@@ -7,6 +7,8 @@ info:
 paths:
   /announcements:
     get:
+      tags:
+        - Announcements
       summary: Get a list of all announcements
       responses:
         '200':
@@ -24,6 +26,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
     post:
+      tags:
+        - Announcements
       summary: Create a new announcement by uploading the XML of a norm
       parameters:
         - name: force
@@ -64,6 +68,8 @@ paths:
 
   /announcements/{expressionEli}/releases:
     get:
+      tags:
+        - Announcements
       summary: Get the releases of a specific announcement by the expression ELI of the amending law.
       parameters:
         - name: expressionEli
@@ -94,6 +100,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
     post:
+      tags:
+        - Announcements
       summary: Release the norms affected by a specific announcement
       parameters:
         - name: expressionEli
@@ -124,6 +132,8 @@ paths:
 
   /norms/{expressionEli}:
     get:
+      tags:
+        - Norm expression
       summary: Get a specific norm by its expression ELI.
       parameters:
         - name: expressionEli
@@ -170,6 +180,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
     put:
+      tags:
+        - Norm expression
       summary: Update a specific norm by its expression ELI.
       parameters:
         - name: expressionEli
@@ -205,39 +217,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
 
-  /norms/{manifestationEli}:
-    get:
-      summary: Get a specific norm by its manifestation ELI.
-      parameters:
-        - name: manifestationEli
-          in: path
-          required: true
-          description: Manifestation ELI of the norm. Currently only `xml` is supported as the format.
-          example: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2023-12-30/regelungstext-1.xml"
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The requested norm. The response format depends on the format as specified in the manifestation ELI.
-          content:
-            'application/xml':
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-        '404':
-          description: Norm not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
-        '500':
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetail'
-
   /norms/{expressionEli}/elements:
     get:
+      tags:
+        - Norm expression
       summary: Get a norm's elements, filtered by the elements' types
       parameters:
         - name: expressionEli
@@ -287,6 +270,8 @@ paths:
 
   /norms/{expressionEli}/elements/{eid}:
     get:
+      tags:
+        - Norm expression
       summary: Get a single element inside a norm
       parameters:
         - name: expressionEli
@@ -336,6 +321,8 @@ paths:
 
   /norms/{expressionEli}/articles:
     get:
+      tags:
+        - Norm expression
       summary: Get a list of articles for a specific norm by its expression ELI.
       parameters:
         - name: expressionEli
@@ -383,6 +370,8 @@ paths:
 
   /norms/{expressionEli}/articles/{eid}:
     get:
+      tags:
+        - Norm expression
       summary: Get a specific article by eid for a given norm
       parameters:
         - name: expressionEli
@@ -422,6 +411,8 @@ paths:
 
   /norms/{expressionEli}/mods:
     patch:
+      tags:
+        - Norm expression
       summary: Save changes to multiple akn:mod elements and update ZF0
       parameters:
         - name: expressionEli
@@ -483,6 +474,8 @@ paths:
 
   /norms/{expressionEli}/mods/{eid}:
     put:
+      tags:
+        - Norm expression
       summary: Save an amending command and update ZF0
       parameters:
         - name: expressionEli
@@ -543,6 +536,8 @@ paths:
 
   /norms/{expressionEli}/timeBoundaries:
     get:
+      tags:
+        - Norm expression
       summary: Get all time boundaries for a given norm
       parameters:
         - name: expressionEli
@@ -567,6 +562,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
     put:
+      tags:
+        - Norm expression
       summary: Update all time boundaries for a given norm
       parameters:
         - name: expressionEli
@@ -608,6 +605,8 @@ paths:
 
   /norms/{expressionEli}/proprietary/{eid}/{atDate}:
     get:
+      tags:
+        - Norm expression
       summary: Get the proprietary metadata of a single element at the specified date
       parameters:
         - name: expressionEli
@@ -645,7 +644,7 @@ paths:
     put:
       summary: Replace the proprietary metadata of a single element at the specified date
       tags:
-        - under construction
+        - Norm expression
       parameters:
         - name: expressionEli
           in: path
@@ -689,6 +688,8 @@ paths:
 
   /norms/{expressionEli}/{eid}:
     get:
+      tags:
+        - Norm expression
       summary: Get an element of a norm by its eId (currently only in HTML preview format)
       parameters:
         - name: expressionEli
@@ -714,6 +715,39 @@ paths:
                 type: string
         '404':
           description: Norm or element not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /norms/{manifestationEli}:
+    get:
+      tags:
+        - Norm manifestation
+      summary: Get a specific norm by its manifestation ELI.
+      parameters:
+        - name: manifestationEli
+          in: path
+          required: true
+          description: Manifestation ELI of the norm. Currently only `xml` is supported as the format.
+          example: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2023-12-30/regelungstext-1.xml"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested norm. The response format depends on the format as specified in the manifestation ELI.
+          content:
+            'application/xml':
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+        '404':
+          description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
           content:
             application/problem+json:
               schema:
