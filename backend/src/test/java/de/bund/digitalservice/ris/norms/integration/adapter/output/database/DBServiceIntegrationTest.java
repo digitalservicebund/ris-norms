@@ -435,7 +435,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   class loadNormsByPublishState {
 
     @Test
-    void itLoadsNormsByPublishStateWithDefaultSizeAndPage() {
+    void itLoadsNormIdByPublishState() {
       // Given
       var normQueued = NormFixtures.loadFromDisk("SimpleNorm.xml");
       normQueued.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
@@ -447,37 +447,12 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       normRepository.save(NormMapper.mapToDto(normPublished));
 
       // When
-      final List<Norm> publishedNorms = dbService.loadNormsByPublishState(
-        new LoadNormsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+      final List<UUID> publishedNorms = dbService.loadNormIdsByPublishState(
+        new LoadNormIdsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
       );
 
       // Then
       assertThat(publishedNorms).isNotEmpty().hasSize(1);
-      assertThat(publishedNorms.getFirst().getManifestationEli())
-        .isEqualTo(normQueued.getManifestationEli());
-    }
-
-    @Test
-    void itLoadsNormsByPublishStateWithSizeAndPage() {
-      // Given
-      var normPublished1 = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      normPublished1.setPublishState(NormPublishState.PUBLISHED);
-
-      var normPublished2 = NormFixtures.loadFromDisk("NormToBeReleased.xml");
-      normPublished2.setPublishState(NormPublishState.PUBLISHED);
-
-      normRepository.save(NormMapper.mapToDto(normPublished1));
-      normRepository.save(NormMapper.mapToDto(normPublished2));
-
-      // When
-      final List<Norm> publishedNorms = dbService.loadNormsByPublishState(
-        new LoadNormsByPublishStatePort.Command(NormPublishState.PUBLISHED, 1, 1)
-      );
-
-      // Then
-      assertThat(publishedNorms).isNotEmpty().hasSize(1);
-      assertThat(publishedNorms.getFirst().getManifestationEli())
-        .isEqualTo(normPublished2.getManifestationEli());
     }
   }
 

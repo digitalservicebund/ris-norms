@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,36 +22,36 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PublishService implements PublishNormUseCase {
 
-  @Value("${publish.batch-size:200}")
-  private int batchSize;
-
-  private final LoadNormsByPublishStatePort loadNormsByPublishStatePort;
+  private final LoadNormIdsByPublishStatePort loadNormIdsByPublishStatePort;
   private final PublishPublicNormPort publishPublicNormPort;
   private final PublishPrivateNormPort publishPrivateNormPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final DeletePublicNormPort deletePublicNormPort;
   private final DeletePrivateNormPort deletePrivateNormPort;
+  private final LoadNormByIdPort loadNormByIdPort;
   private final LoadMigrationLogByDatePort loadMigrationLogByDatePort;
   private final DeleteAllPublicNormsPort deleteAllPublicNormsPort;
   private final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort;
 
   public PublishService(
-    LoadNormsByPublishStatePort loadNormsByPublishStatePort,
+    LoadNormIdsByPublishStatePort loadNormIdsByPublishStatePort,
     PublishPublicNormPort publishPublicNormPort,
     PublishPrivateNormPort publishPrivateNormPort,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     DeletePublicNormPort deletePublicNormPort,
     DeletePrivateNormPort deletePrivateNormPort,
+    LoadNormByIdPort loadNormByIdPort,
     LoadMigrationLogByDatePort loadMigrationLogByDatePort,
     DeleteAllPublicNormsPort deleteAllPublicNormsPort,
     DeleteAllPrivateNormsPort deleteAllPrivateNormsPort
   ) {
-    this.loadNormsByPublishStatePort = loadNormsByPublishStatePort;
+    this.loadNormIdsByPublishStatePort = loadNormIdsByPublishStatePort;
     this.publishPublicNormPort = publishPublicNormPort;
     this.publishPrivateNormPort = publishPrivateNormPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.deletePublicNormPort = deletePublicNormPort;
     this.deletePrivateNormPort = deletePrivateNormPort;
+    this.loadNormByIdPort = loadNormByIdPort;
     this.loadMigrationLogByDatePort = loadMigrationLogByDatePort;
     this.deleteAllPublicNormsPort = deleteAllPublicNormsPort;
     this.deleteAllPrivateNormsPort = deleteAllPrivateNormsPort;
@@ -74,58 +74,43 @@ public class PublishService implements PublishNormUseCase {
         log.info("Deleted all norms in both buckets");
       });
 
-    int page = 0;
-    List<Norm> normsRetrieved;
-    int numberOfAmounts = 0;
+    List<UUID> normIds = loadNormIdsByPublishStatePort.loadNormIdsByPublishState(
+      new LoadNormIdsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+    );
 
-    do {
-      // Load the norms in batches
-      normsRetrieved =
-      loadNormsByPublishStatePort.loadNormsByPublishState(
-        new LoadNormsByPublishStatePort.Command(
-          NormPublishState.QUEUED_FOR_PUBLISH,
-          page,
-          batchSize
-        )
-      );
-      log.info("Processing {} batch with {} norms", page + 1, normsRetrieved.size());
-      // Process batch
-      processBatch(normsRetrieved);
-      numberOfAmounts += normsRetrieved.size();
-      page++;
-    } while (normsRetrieved.size() == batchSize); // Keep loading more if the size retrieved same as batch size
-
-    log.info("Total of {} norms published", numberOfAmounts);
+    normIds.forEach(publishId -> {
+      log.info("Processing norm with id {} norms", publishId);
+      Norm norm = loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(publishId));
+      processNorm(norm);
+    });
   }
 
-  private void processBatch(List<Norm> norms) {
-    norms.forEach(norm -> {
-      prepareForPublish(norm);
-      boolean isPublicPublished = false;
-      boolean isPrivatePublished = false;
-      try {
-        // Try to publish publicly
-        publishPublicNormPort.publishPublicNorm(new PublishPublicNormPort.Command(norm));
-        isPublicPublished = true;
-        // Only if public publish succeeds, try private publish
-        publishPrivateNormPort.publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
-        isPrivatePublished = true;
-        // If both succeed, update the publish state
-        norm.setPublishState(NormPublishState.PUBLISHED);
-        updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-        log.info("Published norm: {}", norm.getManifestationEli().toString());
-      } catch (final Exception e) {
-        log.error("Norm {} could not be published", norm.getManifestationEli().toString());
-        log.error(e.getMessage(), e);
-        // Rollback logic based on what succeeded
-        if (isPublicPublished) {
-          rollbackPublicPublish(norm);
-        }
-        if (isPublicPublished && isPrivatePublished) {
-          rollbackPrivatePublish(norm);
-        }
+  private void processNorm(Norm norm) {
+    prepareForPublish(norm);
+    boolean isPublicPublished = false;
+    boolean isPrivatePublished = false;
+    try {
+      // Try to publish publicly
+      publishPublicNormPort.publishPublicNorm(new PublishPublicNormPort.Command(norm));
+      isPublicPublished = true;
+      // Only if public publish succeeds, try private publish
+      publishPrivateNormPort.publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+      isPrivatePublished = true;
+      // If both succeed, update the publish state
+      norm.setPublishState(NormPublishState.PUBLISHED);
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      log.info("Published norm: {}", norm.getManifestationEli().toString());
+    } catch (final Exception e) {
+      log.error("Norm {} could not be published", norm.getManifestationEli().toString());
+      log.error(e.getMessage(), e);
+      // Rollback logic based on what succeeded
+      if (isPublicPublished) {
+        rollbackPublicPublish(norm);
       }
-    });
+      if (isPublicPublished && isPrivatePublished) {
+        rollbackPrivatePublish(norm);
+      }
+    }
   }
 
   /**

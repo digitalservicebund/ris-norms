@@ -13,13 +13,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PublishServiceTest {
 
-  final LoadNormsByPublishStatePort loadNormsByPublishStatePort = mock(
-    LoadNormsByPublishStatePort.class
+  final LoadNormIdsByPublishStatePort loadNormIdsByPublishStatePort = mock(
+    LoadNormIdsByPublishStatePort.class
   );
 
   final PublishPublicNormPort publishPublicNormPort = mock(PublishPublicNormPort.class);
@@ -35,18 +36,20 @@ class PublishServiceTest {
   final DeleteAllPublicNormsPort deleteAllPublicNormsPort = mock(DeleteAllPublicNormsPort.class);
 
   final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort = mock(DeleteAllPrivateNormsPort.class);
+  final LoadNormByIdPort loadNormByIdPort = mock(LoadNormByIdPort.class);
 
   final LoadMigrationLogByDatePort loadMigrationLogByDatePort = mock(
     LoadMigrationLogByDatePort.class
   );
 
   final PublishService publishService = new PublishService(
-    loadNormsByPublishStatePort,
+    loadNormIdsByPublishStatePort,
     publishPublicNormPort,
     publishPrivateNormPort,
     updateOrSaveNormPort,
     deletePublicNormPort,
     deletePrivateNormPort,
+    loadNormByIdPort,
     loadMigrationLogByDatePort,
     deleteAllPublicNormsPort,
     deleteAllPrivateNormsPort
@@ -59,14 +62,17 @@ class PublishServiceTest {
     void publishNormToPublicAndPrivateStorage() {
       // Given
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
+      final UUID uuid = UUID.randomUUID();
+      when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
+        .thenReturn(List.of(uuid));
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
 
       // When
       publishService.processQueuedFilesForPublish();
 
       // Then
-      verify(loadNormsByPublishStatePort, times(1))
-        .loadNormsByPublishState(
+      verify(loadNormIdsByPublishStatePort, times(1))
+        .loadNormIdsByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
       verify(publishPublicNormPort, times(1))
@@ -80,15 +86,18 @@ class PublishServiceTest {
     void publishNormToPublicButPrivateFails() {
       // Given
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
+      final UUID uuid = UUID.randomUUID();
+      when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
+        .thenReturn(List.of(uuid));
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
       doThrow(BucketException.class).when(publishPrivateNormPort).publishPrivateNorm(any());
 
       // When
       publishService.processQueuedFilesForPublish();
 
       // Then
-      verify(loadNormsByPublishStatePort, times(1))
-        .loadNormsByPublishState(
+      verify(loadNormIdsByPublishStatePort, times(1))
+        .loadNormIdsByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
       verify(publishPublicNormPort, times(1))
@@ -106,15 +115,18 @@ class PublishServiceTest {
     void publishNormToPublicFails() {
       // Given
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
+      final UUID uuid = UUID.randomUUID();
+      when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
+        .thenReturn(List.of(uuid));
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
       doThrow(BucketException.class).when(publishPublicNormPort).publishPublicNorm(any());
 
       // When
       publishService.processQueuedFilesForPublish();
 
       // Then
-      verify(loadNormsByPublishStatePort, times(1))
-        .loadNormsByPublishState(
+      verify(loadNormIdsByPublishStatePort, times(1))
+        .loadNormIdsByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
       verify(publishPublicNormPort, times(1))
@@ -138,7 +150,10 @@ class PublishServiceTest {
         .createdAt(Instant.now())
         .build();
 
-      when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
+      final UUID uuid = UUID.randomUUID();
+      when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
+        .thenReturn(List.of(uuid));
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
       when(loadMigrationLogByDatePort.loadMigrationLogByDate(any()))
         .thenReturn(Optional.of(migrationLog)); // Migration log found
 
@@ -146,8 +161,8 @@ class PublishServiceTest {
       publishService.processQueuedFilesForPublish();
 
       // Then
-      verify(loadNormsByPublishStatePort, times(1))
-        .loadNormsByPublishState(
+      verify(loadNormIdsByPublishStatePort, times(1))
+        .loadNormIdsByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
 
@@ -168,15 +183,18 @@ class PublishServiceTest {
       // Given
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
-      when(loadNormsByPublishStatePort.loadNormsByPublishState(any())).thenReturn(List.of(norm));
+      final UUID uuid = UUID.randomUUID();
+      when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
+        .thenReturn(List.of(uuid));
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid))).thenReturn(norm);
       when(loadMigrationLogByDatePort.loadMigrationLogByDate(any())).thenReturn(Optional.empty()); // No migration log found
 
       // When
       publishService.processQueuedFilesForPublish();
 
       // Then
-      verify(loadNormsByPublishStatePort, times(1))
-        .loadNormsByPublishState(
+      verify(loadNormIdsByPublishStatePort, times(1))
+        .loadNormIdsByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
 

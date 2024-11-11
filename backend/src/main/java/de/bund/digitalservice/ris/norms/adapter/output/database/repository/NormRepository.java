@@ -3,11 +3,12 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -70,14 +71,14 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
   void deleteAllByEliWorkAndPublishState(final String workEli, final NormPublishState publishState);
 
   /**
-   * Retrieves a paginated list of {@link NormDto}s with a specific {@link NormPublishState}.
+   * Retrieves the ids of all {@link NormDto} with a specific {@link NormPublishState}.
    *
    * @param normPublishState the publish state to filter the norms by (e.g., {@link NormPublishState#QUEUED_FOR_PUBLISH})
-   * @param pageable the pagination information, including the page number and page size
-   * @return a {@link Page} of {@link NormDto}s matching the specified publish state, containing the norms in the requested page
+   * @return a {@link List} of {@link UUID}s of the {@link NormDto}s matching the specified publish state
    */
-  Page<NormDto> findByPublishState(
-    final NormPublishState normPublishState,
-    final Pageable pageable
+
+  @Query("SELECT n.id FROM NormDto n WHERE n.publishState = :publishState")
+  List<UUID> findNormIdsByPublishState(
+    @Param("publishState") final NormPublishState normPublishState
   );
 }

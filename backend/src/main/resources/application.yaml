@@ -58,4 +58,3 @@ otc:
 
 publish:
   cron: "0 0 2 * * 1-5" # # Runs at 2:00 AM UTC (3:00 AM Berlin time in CET)
-  batch-size: 75

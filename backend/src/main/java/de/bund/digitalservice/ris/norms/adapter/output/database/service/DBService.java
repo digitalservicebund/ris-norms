@@ -20,7 +20,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.PageRequest;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +45,8 @@ public class DBService
     DeleteQueuedNormsPort,
     SaveReleaseToAnnouncementPort,
     DeleteQueuedReleasesPort,
-    LoadNormsByPublishStatePort,
+    LoadNormIdsByPublishStatePort,
+    LoadNormByIdPort,
     LoadMigrationLogByDatePort {
 
   private final AnnouncementRepository announcementRepository;
@@ -253,12 +254,13 @@ public class DBService
   }
 
   @Override
-  public List<Norm> loadNormsByPublishState(LoadNormsByPublishStatePort.Command command) {
-    return normRepository
-      .findByPublishState(command.publishState(), PageRequest.of(command.page(), command.size()))
-      .stream()
-      .map(NormMapper::mapToDomain)
-      .toList();
+  public List<UUID> loadNormIdsByPublishState(LoadNormIdsByPublishStatePort.Command command) {
+    return normRepository.findNormIdsByPublishState(command.publishState());
+  }
+
+  @Override
+  public Norm loadNormById(LoadNormByIdPort.Command command) {
+    return normRepository.findById(command.id()).map(NormMapper::mapToDomain).orElseThrow();
   }
 
   @Override
