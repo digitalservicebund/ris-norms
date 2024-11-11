@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
 import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
 import { useErrorMessage } from "@/composables/useErrorMessage"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { computed } from "vue"
+import Message from "primevue/message"
 
 const { error } = defineProps<{
   /**
@@ -29,21 +29,21 @@ const effectiveTitle = computed(() => errorMessage.value?.title)
 </script>
 
 <template>
-  <RisCallout
+  <Message
     data-testid="error-callout"
-    variant="error"
-    :title="effectiveTitle ?? 'Ein unbekannter Fehler ist aufgetreten.'"
-    :allow-dismiss="allowDismiss"
+    severity="error"
+    :closable="allowDismiss"
+    data-variant="error"
   >
+    <p class="ris-body1-bold">
+      {{ effectiveTitle ?? "Ein unbekannter Fehler ist aufgetreten." }}
+    </p>
     <p v-if="errorMessage?.message">{{ errorMessage.message }}</p>
-
     <p v-if="errorMessage?.suggestion">{{ errorMessage.suggestion }}</p>
-
     <slot />
-
     <p>
       Trace-ID:
       <RisCopyableLabel :text="sentryTraceId" name="Trace-ID" />
     </p>
-  </RisCallout>
+  </Message>
 </template>

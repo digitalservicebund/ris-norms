@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
@@ -208,10 +207,9 @@ function handleUpdate(event: MouseEvent) {
         mods.some((mod) => mod.textualModType !== 'aenderungsbefehl-ersetzen')
       "
     >
-      <RisCallout
-        title='Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.'
-        variant="warning"
-      />
+      <Message severity="warn">
+        Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.
+      </Message>
     </div>
 
     <form v-else class="grid grid-cols-1 gap-y-12">

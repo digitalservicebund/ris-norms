@@ -2,11 +2,11 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTimeBoundaryPathParameter } from "@/views/amending-law/affected-documents/metadata-editor/useTimeBoundaryPathParameter"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
+import Message from "primevue/message"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const elementEid = useEidPathParameter()
@@ -67,10 +67,9 @@ const {
         class="mt-32 flex flex-col gap-8"
         aria-label="Metadaten dokumentieren"
       >
-        <RisCallout
-          variant="warning"
-          title="Aktuell sind keine Metadaten auf Gliederungsebene implementiert."
-        />
+        <Message severity="warn">
+          Aktuell sind keine Metadaten auf Gliederungsebene implementiert.
+        </Message>
       </section>
     </div>
   </div>
