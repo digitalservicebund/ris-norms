@@ -5,7 +5,7 @@ import { RisUiPlugin, RisUiPreset } from "@digitalservicebund/ris-ui/tailwind"
 export default {
   content: [
     "./src/**/*.{vue,ts}",
-    "./node_modules/@digitalservicebund/ris-ui/dist",
+    "./node_modules/@digitalservicebund/ris-ui/dist/**/*.{js,vue,ts}",
   ],
 
   presets: [RisUiPreset],
