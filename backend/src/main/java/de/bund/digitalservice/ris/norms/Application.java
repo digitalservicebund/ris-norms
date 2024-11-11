@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Main class for launching the Spring Boot application. This class is annotated with {@link
@@ -10,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * to enable various configuration settings.
  */
 @SpringBootApplication
-@EnableScheduling
 public class Application {
 
   @Generated
