@@ -594,37 +594,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   :global(.akn-tr) > * {
     @apply row-start-2 mb-0;
   }
-}
 
-/**
- * Special styling for akn:num
- */
-.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)),
-.preview
-  :has(
-    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
-  ) {
-  @apply grid grid-cols-[max-content,1fr] gap-x-8;
-
-  &:before {
-    @apply col-span-full;
-  }
-
-  :first-child {
-    @apply col-span-1 col-start-1 h-fit;
-  }
-}
-
-.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)) > *,
-.preview
-  :has(
-    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
-  )
-  > * {
-  @apply col-span-1 col-start-2;
-}
-
-.preview {
   :global(
     :is(
         /* inline elements without akn:num */
@@ -791,6 +761,34 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   :global(.akn-table):before {
     content: "table";
   }
+}
+
+/**
+ * Special styling for akn:num
+ */
+.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)),
+.preview
+  :has(
+    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
+  ) {
+  @apply grid grid-cols-[max-content,1fr] gap-x-8;
+
+  &:before {
+    @apply col-span-full;
+  }
+
+  :first-child {
+    @apply col-span-1 col-start-1 h-fit;
+  }
+}
+
+.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)) > *,
+.preview
+  :has(
+    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
+  )
+  > * {
+  @apply col-span-1 col-start-2;
 }
 </style>
 
