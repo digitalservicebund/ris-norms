@@ -623,15 +623,9 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   > * {
   @apply col-span-1 col-start-2;
 }
-</style>
-
-<style scoped>
-#elementToBeReplaced * {
-  @apply scroll-m-20;
-}
 
 .preview {
-  :deep(
+  :global(
     :is(
         /* inline elements without akn:num */
         .akn-a,
@@ -665,137 +659,143 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         .akn-u
       )
   ) {
-    :deep(&):not(:empty) {
+    :global(&):not(:empty) {
       @apply inline border border-highlight-elementSelect-hover-border bg-highlight-elementSelect-hover-background;
     }
   }
 
-  :deep(.akn-longTitle):before {
+  :global(.akn-longTitle):before {
     content: "long title";
   }
 
-  :deep(.akn-citations):before {
+  :global(.akn-citations):before {
     content: "citations";
   }
 
-  :deep(.akn-recitals):before {
+  :global(.akn-recitals):before {
     content: "recitals";
   }
 
-  :deep(.akn-recital):before {
+  :global(.akn-recital):before {
     content: "recital";
   }
 
-  :deep(.akn-blockContainer):before {
+  :global(.akn-blockContainer):before {
     content: "block container";
   }
 
-  :deep(.akn-book):before {
+  :global(.akn-book):before {
     content: "book";
   }
 
-  :deep(.akn-part):before {
+  :global(.akn-part):before {
     content: "part";
   }
 
-  :deep(.akn-chapter):before {
+  :global(.akn-chapter):before {
     content: "chapter";
   }
 
-  :deep(.akn-subchapter):before {
+  :global(.akn-subchapter):before {
     content: "subchapter";
   }
 
-  :deep(.akn-section):before {
+  :global(.akn-section):before {
     content: "section";
   }
 
-  :deep(.akn-subsection):before {
+  :global(.akn-subsection):before {
     content: "subsection";
   }
 
-  :deep(.akn-title):before {
+  :global(.akn-title):before {
     content: "title";
   }
 
-  :deep(.akn-subtitle):before {
+  :global(.akn-subtitle):before {
     content: "subtitle";
   }
 
-  :deep(.akn-article):before {
+  :global(.akn-article):before {
     content: "article";
   }
 
-  :deep(.akn-paragraph):before {
+  :global(.akn-paragraph):before {
     content: "paragraph";
   }
 
-  :deep(.akn-list):before {
+  :global(.akn-list):before {
     content: "list";
   }
 
-  :deep(.akn-point):before {
+  :global(.akn-point):before {
     content: "point";
   }
 
-  :deep(.akn-wrapUp):before {
+  :global(.akn-wrapUp):before {
     content: "wrap up";
   }
 
-  :deep(.akn-foreign):before {
+  :global(.akn-foreign):before {
     content: "foreign";
   }
 
-  :deep(.akn-tblock):before {
+  :global(.akn-tblock):before {
     content: "tblock";
   }
 
-  :deep(.akn-toc):before {
+  :global(.akn-toc):before {
     content: "toc";
   }
 
-  :deep(.akn-tocItem):before {
+  :global(.akn-tocItem):before {
     content: "toc item";
   }
 
-  :deep(.akn-p):before {
+  :global(.akn-p):before {
     content: "p";
   }
 
-  :deep(.akn-block):before {
+  :global(.akn-block):before {
     content: "block";
   }
 
-  :deep(.akn-num):before {
+  :global(.akn-num):before {
     content: "num";
   }
 
-  :deep(.akn-heading):before {
+  :global(.akn-heading):before {
     content: "heading";
   }
 
-  :deep(.akn-td):before {
+  :global(.akn-td):before {
     content: "td";
   }
 
-  :deep(.akn-th):before {
+  :global(.akn-th):before {
     content: "th";
   }
 
-  :deep(.akn-tr):before {
+  :global(.akn-tr):before {
     content: "tr";
   }
 
-  :deep(.akn-ol):before {
+  :global(.akn-ol):before {
     content: "ol";
   }
 
-  :deep(.akn-ul):before {
+  :global(.akn-ul):before {
     content: "ul";
   }
 
-  :deep(.akn-table):before {
+  :global(.akn-table):before {
     content: "table";
   }
+}
+</style>
+
+<style scoped>
+#elementToBeReplaced * {
+  @apply scroll-m-20;
 }
 </style>
