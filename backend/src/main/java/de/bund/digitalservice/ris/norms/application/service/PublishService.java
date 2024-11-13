@@ -33,6 +33,7 @@ public class PublishService implements PublishNormUseCase {
   private final LoadMigrationLogByDatePort loadMigrationLogByDatePort;
   private final DeleteAllPublicNormsPort deleteAllPublicNormsPort;
   private final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort;
+  private final PublishChangelogsPort publishChangelogsPort;
 
   public PublishService(
     LoadNormIdsByPublishStatePort loadNormIdsByPublishStatePort,
@@ -44,7 +45,8 @@ public class PublishService implements PublishNormUseCase {
     LoadNormByIdPort loadNormByIdPort,
     LoadMigrationLogByDatePort loadMigrationLogByDatePort,
     DeleteAllPublicNormsPort deleteAllPublicNormsPort,
-    DeleteAllPrivateNormsPort deleteAllPrivateNormsPort
+    DeleteAllPrivateNormsPort deleteAllPrivateNormsPort,
+    PublishChangelogsPort publishChangelogsPort
   ) {
     this.loadNormIdsByPublishStatePort = loadNormIdsByPublishStatePort;
     this.publishPublicNormPort = publishPublicNormPort;
@@ -56,6 +58,7 @@ public class PublishService implements PublishNormUseCase {
     this.loadMigrationLogByDatePort = loadMigrationLogByDatePort;
     this.deleteAllPublicNormsPort = deleteAllPublicNormsPort;
     this.deleteAllPrivateNormsPort = deleteAllPrivateNormsPort;
+    this.publishChangelogsPort = publishChangelogsPort;
   }
 
   @Override
@@ -89,6 +92,7 @@ public class PublishService implements PublishNormUseCase {
         log.error("Norm with id {} not found", publishId);
       }
     });
+    publishChangelogsPort.publishChangelogs();
   }
 
   private void processNorm(Norm norm) {

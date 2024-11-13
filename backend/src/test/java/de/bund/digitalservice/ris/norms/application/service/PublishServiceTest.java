@@ -42,6 +42,8 @@ class PublishServiceTest {
     LoadMigrationLogByDatePort.class
   );
 
+  final PublishChangelogsPort publishChangelogsPort = mock(PublishChangelogsPort.class);
+
   final PublishService publishService = new PublishService(
     loadNormIdsByPublishStatePort,
     publishPublicNormPort,
@@ -52,7 +54,8 @@ class PublishServiceTest {
     loadNormByIdPort,
     loadMigrationLogByDatePort,
     deleteAllPublicNormsPort,
-    deleteAllPrivateNormsPort
+    deleteAllPrivateNormsPort,
+    publishChangelogsPort
   );
 
   @Nested
@@ -81,6 +84,7 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(1))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogsPort, times(1)).publishChangelogs();
     }
 
     @Test
@@ -111,6 +115,7 @@ class PublishServiceTest {
       verify(deletePrivateNormPort, never())
         .deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Command.class));
+      verify(publishChangelogsPort, times(1)).publishChangelogs();
     }
 
     @Test
@@ -141,6 +146,7 @@ class PublishServiceTest {
       verify(deletePrivateNormPort, never())
         .deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Command.class));
+      verify(publishChangelogsPort, times(1)).publishChangelogs();
     }
 
     @Test
@@ -180,6 +186,7 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(1))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogsPort, times(1)).publishChangelogs();
     }
 
     @Test
@@ -213,6 +220,7 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(1))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogsPort, times(1)).publishChangelogs();
     }
   }
 
