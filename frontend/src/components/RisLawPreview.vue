@@ -525,11 +525,6 @@ watch(
   content: "“";
 }
 
-.default-norm-style :deep(.akn-quotedStructure > :last-child),
-.default-norm-style :deep(.akn-quotedStructure > :last-child *) {
-  @apply inline;
-}
-
 .default-norm-style :deep(.akn-shortTitle) {
   @apply block font-normal;
 }
