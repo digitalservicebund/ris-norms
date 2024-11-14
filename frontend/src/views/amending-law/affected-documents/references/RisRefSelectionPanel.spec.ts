@@ -55,7 +55,7 @@ describe("risRefSelectionPanel", () => {
 
     renderIsFetching.value = false
 
-    expect.poll(() => loadingIndicator).not.toBeInTheDocument()
+    await expect.poll(() => loadingIndicator).not.toBeInTheDocument()
   })
 
   it("should show error when one exists", async () => {
