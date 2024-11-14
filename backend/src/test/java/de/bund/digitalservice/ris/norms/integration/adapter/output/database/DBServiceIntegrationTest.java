@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
@@ -453,6 +454,25 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(publishedNorms).isNotEmpty().hasSize(1);
+    }
+
+    @Test
+    void itLoadsNormById() {
+      // Given
+      var normQueued = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      normQueued.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      NormDto norm = normRepository.save(NormMapper.mapToDto(normQueued));
+      UUID normId = norm.getId();
+
+      // When
+      final Optional<Norm> publishedNorm = dbService.loadNormById(
+        new LoadNormByIdPort.Command(normId)
+      );
+
+      // Then
+      assertThat(publishedNorm).isNotEmpty();
+      assertThat(XmlMapper.toString(publishedNorm.get().getDocument())).isEqualTo(norm.getXml());
     }
   }
 
