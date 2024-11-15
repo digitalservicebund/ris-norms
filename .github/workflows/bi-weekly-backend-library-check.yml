@@ -25,7 +25,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew versionCatalogUpdate
       - name: "Setup jq"
-        uses: dcarbone/install-jq-action@v2
+        uses: dcarbone/install-jq-action@v3
       - name: Determine library updates
         working-directory: ./backend
         run: |
