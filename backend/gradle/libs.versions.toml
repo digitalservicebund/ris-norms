@@ -1,10 +1,10 @@
 [versions]
-flyway = "10.21.0"
+flyway = "10.22.0"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "5.16.0"
 org-bouncycastle = "1.79"
-org-testcontainers = "1.20.3"
+org-testcontainers = "1.20.4"
 spring-boot = "3.3.5"
 
 [libraries]
