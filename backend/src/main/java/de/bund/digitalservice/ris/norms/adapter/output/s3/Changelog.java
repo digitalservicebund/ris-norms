@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.regex.Pattern;
 import lombok.Getter;
 
 /**
@@ -14,11 +14,8 @@ import lombok.Getter;
  */
 public class Changelog {
 
-  public static final String FILE_NAME_PREFFIX = "changelog-";
-  public static final String FILE_NAME_SUFFIX = ".json";
-  public static final Pattern FILE_NAME_PATTERN = Pattern.compile(
-    FILE_NAME_PREFFIX + "\\d{4}-\\d{2}-\\d{2}" + FILE_NAME_SUFFIX
-  );
+  public static final String FOLDER = "changelogs";
+  public static final String FILE_NAME_FORMAT = "changelog-%s.json";
 
   public static final String CHANGED = "changed";
   public static final String DELETED = "deleted";
@@ -30,7 +27,7 @@ public class Changelog {
   private final String fileName;
 
   public Changelog() {
-    this.fileName = FILE_NAME_PREFFIX + LocalDate.now() + FILE_NAME_SUFFIX;
+    this.fileName = Paths.get(FOLDER, FILE_NAME_FORMAT.formatted(LocalDate.now())).toString();
   }
 
   /**

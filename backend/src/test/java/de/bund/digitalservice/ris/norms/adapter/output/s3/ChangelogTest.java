@@ -14,7 +14,7 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     assertThat(changelog.getFileName()).isNotEmpty();
     assertThat(changelog.getFileName())
-      .isEqualTo("changelog-%s.json".formatted(LocalDate.now().toString()));
+      .isEqualTo("changelogs/changelog-%s.json".formatted(LocalDate.now().toString()));
   }
 
   @Test

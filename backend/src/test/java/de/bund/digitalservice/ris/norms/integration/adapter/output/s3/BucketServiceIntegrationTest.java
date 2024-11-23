@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
+import de.bund.digitalservice.ris.norms.adapter.output.s3.Changelog;
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePrivateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePublicNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPrivateNormPort;
@@ -201,10 +202,14 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     Path changeLogPath;
     if (Objects.equals(location, PUBLIC_BUCKET)) {
       changeLogPath =
-      getPublicPath().resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
+      getPublicPath()
+        .resolve(Changelog.FOLDER)
+        .resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
     } else {
       changeLogPath =
-      getPrivatePath().resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
+      getPrivatePath()
+        .resolve(Changelog.FOLDER)
+        .resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
     }
 
     final Map<String, Set<String>> changelogEntries;

@@ -209,7 +209,7 @@ public class BucketService
   }
 
   /**
-   * Deletes all objects in the specified S3 bucket, except for those matching the changelog pattern.
+   * Deletes all objects in the specified S3 bucket, except for the changelog files, which are contained within the "changelogs" folder
    * The deletion process handles pagination automatically if there are more than 1,000 objects in the bucket.
    * <p>
    * AWS S3 allows a maximum of 1,000 keys to be processed per delete request. This method retrieves and deletes objects
@@ -223,18 +223,17 @@ public class BucketService
     try {
       ListObjectsV2Request listRequest = ListObjectsV2Request.builder().bucket(bucketName).build();
       ListObjectsV2Response listResponse;
-
+      int objectsDeleted = 0;
       do {
         listResponse = s3Client.listObjectsV2(listRequest);
         final List<ObjectIdentifier> objectsToDelete = new ArrayList<>();
 
         for (S3Object s3Object : listResponse.contents()) {
           final String key = s3Object.key();
-          if (!Changelog.FILE_NAME_PATTERN.matcher(key).matches()) {
+          if (!key.startsWith(Changelog.FOLDER + "/")) {
             objectsToDelete.add(ObjectIdentifier.builder().key(key).build());
           }
         }
-
         if (!objectsToDelete.isEmpty()) {
           final DeleteObjectsRequest deleteRequest = DeleteObjectsRequest
             .builder()
@@ -242,11 +241,13 @@ public class BucketService
             .delete(d -> d.objects(objectsToDelete))
             .build();
           s3Client.deleteObjects(deleteRequest);
+          objectsDeleted += objectsToDelete.size();
         }
 
         listRequest =
         listRequest.toBuilder().continuationToken(listResponse.nextContinuationToken()).build();
       } while (listResponse.isTruncated() != null && listResponse.isTruncated());
+      log.info("Successfully deleted {} objects in bucket {}", objectsDeleted, bucketName);
     } catch (Exception e) {
       throw new BucketException(
         BucketException.Operation.DELETE,
