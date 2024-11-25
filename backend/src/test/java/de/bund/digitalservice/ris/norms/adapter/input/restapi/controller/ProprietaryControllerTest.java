@@ -197,9 +197,9 @@ class ProprietaryControllerTest {
         .node(
           XmlMapper.toNode(
             """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
-                                              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+                                              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                                                   <ris:fna start="1990-01-01" end="1994-12-31">new-fna</ris:fna>
                                                   <ris:art start="1990-01-01" end="1994-12-31">new-art</ris:art>
                                                   <ris:typ start="1990-01-01" end="1994-12-31">new-typ</ris:typ>
@@ -430,8 +430,8 @@ class ProprietaryControllerTest {
         .node(
           XmlMapper.toNode(
             """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                                     <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
                                             <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                                         <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>

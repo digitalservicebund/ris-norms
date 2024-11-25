@@ -322,7 +322,7 @@ describe("risModForm", () => {
         destinationHref:
           "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/art-1_abs-1/5-53.xml",
         targetLawHtml: "<span data-eId='span-1'>Test</span>",
-        targetLaw: `<akn:akonaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"><akn:span eId="span-1">Test</akn:span></akn:akonaNtoso>`,
+        targetLaw: `<akn:akonaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"><akn:span eId="span-1">Test</akn:span></akn:akonaNtoso>`,
       },
     })
 

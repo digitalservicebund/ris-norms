@@ -22,7 +22,7 @@ describe("ldmldeModService", () => {
   describe("getModEIds", () => {
     it("should find the eIds", () => {
       const node = xmlStringToDocument(`
-        <akn:article  xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/">
+        <akn:article  xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/">
             <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
                 <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
             </akn:mod>
@@ -44,7 +44,7 @@ describe("ldmldeModService", () => {
   describe("getQuotedTextSecond", () => {
     it("should find second quoted text", () => {
       const node = xmlStringToDocument(`
-        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
           <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
           werden die Wörter
@@ -62,7 +62,7 @@ describe("ldmldeModService", () => {
   describe("getQuotedTextFirst", () => {
     it("should find first quoted text", () => {
       const node = xmlStringToDocument(`
-        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
           <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
           werden die Wörter
@@ -82,7 +82,7 @@ describe("ldmldeModService", () => {
   describe("getDestinationHref", () => {
     it("should find the correct href", () => {
       const node = xmlStringToDocument(`
-        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
           <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
           werden die Wörter
@@ -102,7 +102,7 @@ describe("ldmldeModService", () => {
   describe("getTextualModType", () => {
     it("should find the correct href", () => {
       const node = xmlStringToDocument(`
-        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
           <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
           werden die Wörter
@@ -121,7 +121,7 @@ describe("ldmldeModService", () => {
     it("should find the correct date", () => {
       const xml = xmlStringToDocument(`<?xml version="1.0" encoding="UTF-8"?>
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
           <akn:act name="regelungstext" eId="hauptteil-1">
             <akn:meta GUID="7e5837c8-b967-45be-924b-c95956c4aa94" eId="meta-1">
               <akn:lifecycle GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" eId="meta-1_lebzykl-1" source="attributsemantik-noch-undefiniert">
@@ -162,7 +162,7 @@ describe("ldmldeModService", () => {
   describe("getQuotedStructureContent", () => {
     it("should find the quoted structure content", () => {
       const node = xmlStringToDocument(`
-      <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+      <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
         In
         <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
         <akn:quotedStructure GUID="12345678-1234-1234-1234-123456789012" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotedstructure-1">
@@ -316,7 +316,7 @@ describe("ldmldeModService", () => {
   describe("getDestinationRangeHref", () => {
     it("should not find the destination range href", () => {
       const node = xmlStringToDocument(`
-        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
           <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
           werden die Wörter
@@ -332,7 +332,7 @@ describe("ldmldeModService", () => {
 
     it("should find the destination range href", () => {
       const node = xmlStringToDocument(`
-             <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"  GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+             <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"  GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
                  <akn:rref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" from="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2">§ 2 Absätze 1 bis 2</akn:rref> des Gesetzes werden ersetzt durch:
             </akn:mod>
       `).childNodes.item(0)
@@ -346,7 +346,7 @@ describe("ldmldeModService", () => {
   describe("getDestinationRangeUpto", () => {
     it("should not find the destination range upTo", () => {
       const node = xmlStringToDocument(`
-        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
           <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
           werden die Wörter
@@ -362,7 +362,7 @@ describe("ldmldeModService", () => {
 
     it("should find the destination range upTo", () => {
       const node = xmlStringToDocument(`
-             <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"  GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+             <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"  GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
                  <akn:rref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" from="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml">§ 2 Absätze 1 bis 2</akn:rref> des Gesetzes werden ersetzt durch:
             </akn:mod>
       `).childNodes.item(0)

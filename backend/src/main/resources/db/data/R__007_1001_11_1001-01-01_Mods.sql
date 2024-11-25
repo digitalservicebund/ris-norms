@@ -7,7 +7,7 @@ WHERE eli_expression = 'eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1'
 INSERT INTO norms (publish_state, xml)
 VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
@@ -120,7 +120,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>stammform</meta:form>
                <meta:fassung>verkuendungsfassung</meta:fassung>

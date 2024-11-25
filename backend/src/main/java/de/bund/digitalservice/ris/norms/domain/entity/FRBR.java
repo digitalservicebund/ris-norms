@@ -50,7 +50,7 @@ public abstract class FRBR {
     if (optionalFRBRuri.isEmpty()) {
       var newFRBRuri = node
         .getOwnerDocument()
-        .createElementNS("http://Inhaltsdaten.LegalDocML.de/1.7/", "FRBRuri");
+        .createElementNS("http://Inhaltsdaten.LegalDocML.de/1.7.1/", "FRBRuri");
       newFRBRuri.setAttribute("GUID", UUID.randomUUID().toString());
       newFRBRuri.setAttribute(VALUE_ATTIBUTE, uri.toString());
       node.appendChild(newFRBRuri);

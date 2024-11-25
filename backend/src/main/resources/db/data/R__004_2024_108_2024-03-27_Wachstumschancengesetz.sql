@@ -13,7 +13,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 	##################################################################################
 -->
 <?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
    <akn:act name="regelungstext">
@@ -160,7 +160,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>stammform</meta:form>
                <meta:fassung>neufassung</meta:fassung>
@@ -176,7 +176,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                   <meta:federfuehrend ab="1934-10-16" bis="unbestimmt">BMF - Bundesministerium der Finanzen</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                <ris:subtyp>SN</ris:subtyp>
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>

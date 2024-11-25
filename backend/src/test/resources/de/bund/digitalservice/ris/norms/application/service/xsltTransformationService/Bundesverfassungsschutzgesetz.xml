@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schemas/legalDocML.de-metadaten.xsd                         http://Inhaltsdaten.LegalDocML.de/1.6/ ../schemas/legalDocML.de-regelungstextentwurfsfassung.xsd">
    <akn:act name="regelungstext">
@@ -161,7 +161,7 @@
          <akn:proprietary source="attributsemantik-noch-undefiniert"
                           eId="meta-1_proprietary-2"
                           GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                <ris:celex/>
                <ris:interne-referenz href="">
                   <ris:normgeber/>

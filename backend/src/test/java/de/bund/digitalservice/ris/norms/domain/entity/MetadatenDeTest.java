@@ -15,7 +15,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                   <meta:fna>111-11-1</meta:fna>
               </meta:legalDocML.de_metadaten>
           """
@@ -33,7 +33,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
               </meta:legalDocML.de_metadaten>
           """
         )
@@ -50,7 +50,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                   <meta:art>test art</meta:art>
               </meta:legalDocML.de_metadaten>
           """
@@ -68,7 +68,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
               </meta:legalDocML.de_metadaten>
           """
         )
@@ -85,7 +85,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                   <meta:typ>typi1</meta:typ>
               </meta:legalDocML.de_metadaten>
           """
@@ -103,7 +103,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
               </meta:legalDocML.de_metadaten>
           """
         )
@@ -120,7 +120,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
               <meta:federfuehrung>
                   <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                   <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
@@ -156,7 +156,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
               </meta:legalDocML.de_metadaten>
           """
         )
@@ -174,7 +174,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
               <meta:federfuehrung>
                   <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                   <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
@@ -204,7 +204,7 @@ class MetadatenDeTest {
       .node(
         XmlMapper.toNode(
           """
-              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
               <meta:federfuehrung>
                   <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                   <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>

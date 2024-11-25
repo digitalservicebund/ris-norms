@@ -79,7 +79,7 @@ describe("risRefSelectionPanel", () => {
     const { emitted } = render(RisRefSelectionPanel, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
     })
 
@@ -145,7 +145,7 @@ describe("risRefSelectionPanel", () => {
     const { emitted } = render(RisRefSelectionPanel, {
       props: {
         xmlSnippet:
-          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref></akn:quotedText>",
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref></akn:quotedText>",
       },
     })
 
@@ -157,7 +157,7 @@ describe("risRefSelectionPanel", () => {
     const updateXmlSnippetEvents = emitted("update:xmlSnippet")
     expect(updateXmlSnippetEvents).toHaveLength(1)
     expect(updateXmlSnippetEvents[0]).toEqual([
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" eId="quot-1">Render of a ref and <akn:ref eId="quot-1_ref-2">a second ref</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="quot-1">Render of a ref and <akn:ref eId="quot-1_ref-2">a second ref</akn:ref></akn:quotedText>`,
     ])
   })
 })

@@ -23,8 +23,8 @@ class ReferenceServiceTest {
         XmlMapper.toDocument(
           """
           <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
               <akn:act name="regelungstext">
                   <akn:body GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8" eId="hauptteil-1">
                       <akn:article GUID="cdbfc728-a070-42d9-ba2f-357945afef06" eId="hauptteil-1_art-1" period="#geltungszeitgr-1" refersTo="hauptaenderung">

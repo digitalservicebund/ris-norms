@@ -12,9 +12,9 @@
   ##################################################################################
 -->
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
         <!-- Metadaten -->
       <akn:meta eId="meta-1" GUID="35e907fd-e8d9-458a-bd1d-ad6a58be65d7">
@@ -160,7 +160,7 @@
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="abc8b95c-5a4b-44a8-b385-3ebee5176627"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
                <meta:fassung>verkuendungsfassung</meta:fassung>
