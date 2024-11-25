@@ -190,6 +190,46 @@ class PublishServiceTest {
     }
 
     @Test
+    void doNotdeleteAllNormsIfMigrationLogExistsButSizeIsZero() {
+      // Given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final MigrationLog migrationLog = MigrationLog
+        .builder()
+        .size(0)
+        .createdAt(Instant.now())
+        .build();
+
+      final UUID uuid = UUID.randomUUID();
+      when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
+        .thenReturn(List.of(uuid));
+      when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
+        .thenReturn(Optional.of(norm));
+      when(loadMigrationLogByDatePort.loadMigrationLogByDate(any()))
+        .thenReturn(Optional.of(migrationLog)); // Migration log found
+
+      // When
+      publishService.processQueuedFilesForPublish();
+
+      // Then
+      verify(loadNormIdsByPublishStatePort, times(1))
+        .loadNormIdsByPublishState(
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
+        );
+
+      // Check that deletion was called
+      verify(deleteAllPublicNormsPort, times(0)).deleteAllPublicNorms();
+      verify(deleteAllPrivateNormsPort, times(0)).deleteAllPrivateNorms();
+
+      // Verify norm publishing actions
+      verify(publishPublicNormPort, times(1))
+        .publishPublicNorm(new PublishPublicNormPort.Command(norm));
+      verify(publishPrivateNormPort, times(1))
+        .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogsPort, times(1)).publishChangelogs();
+    }
+
+    @Test
     void doNotDeleteNormsIfNoMigrationLogExists() {
       // Given
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");

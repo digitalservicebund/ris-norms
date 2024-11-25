@@ -73,9 +73,13 @@ public class PublishService implements PublishNormUseCase {
             .atOffset(ZoneOffset.UTC)
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         );
-        deleteAllPublicNormsPort.deleteAllPublicNorms();
-        deleteAllPrivateNormsPort.deleteAllPrivateNorms();
-        log.info("Deleted all norms in both buckets");
+        if (migrationLog.getSize() > 0) {
+          deleteAllPublicNormsPort.deleteAllPublicNorms();
+          deleteAllPrivateNormsPort.deleteAllPrivateNorms();
+          log.info("Deleted all norms in both buckets");
+        } else {
+          log.info("Migration log has a size of 0");
+        }
       });
 
     List<UUID> normIds = loadNormIdsByPublishStatePort.loadNormIdsByPublishState(
