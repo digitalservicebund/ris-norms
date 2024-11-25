@@ -386,15 +386,27 @@ public class BillToActService {
       gesta.appendChild(document.createTextNode("nicht-vorhanden"));
       regularMetaData.appendChild(gesta);
     }
+    // todo (malte.laukoetter 2024-11-25): temporarily removed to support 1.7.1 without too much work
+    /*
+     add this snippet back to RegelungstextVerkuendungsfassung:
+
+     <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+     <meta:federfuehrung>
+     <meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz
+     </meta:federfuehrend>
+     </meta:federfuehrung>
+     </meta:legalDocML.de_metadaten>
+     */
+    /*
     if (NodeParser.getNodeFromExpression("./federfuehrung", regularMetaData).isEmpty()) {
       final Element federfuehrung = document.createElement("meta:federfuehrung");
       final Element federfuehrend = document.createElement("meta:federfuehrend");
       federfuehrend.setAttribute("ab", date.getAttribute("date"));
       federfuehrend.setAttribute("bis", "unbestimmt");
-      federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
+      federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz")); // todo (malte.laukoetter 2024-11-25): why is this a hardcoded BMJ?
       federfuehrung.appendChild(federfuehrend);
       regularMetaData.appendChild(federfuehrung);
-    }
+    }*/
   }
 
   private void addTemporalInformation(Document document) {

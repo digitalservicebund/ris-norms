@@ -143,12 +143,6 @@
                <meta:fna>nicht-vorhanden</meta:fna>
                <meta:gesta>nicht-vorhanden</meta:gesta>
             </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
-                <meta:federfuehrung>
-                  <meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz
-                        </meta:federfuehrend>
-               </meta:federfuehrung>
-            </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
         <!-- Dokumentenkopf Regelungstext -->
