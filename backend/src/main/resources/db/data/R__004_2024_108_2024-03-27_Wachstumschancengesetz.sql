@@ -171,6 +171,8 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                <meta:fna>754-28-2</meta:fna>
                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
                <meta:gesta>nicht-vorhanden</meta:gesta>
+            </meta:legalDocML.de_metadaten>
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
                <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                <meta:federfuehrung>
                   <meta:federfuehrend ab="1934-10-16" bis="unbestimmt">BMF - Bundesministerium der Finanzen</meta:federfuehrend>

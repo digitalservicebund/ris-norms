@@ -136,6 +136,8 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
                <meta:gesta>nicht-vorhanden</meta:gesta>
                <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+            </meta:legalDocML.de_metadaten>
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
                <meta:federfuehrung>
                   <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                </meta:federfuehrung>
