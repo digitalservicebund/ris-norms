@@ -410,37 +410,37 @@
                              GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Saatgutverkehrsgesetz
 
                    <!-- Fußnote -->
-                   <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1"
+                   <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1"
                                       GUID="9de7999f-a222-43ac-a648-f92c5a8ee927"
                                       marker="*)"
                                       placement="bottom"
                                       placementBase="">
-                     <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_text-1"
+                     <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_text-1"
                             GUID="7c210663-00e0-48c1-b86d-d02f1c422de0">Dieses Gesetz dient der Umsetzung folgender Richtlinien:</akn:p>
-                     <akn:ol eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_listegeor-1"
+                     <akn:ol eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1"
                              GUID="605cbd8a-49aa-4d93-a738-a6e43e99ff90">
-                        <akn:li eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_listegeor-1_listenelem-1"
+                        <akn:li eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-1"
                                 GUID="3cdccc29-5cc8-4fd7-b801-08cea8bba9f6"
                                 value="1.">
-                           <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_listegeor-1_listenelem-1_text-1"
+                           <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-1_text-1"
                                   GUID="3aceff70-142a-4a3f-9e1e-8a95b0a279cc">Richtlinie 66/401/EWG des Rates vom 14. Juni 1966 über den
                               Verkehr mit Futterpflanzensaatgut (ABl. EG Nr. 125 S. 2298/66),
                               zuletzt geändert durch die Richtlinie 2004/55/EG (ABl. EU Nr. L 114 S.
                               18);</akn:p>
                         </akn:li>
-                        <akn:li eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_listegeor-1_listenelem-2"
+                        <akn:li eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-2"
                                 GUID="c038077d-6d4f-4788-b9aa-8d04509e5719"
                                 value="2.">
-                           <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_listegeor-1_listenelem-2_text-1"
+                           <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-2_text-1"
                                   GUID="b2f4bc23-e39f-41b6-9bb2-366ad3cc03de">Richtlinie 66/402/EWG des Rates vom 14. Juni 1966 über den
                               Verkehr mit Getreidesaatgut (ABl. EG Nr. 125 S. 2309/66), zuletzt
                               geändert durch die Richtlinie 2003/61/EG (ABl. EU Nr. L 165 S.
                               23);</akn:p>
                         </akn:li>
-                        <akn:li eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_listegeor-1_listenelem-3"
+                        <akn:li eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-3"
                                 GUID="12bf8e36-e9e2-400c-82c0-1dd74f33a306"
                                 value="3.">
-                           <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_listegeor-1_listenelem-3_text-1"
+                           <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-3_text-1"
                                   GUID="41e285c7-cca3-4703-86f5-7228784e60fe">Richtlinie 68/193/EWG des Rates vom 9. April 1968 über den
                               Verkehr mit vegetativem Vermehrungsgut von Reben (ABl. EG Nr. L 93 S.
                               15), zuletzt geändert durch die Verordnung (EG) Nr. 1829/2003 (ABl. EU

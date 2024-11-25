@@ -201,12 +201,12 @@
                              GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Gesetz zur Stärkung von Wachstumschancen, Investitionen und Innovation sowie Steuervereinfachung und Steuerfairness
 
                         <!-- Fußnote -->
-                        <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1"
+                        <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1"
                                            GUID="9de7999f-a222-43ac-a648-f92c5a8ee927"
                                            marker="*)"
                                            placement="bottom"
                                            placementBase="">
-                     <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_text-1"
+                     <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_text-1"
                             GUID="7c210663-00e0-48c1-b86d-d02f1c422de0">Artikel 31 dient der Umsetzung der Richtlinie (EU) 2021/514 des Rates vom 22. März 2021 zur Änderung der Richtlinie 2011/16/EU über die
                                 Zusammenarbeit der Verwaltungsbehörden im Bereich der Besteuerung (ABl. L 104 vom 25.3.2021, S. 1).
                             </akn:p>
