@@ -4,12 +4,12 @@ ALTER TABLE norms
 ALTER TABLE norms
     ADD COLUMN eli_manifestation text GENERATED ALWAYS AS ((xpath(
             '//akn:act/akn:meta/akn:identification/akn:FRBRManifestation/akn:FRBRthis/@value', xml,
-            '{{akn,http://Inhaltsdaten.LegalDocML.de/1.7.1/}}'))[1]::text) STORED UNIQUE NOT NULL;
+            '{{akn,http://Inhaltsdaten.LegalDocML.de/1.7/}}'))[1]::text) STORED UNIQUE NOT NULL;
 
 ALTER TABLE norms
     ADD COLUMN eli_expression text GENERATED ALWAYS AS ((xpath(
             '//akn:act/akn:meta/akn:identification/akn:FRBRExpression/akn:FRBRthis/@value', xml,
-            '{{akn,http://Inhaltsdaten.LegalDocML.de/1.7.1/}}'))[1]::text) STORED NOT NULL;
+            '{{akn,http://Inhaltsdaten.LegalDocML.de/1.7/}}'))[1]::text) STORED NOT NULL;
 
 ALTER TABLE announcements
     DROP CONSTRAINT announcements_eli_fkey;
