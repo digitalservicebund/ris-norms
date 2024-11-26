@@ -60,6 +60,7 @@ jobs:
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
       - name: Wait for backend to be fully up
+        timeout-minutes: 5
         run: |
           until curl --output /dev/null --silent --head --fail http://localhost:8080/actuator/health; do
             echo "Waiting for backend to be fully up..."
