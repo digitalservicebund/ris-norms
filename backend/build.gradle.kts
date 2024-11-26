@@ -246,7 +246,6 @@ spotless {
             "**/*.js",
             "**/*.json",
             "**/*.md",
-            "**/*.properties",
             "**/*.sh",
             "**/*.yml",
         )
@@ -254,9 +253,22 @@ spotless {
             mapOf(
                 "prettier" to "2.6.1",
                 "prettier-plugin-sh" to "0.7.1",
-                "prettier-plugin-properties" to "0.1.0",
             ),
         ).config(mapOf("keySeparator" to "="))
+    }
+    format("properties") {
+        target("**/*.properties")
+        targetExclude("**/gradle-wrapper.properties")
+        prettier(
+            mapOf(
+                "prettier" to "2.6.1",
+                "prettier-plugin-properties" to "0.1.0",
+            ),
+        ).config(
+            mapOf(
+                "keySeparator" to "=",
+            ),
+        )
     }
 }
 
