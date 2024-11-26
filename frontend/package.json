@@ -74,7 +74,7 @@
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "~2.31.0",
     "eslint-plugin-playwright": "~2.1.0",
-    "eslint-plugin-testing-library": "^6.4.0",
+    "eslint-plugin-testing-library": "^7.0.0",
     "eslint-plugin-vue": "~9.31.0",
     "eslint-plugin-vuejs-accessibility": "~2.4.0",
     "globals": "^15.10.0",
