@@ -89,6 +89,10 @@ dependencies {
     schematronToXsltCompileOnly(libs.saxon.he)
 }
 
+interface InjectedExecOps {
+    @get:Inject val execOps: ExecOperations
+}
+
 tasks {
     register<Test>("integrationTest") {
         description = "Runs the integration tests."
@@ -188,7 +192,9 @@ tasks {
                 fileTree(outputs.files.singleFile) {
                     include("**/*.sch")
                     map {
-                        javaexec {
+                        val injected = project.objects.newInstance<InjectedExecOps>()
+
+                        injected.execOps.javaexec {
                             classpath = java.sourceSets["schematronToXslt"].compileClasspath
                             mainClass = "net.sf.saxon.Transform"
 
@@ -240,7 +246,6 @@ spotless {
             "**/*.js",
             "**/*.json",
             "**/*.md",
-            "**/*.properties",
             "**/*.sh",
             "**/*.yml",
         )
@@ -248,9 +253,22 @@ spotless {
             mapOf(
                 "prettier" to "2.6.1",
                 "prettier-plugin-sh" to "0.7.1",
-                "prettier-plugin-properties" to "0.1.0",
             ),
         ).config(mapOf("keySeparator" to "="))
+    }
+    format("properties") {
+        target("**/*.properties")
+        targetExclude("**/gradle-wrapper.properties")
+        prettier(
+            mapOf(
+                "prettier" to "2.6.1",
+                "prettier-plugin-properties" to "0.1.0",
+            ),
+        ).config(
+            mapOf(
+                "keySeparator" to "=",
+            ),
+        )
     }
 }
 

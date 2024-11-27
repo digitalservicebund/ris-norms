@@ -519,41 +519,41 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   }
 
   :global(
-      :is(
-          .akn-article,
-          .akn-block,
-          .akn-blockContainer,
-          .akn-book,
-          .akn-chapter,
-          .akn-citations,
-          .akn-foreign,
-          .akn-heading,
-          .akn-list,
-          .akn-longTitle,
-          .akn-num,
-          .akn-ol,
-          .akn-p,
-          .akn-paragraph,
-          .akn-part,
-          .akn-point,
-          .akn-recital,
-          .akn-recitals,
-          .akn-section,
-          .akn-subchapter,
-          .akn-subsection,
-          .akn-subtitle,
-          .akn-table,
-          .akn-tblock,
-          .akn-td,
-          .akn-th,
-          .akn-title,
-          .akn-toc,
-          .akn-tocItem,
-          .akn-tr,
-          .akn-ul,
-          .akn-wrapUp
-        )
-    ) {
+    :is(
+      .akn-article,
+      .akn-block,
+      .akn-blockContainer,
+      .akn-book,
+      .akn-chapter,
+      .akn-citations,
+      .akn-foreign,
+      .akn-heading,
+      .akn-list,
+      .akn-longTitle,
+      .akn-num,
+      .akn-ol,
+      .akn-p,
+      .akn-paragraph,
+      .akn-part,
+      .akn-point,
+      .akn-recital,
+      .akn-recitals,
+      .akn-section,
+      .akn-subchapter,
+      .akn-subsection,
+      .akn-subtitle,
+      .akn-table,
+      .akn-tblock,
+      .akn-td,
+      .akn-th,
+      .akn-title,
+      .akn-toc,
+      .akn-tocItem,
+      .akn-tr,
+      .akn-ul,
+      .akn-wrapUp
+    )
+  ) {
     @apply rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
 
     &:before {
