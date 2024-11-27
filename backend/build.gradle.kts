@@ -89,6 +89,10 @@ dependencies {
     schematronToXsltCompileOnly(libs.saxon.he)
 }
 
+interface InjectedExecOps {
+    @get:Inject val execOps: ExecOperations
+}
+
 tasks {
     register<Test>("integrationTest") {
         description = "Runs the integration tests."
@@ -188,7 +192,9 @@ tasks {
                 fileTree(outputs.files.singleFile) {
                     include("**/*.sch")
                     map {
-                        javaexec {
+                        val injected = project.objects.newInstance<InjectedExecOps>()
+
+                        injected.execOps.javaexec {
                             classpath = java.sourceSets["schematronToXslt"].compileClasspath
                             mainClass = "net.sf.saxon.Transform"
 
