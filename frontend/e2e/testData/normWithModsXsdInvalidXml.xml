@@ -148,10 +148,12 @@
                <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
                <meta:fna>nicht-vorhanden</meta:fna>
                <meta:gesta>nicht-vorhanden</meta:gesta>
-               <meta:federfuehrung>
-                  <meta:federfuehrend ab="2020-01-01" bis="unbestimmt">BMI</meta:federfuehrend>
-               </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
+           <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+             <meta:federfuehrung>
+               <meta:federfuehrend ab="2020-01-01" bis="unbestimmt">BMI</meta:federfuehrend>
+             </meta:federfuehrung>
+           </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff22" eId="einleitung-1">
