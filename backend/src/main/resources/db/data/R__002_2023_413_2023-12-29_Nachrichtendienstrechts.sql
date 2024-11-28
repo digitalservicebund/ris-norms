@@ -63,6 +63,10 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                               eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
                               name="aktuelle-version-id"
                               value="77167d15-511d-4927-adf3-3c8b0464423c"/>
+               <akn:FRBRalias GUID="9b5c6034-62e6-488e-ac30-806147079ee1"
+                              eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
+                              name="nachfolgende-version-id"
+                              value="e880bf9f-3289-4193-a423-67be494daf80"/>
                <akn:FRBRauthor GUID="edfa3b7d-cd57-4c0e-92e2-fa188c470b2b"
                                eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
                                href="recht.bund.de/institution/bundesregierung"/>
@@ -76,10 +80,6 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                <akn:FRBRversionNumber GUID="4fb34a00-8a92-44bd-bc5f-c0fb6cfe791e"
                                       eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"
                                       value="1"/>
-               <akn:FRBRalias GUID="9b5c6034-62e6-488e-ac30-806147079ee1"
-                              eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
-                              name="nachfolgende-version-id"
-                              value="e880bf9f-3289-4193-a423-67be494daf80"/>
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="3485a797-2673-47ae-884a-980b35bd1a7b"
                                    eId="meta-1_ident-1_frbrmanifestation-1">
