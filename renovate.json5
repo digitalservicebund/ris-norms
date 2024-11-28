@@ -16,7 +16,7 @@
     {
       // version incompatibility with vue-tsc, see: https://github.com/vuejs/language-tools/pull/5020
       "matchPackageNames": ["typescript"],
-      "allowedVersions": "<=5.7"
+      "allowedVersions": "<5.7"
     },
     {
       "groupName": "all non-major frontend dependencies",
