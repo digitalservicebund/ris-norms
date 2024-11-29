@@ -36,6 +36,8 @@ public class BillToActService {
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
     "attributsemantik-noch-undefiniert";
   private static final String AKN_P = "akn:p";
+  private static final String METADATEN = "meta:legalDocML.de_metadaten";
+  private static final String META_PREFIX = "xmlns:meta";
 
   /**
    * Coverts a bill to an act. This is needed for the "Mini-Kreislauf" where we receive bills from
@@ -350,8 +352,8 @@ public class BillToActService {
         .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
         .isEmpty()
     ) {
-      final Element legalDocMlDeMetadaten = document.createElement("meta:legalDocML.de_metadaten");
-      legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7.1/");
+      final Element legalDocMlDeMetadaten = document.createElement(METADATEN);
+      legalDocMlDeMetadaten.setAttribute(META_PREFIX, "http://Metadaten.LegalDocML.de/1.7.1/");
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
         META_PROPRIETARY_SECTION,
         document
@@ -392,8 +394,8 @@ public class BillToActService {
         .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
         .isEmpty()
     ) {
-      final Element legalDocMlDeMetadaten = document.createElement("meta:legalDocML.de_metadaten");
-      legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7.1/");
+      final Element legalDocMlDeMetadaten = document.createElement(METADATEN);
+      legalDocMlDeMetadaten.setAttribute(META_PREFIX, "http://Metadaten.LegalDocML.de/1.7.1/");
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
         META_PROPRIETARY_SECTION,
         document
@@ -406,9 +408,9 @@ public class BillToActService {
       document
     );
     if (bundMetadatenOptional.isEmpty()) {
-      final Element bundMetadaten = document.createElement("meta:legalDocML.de_metadaten");
+      final Element bundMetadaten = document.createElement(METADATEN);
       bundMetadaten.setAttribute(
-        "xmlns:meta",
+        META_PREFIX,
         "http://MetadatenBundesregierung.LegalDocML.de/1.7.1/"
       );
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
