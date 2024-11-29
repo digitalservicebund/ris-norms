@@ -47,9 +47,9 @@ class ElementServiceTest {
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
         <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
           <akn:act name="regelungstext">
             <!-- Metadaten -->
             <akn:meta eId="meta-1" GUID="000">
@@ -110,9 +110,9 @@ class ElementServiceTest {
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
         <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
           <akn:act name="regelungstext">
             <!-- Metadaten -->
             <akn:meta eId="meta-1" GUID="000">
@@ -156,9 +156,9 @@ class ElementServiceTest {
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
         <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
           <akn:act name="regelungstext">
             <!-- Metadaten -->
             <akn:meta eId="meta-1" GUID="000">
@@ -223,9 +223,9 @@ class ElementServiceTest {
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
         <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
           <akn:act name="regelungstext">
             <!-- Metadaten -->
             <akn:meta eId="meta-1" GUID="000">
@@ -271,9 +271,9 @@ class ElementServiceTest {
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
         <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
           <akn:act name="regelungstext">
             <!-- Metadaten -->
             <akn:meta eId="meta-1" GUID="000">
@@ -347,9 +347,9 @@ class ElementServiceTest {
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
         <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
           <akn:act name="regelungstext">
             <!-- Metadaten -->
             <akn:meta eId="meta-1" GUID="000">

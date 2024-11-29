@@ -28,7 +28,7 @@ public class Proprietary {
   public Optional<MetadatenDe> getMetadatenDe() {
     return NodeParser
       .getNodeFromExpression(
-        "./Q{http://Metadaten.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
       .map(MetadatenDe::new);
@@ -42,13 +42,13 @@ public class Proprietary {
   public MetadatenDe getOrCreateMetadatenDe() {
     return NodeParser
       .getNodeFromExpression(
-        "./Q{http://Metadaten.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
       .map(MetadatenDe::new)
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
-        newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7/");
+        newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7.1/");
         return new MetadatenDe(newElement);
       });
   }
@@ -61,7 +61,7 @@ public class Proprietary {
   public Optional<MetadatenDs> getMetadatenDs() {
     return NodeParser
       .getNodeFromExpression(
-        "./Q{http://MetadatenRIS.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
       .map(MetadatenDs::new);
@@ -75,13 +75,13 @@ public class Proprietary {
   public MetadatenDs getOrCreateMetadatenDs() {
     return NodeParser
       .getNodeFromExpression(
-        "./Q{http://MetadatenRIS.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+        "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
       .map(MetadatenDs::new)
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElement("ris:legalDocML.de_metadaten", node);
-        newElement.setAttribute("xmlns:ris", "http://MetadatenRIS.LegalDocML.de/1.7/");
+        newElement.setAttribute("xmlns:ris", "http://MetadatenRIS.LegalDocML.de/1.7.1/");
         return new MetadatenDs(newElement);
       });
   }

@@ -36,6 +36,8 @@ public class BillToActService {
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
     "attributsemantik-noch-undefiniert";
   private static final String AKN_P = "akn:p";
+  private static final String METADATEN = "meta:legalDocML.de_metadaten";
+  private static final String META_PREFIX = "xmlns:meta";
 
   /**
    * Coverts a bill to an act. This is needed for the "Mini-Kreislauf" where we receive bills from
@@ -65,14 +67,14 @@ public class BillToActService {
 
   private void updateXsdLocation(Document document) {
     final Element akomaNtoso = (Element) document.getElementsByTagName("akn:akomaNtoso").item(0);
-    akomaNtoso.setAttribute("xmlns:akn", "http://Inhaltsdaten.LegalDocML.de/1.7/");
+    akomaNtoso.setAttribute("xmlns:akn", "http://Inhaltsdaten.LegalDocML.de/1.7.1/");
     akomaNtoso.setAttribute(
       "xsi:schemaLocation",
-      "http://Metadaten.LegalDocML.de/1.7/ " +
+      "http://Metadaten.LegalDocML.de/1.7.1/ " +
       ROOT_DIR +
       "/" +
       SCHEMA +
-      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ " +
+      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ " +
       ROOT_DIR +
       "/" +
       SCHEMA +
@@ -350,8 +352,8 @@ public class BillToActService {
         .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
         .isEmpty()
     ) {
-      final Element legalDocMlDeMetadaten = document.createElement("meta:legalDocML.de_metadaten");
-      legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7/");
+      final Element legalDocMlDeMetadaten = document.createElement(METADATEN);
+      legalDocMlDeMetadaten.setAttribute(META_PREFIX, "http://Metadaten.LegalDocML.de/1.7.1/");
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
         META_PROPRIETARY_SECTION,
         document
@@ -360,7 +362,7 @@ public class BillToActService {
     }
 
     final Element regularMetaData = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//meta/proprietary/Q{http://Metadaten.LegalDocML.de/1.7/}legalDocML.de_metadaten",
+      "//meta/proprietary/Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
       document
     );
 
@@ -386,14 +388,51 @@ public class BillToActService {
       gesta.appendChild(document.createTextNode("nicht-vorhanden"));
       regularMetaData.appendChild(gesta);
     }
-    if (NodeParser.getNodeFromExpression("./federfuehrung", regularMetaData).isEmpty()) {
+
+    if (
+      NodeParser
+        .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
+        .isEmpty()
+    ) {
+      final Element legalDocMlDeMetadaten = document.createElement(METADATEN);
+      legalDocMlDeMetadaten.setAttribute(META_PREFIX, "http://Metadaten.LegalDocML.de/1.7.1/");
+      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
+        META_PROPRIETARY_SECTION,
+        document
+      );
+      proprietary.appendChild(legalDocMlDeMetadaten);
+    }
+
+    final Optional<Node> bundMetadatenOptional = NodeParser.getNodeFromExpression(
+      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+      document
+    );
+    if (bundMetadatenOptional.isEmpty()) {
+      final Element bundMetadaten = document.createElement(METADATEN);
+      bundMetadaten.setAttribute(
+        META_PREFIX,
+        "http://MetadatenBundesregierung.LegalDocML.de/1.7.1/"
+      );
+      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
+        META_PROPRIETARY_SECTION,
+        document
+      );
+      proprietary.appendChild(bundMetadaten);
+    }
+
+    final Element bundMetadaten = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+      document
+    );
+
+    if (NodeParser.getNodeFromExpression("./federfuehrung", bundMetadaten).isEmpty()) {
       final Element federfuehrung = document.createElement("meta:federfuehrung");
       final Element federfuehrend = document.createElement("meta:federfuehrend");
       federfuehrend.setAttribute("ab", date.getAttribute("date"));
       federfuehrend.setAttribute("bis", "unbestimmt");
       federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
       federfuehrung.appendChild(federfuehrend);
-      regularMetaData.appendChild(federfuehrung);
+      bundMetadaten.appendChild(federfuehrung);
     }
   }
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
       <akn:meta GUID="2481817a-0bb8-4acc-a107-f7b1ca005bd5" eId="meta-1">
          <akn:identification GUID="0f860fc3-2320-4bdb-95fd-39cc7c74c74a" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
@@ -68,7 +68,7 @@
             </akn:temporalGroup>
          </akn:temporalData>
          <akn:proprietary GUID="fe419055-3201-41b1-b096-402eabcbe6a1" eId="meta-1_proprietary-1" source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
                <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -77,7 +77,9 @@
                <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
                <meta:fna>nicht-vorhanden</meta:fna>
                <meta:gesta>nicht-vorhanden</meta:gesta>
-               <meta:federfuehrung>
+            </meta:legalDocML.de_metadaten>
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+                <meta:federfuehrung>
                   <meta:federfuehrend ab="1001-02-01" bis="unbestimmt">BMF - Bundesministerium der Finanzen</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
@@ -100,7 +102,7 @@
          </akn:formula>
       </akn:preamble>
       <akn:body GUID="7053de15-c6f1-4a0e-888f-abe626a12306" eId="hauptteil-1">
-         <akn:article GUID="6654b284-d298-4bde-af54-e237551c8ebe" eId="hauptteil-1_art-1" period="#geltungszeitgr-1" refersTo="hauptaenderung">
+         <akn:article GUID="6654b284-d298-4bde-af54-e237551c8ebe" eId="hauptteil-1_art-1" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
             <akn:num GUID="078ca3ce-a2be-4237-b012-2f5d83401d09" eId="hauptteil-1_art-1_bezeichnung-1">
             </akn:num>
             <akn:heading GUID="62620100-65c6-4bed-a49c-fb0a60414f80" eId="hauptteil-1_art-1_überschrift-1">Artikel 1</akn:heading>
@@ -154,7 +156,7 @@
                </akn:list>
             </akn:paragraph>
          </akn:article>
-         <akn:article GUID="db1c822f-5626-41ae-afc0-6b3249915504" eId="hauptteil-1_art-2" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
+         <akn:article GUID="db1c822f-5626-41ae-afc0-6b3249915504" eId="hauptteil-1_art-2" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
             <akn:num GUID="b78a76fc-5760-427b-aa31-fdab68178d18" eId="hauptteil-1_art-2_bezeichnung-1">
                Artikel 2</akn:num>
             <akn:heading GUID="085ab201-8f3f-45b1-89fd-1667187d521a" eId="hauptteil-1_art-2_überschrift-1">Inkrafttreten</akn:heading>

@@ -43,7 +43,7 @@ class UpdateNormServiceTest {
         .map(Analysis::getPassiveModifications)
         .orElse(Collections.emptyList());
       assertThat(passiveModifications).hasSize(1);
-      assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(4);
+      assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(5);
 
       var passiveModification = passiveModifications.getFirst();
       assertThat(passiveModification.getType()).contains("substitution");
@@ -56,7 +56,7 @@ class UpdateNormServiceTest {
       assertThat(passiveModification.getDestinationHref())
         .contains(new Href("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(passiveModification.getForcePeriodEid())
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-4");
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-5");
     }
 
     @Test
@@ -127,7 +127,7 @@ class UpdateNormServiceTest {
         .map(Analysis::getPassiveModifications)
         .orElse(Collections.emptyList());
       assertThat(passiveModifications).hasSize(2);
-      assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(4); // 3 existing time-boundaries + 1 new one for both mods
+      assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(5); // 4 existing time-boundaries + 1 new one for both mods
 
       var newPassiveModification1 = passiveModifications.getFirst();
       assertThat(newPassiveModification1.getType()).contains("substitution");

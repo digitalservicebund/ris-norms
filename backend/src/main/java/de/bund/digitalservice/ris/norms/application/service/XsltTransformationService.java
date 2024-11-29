@@ -42,7 +42,7 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
       String inputXml = query.xml();
       if (query.snippet()) {
         inputXml =
-        "<akn:akomaNtoso xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7/\">" +
+        "<akn:akomaNtoso xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\">" +
         inputXml +
         "</akn:akomaNtoso>";
       }

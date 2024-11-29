@@ -6,9 +6,9 @@ where eli_expression = 'eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1'
 INSERT INTO norms (publish_state, xml)
 VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
       <akn:meta eId="meta-1" GUID="40a13276-39ac-4fc9-aafd-3fbfea0df2b0">
          <akn:identification eId="meta-1_ident-1"
@@ -123,7 +123,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>stammform</meta:form>
                <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -132,6 +132,8 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
                <meta:fna>nicht-vorhanden</meta:fna>
                <meta:gesta>nicht-vorhanden</meta:gesta>
+            </meta:legalDocML.de_metadaten>
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
                <meta:federfuehrung>
                   <meta:federfuehrend ab="1000-01-01" bis="unbestimmt">nicht-vorhanden</meta:federfuehrend>
                </meta:federfuehrung>

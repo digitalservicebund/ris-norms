@@ -53,7 +53,7 @@ public enum EIdPartType {
   EXMARKUP("exmarkup", List.of("akn:foreign")),
   FETTSCHRIFT("fettschrift", List.of("akn:b")),
   FKTBEZ("fktbez", List.of("akn:role")),
-  FNOTE("fnote", List.of("akn:authorialNote")),
+  AMTLFNOTE("amtlfnote", List.of("akn:authorialNote")),
   FORMEL("formel", List.of("akn:formula")),
   FRBRALIAS("frbralias", List.of("akn:FRBRalias")),
   FRBRAUTHOR("frbrauthor", List.of("akn:FRBRauthor")),

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
       <akn:meta eId="meta-1" GUID="2481817a-0bb8-4acc-a107-f7b1ca005bd5">
          <akn:identification eId="meta-1_ident-1"
@@ -264,7 +264,7 @@
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
                <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -315,7 +315,7 @@
       <akn:body eId="hauptteil-1" GUID="7053de15-c6f1-4a0e-888f-abe626a12306">
          <akn:article eId="hauptteil-1_art-1"
                       GUID="6654b284-d298-4bde-af54-e237551c8ebe"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="hauptaenderung">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="078ca3ce-a2be-4237-b012-2f5d83401d09">
@@ -687,7 +687,7 @@
          </akn:article>
          <akn:article eId="hauptteil-1_art-2"
                       GUID="db1c822f-5626-41ae-afc0-6b3249915504"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="b78a76fc-5760-427b-aa31-fdab68178d18">

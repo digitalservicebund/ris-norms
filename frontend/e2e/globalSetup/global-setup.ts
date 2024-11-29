@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 async function setup() {
   const directoryPath = path.resolve(
     __dirname,
-    "../../../LegalDocML.de/1.7/samples/amending-laws",
+    "../../../LegalDocML.de/1.7.1/samples/amending-laws",
   )
 
   // Read all files in the directory
