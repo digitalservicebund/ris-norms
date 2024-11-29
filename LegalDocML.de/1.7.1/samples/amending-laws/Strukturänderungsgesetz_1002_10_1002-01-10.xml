@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
       <akn:meta GUID="c405932a-632b-4516-8e75-69fb2490e1f9" eId="meta-1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -550,7 +550,6 @@
                                        <akn:foreign GUID="7ae563a6-496f-47ad-a4ab-dde35230eb8a"
                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_exmarkup-1">
                                           <math xmlns="http://www.w3.org/1998/Math/MathML"
-                                                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
                                                 display="block">
                                              <mrow>
                                                 <mi>e</mi>

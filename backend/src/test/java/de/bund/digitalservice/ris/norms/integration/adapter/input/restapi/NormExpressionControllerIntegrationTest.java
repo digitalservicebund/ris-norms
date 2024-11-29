@@ -2009,7 +2009,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
               XmlMatcher.xml(
                 hasXPath(
                   "//passiveModifications/textualMod/force/@period",
-                  equalTo("#meta-1_geltzeiten-1_geltungszeitgr-4")
+                  equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")
                 )
               )
             )
@@ -2185,7 +2185,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
               XmlMatcher.xml(
                 hasXPath(
                   "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-1\"]/force/@period",
-                  equalTo("#meta-1_geltzeiten-1_geltungszeitgr-4")
+                  equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")
                 )
               )
             )

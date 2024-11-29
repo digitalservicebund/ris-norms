@@ -386,27 +386,52 @@ public class BillToActService {
       gesta.appendChild(document.createTextNode("nicht-vorhanden"));
       regularMetaData.appendChild(gesta);
     }
-    // todo (malte.laukoetter 2024-11-25): temporarily removed to support 1.7.1 without too much work
-    /*
-     add this snippet back to RegelungstextVerkuendungsfassung:
 
-     <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
-     <meta:federfuehrung>
-     <meta:federfuehrend ab="2018-12-18" bis="unbestimmt">Bundesministerium der Justiz
-     </meta:federfuehrend>
-     </meta:federfuehrung>
-     </meta:legalDocML.de_metadaten>
-     */
-    /*
-    if (NodeParser.getNodeFromExpression("./federfuehrung", regularMetaData).isEmpty()) {
+    if (
+      NodeParser
+        .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
+        .isEmpty()
+    ) {
+      final Element legalDocMlDeMetadaten = document.createElement("meta:legalDocML.de_metadaten");
+      legalDocMlDeMetadaten.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7.1/");
+      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
+        META_PROPRIETARY_SECTION,
+        document
+      );
+      proprietary.appendChild(legalDocMlDeMetadaten);
+    }
+
+    final Optional<Node> bundMetadatenOptional = NodeParser.getNodeFromExpression(
+      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+      document
+    );
+    if (bundMetadatenOptional.isEmpty()) {
+      final Element bundMetadaten = document.createElement("meta:legalDocML.de_metadaten");
+      bundMetadaten.setAttribute(
+        "xmlns:meta",
+        "http://MetadatenBundesregierung.LegalDocML.de/1.7.1/"
+      );
+      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
+        META_PROPRIETARY_SECTION,
+        document
+      );
+      proprietary.appendChild(bundMetadaten);
+    }
+
+    final Element bundMetadaten = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+      document
+    );
+
+    if (NodeParser.getNodeFromExpression("./federfuehrung", bundMetadaten).isEmpty()) {
       final Element federfuehrung = document.createElement("meta:federfuehrung");
       final Element federfuehrend = document.createElement("meta:federfuehrend");
       federfuehrend.setAttribute("ab", date.getAttribute("date"));
       federfuehrend.setAttribute("bis", "unbestimmt");
-      federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz")); // todo (malte.laukoetter 2024-11-25): why is this a hardcoded BMJ?
+      federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
       federfuehrung.appendChild(federfuehrend);
-      regularMetaData.appendChild(federfuehrung);
-    }*/
+      bundMetadaten.appendChild(federfuehrung);
+    }
   }
 
   private void addTemporalInformation(Document document) {

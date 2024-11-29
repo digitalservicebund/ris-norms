@@ -14,7 +14,7 @@
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
 <!-- Regelungstext des Stammgesetzes nach der Ausfertigung des Änderungsgesetzes. Da die Änderungsbefehle noch nicht in Kraft getreten sind, werden diese lediglich in den Metadaten
        hinterlegt. Sie stellen nun schwebende Änderungen dar, bis sie in Kraft treten und angewendet werden. -->
    <akn:act name="regelungstext">

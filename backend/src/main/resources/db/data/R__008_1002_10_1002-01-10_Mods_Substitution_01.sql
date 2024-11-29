@@ -8,7 +8,7 @@ INSERT INTO norms (publish_state, xml)
 VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
       <akn:meta GUID="7c364d8d-7867-46f5-bfed-f5ad8b4ab89e" eId="meta-1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -279,7 +279,6 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                      <akn:foreign GUID="0caafe15-6a72-43a2-b217-e07a3d7690b4"
                                   eId="hauptteil-1_buch-1_art-1_abs-2_inhalt-1_exmarkup-1">
                         <math xmlns="http://www.w3.org/1998/Math/MathML"
-                              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
                               display="block">
                            <mrow>
                               <mi>f</mi>

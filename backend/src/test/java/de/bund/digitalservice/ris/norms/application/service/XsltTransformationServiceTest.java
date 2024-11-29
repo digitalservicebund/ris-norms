@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -230,7 +229,7 @@ class XsltTransformationServiceTest {
    */
   @ParameterizedTest(name = "{0}")
   @MethodSource("shouldTransformXmlArgumentsProvider")
-  @Disabled("This is not a real test but can be used to regenerate the expected html files.")
+  //@Disabled("This is not a real test but can be used to regenerate the expected html files.")
   void generateExpectedHtmlForShouldTransformXml(
     String xmlFile,
     Boolean showMetadata,

@@ -9,7 +9,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd                         http://Inhaltsdaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../schema/legalDocML.de-metadaten.xsd                         http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
    <akn:act name="regelungstext">
       <akn:meta GUID="731ba8ee-6f44-4a86-8682-eab3a376f16a" eId="meta-1">
          <akn:identification GUID="e0548b32-89df-433d-bf28-3337f7753882"
