@@ -203,13 +203,12 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
       <akn:body eId="hauptteil-1" GUID="2094abe2-16e6-44d5-9198-3ef9486833e9">
          <akn:article eId="hauptteil-1_art-1"
                       GUID="b1b4bd3b-e007-4d84-af83-b8e36a0ae50b"
-                      period="#geltungszeitgr-1">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="f82ab983-5498-49ab-918f-5cf5e730e5ec">
                § 20</akn:num>
             <akn:paragraph eId="hauptteil-1_art-1_abs-1"
-                           GUID="6aa3a7ca-f30a-43b6-950b-b1e942fd1842"
-                           period="#geltungszeitgr-2">
+                           GUID="6aa3a7ca-f30a-43b6-950b-b1e942fd1842">
                <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
                         GUID="e363f12d-7918-435c-b3a1-182c5e03ff43">
                   (1) </akn:num>
@@ -252,8 +251,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
                </akn:list>
             </akn:paragraph>
             <akn:paragraph eId="hauptteil-1_art-1_abs-2"
-                           GUID="f0f31024-8381-4a62-8980-5f432d03a925"
-                           period="#geltungszeitgr-1">
+                           GUID="f0f31024-8381-4a62-8980-5f432d03a925">
                <akn:num eId="hauptteil-1_art-1_abs-2_bezeichnung-1"
                         GUID="c0ea5d8c-8d91-4e0c-812e-429a7a24a1a2">
                   (2) </akn:num>
@@ -267,7 +265,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          <!-- Artikel 34: Geltungszeitregel-->
          <akn:article eId="hauptteil-1_art-2"
                       GUID="6574da6e-2a23-4280-80dd-b4f4c5416cdf"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="19b65c8b-44ae-4092-be09-7de64ac623e5">

@@ -82,7 +82,7 @@
                     </akn:content>
                 </akn:paragraph>
             </akn:article>
-            <akn:article GUID="350e50ca-3938-43ea-807e-cc023ced19fa" eId="hauptteil-1_art-2" period="#geltungszeitgr-1"
+            <akn:article GUID="350e50ca-3938-43ea-807e-cc023ced19fa" eId="hauptteil-1_art-2" period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                          refersTo="geltungszeitregel">
                 <akn:num GUID="d2fcc3a9-1196-477d-8508-83cff3c167ba" eId="hauptteil-1_art-2_bezeichnung-1">
                     Artikel 2</akn:num>

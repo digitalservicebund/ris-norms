@@ -237,7 +237,7 @@
             <!-- §1 -->
          <akn:article eId="hauptteil-1_art-1"
                       GUID="17e9c25e-251d-48a7-8e74-3f0bb4b93b6b"
-                      period="#geltungszeitgr-2"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-2"
                       refersTo="hauptaenderung">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="24f5f556-e005-4d10-8d7e-d92f141780d7">
@@ -450,7 +450,7 @@
          <!-- §2-->
          <akn:article eId="hauptteil-1_art-2"
                       GUID="1af21459-b9df-47aa-a084-435df14c546b"
-                      period="#geltungszeitgr-3"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="518b00f3-3f1c-41b2-8075-3bc644ed58b4">

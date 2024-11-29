@@ -134,7 +134,7 @@ class ElementControllerTest {
         """
             <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="hauptteil-1_art-1"
                         GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                        period="#geltungszeitgr-1"
+                        period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                         refersTo="hauptaenderung">
                         <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                             GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">

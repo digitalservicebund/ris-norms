@@ -278,7 +278,7 @@
          <!-- Artikel 3: Geltungszeitregel-->
          <akn:article eId="hauptteil-1_art-2"
                       GUID="4d4b849a-655e-4f18-a639-1f34f77ff87c"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="b726a7d3-c8fa-4d00-a34c-3d6a5121df4a">

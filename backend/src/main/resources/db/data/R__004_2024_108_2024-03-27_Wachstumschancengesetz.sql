@@ -205,7 +205,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
       <akn:body eId="hauptteil-1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
          <akn:article eId="hauptteil-1_art-1"
                       GUID="e9a8d5e4-77b8-447f-9227-63f687a31f8f"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="049c11bd-5ed2-4423-a7c3-54dce98c414d">
                      §1</akn:num>
@@ -223,7 +223,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-2"
                       GUID="4b09bb18-3bda-4603-a0a3-b62083262a8a"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="42e575d9-f64a-4ad5-85d1-47f134576923">
                      §1</akn:num>
@@ -241,7 +241,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-3"
                       GUID="dcf7124f-ae5b-4a0e-9bc9-d2df8bed7016"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-3_bezeichnung-1"
                      GUID="0ca92be9-2775-4848-a942-0d96397b6a3f">
                      §1a</akn:num>
@@ -259,7 +259,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-4"
                       GUID="11f31a4b-36f5-4163-b5a0-528087d9072d"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-4_bezeichnung-1"
                      GUID="e3ee7c20-d068-424e-acd2-4444c3a59e43">
                      §2</akn:num>
@@ -277,7 +277,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-5"
                       GUID="e253b2d4-f268-46fd-a8ff-79d3ee8d6184"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-5_bezeichnung-1"
                      GUID="4161e762-5411-4b8a-86d5-32a5c3880b12">
                      §2a</akn:num>
@@ -295,7 +295,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-6"
                       GUID="5d51449c-88e9-4411-ab65-e754e5eedf4d"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-6_bezeichnung-1"
                      GUID="243f406d-cd7d-4e7a-8e99-3277133b2a58">
                      §3</akn:num>
@@ -313,7 +313,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-7"
                       GUID="9f671cd2-bf8c-4ca3-adc3-dd9cd3cf5478"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-7_bezeichnung-1"
                      GUID="cb798a77-b613-4e93-b9b6-24ac18a3810d">
                      §3a</akn:num>
@@ -331,7 +331,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-8"
                       GUID="9fa71e02-b0b6-429f-96fc-34aad39a0f21"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-8_bezeichnung-1"
                      GUID="7887a4de-740b-4ed7-ab4b-61dea64d4acd">
                      §3b</akn:num>
@@ -349,7 +349,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-9"
                       GUID="ae491455-e299-409a-928b-b47cbb04040b"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-9_bezeichnung-1"
                      GUID="4d53114a-f191-4600-8f28-5dba72cdd003">
                      §3c</akn:num>
@@ -367,7 +367,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-10"
                       GUID="ca31c6f1-432d-4411-b3ca-7f771632ed35"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-10_bezeichnung-1"
                      GUID="41ccf863-0dac-459c-8794-31da0bc36604">
                      §4</akn:num>
@@ -385,7 +385,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-11"
                       GUID="7348fc55-e767-4d23-ab05-31a4e7ae470c"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-11_bezeichnung-1"
                      GUID="08753f4f-ec16-4cbc-91d8-9057cb06ba4c">
                      §4a</akn:num>
@@ -403,7 +403,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-12"
                       GUID="8ba4d8a5-9140-44fb-b7eb-922bde2f77d0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-12_bezeichnung-1"
                      GUID="c918ccd0-08ab-48e7-988b-f18f09a6ec40">
                      §4b</akn:num>
@@ -421,7 +421,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-13"
                       GUID="9a25387c-d6af-4ac3-bb10-2ddc1adecedc"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-13_bezeichnung-1"
                      GUID="6358cd19-b9f5-473e-9192-eac12373d000">
                      §4c</akn:num>
@@ -439,7 +439,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-14"
                       GUID="17e8f2c2-9298-426d-8a0a-5852124239c0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-14_bezeichnung-1"
                      GUID="1bbc3481-c35f-45c3-b397-c8cb6d6b2c8f">
                      §4d</akn:num>
@@ -457,7 +457,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-15"
                       GUID="adafbf82-2f5a-42c3-82c9-2339f0a382cd"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-15_bezeichnung-1"
                      GUID="32dfd6b3-4c8b-4dde-861b-07821708c297">
                      §4e</akn:num>
@@ -475,7 +475,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-16"
                       GUID="e92b3ffb-be5e-447d-ac59-48815e56c124"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-16_bezeichnung-1"
                      GUID="4e87a3d9-9280-42b7-9d5e-0b4f0ee9170e">
                      §4f</akn:num>
@@ -493,7 +493,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-17"
                       GUID="ffcb8103-08cb-4ab9-895e-2cc19974d4bc"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-17_bezeichnung-1"
                      GUID="bbc37521-f05f-4df9-8496-7b71863460cc">
                      §4g</akn:num>
@@ -511,7 +511,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-18"
                       GUID="91883758-dd57-41ca-887c-76054b2480f6"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-18_bezeichnung-1"
                      GUID="32109de1-9a81-43ce-b167-210b45fde026">
                      §4h</akn:num>
@@ -529,7 +529,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-19"
                       GUID="49482d93-6969-4b41-9646-e38843f35c84"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-19_bezeichnung-1"
                      GUID="7fd28ebf-fb70-4939-b9be-474a44d48322">
                      §4i</akn:num>
@@ -547,7 +547,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-20"
                       GUID="4d3efe94-417b-4251-a63b-73cf014ffd98"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-20_bezeichnung-1"
                      GUID="89416443-6452-4cfb-a6c9-16cbb46d6117">
                      §4j</akn:num>
@@ -565,7 +565,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-21"
                       GUID="b55b4921-23af-4f55-ad3e-8cc9f8c2ff83"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-21_bezeichnung-1"
                      GUID="0619603b-18e4-42ee-9c99-91eae90469c3">
                      §4k</akn:num>
@@ -583,7 +583,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-22"
                       GUID="fe149939-6ef4-42d2-b8c9-4ba28a842406"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-22_bezeichnung-1"
                      GUID="8eeb97eb-a22c-4abf-b3fb-e499f4d372a0">
                      §5</akn:num>
@@ -601,7 +601,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-23"
                       GUID="6f9ae82c-e11a-42ec-9c79-c6643b5030ad"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-23_bezeichnung-1"
                      GUID="af736792-d39f-43b1-9750-40a568247bb4">
                      §5a</akn:num>
@@ -619,7 +619,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-24"
                       GUID="c7570a10-24ba-4556-9330-d58b5ea7e6a6"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-24_bezeichnung-1"
                      GUID="d71ce5b3-1737-44a7-b34f-f9d11ccf8778">
                      §5b</akn:num>
@@ -637,7 +637,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-25"
                       GUID="28ca0cbd-5c5e-494e-a300-45f9d92f9922"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-25_bezeichnung-1"
                      GUID="443e6a57-1e65-4cd7-a89f-c947e6d68832">
                      §6</akn:num>
@@ -655,7 +655,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-26"
                       GUID="fb0dbfa8-c9f4-4072-abac-d5ae46dc4ffa"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-26_bezeichnung-1"
                      GUID="3413c785-2aac-4ec8-ac64-df43b167bd6a">
                      §6a</akn:num>
@@ -674,7 +674,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          <!-- §6b -->
          <akn:article eId="hauptteil-1_art-27"
                       GUID="17e9c25e-251d-48a7-8e74-3f0bb4b93b6b"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-27_bezeichnung-1"
                      GUID="24f5f556-e005-4d10-8d7e-d92f141780d7">
                      §6b</akn:num>
@@ -755,7 +755,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-28"
                       GUID="2a63a350-9d16-4587-b1f5-4da210fa3bec"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-28_bezeichnung-1"
                      GUID="449e293a-3038-4bc0-bd7b-4f7f1353df93">
                            §6c</akn:num>
@@ -773,7 +773,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-29"
                       GUID="504c662d-9018-4f1a-ad4e-84cae20bd885"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-29_bezeichnung-1"
                      GUID="cf2c337c-83eb-409e-b310-1bebd1e3ad0c">
                            §6d</akn:num>
@@ -791,7 +791,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-30"
                       GUID="af8c737c-ba14-4f65-92ca-5c0ae45fa719"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-30_bezeichnung-1"
                      GUID="114896af-7883-451b-9f2c-d1a415c314c1">
                            §6e</akn:num>
@@ -809,7 +809,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-31"
                       GUID="95eb7919-b14a-4d4f-9d09-84770d49ee28"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-31_bezeichnung-1"
                      GUID="8b50a05e-79c5-4b5c-8600-6ad645fdf1bf">
                            §7</akn:num>
@@ -827,7 +827,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-32"
                       GUID="e0418ed8-210c-4df5-831d-84402c78fcd6"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-32_bezeichnung-1"
                      GUID="e0da07d3-19b9-46ba-8c7f-cfa5232f256a">
                            §7a</akn:num>
@@ -845,7 +845,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-33"
                       GUID="7f050d76-a8ed-4c15-8c5f-bc63cc2d592e"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-33_bezeichnung-1"
                      GUID="f13bced6-228d-422f-8b93-cb5917cb5040">
                            §7b</akn:num>
@@ -863,7 +863,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-34"
                       GUID="89f36695-4829-4639-98b3-7b87a3ee2664"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-34_bezeichnung-1"
                      GUID="b418b0f3-70fb-447e-a394-105e76200573">
                            §7c</akn:num>
@@ -881,7 +881,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-35"
                       GUID="c677c2a7-38bc-4c4d-988c-9db5ba9947ce"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-35_bezeichnung-1"
                      GUID="bd8f2e0e-bea3-4d9e-898b-d8c0d5532808">
                            §7d</akn:num>
@@ -899,7 +899,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-36"
                       GUID="7f4daf11-04cd-4d22-8586-1ec56b7b52df"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-36_bezeichnung-1"
                      GUID="312541bc-1a0e-49aa-85b1-234d0378532b">
                            §7e</akn:num>
@@ -917,7 +917,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-37"
                       GUID="91d0fb1b-f8ff-4203-827f-96c52887c3a0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-37_bezeichnung-1"
                      GUID="435a7e1a-a86b-4c80-8fd3-01edc555d79e">
                            §7f</akn:num>
@@ -935,7 +935,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-38"
                       GUID="1db3fb3f-6b3b-4eb6-bb0e-4372b70d4ed8"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-38_bezeichnung-1"
                      GUID="5e3ae644-efb8-4c15-a5fe-05d3251290bf">
                            §7g</akn:num>
@@ -953,7 +953,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-39"
                       GUID="12f09447-ea90-4e64-9c81-77b458a96b23"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-39_bezeichnung-1"
                      GUID="99de84a4-0cef-455b-aa00-6a56ad07a9a9">
                            §7h</akn:num>
@@ -971,7 +971,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-40"
                       GUID="579c9f9a-ba48-49cb-a60c-a571318be3d0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-40_bezeichnung-1"
                      GUID="766a9b2e-e83e-4ffd-b2d8-9fe19a201370">
                            §7i</akn:num>
@@ -989,7 +989,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-41"
                       GUID="b2e0df87-d52f-458b-8901-6fa8a72c28c0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-41_bezeichnung-1"
                      GUID="772fc8c6-2009-4c91-980f-1811ec8c98b7">
                            §7j</akn:num>
@@ -1007,7 +1007,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-42"
                       GUID="f1631d4d-2c49-4de0-99e8-0313a98bc973"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-42_bezeichnung-1"
                      GUID="70ddcd29-2719-479f-a2ce-9fba1f8513af">
                            §7k</akn:num>
@@ -1025,7 +1025,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-43"
                       GUID="5f555a46-b98c-4ca5-85eb-5d8c9bcc773b"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-43_bezeichnung-1"
                      GUID="e0d7f9ef-6310-43ea-8ee8-7206f80a10cf">
                            §8</akn:num>
@@ -1043,7 +1043,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-44"
                       GUID="76c34087-8785-4f65-bfcf-b21d3cce5447"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-44_bezeichnung-1"
                      GUID="74b7793f-b3aa-407f-bc35-a7c275405e5a">
                            §9</akn:num>
@@ -1061,7 +1061,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-45"
                       GUID="ee674638-ebcd-4afb-8d67-507ec4590dc3"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-45_bezeichnung-1"
                      GUID="c34dab0f-0b9f-4507-8fda-c611098eff33">
                            §9a</akn:num>
@@ -1079,7 +1079,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-46"
                       GUID="ccf524cc-5857-417b-8874-ac15bafe9870"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-46_bezeichnung-1"
                      GUID="bdd35c51-f64b-4c4f-ad08-d66a499b7c4a">
                            §9b</akn:num>
@@ -1097,7 +1097,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-47"
                       GUID="db7f88c9-f304-4564-a294-9a6b0c8d3567"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-47_bezeichnung-1"
                      GUID="5d697e3e-bcc8-4c77-9b84-513cf64747bc">
                            §10</akn:num>
@@ -1115,7 +1115,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-48"
                       GUID="e14bd426-f9e7-480b-9069-0d9cb0fd7b80"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-48_bezeichnung-1"
                      GUID="1832f4b2-6856-412e-8012-44f9b885c69c">
                            §10a</akn:num>
@@ -1133,7 +1133,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-49"
                       GUID="43bb65f4-9998-49ff-b685-e297fdc6ed39"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-49_bezeichnung-1"
                      GUID="c51df148-7d09-40fe-92f8-a3c29f6f3cee">
                            §10b</akn:num>
@@ -1151,7 +1151,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-50"
                       GUID="bc497bd8-d49f-418d-9c2c-88f67f86daaf"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-50_bezeichnung-1"
                      GUID="9138e716-266f-4509-9cd5-ccda34ee11b8">
                            §10c</akn:num>
@@ -1169,7 +1169,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-51"
                       GUID="9200365a-1df4-4983-85c8-451e421e9d0d"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-51_bezeichnung-1"
                      GUID="a1e1b0f3-7799-4648-b3e4-3b0deecd05f7">
                            §10d</akn:num>
@@ -1187,7 +1187,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-52"
                       GUID="706cf9b3-20fb-4952-80f7-fcf52afa5532"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-52_bezeichnung-1"
                      GUID="74fa2557-59aa-43b8-b990-720ad6813f93">
                            §10e</akn:num>
@@ -1205,7 +1205,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-53"
                       GUID="85c19e43-7ae6-4051-b7d0-6cbeb0a2a3ae"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-53_bezeichnung-1"
                      GUID="d7233aa6-cb7e-4eae-967c-a39570c4b680">
                            §10f</akn:num>
@@ -1223,7 +1223,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-54"
                       GUID="8b3b9885-e5cf-49d1-aec4-c851ffa8e612"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-54_bezeichnung-1"
                      GUID="831a216d-a89e-4fcc-883c-552d56aa2c4c">
                            §10g</akn:num>
@@ -1241,7 +1241,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-55"
                       GUID="d1e43ff6-aa11-45a8-9eda-e4c5f2ba8aaa"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-55_bezeichnung-1"
                      GUID="56a7b2bd-b247-4389-a8c1-a2b4fba9a577">
                            §10h</akn:num>
@@ -1259,7 +1259,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-56"
                       GUID="7b4fb4ab-e1b3-45a7-8749-5df3e89a06f1"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-56_bezeichnung-1"
                      GUID="468d82d5-8be5-4a63-aaa9-c3ea18f63bef">
                            §10i</akn:num>
@@ -1277,7 +1277,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-57"
                       GUID="52869254-3d60-4278-976c-12c6caa0e9ca"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-57_bezeichnung-1"
                      GUID="2940f21e-162f-4af9-87d7-ea5e77640759">
                            §11</akn:num>
@@ -1295,7 +1295,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-58"
                       GUID="f8d485e1-0153-4460-b509-9577af35aa1f"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-58_bezeichnung-1"
                      GUID="2e13a1c9-a506-4dc1-9efa-aad0c2573f7b">
                            §11a</akn:num>
@@ -1313,7 +1313,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-59"
                       GUID="7f87a5ce-4eac-4618-8b88-11ad9a73f094"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-59_bezeichnung-1"
                      GUID="458930e8-7825-4f8b-af4c-18afcae80c99">
                            §11b</akn:num>
@@ -1331,7 +1331,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-60"
                       GUID="d5cc84de-4a2f-4112-b873-535d0767fc5c"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-60_bezeichnung-1"
                      GUID="48b761b6-4cc8-40f2-9ef2-9314b83baf65">
                            §12</akn:num>
@@ -1349,7 +1349,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-61"
                       GUID="8066551b-deb0-434a-8fcb-5f5a28237b11"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-61_bezeichnung-1"
                      GUID="7fa61a6b-ab26-4d3d-ae4a-ba5a19f5e585">
                            §13</akn:num>
@@ -1367,7 +1367,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-62"
                       GUID="58b72cdd-9361-4f44-adf4-9e46b4dd411b"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-62_bezeichnung-1"
                      GUID="7d236b8f-87eb-4b7f-bb32-f621a43b96d5">
                            §13a</akn:num>
@@ -1385,7 +1385,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-63"
                       GUID="2603ad73-00f3-4f3e-aa0d-096b46899c2e"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-63_bezeichnung-1"
                      GUID="2d2fa553-9a11-47da-8331-079042c8f3a8">
                            §14</akn:num>
@@ -1403,7 +1403,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-64"
                       GUID="bf3fe544-55f5-44f1-b40e-9e318cc8e4c2"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-64_bezeichnung-1"
                      GUID="cbadeaa2-e413-4873-ba67-93aa9b108e01">
                            §14a</akn:num>
@@ -1421,7 +1421,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-65"
                       GUID="e0f00c8d-6e4b-41e3-8146-bf18ab653a61"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-65_bezeichnung-1"
                      GUID="943249dd-a5f5-44a6-be1c-b765b12ffb7c">
                            §15</akn:num>
@@ -1439,7 +1439,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-66"
                       GUID="59f33977-e133-403d-87f2-a8a19e660126"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-66_bezeichnung-1"
                      GUID="b79815cd-e9b2-4a49-a8aa-3fa7bf441e8b">
                            §15a</akn:num>
@@ -1457,7 +1457,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-67"
                       GUID="d39e85a0-e42d-42e5-ae6e-3e4b01d7c125"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-67_bezeichnung-1"
                      GUID="bf7dee3c-4eae-4e52-82a4-9989306fa60b">
                            §15b</akn:num>
@@ -1475,7 +1475,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-68"
                       GUID="13a6f767-98dd-4d47-a578-29ab52eade2f"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-68_bezeichnung-1"
                      GUID="cc243a4b-5f4c-4a8b-9266-afe19faf7c50">
                            §16</akn:num>
@@ -1493,7 +1493,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-69"
                       GUID="6457e6d5-1210-461c-b1d5-c1790b26e838"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-69_bezeichnung-1"
                      GUID="72285626-56c2-4d70-87fc-6e763ce3b2b7">
                            §17</akn:num>
@@ -1511,7 +1511,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-70"
                       GUID="59e3f34c-4f28-4e34-86ae-f2d45181d5b6"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-70_bezeichnung-1"
                      GUID="805050c7-e327-4bcb-b1a8-c14e98e5c372">
                         §18</akn:num>
@@ -1529,7 +1529,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          </akn:article>
          <akn:article eId="hauptteil-1_art-71"
                       GUID="a726a175-3a70-40e7-852f-9d08d1a26a13"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-71_bezeichnung-1"
                      GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
                         §19</akn:num>

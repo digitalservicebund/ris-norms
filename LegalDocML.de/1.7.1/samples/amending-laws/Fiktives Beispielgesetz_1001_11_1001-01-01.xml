@@ -325,7 +325,7 @@
       <akn:body eId="hauptteil-1" GUID="7053de15-c6f1-4a0e-888f-abe626a12306">
          <akn:article eId="hauptteil-1_art-1"
                       GUID="6654b284-d298-4bde-af54-e237551c8ebe"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="hauptaenderung">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="078ca3ce-a2be-4237-b012-2f5d83401d09">
@@ -591,7 +591,7 @@
          </akn:article>
          <akn:article eId="hauptteil-1_art-2"
                       GUID="db1c822f-5626-41ae-afc0-6b3249915504"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="b78a76fc-5760-427b-aa31-fdab68178d18">

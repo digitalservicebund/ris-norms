@@ -210,7 +210,7 @@
             <!-- Artikel 1 : Hauptänderung -->
           <akn:article eId="hauptteil-1_art-1"
                        GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                       period="#geltungszeitgr-1"
+                       period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                        refersTo="hauptaenderung">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
@@ -289,7 +289,7 @@
           <!-- Artikel 5: Geltungszeitregel-->
           <akn:article eId="hauptteil-1_art-2"
                        GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b"
-                       period="#geltungszeitgr-1"
+                       period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                        refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="1bc12642-f00c-4b55-8388-5e8870e6e706">

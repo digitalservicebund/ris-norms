@@ -243,7 +243,7 @@
 <!-- § 9 -->
           <akn:article eId="hauptteil-1_art-1"
                       GUID="b2390631-4ed0-45f6-af24-dd4deeaeae06"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="5ef4111b-874d-4843-8467-bbccf6bceb96">
                § 9</akn:num>
@@ -333,7 +333,7 @@
          </akn:article>
          <akn:article eId="hauptteil-1_art-2"
                       GUID="b1b4bd3b-e007-4d84-af83-b8e36a0ae50b"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="f82ab983-5498-49ab-918f-5cf5e730e5ec">
                § 20</akn:num>
@@ -402,7 +402,7 @@
          </akn:article>
          <akn:article eId="hauptteil-1_art-3"
                       GUID="9aefac39-6322-462f-9b93-7d1a046f2913"
-                      period="#geltungszeitgr-3"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-3_bezeichnung-1"
                      GUID="6ef44f75-f570-49f2-8d4d-1deeb5eacdbc">

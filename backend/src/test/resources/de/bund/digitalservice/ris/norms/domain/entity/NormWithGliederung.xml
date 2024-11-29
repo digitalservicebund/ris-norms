@@ -401,7 +401,7 @@
                                <akn:article
                                        eId="hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-1"
                                        GUID="81523f9e-4c43-407d-8c63-0234f9d143b1"
-                                       period="#geltungszeitgr-1">
+                                       period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                                  <akn:num
                                          eId="hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-1_bezeichnung-1"
                                          GUID="b8722ac1-e461-4d41-a553-93c6d91dece7">
@@ -593,7 +593,7 @@
                                <akn:article
                                        eId="hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-2"
                                        GUID="c474260a-0871-48f9-95df-a189e8b994f7"
-                                       period="#geltungszeitgr-1">
+                                       period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                                  <akn:num
                                          eId="hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-2_bezeichnung-1"
                                          GUID="8f2a191e-bf57-429c-a20e-b54046dc588a">
@@ -704,7 +704,7 @@
                                <!-- § 3 -->
                                <akn:article eId="hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-2_art-1"
                                             GUID="e497674c-4edf-46d5-8bea-deacc770bbb8"
-                                            period="#geltungszeitgr-1">
+                                            period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                            <akn:num
                                    eId="hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-2_art-1_bezeichnung-1"
                                    GUID="ba94726a-6ddd-42dd-804f-68839436801c">
@@ -772,7 +772,7 @@
                        <!-- § 4 -->
                        <akn:article eId="hauptteil-1_buch-1_teil-1_kapitel-2_art-1"
                                     GUID="28f0e8b6-02d6-47b0-815f-404daec6e7ea"
-                                    period="#geltungszeitgr-1">
+                                    period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                      <akn:num eId="hauptteil-1_buch-1_teil-1_kapitel-2_art-1_bezeichnung-1"
                               GUID="3c6c7fa2-af4a-4edc-82d4-d1fe6ea0a651">
                                 § 4</akn:num>
@@ -909,7 +909,7 @@
                    <!-- § 5 -->
                    <akn:article eId="hauptteil-1_buch-1_teil-2_art-1"
                                 GUID="edb74587-b878-4cce-80ab-afa45f3d2f5a"
-                                period="#geltungszeitgr-1">
+                                period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                   <akn:num eId="hauptteil-1_buch-1_teil-2_art-1_bezeichnung-1"
                            GUID="1a73e27b-dc01-407a-b885-77e2fe5a4ca1">
                             § 5</akn:num>
@@ -988,7 +988,7 @@
                    <!-- § 6 -->
                    <akn:article eId="hauptteil-1_buch-1_teil-2_art-2"
                                 GUID="7234efb0-a97c-4311-aaf8-f0090ca01a39"
-                                period="#geltungszeitgr-1">
+                                period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                   <akn:num eId="hauptteil-1_buch-1_teil-2_art-2_bezeichnung-1"
                            GUID="c79e10b0-5c75-4b31-b90a-e91df9f8b35e">
                             § 6</akn:num>

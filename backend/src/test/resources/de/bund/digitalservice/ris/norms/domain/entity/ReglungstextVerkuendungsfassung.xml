@@ -1529,7 +1529,7 @@
               <!-- § 11 -->
               <akn:article GUID="e8a1f05a-254a-4262-91a9-cb1f18a620c8"
                            eId="hauptteil-1_abschnitt-3_art-2"
-                           period="#geltungszeitgr-1"
+                           period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                            refersTo="geltungszeitregel">
                <akn:num GUID="d68da795-7463-4c21-b7b6-0c5da355511c"
                         eId="hauptteil-1_abschnitt-3_art-2_bezeichnung-1">

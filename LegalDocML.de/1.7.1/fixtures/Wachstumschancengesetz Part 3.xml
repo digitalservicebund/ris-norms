@@ -222,7 +222,7 @@
             <!-- §1 -->
           <akn:article eId="hauptteil-1_art-1"
                       GUID="80d1826b-4225-4019-80c7-a10654008b9c"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="a7d5ccda-e00c-4aef-a99f-809b8eafdd71">
                     §1</akn:num>
@@ -241,7 +241,7 @@
          <!-- §2 -->
           <akn:article eId="hauptteil-1_art-2"
                       GUID="26eb1ba5-2f9d-4efc-8522-061bbcc4a7b9"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="928b837a-52a8-4568-839b-db2866abd202">
                     §2</akn:num>
@@ -260,7 +260,7 @@
          <!-- §3 -->
           <akn:article eId="hauptteil-1_art-3"
                       GUID="1fbffcff-3845-4175-af88-e1cac9d8053d"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-3_bezeichnung-1"
                      GUID="eb1e352f-4e25-4eea-a1f4-d93920af7b8d">
                     §3</akn:num>
@@ -279,7 +279,7 @@
          <!-- §4 -->
           <akn:article eId="hauptteil-1_art-4"
                       GUID="5a8416ef-c656-4039-a0fb-a2463aa1e0d7"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-4_bezeichnung-1"
                      GUID="8222bebf-7c0a-4a6c-9795-9705c816a2c0">
                     §4</akn:num>
@@ -298,7 +298,7 @@
          <!-- §5 -->
           <akn:article eId="hauptteil-1_art-5"
                       GUID="ec075ce0-a6a5-4075-9041-b0304da221b0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-5_bezeichnung-1"
                      GUID="4bfef6b2-3527-4247-a8b2-dc1bc468e952">
                     §5</akn:num>
@@ -317,7 +317,7 @@
          <!-- §6 -->
           <akn:article eId="hauptteil-1_art-6"
                       GUID="9d818ef1-7e1a-44b0-b584-0690c7eb636d"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-6_bezeichnung-1"
                      GUID="4a538475-efee-458c-9311-005f4dfb72ed">
                     §6</akn:num>
@@ -336,7 +336,7 @@
          <!-- §7-->
           <akn:article eId="hauptteil-1_art-7"
                       GUID="1ceb0d54-0dda-4661-906b-4e2e90b0cd09"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-7_bezeichnung-1"
                      GUID="256fe6ee-be7d-4e06-af6d-f724771935fe">
                     §7</akn:num>
@@ -355,7 +355,7 @@
          <!-- §8-->
           <akn:article eId="hauptteil-1_art-8"
                       GUID="64c63f88-1f83-4044-ae82-5fccbf0bb3bb"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-8_bezeichnung-1"
                      GUID="d6cc2523-3235-4ee6-bb3a-cdc79ff360c7">
                     §8</akn:num>
@@ -374,7 +374,7 @@
          <!-- §9-->
           <akn:article eId="hauptteil-1_art-9"
                       GUID="50052489-c09c-43e4-a6bf-875714309d37"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-9_bezeichnung-1"
                      GUID="3c7ad660-ac0f-404a-88b1-2c48cc167018">
                     §9</akn:num>
@@ -393,7 +393,7 @@
          <!-- §10-->
           <akn:article eId="hauptteil-1_art-10"
                       GUID="6c753154-bb8f-484c-afe4-0987272b0983"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-10_bezeichnung-1"
                      GUID="8a6c51e3-fed3-4bf7-b76b-8c52156f9e5c">
                     §10</akn:num>
@@ -412,7 +412,7 @@
          </akn:article>
          <akn:article eId="hauptteil-1_art-11"
                       GUID="2b6de71c-46d1-4968-9440-90db2bd14091"
-                      period="#geltungszeitgr-2">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-2">
             <akn:num eId="hauptteil-1_art-11_bezeichnung-1"
                      GUID="bca90922-5294-4247-86f3-ed722c5e619f">
                     §11</akn:num>
@@ -545,7 +545,7 @@
          <!-- §12-->
           <akn:article eId="hauptteil-1_art-12"
                       GUID="170c345b-dd19-4baf-8a5e-9244d025938a"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-12_bezeichnung-1"
                      GUID="4542cf12-8686-4160-917c-d5db81e78cf2">
                     §12</akn:num>
@@ -564,7 +564,7 @@
          <!-- §13-->
           <akn:article eId="hauptteil-1_art-13"
                       GUID="705a74fe-0a6b-4b6d-a6f2-5f5cf11ef46e"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-13_bezeichnung-1"
                      GUID="35a91591-8b58-47be-8e39-8b4df23eece5">
                     §13</akn:num>
@@ -583,7 +583,7 @@
          <!-- §14-->
           <akn:article eId="hauptteil-1_art-14"
                       GUID="7dd53189-857c-42c7-ba02-41c3368b2937"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-14_bezeichnung-1"
                      GUID="979f9d20-5f33-4905-9e64-4d1da92e6bdf">
                     §14</akn:num>
@@ -602,7 +602,7 @@
          <!-- §15-->
           <akn:article eId="hauptteil-1_art-15"
                       GUID="a8d84868-36a7-4625-9b07-fe4458f66ca1"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-15_bezeichnung-1"
                      GUID="16715d45-84a1-46b6-b7e3-91ede92b9823">
                     §15</akn:num>
@@ -621,7 +621,7 @@
          <!-- §16-->
           <akn:article eId="hauptteil-1_art-16"
                       GUID="cd51af28-5db1-4d4c-ae23-ac5b3742613e"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-16_bezeichnung-1"
                      GUID="80d8f934-8f58-4ae8-a8f9-843f66390fec">
                     §16</akn:num>
@@ -640,7 +640,7 @@
          <!-- §17-->
           <akn:article eId="hauptteil-1_art-17"
                       GUID="56bc720f-e450-4288-b024-0c7a6d0a86a6"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-17_bezeichnung-1"
                      GUID="106acd9d-deb4-45c1-99be-8a81b07dd3de">
                     §17</akn:num>
@@ -659,7 +659,7 @@
          <!-- §18-->
           <akn:article eId="hauptteil-1_art-18"
                       GUID="4b386140-6c09-47d2-8c2b-c9d4061b1d16"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-18_bezeichnung-1"
                      GUID="12f88467-2c2c-49bd-959d-e264b0b90374">
                     §18</akn:num>
@@ -678,7 +678,7 @@
          <!-- §19-->
           <akn:article eId="hauptteil-1_art-19"
                       GUID="954deb64-7f39-49a4-9646-372d3f1a2d0d"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-19_bezeichnung-1"
                      GUID="7716eb01-457e-4237-a8c4-efd97a7adb42">
                     §19</akn:num>
@@ -697,7 +697,7 @@
          <!-- §20-->
           <akn:article eId="hauptteil-1_art-20"
                       GUID="ae509f70-aa93-4169-8e31-277c7a0cd762"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-20_bezeichnung-1"
                      GUID="d98ea318-c296-473e-be51-e08903bdd26c">
                     §20</akn:num>
@@ -716,7 +716,7 @@
          <!-- §21-->
           <akn:article eId="hauptteil-1_art-21"
                       GUID="424939b2-67e3-4185-b146-42d71c631fe5"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-21_bezeichnung-1"
                      GUID="f3bf0469-d948-4d12-8b9a-c768c13ade2d">
                     §21</akn:num>
@@ -735,7 +735,7 @@
          <!-- §22-->
           <akn:article eId="hauptteil-1_art-22"
                       GUID="a4c0c103-ed32-4ed6-81b6-b41957c782d0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-22_bezeichnung-1"
                      GUID="2fbcd6d1-8720-4d57-ba14-28985f926966">
                     §22</akn:num>
@@ -754,7 +754,7 @@
          <!-- §23-->
           <akn:article eId="hauptteil-1_art-23"
                       GUID="e405acf2-b145-4ec6-b368-28586c3c2c5e"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-23_bezeichnung-1"
                      GUID="1ff4d744-7446-49dc-a4ba-8cb48e80127c">
                     §23</akn:num>
@@ -773,7 +773,7 @@
          <!-- §24-->
           <akn:article eId="hauptteil-1_art-24"
                       GUID="53edf023-d23e-4c3f-aadc-d317342e0295"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-24_bezeichnung-1"
                      GUID="b911ed14-7e1b-4c92-bbab-95a0d63f13bc">
                     §24</akn:num>
@@ -792,7 +792,7 @@
          <!-- §25-->
           <akn:article eId="hauptteil-1_art-25"
                       GUID="fbab827d-776f-4959-b700-b99558a3219d"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-25_bezeichnung-1"
                      GUID="98d1047f-8d44-4c90-81c6-3f65fd8e2487">
                     §25</akn:num>
@@ -811,7 +811,7 @@
          <!-- §26-->
           <akn:article eId="hauptteil-1_art-26"
                       GUID="6c7b37c6-7dc8-4a83-bcf0-acf67b69f377"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-26_bezeichnung-1"
                      GUID="4e9e2071-ab50-40f4-8bdf-ba8c88a19ddc">
                     §26</akn:num>
@@ -830,7 +830,7 @@
          <!-- §27-->
           <akn:article eId="hauptteil-1_art-27"
                       GUID="06bef0e9-0e24-4e6e-ae67-0f1427d2596f"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-27_bezeichnung-1"
                      GUID="280b8ba7-c0c4-4642-a41f-80d74195a764">
                     §27</akn:num>
@@ -849,7 +849,7 @@
          <!-- §28-->
           <akn:article eId="hauptteil-1_art-28"
                       GUID="d2c46e2c-de1a-4e54-958a-8c8e570110ea"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-28_bezeichnung-1"
                      GUID="4d6b057a-0b99-4088-84bb-7b02321af0d4">
                     §28</akn:num>
@@ -868,7 +868,7 @@
          <!-- §29-->
           <akn:article eId="hauptteil-1_art-29"
                       GUID="d3840b94-8be7-4736-8b39-7756d99ff954"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-29_bezeichnung-1"
                      GUID="57dcb275-6ed6-4097-99d1-657a266d2cfa">
                     §29</akn:num>
@@ -887,7 +887,7 @@
          <!-- §30-->
           <akn:article eId="hauptteil-1_art-30"
                       GUID="6176b12f-d195-416a-bd86-598491247bf1"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-30_bezeichnung-1"
                      GUID="852b74af-e8f6-4dc5-9fda-52de493d1623">
                     §30</akn:num>
@@ -906,7 +906,7 @@
          <!-- §31-->
           <akn:article eId="hauptteil-1_art-31"
                       GUID="3fc41b0d-6e69-45eb-b5ac-a9cee3d09bdc"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-31_bezeichnung-1"
                      GUID="9b42ead4-c029-457d-8875-e8b94d173c8b">
                     §31</akn:num>
@@ -925,7 +925,7 @@
          <!-- §32-->
           <akn:article eId="hauptteil-1_art-32"
                       GUID="034c835c-9b84-4c7d-a8c3-c6c573f588e1"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-32_bezeichnung-1"
                      GUID="9f88776d-cde4-423d-a236-99073e9f9a94">
                     §32</akn:num>
@@ -944,7 +944,7 @@
          <!-- §33-->
           <akn:article eId="hauptteil-1_art-33"
                       GUID="001dd2f4-e68d-4a33-a98c-160aaa3e3902"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-33_bezeichnung-1"
                      GUID="78b1519b-4e86-46d5-9251-cc6543727a02">
                     §33</akn:num>
@@ -963,7 +963,7 @@
          <!-- §34-->
           <akn:article eId="hauptteil-1_art-34"
                       GUID="71a583ce-51ab-4acf-ab5f-c0b18f7e59a0"
-                      period="#geltungszeitgr-3">
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-34_bezeichnung-1"
                      GUID="00ba8f12-feff-4ecc-a317-8ea45f8f2363">
                     §34</akn:num>
@@ -982,7 +982,7 @@
          <!-- §335-->
           <akn:article eId="hauptteil-1_art-35"
                       GUID="1af21459-b9df-47aa-a084-435df14c546b"
-                      period="#geltungszeitgr-3"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-3"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-35_bezeichnung-1"
                      GUID="518b00f3-3f1c-41b2-8075-3bc644ed58b4">

@@ -296,7 +296,7 @@
          </akn:article>
          <akn:article eId="hauptteil-1_art-2"
                       GUID="350e50ca-3938-43ea-807e-cc023ced19fa"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="d2fcc3a9-1196-477d-8508-83cff3c167ba">

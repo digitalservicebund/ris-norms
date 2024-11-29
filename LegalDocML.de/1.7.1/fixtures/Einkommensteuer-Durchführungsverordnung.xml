@@ -207,7 +207,7 @@
       <!-- Vorherige Paragraphen fehlen-->
            <akn:article eId="hauptteil-1_art-1"
                         GUID="a726a175-3a70-40e7-852f-9d08d1a26a13"
-                        period="#geltungszeitgr-3">
+                        period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
                         §82a</akn:num>
@@ -365,7 +365,7 @@
                </akn:list>
             </akn:paragraph>
          </akn:article>
-         <akn:article period="#geltungszeitgr-3"
+         <akn:article period="#meta-1_geltzeiten-1_geltungszeitgr-3"
                       GUID="6ba535a6-7868-4574-bcff-cfe2d5755480"
                       eId="hauptteil-1_art-2">
             <akn:num GUID="65549134-ee8f-48c8-93ef-87321ebed21b"

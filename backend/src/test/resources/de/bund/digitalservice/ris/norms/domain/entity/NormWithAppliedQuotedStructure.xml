@@ -661,7 +661,7 @@
          </akn:article>
          <akn:article GUID="4064775d-5f92-4f12-ae03-602bb4f536c4"
                       eId="hauptteil-1_art-4"
-                      period="#geltungszeitgr-1"
+                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                       refersTo="geltungszeitregel">
             <akn:num GUID="3fb666fa-e062-4b19-a629-161bf005f660"
                      eId="hauptteil-1_art-4_bezeichnung-1">

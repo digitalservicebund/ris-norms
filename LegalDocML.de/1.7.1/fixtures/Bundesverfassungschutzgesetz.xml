@@ -201,7 +201,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-1"
                          GUID="aa1b7398-9bf7-4ac1-8c50-d7fe3c5d9172"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-1_bezeichnung-1"
                         GUID="7b338a03-8c9d-41bd-a09c-6692ec0a0db1">
                          § 1 </akn:num>
@@ -254,7 +254,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-2"
                          GUID="2b8fd763-85df-4002-89b2-7b8caefc1628"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-2_bezeichnung-1"
                         GUID="c9307274-b2c0-4e6e-96d1-4ec39eb64b13">
                          § 2 </akn:num>
@@ -298,7 +298,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-3"
                          GUID="6d0326ad-2600-4dda-98cd-192ed138e722"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-3_bezeichnung-1"
                         GUID="fd1d2764-a223-49e9-9c59-a9040b8bd46c">
                          § 3 </akn:num>
@@ -448,7 +448,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-4"
                          GUID="3b194c85-a501-40c6-bebb-32b486546fdf"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-4_bezeichnung-1"
                         GUID="f61f93c5-19c2-4e40-b7fa-3aba9e0e71e0">
                          § 3 </akn:num>
@@ -611,7 +611,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-5"
                          GUID="0abb31b8-39a1-4576-94f8-d2a70d9ad996"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-5_bezeichnung-1"
                         GUID="872fd7e0-b83c-468e-bfce-33fce5983464">
                          § 3 </akn:num>
@@ -803,7 +803,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-6"
                          GUID="98a7102f-b453-4f04-9c1a-9eb92fdccdd0"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-6_bezeichnung-1"
                         GUID="c1cc0856-9383-424b-9425-5bc20fd622da">
                          § 4 </akn:num>
@@ -996,7 +996,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-7"
                          GUID="ce96f30d-48cf-4d25-9331-b107d123bc1b"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-7_bezeichnung-1"
                         GUID="ea53d2cd-c947-4ac3-81ba-7e2f070c06a2">
                          § 5 </akn:num>
@@ -1299,7 +1299,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-8"
                          GUID="8a4261db-3ed5-4e62-a1b0-9ff2a019cf20"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-8_bezeichnung-1"
                         GUID="3e982c4b-1fca-47a2-beb2-b8ffd1cdce98">
                          § 5 </akn:num>
@@ -1602,7 +1602,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-9"
                          GUID="2f16e260-0d74-4c4d-a643-b44cec660f0e"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-9_bezeichnung-1"
                         GUID="91956ae9-bcb9-4bec-8498-b44163d53033">
                          § 5 </akn:num>
@@ -1905,7 +1905,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-10"
                          GUID="d3df6a47-3749-4013-a7fe-3e25f711265d"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-10_bezeichnung-1"
                         GUID="ab2c6746-ce3f-48cd-8bc1-df112856b96e">
                          § 6 </akn:num>
@@ -1992,7 +1992,7 @@
             <akn:article eId="hauptteil-1_abschnitt-1_art-11"
                          GUID="794dca08-2521-494b-a12f-a633f23f0a44"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-11_bezeichnung-1"
                         GUID="4844fc0c-0f6b-4aba-ae16-4821c5dfe85d">
                          § 7 </akn:num>
@@ -2030,7 +2030,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-1"
                          GUID="7e641254-5c02-4699-9752-5041ec2643bb"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-1_bezeichnung-1"
                         GUID="02e5aace-7051-4212-895e-881756f47e2a">
                          § 8 </akn:num>
@@ -2136,7 +2136,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-2"
                          GUID="b8ed01df-2e54-4dc7-a4a4-b076c4fd9192"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-2_bezeichnung-1"
                         GUID="06fb0e04-cbb1-4437-aad3-997db30c58ba">
                          § 8a </akn:num>
@@ -2430,7 +2430,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-3"
                          GUID="2d0be7e6-42b3-46e0-912f-20b9c7f68432"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-3_bezeichnung-1"
                         GUID="5299fb62-21a1-4cf9-83ac-e19b350b2885">
                          § 8a </akn:num>
@@ -2746,7 +2746,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-4"
                          GUID="74366ccd-cfeb-4718-ad41-c0eae5251294"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-4_bezeichnung-1"
                         GUID="63e2654c-4df4-4bf6-9d41-c3c2d436838f">
                          § 8b </akn:num>
@@ -3050,7 +3050,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-5"
                          GUID="ecd8871e-cb79-4626-b8b0-347c16593e19"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-5_bezeichnung-1"
                         GUID="55d17f65-23f0-4a34-8fb6-053e0c4d9d93">
                          § 8c </akn:num>
@@ -3078,7 +3078,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-6"
                          GUID="12d66bae-26a9-4a28-a322-19d0527bfb5a"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-6_bezeichnung-1"
                         GUID="a71fb92d-12b8-4701-8787-2601d1c5902b">
                          § 8d </akn:num>
@@ -3238,7 +3238,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-7"
                          GUID="adff46c2-635e-4885-bdf2-2ed54355ea2d"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-7_bezeichnung-1"
                         GUID="cc50804b-f6eb-40bf-b177-fa6d3eb8f6e9">
                          § 9 </akn:num>
@@ -3392,7 +3392,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-8"
                          GUID="5800bcfd-0ff6-4d98-b35e-773116b8dd0f"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-8_bezeichnung-1"
                         GUID="521435ef-f4cc-416d-86f0-be6d6d53cfce">
                          § 9 </akn:num>
@@ -3559,7 +3559,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-9"
                          GUID="9d432cdb-b0e7-47e7-b36b-31c72fb9f177"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-9_bezeichnung-1"
                         GUID="4bb33b77-14d5-4a47-b3e8-9f20baa62a23">
                          § 9 </akn:num>
@@ -3724,7 +3724,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-10"
                          GUID="2711e8d0-c919-462d-9b3a-ab9c256675bb"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-10_bezeichnung-1"
                         GUID="ec658814-1cf1-4312-83ae-98e6ad22474c">
                          § 9a </akn:num>
@@ -3866,7 +3866,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-11"
                          GUID="716d2ad3-12d7-4656-a987-3a4e4be150b6"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-11_bezeichnung-1"
                         GUID="792c38a4-e9d1-49a5-8613-099a70c16f42">
                          § 9b </akn:num>
@@ -3983,7 +3983,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-12"
                          GUID="d4443fd7-0e23-4768-b1f2-b5b76e1316ad"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-12_bezeichnung-1"
                         GUID="df491653-9cc3-48fc-b747-b45cb02281ff">
                          § 10 </akn:num>
@@ -4081,7 +4081,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-13"
                          GUID="4d3ef409-525a-4e45-9c67-dea39e91013d"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-13_bezeichnung-1"
                         GUID="d15b7d8a-24cb-4699-b1a7-5f9408bb2f7f">
                          § 11 </akn:num>
@@ -4134,7 +4134,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-14"
                          GUID="f9649416-6ab4-464d-b139-cd4dd8bafd68"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-14_bezeichnung-1"
                         GUID="1b2ac1c5-bce7-47ba-9c5c-b6e5af00009a">
                          § 12 </akn:num>
@@ -4216,7 +4216,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-15"
                          GUID="56f6e49b-156d-4d08-829e-c36b72735ea8"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-15_bezeichnung-1"
                         GUID="c6fe0075-f025-405b-b7b6-a6f1b8beee9d">
                          § 12 </akn:num>
@@ -4298,7 +4298,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-16"
                          GUID="3d4c9902-47a9-4568-bbaf-0d9f7a4a4636"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-16_bezeichnung-1"
                         GUID="7bb4fd2b-3e21-488c-9a4a-a7fd8428793c">
                          § 12 </akn:num>
@@ -4380,7 +4380,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-17"
                          GUID="42d151a8-c6ae-48c6-885c-29787675f53e"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-17_bezeichnung-1"
                         GUID="321f5f57-8fb6-4299-abdc-dd241361648c">
                          § 13 </akn:num>
@@ -4482,7 +4482,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-18"
                          GUID="53aa8c64-61f0-49de-9d88-5c093494f452"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-18_bezeichnung-1"
                         GUID="075bb256-deab-40e0-a2d8-008b5834c674">
                          § 14 </akn:num>
@@ -4634,7 +4634,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-19"
                          GUID="a08f4b61-e345-47fe-9adf-3524896ca464"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-19_bezeichnung-1"
                         GUID="091cdd36-497e-4eb9-a5e2-4eb2cb25c635">
                          § 15 </akn:num>
@@ -4776,7 +4776,7 @@
             <akn:article eId="hauptteil-1_abschnitt-2_art-20"
                          GUID="d0ce486c-9aed-4bf1-8130-332032b673f0"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-20_bezeichnung-1"
                         GUID="a375b60d-decf-4859-b807-1ad594d3e9f3">
                          § 16 </akn:num>
@@ -4849,7 +4849,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-1"
                          GUID="cb58e404-3bd9-462e-aa16-a191f32aae4a"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-1_bezeichnung-1"
                         GUID="181fca1a-a319-40c8-a2e5-ece2f1ea0db1">
                          § 17 </akn:num>
@@ -4910,7 +4910,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-2"
                          GUID="238d0deb-adcb-4ed1-8bd5-cb69c3f43535"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-2_bezeichnung-1"
                         GUID="a5be20a1-abe9-43f0-8781-791d6074fe6c">
                          § 17 </akn:num>
@@ -5001,7 +5001,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-3"
                          GUID="c06a1656-865d-45eb-a984-b40728c03016"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-3_bezeichnung-1"
                         GUID="3e7e9886-0ab9-4065-b81a-ab9e0d1a7943">
                          § 18 </akn:num>
@@ -5171,7 +5171,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-4"
                          GUID="4261e045-5b28-4489-bd08-66fbea805425"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-4_bezeichnung-1"
                         GUID="569475b8-662a-4ba9-9513-3938356e59b6">
                          § 18 </akn:num>
@@ -5388,7 +5388,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-5"
                          GUID="d7230b6f-8175-4138-bf34-5fae5e22a6a9"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-5_bezeichnung-1"
                         GUID="44a59334-7711-43fd-bb4b-3b2efd9b2651">
                          § 18 </akn:num>
@@ -5621,7 +5621,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-6"
                          GUID="c0f73679-84d0-4809-8595-84ee952d3f97"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-6_bezeichnung-1"
                         GUID="9deff5f9-064a-45c3-baf5-cb684ba48329">
                          § 19 </akn:num>
@@ -5793,7 +5793,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-7"
                          GUID="f1c92204-daa9-4d2e-b520-35af872cd938"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-7_bezeichnung-1"
                         GUID="9459e292-d185-40fd-b5cd-f905143d1ab9">
                          § 19 </akn:num>
@@ -5975,7 +5975,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-8"
                          GUID="2699705b-51cd-43e8-aa08-36df6ca67d7e"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-8_bezeichnung-1"
                         GUID="d6c4a1ec-ecdd-4976-a4c1-c969ffedf8f7">
                          § 20 </akn:num>
@@ -6037,7 +6037,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-9"
                          GUID="f708a4a2-e8e4-4244-a609-3ae8f59541f2"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-9_bezeichnung-1"
                         GUID="52c26f0f-d5ed-4923-9b75-f1b7c0c666b8">
                          § 21 </akn:num>
@@ -6084,7 +6084,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-10"
                          GUID="908abe20-d28f-4faa-9310-e540accbdee9"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-10_bezeichnung-1"
                         GUID="dfbc84ab-3fff-406b-9f10-94c8b4fd10c7">
                          § 22 </akn:num>
@@ -6116,7 +6116,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-11"
                          GUID="5ae96cd3-2e6c-495b-ba75-d74dcc209733"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-11_bezeichnung-1"
                         GUID="09a05edb-aaf2-48dd-a37f-98bedaaf24ce">
                          § 22a </akn:num>
@@ -6381,7 +6381,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-12"
                          GUID="616e8641-1e26-4e3a-a961-3db9b87a1e53"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-12_bezeichnung-1"
                         GUID="1240d7c9-fa3d-417c-b5ab-ad33dc8e46ea">
                          § 22b </akn:num>
@@ -6675,7 +6675,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-13"
                          GUID="61025bbc-3aff-48bf-bdf9-3983035b4bdf"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-13_bezeichnung-1"
                         GUID="d2c0f820-78e9-441b-b47d-cf7781a262f9">
                          § 22c </akn:num>
@@ -6736,7 +6736,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-14"
                          GUID="5933f18c-c0ba-4062-980f-ad7821c379b9"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-14_bezeichnung-1"
                         GUID="b06c4403-d0ee-4c5e-b70e-b54b64e447d7">
                          § 23 </akn:num>
@@ -6809,7 +6809,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-15"
                          GUID="0ef84377-ae42-4795-a28e-8312bbdc3358"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-15_bezeichnung-1"
                         GUID="313388e4-b66f-4488-941c-417273c9ea3d">
                          § 24 </akn:num>
@@ -6864,7 +6864,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-16"
                          GUID="6b11f9fd-2948-4a9d-9ecf-240169bce043"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-16_bezeichnung-1"
                         GUID="5e62ee90-063a-4365-9a15-02bf596e6ea2">
                          § 25 </akn:num>
@@ -6896,7 +6896,7 @@
             <akn:article eId="hauptteil-1_abschnitt-3_art-17"
                          GUID="92d7468f-3e83-4e73-98db-6985145ce27d"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-17_bezeichnung-1"
                         GUID="ae3bc826-b77e-4316-bf5a-05dd8c3c0135">
                          § 26 </akn:num>
@@ -6936,7 +6936,7 @@
             <akn:article eId="hauptteil-1_abschnitt-4_art-1"
                          GUID="5f007fcd-6a6a-4a71-96e2-fc11956c312b"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-4_art-1_bezeichnung-1"
                         GUID="47a1fa65-c087-42bb-95a1-5475a3e89259">
                          § 27 </akn:num>
@@ -6993,7 +6993,7 @@
             <akn:article eId="hauptteil-1_abschnitt-4_art-2"
                          GUID="a580debe-40aa-4716-b996-6daa27bd2462"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-4_art-2_bezeichnung-1"
                         GUID="1f1591ad-b1d2-4e3d-91b2-bc7aca152e9d">
                          § 28 </akn:num>
@@ -7109,7 +7109,7 @@
             <akn:article eId="hauptteil-1_abschnitt-4_art-3"
                          GUID="edc18b55-c99e-4720-95da-338b4fd1ce44"
                          refersTo="stammform"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-4_art-3_bezeichnung-1"
                         GUID="1141258a-93df-4b07-bfad-fadbe57e9f3e">
                          § 29 </akn:num>

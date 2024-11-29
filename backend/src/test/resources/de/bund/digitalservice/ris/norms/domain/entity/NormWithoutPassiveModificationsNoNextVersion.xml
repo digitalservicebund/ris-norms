@@ -119,7 +119,7 @@
             <!-- § 9 -->
             <akn:article eId="hauptteil-1_art-20"
                          GUID="b1b4bd3b-e007-4d84-af83-b8e36a0ae50b"
-                         period="#geltungszeitgr-1">
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                 <akn:num eId="hauptteil-1_art-20_bezeichnung-1"
                          GUID="f82ab983-5498-49ab-918f-5cf5e730e5ec">
                     <akn:marker eId="hauptteil-1_art-20_bezeichnung-1_zaehlbez-1"
@@ -128,7 +128,7 @@
                 </akn:num>
                 <akn:paragraph eId="hauptteil-1_art-20_abs-1"
                                GUID="6aa3a7ca-f30a-43b6-950b-b1e942fd1842"
-                               period="#geltungszeitgr-2">
+                               period="#meta-1_geltzeiten-1_geltungszeitgr-2">
                     <akn:num eId="hauptteil-1_art-20_abs-1_bezeichnung-1"
                              GUID="e363f12d-7918-435c-b3a1-182c5e03ff43">
                         <akn:marker eId="hauptteil-1_art-20_abs-1_bezeichnung-1_zaehlbez-1"
