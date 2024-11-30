@@ -51,6 +51,7 @@ public class ProprietaryService
     final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
     final MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
+    final MetadatenBund metadatenBund = proprietary.getOrCreateMetadatenBund();
 
     metadatenDs.updateSimpleMetadatum(
       MetadatenDs.Metadata.FNA,
@@ -99,8 +100,8 @@ public class ProprietaryService
         ? "false"
         : String.valueOf(query.metadata().qualifizierterMehrheit())
     );
-    metadatenDe.updateSimpleMetadatum(
-      MetadatenDe.Metadata.RESSORT,
+    metadatenBund.updateSimpleMetadatum(
+      MetadatenBund.Metadata.RESSORT,
       query.atDate(),
       query.metadata().ressort()
     );

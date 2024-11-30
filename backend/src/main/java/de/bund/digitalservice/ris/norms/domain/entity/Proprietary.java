@@ -87,6 +87,42 @@ public class Proprietary {
   }
 
   /**
+   * Retrieves the optional {@link MetadatenBund} instance from the {@link Proprietary}.
+   *
+   * @return an optional with a {@link MetadatenBund}
+   */
+  public Optional<MetadatenBund> getMetadatenBund() {
+    return NodeParser
+      .getNodeFromExpression(
+        "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        node
+      )
+      .map(MetadatenBund::new);
+  }
+
+  /**
+   * Retrieves the {@link MetadatenBund} instance from the {@link Proprietary}.
+   *
+   * @return the retrieved {@link MetadatenBund} or the newly created one.
+   */
+  public MetadatenBund getOrCreateMetadatenBund() {
+    return NodeParser
+      .getNodeFromExpression(
+        "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        node
+      )
+      .map(MetadatenBund::new)
+      .orElseGet(() -> {
+        final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
+        newElement.setAttribute(
+          "xmlns:meta",
+          "http://MetadatenBundesregierung.LegalDocML.de/1.7.1/"
+        );
+        return new MetadatenBund(newElement);
+      });
+  }
+
+  /**
    * Returns the FNA ("Fundstellennachweis A") of the norm from the MetadatenDe block.
    *
    * @return FNA or empty if it doesn't exist.
@@ -216,11 +252,11 @@ public class Proprietary {
   }
 
   /**
-   * Returns the ("Qualifizierte Mehrheit") attribute value of the ("Beschließendes Organ") of the
+   * Returns the ("Qualifizierte Mehrheit") attribute value of the ("Qualifizierte Mehrheit") of the
    * document from the MetadatenDs block at a specific date.
    *
    * @param date the specific date of the time boundary.
-   * @return "Qualifizierte Mehrheit" true/false or empty if "Beschließendes Organ" doesn't exist.
+   * @return "Qualifizierte Mehrheit" true/false or empty if "Qualifizierte Mehrheit" doesn't exist.
    */
   public Optional<Boolean> getQualifizierteMehrheit(final LocalDate date) {
     return getMetadatenDs()
@@ -232,14 +268,15 @@ public class Proprietary {
   }
 
   /**
-   * Returns the ("Beschließendes Organ") of the document from the MetadatenDs block at a specific
+   * Returns the ("Ressort") of the document from the MetadatenBund block at a specific
    * date.
    *
    * @param date the specific date of the time boundary.
-   * @return "Beschließendes Organ" or empty if it doesn't exist.
+   * @return "Ressort" or empty if it doesn't exist.
    */
   public Optional<String> getRessort(final LocalDate date) {
-    return getMetadatenDe().flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, date));
+    return getMetadatenBund()
+      .flatMap(m -> m.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, date));
   }
 
   /**

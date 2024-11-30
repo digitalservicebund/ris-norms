@@ -155,8 +155,8 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
             </meta:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
                <meta:federfuehrung>
-                  <meta:federfuehrend ab="1964-08-05" bis="unbestimmt">nicht-vorhanden</meta:federfuehrend>
-                  <meta:federfuehrend ab="1964-08-05" bis="unbestimmt">nicht-vorhanden</meta:federfuehrend>
+                  <meta:federfuehrend ab="2001-01-01" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                  <meta:federfuehrend ab="1964-08-05" bis="2000-12-31">BMJ - Bundesministerium der Justiz</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>

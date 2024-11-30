@@ -22,8 +22,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
   public enum Metadata implements MetadataInterface {
     FNA("./fna"),
     ART("./art"),
-    TYP("./typ"),
-    RESSORT("./federfuehrung/federfuehrend");
+    TYP("./typ");
 
     private final String xpath;
 

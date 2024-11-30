@@ -158,6 +158,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").value("DEU"))
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
+        .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"))
         .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
     }
   }
@@ -185,6 +186,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"staat\": \"DEU\"," +
               "\"beschliessendesOrgan\": \"Bundestag\"," +
               "\"qualifizierteMehrheit\": true," +
+              "\"ressort\": \"Bundesministerium der Justiz\"," +
               "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
             )
         )
@@ -234,6 +236,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"staat\": \"DDR\"," +
               "\"beschliessendesOrgan\": \"LT\"," +
               "\"qualifizierteMehrheit\": false," +
+              "\"ressort\": \"Bundesministerium der Magie\"," +
               "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
             )
         )
@@ -247,6 +250,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").value("DDR"))
         .andExpect(jsonPath("beschliessendesOrgan").value("LT"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(false))
+        .andExpect(jsonPath("ressort").value("Bundesministerium der Magie"))
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
       final Norm normLoaded = NormMapper.mapToDomain(
@@ -267,6 +271,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .contains("LT");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
         .contains(false);
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date))
+        .contains("Bundesministerium der Magie");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
         .contains("Andere Organisationseinheit");
     }
@@ -296,6 +302,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"staat\": null," +
               "\"beschliessendesOrgan\": null," +
               "\"qualifizierteMehrheit\": null," +
+              "\"ressort\": null," +
               "\"organisationsEinheit\": null}"
             )
         )
@@ -309,6 +316,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").isEmpty())
         .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+        .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(
@@ -328,6 +336,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
         .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
         .isEmpty();
     }
@@ -357,6 +366,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"staat\": \"\"," +
               "\"beschliessendesOrgan\": \"\"," +
               "\"qualifizierteMehrheit\": false," +
+              "\"ressort\": \"\"," +
               "\"organisationsEinheit\": \"\"}"
             )
         )
@@ -370,6 +380,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").isEmpty())
         .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+        .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(
@@ -389,6 +400,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
         .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
         .isEmpty();
     }
