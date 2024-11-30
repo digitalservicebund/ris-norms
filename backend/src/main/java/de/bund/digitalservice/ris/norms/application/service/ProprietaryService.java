@@ -50,7 +50,6 @@ public class ProprietaryService
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
     final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
-    final MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
     final MetadatenBund metadatenBund = proprietary.getOrCreateMetadatenBund();
 
     metadatenDs.updateSimpleMetadatum(
