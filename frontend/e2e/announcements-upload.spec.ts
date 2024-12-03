@@ -77,6 +77,36 @@ test(
 )
 
 test(
+  "confirming to overwrite an existing norm overwrites it",
+  { tag: ["@RISDEV-4775"] },
+  async ({ page }) => {
+    await page.goto("/amending-laws/upload")
+
+    await page.locator("input[type=file]").setInputFiles([
+      {
+        buffer: fs.readFileSync(
+          path.resolve(__dirname, "./testData/normWithModsXml.xml"),
+        ),
+        mimeType: "text/xml",
+        name: "amendingLaw",
+      },
+    ])
+
+    await page.getByRole("button", { name: "Hochladen" }).click()
+
+    await expect(page.getByText("Verkündung existiert bereits")).toBeVisible()
+
+    await page.getByRole("button", { name: "Überschreiben" }).click()
+
+    await expect(
+      page.getByText("Verkündung erfolgreich hochgeladen"),
+    ).toBeVisible()
+
+    await expect(page.getByText("Dok Title")).toBeVisible()
+  },
+)
+
+test(
   "closes the confirmation dialog for a forced upload when user chooses not to overwrite",
   { tag: ["@RISDEV-4775"] },
   async ({ page }) => {
