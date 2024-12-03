@@ -21,8 +21,14 @@ export function xmlNodeToString(node: Node): string {
  */
 export function evaluateXPathOnce(xpath: string, node: Node) {
   const evaluator = new XPathEvaluator()
+  const namespaceResolver = (prefix: string | null): string | null => {
+    const namespaces: Record<string, string> = {
+      akn: "http://Inhaltsdaten.LegalDocML.de/1.7.1/",
+    }
+    return prefix ? namespaces[prefix] || null : null
+  }
   return evaluator
-    .createExpression(xpath, evaluator.createNSResolver(node))
+    .createExpression(xpath, namespaceResolver)
     .evaluate(node, XPathResult.ANY_TYPE)
     .iterateNext()
 }
@@ -36,9 +42,14 @@ export function evaluateXPathOnce(xpath: string, node: Node) {
  */
 export function evaluateXPath(xpath: string, node: Node): Node[] {
   const evaluator = new XPathEvaluator()
-
+  const namespaceResolver = (prefix: string | null): string | null => {
+    const namespaces: Record<string, string> = {
+      akn: "http://Inhaltsdaten.LegalDocML.de/1.7.1/",
+    }
+    return prefix ? namespaces[prefix] || null : null
+  }
   const result = evaluator
-    .createExpression(xpath, evaluator.createNSResolver(node))
+    .createExpression(xpath, namespaceResolver)
     .evaluate(node, XPathResult.ANY_TYPE)
 
   const nodes: Node[] = []
