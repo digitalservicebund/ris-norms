@@ -64,9 +64,6 @@ public class NormExpressionController {
   /**
    * Retrieves a norm based on its expression ELI.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
    * @param eli Eli of the request
    * @return A {@link ResponseEntity} containing the retrieved norm.
    *     <p>Returns HTTP 200 (OK) and the norm if found.

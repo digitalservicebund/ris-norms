@@ -76,9 +76,6 @@ public class AnnouncementController {
    * Retrieves the latest release of an {@link Announcement} based on its {@link Norm}'s expression ELI. The
    * ELI's components are interpreted as query parameters.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
    * @param eli Eli of the request
    * @return A {@link ResponseEntity} containing the retrieved release.
    *     <p>Returns HTTP 200 (OK) and the release if found.
@@ -101,9 +98,6 @@ public class AnnouncementController {
   /**
    * Releases an {@link Announcement} (and all related {@link Norm}'s) based on its {@link Norm}'s
    * expression ELI. The ELI's components are interpreted as query parameters.
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param eli Eli of the request
    * @return A {@link ResponseEntity} containing the created release.

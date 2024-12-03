@@ -39,9 +39,6 @@ public class ElementController {
   /**
    * Retrieves a norm's element's HTML preview
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
    * @param eli Eli of the request
    * @param eid EID of the element to return
    * @param atIsoDate Render the version of the law valid at the given date (with passive changes
@@ -73,9 +70,6 @@ public class ElementController {
   /**
    * Retrieves a norm's element's information
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
    * @param eli Eli of the request
    * @param eid EID of the element to return
    * @return A {@link ResponseEntity} containing the element's information.
@@ -96,9 +90,6 @@ public class ElementController {
   /**
    * Retrieves a list of elements inside a norm based on the ELI of the norm and the types of the
    * elements.
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param eli Eli of the request
    * @param type The type(s) of the elements that should be returned. Elements are returned in the
