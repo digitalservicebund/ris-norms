@@ -2,14 +2,14 @@ import { createEliPathParameter } from "@/composables/useEliPathParameter"
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
 /**
- * The regular expressions for the eId is based on the definitions from LDML.de 1.6 (Section 9.2.11.63, eIdLiterals.einzelvorschrift)
+ * The regular expressions for the eId is based on the definitions from LDML.de 1.7.1 (Section 9.2.12.67, eIdLiterals.einzelvorschrift)
  *
  * The expression only matches eIds that represent articles or paragraphs.
  *
  * All groups have been converted to non-capturing groups and all closing ) have been escaped. This is as the vue-router otherwise has problems parsing the RegEx.
  */
 const ARTICLE_EID_ROUTE_PATH =
-  ":eid((?:(?:[a-zäöüß0-9]+-[a-zäöüß0-9]+(?:\\.[azäöüß0-9]+\\)*\\)_\\)*(?:(?:para|art\\)+-[a-zäöüß0-9]+(?:\\.[azäöüß0-9]+\\)*\\))"
+  ":eid((?:[a-zäöüß0-9]+-[1-9]{1}[0-9]*_\\)*(?:art\\)-[1-9]{1}[0-9]*)"
 
 const routes: readonly RouteRecordRaw[] = [
   {
