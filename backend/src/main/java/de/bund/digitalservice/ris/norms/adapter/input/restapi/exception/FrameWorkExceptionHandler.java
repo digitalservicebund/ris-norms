@@ -62,7 +62,7 @@ public class FrameWorkExceptionHandler {
     final HandlerMethodValidationException e
   ) {
     final List<String> validationErrors = e
-      .getAllValidationResults()
+      .getParameterValidationResults()
       .stream()
       .flatMap(validationResults -> validationResults.getResolvableErrors().stream())
       .map(MessageSourceResolvable::getDefaultMessage)
