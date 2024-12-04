@@ -14,11 +14,6 @@
   "ignoreDeps": [],
   "packageRules": [
     {
-      // version incompatibility with Spring Cloud (spring-cloud-starter-kubernetes-client-config), once version 3.2.0 is released this incompatibility should be fixed, see: https://github.com/spring-cloud/spring-cloud-release/wiki/Supported-Versions#supported-releases
-      "matchPackageNames": ["org.springframework.boot:*"],
-      "allowedVersions": "<3.4"
-    },
-    {
       // version incompatibility with vue-tsc, see: https://github.com/vuejs/language-tools/pull/5020
       "matchPackageNames": ["typescript"],
       "allowedVersions": "<5.7"

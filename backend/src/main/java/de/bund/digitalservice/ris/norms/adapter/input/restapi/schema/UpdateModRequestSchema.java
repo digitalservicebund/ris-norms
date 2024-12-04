@@ -5,12 +5,14 @@ import jakarta.validation.constraints.NotNull;
 import javax.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /** Class representing the controller schema for updating an akn:mod element. */
 @AllArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 public class UpdateModRequestSchema {
 
   @NotNull
