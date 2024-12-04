@@ -15,9 +15,11 @@ import org.springframework.stereotype.Component;
  * does not represent a business or application service, but rather a scheduler component for managing
  * periodic task execution. {@code @Component} is a general-purpose annotation for Spring-managed beans,
  * making it suitable for components that handle specific infrastructure or operational tasks like scheduling.</p>
+ * <p>Using the {@code @Profile} annotation, this scheduler class will only be instantiated in staging, UAT, and production environments</p>
  */
 @Component
 @Slf4j
+@Profile({ "staging", "uat", "production" })
 public class Scheduler {
 
   private final PublishNormUseCase publishNormUseCase;
@@ -31,12 +33,10 @@ public class Scheduler {
    * This method triggers the {@link PublishNormUseCase#processQueuedFilesForPublish} method to process any files
    * queued for publishing norms.
    *
-   * <p>Using the {@code @Profile} annotation, this method will only run in staging, UAT, and production environments.
-   * The cron schedule is controlled by the property {@code publish.cron}.</p>
+   * <p>The cron schedule is controlled by the property {@code publish.cron}.</p>
    */
   @Scheduled(cron = "${publish.cron}")
   @SchedulerLock(name = "scheduledPublishToBucket", lockAtMostFor = "240m", lockAtLeastFor = "120m")
-  @Profile({ "staging", "uat", "production" })
   public void runPublishProcess() {
     // To assert that the lock is held (prevents misconfiguration errors)
     LockAssert.assertLocked();
