@@ -69,7 +69,6 @@ dependencies {
     implementation(libs.google.protobuf.java)
     implementation(platform(libs.aws.bom))
     implementation(libs.aws.s3)
-    implementation(libs.netty.common)
 
     compileOnly(libs.lombok)
 
