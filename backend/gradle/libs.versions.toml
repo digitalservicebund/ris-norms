@@ -39,7 +39,7 @@ spring-security-test = "org.springframework.security:spring-security-test:6.4.1"
 spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 # CVE-2023-3635
-squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.4.0"
+squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.9.1"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
