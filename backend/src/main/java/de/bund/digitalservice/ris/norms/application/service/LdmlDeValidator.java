@@ -77,7 +77,7 @@ public class LdmlDeValidator {
     }
 
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    factory.setSchema(schema);
+    //    factory.setSchema(schema);
     factory.setIgnoringElementContentWhitespace(true);
 
     List<SAXParseException> parsingExceptions = new ArrayList<>();

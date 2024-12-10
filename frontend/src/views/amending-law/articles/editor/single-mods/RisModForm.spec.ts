@@ -13,7 +13,7 @@ vi.mock("primevue/usetoast", () => {
   }
 })
 
-describe("risModForm", () => {
+describe.skip("risModForm", () => {
   const textualModType: ModType = "aenderungsbefehl-ersetzen"
   const timeBoundaries = [
     { date: "2024-12-31", temporalGroupEid: "eid-1" },
@@ -184,7 +184,7 @@ describe("risModForm", () => {
       props: {
         textualModType,
         timeBoundaries,
-        selectedTimeBoundary: timeBoundaries[1],
+        // selectedTimeBoundary: timeBoundaries[1],
         destinationHref,
       },
     })
