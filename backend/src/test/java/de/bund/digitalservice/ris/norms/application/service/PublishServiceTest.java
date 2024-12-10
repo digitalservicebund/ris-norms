@@ -1,9 +1,11 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
+import de.bund.digitalservice.ris.norms.application.exception.MigrationJobException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.MigrationLog;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -207,11 +209,13 @@ class PublishServiceTest {
       when(loadMigrationLogByDatePort.loadMigrationLogByDate(any()))
         .thenReturn(Optional.of(migrationLog)); // Migration log found
 
-      // When
-      publishService.processQueuedFilesForPublish();
+      // Then When
+
+      assertThatThrownBy(publishService::processQueuedFilesForPublish)
+        .isInstanceOf(MigrationJobException.class);
 
       // Then
-      verify(loadNormIdsByPublishStatePort, times(1))
+      verify(loadNormIdsByPublishStatePort, times(0))
         .loadNormIdsByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
@@ -221,12 +225,12 @@ class PublishServiceTest {
       verify(deleteAllPrivateNormsPort, times(0)).deleteAllPrivateNorms();
 
       // Verify norm publishing actions
-      verify(publishPublicNormPort, times(1))
+      verify(publishPublicNormPort, times(0))
         .publishPublicNorm(new PublishPublicNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1))
+      verify(publishPrivateNormPort, times(0))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      verify(publishChangelogsPort, times(1)).publishChangelogs();
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogsPort, times(0)).publishChangelogs();
     }
 
     @Test

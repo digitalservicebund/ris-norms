@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.MigrationJobException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -78,7 +79,7 @@ public class PublishService implements PublishNormUseCase {
           deleteAllPrivateNormsPort.deleteAllPrivateNorms();
           log.info("Deleted all norms in both buckets");
         } else {
-          log.info("Migration log has a size of 0");
+          throw new MigrationJobException();
         }
       });
 
