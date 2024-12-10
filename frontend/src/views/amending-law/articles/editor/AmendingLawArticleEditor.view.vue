@@ -239,4 +239,40 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
 .amendingLawPreview :deep(.akn-affectedDocument):hover {
   @apply bg-highlight-affectedDocument-hover px-2 outline outline-dotted outline-2 outline-blue-800;
 }
+
+.amendingLawPreview :deep(.akn-mod) {
+  @apply bg-gray-100;
+}
+
+.amendingLawPreview :deep(.akn-toChange) {
+  @apply bg-highlight-7-default outline outline-dotted outline-1 outline-blue-800;
+}
+
+.amendingLawPreview :deep(.akn-toChange):hover {
+  @apply bg-highlight-7-hover outline-2;
+}
+
+.amendingLawPreview :deep(.akn-changing) {
+  @apply bg-highlight-6-default outline outline-dotted outline-1 outline-blue-800;
+}
+
+.amendingLawPreview :deep(.akn-changing):hover {
+  @apply bg-highlight-6-hover outline-2;
+}
+
+.amendingLawPreview :deep(.akn-type) {
+  @apply cursor-pointer bg-highlight-2-default outline outline-dotted outline-1 outline-blue-800;
+}
+
+.amendingLawPreview :deep(.akn-reference) {
+  @apply bg-highlight-3-default outline outline-dotted outline-1 outline-blue-800;
+}
+
+.amendingLawPreview :deep(.akn-reference):hover {
+  @apply bg-highlight-3-hover outline-2;
+}
+
+.amendingLawPreview :deep(.akn-type):hover {
+  @apply bg-highlight-2-hover outline-2;
+}
 </style>

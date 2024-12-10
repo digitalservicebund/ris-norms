@@ -188,7 +188,7 @@ watch(
       <RisLoadingSpinner></RisLoadingSpinner>
     </div>
 
-    <div v-else-if="textualModType !== 'aenderungsbefehl-ersetzen'">
+    <div v-else-if="textualModType == 'aenderungsbefehl-ausserkrafttreten'">
       <Message severity="warn">
         Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.
       </Message>
@@ -251,6 +251,26 @@ watch(
         </div>
         <div v-else-if="loadPreviewHtmlError">
           <RisErrorCallout :error="loadPreviewHtmlError" />
+        </div>
+        <div
+          v-else-if="
+            [
+              'aenderungsbefehl-streichen',
+              'aenderungsbefehl-einfuegen',
+            ].includes(textualModType)
+          "
+        >
+          <Message severity="info">
+            <p class="ris-body1-bold">Keine Vorschau vorhanden</p>
+            <p>
+              Die Vorschau für den Änderungsbefehlstyp
+              <span v-if="textualModType === 'aenderungsbefehl-streichen'"
+                >"Aufheben"</span
+              >
+              <span v-else>"Einfügen"</span>
+              steht noch nicht zur Verfügung.
+            </p>
+          </Message>
         </div>
         <div v-else-if="previewError">
           <RisErrorCallout :error="previewError" />
