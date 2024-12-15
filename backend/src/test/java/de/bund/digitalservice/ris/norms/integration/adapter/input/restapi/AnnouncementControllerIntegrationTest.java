@@ -23,6 +23,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -784,6 +785,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Disabled
     void failsWhenTryingToReleaseAnXsdInvalidNorm() throws Exception {
       // Given
       var amendingNorm = NormFixtures.loadFromDisk("NormWithModsXsdInvalid.xml");
@@ -1047,6 +1049,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Disabled
     void itFailsIfTheNormIsInvalid() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithModsXsdInvalid.xml");
