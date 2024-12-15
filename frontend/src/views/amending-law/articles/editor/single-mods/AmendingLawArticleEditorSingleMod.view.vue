@@ -16,6 +16,7 @@ import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import dayjs from "dayjs"
 import { useNormXml } from "@/composables/useNormXml"
 import Message from "primevue/message"
+import { ModType } from "@/types/ModType"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -170,6 +171,9 @@ watch(
     }
   },
 )
+function updateTextualModType(newValue: "" | ModType) {
+  textualModType.value = newValue
+}
 </script>
 
 <template>
@@ -228,6 +232,7 @@ watch(
       "
       @generate-preview="preview"
       @update-mod="update"
+      @update-mod-type="updateTextualModType"
     />
   </section>
 
