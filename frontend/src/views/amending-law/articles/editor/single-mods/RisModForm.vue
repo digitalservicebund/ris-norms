@@ -285,8 +285,6 @@ const modTypeOptions = [
   { label: "Einfügen", value: "aenderungsbefehl-einfuegen" },
   { label: "Ersetzen", value: "aenderungsbefehl-ersetzen" },
   { label: "Streichen", value: "aenderungsbefehl-streichen" },
-  { label: "Neufassen", value: "aenderungsbefehl-neufassung" },
-  { label: "Außerkrafttreten", value: "aenderungsbefehl-ausserkrafttreten" },
 ]
 
 const contentTypeOptions = [
@@ -302,12 +300,6 @@ const selectedModType = computed({
     emit("update-mod-type", newValue)
   },
 })
-//
-// const selectedContentType = computed({
-//   get() {
-//     return props.quotedStructureContent ? "structure" : "text"
-//   },
-// })
 
 const contentType = ref(props.quotedStructureContent ? "structure" : "text")
 const userHasInteractedWithSelect = ref(false)
@@ -320,15 +312,19 @@ watch(
     }
   },
 )
-watch(
-  () => contentType,
-  (newValue, oldValue) => {
-    console.log(
-      `ContentType changed from ${oldValue?.value} to ${newValue.value}`,
-    )
-  },
-  { immediate: true },
-)
+
+const dropdownClasses = computed(() => {
+  switch (selectedModType.value) {
+    case "aenderungsbefehl-streichen":
+      return "border-red-900 bg-red-100"
+    case "aenderungsbefehl-einfuegen":
+      return "border-blue-900 bg-blue-400"
+    case "aenderungsbefehl-ersetzen":
+      return "border-yellow-900 bg-yellow-300"
+    default:
+      return "border-gray-400"
+  }
+})
 </script>
 
 <template>
@@ -347,6 +343,8 @@ watch(
           :options="modTypeOptions"
           option-label="label"
           option-value="value"
+          class="h-32 rounded-full border"
+          :class="dropdownClasses"
         />
       </div>
       <div class="flex flex-col gap-2">
@@ -359,6 +357,7 @@ watch(
           :options="contentTypeOptions"
           option-label="label"
           option-value="value"
+          class="h-32 rounded-full border border-gray-900 bg-gray-300"
           @change="userHasInteractedWithSelect = true"
         />
       </div>
@@ -372,7 +371,10 @@ watch(
       />
     </div>
     <div
-      v-if="contentType === 'structure'"
+      v-if="
+        selectedModType !== 'aenderungsbefehl-streichen' &&
+        contentType === 'structure'
+      "
       class="grid max-h-full grid-cols-subgrid grid-rows-[2fr,1fr] gap-y-12 overflow-hidden"
     >
       <div class="flex flex-col gap-2 overflow-hidden">
@@ -419,7 +421,10 @@ watch(
       </div>
     </div>
     <div
-      v-else-if="contentType === 'text'"
+      v-else-if="
+        selectedModType !== 'aenderungsbefehl-streichen' &&
+        contentType === 'text'
+      "
       class="grid max-h-full grid-cols-subgrid grid-rows-[2fr,1fr] gap-y-12 overflow-hidden"
     >
       <div class="grid grid-rows-[max-content,1fr] gap-2 overflow-hidden">
@@ -453,6 +458,71 @@ watch(
         label="Neuer Text Inhalt"
         @blur="$emit('generate-preview')"
       />
+    </div>
+    <div
+      v-else-if="selectedModType === 'aenderungsbefehl-streichen'"
+      class="grid max-h-full grid-cols-subgrid gap-y-12 overflow-hidden"
+    >
+      <div
+        v-if="contentType === 'structure'"
+        class="flex flex-col gap-2 overflow-hidden"
+      >
+        <label for="repealStructure" class="ds-label"
+          >Wegfallendes Element:</label
+        >
+        <div
+          v-if="targetLawHtmlIsFetching"
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="targetLawHtmlError">
+          <RisErrorCallout :error="targetLawHtmlError" />
+        </div>
+        <RisLawPreview
+          v-else
+          v-bind="selectableAknElementsLabels"
+          id="elementToBeRemovedStructure"
+          class="ds-textarea overflow-y-auto p-2"
+          :class="$style.preview"
+          data-testid="elementToBeRemovedStructure"
+          :content="targetLawHtml ?? ''"
+          :selected="selectedElements"
+          :arrow-focus="false"
+          :styled="false"
+          v-on="selectableAknElementsEventHandlers"
+          @keydown="handlePreviewKeyDown"
+          @mousedown="handleMouseDown"
+        />
+      </div>
+      <div
+        v-else-if="contentType === 'text'"
+        class="flex flex-col gap-2 overflow-hidden"
+      >
+        <label for="repealText" class="ds-label">Wegfallender Text</label>
+        <div
+          v-if="
+            targetLawIsFetching ||
+            targetLawHtmlIsFetching ||
+            (!targetLawHtml && !targetLawError) ||
+            (!targetLawHtmlError && !targetLawHtml)
+          "
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="targetLawError || targetLawHtmlError">
+          <RisErrorCallout :error="targetLawError ?? targetLawHtmlError" />
+        </div>
+        <RisCharacterRangeSelect
+          v-else
+          v-model="destinationHrefEid"
+          :xml="targetLaw ?? ''"
+          :render="targetLawHtml ?? ''"
+          aria-labelledby="repealText"
+          :selected-mod-type="selectedModType"
+        />
+      </div>
     </div>
     <div class="flex">
       <Button
