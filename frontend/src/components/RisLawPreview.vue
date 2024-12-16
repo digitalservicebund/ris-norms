@@ -373,6 +373,15 @@ watch(
     focusedEl.value = interactiveEls.findIndex((i) => i.dataset.eid === val[0])
   },
 )
+
+watch(
+  () => props.selected,
+  (val) => {
+    console.log("Selected elements in RisLawPreview:", val)
+    if (!val || val.length === 0) return
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
