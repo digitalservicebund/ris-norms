@@ -244,19 +244,27 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
   @apply bg-gray-100;
 }
 
-.amendingLawPreview :deep(.akn-toChange) {
+.amendingLawPreview :deep(.akn-existingcontent) {
   @apply bg-highlight-7-default outline outline-dotted outline-1 outline-blue-800;
 }
 
-.amendingLawPreview :deep(.akn-toChange):hover {
+.amendingLawPreview :deep(.akn-existingcontent):hover {
   @apply bg-highlight-7-hover outline-2;
 }
 
-.amendingLawPreview :deep(.akn-changing) {
+.amendingLawPreview :deep(.akn-insertiontarget) {
+  @apply bg-highlight-7-default outline outline-dotted outline-1 outline-blue-800;
+}
+
+.amendingLawPreview :deep(.akn-insertiontarget):hover {
+  @apply bg-highlight-7-hover outline-2;
+}
+
+.amendingLawPreview :deep(.akn-incomingcontent) {
   @apply bg-highlight-6-default outline outline-dotted outline-1 outline-blue-800;
 }
 
-.amendingLawPreview :deep(.akn-changing):hover {
+.amendingLawPreview :deep(.akn-incomingcontent):hover {
   @apply bg-highlight-6-hover outline-2;
 }
 

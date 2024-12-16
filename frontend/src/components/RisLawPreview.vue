@@ -377,7 +377,6 @@ watch(
 watch(
   () => props.selected,
   (val) => {
-    console.log("Selected elements in RisLawPreview:", val)
     if (!val || val.length === 0) return
   },
   { immediate: true },
