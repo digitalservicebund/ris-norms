@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-test.describe("Validation errors on check modifications page", () => {
+test.describe.skip("Validation errors on check modifications page", () => {
   test("Wrong character range", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",

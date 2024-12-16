@@ -75,17 +75,17 @@ function updateHrefEId(
     if (newParts.length !== 1) {
       return oldHref
     }
-    return oldHref.split("/").toSpliced(-1, 1, newParts[0]).join("/")
+    return oldHref.split("/").toSpliced(9, 1, newParts[0]).join("/")
   }
 
   if (newParts.length === 1) {
-    return oldHref.split("/").toSpliced(-2, 2, newParts[0], "").join("/")
+    return oldHref.split("/").toSpliced(9, 2, newParts[0], "").join("/")
   }
 
   if (newParts.length === 2) {
     return oldHref
       .split("/")
-      .toSpliced(-2, 2, ...newParts)
+      .toSpliced(9, 2, ...newParts)
       .join("/")
   }
 
@@ -488,7 +488,12 @@ const dropdownClasses = computed(() => {
           v-bind="selectableAknElementsLabels"
           id="elementToBeRemovedStructure"
           class="ds-textarea overflow-y-auto p-2"
-          :class="$style.preview"
+          :class="[
+            $style.preview,
+            selectedModType === 'aenderungsbefehl-streichen'
+              ? $style.repeal
+              : '',
+          ]"
           data-testid="elementToBeRemovedStructure"
           :content="targetLawHtml ?? ''"
           :selected="selectedElements"
@@ -807,6 +812,58 @@ const dropdownClasses = computed(() => {
   }
 }
 
+.preview.repeal {
+  :global(
+    :is(
+      .akn-article,
+      .akn-block,
+      .akn-blockContainer,
+      .akn-book,
+      .akn-chapter,
+      .akn-citations,
+      .akn-foreign,
+      .akn-heading,
+      .akn-list,
+      .akn-longTitle,
+      .akn-num,
+      .akn-ol,
+      .akn-p,
+      .akn-paragraph,
+      .akn-part,
+      .akn-point,
+      .akn-recital,
+      .akn-recitals,
+      .akn-section,
+      .akn-subchapter,
+      .akn-subsection,
+      .akn-subtitle,
+      .akn-table,
+      .akn-tblock,
+      .akn-td,
+      .akn-th,
+      .akn-title,
+      .akn-toc,
+      .akn-tocItem,
+      .akn-tr,
+      .akn-ul,
+      .akn-wrapUp
+    )
+  ) {
+    &:global(.selected) {
+      @apply border-transparent bg-red-600 outline outline-2 outline-highlight-elementSelect-selected-border;
+
+      &:before {
+        @apply ris-label3-bold text-black;
+      }
+    }
+
+    /* The most deeply nested element that is currently hovered and not selected */
+
+    &:hover:not(:has([class^="akn-"]:hover)):not(:global(.selected)) {
+      @apply border-transparent bg-red-500 outline-dashed outline-2 outline-highlight-elementSelect-hover-border;
+    }
+  }
+}
 /**
  * Special styling for akn:num
  */
