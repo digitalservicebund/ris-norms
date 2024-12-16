@@ -33,7 +33,7 @@
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
     "@digitalservicebund/ris-ui": "~1.7.0",
-    "@sentry/vue": "~8.44.0",
+    "@sentry/vue": "~8.45.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
     "@vueuse/core": "~12.0.0",
@@ -70,7 +70,7 @@
     "autoprefixer": "~10.4.19",
     "axe-playwright": "~2.0.1",
     "dotenv": "~16.4.5",
-    "eslint": "~9.16.0",
+    "eslint": "~9.17.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "~2.31.0",
     "eslint-plugin-playwright": "~2.1.0",
