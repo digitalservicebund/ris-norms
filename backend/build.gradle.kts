@@ -70,6 +70,7 @@ dependencies {
     implementation(platform(libs.aws.bom))
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
+    implementation(libs.spring.oauth2.client)
 
     compileOnly(libs.lombok)
 

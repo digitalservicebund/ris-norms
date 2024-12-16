@@ -18,6 +18,22 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+  security:
+    oauth2:
+      client:
+        registration:
+          oidcclient:
+            provider: keycloak
+            scope:
+              - openid
+              - profile
+              - email
+            client-id: #replace-me#
+            client-secret: #replace-me#
+        provider:
+          keycloak:
+            issuer-uri: #replace-me#
 server:
   servlet:
     session:
