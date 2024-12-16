@@ -39,7 +39,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   "generate-preview": []
   "update-mod": []
-  "update-mod-type": (value: "" | ModType) => void
+  "update-mod-type": ["" | ModType]
 }>()
 
 /** Destination Href for mod */
