@@ -94,17 +94,21 @@ function updateHrefEId(
 
 const destinationHrefEid = computed({
   get() {
+    const parts = destinationHrefModel.value?.split("/") ?? []
+
+    let eid = ""
+
     if (isQuotedStructure.value) {
-      return (
-        destinationHrefModel.value
-          ?.split("/")
-          .slice(-1)
-          .join("/")
-          ?.replace(".xml", "") ?? ""
-      )
+      eid = parts.slice(-1).join("/").replace(".xml", "")
     } else {
-      return destinationHrefModel.value?.split("/").slice(-2).join("/") ?? ""
+      if (parts.slice(-1)[0]?.includes("_")) {
+        eid = parts.slice(-1).join("/").replace(".xml", "")
+      } else {
+        eid = parts.slice(-2).join("/")
+      }
     }
+
+    return eid.replace(/\/$/, "")
   },
   set(newValue: string) {
     if (!destinationHrefModel.value) {

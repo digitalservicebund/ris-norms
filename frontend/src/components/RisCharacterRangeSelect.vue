@@ -11,6 +11,7 @@ import {
 const props = defineProps<{
   render: string | null
   xml: string | null
+  selectedModType?: string | null
 }>()
 const eIdWithCharacterRange = defineModel<string>()
 
@@ -35,9 +36,12 @@ function handleSelectionStart() {
 }
 
 function highlightCurrentCharacterRange() {
-  const eId = eIdWithCharacterRange.value?.split("/")[0]
-  const characterRange = eIdWithCharacterRange.value
-    ?.split("/")[1]
+  const eIdWithDefaultRange = eIdWithCharacterRange.value?.includes("/")
+    ? eIdWithCharacterRange.value
+    : `${eIdWithCharacterRange.value}/0-0.xml`
+
+  const [eId, rangePart] = eIdWithDefaultRange.split("/")
+  const characterRange = rangePart
     .replace(".xml", "")
     .split("-")
     .map(Number) as [number, number]
@@ -69,9 +73,12 @@ function highlightCurrentCharacterRange() {
     return
   }
 
-  // We use the CSS highlight api for showing the selected text. This Api is supported by chromium based browsers and in the newest nightly build by firefox (2024-09-03). TS definitions are still partly missing. So we need to do some checks if the api is available
   if ("Highlight" in window && "highlights" in CSS) {
     const highlight = new Highlight(htmlRange)
+    const highlightId =
+      props.selectedModType === "aenderungsbefehl-streichen"
+        ? "current-character-range-repeal"
+        : "current-character-range"
 
     if (
       CSS.highlights &&
@@ -85,7 +92,7 @@ function highlightCurrentCharacterRange() {
         CSS.highlights as unknown as {
           set: (id: string, highlight: Highlight) => void
         }
-      ).set("current-character-range", highlight)
+      ).set(highlightId, highlight)
     }
   }
 
@@ -157,5 +164,9 @@ function handlePreviewRender(container: HTMLElement) {
 <style scoped>
 ::highlight(current-character-range) {
   @apply bg-highlight-1-selected;
+}
+
+::highlight(current-character-range-repeal) {
+  @apply bg-highlight-7-selected line-through;
 }
 </style>
