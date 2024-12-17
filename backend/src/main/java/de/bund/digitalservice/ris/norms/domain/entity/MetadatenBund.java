@@ -10,7 +10,7 @@ public class MetadatenBund extends Metadaten<MetadatenBund.Metadata> {
 
   @Builder
   public MetadatenBund(final Node node) {
-    super(node, "ab", "bis", "meta");
+    super(node, "ab", "bis", Namespace.METADATEN_BUNDESREGIERUNG);
   }
 
   /**

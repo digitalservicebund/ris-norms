@@ -29,7 +29,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
   private final Node node;
   private final String startAttribute;
   private final String endAttribute;
-  private final String namespacePrefix;
+  private final Namespace namespace;
 
   /**
    * It returns the value for a xpath at a specific date. If no matching value @start or @end is
@@ -171,7 +171,8 @@ public abstract class Metadaten<T extends MetadataInterface> {
       if (isLastElement) {
         // Create and set the new element
         final Element newElement = NodeCreator.createElement(
-          String.format("%s:%s", getNamespacePrefix(), elementName),
+          getNamespace(),
+          elementName,
           parentNode
         );
         newElement.setTextContent(newValue);
@@ -192,11 +193,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
         if (childNode.isPresent()) {
           parentNode = childNode.get();
         } else {
-          parentNode =
-          NodeCreator.createElement(
-            String.format("%s:%s", getNamespacePrefix(), elementName),
-            parentNode
-          );
+          parentNode = NodeCreator.createElement(getNamespace(), elementName, parentNode);
         }
       }
     }
