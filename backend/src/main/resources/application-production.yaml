@@ -11,6 +11,8 @@ spring:
   data:
     redis:
       host: redis
+  profiles:
+    include: oauth2
 
 otc:
   obs:
