@@ -136,6 +136,19 @@ jobs:
     uses: ./.github/workflows/deploy-uat-job.yml
     secrets: inherit
 
+  # ######################
+  # # Deploy new versions to production
+  # ######################
+
+  deploy-production-job:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - deploy-uat-job
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/deploy-production-job.yml
+    secrets: inherit
+
   # ########################
   # # system test jobs
   # ########################
