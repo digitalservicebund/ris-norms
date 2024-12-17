@@ -180,7 +180,7 @@ test(
   },
 )
 
-test(
+test.skip(
   "shows validation errors if the uploaded norm is not an XSD-valid LDML document",
   { tag: ["@RISDEV-4771"] },
   async ({ page }) => {

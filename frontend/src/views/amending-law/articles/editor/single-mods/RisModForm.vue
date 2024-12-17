@@ -15,7 +15,6 @@ import Select from "primevue/select"
 import { useToast } from "primevue/usetoast"
 import { computed, nextTick, ref, watch } from "vue"
 import IconCheck from "~icons/ic/baseline-check"
-import { useElementId } from "@/composables/useElementId"
 
 const props = defineProps<{
   /** Either replacement, insertion or repeal */
@@ -40,11 +39,9 @@ const props = defineProps<{
 const emit = defineEmits<{
   "generate-preview": []
   "update-mod": []
+  "update-mod-type": ["" | ModType]
 }>()
-/** Optional selected time boundary of the format YYYY-MM-DD */
-const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
-  "selectedTimeBoundary",
-)
+
 /** Destination Href for mod */
 const destinationHrefModel = defineModel<string>("destinationHref")
 
@@ -56,47 +53,16 @@ const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
 )
 
-const timeBoundaries = computed(() => {
-  return [
-    ...props.timeBoundaries.map((boundary) => ({
-      label: new Date(boundary.date).toLocaleDateString("de", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      }),
-      value: boundary.date,
-    })),
-    { label: "Keine Angabe", value: "no_choice" },
-  ]
-})
-const selectedElement = computed({
-  get() {
-    return selectedTimeBoundaryModel.value?.date ?? "no_choice"
-  },
-  set(value: string) {
-    selectedTimeBoundaryModel.value =
-      value === "no_choice"
-        ? undefined
-        : props.timeBoundaries.find((tb) => tb.date === value)
-  },
-})
-
-const { timeBoundariesId } = useElementId("timeBoundaries")
-
 const isQuotedStructure = computed(() => !!props.quotedStructureContent)
 
 const destinationHrefEli = computed(() => {
   const parts = destinationHrefModel.value?.split("/") || []
 
-  switch (props.textualModType) {
-    case "aenderungsbefehl-ersetzen":
-      if (isQuotedStructure.value) {
-        return parts.slice(0, -1).join("/")
-      } else {
-        return parts.slice(0, -2).join("/")
-      }
+  if (isQuotedStructure.value) {
+    return parts.slice(0, -1).join("/")
   }
-  return ""
+
+  return parts.slice(0, -2).join("/")
 })
 
 function updateHrefEId(
@@ -105,28 +71,22 @@ function updateHrefEId(
 ): string {
   const newParts = newEIdWithOptionalCharacterRange.split("/")
 
-  switch (props.textualModType) {
-    case "aenderungsbefehl-ersetzen":
-      if (isQuotedStructure.value) {
-        if (newParts.length !== 1) {
-          return oldHref
-        }
-
-        return oldHref.split("/").toSpliced(-1, 1, newParts[0]).join("/")
-      }
-
-      if (newParts.length === 1) {
-        return oldHref.split("/").toSpliced(-2, 2, newParts[0], "").join("/")
-      }
-
-      if (newParts.length === 2) {
-        return oldHref
-          .split("/")
-          .toSpliced(-2, 2, ...newParts)
-          .join("/")
-      }
-
+  if (isQuotedStructure.value) {
+    if (newParts.length !== 1) {
       return oldHref
+    }
+    return oldHref.split("/").toSpliced(9, 1, newParts[0]).join("/")
+  }
+
+  if (newParts.length === 1) {
+    return oldHref.split("/").toSpliced(9, 2, newParts[0], "").join("/")
+  }
+
+  if (newParts.length === 2) {
+    return oldHref
+      .split("/")
+      .toSpliced(9, 2, ...newParts)
+      .join("/")
   }
 
   return oldHref
@@ -134,23 +94,21 @@ function updateHrefEId(
 
 const destinationHrefEid = computed({
   get() {
-    switch (props.textualModType) {
-      case "aenderungsbefehl-ersetzen":
-        if (isQuotedStructure.value) {
-          return (
-            destinationHrefModel.value
-              ?.split("/")
-              .slice(-1)
-              .join("/")
-              ?.replace(".xml", "") ?? ""
-          )
-        } else {
-          return (
-            destinationHrefModel.value?.split("/").slice(-2).join("/") ?? ""
-          )
-        }
+    const parts = destinationHrefModel.value?.split("/") ?? []
+
+    let eid = ""
+
+    if (isQuotedStructure.value) {
+      eid = parts.slice(-1).join("/").replace(".xml", "")
+    } else {
+      if (parts.slice(-1)[0]?.includes("_")) {
+        eid = parts.slice(-1).join("/").replace(".xml", "")
+      } else {
+        eid = parts.slice(-2).join("/")
+      }
     }
-    return ""
+
+    return eid.replace(/\/$/, "")
   },
   set(newValue: string) {
     if (!destinationHrefModel.value) {
@@ -165,26 +123,6 @@ const destinationHrefEid = computed({
     emit("generate-preview")
   },
 })
-
-/**
- * Provides the human-readable label for the given ModType
- */
-function modTypeLabel(modType: ModType | "") {
-  switch (modType) {
-    case "aenderungsbefehl-einfuegen":
-      return "Einfügen"
-    case "aenderungsbefehl-ersetzen":
-      return "Ersetzen"
-    case "aenderungsbefehl-streichen":
-      return "Streichen"
-    case "aenderungsbefehl-neufassung":
-      return "Neufassen"
-    case "aenderungsbefehl-ausserkrafttreten":
-      return "Außerkrafttreten"
-    case "":
-      return "Keine Angabe"
-  }
-}
 
 const destinationRangeUptoEid = computed({
   get() {
@@ -346,6 +284,51 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     handleAknElementClick,
   ]),
 )
+
+const modTypeOptions = [
+  { label: "Einfügen", value: "aenderungsbefehl-einfuegen" },
+  { label: "Ersetzen", value: "aenderungsbefehl-ersetzen" },
+  { label: "Streichen", value: "aenderungsbefehl-streichen" },
+]
+
+const contentTypeOptions = [
+  { label: "Text", value: "text" },
+  { label: "Struktur", value: "structure" },
+]
+
+const selectedModType = computed({
+  get() {
+    return props.textualModType
+  },
+  set(newValue: ModType | "") {
+    emit("update-mod-type", newValue)
+  },
+})
+
+const contentType = ref(props.quotedStructureContent ? "structure" : "text")
+const userHasInteractedWithSelect = ref(false)
+
+watch(
+  () => props.quotedStructureContent,
+  (newVal) => {
+    if (!userHasInteractedWithSelect.value) {
+      contentType.value = newVal ? "structure" : "text"
+    }
+  },
+)
+
+const dropdownClasses = computed(() => {
+  switch (selectedModType.value) {
+    case "aenderungsbefehl-streichen":
+      return "border-red-900 bg-red-100"
+    case "aenderungsbefehl-einfuegen":
+      return "border-blue-900 bg-blue-400"
+    case "aenderungsbefehl-ersetzen":
+      return "border-yellow-900 bg-yellow-300"
+    default:
+      return "border-gray-400"
+  }
+})
 </script>
 
 <template>
@@ -354,50 +337,53 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     class="grid h-full max-h-full grid-cols-1 grid-rows-[min-content,min-content,1fr,min-content] gap-y-12 overflow-auto"
   >
     <div class="grid grid-cols-2 gap-x-16">
-      <div class="flex flex-col gap-6">
-        <label :id="timeBoundariesId" class="ris-label2-regular"
-          >Zeitgrenze</label
-        >
-        <Select
-          v-model="selectedElement"
-          :options="timeBoundaries"
-          option-label="label"
-          option-value="value"
-          :aria-labelledby="timeBoundariesId"
-          @change="$emit('generate-preview')"
-        />
-      </div>
-      <div class="flex flex-col gap-6">
-        <label class="ris-label2-regular" for="textualModeType"
+      <div class="flex flex-col gap-2">
+        <label class="ris-label2-regular" for="modTypeSelect"
           >Änderungstyp</label
         >
-        <InputText
-          id="textualModeType"
-          :model-value="modTypeLabel(textualModType)"
-          readonly
+        <Select
+          id="modTypeSelect"
+          v-model="selectedModType"
+          :options="modTypeOptions"
+          option-label="label"
+          option-value="value"
+          class="h-32 rounded-full border"
+          :class="dropdownClasses"
+        />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="ris-label2-regular" for="contentTypeSelect"
+          >Content Typ</label
+        >
+        <Select
+          id="contentTypeSelect"
+          v-model="contentType"
+          :options="contentTypeOptions"
+          option-label="label"
+          option-value="value"
+          class="h-32 rounded-full border border-gray-900 bg-gray-300"
+          @change="userHasInteractedWithSelect = true"
         />
       </div>
     </div>
-
     <div class="flex flex-col gap-6">
-      <label class="ris-label2-regular" for="destinationHrefEli"
-        >ELI Zielgesetz</label
-      >
+      <label class="ris-label2-regular" for="destinationHrefEid">eID</label>
       <InputText
-        id="destinationHrefEli"
-        :model-value="destinationHrefEli"
-        readonly
+        id="destinationHrefEid"
+        v-model="destinationHrefEid"
+        @blur="$emit('generate-preview')"
       />
     </div>
     <div
       v-if="
-        textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
+        selectedModType !== 'aenderungsbefehl-streichen' &&
+        contentType === 'structure'
       "
       class="grid max-h-full grid-cols-subgrid grid-rows-[2fr,1fr] gap-y-12 overflow-hidden"
     >
       <div class="flex flex-col gap-2 overflow-hidden">
         <label for="replacingElement" class="ds-label"
-          >Zu ersetzendes Element</label
+          >Neu zu fassendes Element</label
         >
         <div
           v-if="targetLawHtmlIsFetching"
@@ -433,27 +419,20 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           :class="$style.preview"
           data-testid="replacingElement"
           :arrow-focus="false"
-          :content="quotedStructureContent"
+          :content="quotedStructureContent ?? ''"
           :styled="false"
         />
       </div>
     </div>
     <div
-      v-else-if="textualModType === 'aenderungsbefehl-ersetzen'"
-      class="grid max-h-full grid-cols-subgrid grid-rows-[min-content,2fr,1fr] gap-y-12 overflow-hidden"
+      v-else-if="
+        selectedModType !== 'aenderungsbefehl-streichen' &&
+        contentType === 'text'
+      "
+      class="grid max-h-full grid-cols-subgrid grid-rows-[2fr,1fr] gap-y-12 overflow-hidden"
     >
-      <div class="flex flex-col gap-6">
-        <label class="ris-label2-regular" for="destinationHrefEid"
-          >zu ersetzende Textstelle</label
-        >
-        <InputText
-          id="destinationHrefEid"
-          v-model="destinationHrefEid"
-          @blur="$emit('generate-preview')"
-        />
-      </div>
       <div class="grid grid-rows-[max-content,1fr] gap-2 overflow-hidden">
-        <div id="label-old-text" class="ds-label">zu ersetzender Text</div>
+        <div id="label-old-text" class="ds-label">Position im Text</div>
         <div
           v-if="
             targetLawIsFetching ||
@@ -483,6 +462,76 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         label="Neuer Text Inhalt"
         @blur="$emit('generate-preview')"
       />
+    </div>
+    <div
+      v-else-if="selectedModType === 'aenderungsbefehl-streichen'"
+      class="grid max-h-full grid-cols-subgrid gap-y-12 overflow-hidden"
+    >
+      <div
+        v-if="contentType === 'structure'"
+        class="flex flex-col gap-2 overflow-hidden"
+      >
+        <label for="repealStructure" class="ds-label"
+          >Wegfallendes Element:</label
+        >
+        <div
+          v-if="targetLawHtmlIsFetching"
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="targetLawHtmlError">
+          <RisErrorCallout :error="targetLawHtmlError" />
+        </div>
+        <RisLawPreview
+          v-else
+          v-bind="selectableAknElementsLabels"
+          id="elementToBeRemovedStructure"
+          class="ds-textarea overflow-y-auto p-2"
+          :class="[
+            $style.preview,
+            selectedModType === 'aenderungsbefehl-streichen'
+              ? $style.repeal
+              : '',
+          ]"
+          data-testid="elementToBeRemovedStructure"
+          :content="targetLawHtml ?? ''"
+          :selected="selectedElements"
+          :arrow-focus="false"
+          :styled="false"
+          v-on="selectableAknElementsEventHandlers"
+          @keydown="handlePreviewKeyDown"
+          @mousedown="handleMouseDown"
+        />
+      </div>
+      <div
+        v-else-if="contentType === 'text'"
+        class="flex flex-col gap-2 overflow-hidden"
+      >
+        <label for="repealText" class="ds-label">Wegfallender Text</label>
+        <div
+          v-if="
+            targetLawIsFetching ||
+            targetLawHtmlIsFetching ||
+            (!targetLawHtml && !targetLawError) ||
+            (!targetLawHtmlError && !targetLawHtml)
+          "
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="targetLawError || targetLawHtmlError">
+          <RisErrorCallout :error="targetLawError ?? targetLawHtmlError" />
+        </div>
+        <RisCharacterRangeSelect
+          v-else
+          v-model="destinationHrefEid"
+          :xml="targetLaw ?? ''"
+          :render="targetLawHtml ?? ''"
+          aria-labelledby="repealText"
+          :selected-mod-type="selectedModType"
+        />
+      </div>
     </div>
     <div class="flex">
       <Button
@@ -763,6 +812,58 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   }
 }
 
+.preview.repeal {
+  :global(
+    :is(
+      .akn-article,
+      .akn-block,
+      .akn-blockContainer,
+      .akn-book,
+      .akn-chapter,
+      .akn-citations,
+      .akn-foreign,
+      .akn-heading,
+      .akn-list,
+      .akn-longTitle,
+      .akn-num,
+      .akn-ol,
+      .akn-p,
+      .akn-paragraph,
+      .akn-part,
+      .akn-point,
+      .akn-recital,
+      .akn-recitals,
+      .akn-section,
+      .akn-subchapter,
+      .akn-subsection,
+      .akn-subtitle,
+      .akn-table,
+      .akn-tblock,
+      .akn-td,
+      .akn-th,
+      .akn-title,
+      .akn-toc,
+      .akn-tocItem,
+      .akn-tr,
+      .akn-ul,
+      .akn-wrapUp
+    )
+  ) {
+    &:global(.selected) {
+      @apply border-transparent bg-red-600 outline outline-2 outline-highlight-elementSelect-selected-border;
+
+      &:before {
+        @apply ris-label3-bold text-black;
+      }
+    }
+
+    /* The most deeply nested element that is currently hovered and not selected */
+
+    &:hover:not(:has([class^="akn-"]:hover)):not(:global(.selected)) {
+      @apply border-transparent bg-red-500 outline-dashed outline-2 outline-highlight-elementSelect-hover-border;
+    }
+  }
+}
 /**
  * Special styling for akn:num
  */
