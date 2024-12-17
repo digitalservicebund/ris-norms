@@ -16,7 +16,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
 
   @Builder
   public MetadatenDs(final Node node) {
-    super(node, "start", "end", "ris");
+    super(node, "start", "end", Namespace.METADATEN_RIS);
   }
 
   /**
@@ -161,7 +161,8 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
           if (StringUtils.isNotEmpty(newValue)) {
             // Create and set the new element
             final Element newElement = NodeCreator.createElement(
-              "ris:einzelelement",
+              getNamespace(),
+              "einzelelement",
               this.getNode()
             );
             newElement.setAttribute("href", "#%s".formatted(eid));
