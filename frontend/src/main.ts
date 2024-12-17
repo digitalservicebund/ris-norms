@@ -11,12 +11,14 @@ import router from "./router"
 import "./style.css"
 
 const app = createApp(App)
-
-app.use(PrimeVue, {
-  pt: RisUiTheme,
-  unstyled: true,
-  locale: RisUiLocale.deDE,
-})
+  .use(PrimeVue, {
+    pt: RisUiTheme,
+    unstyled: true,
+    locale: RisUiLocale.deDE,
+  })
+  .use(ToastService)
+  .use(ConfirmationService)
+  .use(router)
 
 app.use(ToastService)
 app.use(ConfirmationService)
@@ -39,4 +41,4 @@ if (import.meta.env.PROD && import.meta.env.E2E_TESTS_RUNNING !== "true") {
   })
 }
 
-app.use(router).mount("#app")
+app.mount("#app")
