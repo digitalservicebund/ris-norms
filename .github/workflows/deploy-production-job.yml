@@ -2,7 +2,7 @@ on:
   workflow_call:
 
 jobs:
-  deploy-uat:
+  deploy-production:
     runs-on: ubuntu-latest
     concurrency: deploy
     environment: production
