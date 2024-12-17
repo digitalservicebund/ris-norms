@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.utils;
 
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import java.util.UUID;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -21,6 +22,30 @@ public class NodeCreator {
    */
   public static Element createElement(final String tagName, final Node parentNode) {
     var newElement = parentNode.getOwnerDocument().createElement(tagName);
+    parentNode.appendChild(newElement);
+    return newElement;
+  }
+
+  /**
+   * Create a new element without an eId and a GUID. The new element is appended to the given parent
+   * node.
+   *
+   * @param namespace the namespace the element resides in
+   * @param tagName the tag name of the new element, without a prefix like akn or meta. This prefix will be added automatically.
+   * @param parentNode the element of which this newly created element should be a child
+   * @return the newly created element
+   */
+  public static Element createElement(
+    final Namespace namespace,
+    final String tagName,
+    final Node parentNode
+  ) {
+    var newElement = parentNode
+      .getOwnerDocument()
+      .createElementNS(
+        namespace.getNamespaceUri(),
+        "%s:%s".formatted(namespace.getPrefix(), tagName)
+      );
     parentNode.appendChild(newElement);
     return newElement;
   }
