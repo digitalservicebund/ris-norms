@@ -36,15 +36,15 @@ jobs:
       - name: Publish container image
         run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Install cosign
-        uses: sigstore/cosign-installer@718228a5f85f61170ad5c3ea6c0e9871cc92f1c5
+        uses: sigstore/cosign-installer@e11c0892438d2c0a48e49dee376e4883f10f2e59
       - name: Sign the published Docker image
         run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
-#      - name: Download cosign vulnerability scan record
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: "vuln.json"
-#      - name: Attest vulnerability scan
-#        run: cosign attest --yes --replace --predicate vuln.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
+      #      - name: Download cosign vulnerability scan record
+      #        uses: actions/download-artifact@v4
+      #        with:
+      #          name: "vuln.json"
+      #      - name: Attest vulnerability scan
+      #        run: cosign attest --yes --replace --predicate vuln.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
         if: ${{ failure() }}
