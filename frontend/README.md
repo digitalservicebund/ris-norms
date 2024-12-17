@@ -16,9 +16,11 @@ The frontend is the main entry point for users of _RIS norms_.
 - `npm run test:watch` runs the tests and automatically re-runs if something changes
 - `npm run test:e2e` runs the E2E tests (requires a running frontend and backend)
 - `npm run coverage` compiles a coverage report via `v8`
+- `npm run typecheck` runs type checking through TypeScript
 - `npm run style:check` does linting and formatting
 - `npm run style:fix` will try to fix linting and formatting issues
 - `npm run build` builds the app
+- `npm run preview` previews the app (requires a build first)
 
 ## E2E Tests
 
@@ -62,8 +64,7 @@ npm run test:e2e -- --project firefox --repeat-each 1
 npm run test:e2e -- --project msedge --repeat-each 1
 ```
 
-Alternatively the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also explains how to run the e2e-tests inside a
-docker container.
+Alternatively the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also explains how to run the e2e-tests inside a docker container.
 
 ## Icons
 
