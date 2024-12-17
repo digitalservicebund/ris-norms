@@ -18,8 +18,6 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - name: Print example variable's
-        run: echo "${{ inputs.example-variable}}"
       - uses: actions/checkout@v4
         with:
           submodules: true
