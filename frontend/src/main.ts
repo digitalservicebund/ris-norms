@@ -7,6 +7,7 @@ import ConfirmationService from "primevue/confirmationservice"
 import ToastService from "primevue/toastservice"
 import { createApp } from "vue"
 import App from "./App.vue"
+import { detectEnv, RisEnvironment } from "./lib/env"
 import router from "./router"
 import "./style.css"
 
@@ -20,17 +21,24 @@ const app = createApp(App)
   .use(ConfirmationService)
   .use(router)
 
-app.use(ToastService)
-app.use(ConfirmationService)
+const env = detectEnv()
 
-if (import.meta.env.PROD && import.meta.env.E2E_TESTS_RUNNING !== "true") {
+const enableSentry = [
+  RisEnvironment.PRODUCTION,
+  RisEnvironment.UAT,
+  RisEnvironment.STAGING,
+].includes(env)
+
+console.info(
+  `Sentry reporting is ${enableSentry ? "enabled" : "disabled"} in environment "${env}"`,
+)
+
+if (enableSentry) {
   Sentry.init({
     app,
-    environment: "staging",
+    environment: env,
     dsn: "https://bc002a52fd187905497284bed2d771c1@o1248831.ingest.us.sentry.io/4507543284613120",
-    initialScope: {
-      tags: { source: "frontend" },
-    },
+    initialScope: { tags: { source: "frontend" } },
     integrations: [
       Sentry.browserTracingIntegration({ router }),
       Sentry.captureConsoleIntegration(),
