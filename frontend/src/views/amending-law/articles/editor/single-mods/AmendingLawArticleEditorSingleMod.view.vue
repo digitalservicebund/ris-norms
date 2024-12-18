@@ -16,6 +16,7 @@ import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import dayjs from "dayjs"
 import { useNormXml } from "@/composables/useNormXml"
 import Message from "primevue/message"
+import { ModType } from "@/types/ModType"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -170,6 +171,9 @@ watch(
     }
   },
 )
+function updateTextualModType(newValue: "" | ModType) {
+  textualModType.value = newValue
+}
 </script>
 
 <template>
@@ -188,7 +192,7 @@ watch(
       <RisLoadingSpinner></RisLoadingSpinner>
     </div>
 
-    <div v-else-if="textualModType !== 'aenderungsbefehl-ersetzen'">
+    <div v-else-if="textualModType == 'aenderungsbefehl-ausserkrafttreten'">
       <Message severity="warn">
         Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.
       </Message>
@@ -228,6 +232,7 @@ watch(
       "
       @generate-preview="preview"
       @update-mod="update"
+      @update-mod-type="updateTextualModType"
     />
   </section>
 
@@ -251,6 +256,26 @@ watch(
         </div>
         <div v-else-if="loadPreviewHtmlError">
           <RisErrorCallout :error="loadPreviewHtmlError" />
+        </div>
+        <div
+          v-else-if="
+            [
+              'aenderungsbefehl-streichen',
+              'aenderungsbefehl-einfuegen',
+            ].includes(textualModType)
+          "
+        >
+          <Message severity="info">
+            <p class="ris-body1-bold">Keine Vorschau vorhanden</p>
+            <p>
+              Die Vorschau für den Änderungsbefehlstyp
+              <span v-if="textualModType === 'aenderungsbefehl-streichen'"
+                >"Aufheben"</span
+              >
+              <span v-else>"Einfügen"</span>
+              steht noch nicht zur Verfügung.
+            </p>
+          </Message>
         </div>
         <div v-else-if="previewError">
           <RisErrorCallout :error="previewError" />

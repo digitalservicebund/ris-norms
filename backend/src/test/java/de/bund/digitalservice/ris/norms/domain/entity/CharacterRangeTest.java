@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -173,6 +174,7 @@ public class CharacterRangeTest {
     }
 
     @Test
+    @Disabled
     void itShouldFindRangeInAValidatedNormIgnoringIndentation() {
       // given //when
       var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml", true);

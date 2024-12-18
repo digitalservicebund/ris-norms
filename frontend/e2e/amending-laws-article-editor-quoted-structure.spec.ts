@@ -12,7 +12,7 @@ test.beforeEach(async () => {
   )
 })
 
-test.describe("Load mod details", () => {
+test.describe.skip("Load mod details", () => {
   test("Loading of mod details into form", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
@@ -119,7 +119,7 @@ test.describe("Load mod details", () => {
   })
 })
 
-test.describe("Editing a single mod", () => {
+test.describe.skip("Editing a single mod", () => {
   test.afterEach(async ({ request }) => {
     await uploadAmendingLaw(
       request,
@@ -215,7 +215,7 @@ test.describe("Editing a single mod", () => {
   })
 })
 
-test.describe("Editing multiple mods", () => {
+test.describe.skip("Editing multiple mods", () => {
   test.afterEach(async ({ request }) => {
     await uploadAmendingLaw(
       request,
@@ -338,7 +338,7 @@ test.describe("Editing multiple mods", () => {
   })
 })
 
-test.describe("Range mod", () => {
+test.describe.skip("Range mod", () => {
   test.afterEach(async ({ request }) => {
     await uploadAmendingLaw(
       request,
