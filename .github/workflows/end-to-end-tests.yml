@@ -72,7 +72,7 @@ jobs:
           echo "Running e2e tests 1 time"
 
           npm run build
-          npm run preview &
+          npm run preview -- --port 5173 &
           DEV_PID=$!
           npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1
           pkill -P $DEV_PID
