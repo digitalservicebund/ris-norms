@@ -3,7 +3,7 @@ FROM node:22.12.0 AS frontend
 WORKDIR /frontend
 COPY frontend .
 RUN npm ci
-RUN npm run-script build
+RUN npm run build
 
 FROM gradle:8.11-jdk21 AS backend
 ARG SENTRY_AUTH_TOKEN
