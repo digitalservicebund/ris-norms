@@ -321,7 +321,8 @@ public class BillToActService {
       expressionEli.getVersion(),
       expressionEli.getLanguage(),
       verkuendungsDate,
-      expressionEli.getSubtype()
+      expressionEli.getSubtype(),
+      "xml"
     );
     fRBRManifestationThis.setAttribute(VALUE, manifestationEli.toString());
     fRBRManifestationUri.setAttribute(VALUE, manifestationEli.toString());

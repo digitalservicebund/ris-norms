@@ -53,7 +53,11 @@ public class CreateNewVersionOfNormService {
       date,
       newExpression.getExpressionEli().getLanguage()
     );
-    var newManifestationEli = ManifestationEli.fromExpressionEli(newExpressionEli, LocalDate.now());
+    var newManifestationEli = ManifestationEli.fromExpressionEli(
+      newExpressionEli,
+      LocalDate.now(),
+      "xml"
+    );
     setNewExpressionMetadata(newExpression, newExpressionEli);
     setNewManifestationMetadata(newExpression, newManifestationEli);
 
@@ -85,7 +89,8 @@ public class CreateNewVersionOfNormService {
     var newManifestation = new Norm(norm);
     var newManifestationEli = ManifestationEli.fromExpressionEli(
       newManifestation.getExpressionEli(),
-      pointInTimeManifestation
+      pointInTimeManifestation,
+      "xml"
     );
     setNewManifestationMetadata(newManifestation, newManifestationEli);
 
