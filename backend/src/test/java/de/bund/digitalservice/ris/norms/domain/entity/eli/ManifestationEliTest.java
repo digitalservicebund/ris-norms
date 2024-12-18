@@ -87,6 +87,7 @@ class ManifestationEliTest {
       assertThat(eli.getLanguage()).isEqualTo("deu");
       assertThat(eli.getPointInTimeManifestation()).isEqualTo("2021-03-03");
       assertThat(eli.getSubtype()).isEqualTo("regelungstext-1");
+      assertThat(eli.getFormat()).isEqualTo("xml");
     }
 
     @Test
@@ -102,6 +103,7 @@ class ManifestationEliTest {
       assertThat(eli.getLanguage()).isEqualTo("deu");
       assertThat(eli.getPointInTimeManifestation()).isNull();
       assertThat(eli.getSubtype()).isEqualTo("regelungstext-1");
+      assertThat(eli.getFormat()).isEqualTo("xml");
     }
   }
 
@@ -150,7 +152,8 @@ class ManifestationEliTest {
     void itShouldCreateFromExpressionEliAndPointInTimeManifestation() {
       var eli = ManifestationEli.fromExpressionEli(
         ExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"),
-        LocalDate.parse("2022-01-01")
+        LocalDate.parse("2022-01-01"),
+        "xml"
       );
       assertThat(eli)
         .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml");
