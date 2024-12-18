@@ -85,6 +85,7 @@ dependencies {
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgres)
+    testImplementation(libs.testcontainers.keycloak)
 
     schematronToXsltCompileOnly(libs.schxslt)
     schematronToXsltCompileOnly(libs.saxon.he)

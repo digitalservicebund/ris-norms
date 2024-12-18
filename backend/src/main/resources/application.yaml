@@ -29,11 +29,11 @@ spring:
               - openid
               - profile
               - email
-            client-id: #replace-me#
-            client-secret: #replace-me#
+            client-id: norms
+            client-secret: 3LEwwv3DNY0N086lCOYeuri3aLicVDw1
         provider:
           keycloak:
-            issuer-uri: #replace-me#
+            issuer-uri: http://localhost:8081/realms/testing
 server:
   servlet:
     session:
