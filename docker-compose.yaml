@@ -1,26 +1,36 @@
 services:
-  nginx:
-    build:
-      context: .
-      dockerfile: DockerfileNginxPlaywright
-    ports:
-      - 8080:8080
-    depends_on:
-      - webapp
+  #  nginx:
+  #    build:
+  #      context: .
+  #      dockerfile: DockerfileNginxPlaywright
+  #    ports:
+  #      - 8080:8080
+  #    depends_on:
+  #      - webapp
+  #    networks:
+  #      - ris-norms
   webapp:
     image: ris-norms-app:001
+    container_name: webapp
     build:
       context: .
       dockerfile: DockerfileApp
+    ports:
+      - 8080:8080
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
       - REDIS_HOST=redis
       - SPRING_PROFILES_ACTIVE=local
     depends_on:
-      - postgres14
-      - redis
+      postgres14:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    #      keycloak:
+    #        condition: service_healthy
     volumes:
       - ./local-storage:/app/.local-storage
+
   postgres14:
     image: postgres:14-alpine
     restart: always
@@ -39,6 +49,7 @@ services:
       retries: 3
       start_period: 5s
       timeout: 3s
+
   redis:
     image: cgr.dev/chainguard/redis:latest
     extra_hosts:
@@ -63,6 +74,29 @@ services:
       retries: 5
       start_period: 3s
       timeout: 5s
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.7
+    #command: ["start-dev", "--import-realm", "--hostname-backchannel-dynamic"]
+    command: ["start-dev", "--import-realm"]
+    container_name: keycloak
+    ports:
+      - 8443:8080 # Map external 8443 to internal 8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: test
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      #      KC_HOSTNAME: keycloak
+      KC_HOSTNAME_URL: http://localhost:8443/keycloak
+    volumes:
+      - ./local/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
+        # health endpoint läuft unter 9000
+#    healthcheck:
+#      test: ['CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live']
+#      interval: 5s
+#      timeout: 5s
+#      retries: 20
 
 volumes:
   postgres14-data:

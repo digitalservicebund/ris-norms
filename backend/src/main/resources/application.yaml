@@ -29,11 +29,6 @@ spring:
               - openid
               - profile
               - email
-            client-id: norms
-            client-secret: 3LEwwv3DNY0N086lCOYeuri3aLicVDw1
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8081/realms/testing
 server:
   servlet:
     session:
