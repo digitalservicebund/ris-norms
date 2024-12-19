@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
@@ -93,35 +94,13 @@ public class BillToActService {
 
   private void rewriteFbrWork(Document document) {
     // (3) Rewrite FRBRWork
-    final Element fRBRthis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRthis",
-      document
-    );
-    final Element fRBRuri = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRuri",
-      document
-    );
-    final Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRdate",
-      document
-    );
-    final Element fRBRname = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRname",
-      document
-    );
-    final Element fRBRnumber = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRnumber",
-      document
-    );
-
-    final Element fRBRauthor = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRauthor",
-      document
+    final FRBRWork frbrWork = new FRBRWork(
+      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRWork", document)
     );
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
-    final String naturalIdentifier = fRBRnumber.getAttribute(VALUE);
+    final LocalDate verkuendungsDate = LocalDate.parse(frbrWork.getFBRDate(), formatter);
+    final String naturalIdentifier = frbrWork.getFRBRnumber().orElseThrow();
     final WorkEli workEli = new WorkEli(
       "bgbl-1",
       String.valueOf(verkuendungsDate.getYear()),
@@ -129,12 +108,11 @@ public class BillToActService {
       "regelungstext-1"
     );
 
-    fRBRthis.setAttribute(VALUE, workEli.toString());
-    fRBRuri.setAttribute(VALUE, workEli.toUri().toString());
-    fRBRdate.setAttribute("name", VERKUENDUNGSFASSUNG);
-    fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
-    fRBRname.setAttribute(VALUE, "bgbl-1");
-    fRBRauthor.setAttribute("href", "recht.bund.de/institution/bundespraesident");
+    frbrWork.setEli(workEli);
+    frbrWork.setURI(workEli.toUri());
+    frbrWork.setFBRDate(verkuendungsDate.format(formatter), VERKUENDUNGSFASSUNG);
+    frbrWork.setFRBRName("bgbl-1");
+    frbrWork.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
   }
 
   private void rewriteFbrExpression(Document document) {
