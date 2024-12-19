@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing the akn:FRBRWork */
@@ -51,6 +52,30 @@ public class FRBRWork extends FRBR {
     return fRBRname.map(s ->
       s.replace("bgbl-1", "BGBl. I").replace("bgbl-2", "BGBl. II").replace("banz-at", "BAnz AT")
     );
+  }
+
+  /**
+   * Set the value of the FRBRname element (this contains the agent publishing the norm)
+   * @param name the name of the agent
+   */
+  public void setFRBRName(final String name) {
+    final Element fRBRName = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "./FRBRname",
+      getNode()
+    );
+    fRBRName.setAttribute("value", name);
+  }
+
+  /**
+   * Set the value of the FRBRauthor element (this contains the URI of the author of the document)
+   * @param author the uri identifying the author of the document
+   */
+  public void setFRBRAuthor(final String author) {
+    final Element fRBRAuthor = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "./FRBRauthor",
+      getNode()
+    );
+    fRBRAuthor.setAttribute("href", author);
   }
 
   /**
