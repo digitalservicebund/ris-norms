@@ -15,7 +15,7 @@ import lombok.Setter;
  * European legislation identifier on manifestation level
  *
  * <p>This class can be used to extract the eli from a path that includes a section like
- * "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{pointInTimeManifestation}/{subtype}.xml".
+ * "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{pointInTimeManifestation}/{subtype}.{fileExtension}".
  */
 @Getter
 @Setter
@@ -31,6 +31,7 @@ public final class ManifestationEli implements Eli {
   private String language;
   private LocalDate pointInTimeManifestation;
   private String subtype;
+  private String format = "xml";
 
   public ManifestationEli(
     String agent,
@@ -39,9 +40,10 @@ public final class ManifestationEli implements Eli {
     LocalDate pointInTime,
     Integer version,
     String language,
-    String subtype
+    String subtype,
+    String format
   ) {
-    this(agent, year, naturalIdentifier, pointInTime, version, language, null, subtype);
+    this(agent, year, naturalIdentifier, pointInTime, version, language, null, subtype, format);
   }
 
   /**
@@ -56,18 +58,19 @@ public final class ManifestationEli implements Eli {
   @Override
   public String toString() {
     if (!hasPointInTimeManifestation()) {
-      return "eli/bund/%s/%s/%s/%s/%d/%s/%s.xml".formatted(
+      return "eli/bund/%s/%s/%s/%s/%d/%s/%s.%s".formatted(
           getAgent(),
           getYear(),
           getNaturalIdentifier(),
           getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
           getVersion(),
           getLanguage(),
-          getSubtype()
+          getSubtype(),
+          getFormat()
         );
     }
 
-    return "eli/bund/%s/%s/%s/%s/%d/%s/%s/%s.xml".formatted(
+    return "eli/bund/%s/%s/%s/%s/%d/%s/%s/%s.%s".formatted(
         getAgent(),
         getYear(),
         getNaturalIdentifier(),
@@ -75,7 +78,8 @@ public final class ManifestationEli implements Eli {
         getVersion(),
         getLanguage(),
         getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
-        getSubtype()
+        getSubtype(),
+        getFormat()
       );
   }
 
@@ -106,7 +110,8 @@ public final class ManifestationEli implements Eli {
       getPointInTime(),
       getVersion(),
       getLanguage(),
-      getSubtype()
+      getSubtype(),
+      getFormat()
     );
   }
 
@@ -145,7 +150,7 @@ public final class ManifestationEli implements Eli {
   public static ManifestationEli fromString(String manifestationEli) {
     Matcher matcher = Pattern
       .compile(
-        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)(/(?<pointInTimeManifestation>[^/.]+))?/(?<subtype>[^/.]+)\\.xml"
+        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)(/(?<pointInTimeManifestation>[^/.]+))?/(?<subtype>[^/.]+)\\.(?<format>[^/.]+)"
       )
       .matcher(manifestationEli);
 
@@ -166,7 +171,8 @@ public final class ManifestationEli implements Eli {
           matcher.group("pointInTimeManifestation"),
           DateTimeFormatter.ISO_LOCAL_DATE
         ),
-      matcher.group("subtype")
+      matcher.group("subtype"),
+      matcher.group("format")
     );
   }
 
@@ -175,11 +181,13 @@ public final class ManifestationEli implements Eli {
    *
    * @param expressionEli            the expression eli to use as a base
    * @param pointInTimeManifestation the date the manifestation was created
+   * @param format                   the file extension used by this manifestation
    * @return the eli
    */
   public static ManifestationEli fromExpressionEli(
     ExpressionEli expressionEli,
-    LocalDate pointInTimeManifestation
+    LocalDate pointInTimeManifestation,
+    String format
   ) {
     return new ManifestationEli(
       expressionEli.getAgent(),
@@ -189,7 +197,8 @@ public final class ManifestationEli implements Eli {
       expressionEli.getVersion(),
       expressionEli.getLanguage(),
       pointInTimeManifestation,
-      expressionEli.getSubtype()
+      expressionEli.getSubtype(),
+      format
     );
   }
 
