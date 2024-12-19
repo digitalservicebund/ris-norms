@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -96,7 +97,7 @@ class NodeCreatorTest {
     // when
     final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
       "childTest",
-      "child-test-1",
+      new EIdPart("child-test", "1"),
       testNode
     );
 

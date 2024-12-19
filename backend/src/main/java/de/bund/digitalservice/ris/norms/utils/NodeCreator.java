@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.utils;
 
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import java.util.UUID;
 import org.w3c.dom.Element;
@@ -71,18 +72,18 @@ public class NodeCreator {
    * parent node. The parent node is only needed for calculating the eId of the new child
    *
    * @param tagName the tag name of the new element
-   * @param eidPartName the name for the last part of the eid for the new element
+   * @param eidPart the last part of the eid for the new element
    * @param parentNode the element of which this newly created element should be a child, just for
    *     calculating the eId
    * @return the newly created element
    */
   public static Element createElementWithStaticEidAndGuidNoAppend(
     final String tagName,
-    final String eidPartName,
+    final EIdPart eidPart,
     final Node parentNode
   ) {
     var newElement = parentNode.getOwnerDocument().createElement(tagName);
-    newElement.setAttribute("eId", EId.fromMandatoryNode(parentNode) + "_" + eidPartName);
+    newElement.setAttribute("eId", EId.fromMandatoryNode(parentNode).addPart(eidPart).toString());
     newElement.setAttribute("GUID", UUID.randomUUID().toString());
     return newElement;
   }
