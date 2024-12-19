@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration;
 
+import dasniko.testcontainers.keycloak.KeycloakContainer;
 import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +38,7 @@ import org.testcontainers.utility.DockerImageName;
 @Tag("integration")
 public abstract class BaseIntegrationTest {
 
+  protected static final KeycloakContainer keycloak;
   protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test";
 
   @Container
@@ -50,6 +52,13 @@ public abstract class BaseIntegrationTest {
     DockerImageName.parse("cgr.dev/chainguard/redis")
   )
     .withExposedPorts(6379);
+
+  static {
+    keycloak =
+    new KeycloakContainer()
+      .withRealmImportFile("de/bund/digitalservice/ris/norms/keycloak/realm-export.json");
+    keycloak.start();
+  }
 
   @DynamicPropertySource
   static void registerDynamicProperties(DynamicPropertyRegistry registry) {
@@ -69,5 +78,15 @@ public abstract class BaseIntegrationTest {
     // Removing user/pass for redis
     registry.add("spring.data.redis.username", () -> "");
     registry.add("spring.data.redis.password", () -> "");
+
+    registry.add(
+      "spring.security.oauth2.client.provider.keycloak.issuer-uri",
+      () -> keycloak.getAuthServerUrl() + "/realms/testing"
+    );
+    registry.add("spring.security.oauth2.client.registration.oidcclient.client-id", () -> "norms");
+    registry.add(
+      "spring.security.oauth2.client.registration.oidcclient.client-secret",
+      () -> "3LEwwv3DNY0N086lCOYeuri3aLicVDw1"
+    );
   }
 }

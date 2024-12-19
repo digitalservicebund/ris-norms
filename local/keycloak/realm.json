@@ -1,0 +1,82 @@
+{
+  "id": "ris",
+  "realm": "ris",
+  "sslRequired": "none",
+  "ssoSessionIdleTimeout": 432000,
+  "ssoSessionMaxLifespan": 7776000,
+  "enabled": true,
+  "eventsEnabled": true,
+  "eventsExpiration": 900,
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "attributes": {
+    "adminEventsExpiration": "900"
+  },
+  "clients": [
+    {
+      "id": "ris-norms-local",
+      "clientId": "ris-norms-local",
+      "name": "ris-norms-local",
+      "enabled": true,
+      "publicClient": true,
+      "rootUrl": "http://localhost:8080",
+      "baseUrl": "http://localhost:8080",
+      "redirectUris": [
+        "http://localhost:8080/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8080"
+      ],
+      "clientAuthenticatorType": "client-secret",
+      "secret": "ris-norms-local",
+      "protocolMappers": [
+        {
+          "id": "c4b86c90-3076-49df-9343-0928b135733a",
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "full.path": "true",
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "multivalued": "true",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "groups"
+          }
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "4f928164-2bd4-455a-8fbd-174eeb8ea205",
+      "name": "Norms",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {}
+    }
+  ],
+  "users": [
+    {
+      "id": "jane.doe",
+      "email": "jane.doe@example.com",
+      "username": "jane.doe",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "groups": ["Norms"]
+    }
+  ]
+}
