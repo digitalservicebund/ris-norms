@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -65,16 +65,7 @@ public class TextualMod {
   private Node getOrCreateDestinationNode() {
     return NodeParser
       .getNodeFromExpression("./destination", this.node)
-      .orElseGet(() -> {
-        var newElement = getNode().getOwnerDocument().createElement("akn:destination");
-        newElement.setAttribute(
-          "eId",
-          new EId(this.getEid()).addPart(new EIdPart("destination", "1")).value()
-        );
-        newElement.setAttribute("GUID", UUID.randomUUID().toString());
-        getNode().appendChild(newElement);
-        return newElement;
-      });
+      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:destination", getNode()));
   }
 
   /**
@@ -119,16 +110,7 @@ public class TextualMod {
   private Node getOrCreateForceNode() {
     return NodeParser
       .getNodeFromExpression("./force", getNode())
-      .orElseGet(() -> {
-        var newElement = getNode().getOwnerDocument().createElement("akn:force");
-        newElement.setAttribute(
-          "eId",
-          new EId(this.getEid()).addPart(new EIdPart("gelzeitnachw", "1")).value()
-        );
-        newElement.setAttribute("GUID", UUID.randomUUID().toString());
-        getNode().appendChild(newElement);
-        return newElement;
-      });
+      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:force", getNode()));
   }
 
   /**
