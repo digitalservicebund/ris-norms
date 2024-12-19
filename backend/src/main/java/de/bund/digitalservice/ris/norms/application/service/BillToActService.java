@@ -1,7 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -36,8 +38,6 @@ public class BillToActService {
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
     "attributsemantik-noch-undefiniert";
   private static final String AKN_P = "akn:p";
-  private static final String METADATEN = "meta:legalDocML.de_metadaten";
-  private static final String META_PREFIX = "xmlns:meta";
 
   /**
    * Coverts a bill to an act. This is needed for the "Mini-Kreislauf" where we receive bills from
@@ -67,7 +67,7 @@ public class BillToActService {
 
   private void updateXsdLocation(Document document) {
     final Element akomaNtoso = (Element) document.getElementsByTagName("akn:akomaNtoso").item(0);
-    akomaNtoso.setAttribute("xmlns:akn", "http://Inhaltsdaten.LegalDocML.de/1.7.1/");
+    akomaNtoso.setAttribute("xmlns:akn", Namespace.INHALTSDATEN.getNamespaceUri());
     akomaNtoso.setAttribute(
       "xsi:schemaLocation",
       "http://Metadaten.LegalDocML.de/1.7.1/ " +
@@ -321,7 +321,8 @@ public class BillToActService {
       expressionEli.getVersion(),
       expressionEli.getLanguage(),
       verkuendungsDate,
-      expressionEli.getSubtype()
+      expressionEli.getSubtype(),
+      "xml"
     );
     fRBRManifestationThis.setAttribute(VALUE, manifestationEli.toString());
     fRBRManifestationUri.setAttribute(VALUE, manifestationEli.toString());
@@ -352,13 +353,11 @@ public class BillToActService {
         .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
         .isEmpty()
     ) {
-      final Element legalDocMlDeMetadaten = document.createElement(METADATEN);
-      legalDocMlDeMetadaten.setAttribute(META_PREFIX, "http://Metadaten.LegalDocML.de/1.7.1/");
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
         META_PROPRIETARY_SECTION,
         document
       );
-      proprietary.appendChild(legalDocMlDeMetadaten);
+      NodeCreator.createElement(Namespace.METADATEN, "legalDocML.de_metadaten", proprietary);
     }
 
     final Element regularMetaData = (Element) NodeParser.getMandatoryNodeFromExpression(
@@ -394,13 +393,11 @@ public class BillToActService {
         .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
         .isEmpty()
     ) {
-      final Element legalDocMlDeMetadaten = document.createElement(METADATEN);
-      legalDocMlDeMetadaten.setAttribute(META_PREFIX, "http://Metadaten.LegalDocML.de/1.7.1/");
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
         META_PROPRIETARY_SECTION,
         document
       );
-      proprietary.appendChild(legalDocMlDeMetadaten);
+      NodeCreator.createElement(Namespace.METADATEN, "legalDocML.de_metadaten", proprietary);
     }
 
     final Optional<Node> bundMetadatenOptional = NodeParser.getNodeFromExpression(
@@ -408,16 +405,15 @@ public class BillToActService {
       document
     );
     if (bundMetadatenOptional.isEmpty()) {
-      final Element bundMetadaten = document.createElement(METADATEN);
-      bundMetadaten.setAttribute(
-        META_PREFIX,
-        "http://MetadatenBundesregierung.LegalDocML.de/1.7.1/"
-      );
       final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
         META_PROPRIETARY_SECTION,
         document
       );
-      proprietary.appendChild(bundMetadaten);
+      NodeCreator.createElement(
+        Namespace.METADATEN_BUNDESREGIERUNG,
+        "legalDocML.de_metadaten",
+        proprietary
+      );
     }
 
     final Element bundMetadaten = (Element) NodeParser.getMandatoryNodeFromExpression(
