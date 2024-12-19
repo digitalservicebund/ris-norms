@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -25,7 +26,6 @@ public class BillToActService {
 
   private static final String ROOT_DIR = "../../..";
   private static final String SCHEMA = "Grammatiken";
-  private static final String ELI_BUND_BGBL_1 = "eli/bund/bgbl-1/";
   private static final String VALUE = "value";
   private static final String AKN_FRBRALIAS = "akn:FRBRalias";
   private static final String EVENT_REF_NODE = "akn:eventRef";
@@ -85,18 +85,10 @@ public class BillToActService {
   private void updateBillToAct(Document document) {
     final Element bill = (Element) document.getElementsByTagName("akn:bill").item(0);
     final Node parentNode = bill.getParentNode();
-    final Node newChildFragment = parentNode.getOwnerDocument().createDocumentFragment();
-    final Element newElement = parentNode.getOwnerDocument().createElement("akn:act");
-    newElement.setAttribute("name", "regelungstext");
-    NodeParser
-      .nodeListToList(bill.getChildNodes())
-      .forEach(child -> {
-        final Node importedChild = parentNode.getOwnerDocument().importNode(child, true);
-        newElement.appendChild(importedChild);
-      });
-    newChildFragment.appendChild(newElement);
-    parentNode.insertBefore(newChildFragment, bill);
-    parentNode.removeChild(bill);
+    final Element act = parentNode.getOwnerDocument().createElement("akn:act");
+    act.setAttribute("name", "regelungstext");
+    NodeParser.nodeListToList(bill.getChildNodes()).forEach(act::appendChild);
+    parentNode.replaceChild(act, bill);
   }
 
   private void rewriteFbrWork(Document document) {
@@ -129,14 +121,16 @@ public class BillToActService {
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
-
-    final String num = fRBRnumber.getAttribute(VALUE);
-
-    fRBRthis.setAttribute(
-      VALUE,
-      ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num + "/regelungstext-1"
+    final String naturalIdentifier = fRBRnumber.getAttribute(VALUE);
+    final WorkEli workEli = new WorkEli(
+      "bgbl-1",
+      String.valueOf(verkuendungsDate.getYear()),
+      naturalIdentifier,
+      "regelungstext-1"
     );
-    fRBRuri.setAttribute(VALUE, ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num);
+
+    fRBRthis.setAttribute(VALUE, workEli.toString());
+    fRBRuri.setAttribute(VALUE, workEli.toUri().toString());
     fRBRdate.setAttribute("name", VERKUENDUNGSFASSUNG);
     fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
     fRBRname.setAttribute(VALUE, "bgbl-1");
@@ -175,36 +169,20 @@ public class BillToActService {
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
-    final String num = fRBRNumber.getAttribute(VALUE);
+    final String naturalIdentifier = fRBRNumber.getAttribute(VALUE);
     final String versionNumber = fRBRVersionNumber.getAttribute(VALUE);
+    final ExpressionEli expressionEli = new ExpressionEli(
+      "bgbl-1",
+      String.valueOf(verkuendungsDate.getYear()),
+      naturalIdentifier,
+      verkuendungsDate,
+      Integer.valueOf(versionNumber),
+      fRBRlanguage.getAttribute("language"),
+      "regelungstext-1"
+    );
 
-    fRBRthis.setAttribute(
-      VALUE,
-      ELI_BUND_BGBL_1 +
-      verkuendungsDate.getYear() +
-      "/" +
-      num +
-      "/" +
-      verkuendungsDate +
-      "/" +
-      versionNumber +
-      "/" +
-      fRBRlanguage.getAttribute("language") +
-      "/regelungstext-1"
-    );
-    fRBRuri.setAttribute(
-      VALUE,
-      ELI_BUND_BGBL_1 +
-      verkuendungsDate.getYear() +
-      "/" +
-      num +
-      "/" +
-      verkuendungsDate +
-      "/" +
-      versionNumber +
-      "/" +
-      fRBRlanguage.getAttribute("language")
-    );
+    fRBRthis.setAttribute(VALUE, expressionEli.toString());
+    fRBRuri.setAttribute(VALUE, expressionEli.toUri().toString());
     fRBRdate.setAttribute("name", "verkuendung");
     fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
 
