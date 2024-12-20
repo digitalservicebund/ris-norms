@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
+import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
@@ -150,52 +151,26 @@ public class BillToActService {
   }
 
   private void rewriteFbrManifestation(Document document) {
-    final Element fRBRManifestationThis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRManifestation/FRBRthis",
-      document
+    final FRBRExpression fRBRExpression = new FRBRExpression(
+      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRExpression", document)
     );
-    final Element fRBRManifestationUri = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRManifestation/FRBRuri",
-      document
+    final FRBRManifestation frbrManifestation = new FRBRManifestation(
+      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRManifestation", document)
     );
 
-    final Element fRBRExpressionThis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRthis",
-      document
-    );
-
-    final Element fRBRManifestationDate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRManifestation/FRBRdate",
-      document
-    );
-
-    final Element fRBRExpressionDate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      FRBREXPRESSION_FRBRDATE,
-      document
-    );
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate.parse(
-      fRBRExpressionDate.getAttribute("date"),
-      formatter
-    );
+    final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
-    final ExpressionEli expressionEli = ExpressionEli.fromString(
-      fRBRExpressionThis.getAttribute(VALUE)
-    );
-    final ManifestationEli manifestationEli = new ManifestationEli(
-      expressionEli.getAgent(),
-      expressionEli.getYear(),
-      expressionEli.getNaturalIdentifier(),
-      expressionEli.getPointInTime(),
-      expressionEli.getVersion(),
-      expressionEli.getLanguage(),
+    final ExpressionEli expressionEli = fRBRExpression.getEli();
+    final ManifestationEli manifestationEli = ManifestationEli.fromExpressionEli(
+      expressionEli,
       verkuendungsDate,
-      expressionEli.getSubtype(),
       "xml"
     );
-    fRBRManifestationThis.setAttribute(VALUE, manifestationEli.toString());
-    fRBRManifestationUri.setAttribute(VALUE, manifestationEli.toString());
-    fRBRManifestationDate.setAttribute("date", verkuendungsDate.format(formatter));
+
+    frbrManifestation.setEli(manifestationEli);
+    frbrManifestation.setURI(manifestationEli.toUri());
+    frbrManifestation.setFBRDate(verkuendungsDate.format(formatter), "generierung");
   }
 
   private void addNecessaryMetaData(Document document) {
