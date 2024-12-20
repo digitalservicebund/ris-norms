@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
@@ -116,124 +117,36 @@ public class BillToActService {
   }
 
   private void rewriteFbrExpression(Document document) {
-    final Element fRBRExpression = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression",
-      document
+    final FRBRWork fRBRWork = new FRBRWork(
+      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRWork", document)
     );
-    final Element fRBRthis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRthis",
-      document
-    );
-    final Element fRBRuri = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRuri",
-      document
-    );
-    final Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      FRBREXPRESSION_FRBRDATE,
-      document
-    );
-    final Element fRBRVersionNumber = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRversionNumber",
-      document
-    );
-    final Element fRBRlanguage = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRlanguage",
-      document
-    );
-    final Element fRBRNumber = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRnumber",
-      document
+    final FRBRExpression fRBRExpression = new FRBRExpression(
+      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRExpression", document)
     );
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
-    final String naturalIdentifier = fRBRNumber.getAttribute(VALUE);
-    final String versionNumber = fRBRVersionNumber.getAttribute(VALUE);
+    final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
+
     final ExpressionEli expressionEli = new ExpressionEli(
       "bgbl-1",
       String.valueOf(verkuendungsDate.getYear()),
-      naturalIdentifier,
+      fRBRWork.getFRBRnumber().orElseThrow(),
       verkuendungsDate,
-      Integer.valueOf(versionNumber),
-      fRBRlanguage.getAttribute("language"),
+      fRBRExpression.getFRBRVersionNumber().orElseThrow(),
+      fRBRExpression.getFRBRlanguage().orElseThrow(),
       "regelungstext-1"
     );
 
-    fRBRthis.setAttribute(VALUE, expressionEli.toString());
-    fRBRuri.setAttribute(VALUE, expressionEli.toUri().toString());
-    fRBRdate.setAttribute("name", "verkuendung");
-    fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
+    fRBRExpression.setEli(expressionEli);
+    fRBRExpression.setURI(expressionEli.toUri());
+    fRBRExpression.setFBRDate(verkuendungsDate.format(formatter), "verkuendung");
+    fRBRExpression.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
 
-    String predessorUUID;
-    String currentUUID;
-    final Element fRBRAuthor = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRauthor",
-      document
+    fRBRExpression.setFRBRaliasPreviousVersionId(fRBRExpression.getFRBRaliasCurrentVersionId());
+    fRBRExpression.setFRBRaliasCurrentVersionId(
+      fRBRExpression.getFRBRaliasNextVersionId().orElse(UUID.randomUUID())
     );
-
-    if (
-      NodeParser
-        .getNodeFromExpression(
-          "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
-          document
-        )
-        .isPresent() &&
-      NodeParser
-        .getNodeFromExpression(
-          "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
-          document
-        )
-        .isPresent()
-    ) {
-      final Element fRBROldCurrentVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
-        document
-      );
-      final Element fRBROldNextVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
-        document
-      );
-
-      predessorUUID = fRBROldCurrentVersion.getAttribute(VALUE);
-      currentUUID = fRBROldNextVersion.getAttribute(VALUE);
-      fRBRExpression.removeChild(fRBROldCurrentVersion);
-      fRBRExpression.removeChild(fRBROldNextVersion);
-    } else {
-      predessorUUID = UUID.randomUUID().toString();
-      currentUUID = UUID.randomUUID().toString();
-    }
-
-    final Node newChildFragment = fRBRExpression.getOwnerDocument().createDocumentFragment();
-    Element fRBRNewPredecessorVersion = fRBRExpression
-      .getOwnerDocument()
-      .createElement(AKN_FRBRALIAS);
-    fRBRNewPredecessorVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-1");
-    fRBRNewPredecessorVersion.setAttribute("GUID", UUID.randomUUID().toString());
-    fRBRNewPredecessorVersion.setAttribute("name", "vorherige-version-id");
-    fRBRNewPredecessorVersion.setAttribute(VALUE, predessorUUID);
-    newChildFragment.appendChild(fRBRNewPredecessorVersion);
-
-    final Element fRBRNewCurrentVersion = fRBRExpression
-      .getOwnerDocument()
-      .createElement(AKN_FRBRALIAS);
-    fRBRNewCurrentVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-2");
-    fRBRNewCurrentVersion.setAttribute("GUID", UUID.randomUUID().toString());
-    fRBRNewCurrentVersion.setAttribute("name", "aktuelle-version-id");
-    fRBRNewCurrentVersion.setAttribute(VALUE, currentUUID);
-    newChildFragment.appendChild(fRBRNewCurrentVersion);
-
-    final Element fRBRNewFutureVersion = fRBRExpression
-      .getOwnerDocument()
-      .createElement(AKN_FRBRALIAS);
-    fRBRNewFutureVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-3");
-    fRBRNewFutureVersion.setAttribute("GUID", UUID.randomUUID().toString());
-    fRBRNewFutureVersion.setAttribute("name", "nachfolgende-version-id");
-    fRBRNewFutureVersion.setAttribute(VALUE, UUID.randomUUID().toString());
-    newChildFragment.appendChild(fRBRNewFutureVersion);
-
-    fRBRExpression.insertBefore(newChildFragment, fRBRAuthor);
-
-    fRBRAuthor.setAttribute("href", "recht.bund.de/institution/bundespraesident");
+    fRBRExpression.setFRBRaliasNextVersionId(UUID.randomUUID());
   }
 
   private void rewriteFbrManifestation(Document document) {
