@@ -43,6 +43,11 @@ class MetadatenDeTest {
   }
 
   @Test
+  void setFna() {
+    // TODO: (Malte Laukötter, 2024-12-20)
+  }
+
+  @Test
   void getArt() {
     final MetadatenDe metadatenDe = MetadatenDe
       .builder()
@@ -110,5 +115,51 @@ class MetadatenDeTest {
       .build();
 
     assertThat(metadatenDe.getTyp()).isEmpty();
+  }
+
+  @Test
+  void getGesta() {
+    final MetadatenDe metadatenDe = MetadatenDe
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                  <meta:gesta>nicht-vorhanden</meta:gesta>
+              </meta:legalDocML.de_metadaten>
+          """
+        )
+      )
+      .build();
+
+    assertThat(metadatenDe.getGesta()).contains("nicht-vorhanden");
+  }
+
+  @Test
+  void setGesta() {
+    // TODO: (Malte Laukötter, 2024-12-20)
+  }
+
+  @Test
+  void getFassung() {
+    final MetadatenDe metadatenDe = MetadatenDe
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                  <meta:fassung>verkuendungsfassung</meta:fassung>
+              </meta:legalDocML.de_metadaten>
+          """
+        )
+      )
+      .build();
+
+    assertThat(metadatenDe.getFassung()).contains("verkuendungsfassung");
+  }
+
+  @Test
+  void setFassung() {
+    // TODO: (Malte Laukötter, 2024-12-20)
   }
 }
