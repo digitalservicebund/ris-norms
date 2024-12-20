@@ -1,9 +1,16 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
+import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
+import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
+import de.bund.digitalservice.ris.norms.domain.entity.MetadatenBund;
+import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDe;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.utils.NodeCreator;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -25,9 +32,6 @@ public class BillToActService {
 
   private static final String ROOT_DIR = "../../..";
   private static final String SCHEMA = "Grammatiken";
-  private static final String ELI_BUND_BGBL_1 = "eli/bund/bgbl-1/";
-  private static final String VALUE = "value";
-  private static final String AKN_FRBRALIAS = "akn:FRBRalias";
   private static final String EVENT_REF_NODE = "akn:eventRef";
   private static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
   private static final String META_PROPRIETARY_SECTION = "//meta/proprietary";
@@ -53,10 +57,14 @@ public class BillToActService {
 
     updateXsdLocation(document);
     updateBillToAct(document);
-    rewriteFbrWork(document);
-    rewriteFbrExpression(document);
-    rewriteFbrManifestation(document);
-    addNecessaryMetaData(document);
+
+    var norm = Norm.builder().document(document).build();
+
+    rewriteFbrWork(norm);
+    rewriteFbrExpression(norm);
+    rewriteFbrManifestation(norm);
+    addNecessaryMetaData(norm);
+
     addTemporalInformation(document);
     addPeriodToArticle(document);
     addFormulaAndSignature(document);
@@ -85,350 +93,104 @@ public class BillToActService {
   private void updateBillToAct(Document document) {
     final Element bill = (Element) document.getElementsByTagName("akn:bill").item(0);
     final Node parentNode = bill.getParentNode();
-    final Node newChildFragment = parentNode.getOwnerDocument().createDocumentFragment();
-    final Element newElement = parentNode.getOwnerDocument().createElement("akn:act");
-    newElement.setAttribute("name", "regelungstext");
-    NodeParser
-      .nodeListToList(bill.getChildNodes())
-      .forEach(child -> {
-        final Node importedChild = parentNode.getOwnerDocument().importNode(child, true);
-        newElement.appendChild(importedChild);
-      });
-    newChildFragment.appendChild(newElement);
-    parentNode.insertBefore(newChildFragment, bill);
-    parentNode.removeChild(bill);
+    final Element act = parentNode.getOwnerDocument().createElement("akn:act");
+    act.setAttribute("name", "regelungstext");
+    NodeParser.nodeListToList(bill.getChildNodes()).forEach(act::appendChild);
+    parentNode.replaceChild(act, bill);
   }
 
-  private void rewriteFbrWork(Document document) {
+  private void rewriteFbrWork(Norm norm) {
     // (3) Rewrite FRBRWork
-    final Element fRBRthis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRthis",
-      document
-    );
-    final Element fRBRuri = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRuri",
-      document
-    );
-    final Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRdate",
-      document
-    );
-    final Element fRBRname = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRname",
-      document
-    );
-    final Element fRBRnumber = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRnumber",
-      document
-    );
-
-    final Element fRBRauthor = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRauthor",
-      document
-    );
+    final FRBRWork frbrWork = norm.getMeta().getFRBRWork();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
-
-    final String num = fRBRnumber.getAttribute(VALUE);
-
-    fRBRthis.setAttribute(
-      VALUE,
-      ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num + "/regelungstext-1"
+    final LocalDate verkuendungsDate = LocalDate.parse(frbrWork.getFBRDate(), formatter);
+    final String naturalIdentifier = frbrWork.getFRBRnumber().orElseThrow();
+    final WorkEli workEli = new WorkEli(
+      "bgbl-1",
+      String.valueOf(verkuendungsDate.getYear()),
+      naturalIdentifier,
+      "regelungstext-1"
     );
-    fRBRuri.setAttribute(VALUE, ELI_BUND_BGBL_1 + verkuendungsDate.getYear() + "/" + num);
-    fRBRdate.setAttribute("name", VERKUENDUNGSFASSUNG);
-    fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
-    fRBRname.setAttribute(VALUE, "bgbl-1");
-    fRBRauthor.setAttribute("href", "recht.bund.de/institution/bundespraesident");
+
+    frbrWork.setEli(workEli);
+    frbrWork.setURI(workEli.toUri());
+    frbrWork.setFBRDate(verkuendungsDate.format(formatter), VERKUENDUNGSFASSUNG);
+    frbrWork.setFRBRName("bgbl-1");
+    frbrWork.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
   }
 
-  private void rewriteFbrExpression(Document document) {
-    final Element fRBRExpression = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression",
-      document
-    );
-    final Element fRBRthis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRthis",
-      document
-    );
-    final Element fRBRuri = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRuri",
-      document
-    );
-    final Element fRBRdate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      FRBREXPRESSION_FRBRDATE,
-      document
-    );
-    final Element fRBRVersionNumber = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRversionNumber",
-      document
-    );
-    final Element fRBRlanguage = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRlanguage",
-      document
-    );
-    final Element fRBRNumber = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRWork/FRBRnumber",
-      document
-    );
+  private void rewriteFbrExpression(Norm norm) {
+    final FRBRExpression fRBRExpression = norm.getMeta().getFRBRExpression();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate.parse(fRBRdate.getAttribute("date"), formatter);
-    final String num = fRBRNumber.getAttribute(VALUE);
-    final String versionNumber = fRBRVersionNumber.getAttribute(VALUE);
+    final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
-    fRBRthis.setAttribute(
-      VALUE,
-      ELI_BUND_BGBL_1 +
-      verkuendungsDate.getYear() +
-      "/" +
-      num +
-      "/" +
-      verkuendungsDate +
-      "/" +
-      versionNumber +
-      "/" +
-      fRBRlanguage.getAttribute("language") +
-      "/regelungstext-1"
-    );
-    fRBRuri.setAttribute(
-      VALUE,
-      ELI_BUND_BGBL_1 +
-      verkuendungsDate.getYear() +
-      "/" +
-      num +
-      "/" +
-      verkuendungsDate +
-      "/" +
-      versionNumber +
-      "/" +
-      fRBRlanguage.getAttribute("language")
-    );
-    fRBRdate.setAttribute("name", "verkuendung");
-    fRBRdate.setAttribute("date", verkuendungsDate.format(formatter));
-
-    String predessorUUID;
-    String currentUUID;
-    final Element fRBRAuthor = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRauthor",
-      document
-    );
-
-    if (
-      NodeParser
-        .getNodeFromExpression(
-          "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
-          document
-        )
-        .isPresent() &&
-      NodeParser
-        .getNodeFromExpression(
-          "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
-          document
-        )
-        .isPresent()
-    ) {
-      final Element fRBROldCurrentVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//identification/FRBRExpression/FRBRalias[@name=\"aktuelle-version-id\"]",
-        document
-      );
-      final Element fRBROldNextVersion = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//identification/FRBRExpression/FRBRalias[@name=\"nachfolgende-version-id\"]",
-        document
-      );
-
-      predessorUUID = fRBROldCurrentVersion.getAttribute(VALUE);
-      currentUUID = fRBROldNextVersion.getAttribute(VALUE);
-      fRBRExpression.removeChild(fRBROldCurrentVersion);
-      fRBRExpression.removeChild(fRBROldNextVersion);
-    } else {
-      predessorUUID = UUID.randomUUID().toString();
-      currentUUID = UUID.randomUUID().toString();
-    }
-
-    final Node newChildFragment = fRBRExpression.getOwnerDocument().createDocumentFragment();
-    Element fRBRNewPredecessorVersion = fRBRExpression
-      .getOwnerDocument()
-      .createElement(AKN_FRBRALIAS);
-    fRBRNewPredecessorVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-1");
-    fRBRNewPredecessorVersion.setAttribute("GUID", UUID.randomUUID().toString());
-    fRBRNewPredecessorVersion.setAttribute("name", "vorherige-version-id");
-    fRBRNewPredecessorVersion.setAttribute(VALUE, predessorUUID);
-    newChildFragment.appendChild(fRBRNewPredecessorVersion);
-
-    final Element fRBRNewCurrentVersion = fRBRExpression
-      .getOwnerDocument()
-      .createElement(AKN_FRBRALIAS);
-    fRBRNewCurrentVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-2");
-    fRBRNewCurrentVersion.setAttribute("GUID", UUID.randomUUID().toString());
-    fRBRNewCurrentVersion.setAttribute("name", "aktuelle-version-id");
-    fRBRNewCurrentVersion.setAttribute(VALUE, currentUUID);
-    newChildFragment.appendChild(fRBRNewCurrentVersion);
-
-    final Element fRBRNewFutureVersion = fRBRExpression
-      .getOwnerDocument()
-      .createElement(AKN_FRBRALIAS);
-    fRBRNewFutureVersion.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-3");
-    fRBRNewFutureVersion.setAttribute("GUID", UUID.randomUUID().toString());
-    fRBRNewFutureVersion.setAttribute("name", "nachfolgende-version-id");
-    fRBRNewFutureVersion.setAttribute(VALUE, UUID.randomUUID().toString());
-    newChildFragment.appendChild(fRBRNewFutureVersion);
-
-    fRBRExpression.insertBefore(newChildFragment, fRBRAuthor);
-
-    fRBRAuthor.setAttribute("href", "recht.bund.de/institution/bundespraesident");
-  }
-
-  private void rewriteFbrManifestation(Document document) {
-    final Element fRBRManifestationThis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRManifestation/FRBRthis",
-      document
-    );
-    final Element fRBRManifestationUri = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRManifestation/FRBRuri",
-      document
-    );
-
-    final Element fRBRExpressionThis = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRExpression/FRBRthis",
-      document
-    );
-
-    final Element fRBRManifestationDate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//identification/FRBRManifestation/FRBRdate",
-      document
-    );
-
-    final Element fRBRExpressionDate = (Element) NodeParser.getMandatoryNodeFromExpression(
-      FRBREXPRESSION_FRBRDATE,
-      document
-    );
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
-    final LocalDate verkuendungsDate = LocalDate.parse(
-      fRBRExpressionDate.getAttribute("date"),
-      formatter
-    );
-
-    final ExpressionEli expressionEli = ExpressionEli.fromString(
-      fRBRExpressionThis.getAttribute(VALUE)
-    );
-    final ManifestationEli manifestationEli = new ManifestationEli(
-      expressionEli.getAgent(),
-      expressionEli.getYear(),
-      expressionEli.getNaturalIdentifier(),
-      expressionEli.getPointInTime(),
-      expressionEli.getVersion(),
-      expressionEli.getLanguage(),
+    final ExpressionEli expressionEli = ExpressionEli.fromWorkEli(
+      norm.getWorkEli(),
       verkuendungsDate,
-      expressionEli.getSubtype(),
+      fRBRExpression.getFRBRVersionNumber().orElseThrow(),
+      fRBRExpression.getFRBRlanguage().orElseThrow()
+    );
+
+    fRBRExpression.setEli(expressionEli);
+    fRBRExpression.setURI(expressionEli.toUri());
+    fRBRExpression.setFBRDate(verkuendungsDate.format(formatter), "verkuendung");
+    fRBRExpression.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
+
+    fRBRExpression.setFRBRaliasPreviousVersionId(fRBRExpression.getFRBRaliasCurrentVersionId());
+    fRBRExpression.setFRBRaliasCurrentVersionId(
+      fRBRExpression.getFRBRaliasNextVersionId().orElse(UUID.randomUUID())
+    );
+    fRBRExpression.setFRBRaliasNextVersionId(UUID.randomUUID());
+  }
+
+  private void rewriteFbrManifestation(Norm norm) {
+    final FRBRExpression fRBRExpression = norm.getMeta().getFRBRExpression();
+    final FRBRManifestation frbrManifestation = norm.getMeta().getFRBRManifestation();
+
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
+    final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
+
+    final ManifestationEli manifestationEli = ManifestationEli.fromExpressionEli(
+      norm.getExpressionEli(),
+      verkuendungsDate,
       "xml"
     );
-    fRBRManifestationThis.setAttribute(VALUE, manifestationEli.toString());
-    fRBRManifestationUri.setAttribute(VALUE, manifestationEli.toString());
-    fRBRManifestationDate.setAttribute("date", verkuendungsDate.format(formatter));
+
+    frbrManifestation.setEli(manifestationEli);
+    frbrManifestation.setURI(manifestationEli.toUri());
+    frbrManifestation.setFBRDate(verkuendungsDate.format(formatter), "generierung");
   }
 
-  private void addNecessaryMetaData(Document document) {
-    final Element date = (Element) NodeParser.getMandatoryNodeFromExpression(
-      FRBREXPRESSION_FRBRDATE,
-      document
-    );
+  private void addNecessaryMetaData(Norm norm) {
+    Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
+    MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
 
-    if (NodeParser.getNodeFromExpression(META_PROPRIETARY_SECTION, document).isEmpty()) {
-      final Element parent = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//act/meta",
-        document
+    metadatenDe.setFassung(VERKUENDUNGSFASSUNG);
+
+    if (metadatenDe.getFna().isEmpty()) {
+      metadatenDe.setFna("nicht-vorhanden");
+    }
+
+    if (metadatenDe.getGesta().isEmpty()) {
+      metadatenDe.setGesta("nicht-vorhanden");
+    }
+
+    MetadatenBund metadatenBund = proprietary.getOrCreateMetadatenBund();
+    if (metadatenBund.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, LocalDate.MAX).isEmpty()) {
+      final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
+      final LocalDate verkuendungsDate = LocalDate.parse(
+        norm.getMeta().getFRBRExpression().getFBRDate(),
+        formatter
       );
-      final Element proprietary = document.createElement("akn:proprietary");
-      proprietary.setAttribute("eId", "meta-1_proprietary-1");
-      proprietary.setAttribute("GUID", UUID.randomUUID().toString());
-      proprietary.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
 
-      parent.appendChild(proprietary);
-    }
-
-    if (
-      NodeParser
-        .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
-        .isEmpty()
-    ) {
-      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
-        META_PROPRIETARY_SECTION,
-        document
+      // TODO: (Malte Laukötter, 2024-12-20) this for sure is not always the BMJ
+      metadatenBund.updateSimpleMetadatum(
+        MetadatenBund.Metadata.RESSORT,
+        verkuendungsDate,
+        "Bundesministerium der Justiz"
       );
-      NodeCreator.createElement(Namespace.METADATEN, "legalDocML.de_metadaten", proprietary);
-    }
-
-    final Element regularMetaData = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//meta/proprietary/Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-      document
-    );
-
-    if (NodeParser.getNodeFromExpression("./fassung", regularMetaData).isEmpty()) {
-      final Element fassung = document.createElement("meta:fassung");
-      fassung.setTextContent(VERKUENDUNGSFASSUNG);
-      regularMetaData.appendChild(fassung);
-    } else {
-      final Element fassung = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "./fassung",
-        regularMetaData
-      );
-      fassung.setTextContent(VERKUENDUNGSFASSUNG);
-    }
-
-    if (NodeParser.getNodeFromExpression("./fna", regularMetaData).isEmpty()) {
-      final Element fna = document.createElement("meta:fna");
-      fna.appendChild(document.createTextNode("nicht-vorhanden"));
-      regularMetaData.appendChild(fna);
-    }
-    if (NodeParser.getNodeFromExpression("./gesta", regularMetaData).isEmpty()) {
-      final Element gesta = document.createElement("meta:gesta");
-      gesta.appendChild(document.createTextNode("nicht-vorhanden"));
-      regularMetaData.appendChild(gesta);
-    }
-
-    if (
-      NodeParser
-        .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
-        .isEmpty()
-    ) {
-      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
-        META_PROPRIETARY_SECTION,
-        document
-      );
-      NodeCreator.createElement(Namespace.METADATEN, "legalDocML.de_metadaten", proprietary);
-    }
-
-    final Optional<Node> bundMetadatenOptional = NodeParser.getNodeFromExpression(
-      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-      document
-    );
-    if (bundMetadatenOptional.isEmpty()) {
-      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
-        META_PROPRIETARY_SECTION,
-        document
-      );
-      NodeCreator.createElement(
-        Namespace.METADATEN_BUNDESREGIERUNG,
-        "legalDocML.de_metadaten",
-        proprietary
-      );
-    }
-
-    final Element bundMetadaten = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-      document
-    );
-
-    if (NodeParser.getNodeFromExpression("./federfuehrung", bundMetadaten).isEmpty()) {
-      final Element federfuehrung = document.createElement("meta:federfuehrung");
-      final Element federfuehrend = document.createElement("meta:federfuehrend");
-      federfuehrend.setAttribute("ab", date.getAttribute("date"));
-      federfuehrend.setAttribute("bis", "unbestimmt");
-      federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
-      federfuehrung.appendChild(federfuehrend);
-      bundMetadaten.appendChild(federfuehrung);
     }
   }
 
@@ -641,7 +403,7 @@ public class BillToActService {
       "akn:force",
       "akn:foreign",
       "akn:formula",
-      AKN_FRBRALIAS,
+      "akn:FRBRalias",
       "akn:FRBRauthor",
       "akn:FRBRcountry",
       "akn:FRBRdate",
