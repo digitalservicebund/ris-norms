@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -33,17 +34,15 @@ public class SecurityConfig {
             "/.well-known/security.txt",
             "/favicon.svg",
             "/actuator/health/**",
-            "/actuator/prometheus",
-            "/api/**",
-            "/index.html",
-            "/",
-            "/assets/**"
+            "/actuator/prometheus"
           )
           .permitAll()
           .anyRequest()
-          .denyAll()
+          .authenticated()
       )
+      .oauth2Login(Customizer.withDefaults())
       .csrf(AbstractHttpConfigurer::disable)
+      .cors(Customizer.withDefaults())
       .sessionManagement(sessionManagement ->
         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
       );
