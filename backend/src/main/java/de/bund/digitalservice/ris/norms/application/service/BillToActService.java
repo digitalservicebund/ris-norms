@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
@@ -29,8 +30,6 @@ public class BillToActService {
 
   private static final String ROOT_DIR = "../../..";
   private static final String SCHEMA = "Grammatiken";
-  private static final String VALUE = "value";
-  private static final String AKN_FRBRALIAS = "akn:FRBRalias";
   private static final String EVENT_REF_NODE = "akn:eventRef";
   private static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
   private static final String META_PROPRIETARY_SECTION = "//meta/proprietary";
@@ -56,9 +55,13 @@ public class BillToActService {
 
     updateXsdLocation(document);
     updateBillToAct(document);
-    rewriteFbrWork(document);
-    rewriteFbrExpression(document);
-    rewriteFbrManifestation(document);
+
+    var norm = Norm.builder().document(document).build();
+
+    rewriteFbrWork(norm);
+    rewriteFbrExpression(norm);
+    rewriteFbrManifestation(norm);
+
     addNecessaryMetaData(document);
     addTemporalInformation(document);
     addPeriodToArticle(document);
@@ -94,11 +97,9 @@ public class BillToActService {
     parentNode.replaceChild(act, bill);
   }
 
-  private void rewriteFbrWork(Document document) {
+  private void rewriteFbrWork(Norm norm) {
     // (3) Rewrite FRBRWork
-    final FRBRWork frbrWork = new FRBRWork(
-      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRWork", document)
-    );
+    final FRBRWork frbrWork = norm.getMeta().getFRBRWork();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(frbrWork.getFBRDate(), formatter);
@@ -117,25 +118,17 @@ public class BillToActService {
     frbrWork.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
   }
 
-  private void rewriteFbrExpression(Document document) {
-    final FRBRWork fRBRWork = new FRBRWork(
-      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRWork", document)
-    );
-    final FRBRExpression fRBRExpression = new FRBRExpression(
-      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRExpression", document)
-    );
+  private void rewriteFbrExpression(Norm norm) {
+    final FRBRExpression fRBRExpression = norm.getMeta().getFRBRExpression();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
-    final ExpressionEli expressionEli = new ExpressionEli(
-      "bgbl-1",
-      String.valueOf(verkuendungsDate.getYear()),
-      fRBRWork.getFRBRnumber().orElseThrow(),
+    final ExpressionEli expressionEli = ExpressionEli.fromWorkEli(
+      norm.getWorkEli(),
       verkuendungsDate,
       fRBRExpression.getFRBRVersionNumber().orElseThrow(),
-      fRBRExpression.getFRBRlanguage().orElseThrow(),
-      "regelungstext-1"
+      fRBRExpression.getFRBRlanguage().orElseThrow()
     );
 
     fRBRExpression.setEli(expressionEli);
@@ -150,20 +143,15 @@ public class BillToActService {
     fRBRExpression.setFRBRaliasNextVersionId(UUID.randomUUID());
   }
 
-  private void rewriteFbrManifestation(Document document) {
-    final FRBRExpression fRBRExpression = new FRBRExpression(
-      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRExpression", document)
-    );
-    final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      NodeParser.getMandatoryNodeFromExpression("//identification/FRBRManifestation", document)
-    );
+  private void rewriteFbrManifestation(Norm norm) {
+    final FRBRExpression fRBRExpression = norm.getMeta().getFRBRExpression();
+    final FRBRManifestation frbrManifestation = norm.getMeta().getFRBRManifestation();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
-    final ExpressionEli expressionEli = fRBRExpression.getEli();
     final ManifestationEli manifestationEli = ManifestationEli.fromExpressionEli(
-      expressionEli,
+      norm.getExpressionEli(),
       verkuendungsDate,
       "xml"
     );
@@ -485,7 +473,7 @@ public class BillToActService {
       "akn:force",
       "akn:foreign",
       "akn:formula",
-      AKN_FRBRALIAS,
+      "akn:FRBRalias",
       "akn:FRBRauthor",
       "akn:FRBRcountry",
       "akn:FRBRdate",
