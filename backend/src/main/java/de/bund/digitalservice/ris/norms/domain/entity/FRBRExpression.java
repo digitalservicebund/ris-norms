@@ -183,4 +183,25 @@ public class FRBRExpression extends FRBR {
       .getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
       .ifPresent(node -> node.getParentNode().removeChild(node));
   }
+
+  /**
+   * Returns a FRBRlanguage as {@link String}.
+   *
+   * @return The FRBRlanguage
+   */
+  public Optional<String> getFRBRlanguage() {
+    return NodeParser.getValueFromExpression("./FRBRlanguage/@language", getNode());
+  }
+
+  /**
+   * Set the value of the FRBRauthor element (this contains the URI of the author of the document)
+   * @param author the uri identifying the author of the document
+   */
+  public void setFRBRAuthor(final String author) {
+    final Element fRBRAuthor = (Element) NodeParser.getMandatoryNodeFromExpression(
+      "./FRBRauthor",
+      getNode()
+    );
+    fRBRAuthor.setAttribute("href", author);
+  }
 }
