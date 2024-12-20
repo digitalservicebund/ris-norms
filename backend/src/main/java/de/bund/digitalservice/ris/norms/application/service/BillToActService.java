@@ -3,12 +3,14 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
+import de.bund.digitalservice.ris.norms.domain.entity.MetadatenBund;
+import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDe;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
-import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -61,8 +63,8 @@ public class BillToActService {
     rewriteFbrWork(norm);
     rewriteFbrExpression(norm);
     rewriteFbrManifestation(norm);
+    addNecessaryMetaData(norm);
 
-    addNecessaryMetaData(document);
     addTemporalInformation(document);
     addPeriodToArticle(document);
     addFormulaAndSignature(document);
@@ -161,106 +163,34 @@ public class BillToActService {
     frbrManifestation.setFBRDate(verkuendungsDate.format(formatter), "generierung");
   }
 
-  private void addNecessaryMetaData(Document document) {
-    final Element date = (Element) NodeParser.getMandatoryNodeFromExpression(
-      FRBREXPRESSION_FRBRDATE,
-      document
-    );
+  private void addNecessaryMetaData(Norm norm) {
+    Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
+    MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
 
-    if (NodeParser.getNodeFromExpression(META_PROPRIETARY_SECTION, document).isEmpty()) {
-      final Element parent = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//act/meta",
-        document
+    metadatenDe.setFassung(VERKUENDUNGSFASSUNG);
+
+    if (metadatenDe.getFna().isEmpty()) {
+      metadatenDe.setFna("nicht-vorhanden");
+    }
+
+    if (metadatenDe.getGesta().isEmpty()) {
+      metadatenDe.setGesta("nicht-vorhanden");
+    }
+
+    MetadatenBund metadatenBund = proprietary.getOrCreateMetadatenBund();
+    if (metadatenBund.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, LocalDate.MAX).isEmpty()) {
+      final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
+      final LocalDate verkuendungsDate = LocalDate.parse(
+        norm.getMeta().getFRBRExpression().getFBRDate(),
+        formatter
       );
-      final Element proprietary = document.createElement("akn:proprietary");
-      proprietary.setAttribute("eId", "meta-1_proprietary-1");
-      proprietary.setAttribute("GUID", UUID.randomUUID().toString());
-      proprietary.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
 
-      parent.appendChild(proprietary);
-    }
-
-    if (
-      NodeParser
-        .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
-        .isEmpty()
-    ) {
-      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
-        META_PROPRIETARY_SECTION,
-        document
+      // TODO: (Malte Laukötter, 2024-12-20) this for sure is not always the BMJ
+      metadatenBund.updateSimpleMetadatum(
+        MetadatenBund.Metadata.RESSORT,
+        verkuendungsDate,
+        "Bundesministerium der Justiz"
       );
-      NodeCreator.createElement(Namespace.METADATEN, "legalDocML.de_metadaten", proprietary);
-    }
-
-    final Element regularMetaData = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//meta/proprietary/Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-      document
-    );
-
-    if (NodeParser.getNodeFromExpression("./fassung", regularMetaData).isEmpty()) {
-      final Element fassung = document.createElement("meta:fassung");
-      fassung.setTextContent(VERKUENDUNGSFASSUNG);
-      regularMetaData.appendChild(fassung);
-    } else {
-      final Element fassung = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "./fassung",
-        regularMetaData
-      );
-      fassung.setTextContent(VERKUENDUNGSFASSUNG);
-    }
-
-    if (NodeParser.getNodeFromExpression("./fna", regularMetaData).isEmpty()) {
-      final Element fna = document.createElement("meta:fna");
-      fna.appendChild(document.createTextNode("nicht-vorhanden"));
-      regularMetaData.appendChild(fna);
-    }
-    if (NodeParser.getNodeFromExpression("./gesta", regularMetaData).isEmpty()) {
-      final Element gesta = document.createElement("meta:gesta");
-      gesta.appendChild(document.createTextNode("nicht-vorhanden"));
-      regularMetaData.appendChild(gesta);
-    }
-
-    if (
-      NodeParser
-        .getNodeFromExpression("//meta/proprietary/legalDocML.de_metadaten", document)
-        .isEmpty()
-    ) {
-      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
-        META_PROPRIETARY_SECTION,
-        document
-      );
-      NodeCreator.createElement(Namespace.METADATEN, "legalDocML.de_metadaten", proprietary);
-    }
-
-    final Optional<Node> bundMetadatenOptional = NodeParser.getNodeFromExpression(
-      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-      document
-    );
-    if (bundMetadatenOptional.isEmpty()) {
-      final Node proprietary = NodeParser.getMandatoryNodeFromExpression(
-        META_PROPRIETARY_SECTION,
-        document
-      );
-      NodeCreator.createElement(
-        Namespace.METADATEN_BUNDESREGIERUNG,
-        "legalDocML.de_metadaten",
-        proprietary
-      );
-    }
-
-    final Element bundMetadaten = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "//meta/proprietary/Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-      document
-    );
-
-    if (NodeParser.getNodeFromExpression("./federfuehrung", bundMetadaten).isEmpty()) {
-      final Element federfuehrung = document.createElement("meta:federfuehrung");
-      final Element federfuehrend = document.createElement("meta:federfuehrend");
-      federfuehrend.setAttribute("ab", date.getAttribute("date"));
-      federfuehrend.setAttribute("bis", "unbestimmt");
-      federfuehrend.appendChild(document.createTextNode("Bundesministerium der Justiz"));
-      federfuehrung.appendChild(federfuehrend);
-      bundMetadaten.appendChild(federfuehrung);
     }
   }
 
