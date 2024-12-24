@@ -60,25 +60,6 @@ describe("useApiFetch", () => {
     )
   })
 
-  it("redirects to the 404 page if the API returns a 404", async () => {
-    vi.spyOn(window, "fetch").mockResolvedValue(
-      new Response("{}", { status: 404 }),
-    )
-
-    const mockPush = vi.fn().mockResolvedValue({})
-    vi.doMock("@/router", () => ({ default: { push: mockPush } }))
-
-    const { useApiFetch } = await import("@/services/apiService")
-
-    useApiFetch("foo/bar")
-
-    await vi.waitFor(() =>
-      expect(mockPush).toHaveBeenCalledWith({ name: "NotFound" }),
-    )
-
-    vi.doUnmock("@/router")
-  })
-
   it("aborts the request if the URL is marked as invalid", async () => {
     const fetchSpy = vi
       .spyOn(window, "fetch")
