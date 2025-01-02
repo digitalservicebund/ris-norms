@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useElementId } from "@/composables/useElementId"
 import { v4 as uuidV4 } from "uuid"
-import { nextTick, ref, SetupContext, useAttrs, watch } from "vue"
+import { nextTick, ref, SetupContext, useAttrs, useSlots, watch } from "vue"
 
 const props = withDefaults(
   defineProps<{
@@ -373,6 +373,9 @@ watch(
     focusedEl.value = interactiveEls.findIndex((i) => i.dataset.eid === val[0])
   },
 )
+
+// workaround for https://github.com/vuejs/language-tools/issues/5082
+const slots: SetupContext["slots"] = useSlots()
 </script>
 
 <template>
@@ -398,7 +401,7 @@ watch(
     <!-- eslint-enable vuejs-accessibility/no-static-element-interactions -->
 
     <template
-      v-for="eId in getTeleportSlotEIds($slots)"
+      v-for="eId in getTeleportSlotEIds(slots)"
       :key="`${uniqueId}-${eId}`"
     >
       <Teleport v-if="getTeleportTarget(eId)" :to="getTeleportTarget(eId)">
