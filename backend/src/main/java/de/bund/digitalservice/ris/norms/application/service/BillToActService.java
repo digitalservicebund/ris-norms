@@ -190,7 +190,6 @@ public class BillToActService {
         formatter
       );
 
-      // TODO: (Malte Laukötter, 2024-12-20) this for sure is not always the BMJ
       metadatenBund.updateSimpleMetadatum(
         MetadatenBund.Metadata.RESSORT,
         verkuendungsDate,
@@ -211,7 +210,6 @@ public class BillToActService {
         "ausfertigung",
         "generation"
       );
-      // TODO: (Malte Laukötter, 2025-01-02) this date seems wrong
       EventRef inkrafttreten = new EventRef(
         lifecycle,
         "0001-01-01",
