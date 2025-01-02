@@ -1,18 +1,25 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import de.bund.digitalservice.ris.norms.domain.entity.Lifecycle;
 import de.bund.digitalservice.ris.norms.domain.entity.MetadatenBund;
 import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDe;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.TemporalData;
+import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -34,11 +41,8 @@ public class BillToActService {
   private static final String SCHEMA = "Grammatiken";
   private static final String EVENT_REF_NODE = "akn:eventRef";
   private static final String VERKUENDUNGSFASSUNG = "verkuendungsfassung";
-  private static final String META_PROPRIETARY_SECTION = "//meta/proprietary";
-  private static final String SOURCE = "source";
   private static final String REFERSTO = "refersTo";
   private static final String YYYY_MM_DD = "yyyy-MM-dd";
-  private static final String FRBREXPRESSION_FRBRDATE = "//identification/FRBRExpression/FRBRdate";
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
     "attributsemantik-noch-undefiniert";
   private static final String AKN_P = "akn:p";
@@ -64,8 +68,8 @@ public class BillToActService {
     rewriteFbrExpression(norm);
     rewriteFbrManifestation(norm);
     addNecessaryMetaData(norm);
+    addTemporalInformation(norm);
 
-    addTemporalInformation(document);
     addPeriodToArticle(document);
     addFormulaAndSignature(document);
     addMandatoryGuids(document);
@@ -194,79 +198,33 @@ public class BillToActService {
     }
   }
 
-  private void addTemporalInformation(Document document) {
-    if (
-      NodeParser.getNodeFromExpression("//meta/lifecycle", document).isEmpty() &&
-      NodeParser.getNodeFromExpression("//meta/temporalData", document).isEmpty()
-    ) {
-      final var parentNode = (Element) NodeParser.getMandatoryNodeFromExpression(
-        "//meta",
-        document
+  private void addTemporalInformation(Norm norm) {
+    try {
+      norm.getMeta().getTemporalData();
+      norm.getMeta().getLifecycle();
+    } catch (MandatoryNodeNotFoundException exception) {
+      final Lifecycle lifecycle = norm.getMeta().getOrCreateLifecycle();
+      new EventRef(
+        lifecycle,
+        norm.getMeta().getFRBRExpression().getFBRDate(),
+        "ausfertigung",
+        "generation"
       );
-      final Node lifecycleFragment = parentNode.getOwnerDocument().createDocumentFragment();
-      final Element verkuendungsDate = (Element) NodeParser.getMandatoryNodeFromExpression(
-        FRBREXPRESSION_FRBRDATE,
-        document
+      // TODO: (Malte Laukötter, 2025-01-02) this date seems wrong
+      EventRef inkrafttreten = new EventRef(
+        lifecycle,
+        "0001-01-01",
+        "inkrafttreten-mit-noch-unbekanntem-datum",
+        "generation"
       );
-      final String verkuendungsDateString = verkuendungsDate.getAttribute("date");
 
-      final Element lifecycle = parentNode.getOwnerDocument().createElement("akn:lifecycle");
-      lifecycle.setAttribute("eId", "meta-1_lebzykl-1");
-      lifecycle.setAttribute("GUID", UUID.randomUUID().toString());
-      lifecycle.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-
-      final Element eventRefAusfertigung = parentNode
-        .getOwnerDocument()
-        .createElement(EVENT_REF_NODE);
-      final String eIdAusfertigung = "meta-1_lebzykl-1_ereignis-1";
-      eventRefAusfertigung.setAttribute("eId", eIdAusfertigung);
-      eventRefAusfertigung.setAttribute("GUID", UUID.randomUUID().toString());
-      eventRefAusfertigung.setAttribute("date", verkuendungsDateString);
-      eventRefAusfertigung.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-      eventRefAusfertigung.setAttribute(REFERSTO, "ausfertigung");
-      eventRefAusfertigung.setAttribute("type", "generation");
-      lifecycle.appendChild(eventRefAusfertigung);
-
-      final Element eventRefInkraftUnbekannt = parentNode
-        .getOwnerDocument()
-        .createElement(EVENT_REF_NODE);
-      final String eIdInkraft = "meta-1_lebzykl-1_ereignis-2";
-      eventRefInkraftUnbekannt.setAttribute("eId", eIdInkraft);
-      eventRefInkraftUnbekannt.setAttribute("GUID", UUID.randomUUID().toString());
-      eventRefInkraftUnbekannt.setAttribute("date", "0001-01-01");
-      eventRefInkraftUnbekannt.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-      eventRefInkraftUnbekannt.setAttribute(REFERSTO, "inkrafttreten-mit-noch-unbekanntem-datum");
-      eventRefInkraftUnbekannt.setAttribute("type", "generation");
-      lifecycle.appendChild(eventRefInkraftUnbekannt);
-      lifecycleFragment.appendChild(lifecycle);
-
-      final Element proprietarySection = (Element) NodeParser.getMandatoryNodeFromExpression(
-        META_PROPRIETARY_SECTION,
-        document
+      final TemporalData temporalData = norm.getMeta().getOrCreateTemporalData();
+      final TemporalGroup temporalGroup = new TemporalGroup(temporalData);
+      new TimeInterval(
+        temporalGroup,
+        new Href.Builder().setEId(inkrafttreten.getEid().toString()).buildInternalReference(),
+        "geltungszeit"
       );
-      parentNode.insertBefore(lifecycleFragment, proprietarySection);
-
-      final Node temporalDataFragment = parentNode.getOwnerDocument().createDocumentFragment();
-      final Element temporalData = document.createElement("akn:temporalData");
-      temporalData.setAttribute("eId", "meta-1_geltzeiten-1");
-      temporalData.setAttribute("GUID", UUID.randomUUID().toString());
-      temporalData.setAttribute(SOURCE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-
-      final Element temporalGroup = parentNode
-        .getOwnerDocument()
-        .createElement("akn:temporalGroup");
-      temporalGroup.setAttribute("eId", "meta-1_geltzeiten-1_geltungszeitgr-1");
-      temporalGroup.setAttribute("GUID", UUID.randomUUID().toString());
-      final Element timeInterval = parentNode.getOwnerDocument().createElement("akn:timeInterval");
-      timeInterval.setAttribute("eId", "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
-      timeInterval.setAttribute("GUID", UUID.randomUUID().toString());
-      timeInterval.setAttribute("start", "#meta-1_lebzykl-1_ereignis-2");
-      timeInterval.setAttribute(REFERSTO, "geltungszeit");
-      temporalGroup.appendChild(timeInterval);
-      temporalData.appendChild(temporalGroup);
-      temporalDataFragment.appendChild(temporalData);
-
-      parentNode.insertBefore(temporalDataFragment, proprietarySection);
     }
   }
 

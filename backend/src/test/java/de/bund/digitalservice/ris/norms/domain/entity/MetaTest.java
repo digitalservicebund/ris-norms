@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 class MetaTest {
@@ -405,6 +406,72 @@ class MetaTest {
       .build();
 
     assertThatThrownBy(meta::getLifecycle).isInstanceOf(MandatoryNodeNotFoundException.class);
+  }
+
+  @Test
+  void getOrCreateLifecycle() {
+    final Meta meta = Meta
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+                <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                   <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                   <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                </akn:lifecycle>
+           </akn:meta>
+          """
+        )
+      )
+      .build();
+
+    assertThat(meta.getOrCreateLifecycle()).isNotNull();
+    assertThat(((Element) meta.getOrCreateLifecycle().getNode()).getAttribute("GUID"))
+      .isEqualTo("4b31c2c4-6ecc-4f29-9f79-18149603114b");
+  }
+
+  @Test
+  void getOrCreateLifecycleMissingLifecycle() {
+    final Meta meta = Meta
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+           <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                   <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                   <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorgaenger-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87" />
+                   <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
+                   <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
+                </akn:FRBRExpression>
+            </akn:identification>
+            <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+             <meta:typ>gesetz</meta:typ>
+             <meta:fna>754-28-1</meta:fna>
+             <meta:fassung>verkuendungsfassung</meta:fassung>
+             </meta:legalDocML.de_metadaten>
+           </akn:proprietary>
+          </akn:meta>
+          """
+        )
+      )
+      .build();
+
+    assertThat(meta.getOrCreateLifecycle()).isNotNull();
+    assertThat(((Element) meta.getOrCreateLifecycle().getNode()).getAttribute("GUID")).isNotNull();
+    assertThat(((Element) meta.getOrCreateLifecycle().getNode()).getAttribute("eId"))
+      .isEqualTo("meta-1_lebzykl-1");
+    assertThat(meta.getOrCreateLifecycle().getNode().getNextSibling())
+      .isEqualTo(meta.getProprietary().orElseThrow().getNode());
+
+    // calling it twice does not create another lifecycle element
+    assertThat(meta.getOrCreateLifecycle().getNode())
+      .isEqualTo(meta.getOrCreateLifecycle().getNode());
   }
 
   @Test
