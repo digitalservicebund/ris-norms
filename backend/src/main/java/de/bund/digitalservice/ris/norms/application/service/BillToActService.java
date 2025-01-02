@@ -17,6 +17,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -253,71 +254,50 @@ public class BillToActService {
     conclusions.setAttribute("eId", "schluss-1");
     conclusions.setAttribute("GUID", UUID.randomUUID().toString());
 
-    final Element formula = conclusions.getOwnerDocument().createElement("akn:formula");
-    formula.setAttribute("eId", "schluss-1_formel-1");
-    formula.setAttribute("GUID", UUID.randomUUID().toString());
+    final Element formula = NodeCreator.createElementWithEidAndGuid("akn:formula", conclusions);
     formula.setAttribute(REFERSTO, "schlussformel");
     formula.setAttribute("name", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-    conclusions.appendChild(formula);
 
-    final Element formulaParagraph = formula.getOwnerDocument().createElement(AKN_P);
-    formulaParagraph.setAttribute("eId", "schluss-1_formel-1_text-1");
-    formulaParagraph.setAttribute("GUID", UUID.randomUUID().toString());
+    final Element formulaParagraph = NodeCreator.createElementWithEidAndGuid(AKN_P, formula);
     formulaParagraph.setTextContent(
       "Das vorstehende Gesetz wird hiermit ausgefertigt. Es ist im Bundesgesetzblatt zu verkünden."
     );
-    formula.appendChild(formulaParagraph);
 
-    final Element blockContainer = conclusions
-      .getOwnerDocument()
-      .createElement("akn:blockContainer");
-    blockContainer.setAttribute("eId", "schluss-1_blockcontainer-1");
-    blockContainer.setAttribute("GUID", UUID.randomUUID().toString());
-    conclusions.appendChild(blockContainer);
+    final Element blockContainer = NodeCreator.createElementWithEidAndGuid(
+      "akn:blockContainer",
+      conclusions
+    );
+    final Element blockContainerParagraph = NodeCreator.createElementWithEidAndGuid(
+      AKN_P,
+      blockContainer
+    );
 
-    final Element blockContainerParagraph = blockContainer.getOwnerDocument().createElement(AKN_P);
-    blockContainerParagraph.setAttribute("eId", "schluss-1_blockcontainer-1_text-1");
-    blockContainerParagraph.setAttribute("GUID", UUID.randomUUID().toString());
-    blockContainer.appendChild(blockContainerParagraph);
-
-    final Element blockContainerParagraphLocation = blockContainerParagraph
-      .getOwnerDocument()
-      .createElement("akn:location");
-    blockContainerParagraphLocation.setAttribute("eId", "schluss-1_blockcontainer-1_text-1_ort-1");
-    blockContainerParagraphLocation.setAttribute("GUID", UUID.randomUUID().toString());
+    final Element blockContainerParagraphLocation = NodeCreator.createElementWithEidAndGuid(
+      "akn:location",
+      blockContainerParagraph
+    );
     blockContainerParagraphLocation.setAttribute(REFERSTO, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-    blockContainerParagraph.appendChild(blockContainerParagraphLocation);
 
     Element ausfertigungsDateNode = (Element) NodeParser.getMandatoryNodeFromExpression(
       "//meta/lifecycle/eventRef[@refersTo=\"ausfertigung\"]",
       document
     );
-    final Element blockContainerParagraphDate = blockContainerParagraph
-      .getOwnerDocument()
-      .createElement("akn:date");
-    blockContainerParagraphDate.setAttribute("eId", "schluss-1_blockcontainer-1_text-1_datum-1");
-    blockContainerParagraphDate.setAttribute("GUID", UUID.randomUUID().toString());
+    final Element blockContainerParagraphDate = NodeCreator.createElementWithEidAndGuid(
+      "akn:date",
+      blockContainerParagraph
+    );
     blockContainerParagraphDate.setAttribute("date", ausfertigungsDateNode.getAttribute("date"));
     blockContainerParagraphDate.setAttribute(REFERSTO, "ausfertigung-datum");
-    blockContainerParagraph.appendChild(blockContainerParagraphDate);
 
-    final Element blockContainerSignatur = blockContainer
-      .getOwnerDocument()
-      .createElement("akn:signature");
-    blockContainerSignatur.setAttribute("eId", "schluss-1_blockcontainer-1_signatur-1");
-    blockContainerSignatur.setAttribute("GUID", UUID.randomUUID().toString());
-    blockContainer.appendChild(blockContainerSignatur);
-
-    final Element blockContainerSignaturPerson = blockContainerSignatur
-      .getOwnerDocument()
-      .createElement("akn:person");
-    blockContainerSignaturPerson.setAttribute(
-      "eId",
-      "schluss-1_blockcontainer-1_signatur-1_person-1"
+    final Element blockContainerSignatur = NodeCreator.createElementWithEidAndGuid(
+      "akn:signature",
+      blockContainer
     );
-    blockContainerSignaturPerson.setAttribute("GUID", UUID.randomUUID().toString());
+    final Element blockContainerSignaturPerson = NodeCreator.createElementWithEidAndGuid(
+      "akn:person",
+      blockContainerSignatur
+    );
     blockContainerSignaturPerson.setAttribute(REFERSTO, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-    blockContainerSignatur.appendChild(blockContainerSignaturPerson);
   }
 
   private void addMandatoryGuids(final Node node) {
