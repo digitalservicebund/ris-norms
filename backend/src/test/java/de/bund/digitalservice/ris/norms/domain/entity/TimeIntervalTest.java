@@ -57,11 +57,11 @@ class TimeIntervalTest {
       .build();
 
     // when
-    var timeInterval = new TimeInterval(
-      temporalGroup,
-      new Href.Builder().setEId("meta-1_lebzykl-1_ereignis-2").buildInternalReference(),
-      "geltungszeit"
+    var timeInterval = TimeInterval.createAndAppend(temporalGroup.getNode());
+    timeInterval.setStart(
+      new Href.Builder().setEId("meta-1_lebzykl-1_ereignis-2").buildInternalReference()
     );
+    timeInterval.setRefersTo("geltungszeit");
 
     // then
     assertThat(timeInterval.getEventRefEId()).contains("meta-1_lebzykl-1_ereignis-2");

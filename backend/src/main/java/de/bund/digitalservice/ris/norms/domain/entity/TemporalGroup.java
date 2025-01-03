@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -16,12 +17,14 @@ public class TemporalGroup {
   private final Node node;
 
   /**
-   * Create a new temporal group within the given {@link TemporalData}.
-   * @param temporalData the {@link TemporalData} within which the temporal group should be created.
+   * Creates a new akn:temporalGroup element and appends it to the given node.
+   * @param parentNode the node under which a new {@link TemporalGroup} should be created.
+   * @return the newly created {@link TemporalGroup}
    */
-  public TemporalGroup(TemporalData temporalData) {
-    this.node =
-    NodeCreator.createElementWithEidAndGuid("akn:temporalGroup", temporalData.getNode());
+  public static TemporalGroup createAndAppend(Node parentNode) {
+    return new TemporalGroup(
+      NodeCreator.createElementWithEidAndGuid("akn:temporalGroup", parentNode)
+    );
   }
 
   /**
@@ -43,5 +46,18 @@ public class TemporalGroup {
       .getNodeFromExpression("./timeInterval", node)
       .map(TimeInterval::new)
       .orElseThrow();
+  }
+
+  /**
+   * Returns the {@link TimeInterval} instance for this akn:temporalGroup. If no time interval exists a new one is created.
+   *
+   * @return the TimeInterval
+   */
+  public TimeInterval getOrCreateTimeInterval() {
+    try {
+      return getTimeInterval();
+    } catch (NoSuchElementException e) {
+      return TimeInterval.createAndAppend(getNode());
+    }
   }
 }

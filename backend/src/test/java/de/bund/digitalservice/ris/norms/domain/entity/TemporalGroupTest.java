@@ -69,7 +69,7 @@ class TemporalGroupTest {
       .build();
 
     // when
-    var temporalGroup = new TemporalGroup(temporalData);
+    var temporalGroup = temporalData.addTemporalGroup();
 
     // then
     assertThat(temporalData.getTemporalGroups()).hasSize(1);

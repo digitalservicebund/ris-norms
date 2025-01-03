@@ -18,19 +18,30 @@ public class TimeInterval {
   private final Node node;
 
   /**
-   * Create a new temporal group within the given {@link TemporalGroup}.
-   * @param temporalGroup the {@link TemporalGroup} element within the {@link TimeInterval} should be created
-   * @param start the href to the akn:eventRef of the start date of the akn:timeInterval
-   * @param refersTo the refersTo attribute of the akn:timeInterval
+   * Creates a new akn:timeInterval element and appends it to the given node.
+   * @param parentNode the node under which a new {@link TimeInterval} should be created.
+   * @return the newly created {@link TimeInterval}
    */
-  public TimeInterval(TemporalGroup temporalGroup, Href start, String refersTo) {
-    Element element = NodeCreator.createElementWithEidAndGuid(
-      "akn:timeInterval",
-      temporalGroup.getNode()
+  public static TimeInterval createAndAppend(Node parentNode) {
+    return new TimeInterval(
+      NodeCreator.createElementWithEidAndGuid("akn:timeInterval", parentNode)
     );
-    element.setAttribute("start", start.toString());
-    element.setAttribute("refersTo", refersTo);
-    this.node = element;
+  }
+
+  /**
+   * Set the start attribute of the akn:timeInterval
+   * @param start the href to the akn:eventRef that includes the start date
+   */
+  public void setStart(Href start) {
+    ((Element) node).setAttribute("start", start.toString());
+  }
+
+  /**
+   * Set the refersTo attribute of the akn:timeInterval
+   * @param refersTo the value of the refersTo attribute
+   */
+  public void setRefersTo(String refersTo) {
+    ((Element) node).setAttribute("refersTo", refersTo);
   }
 
   /**

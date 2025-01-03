@@ -204,26 +204,24 @@ public class BillToActService {
       norm.getMeta().getLifecycle();
     } catch (MandatoryNodeNotFoundException exception) {
       final Lifecycle lifecycle = norm.getMeta().getOrCreateLifecycle();
-      new EventRef(
-        lifecycle,
-        norm.getMeta().getFRBRExpression().getFBRDate(),
-        "ausfertigung",
-        "generation"
-      );
-      EventRef inkrafttreten = new EventRef(
-        lifecycle,
-        "0001-01-01",
-        "inkrafttreten-mit-noch-unbekanntem-datum",
-        "generation"
-      );
+
+      final EventRef ausfertigung = lifecycle.addEventRef();
+      ausfertigung.setDate(norm.getMeta().getFRBRExpression().getFBRDate());
+      ausfertigung.setRefersTo("ausfertigung");
+      ausfertigung.setType("generation");
+
+      final EventRef inkrafttreten = lifecycle.addEventRef();
+      inkrafttreten.setDate("0001-01-01");
+      inkrafttreten.setRefersTo("inkrafttreten-mit-noch-unbekanntem-datum");
+      inkrafttreten.setType("generation");
 
       final TemporalData temporalData = norm.getMeta().getOrCreateTemporalData();
-      final TemporalGroup temporalGroup = new TemporalGroup(temporalData);
-      new TimeInterval(
-        temporalGroup,
-        new Href.Builder().setEId(inkrafttreten.getEid().toString()).buildInternalReference(),
-        "geltungszeit"
+      final TemporalGroup temporalGroup = temporalData.addTemporalGroup();
+      final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
+      timeInterval.setStart(
+        new Href.Builder().setEId(inkrafttreten.getEid().toString()).buildInternalReference()
       );
+      timeInterval.setRefersTo("geltungszeit");
     }
   }
 

@@ -60,7 +60,10 @@ class EventRefTest {
       .build();
 
     // when
-    var eventRef = new EventRef(lifecycle, "2021-02-03", "ausfertigung", "generation");
+    var eventRef = lifecycle.addEventRef();
+    eventRef.setDate("2021-02-03");
+    eventRef.setRefersTo("ausfertigung");
+    eventRef.setType("generation");
 
     // then
     assertThat(eventRef.getDate()).contains(LocalDate.parse("2021-02-03"));
