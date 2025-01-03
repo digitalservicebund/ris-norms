@@ -45,4 +45,19 @@ test.describe("Redirect and start page content", () => {
       }),
     ).toBeVisible()
   })
+
+  test("should display a no data message when the API returns an empty array", async ({
+    page,
+  }) => {
+    await page.route("**/api/v1/announcements", (route) => {
+      route.fulfill({
+        status: 200,
+        body: JSON.stringify([]),
+      })
+    })
+
+    await page.goto("/")
+
+    await expect(page.getByText("Keine Verkündungen gefunden.")).toBeVisible()
+  })
 })
