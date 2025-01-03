@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,15 @@ import org.w3c.dom.Node;
 public class TemporalGroup {
 
   private final Node node;
+
+  /**
+   * Create a new temporal group within the given {@link TemporalData}.
+   * @param temporalData the {@link TemporalData} within which the temporal group should be created.
+   */
+  public TemporalGroup(TemporalData temporalData) {
+    this.node =
+    NodeCreator.createElementWithEidAndGuid("akn:temporalGroup", temporalData.getNode());
+  }
 
   /**
    * Returns the eId of the TemporalGroup as {@link String}.
