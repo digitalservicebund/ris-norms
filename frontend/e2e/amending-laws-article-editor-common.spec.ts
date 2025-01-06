@@ -226,9 +226,7 @@ test.describe("XML and HTML tabs", () => {
     await amendingLawSection.getByRole("tab", { name: "xml" }).click()
 
     await expect(
-      page.getByText(
-        '<akn:meta GUID="7e5837c8-b967-45be-924b-c95956c4aa94" eId="meta-1">',
-      ),
+      page.getByText('value="eli/bund/bgbl-1/2017/s419/regelungstext-1"'),
     ).toBeVisible()
 
     await expect(

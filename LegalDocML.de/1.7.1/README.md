@@ -3,9 +3,9 @@
 ## Folder structure
 
 | Folder / File                                                 | description                                                                 |
-|---------------------------------------------------------------|-----------------------------------------------------------------------------|
+| ------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | `schema`                                                      | The official LegalDocML 1.7.1 schema files                                  |
-| `schema-extension`                                            | Our extension of the schema for the `legalDocML.de_metadaten` block         |                                                                                          |
+| `schema-extension`                                            | Our extension of the schema for the `legalDocML.de_metadaten` block         |
 | `legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd` | The schema file for a regelungstext that includes our custom metadata block |
 | `fixtures`                                                    | Test files for our schema-extension                                         |
 | `samples`                                                     | Sample LegalDocML.de 1.7.1 files                                            |
@@ -19,7 +19,7 @@ standard-compatible way.
 The `schema-extension` folder contains this custom schema definition file. The `fixtures` folder contains files used to
 test the schema.
 
-You'll need `xmllint` to test the schema-extenstion:
+You'll need `xmllint` to test the schema-extension:
 
 ```sh
 # homebrew
