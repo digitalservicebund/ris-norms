@@ -9,9 +9,11 @@ import RisNavbarSide, {
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import { ref } from "vue"
-import { RouterView } from "vue-router"
+import { ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import { RouterView, useRouter } from "vue-router"
+
+const router = useRouter()
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -40,6 +42,14 @@ const menuItems: LevelOneMenuItem[] = [
 
 const eli = useEliPathParameter()
 const { data: amendingLaw, isFetching, error } = useGetNorm(eli)
+watch(
+  () => error.value,
+  (err) => {
+    if (err && err.status === 404) {
+      router.push({ name: "NotFound" })
+    }
+  },
+)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -61,8 +71,8 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     <RisLoadingSpinner />
   </div>
 
-  <div v-else-if="error || !amendingLaw" class="m-24">
-    <RisErrorCallout :error />
+  <div v-else-if="error" class="m-24">
+    <RisErrorCallout v-if="error.status !== 404" :error />
   </div>
 
   <div
