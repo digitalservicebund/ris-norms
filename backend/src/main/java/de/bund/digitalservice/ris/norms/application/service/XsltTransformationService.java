@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,7 +43,9 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
       String inputXml = query.xml();
       if (query.snippet()) {
         inputXml =
-        "<akn:akomaNtoso xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\">" +
+        "<akn:akomaNtoso xmlns:akn=\"" +
+        Namespace.INHALTSDATEN.getNamespaceUri() +
+        "\">" +
         inputXml +
         "</akn:akomaNtoso>";
       }

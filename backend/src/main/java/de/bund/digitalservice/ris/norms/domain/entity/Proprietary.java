@@ -47,8 +47,11 @@ public class Proprietary {
       )
       .map(MetadatenDe::new)
       .orElseGet(() -> {
-        final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
-        newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.7.1/");
+        final var newElement = NodeCreator.createElement(
+          Namespace.METADATEN,
+          "legalDocML.de_metadaten",
+          node
+        );
         return new MetadatenDe(newElement);
       });
   }
@@ -80,8 +83,11 @@ public class Proprietary {
       )
       .map(MetadatenDs::new)
       .orElseGet(() -> {
-        final var newElement = NodeCreator.createElement("ris:legalDocML.de_metadaten", node);
-        newElement.setAttribute("xmlns:ris", "http://MetadatenRIS.LegalDocML.de/1.7.1/");
+        final var newElement = NodeCreator.createElement(
+          Namespace.METADATEN_RIS,
+          "legalDocML.de_metadaten",
+          node
+        );
         return new MetadatenDs(newElement);
       });
   }
@@ -113,10 +119,10 @@ public class Proprietary {
       )
       .map(MetadatenBund::new)
       .orElseGet(() -> {
-        final var newElement = NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
-        newElement.setAttribute(
-          "xmlns:meta",
-          "http://MetadatenBundesregierung.LegalDocML.de/1.7.1/"
+        final var newElement = NodeCreator.createElement(
+          Namespace.METADATEN_BUNDESREGIERUNG,
+          "legalDocML.de_metadaten",
+          node
         );
         return new MetadatenBund(newElement);
       });

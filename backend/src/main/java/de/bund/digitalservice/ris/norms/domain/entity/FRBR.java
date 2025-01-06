@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.Eli;
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.net.URI;
 import java.time.LocalDate;
@@ -48,12 +49,9 @@ public abstract class FRBR {
     var optionalFRBRuri = NodeParser.getNodeFromExpression("./FRBRuri", node);
 
     if (optionalFRBRuri.isEmpty()) {
-      var newFRBRuri = node
-        .getOwnerDocument()
-        .createElementNS("http://Inhaltsdaten.LegalDocML.de/1.7.1/", "FRBRuri");
+      var newFRBRuri = NodeCreator.createElement(Namespace.INHALTSDATEN, "FRBRuri", node);
       newFRBRuri.setAttribute("GUID", UUID.randomUUID().toString());
       newFRBRuri.setAttribute(VALUE_ATTIBUTE, uri.toString());
-      node.appendChild(newFRBRuri);
       return;
     }
 

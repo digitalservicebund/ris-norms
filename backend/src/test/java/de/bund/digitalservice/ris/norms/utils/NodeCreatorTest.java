@@ -2,6 +2,8 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
+import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -30,6 +32,33 @@ class NodeCreatorTest {
       document
     );
     assertThat(childTestNode).isEqualTo(newElement);
+  }
+
+  @Test
+  void createElement_withNamespace() {
+    // given
+    final Document document = XmlMapper.toDocument(
+      """
+      <root>
+          <test>test value</test>
+      </root>"""
+    );
+    final Node testNode = NodeParser.getMandatoryNodeFromExpression("//test", document);
+
+    // when
+    final Element newElement = NodeCreator.createElement(
+      Namespace.METADATEN_RIS,
+      "childTest",
+      testNode
+    );
+
+    // Then
+    final Node childTestNode = NodeParser.getMandatoryNodeFromExpression(
+      "//test/Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}childTest",
+      document
+    );
+    assertThat(childTestNode).isEqualTo(newElement);
+    assertThat(childTestNode.getNodeName()).isEqualTo("ris:childTest");
   }
 
   @Test
@@ -68,7 +97,7 @@ class NodeCreatorTest {
     // when
     final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
       "childTest",
-      "child-test-1",
+      new EIdPart("child-test", "1"),
       testNode
     );
 

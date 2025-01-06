@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
@@ -151,7 +152,7 @@ public class ReferenceService {
       final String matchedText = originalText.substring(match.start(), match.end() + 1);
       final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
         "akn:ref",
-        "ref-" + refCounter,
+        new EIdPart("ref", String.valueOf(refCounter)),
         parent
       );
       newElement.setAttribute("href", "");
