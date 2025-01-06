@@ -43,8 +43,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    #      keycloak:
-    #        condition: service_healthy
+      keycloak:
+        condition: service_healthy
     volumes:
       - ./local-storage:/app/.local-storage
 
@@ -107,11 +107,15 @@ services:
     volumes:
       - ./local/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
         # health endpoint läuft unter 9000
-#    healthcheck:
-#      test: ['CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live']
-#      interval: 5s
-#      timeout: 5s
-#      retries: 20
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
 volumes:
   postgres14-data:
