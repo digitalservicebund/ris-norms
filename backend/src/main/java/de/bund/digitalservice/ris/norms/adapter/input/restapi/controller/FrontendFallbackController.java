@@ -18,7 +18,7 @@ public class FrontendFallbackController {
    *
    * @return Forward to index.html.
    */
-  @GetMapping(value = { "/{path:^(?!assets|.*\\.).*}", "/{path:^(?!assets|.*\\.).*}/**" })
+  @GetMapping(value = { "/{path:^(?!assets|api|.*\\.).*}", "/{path:^(?!assets|api|.*\\.).*}/**" })
   public String serveIndexHtml() {
     return "forward:/index.html";
   }
