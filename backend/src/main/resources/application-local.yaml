@@ -10,8 +10,7 @@ spring:
             client-secret: ris-norms-local
         provider:
           keycloak:
-            issuer-uri: http://keycloak:8080/realms/ris
-            authorization-uri: http://localhost:8443/realms/ris/protocol/openid-connect/auth
+            issuer-uri: http://localhost:8443/realms/ris
 
 local:
   file-storage: .local-storage

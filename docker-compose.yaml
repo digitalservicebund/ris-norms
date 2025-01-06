@@ -9,18 +9,35 @@ services:
   #      - webapp
   #    networks:
   #      - ris-norms
+
+  # We use a service called localhost to be able to address the keycloak service as "localhost:8443" in the
+  # application.yaml of our application. Using "keycloak:8443" is not possible as spring would then redirect the user to
+  # "keycloak:8443" to login, but that is a host that is not available on the host system. The spring boot oauth
+  # implementation is very restrictive on the issuer and therefore creates errors if the hosts used by it and the user
+  # to connect to keycloak differ.
+  # See also:
+  #  - https://github.com/spring-projects/spring-security/issues/14633
+  #  - https://github.com/keycloak/keycloak/issues/29783
+  #  - https://github.com/keycloak/keycloak/issues/24252
+  #  - https://medium.com/@kostapchuk/integrating-keycloak-with-spring-boot-in-a-dockerized-environment-813eab1f140c
+  localhost:
+    image: alpine:3.21
+    command: sleep infinity
+    ports:
+      - "8443:8443" # Keycloak port
+      - "8080:8080" # Webapp port
+
   webapp:
     image: ris-norms-app:001
     container_name: webapp
     build:
       context: .
       dockerfile: DockerfileApp
-    ports:
-      - 8080:8080
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
       - REDIS_HOST=redis
       - SPRING_PROFILES_ACTIVE=local
+    network_mode: "service:localhost"
     depends_on:
       postgres14:
         condition: service_healthy
@@ -77,18 +94,16 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.7
-    #command: ["start-dev", "--import-realm", "--hostname-backchannel-dynamic"]
     command: ["start-dev", "--import-realm"]
     container_name: keycloak
-    ports:
-      - 8443:8080 # Map external 8443 to internal 8080
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: test
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true
-      #      KC_HOSTNAME: keycloak
+      KC_HTTP_PORT: 8443
       KC_HOSTNAME_URL: http://localhost:8443/keycloak
+    network_mode: "service:localhost"
     volumes:
       - ./local/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
         # health endpoint läuft unter 9000
