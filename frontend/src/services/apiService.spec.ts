@@ -96,7 +96,7 @@ describe("useApiFetch", () => {
     const { error } = useApiFetch("/example", { immediate: true }).json()
 
     await vi.waitFor(() => {
-      expect(error.value).toEqual({ type: "/errors/example" })
+      expect(error.value).toEqual({ type: "/errors/example", status: 404 })
     })
   })
 
@@ -110,7 +110,7 @@ describe("useApiFetch", () => {
     const { error } = useApiFetch("/example", { immediate: true }).json()
 
     await vi.waitFor(() => {
-      expect(error.value).toEqual({ type: "__fallback__" })
+      expect(error.value).toEqual({ type: "__fallback__", status: 404 })
     })
   })
 })
