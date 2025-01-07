@@ -101,18 +101,12 @@ public class AnnouncementService
         .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return amendingNorm
-      .getArticles()
+      .targetLawElis()
       .stream()
-      .filter(article ->
-        article.getRefersTo().isPresent() &&
-        !article.getRefersTo().get().equals("geltungszeitregel")
-      )
-      .map(article ->
+      .map(eli ->
         loadNormPort
-          .loadNorm(new LoadNormPort.Command(article.getMandatoryAffectedDocumentEli()))
-          .orElseThrow(() ->
-            new NormNotFoundException(article.getMandatoryAffectedDocumentEli().toString())
-          )
+          .loadNorm(new LoadNormPort.Command(eli))
+          .orElseThrow(() -> new NormNotFoundException(eli.toString()))
       )
       .toList();
   }
