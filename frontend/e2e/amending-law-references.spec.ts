@@ -195,3 +195,31 @@ test("should be able to select a mod, add two new ref's and delete one using the
   await expect(ref1Highlight).toBeHidden()
   await expect(ref2Highlight).toBeVisible()
 })
+
+test.describe("Amending Law References Page Error Handling", () => {
+  test("Redirect to 404 if XML not found", async ({ page }) => {
+    await page.route(
+      "**/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1?",
+      async (route, request) => {
+        if (
+          request.method() === "GET" &&
+          request.headers()["accept"] === "application/xml"
+        ) {
+          await route.fulfill({
+            status: 404,
+          })
+        } else {
+          await route.continue()
+        }
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    )
+
+    await expect(
+      page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+    ).toBeVisible()
+  })
+})
