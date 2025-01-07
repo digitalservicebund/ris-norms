@@ -2,7 +2,7 @@
 -- TARGET LAW
 DELETE
 FROM norms
-WHERE eli_expression = 'eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-1';
+WHERE eli_expression = 'eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1';
 
 INSERT INTO norms (publish_state, xml)
 VALUES ('PUBLISHED', '<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
