@@ -110,7 +110,11 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
 
   await page.waitForRequest(/renderings/)
 
+  const saveResponse = page.waitForResponse(
+    "/api/v1/norms/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1?",
+  )
   await page.getByRole("button", { name: "Speichern" }).click()
+  await saveResponse
 
   await page.reload()
 
