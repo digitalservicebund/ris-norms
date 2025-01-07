@@ -21,7 +21,18 @@ const config: PlaywrightTestConfig = {
   },
   projects: [
     {
-      name: "setup",
+      name: "setup-chromium",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
+      name: "setup-firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
+      name: "setup-msedge",
+      use: { ...devices["Desktop Edge"], channel: "msedge" },
       testMatch: /.*\.setup\.ts/,
     },
     {
@@ -30,7 +41,7 @@ const config: PlaywrightTestConfig = {
         ...devices["Desktop Chrome"],
         storageState: "e2e/setup/.auth/user.json",
       },
-      dependencies: ["setup"],
+      dependencies: ["setup-chromium"],
     },
     {
       name: "firefox",
@@ -38,7 +49,7 @@ const config: PlaywrightTestConfig = {
         ...devices["Desktop Firefox"],
         storageState: "e2e/setup/.auth/user.json",
       },
-      dependencies: ["setup"],
+      dependencies: ["setup-firefox"],
     },
     {
       name: "msedge",
@@ -48,7 +59,7 @@ const config: PlaywrightTestConfig = {
         storageState: "e2e/setup/.auth/user.json",
       },
       timeout: 30000,
-      dependencies: ["setup"],
+      dependencies: ["setup-msedge"],
     },
   ],
 }
