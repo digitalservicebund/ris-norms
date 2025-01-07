@@ -138,6 +138,23 @@ public class Norm {
   }
 
   /**
+   * Returns a {@link List} of all target norms {@link ExpressionEli}s of an amending {@link Norm}.
+   *
+   * @return The list of target norm elis
+   */
+  public List<ExpressionEli> targetLawElis() {
+    return getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
+      .stream()
+      .map(Article::new)
+      .filter(article ->
+        article.getRefersTo().isPresent() &&
+        !article.getRefersTo().get().equals("geltungszeitregel")
+      )
+      .map(Article::getMandatoryAffectedDocumentEli)
+      .toList();
+  }
+
+  /**
    * Extracts a list of {@link Mod}s from the document.
    *
    * @return a list of {@link Mod}s
@@ -229,7 +246,7 @@ public class Norm {
    * The temporalData node will get a new temporalGroup node as child, which will have a new
    * timeInterval node as child.
    *
-   * @param date the {@link LocalDate} for the new time boundary.
+   * @param date         the {@link LocalDate} for the new time boundary.
    * @param eventRefType the {@link EventRefType} for the new time boundary.
    * @return the newly created {@link TemporalGroup}
    */
