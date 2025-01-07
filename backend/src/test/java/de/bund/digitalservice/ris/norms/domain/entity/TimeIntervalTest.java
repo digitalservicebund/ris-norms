@@ -40,4 +40,33 @@ class TimeIntervalTest {
 
     assertThat(timeInterval.getEventRefEId()).isEmpty();
   }
+
+  @Test
+  void create() {
+    // given
+    TemporalGroup temporalGroup = TemporalGroup
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+          <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+          </akn:temporalGroup>
+          """
+        )
+      )
+      .build();
+
+    // when
+    var timeInterval = TimeInterval.createAndAppend(temporalGroup.getNode());
+    timeInterval.setStart(
+      new Href.Builder().setEId("meta-1_lebzykl-1_ereignis-2").buildInternalReference()
+    );
+    timeInterval.setRefersTo("geltungszeit");
+
+    // then
+    assertThat(timeInterval.getEventRefEId()).contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(EId.fromMandatoryNode(timeInterval.getNode()))
+      .isEqualTo(new EId("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"));
+    assertThat(temporalGroup.getTimeInterval().getNode()).isEqualTo(timeInterval.getNode());
+  }
 }

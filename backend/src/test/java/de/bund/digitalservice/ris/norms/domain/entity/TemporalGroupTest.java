@@ -52,4 +52,28 @@ class TemporalGroupTest {
     // then
     assertThat(timeInterval).isNotNull();
   }
+
+  @Test
+  void create() {
+    // given
+    final TemporalData temporalData = TemporalData
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+          <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
+           </akn:temporalData>
+          """
+        )
+      )
+      .build();
+
+    // when
+    var temporalGroup = temporalData.addTemporalGroup();
+
+    // then
+    assertThat(temporalData.getTemporalGroups()).hasSize(1);
+    assertThat(EId.fromMandatoryNode(temporalGroup.getNode()))
+      .isEqualTo(new EId("meta-1_geltzeiten-1_geltungszeitgr-1"));
+  }
 }

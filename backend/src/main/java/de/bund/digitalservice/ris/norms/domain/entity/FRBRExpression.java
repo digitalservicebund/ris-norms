@@ -98,8 +98,7 @@ public class FRBRExpression extends FRBR {
 
         // FRBR metadata needs to be in the correct order, so we're inserting it before the author, which is the
         // element that has to follow the aliases in a valid document.
-        final var author = NodeParser.getMandatoryNodeFromExpression("./FRBRauthor", getNode());
-        getNode().insertBefore(newElement, author);
+        getNode().insertBefore(newElement, getFRBRAuthorNode());
 
         return newElement;
       })
@@ -164,8 +163,7 @@ public class FRBRExpression extends FRBR {
 
         // FRBR metadata needs to be in the correct order, so we're inserting it before the author, which is the
         // element that has to follow the aliases in a valid document.
-        final var author = NodeParser.getMandatoryNodeFromExpression("./FRBRauthor", getNode());
-        getNode().insertBefore(nextVersionAlias, author);
+        getNode().insertBefore(nextVersionAlias, getFRBRAuthorNode());
 
         return nextVersionAlias;
       })
@@ -182,5 +180,26 @@ public class FRBRExpression extends FRBR {
     NodeParser
       .getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
       .ifPresent(node -> node.getParentNode().removeChild(node));
+  }
+
+  /**
+   * Returns a FRBRlanguage as {@link String}.
+   *
+   * @return The FRBRlanguage
+   */
+  public Optional<String> getFRBRlanguage() {
+    return NodeParser.getValueFromExpression("./FRBRlanguage/@language", getNode());
+  }
+
+  private Element getFRBRAuthorNode() {
+    return (Element) NodeParser.getMandatoryNodeFromExpression("./FRBRauthor", getNode());
+  }
+
+  /**
+   * Set the value of the FRBRauthor element (this contains the URI of the author of the document)
+   * @param author the uri identifying the author of the document
+   */
+  public void setFRBRAuthor(final String author) {
+    getFRBRAuthorNode().setAttribute("href", author);
   }
 }

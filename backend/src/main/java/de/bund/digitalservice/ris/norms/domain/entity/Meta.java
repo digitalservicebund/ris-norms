@@ -75,6 +75,7 @@ public class Meta {
     } catch (final MandatoryNodeNotFoundException e) {
       final var newElement = NodeCreator.createElementWithEidAndGuid("akn:temporalData", node);
       newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+      node.insertBefore(newElement, getOrCreateProprietary().getNode());
       return new TemporalData(newElement);
     }
   }
@@ -86,6 +87,22 @@ public class Meta {
    */
   public Lifecycle getLifecycle() {
     return new Lifecycle(NodeParser.getMandatoryNodeFromExpression("./lifecycle", node));
+  }
+
+  /**
+   * Gets the akn:lifecycle element of the norm, or creates it if it does not yet exist.
+   *
+   * @return the akn:lifecycle element of the norm
+   */
+  public Lifecycle getOrCreateLifecycle() {
+    try {
+      return getLifecycle();
+    } catch (final MandatoryNodeNotFoundException e) {
+      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:lifecycle", node);
+      newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+      node.insertBefore(newElement, getOrCreateProprietary().getNode());
+      return new Lifecycle(newElement);
+    }
   }
 
   /**

@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class FRBRExpressionTest {
 
@@ -464,5 +466,40 @@ class FRBRExpressionTest {
     frbrExpression.setFRBRVersionNumber(2);
 
     assertThat(frbrExpression.getFRBRVersionNumber()).contains(2);
+  }
+
+  @Test
+  void setFRBRAuthor() {
+    final Node node = XmlMapper.toNode(
+      """
+      <akn:FRBRExpression xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+          <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="27fa3047-26e1-4c59-8701-76dd34043d71" href="recht.bund.de/institution/bundesregierung"/>
+      </akn:FRBRExpression>
+      """
+    );
+    final FRBRExpression frbrExpression = FRBRExpression.builder().node(node).build();
+
+    frbrExpression.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
+
+    assertThat(NodeParser.getValueFromExpression("//FRBRauthor/@href", node))
+      .contains("recht.bund.de/institution/bundespraesident");
+  }
+
+  @Test
+  void getFBRLanguage() {
+    final FRBRExpression frbrExpression = FRBRExpression
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+          <akn:FRBRExpression xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+             <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" GUID="d236da21-6b95-4406-be19-9092611fa0c7" language="deu"/>
+          </akn:FRBRExpression>
+          """
+        )
+      )
+      .build();
+
+    assertThat(frbrExpression.getFRBRlanguage()).contains("deu");
   }
 }

@@ -4,9 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class FRBRWorkTest {
 
@@ -196,5 +198,42 @@ class FRBRWorkTest {
       .build();
 
     assertThat(frbrWork.getFRBRnumber()).isEmpty();
+  }
+
+  @Test
+  void setFRBRName() {
+    final FRBRWork frbrWork = FRBRWork
+      .builder()
+      .node(
+        XmlMapper.toNode(
+          """
+          <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+             <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="bgbl-1"/>
+          </akn:FRBRWork>
+          """
+        )
+      )
+      .build();
+
+    frbrWork.setFRBRName("bgbl-2");
+
+    assertThat(frbrWork.getFRBRname()).contains("BGBl. II");
+  }
+
+  @Test
+  void setFRBRAuthor() {
+    final Node node = XmlMapper.toNode(
+      """
+      <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+          <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" GUID="27fa3047-26e1-4c59-8701-76dd34043d71" href="recht.bund.de/institution/bundesregierung"/>
+      </akn:FRBRWork>
+      """
+    );
+    final FRBRWork frbrWork = FRBRWork.builder().node(node).build();
+
+    frbrWork.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
+
+    assertThat(NodeParser.getValueFromExpression("//FRBRauthor/@href", node))
+      .contains("recht.bund.de/institution/bundespraesident");
   }
 }

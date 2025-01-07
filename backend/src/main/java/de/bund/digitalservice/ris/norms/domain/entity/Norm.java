@@ -5,7 +5,6 @@ import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpr
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
-import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -16,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -235,33 +233,19 @@ public class Norm {
    */
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
     // Create new eventRef node
-    final Node livecycle = getTimeBoundaries().getLast().getEventRef().getNode().getParentNode();
-    final Element eventRef = NodeCreator.createElementWithEidAndGuid("akn:eventRef", livecycle);
-    eventRef.setAttribute("date", date.toString());
-    eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
-    eventRef.setAttribute("type", eventRefType.getValue());
-    eventRef.setAttribute("refersTo", "inkrafttreten");
+    final EventRef eventRef = getMeta().getLifecycle().addEventRef();
+    eventRef.setDate(date.toString());
+    eventRef.setRefersTo("inkrafttreten");
+    eventRef.setType(eventRefType.getValue());
 
-    // Create new temporalGroup node
-    final TemporalData temporalData = getMeta().getTemporalData();
-    final Element temporalGroup = NodeCreator.createElementWithEidAndGuid(
-      "akn:temporalGroup",
-      temporalData.getNode()
+    final TemporalGroup temporalGroup = getMeta().getTemporalData().addTemporalGroup();
+    final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
+    timeInterval.setStart(
+      new Href.Builder().setEId(eventRef.getEid().value()).buildInternalReference()
     );
+    timeInterval.setRefersTo("geltungszeit");
 
-    // Create new timeInterval node
-    final Element timeInterval = NodeCreator.createElementWithEidAndGuid(
-      "akn:timeInterval",
-      temporalGroup
-    );
-    timeInterval.setAttribute("refersTo", "geltungszeit");
-    final var eventRefEId = eventRef.getAttribute("eId");
-    timeInterval.setAttribute(
-      "start",
-      new Href.Builder().setEId(eventRefEId).buildInternalReference().value()
-    );
-
-    return new TemporalGroup(temporalGroup);
+    return temporalGroup;
   }
 
   /**
