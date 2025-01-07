@@ -55,7 +55,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    */
   public void setFna(final String fna) {
     var fnaNode = NodeParser
-      .getNodeFromExpression(Metadata.FNA.xpath, getNode())
+      .getElementFromExpression(Metadata.FNA.xpath, getNode())
       .orElseGet(() -> NodeCreator.createElement(getNamespace(), "fna", getNode()));
 
     fnaNode.setTextContent(fna);
@@ -95,7 +95,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    */
   public void setGesta(final String gesta) {
     var node = NodeParser
-      .getNodeFromExpression(Metadata.GESTA.xpath, getNode())
+      .getElementFromExpression(Metadata.GESTA.xpath, getNode())
       .orElseGet(() -> NodeCreator.createElement(getNamespace(), "gesta", getNode()));
 
     node.setTextContent(gesta);
@@ -117,7 +117,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    */
   public void setFassung(final String fassung) {
     var node = NodeParser
-      .getNodeFromExpression(Metadata.FASSUNG.xpath, getNode())
+      .getElementFromExpression(Metadata.FASSUNG.xpath, getNode())
       .orElseGet(() -> NodeCreator.createElement(getNamespace(), "fassung", getNode()));
 
     node.setTextContent(fassung);

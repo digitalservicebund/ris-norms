@@ -27,7 +27,7 @@ public class Proprietary {
    */
   public Optional<MetadatenDe> getMetadatenDe() {
     return NodeParser
-      .getNodeFromExpression(
+      .getElementFromExpression(
         "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
@@ -41,7 +41,7 @@ public class Proprietary {
    */
   public MetadatenDe getOrCreateMetadatenDe() {
     return NodeParser
-      .getNodeFromExpression(
+      .getElementFromExpression(
         "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
@@ -63,7 +63,7 @@ public class Proprietary {
    */
   public Optional<MetadatenDs> getMetadatenDs() {
     return NodeParser
-      .getNodeFromExpression(
+      .getElementFromExpression(
         "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
@@ -77,7 +77,7 @@ public class Proprietary {
    */
   public MetadatenDs getOrCreateMetadatenDs() {
     return NodeParser
-      .getNodeFromExpression(
+      .getElementFromExpression(
         "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
@@ -99,7 +99,7 @@ public class Proprietary {
    */
   public Optional<MetadatenBund> getMetadatenBund() {
     return NodeParser
-      .getNodeFromExpression(
+      .getElementFromExpression(
         "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )
@@ -113,7 +113,7 @@ public class Proprietary {
    */
   public MetadatenBund getOrCreateMetadatenBund() {
     return NodeParser
-      .getNodeFromExpression(
+      .getElementFromExpression(
         "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
         node
       )

@@ -22,7 +22,7 @@ public class TemporalData {
    */
   public List<TemporalGroup> getTemporalGroups() {
     return NodeParser
-      .getNodesFromExpression("./temporalGroup", node)
+      .getElementsFromExpression("./temporalGroup", node)
       .stream()
       .map(TemporalGroup::new)
       .toList();

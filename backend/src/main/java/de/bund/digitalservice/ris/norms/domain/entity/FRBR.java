@@ -9,7 +9,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -46,7 +46,7 @@ public abstract class FRBR {
    * @param uri - the new URI
    */
   public void setURI(final URI uri) {
-    var optionalFRBRuri = NodeParser.getNodeFromExpression("./FRBRuri", node);
+    var optionalFRBRuri = NodeParser.getElementFromExpression("./FRBRuri", node);
 
     if (optionalFRBRuri.isEmpty()) {
       var newFRBRuri = NodeCreator.createElement(Namespace.INHALTSDATEN, "FRBRuri", node);
@@ -74,10 +74,8 @@ public abstract class FRBR {
    * @param name - the new name
    */
   public void setFBRDate(final String date, final String name) {
-    final NamedNodeMap attributes = NodeParser
-      .getMandatoryNodeFromExpression("./FRBRdate", node)
-      .getAttributes();
-    attributes.getNamedItem("date").setNodeValue(date);
-    attributes.getNamedItem("name").setNodeValue(name);
+    final Element element = NodeParser.getMandatoryElementFromExpression("./FRBRdate", node);
+    element.setAttribute("date", date);
+    element.setAttribute("name", name);
   }
 }

@@ -43,7 +43,7 @@ public class TemporalGroup {
    */
   public TimeInterval getTimeInterval() {
     return NodeParser
-      .getNodeFromExpression("./timeInterval", node)
+      .getElementFromExpression("./timeInterval", node)
       .map(TimeInterval::new)
       .orElseThrow();
   }

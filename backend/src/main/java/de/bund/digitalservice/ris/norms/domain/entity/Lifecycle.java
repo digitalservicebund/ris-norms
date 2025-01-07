@@ -22,7 +22,7 @@ public class Lifecycle {
    */
   public List<EventRef> getEventRefs() {
     return NodeParser
-      .getNodesFromExpression("./eventRef", node)
+      .getElementsFromExpression("./eventRef", node)
       .stream()
       .map(EventRef::new)
       .toList();

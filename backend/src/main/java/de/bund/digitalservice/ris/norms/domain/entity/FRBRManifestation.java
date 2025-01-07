@@ -33,9 +33,7 @@ public class FRBRManifestation extends FRBR {
    */
   public void setEli(final ManifestationEli eli) {
     NodeParser
-      .getMandatoryNodeFromExpression("./FRBRthis", this.getNode())
-      .getAttributes()
-      .getNamedItem("value")
-      .setNodeValue(eli.toString());
+      .getMandatoryElementFromExpression("./FRBRthis", this.getNode())
+      .setAttribute("value", eli.toString());
   }
 }

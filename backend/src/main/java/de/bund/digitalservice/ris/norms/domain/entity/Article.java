@@ -112,6 +112,10 @@ public class Article {
    * @return the {@link Mod}
    */
   public List<Mod> getMods() {
-    return NodeParser.getNodesFromExpression("./*//mod", this.node).stream().map(Mod::new).toList();
+    return NodeParser
+      .getElementsFromExpression("./*//mod", this.node)
+      .stream()
+      .map(Mod::new)
+      .toList();
   }
 }

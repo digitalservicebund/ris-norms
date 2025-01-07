@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 class ModTest {
@@ -241,7 +242,7 @@ class ModTest {
   @Test
   void getSecondQuotedText() {
     // when
-    final Optional<Node> secondQuotedText = quotedTextMod.getSecondQuotedText();
+    final Optional<Element> secondQuotedText = quotedTextMod.getSecondQuotedText();
 
     // then
     assertThat(secondQuotedText).isPresent();
@@ -267,7 +268,7 @@ class ModTest {
   @Test
   void getQuotedStructure() {
     // when
-    final Optional<Node> quotedStructure = quotedStructureRefMod.getQuotedStructure();
+    final Optional<Element> quotedStructure = quotedStructureRefMod.getQuotedStructure();
 
     // then
     assertThat(quotedStructure).isPresent();

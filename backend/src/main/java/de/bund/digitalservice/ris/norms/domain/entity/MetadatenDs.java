@@ -115,7 +115,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
     final LocalDate date
   ) {
     return NodeParser
-      .getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
       .flatMap(node -> new Einzelelement(node).getSimpleMetadatum(metadatumSingleElement, date));
   }
 
@@ -136,7 +136,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
     final String newValue
   ) {
     NodeParser
-      .getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
       .ifPresentOrElse(
         nodeFound -> {
           Einzelelement e = new Einzelelement(nodeFound);

@@ -29,7 +29,7 @@ public class Meta {
    */
   public FRBRWork getFRBRWork() {
     return new FRBRWork(
-      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRWork", node)
+      NodeParser.getMandatoryElementFromExpression("./identification/FRBRWork", node)
     );
   }
 
@@ -40,7 +40,7 @@ public class Meta {
    */
   public FRBRExpression getFRBRExpression() {
     return new FRBRExpression(
-      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRExpression", node)
+      NodeParser.getMandatoryElementFromExpression("./identification/FRBRExpression", node)
     );
   }
 
@@ -51,7 +51,7 @@ public class Meta {
    */
   public FRBRManifestation getFRBRManifestation() {
     return new FRBRManifestation(
-      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRManifestation", node)
+      NodeParser.getMandatoryElementFromExpression("./identification/FRBRManifestation", node)
     );
   }
 
@@ -61,7 +61,7 @@ public class Meta {
    * @return the TemporalData node as {@link TemporalData}
    */
   public TemporalData getTemporalData() {
-    return new TemporalData(NodeParser.getMandatoryNodeFromExpression("./temporalData", node));
+    return new TemporalData(NodeParser.getMandatoryElementFromExpression("./temporalData", node));
   }
 
   /**
@@ -86,7 +86,7 @@ public class Meta {
    * @return the Lifecycle node as {@link Lifecycle}
    */
   public Lifecycle getLifecycle() {
-    return new Lifecycle(NodeParser.getMandatoryNodeFromExpression("./lifecycle", node));
+    return new Lifecycle(NodeParser.getMandatoryElementFromExpression("./lifecycle", node));
   }
 
   /**
@@ -111,7 +111,7 @@ public class Meta {
    * @return the Analysis node as {@link Analysis}
    */
   public Optional<Analysis> getAnalysis() {
-    return NodeParser.getNodeFromExpression("./analysis", node).map(Analysis::new);
+    return NodeParser.getElementFromExpression("./analysis", node).map(Analysis::new);
   }
 
   /**
@@ -154,6 +154,6 @@ public class Meta {
    * @return {@link Optional} with the {@link Proprietary} metadata of the norm.
    */
   public Optional<Proprietary> getProprietary() {
-    return NodeParser.getNodeFromExpression("./proprietary", node).map(Proprietary::new);
+    return NodeParser.getElementFromExpression("./proprietary", node).map(Proprietary::new);
   }
 }

@@ -39,10 +39,8 @@ public class FRBRExpression extends FRBR {
    */
   public void setEli(final ExpressionEli eli) {
     NodeParser
-      .getMandatoryNodeFromExpression("./FRBRthis", this.getNode())
-      .getAttributes()
-      .getNamedItem(VALUE_ATTIBUTE)
-      .setNodeValue(eli.toString());
+      .getMandatoryElementFromExpression("./FRBRthis", this.getNode())
+      .setAttribute(VALUE_ATTIBUTE, eli.toString());
   }
 
   /**
@@ -63,10 +61,8 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRVersionNumber(final Integer version) {
     NodeParser
-      .getMandatoryNodeFromExpression("./FRBRversionNumber", this.getNode())
-      .getAttributes()
-      .getNamedItem(VALUE_ATTIBUTE)
-      .setNodeValue(version.toString());
+      .getMandatoryElementFromExpression("./FRBRversionNumber", this.getNode())
+      .setAttribute(VALUE_ATTIBUTE, version.toString());
   }
 
   /**
@@ -87,7 +83,7 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRaliasPreviousVersionId(final UUID uuid) {
     NodeParser
-      .getNodeFromExpression("./FRBRalias[@name='vorherige-version-id']", getNode())
+      .getElementFromExpression("./FRBRalias[@name='vorherige-version-id']", getNode())
       .orElseGet(() -> {
         final Element newElement = NodeCreator.createElementWithEidAndGuid(
           "akn:FRBRalias",
@@ -102,9 +98,7 @@ public class FRBRExpression extends FRBR {
 
         return newElement;
       })
-      .getAttributes()
-      .getNamedItem(VALUE_ATTIBUTE)
-      .setNodeValue(uuid.toString());
+      .setAttribute(VALUE_ATTIBUTE, uuid.toString());
   }
 
   /**
@@ -128,10 +122,8 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRaliasCurrentVersionId(final UUID uuid) {
     NodeParser
-      .getMandatoryNodeFromExpression("./FRBRalias[@name='aktuelle-version-id']", getNode())
-      .getAttributes()
-      .getNamedItem(VALUE_ATTIBUTE)
-      .setNodeValue(uuid.toString());
+      .getMandatoryElementFromExpression("./FRBRalias[@name='aktuelle-version-id']", getNode())
+      .setAttribute(VALUE_ATTIBUTE, uuid.toString());
   }
 
   /**
@@ -152,7 +144,7 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRaliasNextVersionId(final UUID uuid) {
     NodeParser
-      .getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
       .orElseGet(() -> {
         final Element nextVersionAlias = NodeCreator.createElementWithEidAndGuid(
           "akn:FRBRalias",
@@ -167,9 +159,7 @@ public class FRBRExpression extends FRBR {
 
         return nextVersionAlias;
       })
-      .getAttributes()
-      .getNamedItem(VALUE_ATTIBUTE)
-      .setNodeValue(uuid.toString());
+      .setAttribute(VALUE_ATTIBUTE, uuid.toString());
   }
 
   /**
@@ -178,7 +168,7 @@ public class FRBRExpression extends FRBR {
    */
   public void deleteAliasNextVersionId() {
     NodeParser
-      .getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
       .ifPresent(node -> node.getParentNode().removeChild(node));
   }
 
@@ -192,7 +182,7 @@ public class FRBRExpression extends FRBR {
   }
 
   private Element getFRBRAuthorNode() {
-    return (Element) NodeParser.getMandatoryNodeFromExpression("./FRBRauthor", getNode());
+    return NodeParser.getMandatoryElementFromExpression("./FRBRauthor", getNode());
   }
 
   /**

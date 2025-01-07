@@ -35,10 +35,8 @@ public class FRBRWork extends FRBR {
    */
   public void setEli(final WorkEli eli) {
     NodeParser
-      .getMandatoryNodeFromExpression("./FRBRthis", this.getNode())
-      .getAttributes()
-      .getNamedItem("value")
-      .setNodeValue(eli.toString());
+      .getMandatoryElementFromExpression("./FRBRthis", this.getNode())
+      .setAttribute("value", eli.toString());
   }
 
   /**
@@ -59,10 +57,7 @@ public class FRBRWork extends FRBR {
    * @param name the name of the agent
    */
   public void setFRBRName(final String name) {
-    final Element fRBRName = (Element) NodeParser.getMandatoryNodeFromExpression(
-      "./FRBRname",
-      getNode()
-    );
+    final Element fRBRName = NodeParser.getMandatoryElementFromExpression("./FRBRname", getNode());
     fRBRName.setAttribute("value", name);
   }
 
@@ -71,7 +66,7 @@ public class FRBRWork extends FRBR {
    * @param author the uri identifying the author of the document
    */
   public void setFRBRAuthor(final String author) {
-    final Element fRBRAuthor = (Element) NodeParser.getMandatoryNodeFromExpression(
+    final Element fRBRAuthor = NodeParser.getMandatoryElementFromExpression(
       "./FRBRauthor",
       getNode()
     );

@@ -64,7 +64,7 @@ public class TextualMod {
 
   private Node getOrCreateDestinationNode() {
     return NodeParser
-      .getNodeFromExpression("./destination", this.node)
+      .getElementFromExpression("./destination", this.node)
       .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:destination", getNode()));
   }
 
@@ -109,7 +109,7 @@ public class TextualMod {
 
   private Node getOrCreateForceNode() {
     return NodeParser
-      .getNodeFromExpression("./force", getNode())
+      .getElementFromExpression("./force", getNode())
       .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:force", getNode()));
   }
 
