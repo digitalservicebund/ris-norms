@@ -87,7 +87,7 @@ export const useApiFetch = createFetch({
 
       fetchContext.error = {
         ...baseError,
-        status: fetchContext.response?.status || null,
+        status: fetchContext.response?.status ?? null,
       }
 
       return fetchContext
