@@ -31,7 +31,7 @@ export default defineConfig({
   ].filter(Boolean),
   server: {
     proxy: {
-      "/api": {
+      "^/(api|oauth2|login|logout)": {
         target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
