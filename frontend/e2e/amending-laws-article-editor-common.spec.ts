@@ -240,4 +240,30 @@ test.describe("XML and HTML tabs", () => {
       page.getByText("Artikel 1Änderung des Vereinsgesetzes"),
     ).toBeVisible()
   })
+
+  test("Handle 404 error for XML in tabs", async ({ page }) => {
+    await page.route(
+      "**/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?",
+      async (route, request) => {
+        if (
+          request.method() === "GET" &&
+          request.headers()["accept"] === "application/xml"
+        ) {
+          await route.fulfill({
+            status: 404,
+          })
+        } else {
+          await route.continue()
+        }
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+    )
+
+    await expect(
+      page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+    ).toBeVisible()
+  })
 })
