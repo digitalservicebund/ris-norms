@@ -1,19 +1,13 @@
+import { samplesDirectory } from "@e2e/globalSetup/global-setup"
 import { APIRequestContext } from "@playwright/test"
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
-import { fileURLToPath } from "node:url"
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export async function uploadAmendingLaw(
   request: APIRequestContext,
   filename: string,
 ) {
-  const filePath = path.join(
-    __dirname,
-    "../../../LegalDocML.de/1.7.1/samples/amending-laws",
-    filename,
-  )
+  const filePath = path.join(samplesDirectory, filename)
   const fileContent = await fs.readFile(filePath)
 
   const response = await request.post("/api/v1/announcements", {
@@ -28,6 +22,7 @@ export async function uploadAmendingLaw(
   })
 
   if (!response.ok()) {
+    console.log(await response.json())
     throw new Error(`Failed to upload test data: ${response.status()}`)
   }
 }

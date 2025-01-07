@@ -8,7 +8,7 @@ test.beforeAll(async ({ browser }) => {
 
 test.beforeEach(async () => {
   await sharedPage.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
   )
 })
 
@@ -123,7 +123,7 @@ test.describe("Editing a single mod", () => {
   test.afterEach(async ({ request }) => {
     await uploadAmendingLaw(
       request,
-      "Strukturänderungsgesetz_1002_10_1002-01-10.xml",
+      "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
     )
   })
   test("selecting and saving the time boundary", async () => {
@@ -219,7 +219,7 @@ test.describe("Editing multiple mods", () => {
   test.afterEach(async ({ request }) => {
     await uploadAmendingLaw(
       request,
-      "Strukturänderungsgesetz_1002_10_1002-01-10.xml",
+      "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
     )
   })
   test("Displaying time boundary", async () => {
@@ -342,7 +342,7 @@ test.describe("Range mod", () => {
   test.afterEach(async ({ request }) => {
     await uploadAmendingLaw(
       request,
-      "Strukturänderungsgesetz_1002_10_1002-01-10.xml",
+      "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
     )
   })
   test("Loading of mod details into form", async () => {
