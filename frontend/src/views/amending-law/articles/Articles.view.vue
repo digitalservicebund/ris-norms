@@ -4,7 +4,8 @@ import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useArticles } from "@/services/articleService"
-import { onUnmounted } from "vue"
+import { onUnmounted, watch } from "vue"
+import { useRouter } from "vue-router"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const eli = useEliPathParameter()
@@ -13,6 +14,17 @@ const { data: articles, isFetching, error } = useArticles(eli)
 const { pushBreadcrumb } = useHeaderContext()
 const cleanupBreadcrumbs = pushBreadcrumb({ title: "Artikelübersicht" })
 onUnmounted(() => cleanupBreadcrumbs())
+
+const router = useRouter()
+
+watch(
+  () => error?.value,
+  (err) => {
+    if (err?.status === 404) {
+      router.push({ name: "NotFound" })
+    }
+  },
+)
 </script>
 
 <template>
@@ -21,7 +33,7 @@ onUnmounted(() => cleanupBreadcrumbs())
     <div v-if="isFetching" class="flex items-center justify-center">
       <RisLoadingSpinner />
     </div>
-    <div v-else-if="error">
+    <div v-else-if="error && error.status !== 404">
       <RisErrorCallout :error />
     </div>
     <RisInfoModal
