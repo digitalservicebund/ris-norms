@@ -21,20 +21,36 @@ const config: PlaywrightTestConfig = {
   },
   projects: [
     {
+      name: "setup",
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "e2e/setup/.auth/user.json",
+      },
+      dependencies: ["setup"],
     },
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Firefox"],
+        storageState: "e2e/setup/.auth/user.json",
+      },
+      dependencies: ["setup"],
     },
     {
       name: "msedge",
-      use: { ...devices["Desktop Edge"], channel: "msedge" },
+      use: {
+        ...devices["Desktop Edge"],
+        channel: "msedge",
+        storageState: "e2e/setup/.auth/user.json",
+      },
       timeout: 30000,
+      dependencies: ["setup"],
     },
   ],
-  globalSetup: "./e2e/globalSetup/global-setup",
 }
 
 export default config
