@@ -84,7 +84,9 @@ const {
   data: articleHtml,
   isFetching: isFetchingArticleHtml,
   error: loadArticleHtmlError,
-} = useNormRenderHtml(articleXml)
+} = useNormRenderHtml(articleXml, {
+  snippet: true,
+})
 const amendingLawActiveTab = ref("text")
 
 watch(xml, (xml) => {
