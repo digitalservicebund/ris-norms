@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -8,8 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -20,6 +24,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+  @Autowired
+  private ClientRegistrationRepository clientRegistrationRepository;
 
   /**
    * Configures security settings for specific HTTP requests.
@@ -44,6 +51,7 @@ public class SecurityConfig {
           .authenticated()
       )
       .oauth2Login(Customizer.withDefaults())
+      .logout(logout -> logout.logoutSuccessHandler(oidcLogoutSuccessHandler()))
       .csrf(AbstractHttpConfigurer::disable)
       .cors(Customizer.withDefaults())
       .sessionManagement(sessionManagement ->
@@ -56,5 +64,16 @@ public class SecurityConfig {
         )
       );
     return http.build();
+  }
+
+  private LogoutSuccessHandler oidcLogoutSuccessHandler() {
+    OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler =
+      new OidcClientInitiatedLogoutSuccessHandler(this.clientRegistrationRepository);
+
+    // Sets the location that the End-User's User Agent will be redirected to
+    // after the logout has been performed at the Provider
+    oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}");
+
+    return oidcLogoutSuccessHandler;
   }
 }
