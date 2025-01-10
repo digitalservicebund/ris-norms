@@ -31,12 +31,6 @@ export const useApiFetch = createFetch({
 
   options: {
     async beforeFetch({ options, url, cancel }) {
-      if (url.endsWith("/logout")) {
-        return {
-          options,
-          url: "/logout",
-        }
-      }
       // useFetch requires the URL to always be there, but in some cases we
       // can't construct a meaningful URL (e.g. because a required param is
       // missing). For those cases we introduce INVALID_URL as a convention

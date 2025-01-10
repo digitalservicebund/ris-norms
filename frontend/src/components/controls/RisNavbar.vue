@@ -1,21 +1,10 @@
 <script setup lang="ts">
 import neurisLogo from "@/assets/neuRIS-logo.svg"
-import { RouterLink, useRouter } from "vue-router"
+import { RouterLink } from "vue-router"
 import Button from "primevue/button"
-import { useLogoutService } from "@/services/logoutService"
-import { useErrorToast } from "@/lib/errorToast"
-
-const { addErrorToast } = useErrorToast()
-const router = useRouter()
 
 async function handleLogout() {
-  const { error } = useLogoutService()
-  if (error?.value) {
-    addErrorToast(error.value)
-  } else {
-    console.log("Logout successful")
-    await router.push({ name: "Home" })
-  }
+  window.location.assign("/logout")
 }
 </script>
 
