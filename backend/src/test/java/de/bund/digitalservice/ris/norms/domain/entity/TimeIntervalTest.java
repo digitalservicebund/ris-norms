@@ -10,16 +10,13 @@ class TimeIntervalTest {
   @Test
   void getEventRefEId() {
     // given
-    final TimeInterval timeInterval = TimeInterval
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-           <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
-          """
-        )
+    final TimeInterval timeInterval = new TimeInterval(
+      XmlMapper.toNode(
+        """
+         <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+        """
       )
-      .build();
+    );
 
     assertThat(timeInterval.getEventRefEId()).contains("meta-1_lebzykl-1_ereignis-2");
   }
@@ -27,16 +24,13 @@ class TimeIntervalTest {
   @Test
   void getEventRefEIdEmpty() {
     // given
-    final TimeInterval timeInterval = TimeInterval
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-          <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" />
-                         """
-        )
+    final TimeInterval timeInterval = new TimeInterval(
+      XmlMapper.toNode(
+        """
+        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" />
+                       """
       )
-      .build();
+    );
 
     assertThat(timeInterval.getEventRefEId()).isEmpty();
   }
@@ -44,17 +38,14 @@ class TimeIntervalTest {
   @Test
   void create() {
     // given
-    TemporalGroup temporalGroup = TemporalGroup
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-          <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
-          </akn:temporalGroup>
-          """
-        )
+    TemporalGroup temporalGroup = new TemporalGroup(
+      XmlMapper.toNode(
+        """
+        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+        </akn:temporalGroup>
+        """
       )
-      .build();
+    );
 
     // when
     var timeInterval = TimeInterval.createAndAppend(temporalGroup.getNode());
