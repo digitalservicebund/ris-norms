@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /** Class representing simple metadata within ris:legalDocML.de_metadaten */
 @Getter
@@ -15,7 +14,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 public class SimpleProprietary {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Retrieves the node value.
@@ -23,7 +22,7 @@ public class SimpleProprietary {
    * @return the node value
    */
   public String getValue() {
-    return node.getTextContent();
+    return element.getTextContent();
   }
 
   /**
@@ -33,7 +32,7 @@ public class SimpleProprietary {
    */
   public Optional<LocalDate> getStart() {
     return NodeParser
-      .getValueFromExpression("./@start", node)
+      .getValueFromExpression("./@start", element)
       .map(LocalDate::parse)
       .or(this::getAb);
   }
@@ -44,7 +43,7 @@ public class SimpleProprietary {
    * @return the optional value of @ab in {@link LocalDate}
    */
   public Optional<LocalDate> getAb() {
-    return NodeParser.getValueFromExpression("./@ab", node).map(LocalDate::parse);
+    return NodeParser.getValueFromExpression("./@ab", element).map(LocalDate::parse);
   }
 
   /**
@@ -67,7 +66,7 @@ public class SimpleProprietary {
 
   private Optional<LocalDate> getEndOrBis(final String attributeName) {
     return NodeParser
-      .getValueFromExpression("./@%s".formatted(attributeName), node)
+      .getValueFromExpression("./@%s".formatted(attributeName), element)
       .map(m -> {
         if (m.equals("unbestimmt")) {
           return LocalDate.MAX;
@@ -84,7 +83,7 @@ public class SimpleProprietary {
    * @return String value of the requested attribute
    */
   public Optional<String> getAttribute(final String attributeName) {
-    return NodeParser.getValueFromExpression("./@%s".formatted(attributeName), node);
+    return NodeParser.getValueFromExpression("./@%s".formatted(attributeName), element);
   }
 
   /**
@@ -94,7 +93,7 @@ public class SimpleProprietary {
    * @param newValue the new value to be set
    */
   public void setAttribute(final String attributeName, final String newValue) {
-    ((Element) node).setAttribute(attributeName, newValue);
+    ((Element) element).setAttribute(attributeName, newValue);
   }
 
   /**
@@ -103,6 +102,6 @@ public class SimpleProprietary {
    * @param attributeName the name of the attribute
    */
   public void removeAttribute(final String attributeName) {
-    ((Element) node).removeAttribute(attributeName);
+    ((Element) element).removeAttribute(attributeName);
   }
 }

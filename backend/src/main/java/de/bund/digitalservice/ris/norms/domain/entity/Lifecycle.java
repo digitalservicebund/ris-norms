@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /** Class representing the akn:lifecycle */
 @Getter
@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class Lifecycle {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Returns a list of {@link EventRef} instance from the {@link Lifecycle}.
@@ -22,7 +22,7 @@ public class Lifecycle {
    */
   public List<EventRef> getEventRefs() {
     return NodeParser
-      .getElementsFromExpression("./eventRef", node)
+      .getElementsFromExpression("./eventRef", element)
       .stream()
       .map(EventRef::new)
       .toList();
@@ -33,6 +33,6 @@ public class Lifecycle {
    * @return the newly created {@link EventRef}
    */
   public EventRef addEventRef() {
-    return EventRef.createAndAppend(getNode());
+    return EventRef.createAndAppend(getElement());
   }
 }

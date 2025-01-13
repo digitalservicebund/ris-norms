@@ -5,15 +5,15 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /** Class representing the meta:legalDocML.de_metadaten */
 @Getter
 public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
 
   @Builder
-  public MetadatenDe(final Node node) {
-    super(node, "ab", "bis", Namespace.METADATEN);
+  public MetadatenDe(final Element element) {
+    super(element, "ab", "bis", Namespace.METADATEN);
   }
 
   /**
@@ -45,7 +45,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    * @return FNA or empty if it doesn't exist.
    */
   public Optional<String> getFna() {
-    return NodeParser.getValueFromExpression(Metadata.FNA.xpath, getNode());
+    return NodeParser.getValueFromExpression(Metadata.FNA.xpath, getElement());
   }
 
   /**
@@ -55,8 +55,8 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    */
   public void setFna(final String fna) {
     var fnaNode = NodeParser
-      .getElementFromExpression(Metadata.FNA.xpath, getNode())
-      .orElseGet(() -> NodeCreator.createElement(getNamespace(), "fna", getNode()));
+      .getElementFromExpression(Metadata.FNA.xpath, getElement())
+      .orElseGet(() -> NodeCreator.createElement(getNamespace(), "fna", getElement()));
 
     fnaNode.setTextContent(fna);
   }
@@ -67,7 +67,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    * @return Art or empty if it doesn't exist.
    */
   public Optional<String> getArt() {
-    return NodeParser.getValueFromExpression(Metadata.ART.xpath, getNode());
+    return NodeParser.getValueFromExpression(Metadata.ART.xpath, getElement());
   }
 
   /**
@@ -76,7 +76,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    * @return Typ or empty if it doesn't exist.
    */
   public Optional<String> getTyp() {
-    return NodeParser.getValueFromExpression(Metadata.TYP.xpath, getNode());
+    return NodeParser.getValueFromExpression(Metadata.TYP.xpath, getElement());
   }
 
   /**
@@ -85,7 +85,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    * @return Gesta or empty if it doesn't exist.
    */
   public Optional<String> getGesta() {
-    return NodeParser.getValueFromExpression(Metadata.GESTA.xpath, getNode());
+    return NodeParser.getValueFromExpression(Metadata.GESTA.xpath, getElement());
   }
 
   /**
@@ -95,8 +95,8 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    */
   public void setGesta(final String gesta) {
     var node = NodeParser
-      .getElementFromExpression(Metadata.GESTA.xpath, getNode())
-      .orElseGet(() -> NodeCreator.createElement(getNamespace(), "gesta", getNode()));
+      .getElementFromExpression(Metadata.GESTA.xpath, getElement())
+      .orElseGet(() -> NodeCreator.createElement(getNamespace(), "gesta", getElement()));
 
     node.setTextContent(gesta);
   }
@@ -107,7 +107,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    * @return Fassung or empty if it doesn't exist.
    */
   public Optional<String> getFassung() {
-    return NodeParser.getValueFromExpression(Metadata.FASSUNG.xpath, getNode());
+    return NodeParser.getValueFromExpression(Metadata.FASSUNG.xpath, getElement());
   }
 
   /**
@@ -117,8 +117,8 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
    */
   public void setFassung(final String fassung) {
     var node = NodeParser
-      .getElementFromExpression(Metadata.FASSUNG.xpath, getNode())
-      .orElseGet(() -> NodeCreator.createElement(getNamespace(), "fassung", getNode()));
+      .getElementFromExpression(Metadata.FASSUNG.xpath, getElement())
+      .orElseGet(() -> NodeCreator.createElement(getNamespace(), "fassung", getElement()));
 
     node.setTextContent(fassung);
   }

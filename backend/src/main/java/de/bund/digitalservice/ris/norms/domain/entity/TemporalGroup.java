@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing a akn:temporalGroup. */
@@ -14,7 +15,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class TemporalGroup {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Creates a new akn:temporalGroup element and appends it to the given node.
@@ -33,7 +34,7 @@ public class TemporalGroup {
    * @return The eId of the temporal group
    */
   public String getEid() {
-    return EId.fromMandatoryNode(getNode()).value();
+    return EId.fromMandatoryNode(getElement()).value();
   }
 
   /**
@@ -43,7 +44,7 @@ public class TemporalGroup {
    */
   public TimeInterval getTimeInterval() {
     return NodeParser
-      .getElementFromExpression("./timeInterval", node)
+      .getElementFromExpression("./timeInterval", element)
       .map(TimeInterval::new)
       .orElseThrow();
   }
@@ -57,7 +58,7 @@ public class TemporalGroup {
     try {
       return getTimeInterval();
     } catch (NoSuchElementException e) {
-      return TimeInterval.createAndAppend(getNode());
+      return TimeInterval.createAndAppend(getElement());
     }
   }
 }

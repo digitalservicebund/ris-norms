@@ -949,7 +949,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("eId")
@@ -960,7 +960,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("GUID")
@@ -973,7 +973,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("GUID")
         .getNodeValue()
@@ -983,7 +983,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("refersTo")
         .getNodeValue()
@@ -993,7 +993,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("start")
         .getNodeValue()
@@ -1008,7 +1008,7 @@ class NormTest {
       timeBoundaries
         .get(1)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("eId")
@@ -1019,7 +1019,7 @@ class NormTest {
       timeBoundaries
         .get(1)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("GUID")
@@ -1032,7 +1032,7 @@ class NormTest {
       timeBoundaries
         .get(1)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("GUID")
         .getNodeValue()
@@ -1042,7 +1042,7 @@ class NormTest {
       timeBoundaries
         .get(1)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("refersTo")
         .getNodeValue()
@@ -1052,7 +1052,7 @@ class NormTest {
       timeBoundaries
         .get(1)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("start")
         .getNodeValue()
@@ -1111,7 +1111,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("eId")
@@ -1122,7 +1122,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("GUID")
@@ -1135,7 +1135,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("GUID")
         .getNodeValue()
@@ -1145,7 +1145,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("refersTo")
         .getNodeValue()
@@ -1155,7 +1155,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getAttributes()
         .getNamedItem("start")
         .getNodeValue()
@@ -1249,7 +1249,7 @@ class NormTest {
       // then
       assertThat(analysis).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-        .contains(analysis.getNode());
+        .contains(analysis.getElement());
     }
   }
 
@@ -1267,7 +1267,7 @@ class NormTest {
       // then
       assertThat(temporalData).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act//temporalData", norm.getDocument()))
-        .contains(temporalData.getNode());
+        .contains(temporalData.getElement());
     }
 
     @Test
@@ -1280,7 +1280,7 @@ class NormTest {
 
       // then
       assertThat(temporalData).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getNode()))
+      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getElement()))
         .contains("f866d5a3-98c8-4927-8cab-1630c5832f3c");
     }
   }

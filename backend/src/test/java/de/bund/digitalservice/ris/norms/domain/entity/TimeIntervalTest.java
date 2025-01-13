@@ -48,7 +48,7 @@ class TimeIntervalTest {
     );
 
     // when
-    var timeInterval = TimeInterval.createAndAppend(temporalGroup.getNode());
+    var timeInterval = TimeInterval.createAndAppend(temporalGroup.getElement());
     timeInterval.setStart(
       new Href.Builder().setEId("meta-1_lebzykl-1_ereignis-2").buildInternalReference()
     );
@@ -56,8 +56,8 @@ class TimeIntervalTest {
 
     // then
     assertThat(timeInterval.getEventRefEId()).contains("meta-1_lebzykl-1_ereignis-2");
-    assertThat(EId.fromMandatoryNode(timeInterval.getNode()))
+    assertThat(EId.fromMandatoryNode(timeInterval.getElement()))
       .isEqualTo(new EId("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"));
-    assertThat(temporalGroup.getTimeInterval().getNode()).isEqualTo(timeInterval.getNode());
+    assertThat(temporalGroup.getTimeInterval().getElement()).isEqualTo(timeInterval.getElement());
   }
 }

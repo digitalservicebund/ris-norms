@@ -4,15 +4,15 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /** Class representing the akn:FRBRManifestation */
 @Getter
 @SuperBuilder(toBuilder = true)
 public class FRBRManifestation extends FRBR {
 
-  public FRBRManifestation(final Node node) {
-    super(node);
+  public FRBRManifestation(final Element element) {
+    super(element);
   }
 
   /**
@@ -22,7 +22,7 @@ public class FRBRManifestation extends FRBR {
    */
   public ManifestationEli getEli() {
     return ManifestationEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getNode())
+      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getElement())
     );
   }
 
@@ -33,7 +33,7 @@ public class FRBRManifestation extends FRBR {
    */
   public void setEli(final ManifestationEli eli) {
     NodeParser
-      .getMandatoryElementFromExpression("./FRBRthis", this.getNode())
+      .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
       .setAttribute("value", eli.toString());
   }
 }

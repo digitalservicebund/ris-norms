@@ -311,7 +311,7 @@ class MetaTest {
 
     meta.getOrCreateAnalysis();
     final var children = NodeParser
-      .nodeListToList(meta.getNode().getChildNodes())
+      .nodeListToList(meta.getElement().getChildNodes())
       .stream()
       .filter(node -> node.getNodeType() != Node.TEXT_NODE)
       .toList();
@@ -381,7 +381,7 @@ class MetaTest {
     );
 
     assertThat(meta.getOrCreateLifecycle()).isNotNull();
-    assertThat(((Element) meta.getOrCreateLifecycle().getNode()).getAttribute("GUID"))
+    assertThat(((Element) meta.getOrCreateLifecycle().getElement()).getAttribute("GUID"))
       .isEqualTo("4b31c2c4-6ecc-4f29-9f79-18149603114b");
   }
 
@@ -412,15 +412,16 @@ class MetaTest {
     );
 
     assertThat(meta.getOrCreateLifecycle()).isNotNull();
-    assertThat(((Element) meta.getOrCreateLifecycle().getNode()).getAttribute("GUID")).isNotNull();
-    assertThat(((Element) meta.getOrCreateLifecycle().getNode()).getAttribute("eId"))
+    assertThat(((Element) meta.getOrCreateLifecycle().getElement()).getAttribute("GUID"))
+      .isNotNull();
+    assertThat(((Element) meta.getOrCreateLifecycle().getElement()).getAttribute("eId"))
       .isEqualTo("meta-1_lebzykl-1");
-    assertThat(meta.getOrCreateLifecycle().getNode().getNextSibling())
-      .isEqualTo(meta.getProprietary().orElseThrow().getNode());
+    assertThat(meta.getOrCreateLifecycle().getElement().getNextSibling())
+      .isEqualTo(meta.getProprietary().orElseThrow().getElement());
 
     // calling it twice does not create another lifecycle element
-    assertThat(meta.getOrCreateLifecycle().getNode())
-      .isEqualTo(meta.getOrCreateLifecycle().getNode());
+    assertThat(meta.getOrCreateLifecycle().getElement())
+      .isEqualTo(meta.getOrCreateLifecycle().getElement());
   }
 
   @Test

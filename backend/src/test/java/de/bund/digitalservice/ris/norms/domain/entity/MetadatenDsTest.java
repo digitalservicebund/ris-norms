@@ -787,7 +787,7 @@ class MetadatenDsTest {
       assertThat(
         NodeParser.getNodeFromExpression(
           "./einzelelement[@href='#%s']".formatted(eid),
-          metadatenDs.getNode()
+          metadatenDs.getElement()
         )
       )
         .isEmpty();

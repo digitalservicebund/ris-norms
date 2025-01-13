@@ -15,8 +15,8 @@ import org.w3c.dom.Node;
 public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
 
   @Builder
-  public MetadatenDs(final Node node) {
-    super(node, "start", "end", Namespace.METADATEN_RIS);
+  public MetadatenDs(final Element element) {
+    super(element, "start", "end", Namespace.METADATEN_RIS);
   }
 
   /**
@@ -115,7 +115,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
     final LocalDate date
   ) {
     return NodeParser
-      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getElement())
       .flatMap(node -> new Einzelelement(node).getSimpleMetadatum(metadatumSingleElement, date));
   }
 
@@ -136,7 +136,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
     final String newValue
   ) {
     NodeParser
-      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getElement())
       .ifPresentOrElse(
         nodeFound -> {
           Einzelelement e = new Einzelelement(nodeFound);
@@ -163,7 +163,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
             final Element newElement = NodeCreator.createElement(
               getNamespace(),
               "einzelelement",
-              this.getNode()
+              this.getElement()
             );
             newElement.setAttribute("href", "#%s".formatted(eid));
             new Einzelelement(newElement)

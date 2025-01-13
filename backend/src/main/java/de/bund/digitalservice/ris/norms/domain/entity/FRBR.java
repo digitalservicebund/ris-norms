@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Class representing a generalization of FRBR elements. It cannot be instantiated itself because it
@@ -21,7 +20,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public abstract class FRBR {
 
-  private final Node node;
+  private final Element element;
   private static final String VALUE_ATTIBUTE = "value";
 
   /**
@@ -37,7 +36,9 @@ public abstract class FRBR {
    * @return An URI
    */
   public URI getURI() {
-    return URI.create(NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRuri/@value", node));
+    return URI.create(
+      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRuri/@value", element)
+    );
   }
 
   /**
@@ -46,10 +47,10 @@ public abstract class FRBR {
    * @param uri - the new URI
    */
   public void setURI(final URI uri) {
-    var optionalFRBRuri = NodeParser.getElementFromExpression("./FRBRuri", node);
+    var optionalFRBRuri = NodeParser.getElementFromExpression("./FRBRuri", element);
 
     if (optionalFRBRuri.isEmpty()) {
-      var newFRBRuri = NodeCreator.createElement(Namespace.INHALTSDATEN, "FRBRuri", node);
+      var newFRBRuri = NodeCreator.createElement(Namespace.INHALTSDATEN, "FRBRuri", element);
       newFRBRuri.setAttribute("GUID", UUID.randomUUID().toString());
       newFRBRuri.setAttribute(VALUE_ATTIBUTE, uri.toString());
       return;
@@ -64,7 +65,7 @@ public abstract class FRBR {
    * @return The FBRDate
    */
   public String getFBRDate() {
-    return NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRdate/@date", node);
+    return NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRdate/@date", element);
   }
 
   /**
@@ -74,8 +75,11 @@ public abstract class FRBR {
    * @param name - the new name
    */
   public void setFBRDate(final String date, final String name) {
-    final Element element = NodeParser.getMandatoryElementFromExpression("./FRBRdate", node);
-    element.setAttribute("date", date);
-    element.setAttribute("name", name);
+    final Element dateElement = NodeParser.getMandatoryElementFromExpression(
+      "./FRBRdate",
+      this.element
+    );
+    dateElement.setAttribute("date", date);
+    dateElement.setAttribute("name", name);
   }
 }

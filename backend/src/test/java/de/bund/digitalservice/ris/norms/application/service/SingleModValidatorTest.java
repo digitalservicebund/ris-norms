@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 class SingleModValidatorTest {
 
@@ -33,7 +33,7 @@ class SingleModValidatorTest {
     void oldTextIsEmpty() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -58,7 +58,7 @@ class SingleModValidatorTest {
     void oldTextNotTheSameInZf0Norm() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -83,7 +83,7 @@ class SingleModValidatorTest {
     void nodeWithGivenDestEidDoesNotExists() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -115,7 +115,7 @@ class SingleModValidatorTest {
     void validationSuccessful() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -131,7 +131,7 @@ class SingleModValidatorTest {
     void validationSuccessfulUntilEndOfParagraph() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -166,7 +166,7 @@ class SingleModValidatorTest {
     void validationSuccessfulStartingAt0() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -202,7 +202,7 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -267,7 +267,7 @@ class SingleModValidatorTest {
     void throwsExceptionWhenCharacterRangeIsMalformed(String cr, String message) {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -299,7 +299,7 @@ class SingleModValidatorTest {
     void ThrowsExceptionWhenCharacterRangeEndIsTooHigh() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -339,7 +339,7 @@ class SingleModValidatorTest {
     void validationSuccessNoUpTo() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -355,7 +355,7 @@ class SingleModValidatorTest {
     void validationSuccessWithUpTo() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -373,7 +373,7 @@ class SingleModValidatorTest {
     void upToNodeNotPresent() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -406,7 +406,7 @@ class SingleModValidatorTest {
     void upToNodeAndTargetNodeNotSiblings() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
@@ -441,7 +441,7 @@ class SingleModValidatorTest {
     void upToNodeBeforeTargetNode() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
-      final Node modNode = amendingNorm
+      final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )

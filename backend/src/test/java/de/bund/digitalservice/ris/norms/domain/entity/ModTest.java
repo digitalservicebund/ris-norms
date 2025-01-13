@@ -406,7 +406,9 @@ class ModTest {
     assertThat(targetRrefUpTo).isPresent();
     assertThat(targetRrefUpTo.get().value()).isEqualTo("new-destination-upto");
 
-    assertThat(NodeParser.getValueFromExpression("./rref/@GUID", quotedStructureRefMod.getNode()))
+    assertThat(
+      NodeParser.getValueFromExpression("./rref/@GUID", quotedStructureRefMod.getElement())
+    )
       .isPresent();
   }
 
@@ -421,7 +423,9 @@ class ModTest {
     assertThat(targetRefHref).isPresent();
     assertThat(targetRefHref.get().value()).isEqualTo("new-destination-href");
 
-    assertThat(NodeParser.getValueFromExpression("./ref/@GUID", quotedStructureRrefMod.getNode()))
+    assertThat(
+      NodeParser.getValueFromExpression("./ref/@GUID", quotedStructureRrefMod.getElement())
+    )
       .isPresent();
   }
 }

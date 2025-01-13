@@ -102,7 +102,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .getFirst()
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("eId")
@@ -113,7 +113,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .getFirst()
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("GUID")
@@ -126,7 +126,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .getFirst()
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getAttributes()
           .getNamedItem("GUID")
           .getNodeValue()
@@ -136,7 +136,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(0)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getAttributes()
           .getNamedItem("refersTo")
           .getNodeValue()
@@ -146,7 +146,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(0)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getAttributes()
           .getNamedItem("start")
           .getNodeValue()
@@ -161,7 +161,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(1)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("eId")
@@ -172,7 +172,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(1)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("GUID")
@@ -185,7 +185,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(1)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getAttributes()
           .getNamedItem("GUID")
           .getNodeValue()
@@ -195,7 +195,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(1)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getAttributes()
           .getNamedItem("refersTo")
           .getNodeValue()
@@ -205,7 +205,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(1)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getAttributes()
           .getNamedItem("start")
           .getNodeValue()

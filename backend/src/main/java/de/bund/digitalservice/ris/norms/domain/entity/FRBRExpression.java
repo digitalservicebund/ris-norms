@@ -8,7 +8,6 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /** Class representing the akn:FRBRExpression */
 @Getter
@@ -17,8 +16,8 @@ public class FRBRExpression extends FRBR {
 
   private static final String VALUE_ATTIBUTE = "value";
 
-  public FRBRExpression(final Node node) {
-    super(node);
+  public FRBRExpression(final Element element) {
+    super(element);
   }
 
   /**
@@ -28,7 +27,7 @@ public class FRBRExpression extends FRBR {
    */
   public ExpressionEli getEli() {
     return ExpressionEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getNode())
+      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getElement())
     );
   }
 
@@ -39,7 +38,7 @@ public class FRBRExpression extends FRBR {
    */
   public void setEli(final ExpressionEli eli) {
     NodeParser
-      .getMandatoryElementFromExpression("./FRBRthis", this.getNode())
+      .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
       .setAttribute(VALUE_ATTIBUTE, eli.toString());
   }
 
@@ -50,7 +49,7 @@ public class FRBRExpression extends FRBR {
    */
   public Optional<Integer> getFRBRVersionNumber() {
     return NodeParser
-      .getValueFromExpression("./FRBRversionNumber/@value", this.getNode())
+      .getValueFromExpression("./FRBRversionNumber/@value", this.getElement())
       .map(Integer::parseInt);
   }
 
@@ -61,7 +60,7 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRVersionNumber(final Integer version) {
     NodeParser
-      .getMandatoryElementFromExpression("./FRBRversionNumber", this.getNode())
+      .getMandatoryElementFromExpression("./FRBRversionNumber", this.getElement())
       .setAttribute(VALUE_ATTIBUTE, version.toString());
   }
 
@@ -72,7 +71,7 @@ public class FRBRExpression extends FRBR {
    */
   public Optional<UUID> getFRBRaliasPreviousVersionId() {
     return NodeParser
-      .getValueFromExpression("./FRBRalias[@name='vorherige-version-id']/@value", getNode())
+      .getValueFromExpression("./FRBRalias[@name='vorherige-version-id']/@value", getElement())
       .map(UUID::fromString);
   }
 
@@ -83,18 +82,18 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRaliasPreviousVersionId(final UUID uuid) {
     NodeParser
-      .getElementFromExpression("./FRBRalias[@name='vorherige-version-id']", getNode())
+      .getElementFromExpression("./FRBRalias[@name='vorherige-version-id']", getElement())
       .orElseGet(() -> {
         final Element newElement = NodeCreator.createElementWithEidAndGuid(
           "akn:FRBRalias",
-          getNode()
+          getElement()
         );
         newElement.setAttribute("name", "vorherige-version-id");
         newElement.setAttribute(VALUE_ATTIBUTE, uuid.toString());
 
         // FRBR metadata needs to be in the correct order, so we're inserting it before the author, which is the
         // element that has to follow the aliases in a valid document.
-        getNode().insertBefore(newElement, getFRBRAuthorNode());
+        getElement().insertBefore(newElement, getFRBRAuthorNode());
 
         return newElement;
       })
@@ -110,7 +109,7 @@ public class FRBRExpression extends FRBR {
     return UUID.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression(
         "./FRBRalias[@name='aktuelle-version-id']/@value",
-        getNode()
+        getElement()
       )
     );
   }
@@ -122,7 +121,7 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRaliasCurrentVersionId(final UUID uuid) {
     NodeParser
-      .getMandatoryElementFromExpression("./FRBRalias[@name='aktuelle-version-id']", getNode())
+      .getMandatoryElementFromExpression("./FRBRalias[@name='aktuelle-version-id']", getElement())
       .setAttribute(VALUE_ATTIBUTE, uuid.toString());
   }
 
@@ -133,7 +132,7 @@ public class FRBRExpression extends FRBR {
    */
   public Optional<UUID> getFRBRaliasNextVersionId() {
     return NodeParser
-      .getValueFromExpression("./FRBRalias[@name='nachfolgende-version-id']/@value", getNode())
+      .getValueFromExpression("./FRBRalias[@name='nachfolgende-version-id']/@value", getElement())
       .map(UUID::fromString);
   }
 
@@ -144,18 +143,18 @@ public class FRBRExpression extends FRBR {
    */
   public void setFRBRaliasNextVersionId(final UUID uuid) {
     NodeParser
-      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getElement())
       .orElseGet(() -> {
         final Element nextVersionAlias = NodeCreator.createElementWithEidAndGuid(
           "akn:FRBRalias",
-          getNode()
+          getElement()
         );
         nextVersionAlias.setAttribute("name", "nachfolgende-version-id");
         nextVersionAlias.setAttribute(VALUE_ATTIBUTE, uuid.toString());
 
         // FRBR metadata needs to be in the correct order, so we're inserting it before the author, which is the
         // element that has to follow the aliases in a valid document.
-        getNode().insertBefore(nextVersionAlias, getFRBRAuthorNode());
+        getElement().insertBefore(nextVersionAlias, getFRBRAuthorNode());
 
         return nextVersionAlias;
       })
@@ -168,7 +167,7 @@ public class FRBRExpression extends FRBR {
    */
   public void deleteAliasNextVersionId() {
     NodeParser
-      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
+      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getElement())
       .ifPresent(node -> node.getParentNode().removeChild(node));
   }
 
@@ -178,11 +177,11 @@ public class FRBRExpression extends FRBR {
    * @return The FRBRlanguage
    */
   public Optional<String> getFRBRlanguage() {
-    return NodeParser.getValueFromExpression("./FRBRlanguage/@language", getNode());
+    return NodeParser.getValueFromExpression("./FRBRlanguage/@language", getElement());
   }
 
   private Element getFRBRAuthorNode() {
-    return NodeParser.getMandatoryElementFromExpression("./FRBRauthor", getNode());
+    return NodeParser.getMandatoryElementFromExpression("./FRBRauthor", getElement());
   }
 
   /**

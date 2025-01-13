@@ -7,7 +7,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /**
  * Encapsulates metadata that is found in the proprietary section of the document. This includes
@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 public class Proprietary {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Retrieves the optional {@link MetadatenDe} instance from the {@link Proprietary}.
@@ -29,7 +29,7 @@ public class Proprietary {
     return NodeParser
       .getElementFromExpression(
         "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-        node
+        element
       )
       .map(MetadatenDe::new);
   }
@@ -43,14 +43,14 @@ public class Proprietary {
     return NodeParser
       .getElementFromExpression(
         "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-        node
+        element
       )
       .map(MetadatenDe::new)
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElement(
           Namespace.METADATEN,
           "legalDocML.de_metadaten",
-          node
+          element
         );
         return new MetadatenDe(newElement);
       });
@@ -65,7 +65,7 @@ public class Proprietary {
     return NodeParser
       .getElementFromExpression(
         "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-        node
+        element
       )
       .map(MetadatenDs::new);
   }
@@ -79,14 +79,14 @@ public class Proprietary {
     return NodeParser
       .getElementFromExpression(
         "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-        node
+        element
       )
       .map(MetadatenDs::new)
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElement(
           Namespace.METADATEN_RIS,
           "legalDocML.de_metadaten",
-          node
+          element
         );
         return new MetadatenDs(newElement);
       });
@@ -101,7 +101,7 @@ public class Proprietary {
     return NodeParser
       .getElementFromExpression(
         "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-        node
+        element
       )
       .map(MetadatenBund::new);
   }
@@ -115,14 +115,14 @@ public class Proprietary {
     return NodeParser
       .getElementFromExpression(
         "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
-        node
+        element
       )
       .map(MetadatenBund::new)
       .orElseGet(() -> {
         final var newElement = NodeCreator.createElement(
           Namespace.METADATEN_BUNDESREGIERUNG,
           "legalDocML.de_metadaten",
-          node
+          element
         );
         return new MetadatenBund(newElement);
       });

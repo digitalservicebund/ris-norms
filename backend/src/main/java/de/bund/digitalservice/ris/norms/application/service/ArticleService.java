@@ -52,7 +52,7 @@ public class ArticleService
       .stream()
       .filter(article -> article.getEid().equals(query.eid()))
       .findFirst()
-      .map(article -> XmlMapper.toString(article.getNode()))
+      .map(article -> XmlMapper.toString(article.getElement()))
       .map(xml ->
         xsltTransformationService.transformLegalDocMlToHtml(
           new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
@@ -137,7 +137,7 @@ public class ArticleService
       throw new ArticleOfTypeNotFoundException(query.eli().toString(), query.refersTo());
     }
 
-    return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
+    return articles.stream().map(a -> XmlMapper.toString(a.getElement())).toList();
   }
 
   private Predicate<Article> createPassiveModFilter(final List<TextualMod> mods) {
