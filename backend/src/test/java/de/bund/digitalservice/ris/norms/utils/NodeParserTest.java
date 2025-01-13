@@ -225,25 +225,25 @@ class NodeParserTest {
 
     @Test
     void returnTrueIfNodeIsEmpty() {
-      Node node = XmlMapper.toNode("<foo></foo>");
+      Node node = XmlMapper.toElement("<foo></foo>");
       assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isTrue();
     }
 
     @Test
     void returnTrueIfNodeContentIsOnlyWhitespace() {
-      Node node = XmlMapper.toNode("<foo>\n\t  </foo>");
+      Node node = XmlMapper.toElement("<foo>\n\t  </foo>");
       assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isTrue();
     }
 
     @Test
     void returnFalseIfNodeHasTextContent() {
-      Node node = XmlMapper.toNode("<foo>Bar</foo>");
+      Node node = XmlMapper.toElement("<foo>Bar</foo>");
       assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isFalse();
     }
 
     @Test
     void returnFalseIfNodeHasChildNode() {
-      Node node = XmlMapper.toNode("<foo><bar></bar></foo>");
+      Node node = XmlMapper.toElement("<foo><bar></bar></foo>");
       assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isFalse();
     }
   }

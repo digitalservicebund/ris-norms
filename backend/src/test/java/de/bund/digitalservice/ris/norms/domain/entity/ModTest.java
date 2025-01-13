@@ -66,9 +66,9 @@ class ModTest {
 
   @BeforeEach
   void setUp() {
-    quotedTextMod = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD));
-    quotedStructureRefMod = new Mod(XmlMapper.toNode(QUOTED_STRUCTURE_REF_MOD));
-    quotedStructureRrefMod = new Mod(XmlMapper.toNode(QUOTED_STRUCTURE_RREF_MOD));
+    quotedTextMod = new Mod(XmlMapper.toElement(QUOTED_TEXT_MOD));
+    quotedStructureRefMod = new Mod(XmlMapper.toElement(QUOTED_STRUCTURE_REF_MOD));
+    quotedStructureRrefMod = new Mod(XmlMapper.toElement(QUOTED_STRUCTURE_RREF_MOD));
   }
 
   @Test
@@ -118,7 +118,7 @@ class ModTest {
       ersetzt.</akn:mod>
       """;
 
-    Mod quotedTextModWithRef = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF));
+    Mod quotedTextModWithRef = new Mod(XmlMapper.toElement(QUOTED_TEXT_MOD_WITH_REF));
     // when
     quotedTextModWithRef.setNewText("new text");
     var newText = quotedTextModWithRef.getNewText();
@@ -146,7 +146,7 @@ class ModTest {
       ersetzt.</akn:mod>
       """;
 
-    Mod quotedTextModWithRef = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF));
+    Mod quotedTextModWithRef = new Mod(XmlMapper.toElement(QUOTED_TEXT_MOD_WITH_REF));
     // when
     quotedTextModWithRef.setNewText("new text");
     var newText = quotedTextModWithRef.getNewText();
@@ -289,7 +289,7 @@ class ModTest {
   @Test
   void quotedTextContainsRef() {
     final Mod mod = new Mod(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
               GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
@@ -320,7 +320,7 @@ class ModTest {
   @Test
   void quotedStructureContainsRef() {
     final Mod mod = new Mod(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                         <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der
                   <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt durch:
@@ -348,7 +348,7 @@ class ModTest {
                       <akn:rref from="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-1.xml" upTo="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-4.xml">§ 9 Absatz 1 bis 4</akn:rref> des Gesetzes wird ersetzt durch:
             </akn:mod>
       """;
-    quotedStructureRefMod = new Mod(XmlMapper.toNode(rangeRefString));
+    quotedStructureRefMod = new Mod(XmlMapper.toElement(rangeRefString));
 
     // when
     var result = quotedStructureRefMod.hasRref();
@@ -365,7 +365,7 @@ class ModTest {
         <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt
       </akn:mod>
       """;
-    quotedStructureRefMod = new Mod(XmlMapper.toNode(rangeRefString));
+    quotedStructureRefMod = new Mod(XmlMapper.toElement(rangeRefString));
 
     // when
     var result = quotedStructureRefMod.hasRref();

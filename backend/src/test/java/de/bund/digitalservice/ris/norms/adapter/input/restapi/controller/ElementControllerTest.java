@@ -152,7 +152,7 @@ class ElementControllerTest {
           )
         )
       )
-        .thenReturn(XmlMapper.toNode(elementNode));
+        .thenReturn(XmlMapper.toElement(elementNode));
 
       // when
       mockMvc

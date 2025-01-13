@@ -15,7 +15,7 @@ class FRBRWorkTest {
   @Test
   void getFRBRthisEli() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
          <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                    <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/regelungstext-1"/>
@@ -33,7 +33,7 @@ class FRBRWorkTest {
   @Test
   void setFRBRthisEli() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -53,7 +53,7 @@ class FRBRWorkTest {
   @Test
   void getFBRDate() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -72,7 +72,7 @@ class FRBRWorkTest {
   @Test
   void getFBRDateNotFound() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -89,7 +89,7 @@ class FRBRWorkTest {
   @Test
   void setFBRDate() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -110,7 +110,7 @@ class FRBRWorkTest {
   @Test
   void getFRBRname() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
                         <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593"/>
@@ -127,7 +127,7 @@ class FRBRWorkTest {
   @Test
   void getFRBRnameEmpty() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
                         <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593"/>
@@ -143,7 +143,7 @@ class FRBRWorkTest {
   @Test
   void getFRBRnumber() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
                         <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593"/>
@@ -160,7 +160,7 @@ class FRBRWorkTest {
   @Test
   void getFRBRnumberEmpty() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
                         <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I"/>
@@ -176,7 +176,7 @@ class FRBRWorkTest {
   @Test
   void setFRBRName() {
     final FRBRWork frbrWork = new FRBRWork(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
            <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="bgbl-1"/>
@@ -192,7 +192,7 @@ class FRBRWorkTest {
 
   @Test
   void setFRBRAuthor() {
-    final Node node = XmlMapper.toNode(
+    final Node node = XmlMapper.toElement(
       """
       <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
           <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" GUID="27fa3047-26e1-4c59-8701-76dd34043d71" href="recht.bund.de/institution/bundesregierung"/>

@@ -47,7 +47,7 @@ class EIdTest {
   @Test
   void fromNode() {
     // given
-    var node = XmlMapper.toNode(
+    var node = XmlMapper.toElement(
       "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\" />"
     );
     // when
@@ -60,7 +60,7 @@ class EIdTest {
   @Test
   void fromMandatoryNode() {
     // given
-    var node = XmlMapper.toNode(
+    var node = XmlMapper.toElement(
       "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\" />"
     );
     // when
@@ -72,7 +72,7 @@ class EIdTest {
   @Test
   void fromMandatoryNodeThrowsMandatoryNodeNotFoundException() {
     // given
-    var node = XmlMapper.toNode(
+    var node = XmlMapper.toElement(
       "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\" eId=\"\" />"
     );
 
@@ -93,7 +93,7 @@ class EIdTest {
       }
     )
     void itShouldProvideEIdForNode(String xml, String expectedEId) {
-      var node = XmlMapper.toNode(xml);
+      var node = XmlMapper.toElement(xml);
       // when
       var optionalEId = EId.forNode(node);
       // then
@@ -105,7 +105,7 @@ class EIdTest {
 
     @Test
     void itShouldProvideEIdForNodeWithParent() {
-      var node = XmlMapper.toNode(
+      var node = XmlMapper.toElement(
         "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\"><akn:p>Some text</akn:p></akn:mod>"
       );
       // when
@@ -120,7 +120,7 @@ class EIdTest {
 
     @Test
     void itShouldProvideEIdForNodeWithSiblingsWithSameEIdTypeWithoutNestedNum() {
-      var node = XmlMapper.toNode(
+      var node = XmlMapper.toElement(
         "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\" eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3\"><akn:p eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1\">Some text 1</akn:p><akn:ref eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_ref-1\">Some other element</akn:ref><akn:p eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1\">Some text 2</akn:p><akn:p eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-2\">Some text 3</akn:p></akn:mod>"
       );
       // when

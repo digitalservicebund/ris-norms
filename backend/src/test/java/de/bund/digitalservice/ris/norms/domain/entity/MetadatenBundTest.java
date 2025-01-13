@@ -11,7 +11,7 @@ class MetadatenBundTest {
   @Test
   void getRessort() {
     final MetadatenBund metadatenBund = new MetadatenBund(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
             <meta:federfuehrung>
@@ -56,7 +56,7 @@ class MetadatenBundTest {
   @Test
   void getRessortNotPresent() {
     final MetadatenBund metadatenBund = new MetadatenBund(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
             </meta:legalDocML.de_metadaten>
@@ -71,7 +71,7 @@ class MetadatenBundTest {
   @Test
   void setRessortUpdate() {
     final MetadatenBund metadatenBund = new MetadatenBund(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
             <meta:federfuehrung>
@@ -98,7 +98,7 @@ class MetadatenBundTest {
   @Test
   void setRessortCreate() {
     final MetadatenBund metadatenBund = new MetadatenBund(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
             <meta:federfuehrung>

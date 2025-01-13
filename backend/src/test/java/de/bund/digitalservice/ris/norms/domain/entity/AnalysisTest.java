@@ -11,7 +11,7 @@ class AnalysisTest {
   @Test
   void getActiveModifications() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
           <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
             <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -38,7 +38,7 @@ class AnalysisTest {
   @Test
   void getActiveModificationsEmpty() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
@@ -53,7 +53,7 @@ class AnalysisTest {
   @Test
   void getPassiveModifications() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -80,7 +80,7 @@ class AnalysisTest {
   @Test
   void getPassiveModificationsEmpty() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
@@ -95,7 +95,7 @@ class AnalysisTest {
   @Test
   void getPassiveModificationsNode() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
@@ -127,7 +127,7 @@ class AnalysisTest {
   @Test
   void getPassiveModificationsNodeEmpty() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
@@ -145,7 +145,7 @@ class AnalysisTest {
   @Test
   void itShouldCreatesThePassiveModificationsNodeIfItDoesNotExist() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
@@ -164,7 +164,7 @@ class AnalysisTest {
   @Test
   void itShouldFindThePassiveModificationsNodeIfItExists() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
@@ -196,7 +196,7 @@ class AnalysisTest {
   @Test
   void itShouldCreateANewPassiveModificationWithoutUpTo() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
@@ -239,7 +239,7 @@ class AnalysisTest {
   @Test
   void itShouldCreateANewPassiveModificationWithUpTo() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="72cd555b-de7d-4d5e-ba2e-4dc50800400f" eId="meta-1_analysis-1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications GUID="ca13a0cc-8f37-42c7-920b-f0d2fb59c81c" eId="meta-1_analysis-1_activemod-1">
@@ -284,7 +284,7 @@ class AnalysisTest {
   @Test
   void itShouldDeleteAPassiveModificationsNodeIfItExists() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
@@ -317,7 +317,7 @@ class AnalysisTest {
   @Test
   void itShouldDeletePassiveModificationsIfItIsEmptyAfterDeletingAPassiveModification() {
     final Analysis analysis = new Analysis(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">

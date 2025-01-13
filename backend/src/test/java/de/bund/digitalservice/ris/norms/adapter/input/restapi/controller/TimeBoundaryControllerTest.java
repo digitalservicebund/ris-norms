@@ -81,9 +81,9 @@ class TimeBoundaryControllerTest {
 
       List<TimeBoundary> timeBoundaries = List.of(
         new TimeBoundary(
-          new TimeInterval(XmlMapper.toNode(timeInterval)),
-          new EventRef(XmlMapper.toNode(eventRef)),
-          new TemporalGroup(XmlMapper.toNode(temporalGroup))
+          new TimeInterval(XmlMapper.toElement(timeInterval)),
+          new EventRef(XmlMapper.toElement(eventRef)),
+          new TemporalGroup(XmlMapper.toElement(temporalGroup))
         )
       );
 
@@ -127,9 +127,9 @@ class TimeBoundaryControllerTest {
 
       List<TimeBoundary> timeBoundaries = List.of(
         new TimeBoundary(
-          new TimeInterval(XmlMapper.toNode(timeInterval)),
-          new EventRef(XmlMapper.toNode(eventRef)),
-          new TemporalGroup(XmlMapper.toNode(temporalGroup))
+          new TimeInterval(XmlMapper.toElement(timeInterval)),
+          new EventRef(XmlMapper.toElement(eventRef)),
+          new TemporalGroup(XmlMapper.toElement(temporalGroup))
         )
       );
 
@@ -195,9 +195,9 @@ class TimeBoundaryControllerTest {
 
       List<TimeBoundary> timeBoundaries = List.of(
         new TimeBoundary(
-          new TimeInterval(XmlMapper.toNode(timeInterval1)),
-          new EventRef(XmlMapper.toNode(eventRef1)),
-          new TemporalGroup(XmlMapper.toNode(temporalGroup))
+          new TimeInterval(XmlMapper.toElement(timeInterval1)),
+          new EventRef(XmlMapper.toElement(eventRef1)),
+          new TemporalGroup(XmlMapper.toElement(temporalGroup))
         )
       );
 

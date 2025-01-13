@@ -15,7 +15,7 @@ class EinzelelementTest {
     @Test
     void getArtDerNormAtDate() {
       final Einzelelement e = new Einzelelement(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                       <ris:einzelelement xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" href="#hauptteil-1_abschnitt-0_art-1">
               <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>

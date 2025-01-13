@@ -17,7 +17,7 @@ class MetadatenDsTest {
     @Test
     void getFnaAtDate() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
@@ -76,7 +76,7 @@ class MetadatenDsTest {
     @Test
     void setFnaAtDateUpdate() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
@@ -102,7 +102,7 @@ class MetadatenDsTest {
     @Test
     void setFnaAtDateCreateWithUnbestimmtEnd() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
               </ris:legalDocML.de_metadaten>
@@ -132,7 +132,7 @@ class MetadatenDsTest {
     @Test
     void setFnaAtDateCreateWithEnd() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
@@ -164,7 +164,7 @@ class MetadatenDsTest {
     @Test
     void setFnaAtDateCreateAndUpdatePreviousUnbestimmtEnd() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
@@ -207,7 +207,7 @@ class MetadatenDsTest {
     @Test
     void setSubtypAtDateCreateAndSetDefaultWithEnd() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
               <ris:subtyp>subtyp0</ris:subtyp>
@@ -241,7 +241,7 @@ class MetadatenDsTest {
     @Test
     void removeNodeIfSetWithNull() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
@@ -266,7 +266,7 @@ class MetadatenDsTest {
     @Test
     void removeNothingIfNodeNotPresent() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
@@ -293,7 +293,7 @@ class MetadatenDsTest {
     @Test
     void getAttributeAtDate() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
@@ -375,7 +375,7 @@ class MetadatenDsTest {
     @Test
     void setAttributeAtDateUpdate() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
@@ -411,7 +411,7 @@ class MetadatenDsTest {
     @Test
     void setAttributeAtDateCreate() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
@@ -447,7 +447,7 @@ class MetadatenDsTest {
     @Test
     void setAttributeAtDateParentNotPresent() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
@@ -484,7 +484,7 @@ class MetadatenDsTest {
     @Test
     void removeAttributeAtValueNull() {
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
@@ -528,7 +528,7 @@ class MetadatenDsTest {
     void getEinzelelementArtDerNormAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                           <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
@@ -626,7 +626,7 @@ class MetadatenDsTest {
     void createEinzelelementNode() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
               </ris:legalDocML.de_metadaten>
@@ -655,7 +655,7 @@ class MetadatenDsTest {
     void updateEinzelelementBetweenDates() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
@@ -689,7 +689,7 @@ class MetadatenDsTest {
     void updateEinzelelementAtStartDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
@@ -723,7 +723,7 @@ class MetadatenDsTest {
     void resetEinzelelementAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
@@ -757,7 +757,7 @@ class MetadatenDsTest {
     void resetLastEinzelelementAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final MetadatenDs metadatenDs = new MetadatenDs(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">

@@ -11,7 +11,7 @@ class SimpleProprietaryTest {
   @Test
   void getValue() {
     final SimpleProprietary fna = new SimpleProprietary(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
         """
@@ -24,7 +24,7 @@ class SimpleProprietaryTest {
   @Test
   void getValueNull() {
     final SimpleProprietary fna = new SimpleProprietary(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" start="1990-01-01" end="1994-12-31"></ris:fna>
         """
@@ -37,7 +37,7 @@ class SimpleProprietaryTest {
   @Test
   void getStart() {
     final SimpleProprietary fna = new SimpleProprietary(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
         """
@@ -50,7 +50,7 @@ class SimpleProprietaryTest {
   @Test
   void getStartEmpty() {
     final SimpleProprietary fna = new SimpleProprietary(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" end="1994-12-31">111-11-1</ris:fna>
         """
@@ -63,7 +63,7 @@ class SimpleProprietaryTest {
   @Test
   void getEnd() {
     final SimpleProprietary fna = new SimpleProprietary(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
         """
@@ -76,7 +76,7 @@ class SimpleProprietaryTest {
   @Test
   void getEndEmpty() {
     final SimpleProprietary fna = new SimpleProprietary(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <ris:fna xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" start="1990-01-01">111-11-1</ris:fna>
         """

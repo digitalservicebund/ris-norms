@@ -16,7 +16,7 @@ class MetaTest {
   @Test
   void getFRBRExpression() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -38,7 +38,7 @@ class MetaTest {
   @Test
   void getFRBRExpressionNotFound() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -60,7 +60,7 @@ class MetaTest {
   @Test
   void getFRBRManifestation() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -82,7 +82,7 @@ class MetaTest {
   @Test
   void getFRBRManifestationNotFound() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -105,7 +105,7 @@ class MetaTest {
   @Test
   void getFRBRWork() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -127,7 +127,7 @@ class MetaTest {
   @Test
   void getFRBRWorkNotFound() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -149,7 +149,7 @@ class MetaTest {
   @Test
   void getTemporalData() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                  <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
@@ -173,7 +173,7 @@ class MetaTest {
   @Test
   void getTemporalDataNotFound() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -195,7 +195,7 @@ class MetaTest {
   @Test
   void getTemporalDataCreate() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -218,7 +218,7 @@ class MetaTest {
   @Test
   void getAnalysis() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
@@ -243,7 +243,7 @@ class MetaTest {
   @Test
   void getAnalysisEmpty() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                      <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -267,7 +267,7 @@ class MetaTest {
   @Test
   void getAnalysisCreate() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                      <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -292,7 +292,7 @@ class MetaTest {
   @Test
   void insertsAnalysisInOrder() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
           <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -324,7 +324,7 @@ class MetaTest {
   @Test
   void getLifecycle() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
@@ -344,7 +344,7 @@ class MetaTest {
   @Test
   void getLifecycleNotFound() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -366,7 +366,7 @@ class MetaTest {
   @Test
   void getOrCreateLifecycle() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
               <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
@@ -388,7 +388,7 @@ class MetaTest {
   @Test
   void getOrCreateLifecycleMissingLifecycle() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
          <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -426,7 +426,7 @@ class MetaTest {
   @Test
   void getOrCreateProprietary() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
           <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
@@ -472,7 +472,7 @@ class MetaTest {
   @Test
   void returnsOptionalProprietaryIfItExists() {
     final Meta meta = new Meta(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
           <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">

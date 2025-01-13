@@ -11,7 +11,7 @@ class TemporalDataTest {
   void getTemporalGroups() {
     // given
     final TemporalData temporalData = new TemporalData(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
                      <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
@@ -34,7 +34,7 @@ class TemporalDataTest {
   void getTemporalGroupsEmptyList() {
     // given
     final TemporalData temporalData = new TemporalData(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
          </akn:temporalData>
