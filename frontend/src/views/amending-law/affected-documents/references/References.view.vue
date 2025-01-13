@@ -10,7 +10,7 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
 /* -------------------------------------------------- *
@@ -90,6 +90,15 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   },
   { key: "textMetadataEditor", title: "Textbasierte Metadaten" },
 ])
+
+watch(
+  () => amendingNormXmlError?.value,
+  (err) => {
+    if (err?.status === 404) {
+      router.push({ name: "NotFound" })
+    }
+  },
+)
 </script>
 
 <template>
@@ -106,7 +115,11 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     </div>
 
     <div
-      v-else-if="amendingNormError || affectedNormError || amendingNormXmlError"
+      v-else-if="
+        amendingNormError ||
+        affectedNormError ||
+        (amendingNormXmlError && amendingNormXmlError.status !== 404)
+      "
       class="p-24"
     >
       <RisErrorCallout

@@ -13,7 +13,9 @@ import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
 import { onUnmounted, ref, watch } from "vue"
+import { useRouter } from "vue-router"
 
+const router = useRouter()
 const eli = useEliPathParameter()
 const dates = ref<TemporalDataResponse[]>([])
 const {
@@ -67,6 +69,15 @@ function handleSaveTemporalData(event: MouseEvent) {
   event.preventDefault()
   saveTemporalData()
 }
+
+watch(
+  [() => entryIntoForceError?.value, () => loadTimeBoundariesError?.value],
+  ([entryError, timeBoundariesError]) => {
+    if (entryError?.status === 404 || timeBoundariesError?.status === 404) {
+      router.push({ name: "NotFound" })
+    }
+  },
+)
 </script>
 
 <template>
@@ -79,13 +90,19 @@ function handleSaveTemporalData(event: MouseEvent) {
       </div>
     </template>
 
-    <template v-else-if="entryIntoForceError">
+    <template
+      v-else-if="entryIntoForceError && entryIntoForceError.status !== 404"
+    >
       <div class="col-span-3">
         <RisErrorCallout :error="entryIntoForceError" />
       </div>
     </template>
 
-    <template v-else-if="loadTimeBoundariesError">
+    <template
+      v-else-if="
+        loadTimeBoundariesError && loadTimeBoundariesError.status !== 404
+      "
+    >
       <div class="col-span-3">
         <RisErrorCallout :error="loadTimeBoundariesError" />
       </div>

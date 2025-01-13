@@ -27,4 +27,12 @@ public class TemporalData {
       .map(TemporalGroup::new)
       .toList();
   }
+
+  /**
+   * Add a new akn:temporalGroup element to this element.
+   * @return the newly created {@link TemporalGroup}
+   */
+  public TemporalGroup addTemporalGroup() {
+    return TemporalGroup.createAndAppend(getNode());
+  }
 }

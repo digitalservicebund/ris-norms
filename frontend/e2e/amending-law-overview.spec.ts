@@ -59,3 +59,53 @@ test("should display a loading error message when the API call fails", async ({
 
   await page.unrouteAll()
 })
+
+test("should redirect to the 404 page when the amending law JSON does not exist", async ({
+  page,
+}) => {
+  await page.route(
+    "**/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1?",
+    async (route, request) => {
+      if (request.headers()["accept"] === "application/json") {
+        await route.fulfill({
+          status: 404,
+        })
+      } else {
+        await route.continue()
+      }
+    },
+  )
+
+  await page.goto(
+    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+  )
+
+  await expect(
+    page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+  ).toBeVisible()
+})
+
+test("should redirect to the 404 page when the amending law HTML does not exist", async ({
+  page,
+}) => {
+  await page.route(
+    "**/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1?",
+    async (route, request) => {
+      if (request.headers()["accept"] === "text/html") {
+        await route.fulfill({
+          status: 404,
+        })
+      } else {
+        await route.continue()
+      }
+    },
+  )
+
+  await page.goto(
+    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+  )
+
+  await expect(
+    page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+  ).toBeVisible()
+})

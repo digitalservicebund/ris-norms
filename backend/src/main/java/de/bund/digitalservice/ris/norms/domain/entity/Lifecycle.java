@@ -27,4 +27,12 @@ public class Lifecycle {
       .map(EventRef::new)
       .toList();
   }
+
+  /**
+   * Add a new akn:eventRef element to this element.
+   * @return the newly created {@link EventRef}
+   */
+  public EventRef addEventRef() {
+    return EventRef.createAndAppend(getNode());
+  }
 }

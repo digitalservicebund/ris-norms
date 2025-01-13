@@ -23,7 +23,9 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { useDebounce } from "@vueuse/core"
 import { computed, Ref, ref, toValue, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import { useRouter } from "vue-router"
 
+const router = useRouter()
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
 const {
@@ -131,6 +133,12 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
     selectAllMods()
   }
 }
+
+watch(loadXmlError, (err) => {
+  if (err?.status === 404) {
+    router.push({ name: "NotFound" })
+  }
+})
 </script>
 
 <template>
@@ -169,7 +177,10 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
             </div>
 
             <div v-else-if="loadXmlError">
-              <RisErrorCallout :error="loadXmlError" />
+              <RisErrorCallout
+                v-if="loadXmlError.status !== 404"
+                :error="loadXmlError"
+              />
             </div>
 
             <RisTabs

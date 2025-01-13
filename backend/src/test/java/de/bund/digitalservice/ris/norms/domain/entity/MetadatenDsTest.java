@@ -16,20 +16,17 @@ class MetadatenDsTest {
 
     @Test
     void getFnaAtDate() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
-                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                  <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                  <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       assertThat(
         metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("1980-01-01"))
@@ -78,20 +75,17 @@ class MetadatenDsTest {
 
     @Test
     void setFnaAtDateUpdate() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
-                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                  <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                  <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1990-01-01");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
@@ -107,17 +101,14 @@ class MetadatenDsTest {
 
     @Test
     void setFnaAtDateCreateWithUnbestimmtEnd() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1980-01-01");
 
@@ -140,20 +131,17 @@ class MetadatenDsTest {
 
     @Test
     void setFnaAtDateCreateWithEnd() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
-                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                  <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                  <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1980-01-01");
       assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
@@ -175,20 +163,17 @@ class MetadatenDsTest {
 
     @Test
     void setFnaAtDateCreateAndUpdatePreviousUnbestimmtEnd() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
-                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                  <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                  <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("2005-01-01");
       assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
@@ -221,18 +206,15 @@ class MetadatenDsTest {
 
     @Test
     void setSubtypAtDateCreateAndSetDefaultWithEnd() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                <ris:subtyp>subtyp0</ris:subtyp>
-            </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+          <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:subtyp>subtyp0</ris:subtyp>
+          </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("2005-01-01");
       assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
@@ -258,20 +240,17 @@ class MetadatenDsTest {
 
     @Test
     void removeNodeIfSetWithNull() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                    <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
-                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                  <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                  <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1995-01-01");
       assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
@@ -286,19 +265,16 @@ class MetadatenDsTest {
 
     @Test
     void removeNothingIfNodeNotPresent() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                    <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                  <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1995-01-01");
       assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
@@ -316,20 +292,17 @@ class MetadatenDsTest {
 
     @Test
     void getAttributeAtDate() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       assertThat(
         metadatenDs.getAttributeOfSimpleMetadatumAt(
@@ -401,18 +374,15 @@ class MetadatenDsTest {
 
     @Test
     void setAttributeAtDateUpdate() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1990-01-01");
       assertThat(
@@ -440,18 +410,15 @@ class MetadatenDsTest {
 
     @Test
     void setAttributeAtDateCreate() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1990-01-01");
       assertThat(
@@ -479,19 +446,16 @@ class MetadatenDsTest {
 
     @Test
     void setAttributeAtDateParentNotPresent() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("1990-01-01");
       assertThat(
@@ -519,19 +483,16 @@ class MetadatenDsTest {
 
     @Test
     void removeAttributeAtValueNull() {
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
-                    <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt"></ris:beschliessendesOrgan>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
+                  <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt"></ris:beschliessendesOrgan>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       final LocalDate newDate = LocalDate.parse("2002-01-01");
       assertThat(
@@ -566,22 +527,19 @@ class MetadatenDsTest {
     @Test
     void getEinzelelementArtDerNormAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                            <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                        <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                        <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                        <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-                    </ris:einzelelement>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                          <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                  </ris:einzelelement>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       assertThat(
         metadatenDs.getSingleElementSimpleMetadatum(
@@ -667,17 +625,14 @@ class MetadatenDsTest {
     @Test
     void createEinzelelementNode() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       metadatenDs.updateSingleElementSimpleMetadatum(
         Einzelelement.Metadata.ART_DER_NORM,
@@ -699,22 +654,19 @@ class MetadatenDsTest {
     @Test
     void updateEinzelelementBetweenDates() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                          <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-                  </ris:einzelelement>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                        <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                    <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                    <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                    <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                </ris:einzelelement>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       metadatenDs.updateSingleElementSimpleMetadatum(
         Einzelelement.Metadata.ART_DER_NORM,
@@ -736,22 +688,19 @@ class MetadatenDsTest {
     @Test
     void updateEinzelelementAtStartDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                          <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-                  </ris:einzelelement>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                        <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                    <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                    <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                    <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                </ris:einzelelement>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       metadatenDs.updateSingleElementSimpleMetadatum(
         Einzelelement.Metadata.ART_DER_NORM,
@@ -773,22 +722,19 @@ class MetadatenDsTest {
     @Test
     void resetEinzelelementAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                          <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-                  </ris:einzelelement>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                        <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                    <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                    <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                    <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                </ris:einzelelement>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       metadatenDs.updateSingleElementSimpleMetadatum(
         Einzelelement.Metadata.ART_DER_NORM,
@@ -810,20 +756,17 @@ class MetadatenDsTest {
     @Test
     void resetLastEinzelelementAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final MetadatenDs metadatenDs = MetadatenDs
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                          <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                      <ris:artDerNorm end="unbestimmt" start="1980-01-01">SN</ris:artDerNorm>
-                  </ris:einzelelement>
-                </ris:legalDocML.de_metadaten>
-            """
-          )
+      final MetadatenDs metadatenDs = new MetadatenDs(
+        XmlMapper.toNode(
+          """
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                        <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                    <ris:artDerNorm end="unbestimmt" start="1980-01-01">SN</ris:artDerNorm>
+                </ris:einzelelement>
+              </ris:legalDocML.de_metadaten>
+          """
         )
-        .build();
+      );
 
       metadatenDs.updateSingleElementSimpleMetadatum(
         Einzelelement.Metadata.ART_DER_NORM,

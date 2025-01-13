@@ -65,10 +65,9 @@ class ModTest {
 
   @BeforeEach
   void setUp() {
-    quotedTextMod = Mod.builder().node(XmlMapper.toNode(QUOTED_TEXT_MOD)).build();
-    quotedStructureRefMod = Mod.builder().node(XmlMapper.toNode(QUOTED_STRUCTURE_REF_MOD)).build();
-    quotedStructureRrefMod =
-    Mod.builder().node(XmlMapper.toNode(QUOTED_STRUCTURE_RREF_MOD)).build();
+    quotedTextMod = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD));
+    quotedStructureRefMod = new Mod(XmlMapper.toNode(QUOTED_STRUCTURE_REF_MOD));
+    quotedStructureRrefMod = new Mod(XmlMapper.toNode(QUOTED_STRUCTURE_RREF_MOD));
   }
 
   @Test
@@ -118,10 +117,7 @@ class ModTest {
       ersetzt.</akn:mod>
       """;
 
-    Mod quotedTextModWithRef = Mod
-      .builder()
-      .node(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF))
-      .build();
+    Mod quotedTextModWithRef = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF));
     // when
     quotedTextModWithRef.setNewText("new text");
     var newText = quotedTextModWithRef.getNewText();
@@ -149,10 +145,7 @@ class ModTest {
       ersetzt.</akn:mod>
       """;
 
-    Mod quotedTextModWithRef = Mod
-      .builder()
-      .node(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF))
-      .build();
+    Mod quotedTextModWithRef = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF));
     // when
     quotedTextModWithRef.setNewText("new text");
     var newText = quotedTextModWithRef.getNewText();
@@ -294,29 +287,26 @@ class ModTest {
 
   @Test
   void quotedTextContainsRef() {
-    final Mod mod = Mod
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-                   <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
-                GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
-                refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
-                   GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-                           href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
-          die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
-                          GUID="694459c4-ef66-4f87-bb78-a332054a2216"
-                          startQuote="„"
-                          endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
-          Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
-                          GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
-                          startQuote="„"
-                          endQuote="“"><akn:ref>§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:ref></akn:quotedText>
-          ersetzt.</akn:mod>
-          """
-        )
+    final Mod mod = new Mod(
+      XmlMapper.toNode(
+        """
+                 <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+              GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+              refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
+                 GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
+                         href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
+        die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
+                        GUID="694459c4-ef66-4f87-bb78-a332054a2216"
+                        startQuote="„"
+                        endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
+        Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
+                        GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
+                        startQuote="„"
+                        endQuote="“"><akn:ref>§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:ref></akn:quotedText>
+        ersetzt.</akn:mod>
+        """
       )
-      .build();
+    );
 
     assertThat(mod.containsRef()).isTrue();
   }
@@ -328,26 +318,23 @@ class ModTest {
 
   @Test
   void quotedStructureContainsRef() {
-    final Mod mod = Mod
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-                          <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der
-                    <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt durch:
-                    <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
-                      <akn:longTitle GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
-                        <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
-                          <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Fiktives <akn:ref>Beispielgesetz</akn:ref> für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
-                          <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
-                </akn:p>
-              </akn:longTitle>
-            </akn:quotedStructure>
-          </akn:mod>
-          """
-        )
+    final Mod mod = new Mod(
+      XmlMapper.toNode(
+        """
+                        <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der
+                  <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt durch:
+                  <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
+                    <akn:longTitle GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
+                      <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
+                        <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Fiktives <akn:ref>Beispielgesetz</akn:ref> für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                        <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+              </akn:p>
+            </akn:longTitle>
+          </akn:quotedStructure>
+        </akn:mod>
+        """
       )
-      .build();
+    );
 
     assertThat(mod.containsRef()).isTrue();
   }
@@ -360,7 +347,7 @@ class ModTest {
                       <akn:rref from="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-1.xml" upTo="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-4.xml">§ 9 Absatz 1 bis 4</akn:rref> des Gesetzes wird ersetzt durch:
             </akn:mod>
       """;
-    quotedStructureRefMod = Mod.builder().node(XmlMapper.toNode(rangeRefString)).build();
+    quotedStructureRefMod = new Mod(XmlMapper.toNode(rangeRefString));
 
     // when
     var result = quotedStructureRefMod.hasRref();
@@ -377,7 +364,7 @@ class ModTest {
         <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt
       </akn:mod>
       """;
-    quotedStructureRefMod = Mod.builder().node(XmlMapper.toNode(rangeRefString)).build();
+    quotedStructureRefMod = new Mod(XmlMapper.toNode(rangeRefString));
 
     // when
     var result = quotedStructureRefMod.hasRref();

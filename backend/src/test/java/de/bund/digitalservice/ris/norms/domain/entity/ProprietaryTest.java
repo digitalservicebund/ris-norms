@@ -14,91 +14,82 @@ class ProprietaryTest {
 
     @Test
     void returnsTheFna() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                        <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-                <meta:typ>gesetz</meta:typ>
-                <meta:fna>754-28-1</meta:fna>
-                <meta:fassung>verkuendungsfassung</meta:fassung>
-              </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <meta:typ>gesetz</meta:typ>
+              <meta:fna>754-28-1</meta:fna>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getFna()).contains("754-28-1");
     }
 
     @Test
     void returnsEmptyOptionalIfFnaIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                        <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-                <meta:typ>gesetz</meta:typ>
-                <meta:form>stammform</meta:form>
-                <meta:fassung>verkuendungsfassung</meta:fassung>
-              </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <meta:typ>gesetz</meta:typ>
+              <meta:form>stammform</meta:form>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getFna()).isEmpty();
     }
 
     @Test
     void returnsTheFnaAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                        <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-                <meta:typ>gesetz</meta:typ>
-                <meta:fna>000-00-0</meta:fna>
-                <meta:fassung>verkuendungsfassung</meta:fassung>
-              </meta:legalDocML.de_metadaten>
-              <ris:legalDocML.de_metadaten
-                xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-              >
-                <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
-                <ris:fna start="2001-01-01">333-33-3</ris:fna>
-              </ris:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <meta:typ>gesetz</meta:typ>
+              <meta:fna>000-00-0</meta:fna>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+            </meta:legalDocML.de_metadaten>
+            <ris:legalDocML.de_metadaten
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+            >
+              <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+              <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+              <ris:fna start="2001-01-01">333-33-3</ris:fna>
+            </ris:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getFna(LocalDate.parse("1980-01-01"))).contains("000-00-0");
 
@@ -120,67 +111,58 @@ class ProprietaryTest {
 
     @Test
     void returnsNode() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
-                              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                                  <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
-                                  <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
-                                  <ris:fna start="2001-01-01">333-33-3</ris:fna>
-                              </ris:legalDocML.de_metadaten>
-                          </akn:proprietary>
-                          """
-          )
+                            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                                <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
+                                <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
+                                <ris:fna start="2001-01-01">333-33-3</ris:fna>
+                            </ris:legalDocML.de_metadaten>
+                        </akn:proprietary>
+                        """
         )
-        .build();
+      );
 
       assertThat(proprietary.getMetadatenDs()).isNotEmpty();
     }
 
     @Test
     void returnsNodeEmpty() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
-                              <meta:typ>gesetz</meta:typ>
-                              <meta:fna>000-00-0</meta:fna>
-                              <meta:fassung>verkuendungsfassung</meta:fassung>
-                          </meta:legalDocML.de_metadaten>
-                          </akn:proprietary>
-                          """
-          )
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                            <meta:typ>gesetz</meta:typ>
+                            <meta:fna>000-00-0</meta:fna>
+                            <meta:fassung>verkuendungsfassung</meta:fassung>
+                        </meta:legalDocML.de_metadaten>
+                        </akn:proprietary>
+                        """
         )
-        .build();
+      );
 
       assertThat(proprietary.getMetadatenDs()).isEmpty();
     }
 
     @Test
     void returnsNodeByCreatingIt() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
-                              <meta:typ>gesetz</meta:typ>
-                              <meta:fna>000-00-0</meta:fna>
-                              <meta:fassung>verkuendungsfassung</meta:fassung>
-                          </meta:legalDocML.de_metadaten>
-                          </akn:proprietary>
-                          """
-          )
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                            <meta:typ>gesetz</meta:typ>
+                            <meta:fna>000-00-0</meta:fna>
+                            <meta:fassung>verkuendungsfassung</meta:fassung>
+                        </meta:legalDocML.de_metadaten>
+                        </akn:proprietary>
+                        """
         )
-        .build();
+      );
 
       assertThat(proprietary.getOrCreateMetadatenDs()).isNotNull();
     }
@@ -191,27 +173,24 @@ class ProprietaryTest {
 
     @Test
     void returnsTheArt() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-                <meta:art>rechtsetzungsdokument</meta:art>
-              </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <meta:art>rechtsetzungsdokument</meta:art>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArt(LocalDate.parse("2010-10-10")))
         .contains("rechtsetzungsdokument");
@@ -219,61 +198,55 @@ class ProprietaryTest {
 
     @Test
     void returnsEmptyOptionalIfArtIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-              <!-- Art is missing -->
-              </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+            <!-- Art is missing -->
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArt(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
     void returnsTheArtAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-                <meta:art>rechtsetzungsdokument</meta:art>
-              </meta:legalDocML.de_metadaten>
-              <ris:legalDocML.de_metadaten
-                xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-              >
-                <ris:art start="1990-01-01" end="1994-12-31">regelungstext</ris:art>
-                <ris:art start="1995-01-01" end="2000-12-31">begruendung</ris:art>
-                <ris:art start="2001-01-01">anschreiben</ris:art>
-              </ris:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <meta:art>rechtsetzungsdokument</meta:art>
+            </meta:legalDocML.de_metadaten>
+            <ris:legalDocML.de_metadaten
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+            >
+              <ris:art start="1990-01-01" end="1994-12-31">regelungstext</ris:art>
+              <ris:art start="1995-01-01" end="2000-12-31">begruendung</ris:art>
+              <ris:art start="2001-01-01">anschreiben</ris:art>
+            </ris:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArt(LocalDate.parse("1980-01-01")))
         .contains("rechtsetzungsdokument");
@@ -296,27 +269,24 @@ class ProprietaryTest {
 
     @Test
     void returnsTheTyp() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-                <meta:typ>rechtsetzungsdokument</meta:typ>
-              </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <meta:typ>rechtsetzungsdokument</meta:typ>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getTyp(LocalDate.parse("2010-10-10")))
         .contains("rechtsetzungsdokument");
@@ -324,61 +294,55 @@ class ProprietaryTest {
 
     @Test
     void returnsEmptyOptionalIfTypIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-              <!-- Typ is missing -->
-              </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+            <!-- Typ is missing -->
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getTyp(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
     void returnsTheTypAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <meta:legalDocML.de_metadaten
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
             >
-              <meta:legalDocML.de_metadaten
-                    xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-              >
-                <meta:typ>gesetz</meta:typ>
-              </meta:legalDocML.de_metadaten>
-              <ris:legalDocML.de_metadaten
-                xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-              >
-                <ris:typ start="1990-01-01" end="1994-12-31">verordnung</ris:typ>
-                <ris:typ start="1995-01-01" end="2000-12-31">begruendung</ris:typ>
-                <ris:typ start="2001-01-01">satzung</ris:typ>
-              </ris:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <meta:typ>gesetz</meta:typ>
+            </meta:legalDocML.de_metadaten>
+            <ris:legalDocML.de_metadaten
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+            >
+              <ris:typ start="1990-01-01" end="1994-12-31">verordnung</ris:typ>
+              <ris:typ start="1995-01-01" end="2000-12-31">begruendung</ris:typ>
+              <ris:typ start="2001-01-01">satzung</ris:typ>
+            </ris:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getTyp(LocalDate.parse("1980-01-01"))).contains("gesetz");
 
@@ -400,27 +364,24 @@ class ProprietaryTest {
 
     @Test
     void returnsTheSubtyp() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <ris:legalDocML.de_metadaten
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
             >
-              <ris:legalDocML.de_metadaten
-                xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-              >
-                <ris:subtyp>Anordnung des Bundespräsidenten</ris:subtyp>
-             </ris:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <ris:subtyp>Anordnung des Bundespräsidenten</ris:subtyp>
+           </ris:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getSubtyp(LocalDate.parse("2010-10-10")))
         .contains("Anordnung des Bundespräsidenten");
@@ -428,57 +389,51 @@ class ProprietaryTest {
 
     @Test
     void returnsEmptyOptionalIfSubtypIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <ris:legalDocML.de_metadaten
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
             >
-              <ris:legalDocML.de_metadaten
-                xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-              >
-              <!-- Subtyp is missing -->
-              </ris:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+            <!-- Subtyp is missing -->
+            </ris:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getSubtyp(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
     void returnsTheSubtypAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary
-                          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-              eId="meta-1_proprietary-1"
-              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-              source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+          <akn:proprietary
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert"
+          >
+            <ris:legalDocML.de_metadaten
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
             >
-              <ris:legalDocML.de_metadaten
-                xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-              >
-                <ris:subtyp end="1989-12-31">Anordnung des Bundespräsidenten</ris:subtyp>
-                <ris:subtyp start="1990-01-01" end="1994-12-31">Bekanntmachung vor einer Neufassung</ris:subtyp>
-                <ris:subtyp start="1995-01-01" end="2000-12-31">Völkerrechtliche Vereinbarung</ris:subtyp>
-                <ris:subtyp start="2001-01-01">Geschäftsordnung</ris:subtyp>
-              </ris:legalDocML.de_metadaten>
-            </akn:proprietary>
-            """
-          )
+              <ris:subtyp end="1989-12-31">Anordnung des Bundespräsidenten</ris:subtyp>
+              <ris:subtyp start="1990-01-01" end="1994-12-31">Bekanntmachung vor einer Neufassung</ris:subtyp>
+              <ris:subtyp start="1995-01-01" end="2000-12-31">Völkerrechtliche Vereinbarung</ris:subtyp>
+              <ris:subtyp start="2001-01-01">Geschäftsordnung</ris:subtyp>
+            </ris:legalDocML.de_metadaten>
+          </akn:proprietary>
+          """
         )
-        .build();
+      );
 
       assertThat(proprietary.getSubtyp(LocalDate.parse("1980-01-01")))
         .contains("Anordnung des Bundespräsidenten");
@@ -507,27 +462,24 @@ class ProprietaryTest {
 
     @Test
     void returnsTheBezeichnungInVorlage() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                      eId="meta-1_proprietary-1"
-                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                    eId="meta-1_proprietary-1"
+                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                    source="attributsemantik-noch-undefiniert"
+                  >
+                    <ris:legalDocML.de_metadaten
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                     >
-                      <ris:legalDocML.de_metadaten
-                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                      >
-                        <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-                     </ris:legalDocML.de_metadaten>
-                    </akn:proprietary>
-                    """
-          )
+                      <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
+                   </ris:legalDocML.de_metadaten>
+                  </akn:proprietary>
+                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("2010-10-10")))
         .contains("Bezeichnung gemäß Vorlage");
@@ -535,57 +487,51 @@ class ProprietaryTest {
 
     @Test
     void returnsEmptyOptionalIfBezeichnungInVorlageIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                      eId="meta-1_proprietary-1"
-                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                    eId="meta-1_proprietary-1"
+                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                    source="attributsemantik-noch-undefiniert"
+                  >
+                    <ris:legalDocML.de_metadaten
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                     >
-                      <ris:legalDocML.de_metadaten
-                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                      >
-                      <!-- BezeichnungInVorlage is missing -->
-                      </ris:legalDocML.de_metadaten>
-                    </akn:proprietary>
-                    """
-          )
+                    <!-- BezeichnungInVorlage is missing -->
+                    </ris:legalDocML.de_metadaten>
+                  </akn:proprietary>
+                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
     void returnsTheBezeichnungInVorlageAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                      eId="meta-1_proprietary-1"
-                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                    eId="meta-1_proprietary-1"
+                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                    source="attributsemantik-noch-undefiniert"
+                  >
+                    <ris:legalDocML.de_metadaten
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                     >
-                      <ris:legalDocML.de_metadaten
-                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                      >
-                        <ris:bezeichnungInVorlage end="1989-12-31">Bezeichnung gemäß Vorlage 1</ris:bezeichnungInVorlage>
-                        <ris:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">Bezeichnung gemäß Vorlage 2</ris:bezeichnungInVorlage>
-                        <ris:bezeichnungInVorlage start="1995-01-01" end="2000-12-31">Bezeichnung gemäß Vorlage 3</ris:bezeichnungInVorlage>
-                        <ris:bezeichnungInVorlage start="2001-01-01">Bezeichnung gemäß Vorlage 4</ris:bezeichnungInVorlage>
-                      </ris:legalDocML.de_metadaten>
-                    </akn:proprietary>
-                    """
-          )
+                      <ris:bezeichnungInVorlage end="1989-12-31">Bezeichnung gemäß Vorlage 1</ris:bezeichnungInVorlage>
+                      <ris:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">Bezeichnung gemäß Vorlage 2</ris:bezeichnungInVorlage>
+                      <ris:bezeichnungInVorlage start="1995-01-01" end="2000-12-31">Bezeichnung gemäß Vorlage 3</ris:bezeichnungInVorlage>
+                      <ris:bezeichnungInVorlage start="2001-01-01">Bezeichnung gemäß Vorlage 4</ris:bezeichnungInVorlage>
+                    </ris:legalDocML.de_metadaten>
+                  </akn:proprietary>
+                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("1980-01-01")))
         .contains("Bezeichnung gemäß Vorlage 1");
@@ -616,84 +562,75 @@ class ProprietaryTest {
 
     @Test
     void returnsArtDerNorm() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                      eId="meta-1_proprietary-1"
-                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                    eId="meta-1_proprietary-1"
+                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                    source="attributsemantik-noch-undefiniert"
+                                  >
+                                    <ris:legalDocML.de_metadaten
+                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                     >
-                                      <ris:legalDocML.de_metadaten
-                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                      >
-                                        <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-                                     </ris:legalDocML.de_metadaten>
-                                    </akn:proprietary>
-                                    """
-          )
+                                      <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
+                                   </ris:legalDocML.de_metadaten>
+                                  </akn:proprietary>
+                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"))).contains("SN,ÄN,ÜN");
     }
 
     @Test
     void returnsEmptyOptionalIfArtDerNormIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                      eId="meta-1_proprietary-1"
-                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                    eId="meta-1_proprietary-1"
+                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                    source="attributsemantik-noch-undefiniert"
+                                  >
+                                    <ris:legalDocML.de_metadaten
+                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                     >
-                                      <ris:legalDocML.de_metadaten
-                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                      >
-                                      <!-- ArtDerNorm is missing -->
-                                      </ris:legalDocML.de_metadaten>
-                                    </akn:proprietary>
-                                    """
-          )
+                                    <!-- ArtDerNorm is missing -->
+                                    </ris:legalDocML.de_metadaten>
+                                  </akn:proprietary>
+                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
     void returnsTheArtDerNormAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                      eId="meta-1_proprietary-1"
-                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                    eId="meta-1_proprietary-1"
+                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                    source="attributsemantik-noch-undefiniert"
+                                  >
+                                    <ris:legalDocML.de_metadaten
+                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                     >
-                                      <ris:legalDocML.de_metadaten
-                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                      >
-                                        <ris:artDerNorm end="1989-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-                                        <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</ris:artDerNorm>
-                                        <ris:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</ris:artDerNorm>
-                                        <ris:artDerNorm start="2001-01-01">ÄN,ÜN</ris:artDerNorm>
-                                      </ris:legalDocML.de_metadaten>
-                                    </akn:proprietary>
-                                    """
-          )
+                                      <ris:artDerNorm end="1989-12-31">SN,ÄN,ÜN</ris:artDerNorm>
+                                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</ris:artDerNorm>
+                                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</ris:artDerNorm>
+                                      <ris:artDerNorm start="2001-01-01">ÄN,ÜN</ris:artDerNorm>
+                                    </ris:legalDocML.de_metadaten>
+                                  </akn:proprietary>
+                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("1980-01-01"))).contains("SN,ÄN,ÜN");
 
@@ -715,84 +652,75 @@ class ProprietaryTest {
 
     @Test
     void returnsStaat() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                      eId="meta-1_proprietary-1"
-                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                    eId="meta-1_proprietary-1"
+                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                    source="attributsemantik-noch-undefiniert"
+                                                  >
+                                                    <ris:legalDocML.de_metadaten
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                     >
-                                                      <ris:legalDocML.de_metadaten
-                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                      >
-                                                        <ris:normgeber>DEU</ris:normgeber>
-                                                     </ris:legalDocML.de_metadaten>
-                                                    </akn:proprietary>
-                                                    """
-          )
+                                                      <ris:normgeber>DEU</ris:normgeber>
+                                                   </ris:legalDocML.de_metadaten>
+                                                  </akn:proprietary>
+                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getStaat(LocalDate.parse("2010-10-10"))).contains("DEU");
     }
 
     @Test
     void returnsEmptyOptionalIfStaatIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                      eId="meta-1_proprietary-1"
-                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                    eId="meta-1_proprietary-1"
+                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                    source="attributsemantik-noch-undefiniert"
+                                                  >
+                                                    <ris:legalDocML.de_metadaten
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                     >
-                                                      <ris:legalDocML.de_metadaten
-                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                      >
-                                                      <!-- Normgeber is missing -->
-                                                      </ris:legalDocML.de_metadaten>
-                                                    </akn:proprietary>
-                                                    """
-          )
+                                                    <!-- Normgeber is missing -->
+                                                    </ris:legalDocML.de_metadaten>
+                                                  </akn:proprietary>
+                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getStaat(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
     void returnsTheStaatAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                      eId="meta-1_proprietary-1"
-                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                    eId="meta-1_proprietary-1"
+                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                    source="attributsemantik-noch-undefiniert"
+                                                  >
+                                                    <ris:legalDocML.de_metadaten
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                     >
-                                                      <ris:legalDocML.de_metadaten
-                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                      >
-                                                        <ris:normgeber end="1989-12-31">DEU</ris:normgeber>
-                                                        <ris:normgeber start="1990-01-01" end="1994-12-31">DDR</ris:normgeber>
-                                                        <ris:normgeber start="1995-01-01" end="2000-12-31">BW</ris:normgeber>
-                                                        <ris:normgeber start="2001-01-01">BY</ris:normgeber>
-                                                      </ris:legalDocML.de_metadaten>
-                                                    </akn:proprietary>
-                                                    """
-          )
+                                                      <ris:normgeber end="1989-12-31">DEU</ris:normgeber>
+                                                      <ris:normgeber start="1990-01-01" end="1994-12-31">DDR</ris:normgeber>
+                                                      <ris:normgeber start="1995-01-01" end="2000-12-31">BW</ris:normgeber>
+                                                      <ris:normgeber start="2001-01-01">BY</ris:normgeber>
+                                                    </ris:legalDocML.de_metadaten>
+                                                  </akn:proprietary>
+                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getStaat(LocalDate.parse("1980-01-01"))).contains("DEU");
 
@@ -814,27 +742,24 @@ class ProprietaryTest {
 
     @Test
     void returnsBeschliessendesOrgan() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                                      eId="meta-1_proprietary-1"
-                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                                    eId="meta-1_proprietary-1"
+                                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                    source="attributsemantik-noch-undefiniert"
+                                                                  >
+                                                                    <ris:legalDocML.de_metadaten
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                                     >
-                                                                      <ris:legalDocML.de_metadaten
-                                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                                      >
-                                                                        <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-                                                                     </ris:legalDocML.de_metadaten>
-                                                                    </akn:proprietary>
-                                                                    """
-          )
+                                                                      <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
+                                                                   </ris:legalDocML.de_metadaten>
+                                                                  </akn:proprietary>
+                                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2010-10-10")))
         .contains("Bundestag");
@@ -844,27 +769,24 @@ class ProprietaryTest {
 
     @Test
     void returnsEmptyOptionalIfBeschliessendesOrganIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                                      eId="meta-1_proprietary-1"
-                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                                    eId="meta-1_proprietary-1"
+                                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                    source="attributsemantik-noch-undefiniert"
+                                                                  >
+                                                                    <ris:legalDocML.de_metadaten
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                                     >
-                                                                      <ris:legalDocML.de_metadaten
-                                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                                      >
-                                                                      <!-- BeschliessendesOrgan is missing -->
-                                                                      </ris:legalDocML.de_metadaten>
-                                                                    </akn:proprietary>
-                                                                    """
-          )
+                                                                    <!-- BeschliessendesOrgan is missing -->
+                                                                    </ris:legalDocML.de_metadaten>
+                                                                  </akn:proprietary>
+                                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2010-10-10"))).isEmpty();
       assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("2010-10-10"))).isEmpty();
@@ -872,30 +794,27 @@ class ProprietaryTest {
 
     @Test
     void returnsTheBeschliessendesOrganAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                                      eId="meta-1_proprietary-1"
-                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                                    eId="meta-1_proprietary-1"
+                                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                    source="attributsemantik-noch-undefiniert"
+                                                                  >
+                                                                    <ris:legalDocML.de_metadaten
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                                     >
-                                                                      <ris:legalDocML.de_metadaten
-                                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                                      >
-                                                                        <ris:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</ris:beschliessendesOrgan>
-                                                                        <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag 2</ris:beschliessendesOrgan>
-                                                                        <ris:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</ris:beschliessendesOrgan>
-                                                                        <ris:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="true">Bundestag 4</ris:beschliessendesOrgan>
-                                                                      </ris:legalDocML.de_metadaten>
-                                                                    </akn:proprietary>
-                                                                    """
-          )
+                                                                      <ris:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</ris:beschliessendesOrgan>
+                                                                      <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag 2</ris:beschliessendesOrgan>
+                                                                      <ris:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</ris:beschliessendesOrgan>
+                                                                      <ris:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="true">Bundestag 4</ris:beschliessendesOrgan>
+                                                                    </ris:legalDocML.de_metadaten>
+                                                                  </akn:proprietary>
+                                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("1980-01-01")))
         .contains("Bundestag 1");
@@ -922,30 +841,27 @@ class ProprietaryTest {
 
     @Test
     void returnsTheBeschliessendesOrganQualifizierteMehrheitAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                                                      eId="meta-1_proprietary-1"
-                                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                                                    eId="meta-1_proprietary-1"
+                                                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                    source="attributsemantik-noch-undefiniert"
+                                                                                  >
+                                                                                    <ris:legalDocML.de_metadaten
+                                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                                                     >
-                                                                                      <ris:legalDocML.de_metadaten
-                                                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                                                      >
-                                                                                        <ris:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</ris:beschliessendesOrgan>
-                                                                                        <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="false">Bundestag 2</ris:beschliessendesOrgan>
-                                                                                        <ris:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</ris:beschliessendesOrgan>
-                                                                                        <ris:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="false">Bundestag 4</ris:beschliessendesOrgan>
-                                                                                      </ris:legalDocML.de_metadaten>
-                                                                                    </akn:proprietary>
-                                                                                    """
-          )
+                                                                                      <ris:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</ris:beschliessendesOrgan>
+                                                                                      <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="false">Bundestag 2</ris:beschliessendesOrgan>
+                                                                                      <ris:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</ris:beschliessendesOrgan>
+                                                                                      <ris:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="false">Bundestag 4</ris:beschliessendesOrgan>
+                                                                                    </ris:legalDocML.de_metadaten>
+                                                                                  </akn:proprietary>
+                                                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("1980-01-01")))
         .contains(true);
@@ -976,27 +892,24 @@ class ProprietaryTest {
 
     @Test
     void returnsOrganisationsEinheit() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                      eId="meta-1_proprietary-1"
-                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                    eId="meta-1_proprietary-1"
+                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                    source="attributsemantik-noch-undefiniert"
+                  >
+                    <ris:legalDocML.de_metadaten
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                     >
-                      <ris:legalDocML.de_metadaten
-                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                      >
-                        <ris:organisationsEinheit>Organisationseinheit 1</ris:organisationsEinheit>
-                     </ris:legalDocML.de_metadaten>
-                    </akn:proprietary>
-                    """
-          )
+                      <ris:organisationsEinheit>Organisationseinheit 1</ris:organisationsEinheit>
+                   </ris:legalDocML.de_metadaten>
+                  </akn:proprietary>
+                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("2010-10-10")))
         .contains("Organisationseinheit 1");
@@ -1004,57 +917,51 @@ class ProprietaryTest {
 
     @Test
     void returnsEmptyOptionalIfOrganisationsEinheitIsMissing() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                                      eId="meta-1_proprietary-1"
-                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                                    eId="meta-1_proprietary-1"
+                                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                    source="attributsemantik-noch-undefiniert"
+                                                                  >
+                                                                    <ris:legalDocML.de_metadaten
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                                     >
-                                                                      <ris:legalDocML.de_metadaten
-                                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                                      >
-                                                                      <!-- OrganisationsEinheit is missing -->
-                                                                      </ris:legalDocML.de_metadaten>
-                                                                    </akn:proprietary>
-                                                                    """
-          )
+                                                                    <!-- OrganisationsEinheit is missing -->
+                                                                    </ris:legalDocML.de_metadaten>
+                                                                  </akn:proprietary>
+                                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
     void returnsTheOrganisationsEinheitAtDate() {
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                                      eId="meta-1_proprietary-1"
-                                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                                    eId="meta-1_proprietary-1"
+                                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                    source="attributsemantik-noch-undefiniert"
+                                                                  >
+                                                                    <ris:legalDocML.de_metadaten
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                                     >
-                                                                      <ris:legalDocML.de_metadaten
-                                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                                      >
-                                                                        <ris:organisationsEinheit end="1989-12-31">Organisationseinheit 1</ris:organisationsEinheit>
-                                                                        <ris:organisationsEinheit start="1990-01-01" end="1994-12-31">Organisationseinheit 2</ris:organisationsEinheit>
-                                                                        <ris:organisationsEinheit start="1995-01-01" end="2000-12-31">Organisationseinheit 3</ris:organisationsEinheit>
-                                                                        <ris:organisationsEinheit start="2001-01-01">Organisationseinheit 4</ris:organisationsEinheit>
-                                                                      </ris:legalDocML.de_metadaten>
-                                                                    </akn:proprietary>
-                                                                    """
-          )
+                                                                      <ris:organisationsEinheit end="1989-12-31">Organisationseinheit 1</ris:organisationsEinheit>
+                                                                      <ris:organisationsEinheit start="1990-01-01" end="1994-12-31">Organisationseinheit 2</ris:organisationsEinheit>
+                                                                      <ris:organisationsEinheit start="1995-01-01" end="2000-12-31">Organisationseinheit 3</ris:organisationsEinheit>
+                                                                      <ris:organisationsEinheit start="2001-01-01">Organisationseinheit 4</ris:organisationsEinheit>
+                                                                    </ris:legalDocML.de_metadaten>
+                                                                  </akn:proprietary>
+                                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("1980-01-01")))
         .contains("Organisationseinheit 1");
@@ -1086,30 +993,27 @@ class ProprietaryTest {
     @Test
     void returnsEinzelelementArtDerNorm() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                          <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                            eId="meta-1_proprietary-1"
-                            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                            source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                        <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                          eId="meta-1_proprietary-1"
+                          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                          source="attributsemantik-noch-undefiniert"
+                        >
+                          <ris:legalDocML.de_metadaten
+                            xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                           >
-                            <ris:legalDocML.de_metadaten
-                              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                            >
-                              <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-                                      <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                                  <ris:artDerNorm>ÜN</ris:artDerNorm>
-                              </ris:einzelelement>
-                           </ris:legalDocML.de_metadaten>
-                          </akn:proprietary>
-                          """
-          )
+                            <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
+                                    <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                                <ris:artDerNorm>ÜN</ris:artDerNorm>
+                            </ris:einzelelement>
+                         </ris:legalDocML.de_metadaten>
+                        </akn:proprietary>
+                        """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"), eid)).contains("ÜN");
     }
@@ -1117,27 +1021,24 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfEinzelelementArtDerNormIsMissing() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                      eId="meta-1_proprietary-1"
-                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                    eId="meta-1_proprietary-1"
+                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                    source="attributsemantik-noch-undefiniert"
+                                                  >
+                                                    <ris:legalDocML.de_metadaten
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                     >
-                                                      <ris:legalDocML.de_metadaten
-                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                      >
-                                                      <!-- ArtDerNorm is missing -->
-                                                      </ris:legalDocML.de_metadaten>
-                                                    </akn:proprietary>
-                                                    """
-          )
+                                                    <!-- ArtDerNorm is missing -->
+                                                    </ris:legalDocML.de_metadaten>
+                                                  </akn:proprietary>
+                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"), eid)).isEmpty();
     }
@@ -1145,36 +1046,33 @@ class ProprietaryTest {
     @Test
     void returnsTheEinzelelementArtDerNormAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                                                    <akn:proprietary
-            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-                                                      eId="meta-1_proprietary-1"
-                                                      GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                                                      source="attributsemantik-noch-undefiniert"
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toNode(
+          """
+                                                  <akn:proprietary
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                                                    eId="meta-1_proprietary-1"
+                                                    GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                    source="attributsemantik-noch-undefiniert"
+                                                  >
+                                                    <ris:legalDocML.de_metadaten
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
                                                     >
-                                                      <ris:legalDocML.de_metadaten
-                                                        xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-                                                      >
-                                                        <ris:artDerNorm end="1989-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-                                                        <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</ris:artDerNorm>
-                                                        <ris:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</ris:artDerNorm>
-                                                        <ris:artDerNorm start="2001-01-01">ÄN,ÜN</ris:artDerNorm>
-                                                                <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                                                            <ris:artDerNorm end="1989-12-31">ÜN</ris:artDerNorm>
-                                                            <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                                                            <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                                                            <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-                                                        </ris:einzelelement>
-                                                      </ris:legalDocML.de_metadaten>
-                                                    </akn:proprietary>
-                                                    """
-          )
+                                                      <ris:artDerNorm end="1989-12-31">SN,ÄN,ÜN</ris:artDerNorm>
+                                                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</ris:artDerNorm>
+                                                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</ris:artDerNorm>
+                                                      <ris:artDerNorm start="2001-01-01">ÄN,ÜN</ris:artDerNorm>
+                                                              <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                                                          <ris:artDerNorm end="1989-12-31">ÜN</ris:artDerNorm>
+                                                          <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                                                          <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                                                          <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                                                      </ris:einzelelement>
+                                                    </ris:legalDocML.de_metadaten>
+                                                  </akn:proprietary>
+                                                  """
         )
-        .build();
+      );
 
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("1980-01-01"), eid)).contains("ÜN");
 

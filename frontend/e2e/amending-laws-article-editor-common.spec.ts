@@ -226,9 +226,7 @@ test.describe("XML and HTML tabs", () => {
     await amendingLawSection.getByRole("tab", { name: "xml" }).click()
 
     await expect(
-      page.getByText(
-        '<akn:meta GUID="7e5837c8-b967-45be-924b-c95956c4aa94" eId="meta-1">',
-      ),
+      page.getByText('value="eli/bund/bgbl-1/2017/s419/regelungstext-1"'),
     ).toBeVisible()
 
     await expect(
@@ -238,6 +236,32 @@ test.describe("XML and HTML tabs", () => {
 
     await expect(
       page.getByText("Artikel 1Änderung des Vereinsgesetzes"),
+    ).toBeVisible()
+  })
+
+  test("Handle 404 error for XML in tabs", async ({ page }) => {
+    await page.route(
+      "**/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?",
+      async (route, request) => {
+        if (
+          request.method() === "GET" &&
+          request.headers()["accept"] === "application/xml"
+        ) {
+          await route.fulfill({
+            status: 404,
+          })
+        } else {
+          await route.continue()
+        }
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+    )
+
+    await expect(
+      page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
     ).toBeVisible()
   })
 })
