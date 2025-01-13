@@ -278,9 +278,12 @@ public class Norm {
    * @param eId the eId of the element to delete
    * @return the deleted element or empty if nothing to delete was found
    */
-  public Optional<Node> deleteByEId(String eId) {
+  public Optional<Element> deleteByEId(String eId) {
     var node = getElementByEId(eId);
-    return node.map(n -> n.getParentNode().removeChild(n));
+
+    node.ifPresent(n -> n.getParentNode().removeChild(n));
+
+    return node;
   }
 
   /**
@@ -308,7 +311,7 @@ public class Norm {
    * @param eId the eId of the event ref to delete
    * @return the deleted temporal ref node or empty if nothing was deleted
    */
-  public Optional<Node> deleteEventRefIfUnused(String eId) {
+  public Optional<Element> deleteEventRefIfUnused(String eId) {
     final var nodesUsingTemporalData = getElementsFromExpression(
       String.format("//*[@start='#%s' or @end='#%s']", eId, eId),
       getDocument()
