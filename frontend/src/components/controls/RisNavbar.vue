@@ -20,9 +20,9 @@ const { data: user } = useGetUserName()
     </RouterLink>
     <div class="flex items-start gap-8 px-16">
       <UseOutline />
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col">
         <span class="ris-label2-regular">
-          {{ user?.name }}
+          {{ user?.name ?? "Unbekannt" }}
         </span>
         <RouterLink
           :to="'/logout'"
