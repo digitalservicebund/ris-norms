@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 class UserInfoController {
 
   @GetMapping("/me")
-  public UserInfoDto getUserInfo(@AuthenticationPrincipal User user) {
-    return new UserInfoDto(user.getUsername());
+  public UserInfoDto getUserInfo() {
+    OAuth2User user =
+      ((OAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    String name = user.getAttribute("name");
+    return new UserInfoDto(name);
   }
 
   public record UserInfoDto(String name) {}
