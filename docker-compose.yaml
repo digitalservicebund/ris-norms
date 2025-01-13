@@ -52,6 +52,7 @@ services:
       file: docker-compose-services.yaml
       service: keycloak
     network_mode: "service:localhost"
+    ports: []
 
 volumes:
   postgres14-data:
