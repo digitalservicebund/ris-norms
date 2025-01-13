@@ -11,7 +11,7 @@ class TimeIntervalTest {
   void getEventRefEId() {
     // given
     final TimeInterval timeInterval = new TimeInterval(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
          <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
         """
@@ -25,7 +25,7 @@ class TimeIntervalTest {
   void getEventRefEIdEmpty() {
     // given
     final TimeInterval timeInterval = new TimeInterval(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" />
                        """
@@ -39,7 +39,7 @@ class TimeIntervalTest {
   void create() {
     // given
     TemporalGroup temporalGroup = new TemporalGroup(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
         </akn:temporalGroup>
@@ -48,7 +48,7 @@ class TimeIntervalTest {
     );
 
     // when
-    var timeInterval = TimeInterval.createAndAppend(temporalGroup.getNode());
+    var timeInterval = TimeInterval.createAndAppend(temporalGroup.getElement());
     timeInterval.setStart(
       new Href.Builder().setEId("meta-1_lebzykl-1_ereignis-2").buildInternalReference()
     );
@@ -56,8 +56,8 @@ class TimeIntervalTest {
 
     // then
     assertThat(timeInterval.getEventRefEId()).contains("meta-1_lebzykl-1_ereignis-2");
-    assertThat(EId.fromMandatoryNode(timeInterval.getNode()))
+    assertThat(EId.fromMandatoryNode(timeInterval.getElement()))
       .isEqualTo(new EId("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"));
-    assertThat(temporalGroup.getTimeInterval().getNode()).isEqualTo(timeInterval.getNode());
+    assertThat(temporalGroup.getTimeInterval().getElement()).isEqualTo(timeInterval.getElement());
   }
 }

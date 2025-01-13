@@ -8,6 +8,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -19,7 +20,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 public class Article {
 
-  private final Node node;
+  private final Element element;
 
   private static final String AFFECTED_DOCUMENT_XPATH = ".//affectedDocument/@href";
 
@@ -29,7 +30,7 @@ public class Article {
    * @return The GUID of the article
    */
   public Optional<String> getGuid() {
-    return NodeParser.getValueFromExpression("./@GUID", this.node);
+    return NodeParser.getValueFromExpression("./@GUID", this.element);
   }
 
   /**
@@ -38,7 +39,7 @@ public class Article {
    * @return The enumeration of the article
    */
   public Optional<String> getEnumeration() {
-    return NodeParser.getValueFromExpression("./num/text()", this.node).map(String::trim);
+    return NodeParser.getValueFromExpression("./num/text()", this.element).map(String::trim);
   }
 
   /**
@@ -47,7 +48,7 @@ public class Article {
    * @return The eId of the article
    */
   public String getEid() {
-    return EId.fromMandatoryNode(getNode()).value();
+    return EId.fromMandatoryNode(getElement()).value();
   }
 
   /**
@@ -56,7 +57,7 @@ public class Article {
    * @return The heading of the article
    */
   public Optional<String> getHeading() {
-    return NodeParser.getValueFromExpression("./heading/text()", this.node);
+    return NodeParser.getValueFromExpression("./heading/text()", this.element);
   }
 
   /**
@@ -67,7 +68,7 @@ public class Article {
    */
   public Optional<ExpressionEli> getAffectedDocumentEli() {
     return NodeParser
-      .getValueFromExpression(AFFECTED_DOCUMENT_XPATH, this.node)
+      .getValueFromExpression(AFFECTED_DOCUMENT_XPATH, this.element)
       .map(ExpressionEli::fromString);
   }
 
@@ -79,7 +80,7 @@ public class Article {
    */
   public ExpressionEli getMandatoryAffectedDocumentEli() {
     return ExpressionEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.node)
+      NodeParser.getValueFromMandatoryNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.element)
     );
   }
 
@@ -91,7 +92,7 @@ public class Article {
   public void setAffectedDocumentEli(String href) {
     Optional<Node> articleAffectedDocument = NodeParser.getNodeFromExpression(
       AFFECTED_DOCUMENT_XPATH,
-      this.node
+      this.element
     );
     articleAffectedDocument.ifPresent(value -> value.setTextContent(href));
   }
@@ -103,7 +104,7 @@ public class Article {
    * @return The refersTo attribute of the article
    */
   public Optional<String> getRefersTo() {
-    return NodeParser.getValueFromExpression("./@refersTo", this.node);
+    return NodeParser.getValueFromExpression("./@refersTo", this.element);
   }
 
   /**
@@ -112,6 +113,10 @@ public class Article {
    * @return the {@link Mod}
    */
   public List<Mod> getMods() {
-    return NodeParser.getNodesFromExpression("./*//mod", this.node).stream().map(Mod::new).toList();
+    return NodeParser
+      .getElementsFromExpression("./*//mod", this.element)
+      .stream()
+      .map(Mod::new)
+      .toList();
   }
 }

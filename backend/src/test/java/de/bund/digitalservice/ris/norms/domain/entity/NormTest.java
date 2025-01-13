@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 class NormTest {
@@ -948,7 +949,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("eId")
@@ -959,7 +960,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("GUID")
@@ -968,35 +969,11 @@ class NormTest {
       .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
     assertThat(timeBoundaries.get(0).getTimeIntervalEid())
       .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
-    assertThat(
-      timeBoundaries
-        .get(0)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("GUID")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("GUID"))
       .contains("ca9f53aa-d374-4bec-aca3-fff4e3485179");
-    assertThat(
-      timeBoundaries
-        .get(0)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("refersTo")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("refersTo"))
       .contains("geltungszeit");
-    assertThat(
-      timeBoundaries
-        .get(0)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("start")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("start"))
       .contains("#" + timeBoundaries.get(0).getEventRefEid());
 
     // new one added
@@ -1007,7 +984,7 @@ class NormTest {
       timeBoundaries
         .get(1)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("eId")
@@ -1018,7 +995,7 @@ class NormTest {
       timeBoundaries
         .get(1)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("GUID")
@@ -1027,35 +1004,11 @@ class NormTest {
       .isNotEmpty();
     assertThat(timeBoundaries.get(1).getTimeIntervalEid())
       .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
-    assertThat(
-      timeBoundaries
-        .get(1)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("GUID")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("GUID"))
       .isNotEmpty();
-    assertThat(
-      timeBoundaries
-        .get(1)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("refersTo")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("refersTo"))
       .contains("geltungszeit");
-    assertThat(
-      timeBoundaries
-        .get(1)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("start")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("start"))
       .contains("#" + timeBoundaries.get(1).getEventRefEid());
   }
 
@@ -1110,7 +1063,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("eId")
@@ -1121,7 +1074,7 @@ class NormTest {
       timeBoundaries
         .get(0)
         .getTimeInterval()
-        .getNode()
+        .getElement()
         .getParentNode()
         .getAttributes()
         .getNamedItem("GUID")
@@ -1130,35 +1083,11 @@ class NormTest {
       .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
     assertThat(timeBoundaries.get(0).getTimeIntervalEid())
       .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
-    assertThat(
-      timeBoundaries
-        .get(0)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("GUID")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("GUID"))
       .contains("ca9f53aa-d374-4bec-aca3-fff4e3485179");
-    assertThat(
-      timeBoundaries
-        .get(0)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("refersTo")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("refersTo"))
       .contains("geltungszeit");
-    assertThat(
-      timeBoundaries
-        .get(0)
-        .getTimeInterval()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("start")
-        .getNodeValue()
-    )
+    assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("start"))
       .contains("#" + timeBoundaries.get(0).getEventRefEid());
   }
 
@@ -1248,7 +1177,7 @@ class NormTest {
       // then
       assertThat(analysis).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-        .contains(analysis.getNode());
+        .contains(analysis.getElement());
     }
   }
 
@@ -1266,7 +1195,7 @@ class NormTest {
       // then
       assertThat(temporalData).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act//temporalData", norm.getDocument()))
-        .contains(temporalData.getNode());
+        .contains(temporalData.getElement());
     }
 
     @Test
@@ -1279,7 +1208,7 @@ class NormTest {
 
       // then
       assertThat(temporalData).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getNode()))
+      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getElement()))
         .contains("f866d5a3-98c8-4927-8cab-1630c5832f3c");
     }
   }
@@ -1315,7 +1244,7 @@ class NormTest {
       norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
 
       // then
-      assertThat(norm.getNodeByEId("meta-1_analysis-1_activemod-1")).isEmpty();
+      assertThat(norm.getElementByEId("meta-1_analysis-1_activemod-1")).isEmpty();
     }
 
     @Test
@@ -1327,7 +1256,7 @@ class NormTest {
       norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
 
       // then
-      assertThat(norm.getNodeByEId("meta-1_geltzeiten-1_geltungszeitgr-1")).isPresent();
+      assertThat(norm.getElementByEId("meta-1_geltzeiten-1_geltungszeitgr-1")).isPresent();
     }
   }
 
@@ -1381,7 +1310,7 @@ class NormTest {
   }
 
   @Test
-  void getNodeByEId() {
+  void getElementByEId() {
     // given
     String normString =
       """
@@ -1415,13 +1344,13 @@ class NormTest {
     Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
 
     // when
-    final Optional<Node> textualMod = norm.getNodeByEId(
+    final Optional<Element> textualMod = norm.getElementByEId(
       "meta-1_analysis-1_activemod-2_textualmod-1"
     );
 
     // then
     assertThat(textualMod).isPresent();
-    assertThat(textualMod.get().getAttributes().getNamedItem("GUID").getNodeValue())
+    assertThat(textualMod.get().getAttribute("GUID"))
       .contains("8992dd02-ab87-42e8-bee2-86b76f587f81");
   }
 

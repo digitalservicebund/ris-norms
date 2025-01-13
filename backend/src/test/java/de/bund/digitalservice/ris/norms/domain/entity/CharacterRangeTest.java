@@ -101,7 +101,7 @@ public class CharacterRangeTest {
       // given //when
       var textInRange = new CharacterRange("9-13")
         .findTextInNode(
-          XmlMapper.toNode(
+          XmlMapper.toElement(
             """
                 <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple text of which we want to find a part.</akn:p>
             """
@@ -117,7 +117,7 @@ public class CharacterRangeTest {
       // given //when
       var textInRange = new CharacterRange("9-13")
         .findTextInNode(
-          XmlMapper.toNode(
+          XmlMapper.toElement(
             """
                 <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
             """
@@ -133,7 +133,7 @@ public class CharacterRangeTest {
       // given //when
       var textInRange = new CharacterRange("2-16")
         .findTextInNode(
-          XmlMapper.toNode(
+          XmlMapper.toElement(
             """
                 <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
             """
@@ -151,7 +151,7 @@ public class CharacterRangeTest {
     @Test
     void itShouldFindRangeInAText() {
       // given //when
-      var node = XmlMapper.toNode(
+      var node = XmlMapper.toElement(
         """
             <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple text of which we want to find a part.</akn:p>
         """
@@ -194,7 +194,7 @@ public class CharacterRangeTest {
     @Test
     void itShouldFindRangeInANestedNode() {
       // given //when
-      var node = XmlMapper.toNode(
+      var node = XmlMapper.toElement(
         """
             <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
         """
@@ -221,7 +221,7 @@ public class CharacterRangeTest {
     @Test
     void itShouldFindRangeSpanningMultipleNodes() {
       // given //when
-      var document = XmlMapper.toNode(
+      var document = XmlMapper.toElement(
         """
             <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="text-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-1_ref-1">text</akn:ref> of which we want to find a part.</akn:p>
         """

@@ -13,6 +13,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import net.sf.saxon.TransformerFactoryImpl;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -72,12 +73,12 @@ public class XmlMapper {
   }
 
   /**
-   * Maps a string containing xml to a {@link Node}.
+   * Maps a string containing xml to an {@link Element}.
    *
-   * @param xmlText The input string containing xml to be mapped to a {@link Node}
-   * @return the resulting {@link Node}
+   * @param xmlText The input string containing the xml of an element node
+   * @return the resulting {@link Element}
    */
-  public static Node toNode(String xmlText) {
+  public static Element toElement(String xmlText) {
     return toDocument(xmlText).getDocumentElement();
   }
 

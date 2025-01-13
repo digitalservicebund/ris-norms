@@ -20,7 +20,7 @@ class EIdPartTypeTest {
     }
   )
   void itShouldGetTheCorrectEIdPartTypeForAknElements(String xml, String eIdPartName) {
-    var node = XmlMapper.toNode(xml);
+    var node = XmlMapper.toElement(xml);
     // when
     var partType = EIdPartType.forAknElement(node);
     // then

@@ -26,7 +26,7 @@ interface MetadataInterface {
 @AllArgsConstructor
 public abstract class Metadaten<T extends MetadataInterface> {
 
-  private final Node node;
+  private final Element element;
   private final String startAttribute;
   private final String endAttribute;
   private final Namespace namespace;
@@ -68,7 +68,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
           getStartAttribute(),
           date.toString()
         ),
-        node
+        element
       )
       .ifPresentOrElse(
         nodeFound -> {
@@ -96,10 +96,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
 
             // 3. Then also set @end of a previous one, if present
             previousNode.ifPresent(value ->
-              ((Element) value.getNode()).setAttribute(
-                  getEndAttribute(),
-                  date.minusDays(1).toString()
-                )
+              value.getElement().setAttribute(getEndAttribute(), date.minusDays(1).toString())
             );
 
             // 4. And set @end of nodes without @start and @end to one day before given date
@@ -107,10 +104,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
               .stream()
               .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
               .forEach(value ->
-                ((Element) value.getNode()).setAttribute(
-                    getEndAttribute(),
-                    date.minusDays(1).toString()
-                  )
+                value.getElement().setAttribute(getEndAttribute(), date.minusDays(1).toString())
               );
           }
         }
@@ -125,7 +119,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
    */
   public List<SimpleProprietary> getNodes(final String xpath) {
     return NodeParser
-      .getNodesFromExpression(xpath, node)
+      .getElementsFromExpression(xpath, element)
       .stream()
       .map(SimpleProprietary::new)
       .toList();
@@ -161,7 +155,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
     final LocalDate date,
     final SimpleProprietary nextNode
   ) {
-    Node parentNode = node;
+    Node parentNode = element;
     final String[] pathElements = simpleMetadatum.getXpath().replace("./", "").split("/");
 
     for (int i = 0; i < pathElements.length; i++) {

@@ -10,7 +10,7 @@ class MetadatenDeTest {
   @Test
   void getFna() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:fna>111-11-1</meta:fna>
@@ -25,7 +25,7 @@ class MetadatenDeTest {
   @Test
   void getFnaEmpty() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
             </meta:legalDocML.de_metadaten>
@@ -39,7 +39,7 @@ class MetadatenDeTest {
   @Test
   void setFnaWhenFnaExists() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:fna>111-11-1</meta:fna>
@@ -56,7 +56,7 @@ class MetadatenDeTest {
   @Test
   void setFnaWhenEmpty() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
         </meta:legalDocML.de_metadaten>
@@ -72,7 +72,7 @@ class MetadatenDeTest {
   @Test
   void getArt() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:art>test art</meta:art>
@@ -87,7 +87,7 @@ class MetadatenDeTest {
   @Test
   void getArtEmpty() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
             </meta:legalDocML.de_metadaten>
@@ -101,7 +101,7 @@ class MetadatenDeTest {
   @Test
   void getTyp() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:typ>typi1</meta:typ>
@@ -116,7 +116,7 @@ class MetadatenDeTest {
   @Test
   void getTypEmpty() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
             </meta:legalDocML.de_metadaten>
@@ -130,7 +130,7 @@ class MetadatenDeTest {
   @Test
   void getGesta() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:gesta>nicht-vorhanden</meta:gesta>
@@ -145,7 +145,7 @@ class MetadatenDeTest {
   @Test
   void setGestaWhenGestaExists() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:gesta>nicht-vorhanden</meta:gesta>
@@ -162,7 +162,7 @@ class MetadatenDeTest {
   @Test
   void setGestaWhenEmpty() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
         </meta:legalDocML.de_metadaten>
@@ -178,7 +178,7 @@ class MetadatenDeTest {
   @Test
   void getFassung() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -193,7 +193,7 @@ class MetadatenDeTest {
   @Test
   void setFassungWhenFassungExists() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
                 <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -210,7 +210,7 @@ class MetadatenDeTest {
   @Test
   void setFassungWhenEmpty() {
     final MetadatenDe metadatenDe = new MetadatenDe(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
         </meta:legalDocML.de_metadaten>

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing the akn:analysis */
@@ -16,7 +17,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class Analysis {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Extracts a list of active modifications from the document.
@@ -25,7 +26,7 @@ public class Analysis {
    */
   public List<TextualMod> getActiveModifications() {
     return NodeParser
-      .getNodesFromExpression("./activeModifications/textualMod", node)
+      .getElementsFromExpression("./activeModifications/textualMod", element)
       .stream()
       .map(TextualMod::new)
       .toList();
@@ -38,7 +39,7 @@ public class Analysis {
    */
   public List<TextualMod> getPassiveModifications() {
     return NodeParser
-      .getNodesFromExpression("./passiveModifications/textualMod", node)
+      .getElementsFromExpression("./passiveModifications/textualMod", element)
       .stream()
       .map(TextualMod::new)
       .toList();
@@ -51,7 +52,8 @@ public class Analysis {
    */
   public Node getOrCreatePassiveModificationsNode() {
     return getPassiveModificationsNode()
-      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:passiveModifications", node));
+      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:passiveModifications", element)
+      );
   }
 
   /**
@@ -59,8 +61,8 @@ public class Analysis {
    *
    * @return {@link Optional} containing the akn:passiveModifications element if it exists, empty otherwise
    */
-  public Optional<Node> getPassiveModificationsNode() {
-    return NodeParser.getNodeFromExpression("./passiveModifications", node);
+  public Optional<Element> getPassiveModificationsNode() {
+    return NodeParser.getElementFromExpression("./passiveModifications", element);
   }
 
   /**
@@ -117,11 +119,11 @@ public class Analysis {
   public void deletePassiveModification(TextualMod mod) {
     this.getPassiveModificationsNode()
       .ifPresent(passiveModsNode -> {
-        passiveModsNode.removeChild(mod.getNode());
+        passiveModsNode.removeChild(mod.getElement());
 
         // If there are no more passive modifications left after deleting, we'll need to remove the entire element
         // as an empty passive mods element would be invalid.
-        if (NodeParser.isEmptyIgnoringWhitespace(passiveModsNode)) node.removeChild(
+        if (NodeParser.isEmptyIgnoringWhitespace(passiveModsNode)) element.removeChild(
           passiveModsNode
         );
       });

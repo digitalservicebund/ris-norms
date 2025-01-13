@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 @EqualsAndHashCode
 public class Mod {
 
-  private final Node node;
+  private final Element element;
 
   private static final String REF_XPATH = "./ref";
   private static final String RREF_XPATH = "./rref";
@@ -36,7 +36,7 @@ public class Mod {
    * @return The eId of the mod
    */
   public String getEid() {
-    return EId.fromMandatoryNode(getNode()).value();
+    return EId.fromMandatoryNode(getElement()).value();
   }
 
   /**
@@ -45,7 +45,7 @@ public class Mod {
    * @return The text that will be replaced by this mod
    */
   public Optional<String> getOldText() {
-    return NodeParser.getValueFromExpression("normalize-space(./quotedText[1])", this.node);
+    return NodeParser.getValueFromExpression("normalize-space(./quotedText[1])", this.element);
   }
 
   /**
@@ -56,7 +56,7 @@ public class Mod {
   public String getMandatoryOldText() {
     return NodeParser.getValueFromMandatoryNodeFromExpression(
       "normalize-space(./quotedText[1])",
-      this.node
+      this.element
     );
   }
 
@@ -67,7 +67,7 @@ public class Mod {
    */
   public void setOldText(String replacementText) {
     NodeParser
-      .getNodeFromExpression("./quotedText[1]", this.node)
+      .getElementFromExpression("./quotedText[1]", this.element)
       .orElseThrow()
       .setTextContent(replacementText);
   }
@@ -78,7 +78,7 @@ public class Mod {
    * @return The text that will replace the old text
    */
   public Optional<String> getNewText() {
-    return NodeParser.getValueFromExpression("normalize-space(./quotedText[2])", this.node);
+    return NodeParser.getValueFromExpression("normalize-space(./quotedText[2])", this.element);
   }
 
   /**
@@ -87,7 +87,7 @@ public class Mod {
    * @return The href of the akn:ref of the akn:mod.
    */
   public Optional<Href> getTargetRefHref() {
-    return NodeParser.getValueFromExpression(REF_XPATH + "/@href", this.node).map(Href::new);
+    return NodeParser.getValueFromExpression(REF_XPATH + "/@href", this.element).map(Href::new);
   }
 
   /**
@@ -97,11 +97,9 @@ public class Mod {
    */
   public void setTargetRefHref(final Href newHref) {
     NodeParser
-      .getNodeFromExpression(REF_XPATH, this.node)
+      .getElementFromExpression(REF_XPATH, this.element)
       .orElseThrow()
-      .getAttributes()
-      .getNamedItem("href")
-      .setNodeValue(newHref.toString());
+      .setAttribute("href", newHref.toString());
   }
 
   /**
@@ -110,7 +108,7 @@ public class Mod {
    * @return The from of the akn:rref of the akn:mod.
    */
   public Optional<Href> getTargetRrefFrom() {
-    return NodeParser.getValueFromExpression(RREF_XPATH + "/@from", this.node).map(Href::new);
+    return NodeParser.getValueFromExpression(RREF_XPATH + "/@from", this.element).map(Href::new);
   }
 
   /**
@@ -120,11 +118,9 @@ public class Mod {
    */
   public void setTargetRrefFrom(final Href newFrom) {
     NodeParser
-      .getNodeFromExpression(RREF_XPATH, this.node)
+      .getElementFromExpression(RREF_XPATH, this.element)
       .orElseThrow()
-      .getAttributes()
-      .getNamedItem("from")
-      .setNodeValue(newFrom.toString());
+      .setAttribute("from", newFrom.toString());
   }
 
   /**
@@ -134,7 +130,7 @@ public class Mod {
    */
   public void setNewText(final String updatedNewContent) {
     final Node newContentNode = NodeParser
-      .getNodeFromExpression("./quotedText[2]", this.node)
+      .getElementFromExpression("./quotedText[2]", this.element)
       .orElseThrow();
     List<Node> children = NodeParser.nodeListToList(newContentNode.getChildNodes());
     Optional<Node> refNode = children
@@ -160,8 +156,8 @@ public class Mod {
    *
    * @return The quotedStructure which content will be replaced
    */
-  public Optional<Node> getQuotedStructure() {
-    return NodeParser.getNodeFromExpression("./quotedStructure", this.node);
+  public Optional<Element> getQuotedStructure() {
+    return NodeParser.getElementFromExpression("./quotedStructure", this.element);
   }
 
   /**
@@ -169,8 +165,8 @@ public class Mod {
    *
    * @return The second quoted text
    */
-  public Optional<Node> getSecondQuotedText() {
-    return NodeParser.getNodeFromExpression("./quotedText[2]", this.node);
+  public Optional<Element> getSecondQuotedText() {
+    return NodeParser.getElementFromExpression("./quotedText[2]", this.element);
   }
 
   /**
@@ -179,12 +175,14 @@ public class Mod {
    * @return true or false
    */
   public boolean containsRef() {
-    final Optional<Node> quotedTextNode = getSecondQuotedText();
-    final Optional<Node> quotedStructureNode = getQuotedStructure();
+    final Optional<Element> quotedTextNode = getSecondQuotedText();
+    final Optional<Element> quotedStructureNode = getQuotedStructure();
     if (quotedTextNode.isPresent()) {
-      return NodeParser.getNodeFromExpression(REF_XPATH, quotedTextNode.get()).isPresent();
+      return NodeParser.getElementFromExpression(REF_XPATH, quotedTextNode.get()).isPresent();
     } else if (quotedStructureNode.isPresent()) {
-      return !NodeParser.getNodesFromExpression(".//quotedStructure//ref", this.node).isEmpty();
+      return !NodeParser
+        .getElementsFromExpression(".//quotedStructure//ref", this.element)
+        .isEmpty();
     }
     return false;
   }
@@ -196,11 +194,7 @@ public class Mod {
    * @return is it using a quotedText structure
    */
   public boolean usesQuotedText() {
-    final Optional<Node> newContentNode = NodeParser.getNodeFromExpression(
-      "./quotedText",
-      this.node
-    );
-    return newContentNode.isPresent();
+    return NodeParser.getElementFromExpression("./quotedText", this.element).isPresent();
   }
 
   /**
@@ -209,11 +203,7 @@ public class Mod {
    * @return is it using a quotedStructure
    */
   public boolean usesQuotedStructure() {
-    final Optional<Node> newContentNode = NodeParser.getNodeFromExpression(
-      "./quotedStructure",
-      this.node
-    );
-    return newContentNode.isPresent();
+    return NodeParser.getElementFromExpression("./quotedStructure", this.element).isPresent();
   }
 
   /**
@@ -222,8 +212,7 @@ public class Mod {
    * @return whether the mod has a range ref (rref)
    */
   public boolean hasRref() {
-    final Optional<Node> rangeRefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node);
-    return rangeRefNode.isPresent();
+    return NodeParser.getElementFromExpression(RREF_XPATH, this.element).isPresent();
   }
 
   /**
@@ -232,7 +221,7 @@ public class Mod {
    * @return The upTo of the akn:rref of the akn:mod.
    */
   public Optional<Href> getTargetRrefUpTo() {
-    return NodeParser.getValueFromExpression("./rref/@upTo", this.node).map(Href::new);
+    return NodeParser.getValueFromExpression("./rref/@upTo", this.element).map(Href::new);
   }
 
   /**
@@ -242,11 +231,9 @@ public class Mod {
    */
   public void setTargetRrefUpTo(final Href destinationUpTo) {
     NodeParser
-      .getNodeFromExpression(RREF_XPATH, this.node)
+      .getElementFromExpression(RREF_XPATH, this.element)
       .orElseThrow()
-      .getAttributes()
-      .getNamedItem("upTo")
-      .setNodeValue(destinationUpTo.toString());
+      .setAttribute("upTo", destinationUpTo.toString());
   }
 
   /**
@@ -257,9 +244,9 @@ public class Mod {
    * @param destinationUpTo the new destination upTo
    */
   public void replaceRefWithRref(final Href destinationFrom, final Href destinationUpTo) {
-    final Node refNode = NodeParser.getNodeFromExpression(REF_XPATH, this.node).orElseThrow();
+    final Node refNode = NodeParser.getElementFromExpression(REF_XPATH, this.element).orElseThrow();
 
-    final Element rrefElement = NodeCreator.createElement("akn:rref", this.node);
+    final Element rrefElement = NodeCreator.createElement("akn:rref", this.element);
     rrefElement.setAttribute("GUID", UUID.randomUUID().toString());
     rrefElement.setAttribute("eId", EId.fromMandatoryNode(refNode).value());
     rrefElement.setAttribute("from", destinationFrom.toString());
@@ -267,7 +254,7 @@ public class Mod {
 
     rrefElement.setTextContent(refNode.getTextContent());
 
-    this.node.replaceChild(rrefElement, refNode);
+    this.element.replaceChild(rrefElement, refNode);
   }
 
   /**
@@ -277,15 +264,17 @@ public class Mod {
    * @param destinationHref the new destination href
    */
   public void replaceRrefWithRef(final Href destinationHref) {
-    final Node rrefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node).orElseThrow();
+    final Node rrefNode = NodeParser
+      .getElementFromExpression(RREF_XPATH, this.element)
+      .orElseThrow();
 
-    final Element refElement = NodeCreator.createElement("akn:ref", this.node);
+    final Element refElement = NodeCreator.createElement("akn:ref", this.element);
     refElement.setAttribute("GUID", UUID.randomUUID().toString());
     refElement.setAttribute("eId", EId.fromMandatoryNode(rrefNode).value());
     refElement.setAttribute("href", destinationHref.toString());
 
     refElement.setTextContent(rrefNode.getTextContent());
 
-    this.node.replaceChild(refElement, rrefNode);
+    this.element.replaceChild(refElement, rrefNode);
   }
 }

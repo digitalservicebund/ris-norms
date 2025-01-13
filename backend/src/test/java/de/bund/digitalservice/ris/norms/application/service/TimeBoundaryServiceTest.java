@@ -102,7 +102,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .getFirst()
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("eId")
@@ -113,7 +113,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .getFirst()
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("GUID")
@@ -122,35 +122,11 @@ class TimeBoundaryServiceTest {
         .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
       assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
         .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
-      assertThat(
-        timeBoundaries
-          .getFirst()
-          .getTimeInterval()
-          .getNode()
-          .getAttributes()
-          .getNamedItem("GUID")
-          .getNodeValue()
-      )
+      assertThat(timeBoundaries.getFirst().getTimeInterval().getElement().getAttribute("GUID"))
         .contains("ca9f53aa-d374-4bec-aca3-fff4e3485179");
-      assertThat(
-        timeBoundaries
-          .get(0)
-          .getTimeInterval()
-          .getNode()
-          .getAttributes()
-          .getNamedItem("refersTo")
-          .getNodeValue()
-      )
+      assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("refersTo"))
         .contains("geltungszeit");
-      assertThat(
-        timeBoundaries
-          .get(0)
-          .getTimeInterval()
-          .getNode()
-          .getAttributes()
-          .getNamedItem("start")
-          .getNodeValue()
-      )
+      assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("start"))
         .contains("#" + timeBoundaries.get(0).getEventRefEid());
 
       // handle 2nd time boundary
@@ -161,7 +137,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(1)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("eId")
@@ -172,7 +148,7 @@ class TimeBoundaryServiceTest {
         timeBoundaries
           .get(1)
           .getTimeInterval()
-          .getNode()
+          .getElement()
           .getParentNode()
           .getAttributes()
           .getNamedItem("GUID")
@@ -181,35 +157,11 @@ class TimeBoundaryServiceTest {
         .contains("fdfaeef0-0300-4e5b-9e8b-14d2162bfb00");
       assertThat(timeBoundaries.get(1).getTimeIntervalEid())
         .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
-      assertThat(
-        timeBoundaries
-          .get(1)
-          .getTimeInterval()
-          .getNode()
-          .getAttributes()
-          .getNamedItem("GUID")
-          .getNodeValue()
-      )
+      assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("GUID"))
         .contains("8118030a-5fa4-4f9c-a880-b7ba19e5edfb");
-      assertThat(
-        timeBoundaries
-          .get(1)
-          .getTimeInterval()
-          .getNode()
-          .getAttributes()
-          .getNamedItem("refersTo")
-          .getNodeValue()
-      )
+      assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("refersTo"))
         .contains("geltungszeit");
-      assertThat(
-        timeBoundaries
-          .get(1)
-          .getTimeInterval()
-          .getNode()
-          .getAttributes()
-          .getNamedItem("start")
-          .getNodeValue()
-      )
+      assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("start"))
         .contains("#" + timeBoundaries.get(1).getEventRefEid());
     }
 

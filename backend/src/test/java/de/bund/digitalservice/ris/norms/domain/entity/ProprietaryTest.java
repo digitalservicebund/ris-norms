@@ -15,7 +15,7 @@ class ProprietaryTest {
     @Test
     void returnsTheFna() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                       <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
             eId="meta-1_proprietary-1"
@@ -40,7 +40,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfFnaIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                       <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
             eId="meta-1_proprietary-1"
@@ -65,7 +65,7 @@ class ProprietaryTest {
     @Test
     void returnsTheFnaAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                       <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
             eId="meta-1_proprietary-1"
@@ -112,7 +112,7 @@ class ProprietaryTest {
     @Test
     void returnsNode() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
@@ -132,7 +132,7 @@ class ProprietaryTest {
     @Test
     void returnsNodeEmpty() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
                             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
@@ -151,7 +151,7 @@ class ProprietaryTest {
     @Test
     void returnsNodeByCreatingIt() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
                             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
@@ -174,7 +174,7 @@ class ProprietaryTest {
     @Test
     void returnsTheArt() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -199,7 +199,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfArtIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -223,7 +223,7 @@ class ProprietaryTest {
     @Test
     void returnsTheArtAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -270,7 +270,7 @@ class ProprietaryTest {
     @Test
     void returnsTheTyp() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -295,7 +295,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfTypIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -319,7 +319,7 @@ class ProprietaryTest {
     @Test
     void returnsTheTypAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -365,7 +365,7 @@ class ProprietaryTest {
     @Test
     void returnsTheSubtyp() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -390,7 +390,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfSubtypIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -414,7 +414,7 @@ class ProprietaryTest {
     @Test
     void returnsTheSubtypAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary
                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -463,7 +463,7 @@ class ProprietaryTest {
     @Test
     void returnsTheBezeichnungInVorlage() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -488,7 +488,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfBezeichnungInVorlageIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -512,7 +512,7 @@ class ProprietaryTest {
     @Test
     void returnsTheBezeichnungInVorlageAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -563,7 +563,7 @@ class ProprietaryTest {
     @Test
     void returnsArtDerNorm() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -587,7 +587,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfArtDerNormIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -611,7 +611,7 @@ class ProprietaryTest {
     @Test
     void returnsTheArtDerNormAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -653,7 +653,7 @@ class ProprietaryTest {
     @Test
     void returnsStaat() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -677,7 +677,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfStaatIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -701,7 +701,7 @@ class ProprietaryTest {
     @Test
     void returnsTheStaatAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -743,7 +743,7 @@ class ProprietaryTest {
     @Test
     void returnsBeschliessendesOrgan() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -770,7 +770,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfBeschliessendesOrganIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -795,7 +795,7 @@ class ProprietaryTest {
     @Test
     void returnsTheBeschliessendesOrganAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -842,7 +842,7 @@ class ProprietaryTest {
     @Test
     void returnsTheBeschliessendesOrganQualifizierteMehrheitAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -893,7 +893,7 @@ class ProprietaryTest {
     @Test
     void returnsOrganisationsEinheit() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -918,7 +918,7 @@ class ProprietaryTest {
     @Test
     void returnsEmptyOptionalIfOrganisationsEinheitIsMissing() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -942,7 +942,7 @@ class ProprietaryTest {
     @Test
     void returnsTheOrganisationsEinheitAtDate() {
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -994,7 +994,7 @@ class ProprietaryTest {
     void returnsEinzelelementArtDerNorm() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                         <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -1022,7 +1022,7 @@ class ProprietaryTest {
     void returnsEmptyOptionalIfEinzelelementArtDerNormIsMissing() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
@@ -1047,7 +1047,7 @@ class ProprietaryTest {
     void returnsTheEinzelelementArtDerNormAtDate() {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
                                                   <akn:proprietary
           xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"

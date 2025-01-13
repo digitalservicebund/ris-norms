@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class TimeInterval {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Creates a new akn:timeInterval element and appends it to the given node.
@@ -33,7 +33,7 @@ public class TimeInterval {
    * @param start the href to the akn:eventRef that includes the start date
    */
   public void setStart(Href start) {
-    ((Element) node).setAttribute("start", start.toString());
+    element.setAttribute("start", start.toString());
   }
 
   /**
@@ -41,7 +41,7 @@ public class TimeInterval {
    * @param refersTo the value of the refersTo attribute
    */
   public void setRefersTo(String refersTo) {
-    ((Element) node).setAttribute("refersTo", refersTo);
+    element.setAttribute("refersTo", refersTo);
   }
 
   /**
@@ -51,7 +51,7 @@ public class TimeInterval {
    */
   public Optional<String> getEventRefEId() {
     return NodeParser
-      .getValueFromExpression("./@start", this.node)
+      .getValueFromExpression("./@start", this.element)
       .map(Href::new)
       .flatMap(Href::getEId);
   }

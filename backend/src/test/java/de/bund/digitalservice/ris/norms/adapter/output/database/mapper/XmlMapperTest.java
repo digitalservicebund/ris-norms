@@ -82,7 +82,7 @@ class XmlMapperTest {
     var text = "<node><inner-node>Hello</inner-node></node>";
 
     // when
-    var node = XmlMapper.toNode(text);
+    var node = XmlMapper.toElement(text);
 
     // then
     assertThat(node.getNodeName()).isEqualTo("node");
@@ -95,9 +95,9 @@ class XmlMapperTest {
     var text = "<node><inner-node>Hello</inner-node></node>";
 
     // when
-    var node1 = XmlMapper.toNode(text);
+    var node1 = XmlMapper.toElement(text);
     var asString = XmlMapper.toString(node1);
-    var node2 = XmlMapper.toNode(asString);
+    var node2 = XmlMapper.toElement(asString);
 
     // then
     assertThat(node1.isEqualNode(node2)).isTrue();

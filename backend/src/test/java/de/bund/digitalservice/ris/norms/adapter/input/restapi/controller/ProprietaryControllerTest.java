@@ -193,7 +193,7 @@ class ProprietaryControllerTest {
       final LocalDate date = LocalDate.parse("1990-01-01");
 
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
@@ -423,7 +423,7 @@ class ProprietaryControllerTest {
       final LocalDate date = LocalDate.parse("1990-01-01");
 
       final Proprietary proprietary = new Proprietary(
-        XmlMapper.toNode(
+        XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
                               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">

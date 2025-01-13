@@ -228,7 +228,7 @@ public class NormService
 
     final String queryModEId = query.mods().stream().findAny().orElseThrow().eId();
     final Mod modObject = amendingNorm
-      .getNodeByEId(queryModEId)
+      .getElementByEId(queryModEId)
       .map(Mod::new)
       .orElseThrow(() ->
         new InvalidUpdateException(
@@ -252,7 +252,7 @@ public class NormService
         .mods()
         .stream()
         .allMatch(modData -> {
-          final var modNode = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
+          final var modNode = amendingNorm.getElementByEId(modData.eId()).map(Mod::new);
           final var eli = modNode
             .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
             .flatMap(Href::getExpressionEli)
@@ -274,7 +274,7 @@ public class NormService
     query
       .mods()
       .forEach(newModData -> {
-        final Mod mod = amendingNorm.getNodeByEId(newModData.eId()).map(Mod::new).orElseThrow();
+        final Mod mod = amendingNorm.getElementByEId(newModData.eId()).map(Mod::new).orElseThrow();
 
         this.updateModInPlace(
             amendingNorm,

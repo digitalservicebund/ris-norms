@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toNode;
+import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toElement;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ class ArticleTest {
       <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung"></akn:article>
       """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     var expectedGuid = "cdbfc728-a070-42d9-ba2f-357945afef06";
 
     // when
@@ -37,7 +37,7 @@ class ArticleTest {
       </akn:article>
       """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
 
     // when
     var enumeration = article.getEnumeration();
@@ -55,7 +55,7 @@ class ArticleTest {
       </akn:article>
       """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     var expectedEid = "hauptteil-1_art-1";
 
     // when
@@ -74,7 +74,7 @@ class ArticleTest {
           </akn:article>
           """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     var expectedEid = "hauptteil-1_art-1";
 
     // when
@@ -94,7 +94,7 @@ class ArticleTest {
       </akn:article>
       """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     var expectedHeading = "Änderung des Vereinsgesetzes";
 
     // when
@@ -127,7 +127,7 @@ class ArticleTest {
       </akn:article>
       """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
 
     // when
     var eli = article.getAffectedDocumentEli().get();
@@ -159,7 +159,7 @@ class ArticleTest {
           </akn:article>
           """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     // when
     article.setAffectedDocumentEli("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1");
 
@@ -191,7 +191,7 @@ class ArticleTest {
           </akn:article>
           """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     var expectedRefersTo = "hauptaenderung";
 
     // when
@@ -278,7 +278,7 @@ class ArticleTest {
       </akn:article>
       """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     var expectedModEId =
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
 
@@ -391,7 +391,7 @@ class ArticleTest {
       </akn:article>
       """;
 
-    var article = new Article(toNode(articleString));
+    var article = new Article(toElement(articleString));
     var expectedModEId =
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
 

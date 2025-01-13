@@ -82,7 +82,7 @@ class UpdateNormServiceTest {
         .orElse(Collections.emptyList());
       assertThat(passiveModifications).hasSize(1);
       assertThat(updatedZf0Law.getTimeBoundaries()).hasSize(4); // 3 existing time-boundaries + 1 new one for the mod
-      var eventRefNode = updatedZf0Law.getTimeBoundaries().get(3).getEventRef().getNode();
+      var eventRefNode = updatedZf0Law.getTimeBoundaries().get(3).getEventRef().getElement();
       assertThat(NodeParser.getValueFromExpression("@type", eventRefNode))
         .contains(EventRefType.AMENDMENT.getValue());
 
@@ -550,8 +550,8 @@ class UpdateNormServiceTest {
         .hasToString(
           "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-3.xml"
         );
-      assertThat(updatedMod.get().getNode().getTextContent())
-        .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());
+      assertThat(updatedMod.get().getElement().getTextContent())
+        .isEqualTo(modBeforeUpdate.get().getElement().getTextContent());
     }
 
     @Test
@@ -601,8 +601,8 @@ class UpdateNormServiceTest {
         .hasToString(
           "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml"
         );
-      assertThat(updatedMod.get().getNode().getTextContent())
-        .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());
+      assertThat(updatedMod.get().getElement().getTextContent())
+        .isEqualTo(modBeforeUpdate.get().getElement().getTextContent());
     }
   }
 }

@@ -14,7 +14,7 @@ class FRBRManifestationTest {
   @Test
   void getFRBRthisEli() {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
          <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                    <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2020-01-01/regelungstext-1.xml"/>
@@ -33,7 +33,7 @@ class FRBRManifestationTest {
   @Test
   void setFRBRthisEli() {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -58,7 +58,7 @@ class FRBRManifestationTest {
   @Test
   void getFRBRuri() {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
          <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
@@ -78,7 +78,7 @@ class FRBRManifestationTest {
   @Test
   void setFRBRuri() {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
          <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
@@ -100,7 +100,7 @@ class FRBRManifestationTest {
   @Test
   void getFBRDate() {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -119,7 +119,7 @@ class FRBRManifestationTest {
   @Test
   void getFBRDateNotFound() {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -137,7 +137,7 @@ class FRBRManifestationTest {
   @Test
   void setFBRDate() {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />

@@ -6,15 +6,14 @@ import java.util.Optional;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /** Class representing the akn:FRBRWork */
 @Getter
 @SuperBuilder(toBuilder = true)
 public class FRBRWork extends FRBR {
 
-  public FRBRWork(final Node node) {
-    super(node);
+  public FRBRWork(final Element element) {
+    super(element);
   }
 
   /**
@@ -24,7 +23,7 @@ public class FRBRWork extends FRBR {
    */
   public WorkEli getEli() {
     return WorkEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getNode())
+      NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getElement())
     );
   }
 
@@ -35,10 +34,8 @@ public class FRBRWork extends FRBR {
    */
   public void setEli(final WorkEli eli) {
     NodeParser
-      .getMandatoryNodeFromExpression("./FRBRthis", this.getNode())
-      .getAttributes()
-      .getNamedItem("value")
-      .setNodeValue(eli.toString());
+      .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
+      .setAttribute("value", eli.toString());
   }
 
   /**
@@ -47,7 +44,10 @@ public class FRBRWork extends FRBR {
    * @return The FRBRname
    */
   public Optional<String> getFRBRname() {
-    Optional<String> fRBRname = NodeParser.getValueFromExpression("./FRBRname/@value", getNode());
+    Optional<String> fRBRname = NodeParser.getValueFromExpression(
+      "./FRBRname/@value",
+      getElement()
+    );
 
     return fRBRname.map(s ->
       s.replace("bgbl-1", "BGBl. I").replace("bgbl-2", "BGBl. II").replace("banz-at", "BAnz AT")
@@ -59,9 +59,9 @@ public class FRBRWork extends FRBR {
    * @param name the name of the agent
    */
   public void setFRBRName(final String name) {
-    final Element fRBRName = (Element) NodeParser.getMandatoryNodeFromExpression(
+    final Element fRBRName = NodeParser.getMandatoryElementFromExpression(
       "./FRBRname",
-      getNode()
+      getElement()
     );
     fRBRName.setAttribute("value", name);
   }
@@ -71,9 +71,9 @@ public class FRBRWork extends FRBR {
    * @param author the uri identifying the author of the document
    */
   public void setFRBRAuthor(final String author) {
-    final Element fRBRAuthor = (Element) NodeParser.getMandatoryNodeFromExpression(
+    final Element fRBRAuthor = NodeParser.getMandatoryElementFromExpression(
       "./FRBRauthor",
-      getNode()
+      getElement()
     );
     fRBRAuthor.setAttribute("href", author);
   }
@@ -84,6 +84,6 @@ public class FRBRWork extends FRBR {
    * @return The FRBRnumber
    */
   public Optional<String> getFRBRnumber() {
-    return NodeParser.getValueFromExpression("./FRBRnumber/@value", getNode());
+    return NodeParser.getValueFromExpression("./FRBRnumber/@value", getElement());
   }
 }

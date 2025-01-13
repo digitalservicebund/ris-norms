@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 class ModTest {
@@ -65,9 +66,9 @@ class ModTest {
 
   @BeforeEach
   void setUp() {
-    quotedTextMod = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD));
-    quotedStructureRefMod = new Mod(XmlMapper.toNode(QUOTED_STRUCTURE_REF_MOD));
-    quotedStructureRrefMod = new Mod(XmlMapper.toNode(QUOTED_STRUCTURE_RREF_MOD));
+    quotedTextMod = new Mod(XmlMapper.toElement(QUOTED_TEXT_MOD));
+    quotedStructureRefMod = new Mod(XmlMapper.toElement(QUOTED_STRUCTURE_REF_MOD));
+    quotedStructureRrefMod = new Mod(XmlMapper.toElement(QUOTED_STRUCTURE_RREF_MOD));
   }
 
   @Test
@@ -117,7 +118,7 @@ class ModTest {
       ersetzt.</akn:mod>
       """;
 
-    Mod quotedTextModWithRef = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF));
+    Mod quotedTextModWithRef = new Mod(XmlMapper.toElement(QUOTED_TEXT_MOD_WITH_REF));
     // when
     quotedTextModWithRef.setNewText("new text");
     var newText = quotedTextModWithRef.getNewText();
@@ -145,7 +146,7 @@ class ModTest {
       ersetzt.</akn:mod>
       """;
 
-    Mod quotedTextModWithRef = new Mod(XmlMapper.toNode(QUOTED_TEXT_MOD_WITH_REF));
+    Mod quotedTextModWithRef = new Mod(XmlMapper.toElement(QUOTED_TEXT_MOD_WITH_REF));
     // when
     quotedTextModWithRef.setNewText("new text");
     var newText = quotedTextModWithRef.getNewText();
@@ -241,13 +242,13 @@ class ModTest {
   @Test
   void getSecondQuotedText() {
     // when
-    final Optional<Node> secondQuotedText = quotedTextMod.getSecondQuotedText();
+    final Optional<Element> secondQuotedText = quotedTextMod.getSecondQuotedText();
 
     // then
     assertThat(secondQuotedText).isPresent();
-    assertThat(secondQuotedText.get().getAttributes().getNamedItem("GUID").getNodeValue())
+    assertThat(secondQuotedText.get().getAttribute("GUID"))
       .isEqualTo("dd25bdb6-4ef4-4ef5-808c-27579b6ae196");
-    assertThat(secondQuotedText.get().getAttributes().getNamedItem("eId").getNodeValue())
+    assertThat(secondQuotedText.get().getAttribute("eId"))
       .isEqualTo(
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
       );
@@ -267,13 +268,13 @@ class ModTest {
   @Test
   void getQuotedStructure() {
     // when
-    final Optional<Node> quotedStructure = quotedStructureRefMod.getQuotedStructure();
+    final Optional<Element> quotedStructure = quotedStructureRefMod.getQuotedStructure();
 
     // then
     assertThat(quotedStructure).isPresent();
-    assertThat(quotedStructure.get().getAttributes().getNamedItem("GUID").getNodeValue())
+    assertThat(quotedStructure.get().getAttribute("GUID"))
       .isEqualTo("9cb0572a-2933-473e-823f-5541ab360561");
-    assertThat(quotedStructure.get().getAttributes().getNamedItem("eId").getNodeValue())
+    assertThat(quotedStructure.get().getAttribute("eId"))
       .isEqualTo(
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1"
       );
@@ -288,7 +289,7 @@ class ModTest {
   @Test
   void quotedTextContainsRef() {
     final Mod mod = new Mod(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                  <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
               GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
@@ -319,7 +320,7 @@ class ModTest {
   @Test
   void quotedStructureContainsRef() {
     final Mod mod = new Mod(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
                         <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der
                   <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt durch:
@@ -347,7 +348,7 @@ class ModTest {
                       <akn:rref from="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-1.xml" upTo="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-9_abs-4.xml">§ 9 Absatz 1 bis 4</akn:rref> des Gesetzes wird ersetzt durch:
             </akn:mod>
       """;
-    quotedStructureRefMod = new Mod(XmlMapper.toNode(rangeRefString));
+    quotedStructureRefMod = new Mod(XmlMapper.toElement(rangeRefString));
 
     // when
     var result = quotedStructureRefMod.hasRref();
@@ -364,7 +365,7 @@ class ModTest {
         <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt
       </akn:mod>
       """;
-    quotedStructureRefMod = new Mod(XmlMapper.toNode(rangeRefString));
+    quotedStructureRefMod = new Mod(XmlMapper.toElement(rangeRefString));
 
     // when
     var result = quotedStructureRefMod.hasRref();
@@ -405,7 +406,9 @@ class ModTest {
     assertThat(targetRrefUpTo).isPresent();
     assertThat(targetRrefUpTo.get().value()).isEqualTo("new-destination-upto");
 
-    assertThat(NodeParser.getValueFromExpression("./rref/@GUID", quotedStructureRefMod.getNode()))
+    assertThat(
+      NodeParser.getValueFromExpression("./rref/@GUID", quotedStructureRefMod.getElement())
+    )
       .isPresent();
   }
 
@@ -420,7 +423,9 @@ class ModTest {
     assertThat(targetRefHref).isPresent();
     assertThat(targetRefHref.get().value()).isEqualTo("new-destination-href");
 
-    assertThat(NodeParser.getValueFromExpression("./ref/@GUID", quotedStructureRrefMod.getNode()))
+    assertThat(
+      NodeParser.getValueFromExpression("./ref/@GUID", quotedStructureRrefMod.getElement())
+    )
       .isPresent();
   }
 }

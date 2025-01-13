@@ -57,7 +57,7 @@ public class BillToActService {
    */
   public String convert(Document document) {
     if (
-      NodeParser.getNodeFromExpression("//*/act", document).isPresent()
+      NodeParser.getElementFromExpression("//*/act", document).isPresent()
     ) return XmlMapper.toString(document);
 
     updateXsdLocation(document);
@@ -227,7 +227,7 @@ public class BillToActService {
 
   private void addPeriodToArticle(Document document) {
     NodeParser
-      .getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
+      .getElementsFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
       .stream()
       .filter(article -> {
         final Optional<String> optionalRefersTo = NodeParser.getValueFromExpression(
@@ -236,13 +236,12 @@ public class BillToActService {
         );
         return optionalRefersTo.isEmpty() || !optionalRefersTo.get().equals("geltungszeitregel");
       })
-      .forEach(filtered ->
-        ((Element) filtered).setAttribute("period", "#meta-1_geltzeiten-1_geltungszeitgr-1")
+      .forEach(filtered -> filtered.setAttribute("period", "#meta-1_geltzeiten-1_geltungszeitgr-1")
       );
   }
 
   private void addFormulaAndSignature(Document document) {
-    final Element conclusions = (Element) NodeParser.getMandatoryNodeFromExpression(
+    final Element conclusions = NodeParser.getMandatoryElementFromExpression(
       "//conclusions",
       document
     );
@@ -274,7 +273,7 @@ public class BillToActService {
     );
     blockContainerParagraphLocation.setAttribute(REFERSTO, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
 
-    Element ausfertigungsDateNode = (Element) NodeParser.getMandatoryNodeFromExpression(
+    Element ausfertigungsDateNode = NodeParser.getMandatoryElementFromExpression(
       "//meta/lifecycle/eventRef[@refersTo=\"ausfertigung\"]",
       document
     );

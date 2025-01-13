@@ -22,7 +22,7 @@ public class TimeBoundary {
    * @return The eId of the eventRef
    */
   public String getEventRefEid() {
-    return EId.fromMandatoryNode(eventRef.getNode()).value();
+    return EId.fromMandatoryNode(eventRef.getElement()).value();
   }
 
   /**
@@ -31,7 +31,7 @@ public class TimeBoundary {
    * @return The eId of the timeInterval
    */
   public String getTimeIntervalEid() {
-    return EId.fromMandatoryNode(timeInterval.getNode()).value();
+    return EId.fromMandatoryNode(timeInterval.getElement()).value();
   }
 
   /**
@@ -40,7 +40,7 @@ public class TimeBoundary {
    * @return The eId of the temporal group
    */
   public String getTemporalGroupEid() {
-    return EId.fromMandatoryNode(temporalGroup.getNode()).value();
+    return EId.fromMandatoryNode(temporalGroup.getElement()).value();
   }
 
   /**
@@ -49,6 +49,6 @@ public class TimeBoundary {
    * @param eventRefDate contains the new date to be set
    */
   public void setEventRefDate(LocalDate eventRefDate) {
-    eventRef.getNode().getAttributes().getNamedItem("date").setNodeValue(eventRefDate.toString());
+    eventRef.getElement().setAttribute("date", eventRefDate.toString());
   }
 }

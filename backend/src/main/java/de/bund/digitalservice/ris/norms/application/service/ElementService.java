@@ -127,7 +127,7 @@ public class ElementService
     );
 
     final var element = NodeParser
-      .getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument())
+      .getElementFromExpression(getXPathForEid(query.eid()), norm.getDocument())
       .orElseThrow(() -> new ElementNotFoundException(query.eli().toString(), query.eid()));
 
     return xsltTransformationService.transformLegalDocMlToHtml(

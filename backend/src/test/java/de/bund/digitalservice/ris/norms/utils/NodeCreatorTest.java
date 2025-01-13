@@ -76,11 +76,10 @@ class NodeCreatorTest {
     final Element newElement = NodeCreator.createElementWithEidAndGuid("akn:ref", testNode);
 
     // Then
-    final Node childTestNode = NodeParser.getMandatoryNodeFromExpression("//p/ref", document);
+    final Element childTestNode = NodeParser.getMandatoryElementFromExpression("//p/ref", document);
     assertThat(childTestNode).isEqualTo(newElement);
-    assertThat(childTestNode.getAttributes().getNamedItem("GUID")).isNotNull();
-    assertThat(childTestNode.getAttributes().getNamedItem("eId").getNodeValue())
-      .isEqualTo("text-1_ref-1");
+    assertThat(childTestNode.getAttribute("GUID")).isNotEmpty();
+    assertThat(childTestNode.getAttribute("eId")).isEqualTo("text-1_ref-1");
   }
 
   @Test
@@ -107,8 +106,7 @@ class NodeCreatorTest {
       document
     );
     assertThat(childTestNode).isEmpty();
-    assertThat(newElement.getAttributes().getNamedItem("GUID")).isNotNull();
-    assertThat(newElement.getAttributes().getNamedItem("eId").getNodeValue())
-      .isEqualTo("test-1_child-test-1");
+    assertThat(newElement.getAttribute("GUID")).isNotEmpty();
+    assertThat(newElement.getAttribute("eId")).isEqualTo("test-1_child-test-1");
   }
 }

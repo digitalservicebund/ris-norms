@@ -11,7 +11,7 @@ class LifecycleTest {
   void getEventRefEId() {
     // given
     final Lifecycle lifecycle = new Lifecycle(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
          <akn:lifecycle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
              <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2017-03-15" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
@@ -32,7 +32,7 @@ class LifecycleTest {
   void getEventRefEIdEmpty() {
     // given
     final Lifecycle lifecycle = new Lifecycle(
-      XmlMapper.toNode(
+      XmlMapper.toElement(
         """
         <akn:lifecycle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
                           </akn:lifecycle>

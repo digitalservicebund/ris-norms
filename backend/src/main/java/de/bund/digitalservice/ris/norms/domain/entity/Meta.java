@@ -7,7 +7,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /** Class representing the akn:meta */
 @Getter
@@ -20,7 +20,7 @@ public class Meta {
 
   private static final String SOURCE_ATTIBUTE = "source";
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Returns a {@link FRBRWork} instance from the {@link Meta}.
@@ -29,7 +29,7 @@ public class Meta {
    */
   public FRBRWork getFRBRWork() {
     return new FRBRWork(
-      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRWork", node)
+      NodeParser.getMandatoryElementFromExpression("./identification/FRBRWork", element)
     );
   }
 
@@ -40,7 +40,7 @@ public class Meta {
    */
   public FRBRExpression getFRBRExpression() {
     return new FRBRExpression(
-      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRExpression", node)
+      NodeParser.getMandatoryElementFromExpression("./identification/FRBRExpression", element)
     );
   }
 
@@ -51,7 +51,7 @@ public class Meta {
    */
   public FRBRManifestation getFRBRManifestation() {
     return new FRBRManifestation(
-      NodeParser.getMandatoryNodeFromExpression("./identification/FRBRManifestation", node)
+      NodeParser.getMandatoryElementFromExpression("./identification/FRBRManifestation", element)
     );
   }
 
@@ -61,7 +61,9 @@ public class Meta {
    * @return the TemporalData node as {@link TemporalData}
    */
   public TemporalData getTemporalData() {
-    return new TemporalData(NodeParser.getMandatoryNodeFromExpression("./temporalData", node));
+    return new TemporalData(
+      NodeParser.getMandatoryElementFromExpression("./temporalData", element)
+    );
   }
 
   /**
@@ -73,9 +75,9 @@ public class Meta {
     try {
       return getTemporalData();
     } catch (final MandatoryNodeNotFoundException e) {
-      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:temporalData", node);
+      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:temporalData", element);
       newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-      node.insertBefore(newElement, getOrCreateProprietary().getNode());
+      element.insertBefore(newElement, getOrCreateProprietary().getElement());
       return new TemporalData(newElement);
     }
   }
@@ -86,7 +88,7 @@ public class Meta {
    * @return the Lifecycle node as {@link Lifecycle}
    */
   public Lifecycle getLifecycle() {
-    return new Lifecycle(NodeParser.getMandatoryNodeFromExpression("./lifecycle", node));
+    return new Lifecycle(NodeParser.getMandatoryElementFromExpression("./lifecycle", element));
   }
 
   /**
@@ -98,9 +100,9 @@ public class Meta {
     try {
       return getLifecycle();
     } catch (final MandatoryNodeNotFoundException e) {
-      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:lifecycle", node);
+      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:lifecycle", element);
       newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-      node.insertBefore(newElement, getOrCreateProprietary().getNode());
+      element.insertBefore(newElement, getOrCreateProprietary().getElement());
       return new Lifecycle(newElement);
     }
   }
@@ -111,7 +113,7 @@ public class Meta {
    * @return the Analysis node as {@link Analysis}
    */
   public Optional<Analysis> getAnalysis() {
-    return NodeParser.getNodeFromExpression("./analysis", node).map(Analysis::new);
+    return NodeParser.getElementFromExpression("./analysis", element).map(Analysis::new);
   }
 
   /**
@@ -122,13 +124,13 @@ public class Meta {
   public Analysis getOrCreateAnalysis() {
     return getAnalysis()
       .orElseGet(() -> {
-        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:analysis", node);
+        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:analysis", element);
         newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
 
         // Metadata needs to be in the correct order, so we're inserting it before temporal data, which is the
         // element that has to follow the analysis in a valid document.
-        final var insertInOrderSiblibg = getOrCreateTemporalData().getNode();
-        node.insertBefore(newElement, insertInOrderSiblibg);
+        final var insertInOrderSiblibg = getOrCreateTemporalData().getElement();
+        element.insertBefore(newElement, insertInOrderSiblibg);
 
         return new Analysis(newElement);
       });
@@ -142,7 +144,7 @@ public class Meta {
   public Proprietary getOrCreateProprietary() {
     return this.getProprietary()
       .orElseGet(() -> {
-        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:proprietary", node);
+        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:proprietary", element);
         newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
         return new Proprietary(newElement);
       });
@@ -154,6 +156,6 @@ public class Meta {
    * @return {@link Optional} with the {@link Proprietary} metadata of the norm.
    */
   public Optional<Proprietary> getProprietary() {
-    return NodeParser.getNodeFromExpression("./proprietary", node).map(Proprietary::new);
+    return NodeParser.getElementFromExpression("./proprietary", element).map(Proprietary::new);
   }
 }

@@ -16,7 +16,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class EventRef {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Creates a new akn:eventRef element and appends it to the given node.
@@ -34,7 +34,7 @@ public class EventRef {
    * @param date the date of the event
    */
   public void setDate(String date) {
-    ((Element) node).setAttribute("date", date);
+    element.setAttribute("date", date);
   }
 
   /**
@@ -42,7 +42,7 @@ public class EventRef {
    * @param refersTo the value for the attribute
    */
   public void setRefersTo(String refersTo) {
-    ((Element) node).setAttribute("refersTo", refersTo);
+    element.setAttribute("refersTo", refersTo);
   }
 
   /**
@@ -50,7 +50,7 @@ public class EventRef {
    * @param type the value for the attribute
    */
   public void setType(String type) {
-    ((Element) node).setAttribute("type", type);
+    element.setAttribute("type", type);
   }
 
   /**
@@ -58,7 +58,7 @@ public class EventRef {
    * @return the eId
    */
   public EId getEid() {
-    return EId.fromMandatoryNode(node);
+    return EId.fromMandatoryNode(element);
   }
 
   /**
@@ -67,6 +67,6 @@ public class EventRef {
    * @return The date of the event
    */
   public Optional<LocalDate> getDate() {
-    return NodeParser.getValueFromExpression("./@date", node).map(LocalDate::parse);
+    return NodeParser.getValueFromExpression("./@date", element).map(LocalDate::parse);
   }
 }
