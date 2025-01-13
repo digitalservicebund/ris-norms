@@ -1,12 +1,7 @@
 import { test as setup } from "@playwright/test"
 import path from "node:path"
 import fs from "fs"
-import { fileURLToPath } from "node:url"
-
-export const samplesDirectory = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../../LegalDocML.de/1.7.1/samples",
-)
+import { samplesDirectory } from "@e2e/utils/samples-directory"
 
 setup("global setup", async ({ page }) => {
   // Login
@@ -23,16 +18,15 @@ setup("global setup", async ({ page }) => {
 
   await page.context().storageState({ path: `e2e/setup/.auth/user.json` })
 
-  // Upload test data
-  const directoryPath = path.resolve(
-    __dirname,
-    "../../../LegalDocML.de/1.7.1/samples/amending-laws",
-  )
+  const files = [
+    "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",
+    "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
+    "bgbl-1_2017_s419/aenderungsgesetz.xml",
+    "bgbl-1_2023_413/aenderungsgesetz.xml",
+  ]
 
-  // Read all files in the directory
-  const files = fs.readdirSync(directoryPath)
   for (const file of files) {
-    const filePath = path.join(directoryPath, file)
+    const filePath = path.join(samplesDirectory, file)
     const fileContent = fs.readFileSync(filePath) // Read the file content
 
     const formData = new FormData()

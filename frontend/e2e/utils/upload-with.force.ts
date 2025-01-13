@@ -1,4 +1,4 @@
-import { samplesDirectory } from "@e2e/globalSetup/global-setup"
+import { samplesDirectory } from "@e2e/utils/samples-directory"
 import { APIRequestContext } from "@playwright/test"
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
