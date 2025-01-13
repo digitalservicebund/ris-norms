@@ -144,6 +144,14 @@ const routes: readonly RouteRecordRaw[] = [
       ),
   },
   {
+    path: "/logout",
+    name: "Logout",
+    beforeEnter: () => {
+      window.location.assign("/logout")
+    },
+    component: () => null,
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("@/views/404/404NotFound.view.vue"),
