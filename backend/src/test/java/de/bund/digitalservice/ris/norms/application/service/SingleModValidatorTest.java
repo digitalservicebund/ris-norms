@@ -34,7 +34,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       mod.setOldText("");
@@ -57,7 +59,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       mod.setOldText("not the same text as in target law");
@@ -80,7 +84,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -110,7 +116,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -124,7 +132,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
@@ -157,7 +167,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
@@ -191,7 +203,9 @@ class SingleModValidatorTest {
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       mod.setTargetRefHref(
@@ -254,7 +268,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
 
@@ -284,7 +300,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
 
@@ -322,7 +340,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
@@ -336,7 +356,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk(
@@ -352,7 +374,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk(
@@ -383,7 +407,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk(
@@ -416,7 +442,9 @@ class SingleModValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Node modNode = amendingNorm
-        .getNodeByEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+        .getElementByEId(
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+        )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk(

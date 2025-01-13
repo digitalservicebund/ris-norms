@@ -93,7 +93,7 @@ class TimeMachineServiceTest {
           "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,"
         );
       // passive mod is deleted
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
     }
 
     @Test
@@ -121,8 +121,8 @@ class TimeMachineServiceTest {
           "entgegen § 9 Absatz 1 Satz 2, Absatz 2, 3 oder 4 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,"
         );
       // passive mods are deleted
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isEmpty();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isEmpty();
     }
 
     @Test
@@ -141,8 +141,8 @@ class TimeMachineServiceTest {
 
       // then
       assertThat(result).isNotEqualTo(norm);
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
-      assertThat(norm.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isPresent();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
+      assertThat(norm.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isPresent();
     }
 
     @Test

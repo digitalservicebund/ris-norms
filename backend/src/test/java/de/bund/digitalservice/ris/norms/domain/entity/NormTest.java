@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 class NormTest {
@@ -1315,7 +1316,7 @@ class NormTest {
       norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
 
       // then
-      assertThat(norm.getNodeByEId("meta-1_analysis-1_activemod-1")).isEmpty();
+      assertThat(norm.getElementByEId("meta-1_analysis-1_activemod-1")).isEmpty();
     }
 
     @Test
@@ -1327,7 +1328,7 @@ class NormTest {
       norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
 
       // then
-      assertThat(norm.getNodeByEId("meta-1_geltzeiten-1_geltungszeitgr-1")).isPresent();
+      assertThat(norm.getElementByEId("meta-1_geltzeiten-1_geltungszeitgr-1")).isPresent();
     }
   }
 
@@ -1381,7 +1382,7 @@ class NormTest {
   }
 
   @Test
-  void getNodeByEId() {
+  void getElementByEId() {
     // given
     String normString =
       """
@@ -1415,7 +1416,7 @@ class NormTest {
     Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
 
     // when
-    final Optional<Node> textualMod = norm.getNodeByEId(
+    final Optional<Element> textualMod = norm.getElementByEId(
       "meta-1_analysis-1_activemod-2_textualmod-1"
     );
 
