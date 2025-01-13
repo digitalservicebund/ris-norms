@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 class MetaTest {
@@ -381,7 +380,7 @@ class MetaTest {
     );
 
     assertThat(meta.getOrCreateLifecycle()).isNotNull();
-    assertThat(((Element) meta.getOrCreateLifecycle().getElement()).getAttribute("GUID"))
+    assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("GUID"))
       .isEqualTo("4b31c2c4-6ecc-4f29-9f79-18149603114b");
   }
 
@@ -412,9 +411,8 @@ class MetaTest {
     );
 
     assertThat(meta.getOrCreateLifecycle()).isNotNull();
-    assertThat(((Element) meta.getOrCreateLifecycle().getElement()).getAttribute("GUID"))
-      .isNotNull();
-    assertThat(((Element) meta.getOrCreateLifecycle().getElement()).getAttribute("eId"))
+    assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("GUID")).isNotNull();
+    assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("eId"))
       .isEqualTo("meta-1_lebzykl-1");
     assertThat(meta.getOrCreateLifecycle().getElement().getNextSibling())
       .isEqualTo(meta.getProprietary().orElseThrow().getElement());

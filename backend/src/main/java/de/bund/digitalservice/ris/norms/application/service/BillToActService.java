@@ -227,7 +227,7 @@ public class BillToActService {
 
   private void addPeriodToArticle(Document document) {
     NodeParser
-      .getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
+      .getElementsFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
       .stream()
       .filter(article -> {
         final Optional<String> optionalRefersTo = NodeParser.getValueFromExpression(
@@ -236,8 +236,7 @@ public class BillToActService {
         );
         return optionalRefersTo.isEmpty() || !optionalRefersTo.get().equals("geltungszeitregel");
       })
-      .forEach(filtered ->
-        ((Element) filtered).setAttribute("period", "#meta-1_geltzeiten-1_geltungszeitgr-1")
+      .forEach(filtered -> filtered.setAttribute("period", "#meta-1_geltzeiten-1_geltungszeitgr-1")
       );
   }
 

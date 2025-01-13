@@ -93,7 +93,7 @@ public class SimpleProprietary {
    * @param newValue the new value to be set
    */
   public void setAttribute(final String attributeName, final String newValue) {
-    ((Element) element).setAttribute(attributeName, newValue);
+    element.setAttribute(attributeName, newValue);
   }
 
   /**
@@ -102,6 +102,6 @@ public class SimpleProprietary {
    * @param attributeName the name of the attribute
    */
   public void removeAttribute(final String attributeName) {
-    ((Element) element).removeAttribute(attributeName);
+    element.removeAttribute(attributeName);
   }
 }

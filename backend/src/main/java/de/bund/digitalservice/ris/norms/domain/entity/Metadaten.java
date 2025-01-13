@@ -96,10 +96,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
 
             // 3. Then also set @end of a previous one, if present
             previousNode.ifPresent(value ->
-              ((Element) value.getElement()).setAttribute(
-                  getEndAttribute(),
-                  date.minusDays(1).toString()
-                )
+              value.getElement().setAttribute(getEndAttribute(), date.minusDays(1).toString())
             );
 
             // 4. And set @end of nodes without @start and @end to one day before given date
@@ -107,10 +104,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
               .stream()
               .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
               .forEach(value ->
-                ((Element) value.getElement()).setAttribute(
-                    getEndAttribute(),
-                    date.minusDays(1).toString()
-                  )
+                value.getElement().setAttribute(getEndAttribute(), date.minusDays(1).toString())
               );
           }
         }
