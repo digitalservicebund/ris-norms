@@ -23,17 +23,17 @@ const config: PlaywrightTestConfig = {
     {
       name: "setup-chromium",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /.*global-setup\.ts/,
     },
     {
       name: "setup-firefox",
       use: { ...devices["Desktop Firefox"] },
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /.*global-setup\.ts/,
     },
     {
       name: "setup-msedge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /.*global-setup\.ts/,
     },
     {
       name: "chromium",
