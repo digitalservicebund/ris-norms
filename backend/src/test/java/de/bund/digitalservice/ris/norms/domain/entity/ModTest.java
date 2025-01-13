@@ -246,9 +246,9 @@ class ModTest {
 
     // then
     assertThat(secondQuotedText).isPresent();
-    assertThat(secondQuotedText.get().getAttributes().getNamedItem("GUID").getNodeValue())
+    assertThat(secondQuotedText.get().getAttribute("GUID"))
       .isEqualTo("dd25bdb6-4ef4-4ef5-808c-27579b6ae196");
-    assertThat(secondQuotedText.get().getAttributes().getNamedItem("eId").getNodeValue())
+    assertThat(secondQuotedText.get().getAttribute("eId"))
       .isEqualTo(
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
       );
@@ -272,9 +272,9 @@ class ModTest {
 
     // then
     assertThat(quotedStructure).isPresent();
-    assertThat(quotedStructure.get().getAttributes().getNamedItem("GUID").getNodeValue())
+    assertThat(quotedStructure.get().getAttribute("GUID"))
       .isEqualTo("9cb0572a-2933-473e-823f-5541ab360561");
-    assertThat(quotedStructure.get().getAttributes().getNamedItem("eId").getNodeValue())
+    assertThat(quotedStructure.get().getAttribute("eId"))
       .isEqualTo(
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1"
       );

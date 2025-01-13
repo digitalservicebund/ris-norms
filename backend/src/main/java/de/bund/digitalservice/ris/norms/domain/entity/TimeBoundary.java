@@ -49,10 +49,6 @@ public class TimeBoundary {
    * @param eventRefDate contains the new date to be set
    */
   public void setEventRefDate(LocalDate eventRefDate) {
-    eventRef
-      .getElement()
-      .getAttributes()
-      .getNamedItem("date")
-      .setNodeValue(eventRefDate.toString());
+    eventRef.getElement().setAttribute("date", eventRefDate.toString());
   }
 }

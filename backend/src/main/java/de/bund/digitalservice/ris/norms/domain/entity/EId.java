@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -38,17 +39,11 @@ public record EId(String value) {
    * @return the eId of the node or empty if no eId could be found.
    */
   public static Optional<EId> fromNode(Node node) {
-    if (!node.hasAttributes()) {
+    if (!(node instanceof Element element)) {
       return Optional.empty();
     }
 
-    var eIdNode = node.getAttributes().getNamedItem("eId");
-
-    if (eIdNode == null) {
-      return Optional.empty();
-    }
-
-    var eId = eIdNode.getNodeValue();
+    var eId = element.getAttribute("eId");
 
     if (eId.isEmpty()) {
       return Optional.empty();

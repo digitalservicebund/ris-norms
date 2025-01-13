@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /** Class representing an akn:textualMod. */
 @Getter
@@ -62,7 +61,7 @@ public class TextualMod {
     return NodeParser.getValueFromExpression("./destination/@upTo", this.element).map(Href::new);
   }
 
-  private Node getOrCreateDestinationNode() {
+  private Element getOrCreateDestinationNode() {
     return NodeParser
       .getElementFromExpression("./destination", this.element)
       .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:destination", getElement()));
@@ -74,10 +73,7 @@ public class TextualMod {
    * @param destinationHref - the new destination href of the modification
    */
   public void setDestinationHref(final Href destinationHref) {
-    getOrCreateDestinationNode()
-      .getAttributes()
-      .getNamedItem("href")
-      .setNodeValue(destinationHref.toString());
+    getOrCreateDestinationNode().setAttribute("href", destinationHref.toString());
   }
 
   /**
@@ -86,11 +82,10 @@ public class TextualMod {
    * @param destinationUpTo - the destination href of the last to be replaced element
    */
   public void setDestinationUpTo(final Href destinationUpTo) {
-    Element element = (Element) getOrCreateDestinationNode();
     if (destinationUpTo != null) {
-      element.setAttribute("upTo", destinationUpTo.toString());
+      getOrCreateDestinationNode().setAttribute("upTo", destinationUpTo.toString());
     } else {
-      element.removeAttribute("upTo");
+      getOrCreateDestinationNode().removeAttribute("upTo");
     }
   }
 
@@ -107,7 +102,7 @@ public class TextualMod {
       .flatMap(Href::getEId);
   }
 
-  private Node getOrCreateForceNode() {
+  private Element getOrCreateForceNode() {
     return NodeParser
       .getElementFromExpression("./force", getElement())
       .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:force", getElement()));
@@ -119,13 +114,14 @@ public class TextualMod {
    * @param periodEid - the eId of the new referenced temporal group
    */
   public void setForcePeriodEid(final String periodEid) {
-    getOrCreateForceNode()
-      .getAttributes()
-      .getNamedItem("period")
-      .setNodeValue(
-        periodEid == null
-          ? ""
-          : new Href.Builder().setEId(periodEid).buildInternalReference().value()
-      );
+    if (periodEid != null) {
+      getOrCreateForceNode()
+        .setAttribute(
+          "period",
+          new Href.Builder().setEId(periodEid).buildInternalReference().value()
+        );
+    } else {
+      getOrCreateForceNode().removeAttribute("period");
+    }
   }
 }

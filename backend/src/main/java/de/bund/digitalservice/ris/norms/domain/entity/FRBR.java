@@ -56,7 +56,7 @@ public abstract class FRBR {
       return;
     }
 
-    optionalFRBRuri.get().getAttributes().getNamedItem(VALUE_ATTIBUTE).setNodeValue(uri.toString());
+    optionalFRBRuri.get().setAttribute(VALUE_ATTIBUTE, uri.toString());
   }
 
   /**
