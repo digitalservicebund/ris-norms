@@ -101,7 +101,7 @@ public class AnnouncementService
         .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     return amendingNorm
-      .targetLawElis()
+      .getTargetLawElis()
       .stream()
       .map(eli ->
         loadNormPort

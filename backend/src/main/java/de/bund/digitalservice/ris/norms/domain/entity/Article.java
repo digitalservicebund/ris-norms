@@ -119,4 +119,14 @@ public class Article {
       .map(Mod::new)
       .toList();
   }
+
+  /**
+   * Checks weather the {@link Article} refers to a Geltungszeitregel (which would define when a law e.g. enters
+   * into force)
+   *
+   * @return {@link Boolean}
+   */
+  public Boolean isGeltungszeitregel() {
+    return getRefersTo().orElse("").equals("geltungszeitregel");
+  }
 }
