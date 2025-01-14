@@ -20,8 +20,8 @@ services:
 
   redis:
     image: cgr.dev/chainguard/redis:latest
-    extra_hosts:
-      - localhost:host-gateway
+    #extra_hosts:
+    #  - localhost:host-gateway
     container_name: redis
     command:
       - "--maxmemory 256mb"

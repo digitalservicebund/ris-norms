@@ -25,7 +25,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
       - REDIS_HOST=redis
-      - SPRING_PROFILES_ACTIVE=local
+      - SPRING_PROFILES_ACTIVE=local-docker
     network_mode: "service:localhost"
     depends_on:
       postgres14:
