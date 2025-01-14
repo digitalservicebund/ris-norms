@@ -58,6 +58,11 @@ export const useApiFetch = createFetch({
     },
 
     onFetchError(fetchContext) {
+      // redirect to 404 if anything goes wrong.
+      if (fetchContext.response?.status === 401) {
+        window.location.assign("/login")
+      }
+
       // this error is sometimes throws when previous requests are automatically aborted as
       // some of the data changed and refetch is true. It seems to only be throws when the request
       // is aborted before it was actually send.

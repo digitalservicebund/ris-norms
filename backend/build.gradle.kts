@@ -70,6 +70,7 @@ dependencies {
     implementation(platform(libs.aws.bom))
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
+    implementation(libs.spring.oauth2.client)
 
     compileOnly(libs.lombok)
 
@@ -84,6 +85,7 @@ dependencies {
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgres)
+    testImplementation(libs.testcontainers.keycloak)
 
     schematronToXsltCompileOnly(libs.schxslt)
     schematronToXsltCompileOnly(libs.saxon.he)

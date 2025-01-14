@@ -18,7 +18,7 @@ Install the latest LTS version of node for running Spotless with Prettier.
 Set up and boot the postgres database and the redis database (from the project root):
 
 ```sh
-docker compose up postgres14 redis
+docker compose -f docker-compose-services.yaml up
 ```
 
 You can then start the backend with two different options:

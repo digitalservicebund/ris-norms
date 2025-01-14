@@ -21,20 +21,68 @@ const config: PlaywrightTestConfig = {
   },
   projects: [
     {
-      name: "chromium",
+      name: "setup-chromium",
       use: { ...devices["Desktop Chrome"] },
+      testMatch: /.*global-setup\.ts/,
+    },
+    {
+      name: "setup-firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: /.*global-setup\.ts/,
+    },
+    {
+      name: "setup-msedge",
+      use: { ...devices["Desktop Edge"], channel: "msedge" },
+      testMatch: /.*global-setup\.ts/,
+    },
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "e2e/setup/.auth/user.json",
+      },
+      testIgnore: "e2e/login-and-logout.spec.ts",
+      dependencies: ["setup-chromium"],
     },
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Firefox"],
+        storageState: "e2e/setup/.auth/user.json",
+      },
+      testIgnore: "e2e/login-and-logout.spec.ts",
+      dependencies: ["setup-firefox"],
     },
     {
       name: "msedge",
+      use: {
+        ...devices["Desktop Edge"],
+        channel: "msedge",
+        storageState: "e2e/setup/.auth/user.json",
+      },
+      timeout: 30000,
+      testIgnore: "e2e/login-and-logout.spec.ts",
+      dependencies: ["setup-msedge"],
+    },
+
+    // Login-logout test projects
+    {
+      name: "login-logout-test-chromium",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: "e2e/login-and-logout.spec.ts",
+    },
+    {
+      name: "login-logout-test-firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: "e2e/login-and-logout.spec.ts",
+    },
+    {
+      name: "login-logout-test-msedge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
       timeout: 30000,
+      testMatch: "e2e/login-and-logout.spec.ts",
     },
   ],
-  globalSetup: "./e2e/globalSetup/global-setup",
 }
 
 export default config

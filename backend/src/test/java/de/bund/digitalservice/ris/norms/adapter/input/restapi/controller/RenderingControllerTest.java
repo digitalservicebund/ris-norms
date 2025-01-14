@@ -1,13 +1,13 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -16,9 +16,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,8 +27,11 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
  * setting up the {@code mockMvc} including the ControllerAdvice
  */
-@WebMvcTest(RenderingController.class)
-@Import(SecurityConfig.class)
+@WithMockUser
+@WebMvcTest(
+  controllers = RenderingController.class,
+  excludeAutoConfiguration = OAuth2ClientAutoConfiguration.class
+)
 class RenderingControllerTest {
 
   @Autowired
@@ -58,6 +62,7 @@ class RenderingControllerTest {
         .perform(
           post("/api/v1/renderings")
             .accept(MediaType.TEXT_HTML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -93,6 +98,7 @@ class RenderingControllerTest {
           post("/api/v1/renderings")
             .queryParam("showMetadata", "true")
             .accept(MediaType.TEXT_HTML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -139,6 +145,7 @@ class RenderingControllerTest {
           post("/api/v1/renderings")
             .queryParam("showMetadata", "false")
             .accept(MediaType.TEXT_HTML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -185,6 +192,7 @@ class RenderingControllerTest {
             .queryParam("showMetadata", "true")
             .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
             .accept(MediaType.TEXT_HTML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -237,6 +245,7 @@ class RenderingControllerTest {
         .perform(
           post("/api/v1/renderings")
             .accept(MediaType.TEXT_HTML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -275,6 +284,7 @@ class RenderingControllerTest {
             .queryParam("showMetadata", "false")
             .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
             .accept(MediaType.TEXT_HTML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -312,6 +322,7 @@ class RenderingControllerTest {
           post("/api/v1/renderings")
             .queryParam("snippet", "true")
             .accept(MediaType.TEXT_HTML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -351,6 +362,7 @@ class RenderingControllerTest {
         .perform(
           post("/api/v1/renderings")
             .accept(MediaType.APPLICATION_XML_VALUE)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -399,6 +411,7 @@ class RenderingControllerTest {
           post("/api/v1/renderings")
             .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
             .accept(MediaType.APPLICATION_XML_VALUE)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """
@@ -445,6 +458,7 @@ class RenderingControllerTest {
           post("/api/v1/renderings")
             .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
             .accept(MediaType.APPLICATION_XML_VALUE)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               """

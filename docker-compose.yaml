@@ -1,14 +1,24 @@
 services:
-  nginx:
-    build:
-      context: .
-      dockerfile: DockerfileNginxPlaywright
+  # We use a service called localhost to be able to address the keycloak service as "localhost:8443" in the
+  # application.yaml of our application. Using "keycloak:8443" is not possible as spring would then redirect the user to
+  # "keycloak:8443" to login, but that is a host that is not available on the host system. The spring boot oauth
+  # implementation is very restrictive on the issuer and therefore creates errors if the hosts used by it and the user
+  # to connect to keycloak differ.
+  # See also:
+  #  - https://github.com/spring-projects/spring-security/issues/14633
+  #  - https://github.com/keycloak/keycloak/issues/29783
+  #  - https://github.com/keycloak/keycloak/issues/24252
+  #  - https://medium.com/@kostapchuk/integrating-keycloak-with-spring-boot-in-a-dockerized-environment-813eab1f140c
+  localhost:
+    image: alpine:3.21
+    command: sleep infinity
     ports:
-      - 8080:8080
-    depends_on:
-      - webapp
+      - "8443:8443" # Keycloak port
+      - "8080:8080" # Webapp port
+
   webapp:
     image: ris-norms-app:001
+    container_name: webapp
     build:
       context: .
       dockerfile: DockerfileApp
@@ -16,53 +26,33 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
       - REDIS_HOST=redis
       - SPRING_PROFILES_ACTIVE=local
+    network_mode: "service:localhost"
     depends_on:
-      - postgres14
-      - redis
+      postgres14:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
     volumes:
       - ./local-storage:/app/.local-storage
+
   postgres14:
-    image: postgres:14-alpine
-    restart: always
-    container_name: postgres14
-    volumes:
-      - postgres14-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=risnorms
-      - POSTGRES_PASSWORD=test
-      - POSTGRES_USER=test
-    ports:
-      - 5432:5432
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U test -d risnorms"]
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      timeout: 3s
+    extends:
+      file: docker-compose-services.yaml
+      service: postgres14
+
   redis:
-    image: cgr.dev/chainguard/redis:latest
-    extra_hosts:
-      - localhost:host-gateway
-    container_name: redis
-    command:
-      - "--maxmemory 256mb"
-      - "--maxmemory-policy allkeys-lru"
-      - "--timeout 300"
-      - "--tcp-keepalive 10"
-      - "--user redis on +@all -CONFIG ~* >password"
-      - "--user default off resetchannels -@all"
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "redis-cli -h 127.0.0.1 --user redis -a password PING | grep 'PONG' || exit 1",
-        ]
-      interval: 5s
-      retries: 5
-      start_period: 3s
-      timeout: 5s
+    extends:
+      file: docker-compose-services.yaml
+      service: redis
+
+  keycloak:
+    extends:
+      file: docker-compose-services.yaml
+      service: keycloak
+    network_mode: "service:localhost"
+    ports: []
 
 volumes:
   postgres14-data:

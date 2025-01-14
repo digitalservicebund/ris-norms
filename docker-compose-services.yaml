@@ -1,0 +1,73 @@
+services:
+  postgres14:
+    image: postgres:14-alpine
+    restart: always
+    container_name: postgres14
+    volumes:
+      - postgres14-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=risnorms
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_USER=test
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test -d risnorms"]
+      interval: 5s
+      retries: 3
+      start_period: 5s
+      timeout: 3s
+
+  redis:
+    image: cgr.dev/chainguard/redis:latest
+    extra_hosts:
+      - localhost:host-gateway
+    container_name: redis
+    command:
+      - "--maxmemory 256mb"
+      - "--maxmemory-policy allkeys-lru"
+      - "--timeout 300"
+      - "--tcp-keepalive 10"
+      - "--user redis on +@all -CONFIG ~* >password"
+      - "--user default off resetchannels -@all"
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "redis-cli -h 127.0.0.1 --user redis -a password PING | grep 'PONG' || exit 1",
+        ]
+      interval: 5s
+      retries: 5
+      start_period: 3s
+      timeout: 5s
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.7
+    command: ["start-dev", "--import-realm"]
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: test
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      KC_HTTP_PORT: 8443
+      KC_HOSTNAME_URL: http://localhost:8443/keycloak
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./local/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
+        # health endpoint läuft unter 9000
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  postgres14-data:

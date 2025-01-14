@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import neurisLogo from "@/assets/neuRIS-logo.svg"
 import { RouterLink } from "vue-router"
+import UseOutline from "~icons/ic/baseline-person-outline"
+import { useGetUserName } from "@/services/userService"
+
+const { data: user } = useGetUserName()
 </script>
 
 <template>
@@ -14,5 +18,19 @@ import { RouterLink } from "vue-router"
         <span class="ris-label3-regular block">des Bundes</span>
       </span>
     </RouterLink>
+    <div class="flex items-start gap-8 px-16">
+      <UseOutline />
+      <div class="flex flex-col">
+        <span class="ris-label2-regular">
+          {{ user?.name ?? "Unbekannt" }}
+        </span>
+        <RouterLink
+          :to="'/logout'"
+          class="ris-link2-regular underline-offset-2"
+        >
+          Ausloggen
+        </RouterLink>
+      </div>
+    </div>
   </nav>
 </template>

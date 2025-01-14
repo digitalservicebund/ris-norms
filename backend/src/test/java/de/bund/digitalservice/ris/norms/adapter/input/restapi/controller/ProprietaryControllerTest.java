@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -22,9 +23,10 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,8 +34,11 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
  * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@WebMvcTest(ProprietaryController.class)
-@Import(SecurityConfig.class)
+@WithMockUser
+@WebMvcTest(
+  controllers = ProprietaryController.class,
+  excludeAutoConfiguration = OAuth2ClientAutoConfiguration.class
+)
 class ProprietaryControllerTest {
 
   @Autowired
@@ -221,6 +226,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
@@ -282,6 +288,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
@@ -449,6 +456,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, date.toString())
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"artDerNorm\": \"SN\"}")
         )
@@ -485,6 +493,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, "1990-01-01")
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"artDerNorm\": \"SN\"}")
         )

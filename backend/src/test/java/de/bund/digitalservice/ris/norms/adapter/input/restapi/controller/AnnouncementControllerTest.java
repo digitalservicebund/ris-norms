@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -24,10 +25,11 @@ import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,8 +37,11 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
  * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@WebMvcTest(AnnouncementController.class)
-@Import(SecurityConfig.class)
+@WithMockUser
+@WebMvcTest(
+  controllers = AnnouncementController.class,
+  excludeAutoConfiguration = OAuth2ClientAutoConfiguration.class
+)
 class AnnouncementControllerTest {
 
   @Autowired
@@ -266,6 +271,7 @@ class AnnouncementControllerTest {
             "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
           )
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
@@ -306,7 +312,12 @@ class AnnouncementControllerTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(
+          multipart("/api/v1/announcements")
+            .file(file)
+            .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
+        )
         .andExpect(status().isOk())
         .andExpect(
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
@@ -335,6 +346,7 @@ class AnnouncementControllerTest {
           multipart("/api/v1/announcements?force=true")
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
         )
         .andExpect(status().isOk())
         .andExpect(
@@ -361,7 +373,12 @@ class AnnouncementControllerTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(
+          multipart("/api/v1/announcements")
+            .file(file)
+            .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
+        )
         .andExpect(status().isInternalServerError())
         .andExpect(jsonPath("type", equalTo("/errors/internal-server-error")))
         .andExpect(jsonPath("title", equalTo("Internal Server Error")))
