@@ -5,12 +5,10 @@ import java.time.LocalDate;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /** Class representing simple metadata within ris:legalDocML.de_metadaten */
 @Getter
-@SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class SimpleProprietary {
 

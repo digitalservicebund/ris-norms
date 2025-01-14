@@ -6,12 +6,10 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /** Class representing the akn:FRBRExpression */
 @Getter
-@SuperBuilder(toBuilder = true)
 public class FRBRExpression extends FRBR {
 
   private static final String VALUE_ATTIBUTE = "value";

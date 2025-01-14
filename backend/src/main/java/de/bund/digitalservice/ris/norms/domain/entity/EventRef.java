@@ -6,14 +6,12 @@ import java.time.LocalDate;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing a akn:eventRef. */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 public class EventRef {
 
   private final Element element;

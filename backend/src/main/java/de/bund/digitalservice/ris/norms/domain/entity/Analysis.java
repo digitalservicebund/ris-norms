@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,7 +13,6 @@ import org.w3c.dom.Node;
 /** Class representing the akn:analysis */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 public class Analysis {
 
   private final Element element;

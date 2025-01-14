@@ -3,12 +3,10 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /** Class representing the akn:FRBRManifestation */
 @Getter
-@SuperBuilder(toBuilder = true)
 public class FRBRManifestation extends FRBR {
 
   public FRBRManifestation(final Element element) {

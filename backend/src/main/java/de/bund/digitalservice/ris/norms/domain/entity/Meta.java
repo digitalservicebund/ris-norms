@@ -6,13 +6,11 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundEx
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /** Class representing the akn:meta */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 public class Meta {
 
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =

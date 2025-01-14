@@ -8,7 +8,6 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -21,7 +20,6 @@ import org.w3c.dom.Node;
  */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode
 public class Mod {
 

@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -16,7 +15,6 @@ import org.w3c.dom.Node;
  * annotations for generating getters, setters, constructors, and builder methods.
  */
 @Getter
-@SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Article {
 

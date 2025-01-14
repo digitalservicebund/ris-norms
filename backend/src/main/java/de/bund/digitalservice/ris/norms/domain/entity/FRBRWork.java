@@ -4,12 +4,10 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /** Class representing the akn:FRBRWork */
 @Getter
-@SuperBuilder(toBuilder = true)
 public class FRBRWork extends FRBR {
 
   public FRBRWork(final Element element) {

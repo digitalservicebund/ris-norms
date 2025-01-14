@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -14,7 +13,6 @@ import org.w3c.dom.Element;
  * both metadata that is proprietary to the LDML.de standard and to DigitalService.
  */
 @Getter
-@SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Proprietary {
 

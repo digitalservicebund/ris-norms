@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -17,7 +16,6 @@ import org.w3c.dom.Element;
  */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 public abstract class FRBR {
 
   private final Element element;

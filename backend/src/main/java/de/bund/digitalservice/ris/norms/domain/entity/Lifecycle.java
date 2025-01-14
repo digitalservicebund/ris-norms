@@ -4,13 +4,11 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /** Class representing the akn:lifecycle */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 public class Lifecycle {
 
   private final Element element;

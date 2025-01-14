@@ -5,14 +5,12 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing a akn:temporalGroup. */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 public class TemporalGroup {
 
   private final Element element;

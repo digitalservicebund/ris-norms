@@ -5,13 +5,11 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
 
 /** Class representing an akn:textualMod. */
 @Getter
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
 public class TextualMod {
 
   private final Element element;
