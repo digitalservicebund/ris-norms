@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -22,9 +23,10 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,8 +34,11 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
  * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@WebMvcTest(ProprietaryController.class)
-@Import(SecurityConfig.class)
+@WithMockUser
+@WebMvcTest(
+  controllers = ProprietaryController.class,
+  excludeAutoConfiguration = OAuth2ClientAutoConfiguration.class
+)
 class ProprietaryControllerTest {
 
   @Autowired
@@ -192,29 +197,26 @@ class ProprietaryControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
 
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
-                                              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                                                  <ris:fna start="1990-01-01" end="1994-12-31">new-fna</ris:fna>
-                                                  <ris:art start="1990-01-01" end="1994-12-31">new-art</ris:art>
-                                                  <ris:typ start="1990-01-01" end="1994-12-31">new-typ</ris:typ>
-                                                  <ris:subtyp start="1990-01-01" end="1994-12-31">new-subtyp</ris:subtyp>
-                                                  <ris:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
-                                                  <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-                                                  <ris:normgeber start="1990-01-01" end="1994-12-31">DEU</ris:normgeber>
-                                                  <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-                                                  <ris:organisationsEinheit start="1990-01-01" end="1994-12-31">Andere Organisationseinheit</ris:organisationsEinheit>
-                                              </ris:legalDocML.de_metadaten>
-                                          </akn:proprietary>
-                                          """
-          )
+                                            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                                                <ris:fna start="1990-01-01" end="1994-12-31">new-fna</ris:fna>
+                                                <ris:art start="1990-01-01" end="1994-12-31">new-art</ris:art>
+                                                <ris:typ start="1990-01-01" end="1994-12-31">new-typ</ris:typ>
+                                                <ris:subtyp start="1990-01-01" end="1994-12-31">new-subtyp</ris:subtyp>
+                                                <ris:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
+                                                <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
+                                                <ris:normgeber start="1990-01-01" end="1994-12-31">DEU</ris:normgeber>
+                                                <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
+                                                <ris:organisationsEinheit start="1990-01-01" end="1994-12-31">Andere Organisationseinheit</ris:organisationsEinheit>
+                                            </ris:legalDocML.de_metadaten>
+                                        </akn:proprietary>
+                                        """
         )
-        .build();
+      );
 
       when(updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(any()))
         .thenReturn(proprietary);
@@ -224,6 +226,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
@@ -285,6 +288,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
@@ -425,25 +429,22 @@ class ProprietaryControllerTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
 
-      final Proprietary proprietary = Proprietary
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
-                                    <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-                                            <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                                        <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                                        <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                                        <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-                                    </ris:einzelelement>
-                                </ris:legalDocML.de_metadaten>
-                            </akn:proprietary>
-                            """
-          )
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                                  <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
+                                          <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+                                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+                                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+                                  </ris:einzelelement>
+                              </ris:legalDocML.de_metadaten>
+                          </akn:proprietary>
+                          """
         )
-        .build();
+      );
 
       when(
         updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(any())
@@ -455,6 +456,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, date.toString())
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"artDerNorm\": \"SN\"}")
         )
@@ -491,6 +493,7 @@ class ProprietaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, "1990-01-01")
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"artDerNorm\": \"SN\"}")
         )

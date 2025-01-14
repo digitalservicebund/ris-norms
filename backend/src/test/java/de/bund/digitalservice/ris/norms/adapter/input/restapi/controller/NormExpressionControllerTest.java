@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -20,9 +21,10 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,8 +32,11 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
  * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@WebMvcTest(NormExpressionController.class)
-@Import(SecurityConfig.class)
+@WithMockUser
+@WebMvcTest(
+  controllers = NormExpressionController.class,
+  excludeAutoConfiguration = OAuth2ClientAutoConfiguration.class
+)
 class NormExpressionControllerTest {
 
   @Autowired
@@ -279,6 +284,7 @@ class NormExpressionControllerTest {
         .perform(
           put("/api/v1/norms/{eli}", eli)
             .accept(MediaType.APPLICATION_XML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_XML)
             .content(xml)
         )
@@ -304,6 +310,7 @@ class NormExpressionControllerTest {
         .perform(
           put("/api/v1/norms/{eli}", eli)
             .accept(MediaType.APPLICATION_XML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_XML)
             .content(xml)
         )
@@ -335,6 +342,7 @@ class NormExpressionControllerTest {
         .perform(
           put("/api/v1/norms/{eli}", eli)
             .accept(MediaType.APPLICATION_XML)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_XML)
             .content(xml)
         )
@@ -362,6 +370,7 @@ class NormExpressionControllerTest {
         .perform(
           put("/api/v1/norms/" + eli + "/mods/" + modEid)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"
@@ -392,6 +401,7 @@ class NormExpressionControllerTest {
         .perform(
           put("/api/v1/norms/" + eli + "/mods/" + modEid + "?dryRun=true")
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"
@@ -425,6 +435,7 @@ class NormExpressionControllerTest {
         .perform(
           patch("/api/v1/norms/" + eli + "/mods")
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"},\n" +
@@ -455,6 +466,7 @@ class NormExpressionControllerTest {
         .perform(
           patch("/api/v1/norms/" + eli + "/mods?dryRun=true")
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}")
         )

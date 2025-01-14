@@ -201,10 +201,7 @@ test.describe("XML view", () => {
     expect(textResponse).toContain("1234-56-78")
 
     // Cleanup
-    await uploadAmendingLaw(
-      request,
-      "Nachrichtendienstrechts_2023_413_2023-12-29.xml",
-    )
+    await uploadAmendingLaw(request, "bgbl-1_2023_413/aenderungsgesetz.xml")
   })
 
   test("shows an error when the XML could not be loaded", async ({ page }) => {
@@ -243,10 +240,7 @@ test.describe("XML view", () => {
 
 test.describe("metadata view", () => {
   test.afterAll(async ({ request }) => {
-    await uploadAmendingLaw(
-      request,
-      "Nachrichtendienstrechts_2023_413_2023-12-29.xml",
-    )
+    await uploadAmendingLaw(request, "bgbl-1_2023_413/aenderungsgesetz.xml")
   })
 
   test.beforeEach(async ({ page }) => {

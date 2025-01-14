@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /** Class representing the akn:temporalData */
 @Getter
@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class TemporalData {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Returns a list of {@link TemporalGroup} instance from the {@link TemporalData}.
@@ -22,9 +22,17 @@ public class TemporalData {
    */
   public List<TemporalGroup> getTemporalGroups() {
     return NodeParser
-      .getNodesFromExpression("./temporalGroup", node)
+      .getElementsFromExpression("./temporalGroup", element)
       .stream()
       .map(TemporalGroup::new)
       .toList();
+  }
+
+  /**
+   * Add a new akn:temporalGroup element to this element.
+   * @return the newly created {@link TemporalGroup}
+   */
+  public TemporalGroup addTemporalGroup() {
+    return TemporalGroup.createAndAppend(getElement());
   }
 }

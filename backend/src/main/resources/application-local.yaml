@@ -1,10 +1,19 @@
+app:
+  local-frontend-host: http://localhost:5173
+
 spring:
   flyway:
     locations: classpath:db/migration,classpath:db/data
+  security:
+    oauth2:
+      client:
+        registration:
+          oidcclient:
+            client-id: ris-norms-local
+            client-secret: ris-norms-local
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8443/realms/ris
 
 local:
   file-storage: .local-storage
-
-#logging:
-#  level:
-#    org.springframework: DEBUG

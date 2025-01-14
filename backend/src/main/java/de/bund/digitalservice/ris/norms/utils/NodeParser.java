@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Stream;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -13,6 +14,7 @@ import javax.xml.xpath.XPathFactory;
 import net.sf.saxon.s9api.UnprefixedElementMatchingPolicy;
 import net.sf.saxon.xpath.XPathFactoryImpl;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -111,6 +113,26 @@ public final class NodeParser {
   }
 
   /**
+   * Get a {@link List} of {@link Element}s using an XPath expression on an input node.
+   *
+   * @param xPathExpression an XPath expression used for identifying the node that's returned
+   * @param sourceNode the Node we're applying the XPath expression on
+   * @return the Elements identified by the <code>xPathExpression</code>
+   */
+  public static List<Element> getElementsFromExpression(String xPathExpression, Node sourceNode) {
+    return getNodesFromExpression(xPathExpression, sourceNode)
+      .stream()
+      .flatMap(node -> {
+        if (node instanceof Element element) {
+          return Stream.of(element);
+        }
+
+        return Stream.empty();
+      })
+      .toList();
+  }
+
+  /**
    * Get single node using an XPath expression on an input node. Note that it only supports single
    * node results (not NODELISTs)
    *
@@ -132,6 +154,28 @@ public final class NodeParser {
   }
 
   /**
+   * Get a single element using an XPath expression on an input node.
+   *
+   * @param xPathExpression an XPath expression used for identifying the node that's returned
+   * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
+   *     Document extends Node)
+   * @return the Element identified by the <code>xPathExpression</code>
+   */
+  public static Optional<Element> getElementFromExpression(
+    String xPathExpression,
+    Node sourceNode
+  ) {
+    return getNodeFromExpression(xPathExpression, sourceNode)
+      .flatMap(node -> {
+        if (node instanceof Element element) {
+          return Optional.of(element);
+        }
+
+        return Optional.empty();
+      });
+  }
+
+  /**
    * Get single mandatory node using an XPath expression on an input node. If node not found, throws
    * a {@link MandatoryNodeNotFoundException}
    *
@@ -142,6 +186,20 @@ public final class NodeParser {
    */
   public static Node getMandatoryNodeFromExpression(String xPathExpression, Node sourceNode) {
     return getNodeFromExpression(xPathExpression, sourceNode)
+      .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
+  }
+
+  /**
+   * Get single mandatory element using an XPath expression on an input node. If node not found, throws
+   * a {@link MandatoryNodeNotFoundException}
+   *
+   * @param xPathExpression an XPath expression used for identifying the node that's returned
+   * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
+   *     Document extends Node)
+   * @return the Element identified by the <code>xPathExpression</code>
+   */
+  public static Element getMandatoryElementFromExpression(String xPathExpression, Node sourceNode) {
+    return getElementFromExpression(xPathExpression, sourceNode)
       .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
   }
 

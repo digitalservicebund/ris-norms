@@ -1,11 +1,10 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpression;
+import static de.bund.digitalservice.ris.norms.utils.NodeParser.getElementsFromExpression;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
-import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -121,7 +120,7 @@ public class Norm {
    * @return the meta node as {@link Meta}
    */
   public Meta getMeta() {
-    return new Meta(NodeParser.getMandatoryNodeFromExpression("//act/meta", document));
+    return new Meta(NodeParser.getMandatoryElementFromExpression("//act/meta", document));
   }
 
   /**
@@ -131,7 +130,7 @@ public class Norm {
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    return getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
+    return getElementsFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
       .stream()
       .map(Article::new)
       .toList();
@@ -156,7 +155,7 @@ public class Norm {
    * @return a list of {@link Mod}s
    */
   public List<Mod> getMods() {
-    return getNodesFromExpression("//body//mod", document).stream().map(Mod::new).toList();
+    return getElementsFromExpression("//body//mod", document).stream().map(Mod::new).toList();
   }
 
   /**
@@ -248,33 +247,19 @@ public class Norm {
    */
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
     // Create new eventRef node
-    final Node livecycle = getTimeBoundaries().getLast().getEventRef().getNode().getParentNode();
-    final Element eventRef = NodeCreator.createElementWithEidAndGuid("akn:eventRef", livecycle);
-    eventRef.setAttribute("date", date.toString());
-    eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
-    eventRef.setAttribute("type", eventRefType.getValue());
-    eventRef.setAttribute("refersTo", "inkrafttreten");
+    final EventRef eventRef = getMeta().getLifecycle().addEventRef();
+    eventRef.setDate(date.toString());
+    eventRef.setRefersTo("inkrafttreten");
+    eventRef.setType(eventRefType.getValue());
 
-    // Create new temporalGroup node
-    final TemporalData temporalData = getMeta().getTemporalData();
-    final Element temporalGroup = NodeCreator.createElementWithEidAndGuid(
-      "akn:temporalGroup",
-      temporalData.getNode()
+    final TemporalGroup temporalGroup = getMeta().getTemporalData().addTemporalGroup();
+    final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
+    timeInterval.setStart(
+      new Href.Builder().setEId(eventRef.getEid().value()).buildInternalReference()
     );
+    timeInterval.setRefersTo("geltungszeit");
 
-    // Create new timeInterval node
-    final Element timeInterval = NodeCreator.createElementWithEidAndGuid(
-      "akn:timeInterval",
-      temporalGroup
-    );
-    timeInterval.setAttribute("refersTo", "geltungszeit");
-    final var eventRefEId = eventRef.getAttribute("eId");
-    timeInterval.setAttribute(
-      "start",
-      new Href.Builder().setEId(eventRefEId).buildInternalReference().value()
-    );
-
-    return new TemporalGroup(temporalGroup);
+    return temporalGroup;
   }
 
   /**
@@ -284,7 +269,7 @@ public class Norm {
    * @return the number of nodes for a given eId.
    */
   public int getNumberOfNodesWithEid(String eId) {
-    return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document).size();
+    return getElementsFromExpression("//*[@eId='%s']".formatted(eId), document).size();
   }
 
   /**
@@ -293,8 +278,8 @@ public class Norm {
    * @param eId the eId of the element to return
    * @return the selected element
    */
-  public Optional<Node> getNodeByEId(String eId) {
-    return NodeParser.getNodeFromExpression(
+  public Optional<Element> getElementByEId(String eId) {
+    return NodeParser.getElementFromExpression(
       String.format("//*[@eId='%s']", eId),
       this.getDocument()
     );
@@ -306,9 +291,12 @@ public class Norm {
    * @param eId the eId of the element to delete
    * @return the deleted element or empty if nothing to delete was found
    */
-  public Optional<Node> deleteByEId(String eId) {
-    var node = getNodeByEId(eId);
-    return node.map(n -> n.getParentNode().removeChild(n));
+  public Optional<Element> deleteByEId(String eId) {
+    var node = getElementByEId(eId);
+
+    node.ifPresent(n -> n.getParentNode().removeChild(n));
+
+    return node;
   }
 
   /**
@@ -318,7 +306,7 @@ public class Norm {
    * @return the deleted temporal group or empty if nothing was deleted
    */
   public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
-    final var nodesUsingTemporalData = getNodesFromExpression(
+    final var nodesUsingTemporalData = getElementsFromExpression(
       String.format("//*[@period='#%s']", eId),
       getDocument()
     );
@@ -336,8 +324,8 @@ public class Norm {
    * @param eId the eId of the event ref to delete
    * @return the deleted temporal ref node or empty if nothing was deleted
    */
-  public Optional<Node> deleteEventRefIfUnused(String eId) {
-    final var nodesUsingTemporalData = getNodesFromExpression(
+  public Optional<Element> deleteEventRefIfUnused(String eId) {
+    final var nodesUsingTemporalData = getElementsFromExpression(
       String.format("//*[@start='#%s' or @end='#%s']", eId, eId),
       getDocument()
     );
@@ -363,7 +351,7 @@ public class Norm {
       "//temporalData/temporalGroup/timeInterval[@start='#%s']",
       timeBoundaryToDelete.eid()
     );
-    Optional<Node> timeIntervalNode = NodeParser.getNodeFromExpression(
+    Optional<Element> timeIntervalNode = NodeParser.getElementFromExpression(
       timeIntervalNodeExpression,
       document
     );

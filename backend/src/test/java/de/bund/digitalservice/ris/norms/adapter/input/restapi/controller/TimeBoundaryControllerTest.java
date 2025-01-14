@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,9 +29,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
@@ -39,8 +41,11 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
  * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@WebMvcTest(TimeBoundaryController.class)
-@Import(SecurityConfig.class)
+@WithMockUser
+@WebMvcTest(
+  controllers = TimeBoundaryController.class,
+  excludeAutoConfiguration = OAuth2ClientAutoConfiguration.class
+)
 class TimeBoundaryControllerTest {
 
   @Autowired
@@ -81,9 +86,9 @@ class TimeBoundaryControllerTest {
 
       List<TimeBoundary> timeBoundaries = List.of(
         new TimeBoundary(
-          new TimeInterval(XmlMapper.toNode(timeInterval)),
-          new EventRef(XmlMapper.toNode(eventRef)),
-          new TemporalGroup(XmlMapper.toNode(temporalGroup))
+          new TimeInterval(XmlMapper.toElement(timeInterval)),
+          new EventRef(XmlMapper.toElement(eventRef)),
+          new TemporalGroup(XmlMapper.toElement(temporalGroup))
         )
       );
 
@@ -127,9 +132,9 @@ class TimeBoundaryControllerTest {
 
       List<TimeBoundary> timeBoundaries = List.of(
         new TimeBoundary(
-          new TimeInterval(XmlMapper.toNode(timeInterval)),
-          new EventRef(XmlMapper.toNode(eventRef)),
-          new TemporalGroup(XmlMapper.toNode(temporalGroup))
+          new TimeInterval(XmlMapper.toElement(timeInterval)),
+          new EventRef(XmlMapper.toElement(eventRef)),
+          new TemporalGroup(XmlMapper.toElement(temporalGroup))
         )
       );
 
@@ -195,9 +200,9 @@ class TimeBoundaryControllerTest {
 
       List<TimeBoundary> timeBoundaries = List.of(
         new TimeBoundary(
-          new TimeInterval(XmlMapper.toNode(timeInterval1)),
-          new EventRef(XmlMapper.toNode(eventRef1)),
-          new TemporalGroup(XmlMapper.toNode(temporalGroup))
+          new TimeInterval(XmlMapper.toElement(timeInterval1)),
+          new EventRef(XmlMapper.toElement(eventRef1)),
+          new TemporalGroup(XmlMapper.toElement(temporalGroup))
         )
       );
 
@@ -209,6 +214,7 @@ class TimeBoundaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/timeBoundaries", eli)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "[{\"date\": \"1964-09-21\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"}]"
@@ -242,6 +248,7 @@ class TimeBoundaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/timeBoundaries", eli)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "[" +
@@ -275,6 +282,7 @@ class TimeBoundaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/timeBoundaries", eli)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": \"THISISNODATE\", \"eventRefEid\": null}]")
         )
@@ -299,6 +307,7 @@ class TimeBoundaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/timeBoundaries", eli)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("[]")
         )
@@ -334,6 +343,7 @@ class TimeBoundaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/timeBoundaries", eli)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": null, \"eventRefEid\": null}]")
         )
@@ -361,6 +371,7 @@ class TimeBoundaryControllerTest {
         .perform(
           put("/api/v1/norms/{eli}/timeBoundaries", eli)
             .accept(MediaType.APPLICATION_JSON)
+            .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": null, \"eventRefEid\": null}]")
         )

@@ -100,7 +100,6 @@ function handleSave() {
   }
 
   emit("save", xmlNodeToString(amendingNormDocument.value))
-  showToast()
 }
 
 const { add: addToast } = useToast()

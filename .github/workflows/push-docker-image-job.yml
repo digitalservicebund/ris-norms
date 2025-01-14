@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: docker load -i /tmp/images/fullstack-image.tar
       - name: Log into container registry
-        uses: docker/login-action@7ca345011ac4304463197fac0e56eab1bc7e6af0
+        uses: docker/login-action@327cd5a69de6c009b9ce71bce8395f28e651bf99
         with:
           registry: ${{ inputs.container-registry }}
           username: ${{ github.actor }}
@@ -36,15 +36,15 @@ jobs:
       - name: Publish container image
         run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Install cosign
-        uses: sigstore/cosign-installer@e11c0892438d2c0a48e49dee376e4883f10f2e59
+        uses: sigstore/cosign-installer@789d2886c082e8fb7b9710810b73c3f0840573ed
       - name: Sign the published Docker image
         run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
-#      - name: Download cosign vulnerability scan record
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: "vuln.json"
-#      - name: Attest vulnerability scan
-#        run: cosign attest --yes --replace --predicate vuln.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
+      #      - name: Download cosign vulnerability scan record
+      #        uses: actions/download-artifact@v4
+      #        with:
+      #          name: "vuln.json"
+      #      - name: Attest vulnerability scan
+      #        run: cosign attest --yes --replace --predicate vuln.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
         if: ${{ failure() }}

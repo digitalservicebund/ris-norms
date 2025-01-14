@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /** Class representing an akn:textualMod. */
 @Getter
@@ -15,7 +14,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class TextualMod {
 
-  private final Node node;
+  private final Element element;
 
   /**
    * Returns the eId as {@link String}.
@@ -23,7 +22,7 @@ public class TextualMod {
    * @return The eId of the modification
    */
   public String getEid() {
-    return EId.fromMandatoryNode(getNode()).value();
+    return EId.fromMandatoryNode(getElement()).value();
   }
 
   /**
@@ -32,7 +31,7 @@ public class TextualMod {
    * @return The type of the modification
    */
   public Optional<String> getType() {
-    return NodeParser.getValueFromExpression("./@type", this.node);
+    return NodeParser.getValueFromExpression("./@type", this.element);
   }
 
   /**
@@ -41,7 +40,7 @@ public class TextualMod {
    * @return The source href of the modification
    */
   public Optional<Href> getSourceHref() {
-    return NodeParser.getValueFromExpression("./source/@href", this.node).map(Href::new);
+    return NodeParser.getValueFromExpression("./source/@href", this.element).map(Href::new);
   }
 
   /**
@@ -50,7 +49,7 @@ public class TextualMod {
    * @return The destination href of the modification
    */
   public Optional<Href> getDestinationHref() {
-    return NodeParser.getValueFromExpression("./destination/@href", this.node).map(Href::new);
+    return NodeParser.getValueFromExpression("./destination/@href", this.element).map(Href::new);
   }
 
   /**
@@ -59,13 +58,13 @@ public class TextualMod {
    * @return The destination upTo of the modification
    */
   public Optional<Href> getDestinationUpTo() {
-    return NodeParser.getValueFromExpression("./destination/@upTo", this.node).map(Href::new);
+    return NodeParser.getValueFromExpression("./destination/@upTo", this.element).map(Href::new);
   }
 
-  private Node getOrCreateDestinationNode() {
+  private Element getOrCreateDestinationNode() {
     return NodeParser
-      .getNodeFromExpression("./destination", this.node)
-      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:destination", getNode()));
+      .getElementFromExpression("./destination", this.element)
+      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:destination", getElement()));
   }
 
   /**
@@ -74,10 +73,7 @@ public class TextualMod {
    * @param destinationHref - the new destination href of the modification
    */
   public void setDestinationHref(final Href destinationHref) {
-    getOrCreateDestinationNode()
-      .getAttributes()
-      .getNamedItem("href")
-      .setNodeValue(destinationHref.toString());
+    getOrCreateDestinationNode().setAttribute("href", destinationHref.toString());
   }
 
   /**
@@ -86,11 +82,10 @@ public class TextualMod {
    * @param destinationUpTo - the destination href of the last to be replaced element
    */
   public void setDestinationUpTo(final Href destinationUpTo) {
-    Element element = (Element) getOrCreateDestinationNode();
     if (destinationUpTo != null) {
-      element.setAttribute("upTo", destinationUpTo.toString());
+      getOrCreateDestinationNode().setAttribute("upTo", destinationUpTo.toString());
     } else {
-      element.removeAttribute("upTo");
+      getOrCreateDestinationNode().removeAttribute("upTo");
     }
   }
 
@@ -102,15 +97,15 @@ public class TextualMod {
    */
   public Optional<String> getForcePeriodEid() {
     return NodeParser
-      .getValueFromExpression("./force/@period", this.node)
+      .getValueFromExpression("./force/@period", this.element)
       .map(Href::new)
       .flatMap(Href::getEId);
   }
 
-  private Node getOrCreateForceNode() {
+  private Element getOrCreateForceNode() {
     return NodeParser
-      .getNodeFromExpression("./force", getNode())
-      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:force", getNode()));
+      .getElementFromExpression("./force", getElement())
+      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:force", getElement()));
   }
 
   /**
@@ -119,13 +114,14 @@ public class TextualMod {
    * @param periodEid - the eId of the new referenced temporal group
    */
   public void setForcePeriodEid(final String periodEid) {
-    getOrCreateForceNode()
-      .getAttributes()
-      .getNamedItem("period")
-      .setNodeValue(
-        periodEid == null
-          ? ""
-          : new Href.Builder().setEId(periodEid).buildInternalReference().value()
-      );
+    if (periodEid != null) {
+      getOrCreateForceNode()
+        .setAttribute(
+          "period",
+          new Href.Builder().setEId(periodEid).buildInternalReference().value()
+        );
+    } else {
+      getOrCreateForceNode().removeAttribute("period");
+    }
   }
 }

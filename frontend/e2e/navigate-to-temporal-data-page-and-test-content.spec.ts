@@ -222,4 +222,42 @@ test.describe("Error handling for Temporal Data page", () => {
       }),
     ).toBeVisible()
   })
+
+  test("redirects to 404 page when entry into force HTML is not found", async ({
+    page,
+  }) => {
+    await page.route(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+      (route) => {
+        route.fulfill({
+          status: 404,
+        })
+      },
+    )
+
+    await page.goto(BASE_URL)
+
+    await expect(
+      page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+    ).toBeVisible()
+  })
+
+  test("redirects to 404 page when temporal data time boundaries are not found", async ({
+    page,
+  }) => {
+    await page.route(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
+      (route) => {
+        route.fulfill({
+          status: 404,
+        })
+      },
+    )
+
+    await page.goto(BASE_URL)
+
+    await expect(
+      page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+    ).toBeVisible()
+  })
 })

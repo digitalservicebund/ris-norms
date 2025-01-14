@@ -30,7 +30,7 @@ class TextualModTest {
 
   @BeforeEach
   void setUp() {
-    textualMod = TextualMod.builder().node(XmlMapper.toNode(COMMON_XML)).build();
+    textualMod = new TextualMod(XmlMapper.toElement(COMMON_XML));
   }
 
   @Test

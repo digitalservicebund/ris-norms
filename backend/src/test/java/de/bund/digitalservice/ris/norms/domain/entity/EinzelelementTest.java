@@ -14,20 +14,17 @@ class EinzelelementTest {
 
     @Test
     void getArtDerNormAtDate() {
-      final Einzelelement e = Einzelelement
-        .builder()
-        .node(
-          XmlMapper.toNode(
-            """
-                        <ris:einzelelement xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" href="#hauptteil-1_abschnitt-0_art-1">
-                <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-            </ris:einzelelement>
-            """
-          )
+      final Einzelelement e = new Einzelelement(
+        XmlMapper.toElement(
+          """
+                      <ris:einzelelement xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/" href="#hauptteil-1_abschnitt-0_art-1">
+              <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
+              <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
+              <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
+          </ris:einzelelement>
+          """
         )
-        .build();
+      );
 
       assertThat(
         e.getSimpleMetadatum(Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("1980-01-01"))

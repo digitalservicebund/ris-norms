@@ -41,7 +41,7 @@ public class SingleModValidator {
       .getEId()
       .orElseThrow();
     final Node zf0TargetedNode = zf0Norm
-      .getNodeByEId(targetNodeEid)
+      .getElementByEId(targetNodeEid)
       .orElseThrow(() ->
         new ValidationException(
           ValidationException.ErrorType.TARGET_NODE_NOT_PRESENT,
@@ -119,7 +119,7 @@ public class SingleModValidator {
         final String targetUpToNodeEid = upToHref.getEId().orElseThrow();
 
         final Node zf0TargetedUpToNode = zf0Norm
-          .getNodeByEId(targetUpToNodeEid)
+          .getElementByEId(targetUpToNodeEid)
           .orElseThrow(() ->
             new ValidationException(
               ValidationException.ErrorType.TARGET_UPTO_NODE_NOT_PRESENT,

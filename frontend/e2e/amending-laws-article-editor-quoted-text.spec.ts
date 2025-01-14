@@ -108,7 +108,7 @@ test.describe("Editing a single mod", () => {
     )
   })
   test.afterEach(async ({ request }) => {
-    await uploadAmendingLaw(request, "Vereinsgesetz_2017_s419_2017-03-15.xml")
+    await uploadAmendingLaw(request, "bgbl-1_2017_s419/aenderungsgesetz.xml")
   })
   test("editing and saving the quotedTextSecondElement", async ({ page }) => {
     const amendingLawSection = page.getByRole("region", {
@@ -314,7 +314,7 @@ test.describe("Editing multiple mods", () => {
   test.afterEach(async ({ request }) => {
     await uploadAmendingLaw(
       request,
-      "Fiktives Beispielgesetz_1001_11_1001-01-01.xml",
+      "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",
     )
   })
   test("Displaying time boundary", async ({ page }) => {

@@ -3,14 +3,8 @@
 import { expect, test } from "@playwright/test"
 import fs from "fs"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
 import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-test.afterAll(async ({ request }) => {
-  await uploadAmendingLaw(request, "Vereinsgesetz_2017_s419_2017-03-15.xml")
-})
+import { samplesDirectory } from "@e2e/utils/samples-directory"
 
 test(
   "navigates to the upload page",
@@ -35,7 +29,10 @@ test(
     await page.locator("input[type=file]").setInputFiles([
       {
         buffer: fs.readFileSync(
-          path.resolve(__dirname, "./testData/normWithModsNotInSeedXml.xml"),
+          path.resolve(
+            samplesDirectory,
+            "bgbl-1_1000_5_upload_01/aenderungsgesetz.xml",
+          ),
         ),
         mimeType: "text/xml",
         name: "amendingLaw",
@@ -45,7 +42,7 @@ test(
     await page.getByRole("button", { name: "Hochladen" }).click()
 
     await page.waitForURL(
-      "/amending-laws/eli/bund/bgbl-1/2017/s4711/2017-03-15/1/deu/regelungstext-1",
+      "/amending-laws/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-1",
     )
 
     await expect(
@@ -57,13 +54,21 @@ test(
 test(
   "shows a confirmation dialog if the uploaded norm already exists",
   { tag: ["@RISDEV-4775"] },
-  async ({ page }) => {
+  async ({ page, request }) => {
+    await uploadAmendingLaw(
+      request,
+      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+    )
+
     await page.goto("/amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
         buffer: fs.readFileSync(
-          path.resolve(__dirname, "./testData/normWithModsXml.xml"),
+          path.resolve(
+            samplesDirectory,
+            "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+          ),
         ),
         mimeType: "text/xml",
         name: "amendingLaw",
@@ -79,13 +84,21 @@ test(
 test(
   "confirming to overwrite an existing norm overwrites it",
   { tag: ["@RISDEV-4775"] },
-  async ({ page }) => {
+  async ({ page, request }) => {
+    await uploadAmendingLaw(
+      request,
+      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+    )
+
     await page.goto("/amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
         buffer: fs.readFileSync(
-          path.resolve(__dirname, "./testData/normWithModsXml.xml"),
+          path.resolve(
+            samplesDirectory,
+            "bgbl-1_1000_6_upload_02/aenderungsgesetz-2.xml",
+          ),
         ),
         mimeType: "text/xml",
         name: "amendingLaw",
@@ -102,20 +115,28 @@ test(
       page.getByText("Verkündung erfolgreich hochgeladen"),
     ).toBeVisible()
 
-    await expect(page.getByText("Dok Title")).toBeVisible()
+    await expect(page.getByText("Upload Test 2/2")).toBeVisible()
   },
 )
 
 test(
   "closes the confirmation dialog for a forced upload when user chooses not to overwrite",
   { tag: ["@RISDEV-4775"] },
-  async ({ page }) => {
+  async ({ page, request }) => {
+    await uploadAmendingLaw(
+      request,
+      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+    )
+
     await page.goto("/amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
         buffer: fs.readFileSync(
-          path.resolve(__dirname, "./testData/normWithModsXml.xml"),
+          path.resolve(
+            samplesDirectory,
+            "bgbl-1_1000_6_upload_02/aenderungsgesetz-2.xml",
+          ),
         ),
         mimeType: "text/xml",
         name: "amendingLaw",
@@ -189,7 +210,10 @@ test(
     await page.locator("input[type=file]").setInputFiles([
       {
         buffer: fs.readFileSync(
-          path.resolve(__dirname, "./testData/normWithModsXsdInvalidXml.xml"),
+          path.resolve(
+            samplesDirectory,
+            "bgbl-1_1000_3_invalid_xsd_01/regelungstext-1.xml",
+          ),
         ),
         mimeType: "text/xml",
         name: "amendingLaw",
@@ -216,8 +240,8 @@ test(
       {
         buffer: fs.readFileSync(
           path.resolve(
-            __dirname,
-            "./testData/normWithModsSchematronInvalidXml.xml",
+            samplesDirectory,
+            "bgbl-1_1000_4_invalid_schematron_01/regelungstext-1.xml",
           ),
         ),
         mimeType: "text/xml",

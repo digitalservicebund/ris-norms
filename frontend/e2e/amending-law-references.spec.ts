@@ -4,12 +4,12 @@ test("navigate to amending law references page without selected mods", async ({
   page,
 }) => {
   await page.goto("/amending-laws")
-  await page.getByRole("link", { name: "BGBl. I 1002 Nr. 10" }).click()
+  await page.getByRole("link", { name: "BGBl. I 1002 Nr. 2" }).click()
   await page.getByRole("link", { name: "Betroffene Normenkomplexe" }).click()
   await page.getByRole("link", { name: "Inhaltliche Auszeichnungen" }).click()
 
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
   await expect(
@@ -23,7 +23,7 @@ test("selects a mod but not references present so it shows the empty state for t
   page,
 }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
   await page
@@ -31,7 +31,7 @@ test("selects a mod but not references present so it shows the empty state for t
     .click()
 
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
   )
 
   await expect(
@@ -43,7 +43,7 @@ test("selects a mod but not references present so it shows the empty state for t
 
 test("see breadcrumb", async ({ page }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
   await expect(
@@ -53,7 +53,7 @@ test("see breadcrumb", async ({ page }) => {
 
 test("see rendered law text", async ({ page }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
   const article = page.getByRole("article")
@@ -65,7 +65,7 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
   page,
 }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
   await page
@@ -73,7 +73,7 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
     .click()
 
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
   )
 
   const textBoundingBox = await page
@@ -91,7 +91,7 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
     exact: true,
   })
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1_text-1_ref-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1_text-1_ref-1",
   )
 
   const combobox = newRefRegion.getByRole("combobox", { name: "Typ" })
@@ -110,7 +110,11 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
 
   await page.waitForRequest(/renderings/)
 
+  const saveResponse = page.waitForResponse(
+    "/api/v1/norms/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1?",
+  )
   await page.getByRole("button", { name: "Speichern" }).click()
+  await saveResponse
 
   await page.reload()
 
@@ -126,7 +130,7 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
 
   await expect(newRefRegion).toBeHidden()
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
   )
 
   await page.getByRole("button", { name: "Speichern" }).click()
@@ -136,7 +140,7 @@ test("should be able to select a mod, add two new ref's and delete one using the
   page,
 }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
   await page
@@ -194,4 +198,32 @@ test("should be able to select a mod, add two new ref's and delete one using the
   ).toBeVisible()
   await expect(ref1Highlight).toBeHidden()
   await expect(ref2Highlight).toBeVisible()
+})
+
+test.describe("Amending Law References Page Error Handling", () => {
+  test("Redirect to 404 if XML not found", async ({ page }) => {
+    await page.route(
+      "**/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1?",
+      async (route, request) => {
+        if (
+          request.method() === "GET" &&
+          request.headers()["accept"] === "application/xml"
+        ) {
+          await route.fulfill({
+            status: 404,
+          })
+        } else {
+          await route.continue()
+        }
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
+    )
+
+    await expect(
+      page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+    ).toBeVisible()
+  })
 })

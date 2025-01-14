@@ -165,7 +165,7 @@ public class PublishService implements PublishNormUseCase {
     // Organisationseinheit
     var matches = NodeParser.getNodesFromExpression(
       "//organisationsEinheit",
-      proprietary.getNode()
+      proprietary.getElement()
     );
 
     matches.forEach(match -> match.getParentNode().removeChild(match));

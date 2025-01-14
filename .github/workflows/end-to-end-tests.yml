@@ -22,7 +22,7 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Start PostgreSQL
-        run: docker compose up --detach postgres14 redis
+        run: docker compose -f docker-compose-services.yaml up --detach
       - name: Start backend # GitHub actions automatically keep the process running and output is streamed to pipeline logs
         run: ./gradlew bootRun &
         working-directory: ./backend

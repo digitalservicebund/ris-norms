@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -125,7 +126,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     }
 
     final var targetEid = modData.passiveModification().getDestinationHref().get().getEId().get();
-    final var targetNode = NodeParser.getNodeFromExpression(
+    final var targetNode = NodeParser.getElementFromExpression(
       String.format("//*[@eId='%s']", targetEid),
       targetZf0Norm.getDocument()
     );
@@ -211,7 +212,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     final Mod mod = modData.mod();
     if (mod.getQuotedStructure().isEmpty()) return;
 
-    Optional<Node> upToTargetNode = Optional.empty();
+    Optional<Element> upToTargetNode = Optional.empty();
     if (modData.passiveModification().getDestinationUpTo().isPresent()) {
       if (modData.passiveModification().getDestinationUpTo().get().getEId().isEmpty()) {
         return;
@@ -223,7 +224,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
           .getEId()
           .get();
         upToTargetNode =
-        NodeParser.getNodeFromExpression(
+        NodeParser.getElementFromExpression(
           String.format("//*[@eId='%s']", upToTargetNodeEid),
           targetZf0Norm.getDocument()
         );

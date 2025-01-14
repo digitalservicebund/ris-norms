@@ -93,7 +93,7 @@ class TimeMachineServiceTest {
           "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,"
         );
       // passive mod is deleted
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
     }
 
     @Test
@@ -121,8 +121,8 @@ class TimeMachineServiceTest {
           "entgegen § 9 Absatz 1 Satz 2, Absatz 2, 3 oder 4 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,"
         );
       // passive mods are deleted
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isEmpty();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isEmpty();
     }
 
     @Test
@@ -141,8 +141,8 @@ class TimeMachineServiceTest {
 
       // then
       assertThat(result).isNotEqualTo(norm);
-      assertThat(result.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
-      assertThat(norm.getNodeByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isPresent();
+      assertThat(result.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-1")).isEmpty();
+      assertThat(norm.getElementByEId("meta-1_analysis-1_pasmod-1_textualmod-2")).isPresent();
     }
 
     @Test
@@ -324,7 +324,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
 
-      final Node expectedNode = XmlMapper.toNode(
+      final Node expectedNode = XmlMapper.toElement(
         """
         <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" GUID="c4610ab1-9589-4d9c-94a7-67750e9717d1" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">entgegen § 9 Absatz 1 <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Satz 2</akn:ref>, Absatz 2 oder 3
                                         Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
@@ -361,7 +361,7 @@ class TimeMachineServiceTest {
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
-      final Node expectedNode = XmlMapper.toNode(
+      final Node expectedNode = XmlMapper.toElement(
         """
         <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"><akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a4bbb" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">entgegen</akn:ref> § 9 Absatz 1 <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-2" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Satz 2</akn:ref>, Absatz 2 oder 3
             Kennezichen eines verbotenen Vereins oder einer <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a33c3" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-3" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Ersatzorganisation</akn:ref> verwendet,

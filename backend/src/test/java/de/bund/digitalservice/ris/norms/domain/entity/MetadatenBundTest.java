@@ -10,21 +10,18 @@ class MetadatenBundTest {
 
   @Test
   void getRessort() {
-    final MetadatenBund metadatenBund = MetadatenBund
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
-              <meta:federfuehrung>
-                  <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                  <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-              </meta:federfuehrung>
-          </meta:legalDocML.de_metadaten>
-          """
-        )
+    final MetadatenBund metadatenBund = new MetadatenBund(
+      XmlMapper.toElement(
+        """
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            <meta:federfuehrung>
+                <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
+            </meta:federfuehrung>
+        </meta:legalDocML.de_metadaten>
+        """
       )
-      .build();
+    );
 
     assertThat(
       metadatenBund.getSimpleMetadatum(
@@ -58,17 +55,14 @@ class MetadatenBundTest {
 
   @Test
   void getRessortNotPresent() {
-    final MetadatenBund metadatenBund = MetadatenBund
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-                  <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
-              </meta:legalDocML.de_metadaten>
-          """
-        )
+    final MetadatenBund metadatenBund = new MetadatenBund(
+      XmlMapper.toElement(
+        """
+                <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            </meta:legalDocML.de_metadaten>
+        """
       )
-      .build();
+    );
 
     assertThat(metadatenBund.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, LocalDate.MAX))
       .isEmpty();
@@ -76,21 +70,18 @@ class MetadatenBundTest {
 
   @Test
   void setRessortUpdate() {
-    final MetadatenBund metadatenBund = MetadatenBund
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
-              <meta:federfuehrung>
-                  <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                  <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-              </meta:federfuehrung>
-          </meta:legalDocML.de_metadaten>
-          """
-        )
+    final MetadatenBund metadatenBund = new MetadatenBund(
+      XmlMapper.toElement(
+        """
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            <meta:federfuehrung>
+                <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
+            </meta:federfuehrung>
+        </meta:legalDocML.de_metadaten>
+        """
       )
-      .build();
+    );
 
     final LocalDate atDate = LocalDate.parse("2002-10-01");
     assertThat(metadatenBund.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, atDate))
@@ -106,21 +97,18 @@ class MetadatenBundTest {
 
   @Test
   void setRessortCreate() {
-    final MetadatenBund metadatenBund = MetadatenBund
-      .builder()
-      .node(
-        XmlMapper.toNode(
-          """
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
-              <meta:federfuehrung>
-                  <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                  <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-              </meta:federfuehrung>
-          </meta:legalDocML.de_metadaten>
-          """
-        )
+    final MetadatenBund metadatenBund = new MetadatenBund(
+      XmlMapper.toElement(
+        """
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            <meta:federfuehrung>
+                <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
+            </meta:federfuehrung>
+        </meta:legalDocML.de_metadaten>
+        """
       )
-      .build();
+    );
 
     final LocalDate atDate = LocalDate.parse("1990-01-01");
     assertThat(metadatenBund.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, atDate)).isEmpty();

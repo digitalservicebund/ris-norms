@@ -70,6 +70,7 @@ dependencies {
     implementation(platform(libs.aws.bom))
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
+    implementation(libs.spring.oauth2.client)
 
     compileOnly(libs.lombok)
 
@@ -84,6 +85,7 @@ dependencies {
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgres)
+    testImplementation(libs.testcontainers.keycloak)
 
     schematronToXsltCompileOnly(libs.schxslt)
     schematronToXsltCompileOnly(libs.saxon.he)
@@ -142,7 +144,8 @@ tasks {
         dependsOn("integrationTest", "test") // All tests are required to run before generating a report.
     }
 
-    jar { // We have no need for the plain archive, thus skip creation for build speedup!
+    jar {
+        // We have no need for the plain archive, thus skip creation for build speedup!
         enabled = false
     }
 
@@ -202,9 +205,10 @@ tasks {
                             val pipelineFile =
                                 // find the jar file for name.dmaus.schxslt:schxslt and look into it as if it was a zip archive
                                 zipTree(
-                                    classpath.filter {
-                                        it.name.startsWith("schxslt")
-                                    }.singleFile,
+                                    classpath
+                                        .filter {
+                                            it.name.startsWith("schxslt")
+                                        }.singleFile,
                                 ).filter {
                                     // file the pipeline xsl file for converting sch to xsl in this jar
                                     it.absolutePath.endsWith("/2.0/pipeline-for-svrl.xsl")

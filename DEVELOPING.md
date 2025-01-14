@@ -59,7 +59,7 @@ with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](http
 
 Run dependencies from the root of the project:
 ```bash
-docker compose up -d postgres14 redis
+docker compose -f docker-compose-services.yaml up -d
 ```
 
 Run from `./backend`:
@@ -96,6 +96,12 @@ docker compose ls
 To stop them:
 ```bash
 docker compose down
+```
+
+If you want to run the java application and frontend yourself you can start only the other services (redis, postgres & keycloak) by running:
+
+```bash
+docker compose -f docker-compose-services.yaml up -d
 ```
 
 # Testing

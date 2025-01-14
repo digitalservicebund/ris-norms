@@ -23,7 +23,5 @@ fileignoreconfig:
     checksum: fd82b62a209f40f1735e9bde784f76e47337ed6ede40335a864c74a529223a97
   - filename: LegalDocML.de/*/fixtures/*.xml
     ignore_detectors: [filecontent]
-  - filename: LegalDocML.de/*/samples/*.xml
-    ignore_detectors: [filecontent]
-  - filename: LegalDocML.de/*/samples/amending-laws/*.xml
+  - filename: LegalDocML.de/*/samples/*/*.xml
     ignore_detectors: [filecontent]
