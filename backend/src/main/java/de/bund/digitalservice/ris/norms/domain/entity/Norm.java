@@ -142,14 +142,10 @@ public class Norm {
    *
    * @return The list of target norm elis
    */
-  public List<ExpressionEli> targetLawElis() {
-    return getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
+  public List<ExpressionEli> getTargetLawElis() {
+    return getArticles()
       .stream()
-      .map(Article::new)
-      .filter(article ->
-        article.getRefersTo().isPresent() &&
-        !article.getRefersTo().get().equals("geltungszeitregel")
-      )
+      .filter(article -> !article.isGeltungszeitregel())
       .map(Article::getMandatoryAffectedDocumentEli)
       .toList();
   }
