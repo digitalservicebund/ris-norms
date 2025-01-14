@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-test.describe("Logout functionality", () => {
+test.describe("Login / logout functionality", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/")
   })
@@ -8,15 +8,8 @@ test.describe("Logout functionality", () => {
   test("Clicking logout should redirect to the login UI and verify user info after login", async ({
     page,
   }) => {
-    const logoutLink = page.getByRole("link", { name: "Ausloggen" })
-    await expect(logoutLink).toBeVisible()
-
-    await logoutLink.click()
-    await expect(
-      page.getByRole("heading", { name: "Sign in to your account" }),
-    ).toBeVisible()
-
-    await page.goto("/amending-laws")
+    await page.goto("/")
+    await page.getByRole("link").click()
     await expect(
       page.getByRole("heading", { name: "Sign in to your account" }),
     ).toBeVisible()
@@ -27,10 +20,16 @@ test.describe("Logout functionality", () => {
     await page.getByRole("textbox", { name: "Password" }).fill("test")
     await page.getByRole("button", { name: "Sign In" }).click()
 
+    await page.goto("/amending-laws")
     const logoutLinkAfterLogin = page.getByRole("link", { name: "Ausloggen" })
     await expect(logoutLinkAfterLogin).toBeVisible()
 
     const usernameDisplay = page.getByText("Jane Doe")
     await expect(usernameDisplay).toBeVisible()
+
+    await logoutLinkAfterLogin.click()
+    await expect(
+      page.getByRole("heading", { name: "Sign in to your account" }),
+    ).toBeVisible()
   })
 })
