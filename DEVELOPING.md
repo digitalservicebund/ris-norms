@@ -75,7 +75,7 @@ npm run dev
 ```
 More info on the frontend part [here](./frontend/README.md).
 
-Visit: [http://localhost:5173](http://localhost:5173)
+Visit [http://localhost:5173](http://localhost:5173) and login with the username `jane.doe` and password `test`
 
 ## Run using Docker
 
@@ -84,8 +84,7 @@ With Docker being installed (Compose Plugin needed) run following to start all c
 docker compose up -d
 ```
 
-Visit: [http://localhost:8080](http://localhost:8080)
-
+Visit [http://localhost:8080](http://localhost:8080) and login with the username `jane.doe` and password `test`
 
 Watch the state by either of:
 ```bash
@@ -96,12 +95,6 @@ docker compose ls
 To stop them:
 ```bash
 docker compose down
-```
-
-If you want to run the java application and frontend yourself you can start only the other services (redis, postgres & keycloak) by running:
-
-```bash
-docker compose -f docker-compose-services.yaml up -d
 ```
 
 # Testing
