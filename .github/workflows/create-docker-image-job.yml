@@ -22,7 +22,10 @@ jobs:
         with:
           submodules: true
       - name: Build docker image
-        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }} -f DockerfileApp .
+        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }} --secret id=SENTRY_DNS,env=SENTRY_DNS --secret id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN -f DockerfileApp .
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Run Trivy vulnerability image scanner
         uses: aquasecurity/trivy-action@a11da62073708815958ea6d84f5650c78a3ef85b
         env:
