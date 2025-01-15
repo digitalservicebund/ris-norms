@@ -24,12 +24,9 @@ const { data: user } = useGetUserName()
         <span class="ris-label2-regular">
           {{ user?.name ?? "Unbekannt" }}
         </span>
-        <RouterLink
-          :to="'/logout'"
-          class="ris-link2-regular underline-offset-2"
-        >
+        <a href="/logout" class="ris-link2-regular underline-offset-2">
           Ausloggen
-        </RouterLink>
+        </a>
       </div>
     </div>
   </nav>
