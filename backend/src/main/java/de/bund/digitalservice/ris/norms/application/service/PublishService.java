@@ -98,6 +98,7 @@ public class PublishService implements PublishNormUseCase {
       }
     });
     publishChangelogsPort.publishChangelogs();
+    log.info("Publish job successfully completed.");
   }
 
   private void processNorm(Norm norm) {
