@@ -307,10 +307,7 @@ if (listOf("staging", "uat", "production").contains(System.getProperty("spring.p
         // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
         // This enables source context, allowing you to see your source
         // code as part of your stack traces in Sentry.
-        // includeSourceContext = true
-
-        // Temporarily disabled since it didn't work when building with gradle in the docker container
-        includeSourceContext = false
+        includeSourceContext = true
 
         org = "digitalservice"
         projectName = "ris-norms"
