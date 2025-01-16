@@ -311,7 +311,6 @@ if (System.getenv("SENTRY_AUTH_TOKEN") != null) {
 
         org = "digitalservice"
         projectName = "ris-norms"
-        debug.set(true)
         authToken = System.getenv("SENTRY_AUTH_TOKEN")
     }
 }
