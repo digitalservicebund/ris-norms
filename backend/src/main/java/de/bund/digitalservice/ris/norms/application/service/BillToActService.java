@@ -1,19 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
-import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
-import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
-import de.bund.digitalservice.ris.norms.domain.entity.FRBRWork;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Lifecycle;
-import de.bund.digitalservice.ris.norms.domain.entity.MetadatenBund;
-import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDe;
-import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.TemporalData;
-import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
@@ -63,18 +50,17 @@ public class BillToActService {
     updateXsdLocation(document);
     updateBillToAct(document);
 
-    var norm = Norm.builder().document(document).build();
-
+    var norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(document))).build();
     rewriteFbrWork(norm);
+
     rewriteFbrExpression(norm);
     rewriteFbrManifestation(norm);
     addNecessaryMetaData(norm);
     addTemporalInformation(norm);
-
     addPeriodToArticle(document);
+
     addFormulaAndSignature(document);
     addMandatoryGuids(document);
-
     return XmlMapper.toString(document);
   }
 

@@ -1,14 +1,11 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import static de.bund.digitalservice.ris.norms.utils.NodeParser.getElementsFromExpression;
-
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
-import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +13,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Represents an LDML.de norm. This class is annotated with Lombok annotations for generating
@@ -27,16 +23,31 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 public class Norm {
 
-  private final Document document;
-
-  public Norm(Norm norm) {
-    this.document = (Document) norm.getDocument().cloneNode(true);
-    this.publishState = NormPublishState.UNPUBLISHED;
-  }
-
   @Setter
   @Builder.Default
   private NormPublishState publishState = NormPublishState.UNPUBLISHED;
+
+  private final Set<Regelungstext> regelungstexte;
+
+  public Norm(Norm norm) {
+    this.regelungstexte =
+    norm.getRegelungstexte().stream().map(Regelungstext::new).collect(Collectors.toSet());
+    this.publishState = NormPublishState.UNPUBLISHED;
+  }
+
+  /**
+   * Returns the first "Regelungstext".
+   *
+   * @return the "Regelungstext"
+   */
+  public Regelungstext getRegelungstext1() {
+    return regelungstexte.iterator().next();
+  }
+
+  @Deprecated(forRemoval = true)
+  public Document getDocument() {
+    return getRegelungstext1().getDocument();
+  }
 
   /**
    * Returns the work Eli of the {@link Norm}.
@@ -44,9 +55,7 @@ public class Norm {
    * @return The work Eli
    */
   public WorkEli getWorkEli() {
-    return WorkEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression("//FRBRWork/FRBRthis/@value", document)
-    );
+    return getRegelungstext1().getWorkEli();
   }
 
   /**
@@ -55,12 +64,7 @@ public class Norm {
    * @return The expression Eli
    */
   public ExpressionEli getExpressionEli() {
-    return ExpressionEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression(
-        "//FRBRExpression/FRBRthis/@value",
-        document
-      )
-    );
+    return getRegelungstext1().getExpressionEli();
   }
 
   /**
@@ -69,26 +73,18 @@ public class Norm {
    * @return The manifestation Eli
    */
   public ManifestationEli getManifestationEli() {
-    return ManifestationEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression(
-        "//FRBRManifestation/FRBRthis/@value",
-        document
-      )
-    );
+    return getRegelungstext1().getManifestationEli();
   }
 
   /**
    * Returns the current version GUID as {@link UUID} from the {@link Norm}.
    *
    * @return An GUID of the norm (of the expression level)
+   * @deprecated
    */
+  @Deprecated(forRemoval = true)
   public UUID getGuid() {
-    var guid = NodeParser.getValueFromMandatoryNodeFromExpression(
-      "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value",
-      document
-    );
-
-    return UUID.fromString(guid);
+    return getRegelungstext1().getGuid();
   }
 
   /**
@@ -97,7 +93,7 @@ public class Norm {
    * @return The title
    */
   public Optional<String> getTitle() {
-    return NodeParser.getValueFromExpression("//longTitle/*/docTitle", document);
+    return getRegelungstext1().getTitle();
   }
 
   /**
@@ -106,12 +102,7 @@ public class Norm {
    * @return The short title
    */
   public Optional<String> getShortTitle() {
-    return NodeParser
-      .getValueFromExpression(
-        "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]",
-        document
-      )
-      .or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", document));
+    return getRegelungstext1().getShortTitle();
   }
 
   /**
@@ -119,8 +110,9 @@ public class Norm {
    *
    * @return the meta node as {@link Meta}
    */
+  @Deprecated(forRemoval = true)
   public Meta getMeta() {
-    return new Meta(NodeParser.getMandatoryElementFromExpression("//act/meta", document));
+    return getRegelungstext1().getMeta();
   }
 
   /**
@@ -129,11 +121,9 @@ public class Norm {
    *
    * @return The list of articles
    */
+  @Deprecated(forRemoval = true)
   public List<Article> getArticles() {
-    return getElementsFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
-      .stream()
-      .map(Article::new)
-      .toList();
+    return getRegelungstext1().getArticles();
   }
 
   /**
@@ -141,8 +131,9 @@ public class Norm {
    *
    * @return a list of {@link Mod}s
    */
+  @Deprecated(forRemoval = true)
   public List<Mod> getMods() {
-    return getElementsFromExpression("//body//mod", document).stream().map(Mod::new).toList();
+    return getRegelungstext1().getMods();
   }
 
   /**
@@ -150,9 +141,9 @@ public class Norm {
    *
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
+  @Deprecated(forRemoval = true)
   public List<TimeBoundary> getTimeBoundaries() {
-    final List<TemporalGroup> temporalGroups = getMeta().getTemporalData().getTemporalGroups();
-    return getTimeBoundaries(temporalGroups);
+    return getRegelungstext1().getTimeBoundaries();
   }
 
   /**
@@ -162,65 +153,36 @@ public class Norm {
    * @param temporalGroups - the pre-filtered listed of temporal groups
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
+  @Deprecated(forRemoval = true)
   public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
-    return temporalGroups
-      .stream()
-      .map(temporalGroup -> {
-        final TimeInterval timeInterval = temporalGroup.getTimeInterval();
-        final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
-        final EventRef eventRef = getMeta()
-          .getLifecycle()
-          .getEventRefs()
-          .stream()
-          .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
-          .findFirst()
-          .orElseThrow();
-        return (TimeBoundary) TimeBoundary
-          .builder()
-          .temporalGroup(temporalGroup)
-          .timeInterval(timeInterval)
-          .eventRef(eventRef)
-          .build();
-      })
-      .toList();
+    return getRegelungstext1().getTimeBoundaries(temporalGroups);
   }
 
   /**
    * @param temporalGroupEid EId of a temporal group
    * @return Start date of the temporal group
    */
+  @Deprecated(forRemoval = true)
   public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
-    return getStartEventRefForTemporalGroup(temporalGroupEid)
-      .flatMap(this::getStartDateForEventRef);
+    return getRegelungstext1().getStartDateForTemporalGroup(temporalGroupEid);
   }
 
   /**
    * @param temporalGroupEid EId of a temporal group
    * @return eid of the event ref of the start of the temporal group
    */
+  @Deprecated(forRemoval = true)
   public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
-    return getMeta()
-      .getTemporalData()
-      .getTemporalGroups()
-      .stream()
-      .filter(temporalGroup -> temporalGroup.getEid().equals(temporalGroupEid))
-      .findFirst()
-      .flatMap(m -> m.getTimeInterval().getEventRefEId());
+    return getRegelungstext1().getStartEventRefForTemporalGroup(temporalGroupEid);
   }
 
   /**
    * @param eId EId of an event ref
    * @return Start date of the event ref
    */
+  @Deprecated(forRemoval = true)
   public Optional<String> getStartDateForEventRef(String eId) {
-    return getMeta()
-      .getLifecycle()
-      .getEventRefs()
-      .stream()
-      .filter(eventRef -> Objects.equals(eventRef.getEid().value(), eId))
-      .findFirst()
-      .flatMap(EventRef::getDate)
-      .map(LocalDate::toString);
+    return getRegelungstext1().getStartDateForEventRef(eId);
   }
 
   /**
@@ -232,21 +194,9 @@ public class Norm {
    * @param eventRefType the {@link EventRefType} for the new time boundary.
    * @return the newly created {@link TemporalGroup}
    */
+  @Deprecated(forRemoval = true)
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
-    // Create new eventRef node
-    final EventRef eventRef = getMeta().getLifecycle().addEventRef();
-    eventRef.setDate(date.toString());
-    eventRef.setRefersTo("inkrafttreten");
-    eventRef.setType(eventRefType.getValue());
-
-    final TemporalGroup temporalGroup = getMeta().getTemporalData().addTemporalGroup();
-    final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
-    timeInterval.setStart(
-      new Href.Builder().setEId(eventRef.getEid().value()).buildInternalReference()
-    );
-    timeInterval.setRefersTo("geltungszeit");
-
-    return temporalGroup;
+    return getRegelungstext1().addTimeBoundary(date, eventRefType);
   }
 
   /**
@@ -255,8 +205,9 @@ public class Norm {
    * @param eId the eId of the element to search for.
    * @return the number of nodes for a given eId.
    */
+  @Deprecated(forRemoval = true)
   public int getNumberOfNodesWithEid(String eId) {
-    return getElementsFromExpression("//*[@eId='%s']".formatted(eId), document).size();
+    return getRegelungstext1().getNumberOfNodesWithEid(eId);
   }
 
   /**
@@ -265,11 +216,9 @@ public class Norm {
    * @param eId the eId of the element to return
    * @return the selected element
    */
+  @Deprecated(forRemoval = true)
   public Optional<Element> getElementByEId(String eId) {
-    return NodeParser.getElementFromExpression(
-      String.format("//*[@eId='%s']", eId),
-      this.getDocument()
-    );
+    return getRegelungstext1().getElementByEId(eId);
   }
 
   /**
@@ -278,12 +227,9 @@ public class Norm {
    * @param eId the eId of the element to delete
    * @return the deleted element or empty if nothing to delete was found
    */
+  @Deprecated(forRemoval = true)
   public Optional<Element> deleteByEId(String eId) {
-    var node = getElementByEId(eId);
-
-    node.ifPresent(n -> n.getParentNode().removeChild(n));
-
-    return node;
+    return getRegelungstext1().deleteByEId(eId);
   }
 
   /**
@@ -292,17 +238,9 @@ public class Norm {
    * @param eId the eId of the temporal group to delete
    * @return the deleted temporal group or empty if nothing was deleted
    */
+  @Deprecated(forRemoval = true)
   public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
-    final var nodesUsingTemporalData = getElementsFromExpression(
-      String.format("//*[@period='#%s']", eId),
-      getDocument()
-    );
-
-    if (!nodesUsingTemporalData.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return deleteByEId(eId).map(TemporalGroup::new);
+    return getRegelungstext1().deleteTemporalGroupIfUnused(eId);
   }
 
   /**
@@ -311,17 +249,9 @@ public class Norm {
    * @param eId the eId of the event ref to delete
    * @return the deleted temporal ref node or empty if nothing was deleted
    */
+  @Deprecated(forRemoval = true)
   public Optional<Element> deleteEventRefIfUnused(String eId) {
-    final var nodesUsingTemporalData = getElementsFromExpression(
-      String.format("//*[@start='#%s' or @end='#%s']", eId, eId),
-      getDocument()
-    );
-
-    if (!nodesUsingTemporalData.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return deleteByEId(eId);
+    return getRegelungstext1().deleteEventRefIfUnused(eId);
   }
 
   /**
@@ -329,27 +259,9 @@ public class Norm {
    *
    * @param timeBoundaryToDelete the time boundary that should be deleted from the xml
    */
+  @Deprecated(forRemoval = true)
   public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
-    // delete eventRef node
-    deleteByEId(timeBoundaryToDelete.eid());
-
-    // delete temporalGroup node and its timeInterval node children
-    String timeIntervalNodeExpression = String.format(
-      "//temporalData/temporalGroup/timeInterval[@start='#%s']",
-      timeBoundaryToDelete.eid()
-    );
-    Optional<Element> timeIntervalNode = NodeParser.getElementFromExpression(
-      timeIntervalNodeExpression,
-      document
-    );
-
-    if (timeIntervalNode.isEmpty()) {
-      return;
-    }
-
-    Node temporalGroupNode = timeIntervalNode.get().getParentNode();
-    Node temporalDataNode = temporalGroupNode.getParentNode();
-    temporalDataNode.removeChild(temporalGroupNode);
+    getRegelungstext1().deleteTimeBoundary(timeBoundaryToDelete);
   }
 
   @Override
@@ -357,11 +269,11 @@ public class Norm {
     if (this == object) return true;
     if (object == null || getClass() != object.getClass()) return false;
     Norm norm = (Norm) object;
-    return document.isEqualNode(norm.document);
+    return regelungstexte.containsAll(norm.regelungstexte);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(XmlMapper.toString(document));
+    return Objects.hash(regelungstexte);
   }
 }

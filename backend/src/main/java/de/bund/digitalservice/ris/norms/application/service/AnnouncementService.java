@@ -3,13 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
@@ -129,7 +123,7 @@ public class AnnouncementService
     var validatedNorm = ldmlDeValidator.parseAndValidate(actString);
     ldmlDeValidator.validateSchematron(validatedNorm);
 
-    var norm = Norm.builder().document(document).build();
+    var norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(document))).build();
 
     var activeModDestinationElis = getActiveModDestinationElis(norm);
 

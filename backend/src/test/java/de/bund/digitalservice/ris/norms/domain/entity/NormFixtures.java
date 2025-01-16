@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.UrlResource;
 
@@ -38,7 +39,10 @@ public class NormFixtures {
       return ldmlDeValidator.parseAndValidate(loadNormFile(fileName));
     }
 
-    return Norm.builder().document(XmlMapper.toDocument(loadNormFile(fileName))).build();
+    return Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(loadNormFile(fileName)))))
+      .build();
   }
 
   private static String loadNormFile(final String fileName) {

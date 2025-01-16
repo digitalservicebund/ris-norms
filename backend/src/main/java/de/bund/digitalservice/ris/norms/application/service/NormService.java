@@ -6,10 +6,7 @@ import de.bund.digitalservice.ris.norms.application.exception.ValidationExceptio
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -74,7 +71,10 @@ public class NormService
       .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
-    var normToBeUpdated = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
+    var normToBeUpdated = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(query.xml()))))
+      .build();
 
     if (!existingNorm.getExpressionEli().equals(normToBeUpdated.getExpressionEli())) {
       throw new InvalidUpdateException("Changing the ELI is not supported.");

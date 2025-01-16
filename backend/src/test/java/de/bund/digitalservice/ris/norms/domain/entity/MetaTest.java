@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Node;
 
@@ -459,7 +460,10 @@ class MetaTest {
       </akn:akomaNtoso>
       """;
 
-    var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+    var norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+      .build();
 
     // When
     var result = norm.getMeta().getOrCreateProprietary();
@@ -505,7 +509,10 @@ class MetaTest {
       </akn:akomaNtoso>
       """;
 
-    var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+    var norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+      .build();
 
     // When
     var result = norm.getMeta().getProprietary();

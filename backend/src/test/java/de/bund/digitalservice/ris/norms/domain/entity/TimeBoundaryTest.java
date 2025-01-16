@@ -4,6 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class TimeBoundaryTest {
@@ -37,7 +38,7 @@ class TimeBoundaryTest {
   void getDate() {
     // given
 
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
@@ -53,7 +54,7 @@ class TimeBoundaryTest {
   void getEventRefEid() {
     // given
 
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
@@ -68,7 +69,7 @@ class TimeBoundaryTest {
   @Test
   void getTimeIntervalEid() {
     // given
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();

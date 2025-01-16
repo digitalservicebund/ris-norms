@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
@@ -230,10 +231,16 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       """;
 
     // When
-    var norm1 = Norm.builder().document(XmlMapper.toDocument(xml1)).build();
+    var norm1 = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml1))))
+      .build();
     var announcement1 = Announcement.builder().eli(norm1.getExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
-    var norm2 = Norm.builder().document(XmlMapper.toDocument(xml2)).build();
+    var norm2 = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml2))))
+      .build();
     var announcement2 = Announcement.builder().eli(norm2.getExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
 
@@ -304,7 +311,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
            </akn:act>
         </akn:akomaNtoso>
       """;
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+    var norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
+      .build();
     var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     // When

@@ -11,12 +11,14 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -67,7 +69,10 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+      var norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+        .build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
 
       // When
@@ -130,7 +135,10 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+      var norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+        .build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
 
       // When / Then
@@ -176,7 +184,10 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+      var norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+        .build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
@@ -243,7 +254,10 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+      var norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+        .build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
@@ -291,7 +305,10 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+      var norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+        .build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(
         timeMachineService.applyPassiveModifications(
@@ -367,7 +384,10 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm.builder().document(XmlMapper.toDocument(normXml)).build();
+      var norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
+        .build();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(
         timeMachineService.applyPassiveModifications(

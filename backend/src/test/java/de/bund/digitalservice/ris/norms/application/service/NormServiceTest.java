@@ -11,17 +11,14 @@ import de.bund.digitalservice.ris.norms.application.exception.ValidationExceptio
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -55,25 +52,29 @@ class NormServiceTest {
 
       var norm = Norm
         .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
+        .regelungstexte(
+          Set.of(
+            new Regelungstext(
+              XmlMapper.toDocument(
+                """
+                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                     <akn:act name="regelungstext">
+                        <!-- Metadaten -->
+                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                           <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                              <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                                 <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                              </akn:FRBRExpression>
+                          </akn:identification>
+                        </akn:meta>
+                     </akn:act>
+                  </akn:akomaNtoso>
+                """
+              )
+            )
           )
         )
         .build();
@@ -119,25 +120,29 @@ class NormServiceTest {
 
       var norm = Norm
         .builder()
-        .document(
-          XmlMapper.toDocument(
-            """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                         http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                       <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                             <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                 </akn:act>
-              </akn:akomaNtoso>
-            """
+        .regelungstexte(
+          Set.of(
+            new Regelungstext(
+              XmlMapper.toDocument(
+                """
+                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                     <akn:act name="regelungstext">
+                        <!-- Metadaten -->
+                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                           <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                              <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                                 <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                              </akn:FRBRExpression>
+                          </akn:identification>
+                        </akn:meta>
+                     </akn:act>
+                  </akn:akomaNtoso>
+                """
+              )
+            )
           )
         )
         .build();
@@ -246,8 +251,14 @@ class NormServiceTest {
            </akn:act>
         </akn:akomaNtoso>
         """;
-      var oldNorm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
-      var newNorm = Norm.builder().document(XmlMapper.toDocument(newXml)).build();
+      var oldNorm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .build();
+      var newNorm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(newXml))))
+        .build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(newNorm));
@@ -394,7 +405,10 @@ class NormServiceTest {
            </akn:act>
         </akn:akomaNtoso>
         """;
-      var oldNorm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      var oldNorm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
 
@@ -485,7 +499,10 @@ class NormServiceTest {
            </akn:act>
         </akn:akomaNtoso>
         """;
-      var oldNorm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      var oldNorm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
 
@@ -599,7 +616,10 @@ class NormServiceTest {
               </akn:act>
           </akn:akomaNtoso>
         """;
-      Norm amendingNorm = Norm.builder().document(XmlMapper.toDocument(text)).build();
+      Norm amendingNorm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(text))))
+        .build();
       amendingNorm.getMeta().getAnalysis().get().getActiveModifications();
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       ExpressionEli zf0EliTargetNorm = ExpressionEli.fromString(
@@ -910,7 +930,10 @@ class NormServiceTest {
         .updateNorm(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
       final Document amendingXmlDocument = XmlMapper.toDocument(returnedXml.amendingNormXml());
-      final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
+      final Norm resultAmendingNorm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(amendingXmlDocument)))
+        .build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetRefHref()).isPresent();
@@ -1054,7 +1077,10 @@ class NormServiceTest {
         .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingNorm)));
 
       final Document amendingXmlDocument = XmlMapper.toDocument(result.amendingNormXml());
-      final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
+      final Norm resultAmendingNorm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(amendingXmlDocument)))
+        .build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetRefHref()).isPresent();

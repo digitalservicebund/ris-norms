@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.PreviewRequ
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.Optional;
@@ -84,12 +85,16 @@ public class RenderingController {
   private String render(PreviewRequestSchema previewRequestSchema, Optional<Instant> atIsoDate) {
     final var norm = Norm
       .builder()
-      .document(XmlMapper.toDocument(previewRequestSchema.getNorm()))
+      .regelungstexte(
+        Set.of(new Regelungstext(XmlMapper.toDocument(previewRequestSchema.getNorm())))
+      )
       .build();
     final Set<Norm> customNorms = previewRequestSchema
       .getCustomNorms()
       .stream()
-      .map(xml -> Norm.builder().document(XmlMapper.toDocument(xml)).build())
+      .map(xml ->
+        Norm.builder().regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml)))).build()
+      )
       .collect(Collectors.toSet());
 
     Norm normWithAppliedModifications = applyPassiveModificationsUseCase.applyPassiveModifications(
