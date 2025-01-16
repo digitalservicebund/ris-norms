@@ -302,7 +302,7 @@ tasks.named<Checkstyle>("checkstyleTest") {
     configFile = rootProject.file("checkstyle/config-test.xml")
 }
 
-if (listOf("staging", "uat", "production").contains(System.getProperty("spring.profiles.active"))) {
+if (System.getenv("SENTRY_AUTH_TOKEN") != null) {
     sentry {
         // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
         // This enables source context, allowing you to see your source
