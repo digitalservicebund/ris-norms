@@ -52,6 +52,7 @@ jobs:
     secrets: inherit # e.g. sonar token
 
   create-docker-image-job:
+    if: ${{ github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'dev-env') || contains(github.event.labeled.labels.*.name, 'dev-env') }}
     permissions:
       security-events: write # upload-sarif
       packages: write
