@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,8 +54,8 @@ public class Norm {
    *
    * @return The work Eli
    */
-  public DokumentWorkEli getWorkEli() {
-    return getRegelungstext1().getWorkEli();
+  public NormWorkEli getWorkEli() {
+    return getRegelungstext1().getWorkEli().asNormEli();
   }
 
   /**

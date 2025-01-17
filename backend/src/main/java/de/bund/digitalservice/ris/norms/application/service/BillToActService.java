@@ -118,7 +118,7 @@ public class BillToActService {
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
     final DokumentExpressionEli expressionEli = DokumentExpressionEli.fromWorkEli(
-      norm.getWorkEli(),
+      norm.getRegelungstext1().getWorkEli(),
       verkuendungsDate,
       fRBRExpression.getFRBRVersionNumber().orElseThrow(),
       fRBRExpression.getFRBRlanguage().orElseThrow()

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -47,8 +47,7 @@ class NormTest {
     var actualEli = norm.getWorkEli();
 
     // then
-    assertThat(actualEli)
-      .isEqualTo(DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1"));
+    assertThat(actualEli).isEqualTo(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"));
   }
 
   @Test
