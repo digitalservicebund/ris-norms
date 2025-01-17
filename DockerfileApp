@@ -4,7 +4,9 @@ WORKDIR /frontend
 COPY frontend .
 RUN npm ci
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN \
-    SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN) \
+    if [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \
+        SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \
+    fi; \
     npm run build
 
 FROM gradle:8.12-jdk21 AS backend
@@ -18,8 +20,10 @@ RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
 RUN --mount=type=secret,id=SENTRY_DNS \
     --mount=type=secret,id=SENTRY_AUTH_TOKEN \
-    SENTRY_DNS=$(cat /run/secrets/SENTRY_DNS) \
-    SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN) \
+    if [ -f /run/secrets/SENTRY_DNS ] && [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \
+        SENTRY_DNS=$(cat /run/secrets/SENTRY_DNS) \
+        SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \
+    fi; \
     ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
 
 FROM cgr.dev/chainguard/jre:latest
