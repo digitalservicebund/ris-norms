@@ -175,7 +175,7 @@ public class CharacterRangeTest {
     @Test
     void itShouldFindRangeInAValidatedNormIgnoringIndentation() {
       // given //when
-      var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml", true);
+      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml", true);
 
       var n2 = NodeParser.getNodeFromExpression(
         "//*[@eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1']",

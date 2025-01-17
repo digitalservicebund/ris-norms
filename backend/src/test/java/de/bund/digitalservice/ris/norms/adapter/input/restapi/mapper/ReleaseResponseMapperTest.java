@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import java.time.Instant;
 import java.util.List;
@@ -18,8 +18,8 @@ class ReleaseResponseMapperTest {
       .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
       .publishedNorms(
         List.of(
-          NormFixtures.loadFromDisk("SimpleNorm.xml"),
-          NormFixtures.loadFromDisk("NormWithMods.xml")
+          Fixtures.loadNormFromDisk("SimpleNorm.xml"),
+          Fixtures.loadNormFromDisk("NormWithMods.xml")
         )
       )
       .build();

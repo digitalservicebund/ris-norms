@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -61,8 +61,8 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticles() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(zf0Norm);
       when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any())).thenReturn(norm.getArticles());
@@ -103,7 +103,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticlesFilteredByAmendedAt() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
@@ -145,7 +145,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticlesFilteredByAmendedBy() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
@@ -189,7 +189,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsUnprocessableEntityWhenMandatoryNodeIsMissing() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
@@ -244,8 +244,8 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticle() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var normZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var normZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm).thenReturn(normZf0);
 

@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -42,12 +42,12 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
       jsonPayload.addProperty(
         "norm",
         XmlMapper.toString(
-          NormFixtures.loadFromDisk("NormWithPassiveModifications.xml").getDocument()
+          Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml").getDocument()
         )
       );
       var customNormsJson = new JsonArray();
       customNormsJson.add(
-        XmlMapper.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument())
+        XmlMapper.toString(Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument())
       );
       jsonPayload.add("customNorms", customNormsJson);
 
@@ -73,13 +73,13 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
       jsonPayload.addProperty(
         "norm",
         XmlMapper.toString(
-          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml").getDocument()
+          Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml").getDocument()
         )
       );
       var customNormsJson = new JsonArray();
       customNormsJson.add(
         XmlMapper.toString(
-          NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml").getDocument()
+          Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml").getDocument()
         )
       );
       jsonPayload.add("customNorms", customNormsJson);

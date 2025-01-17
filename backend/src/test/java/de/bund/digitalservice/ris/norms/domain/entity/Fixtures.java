@@ -9,7 +9,7 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.UrlResource;
 
-public class NormFixtures {
+public class Fixtures {
 
   private static final LdmlDeValidator ldmlDeValidator = new LdmlDeValidator(
     new UrlResource(
@@ -26,29 +26,29 @@ public class NormFixtures {
     )
   );
 
-  public static Norm loadFromDisk(final String fileName) {
-    return loadFromDisk(fileName, false);
+  public static Norm loadNormFromDisk(final String fileName) {
+    return loadNormFromDisk(fileName, false);
   }
 
-  public static String loadTextFromDisk(final String fileName) {
-    return loadNormFile(fileName);
-  }
-
-  public static Norm loadFromDisk(final String fileName, boolean validated) {
+  public static Norm loadNormFromDisk(final String fileName, boolean validated) {
     if (validated) {
-      return ldmlDeValidator.parseAndValidate(loadNormFile(fileName));
+      return ldmlDeValidator.parseAndValidate(loadFile(fileName));
     }
 
     return Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(loadNormFile(fileName)))))
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(loadFile(fileName)))))
       .build();
   }
 
-  private static String loadNormFile(final String fileName) {
+  public static String loadTextFromDisk(final String fileName) {
+    return loadFile(fileName);
+  }
+
+  private static String loadFile(final String fileName) {
     try {
       return IOUtils.toString(
-        Objects.requireNonNull(NormFixtures.class.getResourceAsStream(fileName)),
+        Objects.requireNonNull(Fixtures.class.getResourceAsStream(fileName)),
         StandardCharsets.UTF_8
       );
     } catch (IOException e) {

@@ -10,8 +10,8 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeletePrivateNor
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePublicNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPrivateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishPublicNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +35,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itPublishesNormToPublicBucket() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
     // When
     final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
@@ -51,7 +51,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itPublishesNormToPrivateBucket() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
     // When
     final PublishPrivateNormPort.Command command = new PublishPrivateNormPort.Command(norm);
@@ -67,7 +67,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itPublishesNormToPublicAndPrivateBucket() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
     // When
     final PublishPublicNormPort.Command commandPublic = new PublishPublicNormPort.Command(norm);
@@ -88,7 +88,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesNormFromPublicBucket() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     final PublishPublicNormPort.Command commandPublish = new PublishPublicNormPort.Command(norm);
     bucketService.publishPublicNorm(commandPublish);
 
@@ -107,7 +107,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesNormFromPrivateBucket() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     final PublishPrivateNormPort.Command commandPublish = new PublishPrivateNormPort.Command(norm);
     bucketService.publishPrivateNorm(commandPublish);
 
@@ -126,8 +126,8 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesAllNormsFromPublicBucket() {
     // Given
-    final Norm norm1 = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    final Norm norm2 = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+    final Norm norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    final Norm norm2 = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
     final PublishPublicNormPort.Command commandPublish1 = new PublishPublicNormPort.Command(norm1);
     final PublishPublicNormPort.Command commandPublish2 = new PublishPublicNormPort.Command(norm2);
     bucketService.publishPublicNorm(commandPublish1);
@@ -149,8 +149,8 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesAllNormsFromPrivateBucket() {
     // Given
-    final Norm norm1 = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    final Norm norm2 = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+    final Norm norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    final Norm norm2 = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
     final PublishPrivateNormPort.Command commandPublish1 = new PublishPrivateNormPort.Command(
       norm1
     );
@@ -176,9 +176,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itAddsToExistingChangelog() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
-    final Norm anotherNorm = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+    final Norm anotherNorm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
     final PublishPublicNormPort.Command commandAnotherNorm = new PublishPublicNormPort.Command(
       anotherNorm
     );

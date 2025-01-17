@@ -593,7 +593,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itDoesNotReleaseButReturnsNotFoundIfTargetLawNotFound() throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -630,9 +630,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReleaseAnnouncement() throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
@@ -722,10 +722,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void releasingAnAnnouncementASecondTimeCreatesTheSameFilesAndCleansUpOldRelease()
       throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
       affectedNorm.setPublishState(NormPublishState.PUBLISHED);
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
@@ -806,9 +806,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void failsWhenTryingToReleaseAnXsdInvalidNorm() throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithModsXsdInvalid.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       affectedNormZf0.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
@@ -857,9 +857,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void failsWhenTryingToReleaseASchematronInvalidNorm() throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
@@ -908,8 +908,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCreatesANewAnnouncement() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
 
@@ -986,7 +986,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheAffectedNormDoesNotExist() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
@@ -1015,8 +1015,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheNormAlreadyExist() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
       normRepository.save(NormMapper.mapToDto(norm));
@@ -1039,12 +1039,12 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfANormWithSameGuidAlreadyExist() throws Exception {
       // Given
-      var normWithSameGuid = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNormForNormWithSameGuid = NormFixtures.loadFromDisk(
+      var normWithSameGuid = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNormForNormWithSameGuid = Fixtures.loadNormFromDisk(
         "NormWithoutPassiveModifications.xml"
       );
-      var norm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml");
 
       normRepository.save(NormMapper.mapToDto(affectedNormForNormWithSameGuid));
       normRepository.save(NormMapper.mapToDto(affectedNorm));
@@ -1069,8 +1069,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheNormIsInvalid() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithModsXsdInvalid.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
 
@@ -1095,8 +1095,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheNormIsSchematronInvalid() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml");
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
       normRepository.save(NormMapper.mapToDto(affectedNorm));
 
@@ -1164,10 +1164,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void ifCreatesAnnouncementWithForce() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
-      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
 
       normRepository.save(NormMapper.mapToDto(norm));
       normRepository.save(NormMapper.mapToDto(affectedNorm));

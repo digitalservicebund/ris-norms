@@ -25,9 +25,9 @@ class CreateZf0ServiceTest {
   @Test
   void itSuccessfullyCreatesZf0OutOfTargetLaw() {
     // Given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    final Norm targetLawNewManifestation = NormFixtures.loadFromDisk(
+    final Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
+    final Norm targetLaw = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
+    final Norm targetLawNewManifestation = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
@@ -82,11 +82,11 @@ class CreateZf0ServiceTest {
   @Test
   void itSuccessfullyCreatesZf0OutOfQuotedStructureWithUpToMods() {
     // Given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk(
+    final Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+    final Norm targetLaw = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
     );
-    final Norm targetLawNewManifestation = NormFixtures.loadFromDisk(
+    final Norm targetLawNewManifestation = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
     );
 

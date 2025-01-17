@@ -12,7 +12,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.LocalDate;
@@ -55,7 +55,7 @@ class ProprietaryServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      var normWithoutProprietary = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
         .thenReturn(Optional.of(normWithoutProprietary));
 
@@ -74,7 +74,7 @@ class ProprietaryServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      var normWithProprietary = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
         .thenReturn(Optional.of(normWithProprietary));
       // when
@@ -153,7 +153,7 @@ class ProprietaryServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var date = LocalDate.parse("2003-01-01");
-      var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      var normWithoutProprietary = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
         .thenReturn(Optional.of(normWithoutProprietary));
 
@@ -180,7 +180,7 @@ class ProprietaryServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var date = LocalDate.parse("2003-01-01");
-      var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      var normWithProprietary = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
         .thenReturn(Optional.of(normWithProprietary));
 
@@ -207,7 +207,7 @@ class ProprietaryServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var date = LocalDate.parse("1980-01-01");
-      var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      var normWithProprietary = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
         .thenReturn(Optional.of(normWithProprietary));
 

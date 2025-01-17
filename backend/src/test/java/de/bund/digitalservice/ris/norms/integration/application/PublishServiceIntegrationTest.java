@@ -6,8 +6,8 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.application.service.PublishService;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.nio.file.Files;
@@ -27,7 +27,7 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void processQueuedFilesForPublish() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     final NormDto normDto = NormMapper.mapToDto(norm);
     normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
     normRepository.save(normDto);

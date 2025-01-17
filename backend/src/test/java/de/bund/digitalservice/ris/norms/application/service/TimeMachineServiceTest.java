@@ -6,8 +6,8 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -76,9 +76,9 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModification() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -104,9 +104,9 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsInCorrectOrder() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -133,9 +133,9 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsDoesNotModifyTheParameter() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -153,11 +153,11 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsWhereTargetNodeEqualsNodeToChange() {
       // given
-      final var norm = NormFixtures.loadFromDisk(
+      final var norm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsWhereTargetNodeEqualsNodeToChange.xml"
       );
 
-      final var amendingLaw = NormFixtures.loadFromDisk(
+      final var amendingLaw = Fixtures.loadNormFromDisk(
         "NormWithModsWhereTargetNodeEqualsNodeToChange.xml"
       );
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
@@ -194,8 +194,8 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsBeforeDate() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -219,9 +219,9 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModificationWithCustomNorm() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
       // when
       Norm result = timeMachineService.applyPassiveModifications(
@@ -243,10 +243,10 @@ class TimeMachineServiceTest {
     @Test
     void doNotApplyPassiveModificationWithoutForcePeriod() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       norm.deleteByEId("meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1");
 
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -270,9 +270,9 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModificationQuotedStructure() {
       // given
-      final var targetLawNorm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
-      final var amendingLawNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      final var expectedResult = NormFixtures.loadFromDisk("NormWithAppliedQuotedStructure.xml");
+      final var targetLawNorm = Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml");
+      final var amendingLawNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
+      final var expectedResult = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
 
@@ -295,13 +295,13 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModificationQuotedStructureWithUpTo() {
       // given
-      final var targetLawNorm = NormFixtures.loadFromDisk(
+      final var targetLawNorm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
-      final var amendingLawNorm = NormFixtures.loadFromDisk(
+      final var amendingLawNorm = Fixtures.loadNormFromDisk(
         "NormWithQuotedStructureModsAndUpTo.xml"
       );
-      final var expectedResult = NormFixtures.loadFromDisk(
+      final var expectedResult = Fixtures.loadNormFromDisk(
         "NormWithAppliedQuotedStructureAndUpTo.xml"
       );
 
@@ -325,9 +325,9 @@ class TimeMachineServiceTest {
     @Test
     void applyQuotedTextWithRefs() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedTextModAndRefs.xml");
 
       final Node expectedNode = XmlMapper.toElement(
         """
@@ -360,9 +360,9 @@ class TimeMachineServiceTest {
     @Test
     void applyQuotedTextWithRefsToNodeWithExistingRefs() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsAndExistingRef.xml");
+      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModificationsAndExistingRef.xml");
 
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
+      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedTextModAndRefs.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
