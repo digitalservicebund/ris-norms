@@ -5,6 +5,7 @@ import { nextTick, ref } from "vue"
 describe("useArticle", () => {
   beforeEach(() => {
     vi.resetModules()
+    vi.resetAllMocks()
   })
 
   it("should provide the article", async () => {
