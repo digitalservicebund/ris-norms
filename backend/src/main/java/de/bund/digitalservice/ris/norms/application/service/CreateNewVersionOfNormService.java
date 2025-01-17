@@ -3,8 +3,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -53,7 +53,7 @@ public class CreateNewVersionOfNormService {
       date,
       newExpression.getExpressionEli().getLanguage()
     );
-    var newManifestationEli = ManifestationEli.fromExpressionEli(
+    var newManifestationEli = DokumentManifestationEli.fromExpressionEli(
       newExpressionEli,
       LocalDate.now(),
       "xml"
@@ -87,7 +87,7 @@ public class CreateNewVersionOfNormService {
    */
   public Norm createNewManifestation(Norm norm, LocalDate pointInTimeManifestation) {
     var newManifestation = new Norm(norm);
-    var newManifestationEli = ManifestationEli.fromExpressionEli(
+    var newManifestationEli = DokumentManifestationEli.fromExpressionEli(
       newManifestation.getExpressionEli(),
       pointInTimeManifestation,
       "xml"
@@ -157,7 +157,7 @@ public class CreateNewVersionOfNormService {
    * @param norm the new expression
    * @param expressionEli the new eli for the expression
    */
-  private void setNewExpressionMetadata(Norm norm, ExpressionEli expressionEli) {
+  private void setNewExpressionMetadata(Norm norm, DokumentExpressionEli expressionEli) {
     var oldEli = norm.getExpressionEli();
     var oldVersionId = norm.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId();
     var expression = norm.getMeta().getFRBRExpression();
@@ -180,7 +180,7 @@ public class CreateNewVersionOfNormService {
    * @param norm the new manifestation
    * @param manifestationEli the new eli for the manifestation
    */
-  private void setNewManifestationMetadata(Norm norm, ManifestationEli manifestationEli) {
+  private void setNewManifestationMetadata(Norm norm, DokumentManifestationEli manifestationEli) {
     var manifestation = norm.getMeta().getFRBRManifestation();
     manifestation.setEli(manifestationEli);
     manifestation.setURI(manifestationEli.toUri());

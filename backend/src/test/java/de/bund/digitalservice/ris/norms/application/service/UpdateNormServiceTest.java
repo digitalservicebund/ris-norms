@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Collections;
 import java.util.List;
@@ -70,7 +70,9 @@ class UpdateNormServiceTest {
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
-          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         )
       );
 
@@ -185,7 +187,9 @@ class UpdateNormServiceTest {
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
-          ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         )
       );
 
@@ -236,7 +240,7 @@ class UpdateNormServiceTest {
       final Norm zf0Law = NormFixtures.loadFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
-      final ExpressionEli targetLawELi = ExpressionEli.fromString(
+      final DokumentExpressionEli targetLawELi = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1"
       );
 
@@ -299,7 +303,7 @@ class UpdateNormServiceTest {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      ExpressionEli targetNormEli = targetNorm.getExpressionEli();
+      DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "20-25";
       Href newDestinationHref = new Href.Builder()
@@ -346,7 +350,7 @@ class UpdateNormServiceTest {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
-      ExpressionEli targetNormEli = targetNorm.getExpressionEli();
+      DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       Href newDestinationHref = new Href(
         targetNormEli + "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
@@ -390,7 +394,7 @@ class UpdateNormServiceTest {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
-      ExpressionEli targetNormEli = targetNorm.getExpressionEli();
+      DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       Href newDestinationHref = new Href(
         targetNormEli + "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
@@ -432,7 +436,7 @@ class UpdateNormServiceTest {
       // Given
       Norm amendingLawSetup = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       Norm targetNormSetup = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
-      ExpressionEli targetNormEliSetup = targetNormSetup.getExpressionEli();
+      DokumentExpressionEli targetNormEliSetup = targetNormSetup.getExpressionEli();
       String eIdSetup =
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       Href newDestinationHrefSetup = new Href(
@@ -457,7 +461,7 @@ class UpdateNormServiceTest {
 
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
-      ExpressionEli targetNormEli = targetNorm.getExpressionEli();
+      DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       Href newDestinationHref = new Href(
         targetNormEli + "/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"

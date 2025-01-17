@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.Getter;
@@ -19,8 +19,8 @@ public class FRBRWork extends FRBR {
    *
    * @return An Eli
    */
-  public WorkEli getEli() {
-    return WorkEli.fromString(
+  public DokumentWorkEli getEli() {
+    return DokumentWorkEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getElement())
     );
   }
@@ -30,7 +30,7 @@ public class FRBRWork extends FRBR {
    *
    * @param eli - the new ELI
    */
-  public void setEli(final WorkEli eli) {
+  public void setEli(final DokumentWorkEli eli) {
     NodeParser
       .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
       .setAttribute("value", eli.toString());

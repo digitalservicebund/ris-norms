@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ class EliServiceTest {
     when(loadNormUseCase.loadNorm(any())).thenThrow(new NormNotFoundException(""));
 
     var eli = eliService.findNextExpressionEli(
-      WorkEli.fromString("eli/bund/bgbl-1/1990/s2954/regelungstext-1"),
+      DokumentWorkEli.fromString("eli/bund/bgbl-1/1990/s2954/regelungstext-1"),
       LocalDate.parse("2025-01-01"),
       "deu"
     );
@@ -37,7 +37,7 @@ class EliServiceTest {
       .thenThrow(new NormNotFoundException(""));
 
     var eli = eliService.findNextExpressionEli(
-      WorkEli.fromString("eli/bund/bgbl-1/1990/s2954/regelungstext-1"),
+      DokumentWorkEli.fromString("eli/bund/bgbl-1/1990/s2954/regelungstext-1"),
       LocalDate.parse("2025-01-01"),
       "deu"
     );

@@ -11,7 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Collections;
 import java.util.stream.Stream;
@@ -137,7 +137,7 @@ class SingleModValidatorTest {
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      final DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final Href href = new Href.Builder()
         .setEli(amendingNormEli)
         .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
@@ -172,7 +172,7 @@ class SingleModValidatorTest {
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      final DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final Href href = new Href.Builder()
         .setEli(amendingNormEli)
         .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
@@ -201,7 +201,7 @@ class SingleModValidatorTest {
     void throwsExceptionWhenCharacterRangeIsNotSet() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final ExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      final DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"

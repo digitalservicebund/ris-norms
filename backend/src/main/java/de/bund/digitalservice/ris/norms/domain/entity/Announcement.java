@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 public class Announcement {
 
-  private ExpressionEli eli;
+  private DokumentExpressionEli eli;
 
   @Builder.Default
   private List<Release> releases = new ArrayList<>();

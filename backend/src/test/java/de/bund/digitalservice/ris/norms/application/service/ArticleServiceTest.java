@@ -16,7 +16,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Objects;
 import java.util.Optional;
@@ -41,7 +41,7 @@ class ArticleServiceTest {
     @Test
     void returnResult() {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -60,7 +60,7 @@ class ArticleServiceTest {
     @Test
     void throwsIfNormNotFound() {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
@@ -77,7 +77,7 @@ class ArticleServiceTest {
     void throwsIfArticleNotFound() {
       // given
       var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "NOT_IN_NORM";
@@ -98,7 +98,7 @@ class ArticleServiceTest {
     @Test
     void itReturnsArticlesFromNorm() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
@@ -118,10 +118,10 @@ class ArticleServiceTest {
     @Test
     void itFiltersArticlesByAmendedBy() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = ExpressionEli.fromString(
+      final var amendedBy = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
       );
       final String amendedAt = null;
@@ -143,10 +143,10 @@ class ArticleServiceTest {
     @Test
     void itFiltersArticlesByAmendedAt() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final ExpressionEli amendedBy = null;
+      final DokumentExpressionEli amendedBy = null;
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
@@ -164,10 +164,10 @@ class ArticleServiceTest {
     @Test
     void itFiltersArticlesByAmendedByAndAmendedAt() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = ExpressionEli.fromString(
+      final var amendedBy = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
@@ -187,7 +187,7 @@ class ArticleServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotFound() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
       final var query = new LoadArticlesFromNormUseCase.Query(eli);
@@ -202,7 +202,7 @@ class ArticleServiceTest {
     @Test
     void itReturnsEmptyListWhenTheNormHasNoArticles() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       final var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
@@ -220,10 +220,10 @@ class ArticleServiceTest {
     @Test
     void itReturnsEmptyListWhenAmendedByIsNotFound() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = ExpressionEli.fromString(
+      final var amendedBy = DokumentExpressionEli.fromString(
         "eli/bund/DOES-NOT-EXIST/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
@@ -242,10 +242,10 @@ class ArticleServiceTest {
     @Test
     void itReturnsEmptyListWhenAmendedAtIsNotFound() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var amendedBy = ExpressionEli.fromString(
+      final var amendedBy = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "DOES-NOT-EXIST";
@@ -264,10 +264,10 @@ class ArticleServiceTest {
     @Test
     void itReturnsEmptyListWhenNormHasNoPassiveMods() {
       // Given
-      final var eli = ExpressionEli.fromString(
+      final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
-      final var amendedBy = ExpressionEli.fromString(
+      final var amendedBy = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
@@ -290,7 +290,7 @@ class ArticleServiceTest {
     @Test
     void loadAllArticles() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
@@ -343,7 +343,7 @@ class ArticleServiceTest {
     @Test
     void itCallsLoadNormAndThrowsIfNotFound() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
@@ -361,7 +361,7 @@ class ArticleServiceTest {
     @Test
     void loadSpecificArticles() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
@@ -413,7 +413,7 @@ class ArticleServiceTest {
     @Test
     void itThrowsWhenNoArticlesOfTypeAreFoundInNorm() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
@@ -458,7 +458,7 @@ class ArticleServiceTest {
     @Test
     void itThrowsWhenTheNormHasNoArticles() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");

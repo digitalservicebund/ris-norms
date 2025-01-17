@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.List;
@@ -92,7 +92,9 @@ class ArticleControllerTest {
           argThat(argument ->
             Objects.equals(
               argument.eli(),
-              ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+              DokumentExpressionEli.fromString(
+                "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+              )
             )
           )
         );
@@ -131,7 +133,9 @@ class ArticleControllerTest {
       verify(loadArticlesFromNormUseCase, times(1))
         .loadArticlesFromNorm(
           new LoadArticlesFromNormUseCase.Query(
-            ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"),
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+            ),
             null,
             "meta-1_lebzykl-1_ereignis-4"
           )
@@ -171,8 +175,12 @@ class ArticleControllerTest {
       verify(loadArticlesFromNormUseCase, times(1))
         .loadArticlesFromNorm(
           new LoadArticlesFromNormUseCase.Query(
-            ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"),
-            ExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"),
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+            ),
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+            ),
             null
           )
         );
@@ -262,7 +270,9 @@ class ArticleControllerTest {
           argThat(argument ->
             Objects.equals(
               argument.eli(),
-              ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+              DokumentExpressionEli.fromString(
+                "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+              )
             )
           )
         );
@@ -347,7 +357,9 @@ class ArticleControllerTest {
           argThat(argument ->
             Objects.equals(
               argument.eli(),
-              ExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+              DokumentExpressionEli.fromString(
+                "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+              )
             )
           )
         );

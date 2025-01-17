@@ -7,7 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -96,9 +96,9 @@ public class NormService
    * @return An {@link Map} containing the updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
-  public Map<ExpressionEli, Norm> updateNorm(Norm normToBeUpdated) {
+  public Map<DokumentExpressionEli, Norm> updateNorm(Norm normToBeUpdated) {
     // Collect all target norms' ELI without duplications
-    Set<ExpressionEli> allTargetLawsEli = normToBeUpdated
+    Set<DokumentExpressionEli> allTargetLawsEli = normToBeUpdated
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getActiveModifications().stream())
@@ -110,7 +110,7 @@ public class NormService
       .collect(Collectors.toSet());
 
     // Load all target norms
-    Map<ExpressionEli, Norm> zf0s = allTargetLawsEli
+    Map<DokumentExpressionEli, Norm> zf0s = allTargetLawsEli
       .stream()
       .map(expressionEli -> {
         Norm zf0 = loadNorm(new LoadNormUseCase.Query(expressionEli));
@@ -126,7 +126,7 @@ public class NormService
     );
 
     // Add the norm to be updated to the map of updated norms
-    Map<ExpressionEli, Norm> updatedNorms = new HashMap<>(zf0s);
+    Map<DokumentExpressionEli, Norm> updatedNorms = new HashMap<>(zf0s);
     updatedNorms.put(normToBeUpdated.getExpressionEli(), normToBeUpdated);
 
     return updatedNorms
@@ -239,7 +239,7 @@ public class NormService
         )
       );
 
-    final ExpressionEli targetNormEli = modObject
+    final DokumentExpressionEli targetNormEli = modObject
       .getTargetRefHref()
       .or(modObject::getTargetRrefFrom)
       .flatMap(Href::getExpressionEli)

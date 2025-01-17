@@ -1,9 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -97,7 +97,7 @@ public class BillToActService {
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(frbrWork.getFBRDate(), formatter);
     final String naturalIdentifier = frbrWork.getFRBRnumber().orElseThrow();
-    final WorkEli workEli = new WorkEli(
+    final DokumentWorkEli workEli = new DokumentWorkEli(
       "bgbl-1",
       String.valueOf(verkuendungsDate.getYear()),
       naturalIdentifier,
@@ -117,7 +117,7 @@ public class BillToActService {
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
-    final ExpressionEli expressionEli = ExpressionEli.fromWorkEli(
+    final DokumentExpressionEli expressionEli = DokumentExpressionEli.fromWorkEli(
       norm.getWorkEli(),
       verkuendungsDate,
       fRBRExpression.getFRBRVersionNumber().orElseThrow(),
@@ -143,7 +143,7 @@ public class BillToActService {
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
-    final ManifestationEli manifestationEli = ManifestationEli.fromExpressionEli(
+    final DokumentManifestationEli manifestationEli = DokumentManifestationEli.fromExpressionEli(
       norm.getExpressionEli(),
       verkuendungsDate,
       "xml"

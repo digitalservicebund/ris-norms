@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.application.service.ElementService;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -28,8 +28,12 @@ public interface LoadElementsByTypeFromNormUseCase {
    * @param amendedBy EId of an amending command. If provided, filters the list to include only
    *     elements touched by that amending command.
    */
-  record Query(ExpressionEli eli, List<String> elementType, @Nullable ExpressionEli amendedBy) {
-    public Query(ExpressionEli eli, List<String> elementType) {
+  record Query(
+    DokumentExpressionEli eli,
+    List<String> elementType,
+    @Nullable DokumentExpressionEli amendedBy
+  ) {
+    public Query(DokumentExpressionEli eli, List<String> elementType) {
       this(eli, elementType, null);
     }
   }

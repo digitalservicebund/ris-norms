@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.constraints.Unique
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TimeBoundaryMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -51,8 +51,8 @@ public class TimeBoundaryController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<TimeBoundarySchema>> getTimeBoundaries(
-    final ExpressionEli eli,
-    @RequestParam final Optional<ExpressionEli> amendedBy
+    final DokumentExpressionEli eli,
+    @RequestParam final Optional<DokumentExpressionEli> amendedBy
   ) {
     return ResponseEntity.ok(
       amendedBy
@@ -86,7 +86,7 @@ public class TimeBoundaryController {
    */
   @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<TimeBoundarySchema>> updateTimeBoundaries(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @RequestBody @Valid @UniqueTimeBoundariesDatesConstraint @NotEmpty(
       message = "Change list must not be empty"
     ) @Size(max = 100, message = "A maximum of 100 time boundaries is supported") final List<

@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
 /** Mapper class for converting between {@link Article} and {@link ArticleResponseSchema}. */
 public class ArticleResponseMapper {
@@ -21,7 +21,7 @@ public class ArticleResponseMapper {
       article.getEnumeration().orElse(null),
       article.getEid(),
       article.getHeading().orElse(null),
-      article.getAffectedDocumentEli().map(ExpressionEli::toString).orElse(null)
+      article.getAffectedDocumentEli().map(DokumentExpressionEli::toString).orElse(null)
     );
   }
 }

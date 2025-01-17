@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
 /** Use case for getting a single element as an HTML string from a {@link Norm}. */
 public interface LoadElementHtmlFromNormUseCase {
@@ -19,5 +19,5 @@ public interface LoadElementHtmlFromNormUseCase {
    * @param eli The ELI used to identify the norm
    * @param eid The eId of the element inside the norm
    */
-  record Query(ExpressionEli eli, String eid) {}
+  record Query(DokumentExpressionEli eli, String eid) {}
 }

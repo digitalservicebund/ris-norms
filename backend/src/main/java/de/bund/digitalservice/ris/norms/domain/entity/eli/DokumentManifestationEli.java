@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * European legislation identifier on manifestation level
+ * European legislation identifier on manifestation level for a dokument of a norm
  *
  * <p>This class can be used to extract the eli from a path that includes a section like
  * "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{pointInTimeManifestation}/{subtype}.{fileExtension}".
@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public final class ManifestationEli implements Eli {
+public final class DokumentManifestationEli implements DokumentEli {
 
   private String agent;
   private String year;
@@ -33,7 +33,7 @@ public final class ManifestationEli implements Eli {
   private String subtype;
   private String format = "xml";
 
-  public ManifestationEli(
+  public DokumentManifestationEli(
     String agent,
     String year,
     String naturalIdentifier,
@@ -94,16 +94,16 @@ public final class ManifestationEli implements Eli {
   }
 
   /**
-   * Create a {@link ManifestationEli} that contains the parts of this eli but no point-in-time-manifestation
+   * Create a {@link DokumentManifestationEli} that contains the parts of this eli but no point-in-time-manifestation
    *
    * @return a manifestation eli without a point-in-time-manifestation
    */
-  public ManifestationEli withoutPointInTimeManifestation() {
+  public DokumentManifestationEli withoutPointInTimeManifestation() {
     if (!hasPointInTimeManifestation()) {
       return this;
     }
 
-    return new ManifestationEli(
+    return new DokumentManifestationEli(
       getAgent(),
       getYear(),
       getNaturalIdentifier(),
@@ -116,12 +116,12 @@ public final class ManifestationEli implements Eli {
   }
 
   /**
-   * Create an {@link ExpressionEli} that contains the parts of this eli
+   * Create an {@link DokumentExpressionEli} that contains the parts of this eli
    *
    * @return an expression eli
    */
-  public ExpressionEli asExpressionEli() {
-    return new ExpressionEli(
+  public DokumentExpressionEli asExpressionEli() {
+    return new DokumentExpressionEli(
       getAgent(),
       getYear(),
       getNaturalIdentifier(),
@@ -133,12 +133,12 @@ public final class ManifestationEli implements Eli {
   }
 
   /**
-   * Create a {@link WorkEli} that contains the parts of this eli
+   * Create a {@link DokumentWorkEli} that contains the parts of this eli
    *
    * @return a work eli
    */
-  public WorkEli asWorkEli() {
-    return new WorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
+  public DokumentWorkEli asWorkEli() {
+    return new DokumentWorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
   }
 
   /**
@@ -147,7 +147,7 @@ public final class ManifestationEli implements Eli {
    * @param manifestationEli the string representation of the eli
    * @return the eli
    */
-  public static ManifestationEli fromString(String manifestationEli) {
+  public static DokumentManifestationEli fromString(String manifestationEli) {
     Matcher matcher = Pattern
       .compile(
         "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)(/(?<pointInTimeManifestation>[^/.]+))?/(?<subtype>[^/.]+)\\.(?<format>[^/.]+)"
@@ -158,7 +158,7 @@ public final class ManifestationEli implements Eli {
       throw new IllegalArgumentException("Invalid manifestation Eli");
     }
 
-    return new ManifestationEli(
+    return new DokumentManifestationEli(
       matcher.group("agent"),
       matcher.group("year"),
       matcher.group("naturalIdentifier"),
@@ -184,12 +184,12 @@ public final class ManifestationEli implements Eli {
    * @param format                   the file extension used by this manifestation
    * @return the eli
    */
-  public static ManifestationEli fromExpressionEli(
-    ExpressionEli expressionEli,
+  public static DokumentManifestationEli fromExpressionEli(
+    DokumentExpressionEli expressionEli,
     LocalDate pointInTimeManifestation,
     String format
   ) {
-    return new ManifestationEli(
+    return new DokumentManifestationEli(
       expressionEli.getAgent(),
       expressionEli.getYear(),
       expressionEli.getNaturalIdentifier(),
@@ -206,7 +206,7 @@ public final class ManifestationEli implements Eli {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ManifestationEli that = (ManifestationEli) o;
+    DokumentManifestationEli that = (DokumentManifestationEli) o;
     return Objects.equals(toString(), that.toString());
   }
 

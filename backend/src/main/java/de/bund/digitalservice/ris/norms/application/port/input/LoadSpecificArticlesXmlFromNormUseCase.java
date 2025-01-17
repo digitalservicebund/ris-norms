@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.util.List;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public interface LoadSpecificArticlesXmlFromNormUseCase {
    * @param eli The ELI (European Legislation Identifier) used to identify the norm in the query.
    * @param refersTo Specifies the type of article.
    */
-  record Query(ExpressionEli eli, String refersTo) {}
+  record Query(DokumentExpressionEli eli, String refersTo) {}
 
   /** Indicates that the Norm was found but does not include articles of that type. */
   @Getter

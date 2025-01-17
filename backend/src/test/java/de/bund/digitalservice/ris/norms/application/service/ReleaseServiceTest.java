@@ -17,7 +17,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNorm
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -252,7 +252,9 @@ class ReleaseServiceTest {
     var instantBeforeRelease = Instant.now();
     releaseService.releaseAnnouncement(
       new ReleaseAnnouncementUseCase.Query(
-        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        )
       )
     );
 

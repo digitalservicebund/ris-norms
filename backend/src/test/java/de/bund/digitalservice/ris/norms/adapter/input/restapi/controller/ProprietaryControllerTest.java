@@ -17,7 +17,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
@@ -59,7 +59,7 @@ class ProprietaryControllerTest {
     @Test
     void returns404IfNormNotFound() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var atDateString = "2024-06-03";
@@ -82,7 +82,7 @@ class ProprietaryControllerTest {
     @Test
     void returnsProprietaryResponseSchema() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
@@ -118,7 +118,7 @@ class ProprietaryControllerTest {
     @Test
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
@@ -154,7 +154,7 @@ class ProprietaryControllerTest {
     @Test
     void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var atDateString = "2024-06-03";
@@ -313,7 +313,7 @@ class ProprietaryControllerTest {
     @Test
     void returns404IfNormNotFound() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -337,7 +337,7 @@ class ProprietaryControllerTest {
     @Test
     void returnsProprietaryResponseSchema() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -365,7 +365,7 @@ class ProprietaryControllerTest {
     @Test
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -393,7 +393,7 @@ class ProprietaryControllerTest {
     @Test
     void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";

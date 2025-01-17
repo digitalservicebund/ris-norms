@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.Optional;
 
 /**
@@ -28,5 +28,5 @@ public interface LoadAnnouncementByNormEliPort {
    * @param eli The ELI (European Legislation Identifier) used to identify the announcement in the
    *     command.
    */
-  record Command(ExpressionEli eli) {}
+  record Command(DokumentExpressionEli eli) {}
 }

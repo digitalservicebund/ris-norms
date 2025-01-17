@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class SingleModValidator {
    */
   public void validate(final Norm zf0Norm, final Mod activeMod) throws ValidationException {
     final String modEId = activeMod.getEid();
-    final ExpressionEli zf0NormEli = zf0Norm.getExpressionEli();
+    final DokumentExpressionEli zf0NormEli = zf0Norm.getExpressionEli();
 
     final TextualMod affectedPassiveMod = zf0Norm
       .getMeta()
@@ -63,7 +63,7 @@ public class SingleModValidator {
   }
 
   private void validateQuotedText(
-    final ExpressionEli zf0NormEli,
+    final DokumentExpressionEli zf0NormEli,
     final TextualMod passivemod,
     String amendingNormOldText,
     Node targetNode

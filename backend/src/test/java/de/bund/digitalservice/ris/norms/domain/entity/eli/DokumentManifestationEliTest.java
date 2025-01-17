@@ -6,14 +6,14 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class ManifestationEliTest {
+class DokumentManifestationEliTest {
 
   @Nested
   class hasPointInTimeManifestation {
 
     @Test
     void itShouldBeTrueIfPointInTimeManifestationExists() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
       assertThat(eli.hasPointInTimeManifestation()).isTrue();
@@ -21,7 +21,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldBeFalseIfPointInTimeManifestationDoesNotExists() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
       );
       assertThat(eli.hasPointInTimeManifestation()).isFalse();
@@ -33,7 +33,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldBeCorrectWithPointInTimeManifestation() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
       assertThat(eli)
@@ -42,7 +42,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldBeCorrectWithoutPointInTimeManifestation() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
       );
       assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml");
@@ -54,7 +54,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldBeCorrectWithPointInTimeManifestation() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
       assertThat(eli.toUri())
@@ -63,7 +63,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldBeCorrectWithoutPointInTimeManifestation() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
       );
       assertThat(eli.toUri())
@@ -76,7 +76,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldBeCorrectWithPointInTimeManifestation() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
       assertThat(eli.getAgent()).isEqualTo("bgbl-1");
@@ -92,7 +92,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldBeCorrectWithoutPointInTimeManifestation() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
       );
       assertThat(eli.getAgent()).isEqualTo("bgbl-1");
@@ -112,7 +112,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldRemovePointInTimeManifestation() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
       assertThat(eli.withoutPointInTimeManifestation())
@@ -125,7 +125,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldConvertToAExpressionEli() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
       assertThat(eli.asExpressionEli())
@@ -138,7 +138,7 @@ class ManifestationEliTest {
 
     @Test
     void itShouldConvertToAExpressionEli() {
-      var eli = ManifestationEli.fromString(
+      var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
       assertThat(eli.asWorkEli()).hasToString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
@@ -150,8 +150,10 @@ class ManifestationEliTest {
 
     @Test
     void itShouldCreateFromExpressionEliAndPointInTimeManifestation() {
-      var eli = ManifestationEli.fromExpressionEli(
-        ExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"),
+      var eli = DokumentManifestationEli.fromExpressionEli(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"
+        ),
         LocalDate.parse("2022-01-01"),
         "xml"
       );

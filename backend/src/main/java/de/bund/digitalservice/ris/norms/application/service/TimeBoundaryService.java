@@ -4,7 +4,7 @@ import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundExcept
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.LocalDate;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
@@ -104,7 +104,7 @@ public class TimeBoundaryService
 
     editTimeBoundaries(query.timeBoundaries(), norm);
 
-    Map<ExpressionEli, Norm> result = normService.updateNorm(norm);
+    Map<DokumentExpressionEli, Norm> result = normService.updateNorm(norm);
 
     return result.get(query.eli()).getTimeBoundaries();
   }

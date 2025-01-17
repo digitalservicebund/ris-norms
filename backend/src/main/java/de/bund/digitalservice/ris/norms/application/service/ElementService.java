@@ -9,7 +9,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Collections;
@@ -178,7 +178,7 @@ public class ElementService
 
   private List<String> getDestinationEidsFromPassiveMods(
     List<TextualMod> mods,
-    @Nullable ExpressionEli amendedBy
+    @Nullable DokumentExpressionEli amendedBy
   ) {
     return mods
       .stream()

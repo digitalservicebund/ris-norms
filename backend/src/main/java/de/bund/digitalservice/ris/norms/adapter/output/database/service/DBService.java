@@ -13,9 +13,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Comparator;
 import java.util.List;
@@ -69,10 +69,10 @@ public class DBService
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return switch (command.eli()) {
-      case ExpressionEli expressionEli -> normRepository
+      case DokumentExpressionEli expressionEli -> normRepository
         .findFirstByEliExpressionOrderByEliManifestationDesc(expressionEli.toString())
         .map(NormMapper::mapToDomain);
-      case ManifestationEli manifestationEli -> {
+      case DokumentManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
           // we can find the norm based on the expression eli as the point in time manifestation is the only additional identifying part of the eli in our system (all norms are xmls)
           yield this.loadNorm(new LoadNormPort.Command(manifestationEli.asExpressionEli()));
@@ -82,7 +82,7 @@ public class DBService
           .findByEliManifestation(manifestationEli.toString())
           .map(NormMapper::mapToDomain);
       }
-      case WorkEli workEli -> throw new IllegalArgumentException(
+      case DokumentWorkEli workEli -> throw new IllegalArgumentException(
         "It's currently not possible to load a norm by it's work eli."
       );
     };

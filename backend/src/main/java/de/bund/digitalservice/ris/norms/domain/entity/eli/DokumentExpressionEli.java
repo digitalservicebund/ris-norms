@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * European legislation identifier on expression level
+ * European legislation identifier on expression level for a dokument of a norm
  *
  * <p>This class can be used to extract the eli from a path that includes a section like
  * "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}".
@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public final class ExpressionEli implements Eli {
+public final class DokumentExpressionEli implements DokumentEli {
 
   private String agent;
   private String year;
@@ -65,12 +65,12 @@ public final class ExpressionEli implements Eli {
   }
 
   /**
-   * Create a {@link WorkEli} that contains the parts of this eli
+   * Create a {@link DokumentWorkEli} that contains the parts of this eli
    *
    * @return a work eli
    */
-  public WorkEli asWorkEli() {
-    return new WorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
+  public DokumentWorkEli asWorkEli() {
+    return new DokumentWorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
   }
 
   /**
@@ -79,7 +79,7 @@ public final class ExpressionEli implements Eli {
    * @param expressionEli the string representation of the eli
    * @return the eli
    */
-  public static ExpressionEli fromString(String expressionEli) {
+  public static DokumentExpressionEli fromString(String expressionEli) {
     Matcher matcher = Pattern
       .compile(
         "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)/(?<subtype>[^/.]+)"
@@ -90,7 +90,7 @@ public final class ExpressionEli implements Eli {
       throw new IllegalArgumentException("Invalid expression Eli");
     }
 
-    return new ExpressionEli(
+    return new DokumentExpressionEli(
       matcher.group("agent"),
       matcher.group("year"),
       matcher.group("naturalIdentifier"),
@@ -110,13 +110,13 @@ public final class ExpressionEli implements Eli {
    * @param language    the language of the expression
    * @return the eli
    */
-  public static ExpressionEli fromWorkEli(
-    WorkEli workEli,
+  public static DokumentExpressionEli fromWorkEli(
+    DokumentWorkEli workEli,
     LocalDate pointInTime,
     Integer version,
     String language
   ) {
-    return new ExpressionEli(
+    return new DokumentExpressionEli(
       workEli.getAgent(),
       workEli.getYear(),
       workEli.getNaturalIdentifier(),
@@ -131,7 +131,7 @@ public final class ExpressionEli implements Eli {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ExpressionEli that = (ExpressionEli) o;
+    DokumentExpressionEli that = (DokumentExpressionEli) o;
     return Objects.equals(toString(), that.toString());
   }
 

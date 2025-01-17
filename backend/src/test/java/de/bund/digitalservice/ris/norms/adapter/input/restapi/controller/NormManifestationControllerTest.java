@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ public class NormManifestationControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML));
 
       verify(loadNormXmlUseCase, times(1))
-        .loadNormXml(new LoadNormXmlUseCase.Query(ManifestationEli.fromString(eli)));
+        .loadNormXml(new LoadNormXmlUseCase.Query(DokumentManifestationEli.fromString(eli)));
     }
   }
 }

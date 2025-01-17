@@ -4,8 +4,8 @@ import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
@@ -155,7 +155,7 @@ public class AnnouncementService
     return document;
   }
 
-  private Set<ExpressionEli> getActiveModDestinationElis(Norm norm) {
+  private Set<DokumentExpressionEli> getActiveModDestinationElis(Norm norm) {
     var activeMods = norm
       .getMeta()
       .getAnalysis()
@@ -170,7 +170,10 @@ public class AnnouncementService
       .collect(Collectors.toSet());
   }
 
-  private void validateTargetNormsExist(Set<ExpressionEli> activeModDestinationElis, Norm norm) {
+  private void validateTargetNormsExist(
+    Set<DokumentExpressionEli> activeModDestinationElis,
+    Norm norm
+  ) {
     activeModDestinationElis.forEach(eli -> {
       if (loadNormPort.loadNorm(new LoadNormPort.Command(eli)).isEmpty()) {
         throw new ActiveModDestinationNormNotFoundException(
@@ -192,7 +195,7 @@ public class AnnouncementService
     return normExists;
   }
 
-  private void deleteAnnouncement(ExpressionEli expressionEli) {
+  private void deleteAnnouncement(DokumentExpressionEli expressionEli) {
     var announcement = loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliPort.Command(expressionEli)
     );
@@ -225,12 +228,15 @@ public class AnnouncementService
     }
   }
 
-  private void deleteTargetNormsZf0(Set<ExpressionEli> activeModDestinationElis) {
+  private void deleteTargetNormsZf0(Set<DokumentExpressionEli> activeModDestinationElis) {
     activeModDestinationElis.forEach(expressionEli ->
       loadNormPort
         .loadNorm(new LoadNormPort.Command(expressionEli))
         .ifPresent(targetNorm -> {
-          ManifestationEli manifestationEli = targetNorm.getMeta().getFRBRManifestation().getEli();
+          DokumentManifestationEli manifestationEli = targetNorm
+            .getMeta()
+            .getFRBRManifestation()
+            .getEli();
           deleteNormPort.deleteNorm(
             new DeleteNormPort.Command(manifestationEli, NormPublishState.UNPUBLISHED)
           );
@@ -249,7 +255,7 @@ public class AnnouncementService
 
   private void runPreProcessing(
     final Norm norm,
-    final Set<ExpressionEli> activeModDestinationElis
+    final Set<DokumentExpressionEli> activeModDestinationElis
   ) {
     // 1. Eid-Correction
     EidConsistencyGuardian.correctEids(norm.getDocument());

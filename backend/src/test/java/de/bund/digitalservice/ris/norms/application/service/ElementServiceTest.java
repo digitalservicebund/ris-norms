@@ -12,7 +12,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -40,7 +40,7 @@ class ElementServiceTest {
     @Test
     void itLoadsAnElementFromANorm() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
@@ -87,7 +87,7 @@ class ElementServiceTest {
     @Test
     void itThrowsIfNormIsNotFound() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
@@ -105,7 +105,7 @@ class ElementServiceTest {
     @Test
     void itThrowsIfNoElementIsFound() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1000";
@@ -155,7 +155,7 @@ class ElementServiceTest {
     @Test
     void itLoadsTheElementHtmlFromANorm() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
@@ -206,7 +206,7 @@ class ElementServiceTest {
     @Test
     void itThrowsIfNoNormIsFound() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
@@ -224,7 +224,7 @@ class ElementServiceTest {
     @Test
     void itThrowsIfNoElementIsFound() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1000";
@@ -275,7 +275,7 @@ class ElementServiceTest {
     @Test
     void itLoadsTheElementHtmlAtTheDateFromTheNorm() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
@@ -334,7 +334,7 @@ class ElementServiceTest {
     @Test
     void itThrowsIfNormIsNotFound() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
@@ -353,7 +353,7 @@ class ElementServiceTest {
     @Test
     void itThrowsIfElementIsNotFound() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1000";
@@ -419,7 +419,7 @@ class ElementServiceTest {
       // When
       var elements = service.loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          new ExpressionEli(),
+          new DokumentExpressionEli(),
           List.of("preface", "preamble", "article", "conclusions")
         )
       );
@@ -443,7 +443,7 @@ class ElementServiceTest {
 
       // When
       var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(new ExpressionEli(), List.of("article"))
+        new LoadElementsByTypeFromNormUseCase.Query(new DokumentExpressionEli(), List.of("article"))
       );
 
       // Then
@@ -460,7 +460,7 @@ class ElementServiceTest {
 
       // When
       var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(new ExpressionEli(), List.of("preface"))
+        new LoadElementsByTypeFromNormUseCase.Query(new DokumentExpressionEli(), List.of("preface"))
       );
 
       // Then
@@ -475,7 +475,7 @@ class ElementServiceTest {
 
       // When
       var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(new ExpressionEli(), List.of())
+        new LoadElementsByTypeFromNormUseCase.Query(new DokumentExpressionEli(), List.of())
       );
 
       // Then
@@ -492,7 +492,7 @@ class ElementServiceTest {
       assertThatThrownBy(() ->
           service.loadElementsByTypeFromNorm(
             new LoadElementsByTypeFromNormUseCase.Query(
-              ExpressionEli.fromString(
+              DokumentExpressionEli.fromString(
                 "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
               ),
               List.of("invalid_type")
@@ -508,7 +508,9 @@ class ElementServiceTest {
       // Nothing given -> Loading should fail
 
       LoadElementsByTypeFromNormUseCase.Query query = new LoadElementsByTypeFromNormUseCase.Query(
-        ExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"),
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+        ),
         List.of("article")
       );
 
@@ -532,7 +534,9 @@ class ElementServiceTest {
         new LoadElementsByTypeFromNormUseCase.Query(
           targetNormEli,
           List.of("preface", "preamble", "article", "conclusions"),
-          ExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+          )
         )
       );
 
@@ -549,7 +553,9 @@ class ElementServiceTest {
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
-            ExpressionEli.fromString("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+            )
           )
         )
       )
@@ -560,7 +566,9 @@ class ElementServiceTest {
         new LoadElementsByTypeFromNormUseCase.Query(
           targetNormEli,
           List.of("preface", "preamble", "article", "conclusions"),
-          ExpressionEli.fromString("eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1")
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1"
+          )
         )
       );
 

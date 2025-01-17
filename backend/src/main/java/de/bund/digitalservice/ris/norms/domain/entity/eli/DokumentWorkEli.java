@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * European legislation identifier on work level
+ * European legislation identifier on work level for a dokument of a norm
  *
  * <p>This class can be used to extract the eli from a path that includes a section like
  * "/eli/bund/{agent}/{year}/{naturalIdentifier}/{subtype}".
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public final class WorkEli implements Eli {
+public final class DokumentWorkEli implements DokumentEli {
 
   private String agent;
   private String year;
@@ -32,7 +32,7 @@ public final class WorkEli implements Eli {
    * @param workEli the string representation of the eli
    * @return the eli
    */
-  public static WorkEli fromString(String workEli) {
+  public static DokumentWorkEli fromString(String workEli) {
     Matcher matcher = Pattern
       .compile(
         "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<subtype>[^/]+)"
@@ -43,7 +43,7 @@ public final class WorkEli implements Eli {
       throw new IllegalArgumentException("Invalid work Eli");
     }
 
-    return new WorkEli(
+    return new DokumentWorkEli(
       matcher.group("agent"),
       matcher.group("year"),
       matcher.group("naturalIdentifier"),
@@ -76,7 +76,7 @@ public final class WorkEli implements Eli {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    WorkEli that = (WorkEli) o;
+    DokumentWorkEli that = (DokumentWorkEli) o;
     return Objects.equals(toString(), that.toString());
   }
 

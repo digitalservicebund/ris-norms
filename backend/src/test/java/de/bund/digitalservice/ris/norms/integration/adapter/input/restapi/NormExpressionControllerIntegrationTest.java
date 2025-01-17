@@ -12,7 +12,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Set;
@@ -1756,7 +1756,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNormNotFoundAsEliNotFound() throws Exception {
       // Given no norm in database
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 

@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -59,8 +59,8 @@ public class ArticleController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ArticleResponseSchema>> getArticles(
-    final ExpressionEli eli,
-    @RequestParam final Optional<ExpressionEli> amendedBy,
+    final DokumentExpressionEli eli,
+    @RequestParam final Optional<DokumentExpressionEli> amendedBy,
     @RequestParam final Optional<String> amendedAt
   ) {
     final var query = new LoadArticlesFromNormUseCase.Query(
@@ -92,7 +92,7 @@ public class ArticleController {
    */
   @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getArticlesRender(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @RequestParam(required = false, name = "refersTo") final String refersTo
   ) {
     String articles = loadSpecificArticlesXmlFromNormUseCase
@@ -125,7 +125,7 @@ public class ArticleController {
    */
   @GetMapping(path = "/{eid}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ArticleResponseSchema> getArticle(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @PathVariable final String eid
   ) {
     final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
@@ -155,7 +155,7 @@ public class ArticleController {
    */
   @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getArticleRender(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @PathVariable final String eid,
     @RequestParam Optional<Instant> atIsoDate
   ) {

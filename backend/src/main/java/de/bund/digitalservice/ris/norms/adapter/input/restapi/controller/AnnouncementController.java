@@ -14,7 +14,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnounceme
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
@@ -85,7 +85,7 @@ public class AnnouncementController {
     path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/releases",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final ExpressionEli eli) {
+  public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final DokumentExpressionEli eli) {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliUseCase.Query(eli)
     );
@@ -108,7 +108,7 @@ public class AnnouncementController {
     path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/releases",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<ReleaseResponseSchema> postReleases(final ExpressionEli eli) {
+  public ResponseEntity<ReleaseResponseSchema> postReleases(final DokumentExpressionEli eli) {
     var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
       new ReleaseAnnouncementUseCase.Query(eli)
     );

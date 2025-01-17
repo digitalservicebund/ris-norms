@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -301,7 +301,7 @@ class FRBRExpressionTest {
     );
 
     frbrExpression.setEli(
-      ExpressionEli.fromString("eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/regelungstext-1")
+      DokumentExpressionEli.fromString("eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/regelungstext-1")
     );
 
     assertThat(frbrExpression.getEli())

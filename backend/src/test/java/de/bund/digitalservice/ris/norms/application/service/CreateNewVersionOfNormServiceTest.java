@@ -9,8 +9,8 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -32,7 +32,9 @@ class CreateNewVersionOfNormServiceTest {
 
     when(eliService.findNextExpressionEli(any(), any(), any()))
       .thenReturn(
-        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/regelungstext-1")
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/regelungstext-1"
+        )
       );
     when(loadNormByGuidPort.loadNormByGuid(any()))
       .thenReturn(Optional.of(NormFixtures.loadFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")));
@@ -93,7 +95,9 @@ class CreateNewVersionOfNormServiceTest {
     // Given
     when(eliService.findNextExpressionEli(any(), any(), any()))
       .thenReturn(
-        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1")
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1"
+        )
       );
     var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
@@ -164,7 +168,7 @@ class CreateNewVersionOfNormServiceTest {
     assertThat(result.getExpressionEli()).isEqualTo(norm.getExpressionEli());
     assertThat(result.getManifestationEli())
       .isEqualTo(
-        ManifestationEli.fromString(
+        DokumentManifestationEli.fromString(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01/regelungstext-1.xml"
         )
       );

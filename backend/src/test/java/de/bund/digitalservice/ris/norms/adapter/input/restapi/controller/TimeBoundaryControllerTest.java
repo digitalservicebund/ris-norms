@@ -20,7 +20,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
 import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
@@ -159,8 +159,8 @@ class TimeBoundaryControllerTest {
       verify(loadTimeBoundariesAmendedByUseCase, times(1))
         .loadTimeBoundariesAmendedBy(
           argThat(query ->
-            Objects.equals(query.eli(), ExpressionEli.fromString(eli)) &&
-            Objects.equals(query.amendingLawEli(), ExpressionEli.fromString(amendedBy))
+            Objects.equals(query.eli(), DokumentExpressionEli.fromString(eli)) &&
+            Objects.equals(query.amendingLawEli(), DokumentExpressionEli.fromString(amendedBy))
           )
         );
     }

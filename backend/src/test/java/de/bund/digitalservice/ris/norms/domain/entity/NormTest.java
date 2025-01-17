@@ -4,8 +4,8 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -27,7 +27,7 @@ class NormTest {
   void getExpressionEli() {
     // given
     Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    ExpressionEli expectedEli = ExpressionEli.fromString(
+    DokumentExpressionEli expectedEli = DokumentExpressionEli.fromString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     );
 
@@ -48,7 +48,7 @@ class NormTest {
 
     // then
     assertThat(actualEli)
-      .isEqualTo(WorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1"));
+      .isEqualTo(DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1"));
   }
 
   @Test
@@ -627,7 +627,9 @@ class NormTest {
     assertThat(actualArticles.get(0).getEid()).isEqualTo(firstArticleEid);
     assertThat(actualArticles.get(0).getAffectedDocumentEli())
       .contains(
-        ExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        )
       );
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);

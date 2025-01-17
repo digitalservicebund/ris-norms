@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,7 +54,7 @@ public class Norm {
    *
    * @return The work Eli
    */
-  public WorkEli getWorkEli() {
+  public DokumentWorkEli getWorkEli() {
     return getRegelungstext1().getWorkEli();
   }
 
@@ -63,7 +63,7 @@ public class Norm {
    *
    * @return The expression Eli
    */
-  public ExpressionEli getExpressionEli() {
+  public DokumentExpressionEli getExpressionEli() {
     return getRegelungstext1().getExpressionEli();
   }
 
@@ -72,7 +72,7 @@ public class Norm {
    *
    * @return The manifestation Eli
    */
-  public ManifestationEli getManifestationEli() {
+  public DokumentManifestationEli getManifestationEli() {
     return getRegelungstext1().getManifestationEli();
   }
 
@@ -133,7 +133,7 @@ public class Norm {
    *
    * @return The list of target norm elis
    */
-  public List<ExpressionEli> getTargetLawElis() {
+  public List<DokumentExpressionEli> getTargetLawElis() {
     return getArticles()
       .stream()
       .filter(article -> !article.isGeltungszeitregel())

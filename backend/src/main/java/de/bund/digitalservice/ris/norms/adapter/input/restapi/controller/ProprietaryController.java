@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +52,7 @@ public class ProprietaryController {
    */
   @GetMapping(path = "/{atDate}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietaryFrameSchema> getProprietaryAtDate(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @PathVariable final LocalDate atDate
   ) {
     var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
@@ -78,7 +78,7 @@ public class ProprietaryController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<ProprietaryFrameSchema> updateProprietaryAtDate(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @PathVariable final LocalDate atDate,
     @RequestBody ProprietaryFrameSchema proprietaryFrameSchema
   ) {
@@ -116,7 +116,7 @@ public class ProprietaryController {
    */
   @GetMapping(path = "/{eid}/{atDate}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietarySingleElementSchema> getProprietaryAtDate(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @PathVariable final String eid,
     @PathVariable final LocalDate atDate
   ) {
@@ -146,7 +146,7 @@ public class ProprietaryController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<ProprietarySingleElementSchema> updateProprietaryAtDate(
-    final ExpressionEli eli,
+    final DokumentExpressionEli eli,
     @PathVariable final String eid,
     @PathVariable final LocalDate atDate,
     @RequestBody ProprietarySingleElementSchema proprietarySchema

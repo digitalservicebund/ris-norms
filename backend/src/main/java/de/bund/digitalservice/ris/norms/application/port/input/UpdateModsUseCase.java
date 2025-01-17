@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -32,8 +32,8 @@ public interface UpdateModsUseCase {
    * @param dryRun - if true the updating is executed but the results are discarded and not saved.
    *     Default: false
    */
-  record Query(ExpressionEli eli, Collection<NewModData> mods, boolean dryRun) {
-    public Query(ExpressionEli eli, Collection<NewModData> mods) {
+  record Query(DokumentExpressionEli eli, Collection<NewModData> mods, boolean dryRun) {
+    public Query(DokumentExpressionEli eli, Collection<NewModData> mods) {
       this(eli, mods, false);
     }
   }

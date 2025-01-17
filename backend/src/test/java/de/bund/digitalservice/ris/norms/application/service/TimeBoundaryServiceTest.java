@@ -18,7 +18,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -40,7 +40,7 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesOfNormAndReturnsTimeBoundaries() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
@@ -170,7 +170,7 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesOfNormAndReturnsTimeBoundariesEmpty() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
@@ -223,10 +223,10 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesAmendedByAndReturnsTimeBoundaries() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var amendedBy = ExpressionEli.fromString(
+      var amendedBy = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1"
       );
 
@@ -323,10 +323,10 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsLoadTimeBoundariesAmendedByAndThrowsNormNotFoundException() {
       // Given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var amendedBy = ExpressionEli.fromString(
+      var amendedBy = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1"
       );
 
@@ -347,7 +347,7 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itCallsUpdateTimeBoundariesOfNormAndReturnsTimeBoundariesNothingChanged() {
-      ExpressionEli eli = ExpressionEli.fromString(
+      DokumentExpressionEli eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
@@ -431,7 +431,7 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itCallsUpdateTimeBoundariesOfNormAndReturnsTimeBoundariesNew() {
-      ExpressionEli eli = ExpressionEli.fromString(
+      DokumentExpressionEli eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
       );
 
@@ -528,7 +528,7 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itCallsUpdateTimeBoundariesOfNormAndReturnsTimeBoundariesDelete() {
-      ExpressionEli eli = ExpressionEli.fromString(
+      DokumentExpressionEli eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
       );
 
@@ -620,7 +620,7 @@ class TimeBoundaryServiceTest {
 
     @Test
     void itChangesADate() {
-      ExpressionEli eli = ExpressionEli.fromString(
+      DokumentExpressionEli eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
       );
 
@@ -708,7 +708,7 @@ class TimeBoundaryServiceTest {
       logger.addAppender(memoryAppender);
       memoryAppender.start();
 
-      ExpressionEli eli = ExpressionEli.fromString(
+      DokumentExpressionEli eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1"
       );
 

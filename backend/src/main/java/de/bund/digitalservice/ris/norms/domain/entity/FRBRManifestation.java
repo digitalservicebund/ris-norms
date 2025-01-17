@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import lombok.Getter;
 import org.w3c.dom.Element;
@@ -18,8 +18,8 @@ public class FRBRManifestation extends FRBR {
    *
    * @return An Eli
    */
-  public ManifestationEli getEli() {
-    return ManifestationEli.fromString(
+  public DokumentManifestationEli getEli() {
+    return DokumentManifestationEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression("./FRBRthis/@value", this.getElement())
     );
   }
@@ -29,7 +29,7 @@ public class FRBRManifestation extends FRBR {
    *
    * @param eli - the new ELI
    */
-  public void setEli(final ManifestationEli eli) {
+  public void setEli(final DokumentManifestationEli eli) {
     NodeParser
       .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
       .setAttribute("value", eli.toString());

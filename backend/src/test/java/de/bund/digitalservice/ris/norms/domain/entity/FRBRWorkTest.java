@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -45,7 +45,7 @@ class FRBRWorkTest {
       )
     );
 
-    frbrWork.setEli(WorkEli.fromString("eli/bund/bgbl-1/2025/1/regelungstext-1"));
+    frbrWork.setEli(DokumentWorkEli.fromString("eli/bund/bgbl-1/2025/1/regelungstext-1"));
 
     assertThat(frbrWork.getEli()).hasToString("eli/bund/bgbl-1/2025/1/regelungstext-1");
   }

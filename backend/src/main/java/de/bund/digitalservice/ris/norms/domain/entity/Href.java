@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +32,7 @@ public record Href(@JsonValue String value) {
    *
    * @return The eli of the href or empty if no eli is included.
    */
-  public Optional<ExpressionEli> getExpressionEli() {
+  public Optional<DokumentExpressionEli> getExpressionEli() {
     if (isRelative()) {
       return Optional.empty();
     }
@@ -45,7 +45,7 @@ public record Href(@JsonValue String value) {
           .collect(Collectors.joining("/"))
       )
       .map(Href::removeFileExtension)
-      .map(ExpressionEli::fromString);
+      .map(DokumentExpressionEli::fromString);
   }
 
   /**
@@ -127,7 +127,7 @@ public record Href(@JsonValue String value) {
      * @param eli the eli
      * @return the builder instance
      */
-    public Builder setEli(ExpressionEli eli) {
+    public Builder setEli(DokumentExpressionEli eli) {
       this.eli = eli.toString();
       return this;
     }

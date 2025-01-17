@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.Eli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.net.URI;
@@ -26,7 +26,7 @@ public abstract class FRBR {
    *
    * @return An Eli
    */
-  public abstract Eli getEli();
+  public abstract DokumentEli getEli();
 
   /**
    * Returns the URI as {@link String} from the FRBRuri of the specific FRBR level.

@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
 import java.util.Optional;
@@ -64,10 +64,10 @@ public class Article {
    *
    * @return The ELI of the affected document of the article
    */
-  public Optional<ExpressionEli> getAffectedDocumentEli() {
+  public Optional<DokumentExpressionEli> getAffectedDocumentEli() {
     return NodeParser
       .getValueFromExpression(AFFECTED_DOCUMENT_XPATH, this.element)
-      .map(ExpressionEli::fromString);
+      .map(DokumentExpressionEli::fromString);
   }
 
   /**
@@ -76,8 +76,8 @@ public class Article {
    *
    * @return The ELI of the affected document of the article
    */
-  public ExpressionEli getMandatoryAffectedDocumentEli() {
-    return ExpressionEli.fromString(
+  public DokumentExpressionEli getMandatoryAffectedDocumentEli() {
+    return DokumentExpressionEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.element)
     );
   }

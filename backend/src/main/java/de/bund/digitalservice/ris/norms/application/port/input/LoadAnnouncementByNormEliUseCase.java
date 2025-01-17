@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
 /**
  * Interface representing the use case for loading an {@link Announcement}. Implementations of this
@@ -24,5 +24,5 @@ public interface LoadAnnouncementByNormEliUseCase {
    * @param eli The ELI (European Legislation Identifier) used to identify the norm of the {@link
    *     Announcement} in the query.
    */
-  record Query(ExpressionEli eli) {}
+  record Query(DokumentExpressionEli eli) {}
 }

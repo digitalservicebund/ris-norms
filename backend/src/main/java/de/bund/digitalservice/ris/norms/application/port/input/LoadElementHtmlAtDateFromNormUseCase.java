@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.Instant;
 
 /** Use case for getting a single element as an HTML string from a {@link Norm}. */
@@ -23,5 +23,5 @@ public interface LoadElementHtmlAtDateFromNormUseCase {
    * @param eid The eId of the element inside the norm
    * @param atDate Apply all modifications until and including that date
    */
-  record Query(ExpressionEli eli, String eid, Instant atDate) {}
+  record Query(DokumentExpressionEli eli, String eid, Instant atDate) {}
 }

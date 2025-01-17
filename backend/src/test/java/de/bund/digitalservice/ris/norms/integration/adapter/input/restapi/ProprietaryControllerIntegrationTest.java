@@ -9,7 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMappe
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
@@ -40,7 +40,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void return404IfNormNotFound() throws Exception {
       // given no norm
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var atDateString = "2024-06-03";
@@ -76,7 +76,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnEmptyValuesIfNormHasNoProprietaryAtAll() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
@@ -106,7 +106,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
@@ -136,7 +136,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnProprietary() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
@@ -670,7 +670,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void return404IfNormNotFound() throws Exception {
       // given no norm
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -707,7 +707,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnEmptyValuesIfNormHasNoProprietaryAtAll() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -729,7 +729,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -751,7 +751,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnProprietaryEinzelelement() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -777,7 +777,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void return404IfNormNotFound() throws Exception {
       // given no norm
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
@@ -816,7 +816,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void createsProprietaryAndMetadatenDsAndEinzelelementAndSetsValue() throws Exception {
       // given
-      var eli = ExpressionEli.fromString(
+      var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";

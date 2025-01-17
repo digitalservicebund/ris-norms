@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.Eli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
 import java.util.List;
 
 /**
@@ -23,5 +23,5 @@ public interface DeleteQueuedReleasesPort {
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the {@link Announcement} in the command.
    */
-  record Command(Eli eli) {}
+  record Command(DokumentEli eli) {}
 }

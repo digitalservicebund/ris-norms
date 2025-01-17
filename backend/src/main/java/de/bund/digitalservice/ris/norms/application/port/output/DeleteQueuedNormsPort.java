@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 
 /**
  * Interface representing a port for deleting a {@link de.bund.digitalservice.ris.norms.domain.entity.NormPublishState#QUEUED_FOR_PUBLISH} {@link Norm} based on the ELI (European Legislation
@@ -21,5 +21,5 @@ public interface DeleteQueuedNormsPort {
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the norms in the command.
    */
-  record Command(WorkEli eli) {}
+  record Command(DokumentWorkEli eli) {}
 }

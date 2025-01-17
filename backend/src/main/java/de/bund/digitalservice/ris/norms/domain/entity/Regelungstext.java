@@ -2,9 +2,9 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.NodeParser.getElementsFromExpression;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.WorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -38,8 +38,8 @@ public class Regelungstext {
    *
    * @return The work Eli
    */
-  public WorkEli getWorkEli() {
-    return WorkEli.fromString(
+  public DokumentWorkEli getWorkEli() {
+    return DokumentWorkEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression("//FRBRWork/FRBRthis/@value", document)
     );
   }
@@ -49,8 +49,8 @@ public class Regelungstext {
    *
    * @return The expression Eliuuu
    */
-  public ExpressionEli getExpressionEli() {
-    return ExpressionEli.fromString(
+  public DokumentExpressionEli getExpressionEli() {
+    return DokumentExpressionEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression(
         "//FRBRExpression/FRBRthis/@value",
         document
@@ -63,8 +63,8 @@ public class Regelungstext {
    *
    * @return The manifestation Eli
    */
-  public ManifestationEli getManifestationEli() {
-    return ManifestationEli.fromString(
+  public DokumentManifestationEli getManifestationEli() {
+    return DokumentManifestationEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression(
         "//FRBRManifestation/FRBRthis/@value",
         document

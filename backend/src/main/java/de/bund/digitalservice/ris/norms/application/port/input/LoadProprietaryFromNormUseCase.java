@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
 /** Use case for getting {@link Proprietary} metadata from a {@link Norm}. */
 public interface LoadProprietaryFromNormUseCase {
@@ -19,5 +19,5 @@ public interface LoadProprietaryFromNormUseCase {
    *
    * @param eli The ELI used to identify the norm
    */
-  record Query(ExpressionEli eli) {}
+  record Query(DokumentExpressionEli eli) {}
 }

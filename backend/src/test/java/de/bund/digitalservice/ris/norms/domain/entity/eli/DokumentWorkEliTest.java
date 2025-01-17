@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class WorkEliTest {
+class DokumentWorkEliTest {
 
   @Test
   void fromString() {
-    var eli = WorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
+    var eli = DokumentWorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
     assertThat(eli.getAgent()).isEqualTo("bgbl-1");
     assertThat(eli.getYear()).isEqualTo("2021");
     assertThat(eli.getNaturalIdentifier()).isEqualTo("s4");
@@ -17,13 +17,13 @@ class WorkEliTest {
 
   @Test
   void testToString() {
-    var eli = WorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
+    var eli = DokumentWorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
     assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
   }
 
   @Test
   void toUri() {
-    var eli = WorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
+    var eli = DokumentWorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
     assertThat(eli.toUri()).hasToString("eli/bund/bgbl-1/2021/s4");
   }
 }

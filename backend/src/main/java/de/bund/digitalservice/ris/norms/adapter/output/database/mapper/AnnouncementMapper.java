@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ public class AnnouncementMapper {
   public static Announcement mapToDomain(final AnnouncementDto announcementDto) {
     return Announcement
       .builder()
-      .eli(ExpressionEli.fromString(announcementDto.getEli()))
+      .eli(DokumentExpressionEli.fromString(announcementDto.getEli()))
       .releases(
         announcementDto
           .getReleases()

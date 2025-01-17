@@ -15,7 +15,7 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.NoSuchElementException;
@@ -144,7 +144,7 @@ class NormExpressionControllerTest {
             query
               .eli()
               .equals(
-                ExpressionEli.fromString(
+                DokumentExpressionEli.fromString(
                   "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
                 )
               )
