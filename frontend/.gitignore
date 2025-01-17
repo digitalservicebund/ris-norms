@@ -15,7 +15,7 @@ dist-ssr
 coverage
 test-results
 blob-report/
-e2e/globalSetup/.auth
+e2e/setup/.auth
 
 # Editor directories and files
 .vscode/*
