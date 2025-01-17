@@ -35,10 +35,11 @@ public class Fixtures {
       return ldmlDeValidator.parseAndValidate(loadFile(fileName));
     }
 
-    return Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(loadFile(fileName)))))
-      .build();
+    return Norm.builder().regelungstexte(Set.of(loadRegelungstextFromDisk(fileName))).build();
+  }
+
+  public static Regelungstext loadRegelungstextFromDisk(final String fileName) {
+    return new Regelungstext(XmlMapper.toDocument(loadFile(fileName)));
   }
 
   public static String loadTextFromDisk(final String fileName) {
