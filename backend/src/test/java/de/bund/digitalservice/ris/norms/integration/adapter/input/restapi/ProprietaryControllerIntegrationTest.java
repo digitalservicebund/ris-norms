@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
@@ -80,7 +80,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
-      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -110,7 +110,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
-      var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithInvalidProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -140,7 +140,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var atDateString = "2024-06-03";
-      var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -219,7 +219,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
-      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -284,7 +284,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
-      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -348,7 +348,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
-      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -412,7 +412,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
-      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -477,7 +477,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
-      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -541,7 +541,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
-      final Norm norm = NormFixtures.loadFromDisk(
+      final Norm norm = Fixtures.loadNormFromDisk(
         "NormWithProprietaryAndMultipleTimeBoundaries.xml"
       );
       normRepository.save(NormMapper.mapToDto(norm));
@@ -607,7 +607,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
-      final Norm norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -712,7 +712,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
-      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -734,7 +734,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
-      var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithInvalidProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -756,7 +756,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
-      var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when
@@ -821,7 +821,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
-      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // when

@@ -6,10 +6,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -32,7 +32,7 @@ class SingleModValidatorTest {
     @Test
     void oldTextIsEmpty() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -41,7 +41,7 @@ class SingleModValidatorTest {
       final Mod mod = new Mod(modNode);
       mod.setOldText("");
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
@@ -57,7 +57,7 @@ class SingleModValidatorTest {
     @Test
     void oldTextNotTheSameInZf0Norm() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -66,7 +66,7 @@ class SingleModValidatorTest {
       final Mod mod = new Mod(modNode);
       mod.setOldText("not the same text as in target law");
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
@@ -82,14 +82,14 @@ class SingleModValidatorTest {
     @Test
     void nodeWithGivenDestEidDoesNotExists() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       final TextualMod passiveMod = zf0Norm
         .getMeta()
         .getAnalysis()
@@ -114,14 +114,14 @@ class SingleModValidatorTest {
     @Test
     void validationSuccessful() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
       assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
@@ -130,7 +130,7 @@ class SingleModValidatorTest {
     @Test
     void validationSuccessfulUntilEndOfParagraph() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -156,7 +156,7 @@ class SingleModValidatorTest {
       mod.setTargetRefHref(href);
       mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
       assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
@@ -165,7 +165,7 @@ class SingleModValidatorTest {
     @Test
     void validationSuccessfulStartingAt0() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -191,7 +191,7 @@ class SingleModValidatorTest {
       mod.setTargetRefHref(href);
       mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
       assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
@@ -200,7 +200,7 @@ class SingleModValidatorTest {
     @Test
     void throwsExceptionWhenCharacterRangeIsNotSet() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
       final Element modNode = amendingNorm
         .getElementByEId(
@@ -216,7 +216,7 @@ class SingleModValidatorTest {
           .buildInternalReference()
       );
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       final TextualMod passiveMod = zf0Norm
         .getMeta()
         .getAnalysis()
@@ -266,7 +266,7 @@ class SingleModValidatorTest {
     @MethodSource("provideParametersForThrowsExceptionWhenCharacterRange")
     void throwsExceptionWhenCharacterRangeIsMalformed(String cr, String message) {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -274,7 +274,7 @@ class SingleModValidatorTest {
         .orElseThrow();
       final Mod mod = new Mod(modNode);
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       final TextualMod passiveMod = zf0Norm
         .getMeta()
         .getAnalysis()
@@ -298,7 +298,7 @@ class SingleModValidatorTest {
     @Test
     void ThrowsExceptionWhenCharacterRangeEndIsTooHigh() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -306,7 +306,7 @@ class SingleModValidatorTest {
         .orElseThrow();
       final Mod mod = new Mod(modNode);
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       final TextualMod passiveMod = zf0Norm
         .getMeta()
         .getAnalysis()
@@ -338,14 +338,14 @@ class SingleModValidatorTest {
     @Test
     void validationSuccessNoUpTo() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
+      final Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml");
 
       // when then
       assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
@@ -354,14 +354,14 @@ class SingleModValidatorTest {
     @Test
     void validationSuccessWithUpTo() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk(
+      final Norm zf0Norm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
 
@@ -372,14 +372,14 @@ class SingleModValidatorTest {
     @Test
     void upToNodeNotPresent() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk(
+      final Norm zf0Norm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
 
@@ -405,14 +405,14 @@ class SingleModValidatorTest {
     @Test
     void upToNodeAndTargetNodeNotSiblings() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk(
+      final Norm zf0Norm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
 
@@ -440,14 +440,14 @@ class SingleModValidatorTest {
     @Test
     void upToNodeBeforeTargetNode() {
       // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final Element modNode = amendingNorm
         .getElementByEId(
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
         )
         .orElseThrow();
       final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk(
+      final Norm zf0Norm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
 

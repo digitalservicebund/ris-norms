@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -28,7 +28,7 @@ class NormDtoTest {
   @Test
   void testAllConstraintsAreMet() {
     // Given
-    var xml = NormFixtures.loadTextFromDisk("SimpleNorm.xml");
+    var xml = Fixtures.loadTextFromDisk("SimpleNorm.xml");
     var guid = UUID.fromString("c01334e2-f12b-4055-ac82-15ac03c74c78");
 
     // When
@@ -60,7 +60,7 @@ class NormDtoTest {
     // Given
     final NormDto normDto = NormDto
       .builder()
-      .xml(NormFixtures.loadTextFromDisk("SimpleNorm.xml"))
+      .xml(Fixtures.loadTextFromDisk("SimpleNorm.xml"))
       .build();
 
     // Then

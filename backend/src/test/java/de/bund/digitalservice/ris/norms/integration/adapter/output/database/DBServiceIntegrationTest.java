@@ -60,7 +60,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNormOnDB() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     normRepository.save(NormMapper.mapToDto(norm));
 
     // When
@@ -79,7 +79,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     normRepository.save(NormMapper.mapToDto(norm));
 
     // When
@@ -98,7 +98,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNormByManifestationEli() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     normRepository.save(NormMapper.mapToDto(norm));
 
     // When
@@ -118,9 +118,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsNewestManifestationOfNorm() {
     // Given
     normRepository.save(
-      NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml"))
+      NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
     );
-    var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
     normRepository.save(NormMapper.mapToDto(norm));
 
     // When
@@ -139,7 +139,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNormByGuidOnDB() {
     // When
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     normRepository.save(NormMapper.mapToDto(norm));
 
     // When
@@ -154,7 +154,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsAnnouncementOnDB() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -260,7 +260,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itUpdatesNorm() {
     // Given
-    var oldNorm = NormFixtures.loadFromDisk("NormWithAppliedQuotedStructure.xml");
+    var oldNorm = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
     oldNorm.setPublishState(NormPublishState.UNPUBLISHED);
     normRepository.save(NormMapper.mapToDto(oldNorm));
 
@@ -336,10 +336,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsReleaseOnDB() {
     // Given
     var norm = normRepository.save(
-      NormMapper.mapToDto(NormFixtures.loadFromDisk("SimpleNorm.xml"))
+      NormMapper.mapToDto(Fixtures.loadNormFromDisk("SimpleNorm.xml"))
     );
     var norm2 = normRepository.save(
-      NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml"))
+      NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithMods.xml"))
     );
     var release1 = releaseRepository.save(
       ReleaseDto
@@ -392,7 +392,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesAnnouncementAndSavesRelease() {
       // Given
-      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
@@ -422,7 +422,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itDeletesQueuedReleases() {
       // Given
-      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       var release = Release.builder().publishedNorms(List.of(norm)).build();
@@ -456,10 +456,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itLoadsNormIdByPublishState() {
       // Given
-      var normQueued = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var normQueued = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       normQueued.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var normPublished = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+      var normPublished = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
       normPublished.setPublishState(NormPublishState.PUBLISHED);
 
       normRepository.save(NormMapper.mapToDto(normQueued));
@@ -477,7 +477,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itLoadsNormById() {
       // Given
-      var normQueued = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var normQueued = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       normQueued.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       NormDto norm = normRepository.save(NormMapper.mapToDto(normQueued));

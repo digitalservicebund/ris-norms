@@ -12,8 +12,8 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -255,10 +255,10 @@ class NormExpressionControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String html = "<div></div>";
 
-      when(loadNormUseCase.loadNorm(any())).thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-        .thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"));
+        .thenReturn(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
 
       // When // Then
       mockMvc

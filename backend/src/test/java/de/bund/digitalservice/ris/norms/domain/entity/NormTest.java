@@ -26,7 +26,7 @@ class NormTest {
   @Test
   void getExpressionEli() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     DokumentExpressionEli expectedEli = DokumentExpressionEli.fromString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     );
@@ -41,7 +41,7 @@ class NormTest {
   @Test
   void getWorkEli() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
     // when
     var actualEli = norm.getWorkEli();
@@ -784,9 +784,7 @@ class NormTest {
     final Norm norm = Norm
       .builder()
       .regelungstexte(
-        Set.of(
-          new Regelungstext(XmlMapper.toDocument(NormFixtures.loadTextFromDisk("SimpleNorm.xml")))
-        )
+        Set.of(new Regelungstext(XmlMapper.toDocument(Fixtures.loadTextFromDisk("SimpleNorm.xml"))))
       )
       .build();
 
@@ -1133,7 +1131,7 @@ class NormTest {
   @Test
   void getMods() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
     // when
     var mods = norm.getMods();
@@ -1147,7 +1145,7 @@ class NormTest {
   @Test
   void getStartDateForTemporalGroup() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+    Norm norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var date = norm.getStartDateForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
@@ -1159,7 +1157,7 @@ class NormTest {
   @Test
   void getStartEventRefForTemporalGroup() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+    Norm norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var eId = norm.getStartEventRefForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
@@ -1171,7 +1169,7 @@ class NormTest {
   @Test
   void getStartDateForEventRef() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+    Norm norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var date = norm.getStartDateForEventRef("meta-1_lebzykl-1_ereignis-3");
@@ -1186,7 +1184,7 @@ class NormTest {
     @Test
     void itShouldCreatesANewElement() {
       // given
-      Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       Node parentNode = NodeParser
         .getNodeFromExpression("//act/meta", norm.getDocument())
         .orElseThrow();
@@ -1208,7 +1206,7 @@ class NormTest {
     @Test
     void itShouldCreatesTheAnalysisNodeIfItDoesNotExist() {
       // given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
       // when
       final var analysis = norm.getMeta().getOrCreateAnalysis();
@@ -1226,7 +1224,7 @@ class NormTest {
     @Test
     void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
       // given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
       // when
       final var temporalData = norm.getMeta().getOrCreateTemporalData();
@@ -1240,7 +1238,7 @@ class NormTest {
     @Test
     void itShouldFindTheTemporalDataNodeIfItExist() {
       // given
-      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // when
       final var temporalData = norm.getMeta().getTemporalData();
@@ -1258,7 +1256,7 @@ class NormTest {
     @Test
     void itShouldDeleteTheNodeOfTheEId() {
       // given
-      Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
       // when
       norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
@@ -1275,7 +1273,7 @@ class NormTest {
     @Test
     void itShouldDeleteTemporalGroupIfUnused() {
       // given
-      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       // delete the mod so the temporal group is unused
       norm.deleteByEId("meta-1_analysis-1_activemod-1");
 
@@ -1289,7 +1287,7 @@ class NormTest {
     @Test
     void itShouldNotDeleteTemporalGroupIfUsed() {
       // given
-      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
       // when
       norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
@@ -1305,7 +1303,7 @@ class NormTest {
     @Test
     void itShouldDeleteEventRefIfUnused() {
       // given
-      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       // delete the mod so the temporal group is unused
       norm.deleteByEId("meta-1_analysis-1_activemod-1");
 
@@ -1325,7 +1323,7 @@ class NormTest {
     @Test
     void itShouldNotDeleteEventRefIfUsed() {
       // given
-      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
       assertThat(
         NodeParser.getNodeFromExpression(

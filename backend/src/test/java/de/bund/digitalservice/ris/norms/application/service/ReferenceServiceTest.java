@@ -2,8 +2,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Set;
@@ -84,7 +84,7 @@ class ReferenceServiceTest {
   @Test
   void itDoesNotLookForReferencesBecauseQuotedStructureContainReferencesAlready() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("NormWithReferencesFound.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesFound.xml");
 
     // When
     final String result = service.findAndCreateReferences(norm);
@@ -100,13 +100,13 @@ class ReferenceServiceTest {
   @Test
   void ifFindsAndCreatesReferences() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("NormWithReferencesToFind.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesToFind.xml");
 
     // When
     final String result = service.findAndCreateReferences(norm);
 
     // Then
-    final Norm expectedUpdatedNorm = NormFixtures.loadFromDisk("NormWithReferencesFound.xml");
+    final Norm expectedUpdatedNorm = Fixtures.loadNormFromDisk("NormWithReferencesFound.xml");
     final Diff diff = DiffBuilder
       .compare(Input.from(XmlMapper.toDocument(result)))
       .ignoreElementContentWhitespace()
@@ -119,12 +119,12 @@ class ReferenceServiceTest {
   @Test
   void itDoesNotFindReferencesInNum() {
     // Given
-    final Norm norm = NormFixtures.loadFromDisk("NormWithReferencesInNumToSkip.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesInNumToSkip.xml");
     // When
     final String result = service.findAndCreateReferences(norm);
 
     // Then
-    final Norm sameNormReload = NormFixtures.loadFromDisk("NormWithReferencesInNumToSkip.xml");
+    final Norm sameNormReload = Fixtures.loadNormFromDisk("NormWithReferencesInNumToSkip.xml");
     final Diff diff = DiffBuilder
       .compare(Input.from(XmlMapper.toDocument(result)))
       .withTest(Input.from(sameNormReload.getDocument()))

@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.utils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -253,7 +253,7 @@ class NodeParserTest {
     { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.1/}act/@name" }
   )
   void xPathsWorkWithoutNamespaceAwareness(String xPath) {
-    var norm = NormFixtures.loadFromDisk("NormWithMods.xml", false);
+    var norm = Fixtures.loadNormFromDisk("NormWithMods.xml", false);
     Node node = norm.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
     assertThat(result).contains("regelungstext");
@@ -264,7 +264,7 @@ class NodeParserTest {
     { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.1/}act/@name" }
   )
   void xPathsWorkWithNamespaceAwareness(String xPath) {
-    var norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
+    var norm = Fixtures.loadNormFromDisk("NormWithMods.xml", true);
     Node node = norm.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
     assertThat(result).contains("regelungstext");
@@ -272,7 +272,7 @@ class NodeParserTest {
 
   @Test
   void xPathsWorkWithNamespaceDoesNotMatchInDocumentWithDifferentNamespace() {
-    var norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
+    var norm = Fixtures.loadNormFromDisk("NormWithMods.xml", true);
     Node node = norm.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(
       "//Q{http://Inhaltsdaten.LegalDocML.de/1.5/}act/@name",

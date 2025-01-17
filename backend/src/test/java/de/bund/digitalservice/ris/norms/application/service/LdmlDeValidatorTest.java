@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.net.URI;
 import java.util.Objects;
@@ -36,7 +36,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldParseAValidNorm() {
       // Given
-      String xml = NormFixtures.loadTextFromDisk("NormWithMods.xml");
+      String xml = Fixtures.loadTextFromDisk("NormWithMods.xml");
 
       // When
       Norm norm = ldmlDeValidator.parseAndValidate(xml);
@@ -55,7 +55,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldThrowForInvalidNorms() {
       // Given
-      String xml = NormFixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
+      String xml = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
 
       // When // Then
       assertThatThrownBy(() -> ldmlDeValidator.parseAndValidate(xml))
@@ -91,7 +91,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldSuccessfullyValidateNorm() {
       // Given
-      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
+      Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml", true);
 
       // When // Then
       assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
@@ -100,7 +100,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateAInvalidNormWithError() {
       // Given
-      Norm norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml", true);
+      Norm norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml", true);
 
       // When // Then
       assertThatThrownBy(() -> ldmlDeValidator.validateSchematron(norm))
@@ -149,7 +149,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldSuccessfullyValidateANormWithWarnings() {
       // Given
-      Norm norm = NormFixtures.loadFromDisk("NormWithModsSchematronWarning.xml", true);
+      Norm norm = Fixtures.loadNormFromDisk("NormWithModsSchematronWarning.xml", true);
 
       // When // Then
       assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();

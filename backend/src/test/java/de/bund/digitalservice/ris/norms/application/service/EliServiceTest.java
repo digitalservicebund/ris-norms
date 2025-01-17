@@ -7,8 +7,8 @@ import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ class EliServiceTest {
   @Test
   void findNextExpressionEliVersion1AlreadyInUse() {
     when(loadNormUseCase.loadNorm(any()))
-      .thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"))
+      .thenReturn(Fixtures.loadNormFromDisk("SimpleNorm.xml"))
       .thenThrow(new NormNotFoundException(""));
 
     var eli = eliService.findNextExpressionEli(

@@ -8,9 +8,9 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -27,7 +27,7 @@ class CreateNewVersionOfNormServiceTest {
   @Test
   void createNewExpressionWithSameDate() {
     // Given
-    var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     when(eliService.findNextExpressionEli(any(), any(), any()))
@@ -37,7 +37,7 @@ class CreateNewVersionOfNormServiceTest {
         )
       );
     when(loadNormByGuidPort.loadNormByGuid(any()))
-      .thenReturn(Optional.of(NormFixtures.loadFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")));
+      .thenReturn(Optional.of(Fixtures.loadNormFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")));
 
     // When
     var result = createNewVersionOfNormService.createNewExpression(
@@ -99,7 +99,7 @@ class CreateNewVersionOfNormServiceTest {
           "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1"
         )
       );
-    var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     // When
@@ -156,7 +156,7 @@ class CreateNewVersionOfNormServiceTest {
   @Test
   void createNewManifestation() {
     // Given
-    var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
     // When
     var result = createNewVersionOfNormService.createNewManifestation(

@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
@@ -73,7 +73,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When
@@ -110,7 +110,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsElementRenderedAsHtml() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When
@@ -129,8 +129,8 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsElementAtGivenIsoDateRenderedAsHtml() throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
+      var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
       normRepository.save(NormMapper.mapToDto(amendingNorm));
       normRepository.save(NormMapper.mapToDto(targetNorm));
@@ -217,7 +217,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When
@@ -254,7 +254,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnElementEidTitleAndType() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When
@@ -367,7 +367,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When
@@ -385,7 +385,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsEntriesWithPrefacePreambleArticleAndConclusionInformation() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       normRepository.save(NormMapper.mapToDto(norm));
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
@@ -425,7 +425,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEntriesWithBookPartChapterTitleSubtitleSectionAndSubsectionInformation()
       throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithGliederung.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithGliederung.xml");
       normRepository.save(NormMapper.mapToDto(norm));
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
@@ -490,9 +490,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
       // Given
-      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
       normRepository.save(NormMapper.mapToDto(targetNorm));
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       normRepository.save(NormMapper.mapToDto(amendingNorm));
 
       var url =
@@ -514,7 +514,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
-      var targetNorm = NormFixtures.loadFromDisk(
+      var targetNorm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
       );
       normRepository.save(NormMapper.mapToDto(targetNorm));

@@ -9,8 +9,8 @@ import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -413,7 +413,7 @@ class ElementServiceTest {
     @Test
     void returnsAllSupportedTypesFromANorm() {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
@@ -438,7 +438,7 @@ class ElementServiceTest {
     @Test
     void returnsASubsetOfTypesFromANorm() {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
@@ -455,7 +455,7 @@ class ElementServiceTest {
     @Test
     void returnsEmptyListIfTypeIsNotInNorm() {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
@@ -470,7 +470,7 @@ class ElementServiceTest {
     @Test
     void returnsEmptyListIfTypesAreEmpty() {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
@@ -485,7 +485,7 @@ class ElementServiceTest {
     @Test
     void throwsWhenAttemptingToLoadUnsupportedType() {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When / Then
@@ -522,7 +522,7 @@ class ElementServiceTest {
     @Test
     void filtersReturnedElementsByAmendingNorm() {
       // Given
-      var targetNorm = NormFixtures.loadFromDisk(
+      var targetNorm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
       );
       var targetNormEli = targetNorm.getExpressionEli();
@@ -548,7 +548,7 @@ class ElementServiceTest {
     @Test
     void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() {
       // Given
-      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
       var targetNormEli = targetNorm.getExpressionEli();
       when(
         loadNormPort.loadNorm(

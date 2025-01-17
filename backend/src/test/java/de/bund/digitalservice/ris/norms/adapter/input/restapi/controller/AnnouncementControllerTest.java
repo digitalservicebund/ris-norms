@@ -200,8 +200,8 @@ class AnnouncementControllerTest {
     @Test
     void itReturnsRelease() throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement
         .builder()
         .eli(amendingNorm.getExpressionEli())
@@ -252,8 +252,8 @@ class AnnouncementControllerTest {
     @Test
     void itReleaseAnAnnouncement() throws Exception {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement
         .builder()
         .eli(amendingNorm.getExpressionEli())
@@ -303,7 +303,7 @@ class AnnouncementControllerTest {
     @Test
     void itCreatesAnAnnouncement() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var xmlContent = XmlMapper.toString(norm.getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -333,7 +333,7 @@ class AnnouncementControllerTest {
     @Test
     void itCreatesAnAnnouncementWithForce() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var xmlContent = XmlMapper.toString(norm.getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -363,7 +363,7 @@ class AnnouncementControllerTest {
     @Test
     void itShouldNotExposeInternalInformationOnUnexpectedErrors() throws Exception {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var xmlContent = XmlMapper.toString(norm.getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",

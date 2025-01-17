@@ -11,8 +11,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementB
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -66,7 +66,7 @@ class AnnouncementServiceTest {
     @Test
     void itReturnsAnnouncements() {
       // Given
-      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
 
@@ -85,7 +85,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsAnnouncementNotFoundException() {
       // given
-      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
         DokumentExpressionEli.fromString(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
@@ -122,7 +122,7 @@ class AnnouncementServiceTest {
     @Test
     void itReturnsAnnouncement() {
       // Given
-      var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -150,8 +150,8 @@ class AnnouncementServiceTest {
     @Test
     void itReturnsNorms() {
       // Given
-      var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      var affectedNormZf0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(amendingNorm))
@@ -185,7 +185,7 @@ class AnnouncementServiceTest {
     void itCreatesANewAnnouncement() throws IOException {
       // Given
       var xmlContent = XmlMapper.toString(
-        NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()
+        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -203,7 +203,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -230,7 +230,7 @@ class AnnouncementServiceTest {
     void itThrowsWhenTheFileIsNotXML() throws IOException {
       // Given
       var xmlContent = XmlMapper.toString(
-        NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()
+        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -271,7 +271,7 @@ class AnnouncementServiceTest {
     void itThrowsWhenADestinationEliDoesNotExist() throws IOException {
       // Given
       var xmlContent = XmlMapper.toString(
-        NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()
+        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -301,7 +301,7 @@ class AnnouncementServiceTest {
     void itThrowsWhenAnEliOfTheSameEliExists() throws IOException {
       // Given
       var xmlContent = XmlMapper.toString(
-        NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()
+        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -319,7 +319,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -329,7 +329,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithMods.xml")));
 
       // When // Then
       var query = new CreateAnnouncementUseCase.Query(file, false);
@@ -340,7 +340,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenANormWithSameGuidExists() throws IOException {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var xmlContent = XmlMapper.toString(norm.getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -358,7 +358,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -386,7 +386,7 @@ class AnnouncementServiceTest {
     void itThrowsWhenTheNormIsNotXsdValid() throws IOException {
       // Given
       var xmlContent = XmlMapper.toString(
-        NormFixtures.loadFromDisk("NormWithModsXsdInvalid.xml").getDocument()
+        Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml").getDocument()
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -404,7 +404,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -427,7 +427,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotSchematronValid() throws IOException {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml");
+      var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
       var xmlContent = XmlMapper.toString(norm.getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -445,7 +445,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -471,7 +471,7 @@ class AnnouncementServiceTest {
     void itCreatesANewAnnouncementWithForce() throws IOException {
       // Given
       var xmlContent = XmlMapper.toString(
-        NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()
+        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -490,7 +490,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml")));
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -500,7 +500,7 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
+        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithMods.xml")));
 
       var announcement = announcementService.createAnnouncement(
         new CreateAnnouncementUseCase.Query(file, true)

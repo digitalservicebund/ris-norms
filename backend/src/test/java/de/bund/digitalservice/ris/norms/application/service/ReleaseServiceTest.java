@@ -15,7 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedRele
 import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -58,12 +58,12 @@ class ReleaseServiceTest {
   @Test
   void itShouldReleaseAnAnnouncementWithoutTargetNorms() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
-    var manifestationOfNormToQueue = NormFixtures.loadFromDisk(
+    var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModifications.xml"
     );
-    var newNewestUnpublishedManifestationOfNorm = NormFixtures.loadFromDisk(
+    var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
@@ -119,28 +119,28 @@ class ReleaseServiceTest {
   @Test
   void itShouldReleaseAnAnnouncementWithTargetNorm() {
     // Given
-    var amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-    var targetNorm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+    var targetNorm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
-    var targetNormExpressionAtDateOne = NormFixtures.loadFromDisk(
+    var targetNormExpressionAtDateOne = Fixtures.loadNormFromDisk(
       "NormWithAppliedQuotedStructure.xml"
     );
-    var manifestationOfAmendingNormToQueue = NormFixtures.loadFromDisk(
+    var manifestationOfAmendingNormToQueue = Fixtures.loadNormFromDisk(
       "NormWithModsSameTarget.xml"
     );
-    var manifestationOfTargetNormToUseForCreatingExpressions = NormFixtures.loadFromDisk(
+    var manifestationOfTargetNormToUseForCreatingExpressions = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
-    var manifestationOfTargetNormToUseInTimeMachine = NormFixtures.loadFromDisk(
+    var manifestationOfTargetNormToUseInTimeMachine = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsSameTarget.xml"
     );
-    var manifestationOfTargetNormToQueue = NormFixtures.loadFromDisk(
+    var manifestationOfTargetNormToQueue = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModsQuotedStructure.xml"
     );
-    var newNewestUnpublishedManifestationOfAmendingNorm = NormFixtures.loadFromDisk(
+    var newNewestUnpublishedManifestationOfAmendingNorm = Fixtures.loadNormFromDisk(
       "NormWithMultipleMods.xml"
     );
-    var newNewestUnpublishedManifestationOfTargetNorm = NormFixtures.loadFromDisk(
+    var newNewestUnpublishedManifestationOfTargetNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
     );
 
@@ -240,7 +240,7 @@ class ReleaseServiceTest {
   @Test
   void itShouldUpdateTheReleasedByDocumentalistAtDate() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
@@ -272,13 +272,13 @@ class ReleaseServiceTest {
   @Test
   void itShouldThrowWhenTryingToReleaseXsdInvalidNorm() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
-    var manifestationOfNormToQueue = NormFixtures.loadFromDisk(
+    var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModifications.xml"
     );
-    var newNewestUnpublishedManifestationOfNorm = NormFixtures.loadFromDisk(
+    var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
@@ -320,13 +320,13 @@ class ReleaseServiceTest {
   @Test
   void itShouldThrowWhenTryingToReleaseSchematronInvalidNorm() {
     // Given
-    var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
-    var manifestationOfNormToQueue = NormFixtures.loadFromDisk(
+    var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModifications.xml"
     );
-    var newNewestUnpublishedManifestationOfNorm = NormFixtures.loadFromDisk(
+    var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 

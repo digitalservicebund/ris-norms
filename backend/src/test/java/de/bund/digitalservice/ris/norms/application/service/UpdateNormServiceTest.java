@@ -23,9 +23,9 @@ class UpdateNormServiceTest {
     @Test
     void itChangesNothingImportantIfPassiveModificationsAlreadyExist() {
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      Norm targetLaw = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Law = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // When
       var updatedZfoLaw = updateNormService.updateOnePassiveModification(
@@ -62,8 +62,8 @@ class UpdateNormServiceTest {
     @Test
     void itAddsPassiveModificationsIfNoneExist() {
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      Norm zf0Law = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      Norm zf0Law = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
       // When
       var updatedZf0Law = updateNormService.updateOnePassiveModification(
@@ -109,9 +109,9 @@ class UpdateNormServiceTest {
     @Test
     void itAddsMultiplePassiveModificationsIfNoneExist() {
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
+      Norm targetLaw = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Law = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
       // When
       var updatedZfoLaw = updateNormService.updateOnePassiveModification(
@@ -178,9 +178,9 @@ class UpdateNormServiceTest {
     @Test
     void itAddsPassiveModificationWithoutForcePeriodIfNoneExist() {
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
       amendingLaw.deleteByEId("meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1");
-      Norm zf0Law = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Law = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
       // When
       var updatedZf0Law = updateNormService.updateOnePassiveModification(
@@ -225,7 +225,7 @@ class UpdateNormServiceTest {
     @Test
     void itAddsOnePassiveModificationWithUpTo() {
       // Given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
       final TextualMod activeMod = amendingLaw
         .getMeta()
         .getOrCreateAnalysis()
@@ -237,7 +237,7 @@ class UpdateNormServiceTest {
         )
       );
 
-      final Norm zf0Law = NormFixtures.loadFromDisk(
+      final Norm zf0Law = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
       final DokumentExpressionEli targetLawELi = DokumentExpressionEli.fromString(
@@ -301,8 +301,8 @@ class UpdateNormServiceTest {
     @Test
     void itChangesActiveModForQuotedText() {
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
       DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "20-25";
@@ -348,8 +348,8 @@ class UpdateNormServiceTest {
     @Test
     void itChangesActiveModForQuotedStructureRangeMod() {
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       Href newDestinationHref = new Href(
@@ -392,8 +392,8 @@ class UpdateNormServiceTest {
     @Test
     void itChangesActiveModForQuotedStructureSingleTargetMod() {
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       Href newDestinationHref = new Href(
@@ -434,8 +434,8 @@ class UpdateNormServiceTest {
     @Test
     void itDeletesUpToInActiveModForQuotedStructureSingleTargetMod() {
       // Given
-      Norm amendingLawSetup = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      Norm targetNormSetup = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      Norm amendingLawSetup = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNormSetup = Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       DokumentExpressionEli targetNormEliSetup = targetNormSetup.getExpressionEli();
       String eIdSetup =
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
@@ -459,8 +459,8 @@ class UpdateNormServiceTest {
         )
       );
 
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       Href newDestinationHref = new Href(
@@ -501,8 +501,8 @@ class UpdateNormServiceTest {
     @Test
     void itReplacesRefWithRrefAfterPassingUpTo() {
       // Given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
-      final Norm targetNorm = NormFixtures.loadFromDisk(
+      final Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
+      final Norm targetNorm = Fixtures.loadNormFromDisk(
         "NormWithoutPassiveModsQuotedStructure.xml"
       );
       final String modEid =
@@ -561,8 +561,8 @@ class UpdateNormServiceTest {
     @Test
     void itReplacesRrefWithRefAfterNotPassingUpTo() {
       // Given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
-      final Norm targetNorm = NormFixtures.loadFromDisk(
+      final Norm amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm targetNorm = Fixtures.loadNormFromDisk(
         "NormWithoutPassiveModsQuotedStructure.xml"
       );
       final String modEid =

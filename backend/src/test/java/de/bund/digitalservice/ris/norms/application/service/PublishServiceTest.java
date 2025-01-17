@@ -7,9 +7,9 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.exception.MigrationJobException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.MigrationLog;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -66,7 +66,7 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicAndPrivateStorage() {
       // Given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
@@ -92,7 +92,7 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicButPrivateFails() {
       // Given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
@@ -123,7 +123,7 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicFails() {
       // Given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
         .thenReturn(List.of(uuid));
@@ -154,7 +154,7 @@ class PublishServiceTest {
     @Test
     void deleteAllNormsIfMigrationLogExists() {
       // Given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final MigrationLog migrationLog = MigrationLog
         .builder()
         .size(5)
@@ -194,7 +194,7 @@ class PublishServiceTest {
     @Test
     void doNotdeleteAllNormsIfMigrationLogExistsButSizeIsZero() {
       // Given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final MigrationLog migrationLog = MigrationLog
         .builder()
         .size(0)
@@ -236,7 +236,7 @@ class PublishServiceTest {
     @Test
     void doNotDeleteNormsIfNoMigrationLogExists() {
       // Given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
       final UUID uuid = UUID.randomUUID();
       when(loadNormIdsByPublishStatePort.loadNormIdsByPublishState(any()))
@@ -274,7 +274,7 @@ class PublishServiceTest {
     @Test
     void removesOrganisationsEinheitFromMetadata() {
       // Given
-      var norm = NormFixtures.loadFromDisk("NormToBeReleased.xml");
+      var norm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
       var proprietary = norm.getMeta().getProprietary().get();
 
       assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1)))

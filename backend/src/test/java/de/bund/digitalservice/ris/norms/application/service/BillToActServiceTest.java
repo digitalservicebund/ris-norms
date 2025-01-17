@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Test;
 import org.xmlunit.builder.DiffBuilder;
@@ -16,7 +16,7 @@ class BillToActServiceTest {
   @Test
   void itChangesNothing() {
     // given
-    final String xmlString = NormFixtures.loadTextFromDisk("NormWithMods.xml");
+    final String xmlString = Fixtures.loadTextFromDisk("NormWithMods.xml");
 
     // when
     String result = underTest.convert(XmlMapper.toDocument(xmlString));
@@ -32,10 +32,8 @@ class BillToActServiceTest {
   @Test
   void convert() {
     // given
-    final String xmlString = NormFixtures.loadTextFromDisk("ReglungstextEntwurfsfassung.xml");
-    final String expectedResult = NormFixtures.loadTextFromDisk(
-      "ReglungstextVerkuendungsfassung.xml"
-    );
+    final String xmlString = Fixtures.loadTextFromDisk("ReglungstextEntwurfsfassung.xml");
+    final String expectedResult = Fixtures.loadTextFromDisk("ReglungstextVerkuendungsfassung.xml");
 
     // when
     String result = underTest.convert(XmlMapper.toDocument(xmlString));
