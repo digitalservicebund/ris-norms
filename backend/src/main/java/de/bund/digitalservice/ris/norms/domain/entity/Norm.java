@@ -2,6 +2,8 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.time.LocalDate;
 import java.util.*;
@@ -62,18 +64,42 @@ public class Norm {
    * Returns the expression Eli of the {@link Norm}.
    *
    * @return The expression Eli
+   * @deprecated use {@link #getNormExpressionEli()} instead
    */
+  @Deprecated(forRemoval = true)
   public DokumentExpressionEli getExpressionEli() {
     return getRegelungstext1().getExpressionEli();
+  }
+
+  /**
+   * Returns the expression Eli of the {@link Norm}.
+   *
+   * @return The expression Eli
+   */
+  // TODO: (Malte Laukötter, 2025-01-17) rename to getExpressionEli once the deprecated method is removed.
+  public NormExpressionEli getNormExpressionEli() {
+    return getExpressionEli().asNormEli();
   }
 
   /**
    * Returns the manifestation Eli of the {@link Norm}.
    *
    * @return The manifestation Eli
+   * @deprecated use {@link #getNormManifestationEli()} instead
    */
+  @Deprecated(forRemoval = true)
   public DokumentManifestationEli getManifestationEli() {
     return getRegelungstext1().getManifestationEli();
+  }
+
+  /**
+   * Returns the expression Eli of the {@link Norm}.
+   *
+   * @return The expression Eli
+   */
+  // TODO: (Malte Laukötter, 2025-01-17) rename to getManifestationEli once the deprecated method is removed.
+  public NormManifestationEli getNormManifestationEli() {
+    return getManifestationEli().asNormEli();
   }
 
   /**

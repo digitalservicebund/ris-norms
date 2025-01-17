@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -39,6 +41,21 @@ class NormTest {
   }
 
   @Test
+  void getNormExpressionEli() {
+    // given
+    Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    NormExpressionEli expectedEli = NormExpressionEli.fromString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
+    );
+
+    // when
+    var actualEli = norm.getNormExpressionEli();
+
+    // then
+    assertThat(actualEli).isEqualTo(expectedEli);
+  }
+
+  @Test
   void getWorkEli() {
     // given
     Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
@@ -48,6 +65,21 @@ class NormTest {
 
     // then
     assertThat(actualEli).isEqualTo(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"));
+  }
+
+  @Test
+  void getManifestationEli() {
+    // given
+    Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    NormManifestationEli expectedEli = NormManifestationEli.fromString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
+    );
+
+    // when
+    var actualEli = norm.getNormManifestationEli();
+
+    // then
+    assertThat(actualEli).isEqualTo(expectedEli);
   }
 
   @Test
