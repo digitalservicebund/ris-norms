@@ -35,7 +35,7 @@ public class EliService {
   ) {
     var expressionEli = DokumentExpressionEli.fromWorkEli(workEli, pointInTime, 1, language);
 
-    while (true) {
+    for (int i = 0; i < 1000; i++) {
       try {
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(expressionEli));
         expressionEli.setVersion(expressionEli.getVersion() + 1);
@@ -43,5 +43,11 @@ public class EliService {
         return expressionEli;
       }
     }
+
+    throw new RuntimeException(
+      "Could not determine next available expression eli version. Checked up to %s".formatted(
+          expressionEli
+        )
+    );
   }
 }
