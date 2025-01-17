@@ -11,9 +11,11 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.ExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -502,7 +504,10 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
           </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
+        .build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then

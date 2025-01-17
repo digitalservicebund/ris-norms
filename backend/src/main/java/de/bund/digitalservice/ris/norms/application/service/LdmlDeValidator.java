@@ -3,15 +3,13 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
@@ -116,7 +114,7 @@ public class LdmlDeValidator {
       );
     }
 
-    return Norm.builder().document(result).build();
+    return Norm.builder().regelungstexte(Set.of(new Regelungstext(result))).build();
   }
 
   /**

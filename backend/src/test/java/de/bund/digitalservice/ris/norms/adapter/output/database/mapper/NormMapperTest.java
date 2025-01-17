@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -77,7 +79,7 @@ class NormMapperTest {
       """;
     var norm = Norm
       .builder()
-      .document(XmlMapper.toDocument(xml))
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
       .publishState(NormPublishState.PUBLISHED)
       .build();
 

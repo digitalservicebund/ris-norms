@@ -4,14 +4,10 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
-import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +41,7 @@ class TimeBoundaryMapperTest {
   @Test
   void canMapFromUseCaseData() {
     // Given
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
     EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
     TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();

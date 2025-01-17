@@ -65,7 +65,10 @@ class NormTest {
                   </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     assertThatThrownBy(norm::getExpressionEli).isInstanceOf(MandatoryNodeNotFoundException.class);
   }
@@ -95,7 +98,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     // when
     UUID actualGuid = norm.getGuid();
@@ -134,7 +140,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
     String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
     // when
@@ -165,7 +174,10 @@ class NormTest {
            </akn:act>
         </akn:akomaNtoso>
       """;
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     // when
     var shortTitle = norm.getShortTitle();
@@ -196,7 +208,10 @@ class NormTest {
            </akn:act>
         </akn:akomaNtoso>
       """;
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     // when
     var shortTitle = norm.getShortTitle();
@@ -228,7 +243,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
     String expectedFRBRname = "BGBl. I";
 
     // when
@@ -261,7 +279,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
     String expectedFRBRname = "s593";
 
     // when
@@ -294,7 +315,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
     String expectedFRBRname = "BGBl. I";
 
     // when
@@ -328,7 +352,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
     // when
     String actualFBRDateVerkuendung = norm.getMeta().getFRBRWork().getFBRDate();
 
@@ -362,7 +389,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     // when
     final Meta meta = norm.getMeta();
@@ -385,7 +415,10 @@ class NormTest {
       </akn:akomaNtoso>
         """.strip();
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     assertThatThrownBy(norm::getMeta).isInstanceOf(MandatoryNodeNotFoundException.class);
   }
@@ -579,7 +612,7 @@ class NormTest {
   @MethodSource("provideParametersForGetArticles")
   void getArticles(String xml, String firstArticleEid, String secondArticleEid) {
     // given
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     var expectedNumberOfArticles = 2;
     var firstExpectedHeading = "Änderung des Vereinsgesetzes";
     var secondExpectedHeading = "Inkrafttreten";
@@ -619,7 +652,10 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     // when
     List<Article> actualArticles = norm.getArticles();
@@ -652,8 +688,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().document(toDocument(xml)).build();
-    Norm norm2 = Norm.builder().document(toDocument(xml)).build();
+    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
 
     // then
     assertThat(norm1).isEqualTo(norm2);
@@ -704,9 +740,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().document(toDocument(xml1)).build();
-    Norm norm2 = Norm.builder().document(toDocument(xml2)).build();
-
+    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml1)))).build();
+    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml2)))).build();
     // then
     assertThat(norm1).isNotEqualTo(norm2);
   }
@@ -735,9 +770,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().document(toDocument(xml)).build();
-    Norm norm2 = Norm.builder().document(toDocument(xml)).build();
-
+    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     // then
     assertThat(norm1.hashCode()).hasSameHashCodeAs(norm2.hashCode());
   }
@@ -747,7 +781,11 @@ class NormTest {
     // Given
     final Norm norm = Norm
       .builder()
-      .document(XmlMapper.toDocument(NormFixtures.loadTextFromDisk("SimpleNorm.xml")))
+      .regelungstexte(
+        Set.of(
+          new Regelungstext(XmlMapper.toDocument(NormFixtures.loadTextFromDisk("SimpleNorm.xml")))
+        )
+      )
       .build();
 
     // Then
@@ -799,9 +837,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().document(toDocument(xml1)).build();
-    Norm norm2 = Norm.builder().document(toDocument(xml2)).build();
-
+    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml1)))).build();
+    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml2)))).build();
     // then
     assertThat(norm1.hashCode()).isNotEqualTo(norm2.hashCode());
   }
@@ -833,12 +870,12 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
-
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
     assertThat(actualBoundaries.getFirst().getEventRef().getDate())
       .contains(LocalDate.parse("2023-12-30"));
+
     assertThat(actualBoundaries.getFirst().getEventRefEid())
       .isEqualTo("meta-1_lebzykl-1_ereignis-2");
   }
@@ -870,14 +907,14 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
-
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries(
       norm.getMeta().getTemporalData().getTemporalGroups()
     );
 
     assertThat(actualBoundaries.getFirst().getEventRef().getDate())
       .contains(LocalDate.parse("2023-12-30"));
+
     assertThat(actualBoundaries.getFirst().getEventRefEid())
       .isEqualTo("meta-1_lebzykl-1_ereignis-2");
   }
@@ -904,7 +941,7 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
     assertThat(timeBoundaries).isEmpty();
   }
@@ -936,14 +973,14 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     norm.addTimeBoundary(LocalDate.parse("2024-01-02"), EventRefType.GENERATION);
-
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
 
     // old one still there
     assertThat(timeBoundaries.get(0).getEventRef().getDate())
       .contains(LocalDate.parse("2023-12-30"));
+
     assertThat(timeBoundaries.get(0).getEventRefEid()).isEqualTo("meta-1_lebzykl-1_ereignis-2");
     assertThat(
       timeBoundaries
@@ -975,10 +1012,10 @@ class NormTest {
       .contains("geltungszeit");
     assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("start"))
       .contains("#" + timeBoundaries.get(0).getEventRefEid());
-
     // new one added
     assertThat(timeBoundaries.get(1).getEventRef().getDate())
       .contains(LocalDate.parse("2024-01-02"));
+
     assertThat(timeBoundaries.get(1).getEventRefEid()).isEqualTo("meta-1_lebzykl-1_ereignis-3");
     assertThat(
       timeBoundaries
@@ -1044,18 +1081,18 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().document(toDocument(xml)).build();
-
+    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
     TimeBoundaryChangeData timeBoundaryToDelete = new TimeBoundaryChangeData(
       "meta-1_lebzykl-1_ereignis-3",
       LocalDate.parse("2024-01-02")
     );
-    norm.deleteTimeBoundary(timeBoundaryToDelete);
 
+    norm.deleteTimeBoundary(timeBoundaryToDelete);
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
 
     // old one still there
     assertThat(timeBoundaries).hasSize(1);
+
     assertThat(timeBoundaries.get(0).getEventRef().getDate())
       .contains(LocalDate.parse("2023-12-30"));
     assertThat(timeBoundaries.get(0).getEventRefEid()).isEqualTo("meta-1_lebzykl-1_ereignis-2");
@@ -1341,7 +1378,10 @@ class NormTest {
       </akn:akomaNtoso>
       """;
 
-    Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+    Norm norm = Norm
+      .builder()
+      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .build();
 
     // when
     final Optional<Element> textualMod = norm.getElementByEId(
@@ -1389,7 +1429,10 @@ class NormTest {
         </akn:akomaNtoso>
         """;
 
-      Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+      Norm norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+        .build();
 
       // when
       final int textualMod = norm.getNumberOfNodesWithEid(
@@ -1432,7 +1475,10 @@ class NormTest {
         </akn:akomaNtoso>
         """;
 
-      Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+      Norm norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+        .build();
 
       // when
       final int textualMod = norm.getNumberOfNodesWithEid(
@@ -1475,7 +1521,10 @@ class NormTest {
         </akn:akomaNtoso>
         """;
 
-      Norm norm = Norm.builder().document(XmlMapper.toDocument(normString)).build();
+      Norm norm = Norm
+        .builder()
+        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+        .build();
 
       // when
       final int textualMod = norm.getNumberOfNodesWithEid("meta-1_analysis-1_activemod-1");
