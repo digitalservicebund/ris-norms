@@ -2,12 +2,13 @@ import { render, screen } from "@testing-library/vue"
 import { describe, expect, it } from "vitest"
 import RisNavbar from "./RisNavbar.vue"
 import { createRouter, createWebHashHistory } from "vue-router"
+import { defineComponent } from "vue"
 
 describe("risNavbar", () => {
   it("should show 'Rechtsinformationen' and 'des Bundes'", () => {
     const router = createRouter({
       history: createWebHashHistory(),
-      routes: [{ name: "Home", path: "/", component: () => {} }],
+      routes: [{ name: "Home", path: "/", component: defineComponent({}) }],
     })
 
     render(RisNavbar, { global: { plugins: [router] } })
@@ -18,7 +19,7 @@ describe("risNavbar", () => {
   it("should render the logout link", () => {
     const router = createRouter({
       history: createWebHashHistory(),
-      routes: [{ name: "Home", path: "/", component: () => {} }],
+      routes: [{ name: "Home", path: "/", component: defineComponent({}) }],
     })
 
     render(RisNavbar, { global: { plugins: [router] } })

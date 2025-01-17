@@ -1,9 +1,13 @@
-import { describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 import { useArticles } from "@/services/articleService"
 
 describe("articleService", () => {
   describe("useArticles", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+    })
+
     it("should provide the articles", async () => {
       const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValueOnce(
         new Response(
