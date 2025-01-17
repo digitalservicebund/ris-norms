@@ -33,6 +33,15 @@ class DokumentExpressionEliTest {
   }
 
   @Test
+  void fromNormEli() {
+    var eli = DokumentExpressionEli.fromNormEli(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+      "regelungstext-1"
+    );
+    assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1");
+  }
+
+  @Test
   void testToString() {
     var eli = DokumentExpressionEli.fromString(
       "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"
@@ -54,5 +63,13 @@ class DokumentExpressionEliTest {
       "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"
     );
     assertThat(eli.asWorkEli()).hasToString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
+  }
+
+  @Test
+  void asNormEli() {
+    var eli = DokumentExpressionEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"
+    );
+    assertThat(eli.asNormEli()).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu");
   }
 }

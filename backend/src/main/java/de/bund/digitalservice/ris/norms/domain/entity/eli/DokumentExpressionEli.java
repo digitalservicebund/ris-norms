@@ -31,48 +31,6 @@ public final class DokumentExpressionEli implements DokumentEli {
   private String language;
   private String subtype;
 
-  @Override
-  public String toString() {
-    return "eli/bund/%s/%s/%s/%s/%d/%s/%s".formatted(
-        getAgent(),
-        getYear(),
-        getNaturalIdentifier(),
-        getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-        getVersion(),
-        getLanguage(),
-        getSubtype()
-      );
-  }
-
-  /**
-   * Create the URI for the eli to be used in e.g. href attributes.
-   * <p>The URI does not contain the subtype
-   *
-   * @return the URI for the eli
-   */
-  @Override
-  public URI toUri() {
-    return URI.create(
-      "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
-          getAgent(),
-          getYear(),
-          getNaturalIdentifier(),
-          getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-          getVersion(),
-          getLanguage()
-        )
-    );
-  }
-
-  /**
-   * Create a {@link DokumentWorkEli} that contains the parts of this eli
-   *
-   * @return a work eli
-   */
-  public DokumentWorkEli asWorkEli() {
-    return new DokumentWorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
-  }
-
   /**
    * Create an expression level eli from a string representation
    *
@@ -124,6 +82,83 @@ public final class DokumentExpressionEli implements DokumentEli {
       version,
       language,
       workEli.getSubtype()
+    );
+  }
+
+  /**
+   * Create an eli for a Dokument from the eli for a norm.
+   * @param normEli the eli for the norm of the Dokument
+   * @param subtype the subtype of the Dokument
+   * @return the eli for the document
+   */
+  public static DokumentExpressionEli fromNormEli(NormExpressionEli normEli, String subtype) {
+    return new DokumentExpressionEli(
+      normEli.getAgent(),
+      normEli.getYear(),
+      normEli.getNaturalIdentifier(),
+      normEli.getPointInTime(),
+      normEli.getVersion(),
+      normEli.getLanguage(),
+      subtype
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "eli/bund/%s/%s/%s/%s/%d/%s/%s".formatted(
+        getAgent(),
+        getYear(),
+        getNaturalIdentifier(),
+        getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+        getVersion(),
+        getLanguage(),
+        getSubtype()
+      );
+  }
+
+  /**
+   * Create the URI for the eli to be used in e.g. href attributes.
+   * <p>The URI does not contain the subtype
+   *
+   * @return the URI for the eli
+   */
+  @Override
+  public URI toUri() {
+    return URI.create(
+      "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
+          getAgent(),
+          getYear(),
+          getNaturalIdentifier(),
+          getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+          getVersion(),
+          getLanguage()
+        )
+    );
+  }
+
+  /**
+   * Create a {@link DokumentWorkEli} that contains the parts of this eli
+   *
+   * @return a work eli
+   */
+  public DokumentWorkEli asWorkEli() {
+    return new DokumentWorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
+  }
+
+  /**
+   * Create a {@link NormExpressionEli} that contains the parts of this eli
+   *
+   * @return a norm eli
+   */
+  @Override
+  public NormExpressionEli asNormEli() {
+    return new NormExpressionEli(
+      getAgent(),
+      getYear(),
+      getNaturalIdentifier(),
+      getPointInTime(),
+      getVersion(),
+      getLanguage()
     );
   }
 

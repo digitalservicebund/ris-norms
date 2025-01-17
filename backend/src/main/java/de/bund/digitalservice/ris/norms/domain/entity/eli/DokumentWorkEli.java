@@ -51,6 +51,31 @@ public final class DokumentWorkEli implements DokumentEli {
     );
   }
 
+  /**
+   * Create an eli for a Dokument from the eli for a norm.
+   * @param normEli the eli for the norm of the Dokument
+   * @param subtype the subtype of the Dokument
+   * @return the eli for the document
+   */
+  public static DokumentWorkEli fromNormEli(NormWorkEli normEli, String subtype) {
+    return new DokumentWorkEli(
+      normEli.getAgent(),
+      normEli.getYear(),
+      normEli.getNaturalIdentifier(),
+      subtype
+    );
+  }
+
+  /**
+   * Create a {@link NormWorkEli} that contains the parts of this eli
+   *
+   * @return a norm eli
+   */
+  @Override
+  public NormWorkEli asNormEli() {
+    return new NormWorkEli(getAgent(), getYear(), getNaturalIdentifier());
+  }
+
   @Override
   public String toString() {
     return "eli/bund/%s/%s/%s/%s".formatted(

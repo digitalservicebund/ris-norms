@@ -13,4 +13,11 @@ public sealed interface DokumentEli
    * @return the URI for the eli
    */
   URI toUri();
+
+  /**
+   * Create a {@link NormEli} that contains the parts of this eli
+   *
+   * @return a norm eli
+   */
+  NormEli asNormEli();
 }

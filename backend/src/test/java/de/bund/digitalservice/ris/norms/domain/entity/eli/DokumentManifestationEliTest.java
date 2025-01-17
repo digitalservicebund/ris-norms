@@ -161,4 +161,23 @@ class DokumentManifestationEliTest {
         .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml");
     }
   }
+
+  @Test
+  void fromNormEli() {
+    var eli = DokumentManifestationEli.fromNormEli(
+      NormManifestationEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01"),
+      "regelungstext-1",
+      "xml"
+    );
+    assertThat(eli)
+      .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml");
+  }
+
+  @Test
+  void asNormEli() {
+    var eli = DokumentManifestationEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+    );
+    assertThat(eli.asNormEli()).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03");
+  }
 }

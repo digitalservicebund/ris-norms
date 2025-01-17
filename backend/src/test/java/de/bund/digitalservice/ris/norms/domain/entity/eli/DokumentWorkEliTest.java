@@ -16,6 +16,15 @@ class DokumentWorkEliTest {
   }
 
   @Test
+  void fromNormEli() {
+    var eli = DokumentWorkEli.fromNormEli(
+      NormWorkEli.fromString("eli/bund/bgbl-1/2021/s4"),
+      "regelungstext-1"
+    );
+    assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
+  }
+
+  @Test
   void testToString() {
     var eli = DokumentWorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
     assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
@@ -25,5 +34,11 @@ class DokumentWorkEliTest {
   void toUri() {
     var eli = DokumentWorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
     assertThat(eli.toUri()).hasToString("eli/bund/bgbl-1/2021/s4");
+  }
+
+  @Test
+  void asNormEli() {
+    var eli = DokumentWorkEli.fromString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
+    assertThat(eli.asNormEli()).hasToString("eli/bund/bgbl-1/2021/s4");
   }
 }
