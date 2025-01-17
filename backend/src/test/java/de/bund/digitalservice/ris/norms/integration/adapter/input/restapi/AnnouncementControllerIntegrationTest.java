@@ -196,8 +196,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itDoesReturnNoReleasesIfNoneFound() throws Exception {
       // Given
-      // \.document\(([^;]*)\)\n?\s*.build\(\);
-      // .regelungstexte(Set.of(new Regelungstext($1))).build();
       var amendingNorm = Norm
         .builder()
         .regelungstexte(

@@ -109,6 +109,7 @@ public class Norm {
    * Returns a {@link Meta} instance from a {@link Document} in a {@link Norm}.
    *
    * @return the meta node as {@link Meta}
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Meta getMeta() {
@@ -120,6 +121,7 @@ public class Norm {
    * filters out articles within akn:mod
    *
    * @return The list of articles
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public List<Article> getArticles() {
@@ -130,6 +132,7 @@ public class Norm {
    * Extracts a list of {@link Mod}s from the document.
    *
    * @return a list of {@link Mod}s
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public List<Mod> getMods() {
@@ -140,6 +143,7 @@ public class Norm {
    * Extracts a list of time boundaries (Zeitgrenzen) from the document.
    *
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public List<TimeBoundary> getTimeBoundaries() {
@@ -152,6 +156,7 @@ public class Norm {
    *
    * @param temporalGroups - the pre-filtered listed of temporal groups
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
@@ -161,6 +166,7 @@ public class Norm {
   /**
    * @param temporalGroupEid EId of a temporal group
    * @return Start date of the temporal group
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
@@ -170,6 +176,7 @@ public class Norm {
   /**
    * @param temporalGroupEid EId of a temporal group
    * @return eid of the event ref of the start of the temporal group
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
@@ -179,6 +186,7 @@ public class Norm {
   /**
    * @param eId EId of an event ref
    * @return Start date of the event ref
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Optional<String> getStartDateForEventRef(String eId) {
@@ -193,6 +201,7 @@ public class Norm {
    * @param date the {@link LocalDate} for the new time boundary.
    * @param eventRefType the {@link EventRefType} for the new time boundary.
    * @return the newly created {@link TemporalGroup}
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
@@ -204,6 +213,7 @@ public class Norm {
    *
    * @param eId the eId of the element to search for.
    * @return the number of nodes for a given eId.
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public int getNumberOfNodesWithEid(String eId) {
@@ -215,6 +225,7 @@ public class Norm {
    *
    * @param eId the eId of the element to return
    * @return the selected element
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Optional<Element> getElementByEId(String eId) {
@@ -226,6 +237,7 @@ public class Norm {
    *
    * @param eId the eId of the element to delete
    * @return the deleted element or empty if nothing to delete was found
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Optional<Element> deleteByEId(String eId) {
@@ -237,6 +249,7 @@ public class Norm {
    *
    * @param eId the eId of the temporal group to delete
    * @return the deleted temporal group or empty if nothing was deleted
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
@@ -248,6 +261,7 @@ public class Norm {
    *
    * @param eId the eId of the event ref to delete
    * @return the deleted temporal ref node or empty if nothing was deleted
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public Optional<Element> deleteEventRefIfUnused(String eId) {
@@ -258,6 +272,7 @@ public class Norm {
    * Deletes one time boundary (Zeitgrenze) from the document.
    *
    * @param timeBoundaryToDelete the time boundary that should be deleted from the xml
+   * @deprecated
    */
   @Deprecated(forRemoval = true)
   public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
