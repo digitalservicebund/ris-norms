@@ -129,7 +129,7 @@ public class Norm {
   }
 
   /**
-   * Returns a {@link List} of all target norms {@link ExpressionEli}s of an amending {@link Norm}.
+   * Returns a {@link List} of all target norms {@link DokumentExpressionEli}s of an amending {@link Norm}.
    *
    * @return The list of target norm elis
    */
