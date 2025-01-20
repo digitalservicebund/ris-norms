@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -24,11 +24,11 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @AfterEach
   void cleanUp() {
-    normRepository.deleteAll();
+    dokumentRepository.deleteAll();
   }
 
   @Nested

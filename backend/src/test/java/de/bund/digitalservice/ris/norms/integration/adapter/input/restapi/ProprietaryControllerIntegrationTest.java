@@ -6,9 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
@@ -27,11 +29,11 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @AfterEach
   void cleanUp() {
-    normRepository.deleteAll();
+    dokumentRepository.deleteAll();
   }
 
   @Nested
@@ -81,7 +83,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var atDateString = "2024-06-03";
       var norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -111,7 +113,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var atDateString = "2024-06-03";
       var norm = Fixtures.loadNormFromDisk("NormWithInvalidProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -141,7 +143,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var atDateString = "2024-06-03";
       var norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -220,7 +222,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -255,29 +257,41 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").value("Bundesministerium der Magie"))
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository
+      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+        dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
       );
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("new-typ");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
+        .contains("new-fna");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
+        .contains("new-art");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
+        .contains("new-typ");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
         .contains("new-subtyp");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
+      )
         .contains("new-bezeichnungInVorlage");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
         .contains("ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DDR");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
+        .contains("DDR");
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
+      )
         .contains("LT");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
+      )
         .contains(false);
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date))
         .contains("Bundesministerium der Magie");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
+      )
         .contains("Andere Organisationseinheit");
     }
 
@@ -287,7 +301,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
 
@@ -323,27 +337,38 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository
+      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+        dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
       );
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
+        .contains("754-28-1");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
         .contains("rechtsetzungsdokument");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
+        .contains("gesetz");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
+      )
+        .isEmpty();
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
+      )
         .isEmpty();
     }
 
@@ -353,7 +378,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
 
@@ -389,27 +414,38 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository
+      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+        dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
       );
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
+        .contains("754-28-1");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
         .contains("rechtsetzungsdokument");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
+        .contains("gesetz");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
+      )
+        .isEmpty();
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
+      )
         .isEmpty();
     }
 
@@ -419,7 +455,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
       final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -455,28 +491,41 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").value("andere org einheit"));
 
       // then
-      final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository
+      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+        dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
       );
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("fna");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("art");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("typ");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).contains("subtype");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
+        .contains("fna");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
+        .contains("art");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
+        .contains("typ");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
+        .contains("subtype");
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
+      )
         .contains("bezeichnungInVorlage");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
         .contains("ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DDR");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
+        .contains("DDR");
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
+      )
         .contains("Landtag");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
+      )
         .contains(false);
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date))
         .contains("BMJ - Bundesministerium der Justiz");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
+      )
         .contains("andere org einheit");
     }
 
@@ -486,7 +535,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
       final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -522,27 +571,38 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       // then
-      final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository
+      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+        dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
       );
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("fna");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
+        .contains("fna");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
         .contains("rechtsetzungsdokument");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
+        .contains("gesetz");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
+      )
+        .isEmpty();
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
+      )
         .isEmpty();
     }
 
@@ -554,7 +614,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final Norm norm = Fixtures.loadNormFromDisk(
         "NormWithProprietaryAndMultipleTimeBoundaries.xml"
       );
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
 
@@ -590,27 +650,39 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty()) // meaning json "qualifizierteMehrheit":null
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository
+      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+        dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
       );
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("new-typ");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
+        .contains("new-fna");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
+        .contains("new-art");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
+        .contains("new-typ");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
         .contains("new-subtyp");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
+      )
         .contains("new-bezeichnungInVorlage");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
         .contains("ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DDR");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
+        .contains("DDR");
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
+      )
         .isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
+      )
         .contains("Andere Organisationseinheit");
     }
 
@@ -620,7 +692,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       final Norm norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -653,27 +725,39 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
         .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
 
-      final Norm normLoaded = NormMapper.mapToDomain(
-        normRepository
+      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+        dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
       );
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("new-typ");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
+        .contains("new-fna");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
+        .contains("new-art");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
+        .contains("new-typ");
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
         .contains("new-subtyp");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
+      )
         .contains("new-bezeichnungInVorlage");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
         .contains("SN,ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DEU");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
+        .contains("DEU");
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
+      )
         .contains("Bundestag");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
+      )
         .contains(true);
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+      assertThat(
+        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
+      )
         .contains("Organisationseinheit");
     }
   }
@@ -727,7 +811,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -749,7 +833,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = Fixtures.loadNormFromDisk("NormWithInvalidProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -771,7 +855,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc
@@ -836,7 +920,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       var norm = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // when
       mockMvc

@@ -2,6 +2,8 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
+import java.util.List;
+import java.util.Optional;
 
 /** Mapper class for converting between {@link ReleaseDto} and {@link Release}. */
 public class ReleaseMapper {
@@ -19,7 +21,15 @@ public class ReleaseMapper {
     return Release
       .builder()
       .releasedAt(releaseDto.getReleasedAt())
-      .publishedNorms(releaseDto.getNorms().stream().map(NormMapper::mapToDomain).toList())
+      .publishedNorms(
+        releaseDto
+          .getNorms()
+          .stream()
+          .map(List::of)
+          .map(NormMapper::mapToDomain)
+          .flatMap(Optional::stream)
+          .toList()
+      )
       .build();
   }
 

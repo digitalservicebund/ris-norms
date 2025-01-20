@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -19,6 +19,9 @@ import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -38,7 +41,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   private AnnouncementRepository announcementRepository;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @Autowired
   private ReleaseRepository releaseRepository;
@@ -47,7 +50,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   void cleanUp() {
     announcementRepository.deleteAll();
     releaseRepository.deleteAll();
-    normRepository.deleteAll();
+    dokumentRepository.deleteAll();
   }
 
   @Nested
@@ -70,7 +73,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When
@@ -133,7 +136,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itDoesReturnNoReleasesIfNoneFound() throws Exception {
       // Given
       var amendingNorm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
 
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
@@ -157,15 +160,19 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
       var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
 
-      var normDto1 = normRepository.save(NormMapper.mapToDto(amendingNorm));
-      var normDto2 = normRepository.save(NormMapper.mapToDto(affectedNorm));
-      var normDto3 = normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      var dokumentDtos = dokumentRepository.saveAll(
+        Stream
+          .of(amendingNorm, affectedNorm, affectedNormZf0)
+          .map(NormMapper::mapToDtos)
+          .flatMap(Set::stream)
+          .collect(Collectors.toSet())
+      );
 
       var releaseDto = releaseRepository.save(
         ReleaseDto
           .builder()
           .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-          .norms(List.of(normDto1, normDto2, normDto3))
+          .norms(dokumentDtos)
           .build()
       );
       announcementRepository.save(
@@ -192,20 +199,12 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("[0].norms[3]").doesNotExist())
         .andExpect(
           jsonPath(
-            "[0].norms[0]",
-            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml")
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "[0].norms[1]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml")
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "[0].norms[2]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
+            "[0].norms",
+            containsInAnyOrder(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml",
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
+            )
           )
         );
     }
@@ -253,7 +252,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When // Then
@@ -293,10 +292,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       mockMvc
@@ -326,7 +325,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           )
         );
 
-      var publishedManifestationOfAmendingNorm = normRepository.findByEliDokumentManifestation(
+      var publishedManifestationOfAmendingNorm = dokumentRepository.findByEliDokumentManifestation(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
             LocalDate.now().toString()
           )
@@ -335,7 +334,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var publishedZf0ManifestationOfTargetNorm = normRepository.findByEliDokumentManifestation(
+      var publishedZf0ManifestationOfTargetNorm = dokumentRepository.findByEliDokumentManifestation(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
             LocalDate.now().toString()
           )
@@ -345,7 +344,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
       var publishedManifestationOfTargetNormAtFirstTimeBoundary =
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
               LocalDate.now().toString()
             )
@@ -354,26 +353,28 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var newUnpublishedManifestationOfAmendingNorm = normRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().plusDays(1).toString()
-          )
-      );
+      var newUnpublishedManifestationOfAmendingNorm =
+        dokumentRepository.findByEliDokumentManifestation(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().plusDays(1).toString()
+            )
+        );
       assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
       assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
         .isEqualTo(NormPublishState.UNPUBLISHED);
 
-      var newUnpublishedManifestationOfTargetNorm = normRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().plusDays(1).toString()
-          )
-      );
+      var newUnpublishedManifestationOfTargetNorm =
+        dokumentRepository.findByEliDokumentManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().plusDays(1).toString()
+            )
+        );
       assertThat(newUnpublishedManifestationOfTargetNorm).isPresent();
       assertThat(newUnpublishedManifestationOfTargetNorm.get().getPublishState())
         .isEqualTo(NormPublishState.UNPUBLISHED);
 
       // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
-      assertThat(normRepository.findAll()).hasSize(6);
+      assertThat(dokumentRepository.findAll()).hasSize(6);
     }
 
     @Test
@@ -386,10 +387,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       mockMvc
@@ -411,7 +412,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk());
 
-      var publishedManifestationOfAmendingNorm = normRepository.findByEliDokumentManifestation(
+      var publishedManifestationOfAmendingNorm = dokumentRepository.findByEliDokumentManifestation(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
             LocalDate.now().toString()
           )
@@ -420,7 +421,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var publishedZf0ManifestationOfTargetNorm = normRepository.findByEliDokumentManifestation(
+      var publishedZf0ManifestationOfTargetNorm = dokumentRepository.findByEliDokumentManifestation(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
             LocalDate.now().toString()
           )
@@ -430,7 +431,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
       var publishedManifestationOfTargetNormAtFirstTimeBoundary =
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
               LocalDate.now().toString()
             )
@@ -439,26 +440,28 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var newUnpublishedManifestationOfAmendingNorm = normRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().plusDays(1).toString()
-          )
-      );
+      var newUnpublishedManifestationOfAmendingNorm =
+        dokumentRepository.findByEliDokumentManifestation(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().plusDays(1).toString()
+            )
+        );
       assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
       assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
         .isEqualTo(NormPublishState.UNPUBLISHED);
 
-      var newUnpublishedManifestationOfTargetNorm = normRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().plusDays(1).toString()
-          )
-      );
+      var newUnpublishedManifestationOfTargetNorm =
+        dokumentRepository.findByEliDokumentManifestation(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+              LocalDate.now().plusDays(1).toString()
+            )
+        );
       assertThat(newUnpublishedManifestationOfTargetNorm).isPresent();
       assertThat(newUnpublishedManifestationOfTargetNorm.get().getPublishState())
         .isEqualTo(NormPublishState.UNPUBLISHED);
 
       // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
-      assertThat(normRepository.findAll()).hasSize(6);
+      assertThat(dokumentRepository.findAll()).hasSize(6);
     }
 
     @Test
@@ -471,10 +474,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       // Request is refused
@@ -489,21 +492,21 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")));
 
       // Content of the DB should be unchanged = 3 sample norms, all unpublished
-      assertThat(normRepository.findAll()).hasSize(3);
+      assertThat(dokumentRepository.findAll()).hasSize(3);
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
         )
       )
         .isNotEmpty();
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
         )
       )
         .isNotEmpty();
 
-      var originalNormWithPassiveMods = normRepository.findByEliDokumentManifestation(
+      var originalNormWithPassiveMods = dokumentRepository.findByEliDokumentManifestation(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
@@ -520,10 +523,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       // Request is refused
@@ -538,21 +541,21 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-schematron-valid")));
 
       // Content of the DB should be unchanged = 3 sample norms, all unpublished
-      assertThat(normRepository.findAll()).hasSize(3);
+      assertThat(dokumentRepository.findAll()).hasSize(3);
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
         )
       )
         .isNotEmpty();
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
         )
       )
         .isNotEmpty();
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
         )
       )
@@ -569,7 +572,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
@@ -589,7 +592,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert ZF0 was created
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
               LocalDate.now().toString()
             )
@@ -676,8 +679,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
@@ -704,9 +707,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var norm = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml");
 
-      normRepository.save(NormMapper.mapToDto(affectedNormForNormWithSameGuid));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormForNormWithSameGuid));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       normWithSameGuid.getMeta().getFRBRExpression().setFRBRaliasCurrentVersionId(norm.getGuid());
       var xmlContent = XmlMapper.toString(normWithSameGuid.getDocument());
@@ -730,7 +733,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var norm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
@@ -756,7 +759,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
@@ -827,9 +830,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
 
-      normRepository.save(NormMapper.mapToDto(norm));
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
-      normRepository.save(NormMapper.mapToDto(affectedNormZf0));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
@@ -854,7 +857,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert ZF0 was created
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
               LocalDate.now().toString()
             )
@@ -864,7 +867,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // Assert old ZF0 was deleted
       assertThat(
-        normRepository.findByEliDokumentManifestation(
+        dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
         )
       )

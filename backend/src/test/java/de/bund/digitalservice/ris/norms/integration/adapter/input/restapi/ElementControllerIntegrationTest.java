@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -24,11 +24,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @AfterEach
   void cleanUp() {
-    normRepository.deleteAll();
+    dokumentRepository.deleteAll();
   }
 
   @Nested
@@ -74,7 +74,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When
       mockMvc
@@ -111,7 +111,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsElementRenderedAsHtml() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When
       mockMvc
@@ -132,8 +132,8 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(targetNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
 
       // When / Then
       mockMvc
@@ -218,7 +218,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When
       mockMvc
@@ -255,7 +255,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnElementEidTitleAndType() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When
       mockMvc
@@ -368,7 +368,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When
       mockMvc
@@ -386,7 +386,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEntriesWithPrefacePreambleArticleAndConclusionInformation() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
         "?type=preface" +
@@ -426,7 +426,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithGliederung.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
         "?type=book" +
@@ -491,9 +491,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
       // Given
       var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(targetNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
 
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
@@ -517,7 +517,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       var targetNorm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
       );
-      normRepository.save(NormMapper.mapToDto(targetNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
 
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements" +

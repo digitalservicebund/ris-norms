@@ -1,15 +1,15 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -20,6 +20,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,18 +51,18 @@ public class DBService
     LoadMigrationLogByDatePort {
 
   private final AnnouncementRepository announcementRepository;
-  private final NormRepository normRepository;
+  private final DokumentRepository dokumentRepository;
   private final ReleaseRepository releaseRepository;
   private final MigrationLogRepository migrationLogRepository;
 
   public DBService(
     AnnouncementRepository announcementRepository,
-    NormRepository normRepository,
+    DokumentRepository dokumentRepository,
     ReleaseRepository releaseRepository,
     MigrationLogRepository migrationLogRepository
   ) {
     this.announcementRepository = announcementRepository;
-    this.normRepository = normRepository;
+    this.dokumentRepository = dokumentRepository;
     this.releaseRepository = releaseRepository;
     this.migrationLogRepository = migrationLogRepository;
   }
@@ -69,20 +70,22 @@ public class DBService
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return switch (command.eli()) {
-      case DokumentExpressionEli expressionEli -> normRepository
+      case DokumentExpressionEli expressionEli -> dokumentRepository
         .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
           expressionEli.toString()
         )
-        .map(NormMapper::mapToDomain);
+        .map(List::of)
+        .flatMap(NormMapper::mapToDomain);
       case DokumentManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
           // we can find the norm based on the expression eli as the point in time manifestation is the only additional identifying part of the eli in our system (all norms are xmls)
           yield this.loadNorm(new LoadNormPort.Command(manifestationEli.asExpressionEli()));
         }
 
-        yield normRepository
+        yield dokumentRepository
           .findByEliDokumentManifestation(manifestationEli.toString())
-          .map(NormMapper::mapToDomain);
+          .map(List::of)
+          .flatMap(NormMapper::mapToDomain);
       }
       case DokumentWorkEli workEli -> throw new IllegalArgumentException(
         "It's currently not possible to load a norm by it's work eli."
@@ -92,9 +95,10 @@ public class DBService
 
   @Override
   public Optional<Norm> loadNormByGuid(LoadNormByGuidPort.Command command) {
-    return normRepository
+    return dokumentRepository
       .findFirstByGuidOrderByEliDokumentManifestation(command.guid())
-      .map(NormMapper::mapToDomain);
+      .map(List::of)
+      .flatMap(NormMapper::mapToDomain);
   }
 
   @Override
@@ -123,12 +127,12 @@ public class DBService
   @Override
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
-    return normRepository
+    return dokumentRepository
       .findByEliDokumentManifestation(command.norm().getManifestationEli().toString())
-      .map(normDto -> {
+      .flatMap(normDto -> {
         normDto.setXml(normXml);
         normDto.setPublishState(command.norm().getPublishState());
-        return NormMapper.mapToDomain(normRepository.save(normDto));
+        return NormMapper.mapToDomain(List.of(dokumentRepository.save(normDto)));
       });
   }
 
@@ -136,8 +140,8 @@ public class DBService
   public Norm updateOrSave(UpdateOrSaveNormPort.Command command) {
     final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Command(command.norm()));
     if (updatedNorm.isEmpty()) {
-      final NormDto normDto = NormMapper.mapToDto(command.norm());
-      return NormMapper.mapToDomain(normRepository.save(normDto));
+      final Set<DokumentDto> dokumentDtos = NormMapper.mapToDtos(command.norm());
+      return NormMapper.mapToDomain(dokumentRepository.saveAll(dokumentDtos)).orElseThrow();
     } else {
       return updatedNorm.get();
     }
@@ -175,7 +179,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteNorm(DeleteNormPort.Command command) {
-    normRepository.deleteByEliDokumentManifestationAndPublishState(
+    dokumentRepository.deleteByEliDokumentManifestationAndPublishState(
       command.eli().toString(),
       command.publishState()
     );
@@ -184,7 +188,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteQueuedForPublishNorms(DeleteQueuedNormsPort.Command command) {
-    normRepository.deleteAllByEliDokumentWorkAndPublishState(
+    dokumentRepository.deleteAllByEliDokumentWorkAndPublishState(
       command.eli().toString(),
       NormPublishState.QUEUED_FOR_PUBLISH
     );
@@ -209,7 +213,7 @@ public class DBService
       .release()
       .getPublishedNorms()
       .forEach(norm ->
-        normRepository
+        dokumentRepository
           .findByEliDokumentManifestation(norm.getManifestationEli().toString())
           .ifPresent(normDto -> releaseDto.getNorms().add(normDto))
       );
@@ -242,7 +246,9 @@ public class DBService
         releaseDto
           .getNorms()
           .stream()
+          .map(List::of)
           .map(NormMapper::mapToDomain)
+          .flatMap(Optional::stream)
           .allMatch(norm -> norm.getPublishState() == NormPublishState.QUEUED_FOR_PUBLISH)
       )
       .toList();
@@ -257,12 +263,12 @@ public class DBService
 
   @Override
   public List<UUID> loadNormIdsByPublishState(LoadNormIdsByPublishStatePort.Command command) {
-    return normRepository.findNormIdsByPublishState(command.publishState());
+    return dokumentRepository.findNormIdsByPublishState(command.publishState());
   }
 
   @Override
   public Optional<Norm> loadNormById(LoadNormByIdPort.Command command) {
-    return normRepository.findById(command.id()).map(NormMapper::mapToDomain);
+    return dokumentRepository.findById(command.id()).map(List::of).flatMap(NormMapper::mapToDomain);
   }
 
   @Override

@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -12,42 +12,42 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository interface for interacting with the database and managing {@link NormDto} entities.
+ * Repository interface for interacting with the database and managing {@link DokumentDto} entities.
  * This interface extends {@link JpaRepository} and focuses on operations related to {@link
- * NormDto}.
+ * DokumentDto}.
  */
 @Repository
-public interface NormRepository extends JpaRepository<NormDto, UUID> {
+public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
   /**
-   * Finds a {@link NormDto} by its expression ELI (European Legislation Identifier).
+   * Finds a {@link DokumentDto} by its expression ELI (European Legislation Identifier).
    * It takes the newest manifestation if multiple exist.
    *
    * @param expressionEli The ELI to search for.
-   * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not found.
+   * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
    */
-  Optional<NormDto> findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
+  Optional<DokumentDto> findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
     final String expressionEli
   );
 
   /**
-   * Finds a {@link NormDto} by its manifestation ELI (European Legislation Identifier).
+   * Finds a {@link DokumentDto} by its manifestation ELI (European Legislation Identifier).
    *
    * @param manifestationEli The ELI to search for.
-   * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not found.
+   * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
    */
-  Optional<NormDto> findByEliDokumentManifestation(final String manifestationEli);
+  Optional<DokumentDto> findByEliDokumentManifestation(final String manifestationEli);
 
   /**
-   * Finds a {@link NormDto} by its GUID.
+   * Finds a {@link DokumentDto} by its GUID.
    * It takes the newest manifestation if multiple norms with the same guid exist.
    *
    * @param guid The GUID to search for.
-   * @return An {@link Optional} containing the found {@link NormDto} if exists, or empty if not found.
+   * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
    */
-  Optional<NormDto> findFirstByGuidOrderByEliDokumentManifestation(final UUID guid);
+  Optional<DokumentDto> findFirstByGuidOrderByEliDokumentManifestation(final UUID guid);
 
   /**
-   * Deletes all {@link NormDto} with the given GUID
+   * Deletes all {@link DokumentDto} with the given GUID
    *
    * @param guid The GUID to search for.
    */
@@ -55,7 +55,7 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
   void deleteAllByGuid(final UUID guid);
 
   /**
-   * Deletes a {@link NormDto} by its manifestation ELI (European Legislation Identifier) if it is in the given publish state.
+   * Deletes a {@link DokumentDto} by its manifestation ELI (European Legislation Identifier) if it is in the given publish state.
    *
    * @param manifestationEli The ELI to search for.
    * @param publishState The publishState to search for.
@@ -66,7 +66,7 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
   );
 
   /**
-   * Deletes all {@link NormDto} of the given work ELI that are in the given publish state.
+   * Deletes all {@link DokumentDto} of the given work ELI that are in the given publish state.
    * @param workEli The ELI to search for.
    * @param publishState The publishState to search for.
    */
@@ -76,12 +76,12 @@ public interface NormRepository extends JpaRepository<NormDto, UUID> {
   );
 
   /**
-   * Retrieves the ids of all {@link NormDto} with a specific {@link NormPublishState}.
+   * Retrieves the ids of all {@link DokumentDto} with a specific {@link NormPublishState}.
    *
    * @param normPublishState the publish state to filter the norms by (e.g., {@link NormPublishState#QUEUED_FOR_PUBLISH})
-   * @return a {@link List} of {@link UUID}s of the {@link NormDto}s matching the specified publish state
+   * @return a {@link List} of {@link UUID}s of the {@link DokumentDto}s matching the specified publish state
    */
-  @Query("SELECT n.id FROM NormDto n WHERE n.publishState = :publishState")
+  @Query("SELECT n.id FROM DokumentDto n WHERE n.publishState = :publishState")
   List<UUID> findNormIdsByPublishState(
     @Param("publishState") final NormPublishState normPublishState
   );

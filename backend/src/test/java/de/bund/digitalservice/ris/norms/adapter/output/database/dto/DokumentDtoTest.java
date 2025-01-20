@@ -14,7 +14,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class NormDtoTest {
+class DokumentDtoTest {
 
   private static Validator validator;
 
@@ -32,8 +32,8 @@ class NormDtoTest {
     var guid = UUID.fromString("c01334e2-f12b-4055-ac82-15ac03c74c78");
 
     // When
-    final NormDto normDto = NormDto.builder().xml(xml).guid(guid).build();
-    final Set<ConstraintViolation<NormDto>> violations = validator.validate(normDto);
+    final DokumentDto dokumentDto = DokumentDto.builder().xml(xml).guid(guid).build();
+    final Set<ConstraintViolation<DokumentDto>> violations = validator.validate(dokumentDto);
 
     // Then
     assertThat(violations).isEmpty();
@@ -42,10 +42,10 @@ class NormDtoTest {
   @Test
   void testMissingNotNullProperties() {
     // Given
-    final NormDto normDto = new NormDto();
+    final DokumentDto dokumentDto = new DokumentDto();
 
     // When
-    final Set<ConstraintViolation<NormDto>> violations = validator.validate(normDto);
+    final Set<ConstraintViolation<DokumentDto>> violations = validator.validate(dokumentDto);
 
     // Then
     assertThat(violations)
@@ -58,12 +58,12 @@ class NormDtoTest {
   @Test
   void shouldBeUnpublishedByDefaultWhenCreatedUsingBuilder() {
     // Given
-    final NormDto normDto = NormDto
+    final DokumentDto dokumentDto = DokumentDto
       .builder()
       .xml(Fixtures.loadTextFromDisk("SimpleNorm.xml"))
       .build();
 
     // Then
-    assertThat(normDto.getPublishState()).isEqualTo(NormPublishState.UNPUBLISHED);
+    assertThat(dokumentDto.getPublishState()).isEqualTo(NormPublishState.UNPUBLISHED);
   }
 }

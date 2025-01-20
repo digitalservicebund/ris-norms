@@ -1,10 +1,10 @@
 -- REAPPLY
 -- TARGET LAW
 DELETE
-FROM norms
+FROM dokumente
 where eli_dokument_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1';
 
-INSERT INTO norms (publish_state, xml)
+INSERT INTO dokumente (publish_state, xml)
 VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
