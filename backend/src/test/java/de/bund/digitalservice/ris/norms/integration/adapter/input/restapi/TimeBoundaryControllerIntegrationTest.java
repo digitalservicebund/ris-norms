@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -30,11 +30,11 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @AfterEach
   void cleanUp() {
-    normRepository.deleteAll();
+    dokumentRepository.deleteAll();
   }
 
   @Nested
@@ -73,7 +73,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsGetTimeBoundariesAndReturnsJson() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When // Then
       mockMvc
@@ -136,7 +136,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/non-in-norm";
 
       var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When // Then
       mockMvc
@@ -158,7 +158,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       var amendedBy = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
 
       var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When // Then
       mockMvc
@@ -221,7 +221,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsUpdateTimeBoundariesDateNull() throws Exception {
       // When
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // Then
       mockMvc
@@ -250,7 +250,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
       // When
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // Then
       mockMvc
@@ -278,7 +278,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
       // When
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // Then
       mockMvc
@@ -409,7 +409,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
         .builder()
         .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
         .build();
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // Then
       mockMvc

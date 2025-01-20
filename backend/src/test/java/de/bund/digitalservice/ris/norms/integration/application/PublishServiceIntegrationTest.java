@@ -2,9 +2,9 @@ package de.bund.digitalservice.ris.norms.integration.application;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.application.service.PublishService;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -22,21 +22,23 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
   private PublishService publishService;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @Test
   void processQueuedFilesForPublish() {
     // Given
     final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    final NormDto normDto = NormMapper.mapToDto(norm);
-    normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-    normRepository.save(normDto);
+    final DokumentDto dokumentDto = RegelungstextMapper.mapToDto(
+      norm.getRegelungstext1(),
+      NormPublishState.QUEUED_FOR_PUBLISH
+    );
+    dokumentRepository.save(dokumentDto);
 
     // When
     publishService.processQueuedFilesForPublish();
 
     // Then
-    final Optional<NormDto> loaded = normRepository.findByEliDokumentManifestation(
+    final Optional<DokumentDto> loaded = dokumentRepository.findByEliDokumentManifestation(
       norm.getManifestationEli().toString()
     );
     assertThat(loaded)

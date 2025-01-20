@@ -25,8 +25,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.hibernate.type.SqlTypes;
 
 /**
- * Data Transfer Object (DTO) class representing a norm entity. This class is annotated with Lombok
- * annotations for generating getters, setters, constructors, and builder methods.
+ * Data Transfer Object (DTO) class representing a dokument of a norm.
  */
 @Getter
 @Setter
@@ -34,8 +33,8 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "norms")
-public class NormDto {
+@Table(name = "dokumente")
+public class DokumentDto {
 
   @Id
   @GeneratedValue

@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -29,11 +29,11 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @AfterEach
   void cleanUp() {
-    normRepository.deleteAll();
+    dokumentRepository.deleteAll();
   }
 
   @Nested
@@ -42,12 +42,14 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticles() throws Exception {
       // Given
-      normRepository.save(NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithMods.xml")));
-      normRepository.save(
-        NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
       );
-      normRepository.save(
-        NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      );
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
       );
 
       // When // Then
@@ -74,7 +76,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsArticlesFilteredByAmendedAt() throws Exception {
       // Given
       var affectedNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
 
       // When // Then
       mockMvc
@@ -96,7 +98,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNorm = Fixtures.loadNormFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
       );
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
 
       // When // Then
       mockMvc
@@ -116,7 +118,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListWhenTheNormHasNoArticles() throws Exception {
       // Given
       var affectedNorm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
 
       // When // Then
       mockMvc
@@ -132,7 +134,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListIfAmendedByIsNotFound() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When / Then
       mockMvc
@@ -150,7 +152,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListIfAmendedAtIsNotFound() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When / Then
       mockMvc
@@ -206,7 +208,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
       // When // Then
       mockMvc
         .perform(
@@ -244,7 +246,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
 
       // When // Then
       mockMvc
@@ -321,7 +323,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       // When // Then
       mockMvc
@@ -358,7 +360,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var amendingNorm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
 
       // When // Then
       mockMvc
@@ -398,12 +400,14 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsArticle() throws Exception {
       // Given
 
-      normRepository.save(NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithMods.xml")));
-      normRepository.save(
-        NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
       );
-      normRepository.save(
-        NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      );
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
       );
 
       // When // Then
@@ -459,7 +463,9 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNothingIfArticleDoesNotExist() throws Exception {
       // Given
-      normRepository.save(NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithMods.xml")));
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      );
 
       // When // Then
       mockMvc
@@ -500,7 +506,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
 
       // When // Then
       mockMvc
@@ -524,8 +530,8 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(targetNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
 
       // When / Then
       mockMvc
@@ -605,8 +611,8 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       var amendingNorm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
       var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(targetNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
 
       // When / Then
       mockMvc
@@ -714,8 +720,8 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .build();
       final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(targetNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
 
       // When / Then
       mockMvc
@@ -818,8 +824,8 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .build();
       final Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      normRepository.save(NormMapper.mapToDto(targetNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
 
       // When / Then
       mockMvc

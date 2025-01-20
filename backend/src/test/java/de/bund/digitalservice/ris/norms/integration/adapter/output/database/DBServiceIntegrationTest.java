@@ -3,15 +3,15 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
@@ -41,7 +41,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   private AnnouncementRepository announcementRepository;
 
   @Autowired
-  private NormRepository normRepository;
+  private DokumentRepository dokumentRepository;
 
   @Autowired
   private ReleaseRepository releaseRepository;
@@ -53,7 +53,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void cleanUp() {
     announcementRepository.deleteAll();
     releaseRepository.deleteAll();
-    normRepository.deleteAll();
+    dokumentRepository.deleteAll();
     migrationLogRepository.deleteAll();
   }
 
@@ -61,7 +61,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsNormOnDB() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    normRepository.save(NormMapper.mapToDto(norm));
+    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
     // When
     final Optional<Norm> normOptional = dbService.loadNorm(
@@ -80,7 +80,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    normRepository.save(NormMapper.mapToDto(norm));
+    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
     // When
     final Optional<Norm> normOptional = dbService.loadNorm(
@@ -99,7 +99,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsNormByManifestationEli() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    normRepository.save(NormMapper.mapToDto(norm));
+    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
     // When
     final Optional<Norm> normOptional = dbService.loadNorm(
@@ -117,11 +117,11 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNewestManifestationOfNorm() {
     // Given
-    normRepository.save(
-      NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+    dokumentRepository.saveAll(
+      NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
     );
     var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-    normRepository.save(NormMapper.mapToDto(norm));
+    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
     // When
     final Optional<Norm> normOptional = dbService.loadNorm(
@@ -140,7 +140,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsNormByGuidOnDB() {
     // When
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    normRepository.save(NormMapper.mapToDto(norm));
+    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
     // When
     final Optional<Norm> normOptional = dbService.loadNormByGuid(
@@ -262,7 +262,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Given
     var oldNorm = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
     oldNorm.setPublishState(NormPublishState.UNPUBLISHED);
-    normRepository.save(NormMapper.mapToDto(oldNorm));
+    dokumentRepository.saveAll(NormMapper.mapToDtos(oldNorm));
 
     var newNorm = new Norm(oldNorm);
     newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
@@ -271,7 +271,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var normFromDatabase = dbService.updateNorm(new UpdateNormPort.Command(newNorm));
 
     // Then
-    assertThat(normRepository.findAll()).hasSize(1);
+    assertThat(dokumentRepository.findAll()).hasSize(1);
     assertThat(normFromDatabase).contains(newNorm);
   }
 
@@ -335,30 +335,29 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsReleaseOnDB() {
     // Given
-    var norm = normRepository.save(
-      NormMapper.mapToDto(Fixtures.loadNormFromDisk("SimpleNorm.xml"))
-    );
-    var norm2 = normRepository.save(
-      NormMapper.mapToDto(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+    var norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    var norm1Dtos = dokumentRepository.saveAll(NormMapper.mapToDtos(norm1));
+    var norm2Dtos = dokumentRepository.saveAll(
+      NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
     );
     var release1 = releaseRepository.save(
       ReleaseDto
         .builder()
         .releasedAt(Instant.parse("2024-01-01T00:00:00Z"))
-        .norms(List.of(norm2))
+        .norms(norm2Dtos)
         .build()
     );
     var release2 = releaseRepository.save(
       ReleaseDto
         .builder()
         .releasedAt(Instant.parse("2024-02-01T00:00:00Z"))
-        .norms(List.of(norm))
+        .norms(norm1Dtos)
         .build()
     );
     announcementRepository.save(
       AnnouncementDto
         .builder()
-        .eli(norm.getEliDokumentExpression())
+        .eli(norm1.getExpressionEli().toString())
         .releases(List.of(release1, release2))
         .build()
     );
@@ -396,7 +395,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
-      normRepository.save(NormMapper.mapToDto(norm));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When
@@ -433,10 +432,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
-      var normDto = normRepository.save(NormMapper.mapToDto(norm));
+      var normDto = dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
       var releaseDto = ReleaseMapper.mapToDto(release);
-      releaseDto.setNorms(List.of(normDto));
+      releaseDto.setNorms(normDto);
       releaseRepository.save(releaseDto);
 
       var announcementDto = AnnouncementMapper.mapToDto(announcement);
@@ -451,7 +450,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).isEmpty();
 
-      var savedNorm = normRepository.findByEliDokumentManifestation(
+      var savedNorm = dokumentRepository.findByEliDokumentManifestation(
         norm.getManifestationEli().toString()
       );
       assertThat(savedNorm).isPresent();
@@ -470,8 +469,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       var normPublished = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
       normPublished.setPublishState(NormPublishState.PUBLISHED);
 
-      normRepository.save(NormMapper.mapToDto(normQueued));
-      normRepository.save(NormMapper.mapToDto(normPublished));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(normQueued));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(normPublished));
 
       // When
       final List<UUID> publishedNorms = dbService.loadNormIdsByPublishState(
@@ -488,7 +487,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       var normQueued = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       normQueued.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      NormDto norm = normRepository.save(NormMapper.mapToDto(normQueued));
+      DokumentDto norm = dokumentRepository.save(
+        NormMapper.mapToDtos(normQueued).stream().findFirst().get()
+      );
       UUID normId = norm.getId();
 
       // When
