@@ -28,10 +28,7 @@ import org.w3c.dom.Document;
 @Service
 public class AnnouncementService
   implements
-    LoadAllAnnouncementsUseCase,
-    LoadAnnouncementByNormEliUseCase,
-    LoadTargetNormsAffectedByAnnouncementUseCase,
-    CreateAnnouncementUseCase {
+    LoadAllAnnouncementsUseCase, LoadAnnouncementByNormEliUseCase, CreateAnnouncementUseCase {
 
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
@@ -84,25 +81,6 @@ public class AnnouncementService
     return loadAnnouncementByNormEliPort
       .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
       .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
-  }
-
-  @Override
-  public List<Norm> loadTargetNormsAffectedByAnnouncement(
-    LoadTargetNormsAffectedByAnnouncementUseCase.Query query
-  ) {
-    final Norm amendingNorm =
-      this.loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()))
-        .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
-
-    return amendingNorm
-      .getTargetLawElis()
-      .stream()
-      .map(eli ->
-        loadNormPort
-          .loadNorm(new LoadNormPort.Command(eli))
-          .orElseThrow(() -> new NormNotFoundException(eli.toString()))
-      )
-      .toList();
   }
 
   @Override

@@ -8,7 +8,6 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
@@ -141,40 +140,6 @@ class AnnouncementServiceTest {
       // Then
       verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
       assertThat(loadedAnnouncement).hasToString(announcement.toString());
-    }
-  }
-
-  @Nested
-  class loadTargetNormsAffectedByAnnouncement {
-
-    @Test
-    void itReturnsNorms() {
-      // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-
-      when(loadNormPort.loadNorm(any()))
-        .thenReturn(Optional.of(amendingNorm))
-        .thenReturn(Optional.of(affectedNormZf0));
-
-      // When
-      var norms = announcementService.loadTargetNormsAffectedByAnnouncement(
-        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
-        )
-      );
-
-      // Then
-      verify(loadNormPort, times(2))
-        .loadNorm(
-          argThat(command ->
-            command.eli().equals(amendingNorm.getExpressionEli()) ||
-            command.eli().equals(affectedNormZf0.getExpressionEli())
-          )
-        );
-      assertThat(norms).hasSize(1).containsExactly(affectedNormZf0);
     }
   }
 

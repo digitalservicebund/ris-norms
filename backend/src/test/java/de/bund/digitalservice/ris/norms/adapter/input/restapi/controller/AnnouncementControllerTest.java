@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncemen
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -53,9 +52,6 @@ class AnnouncementControllerTest {
 
   @MockitoBean
   private LoadNormUseCase loadNormUseCase;
-
-  @MockitoBean
-  private LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase;
 
   @MockitoBean
   private ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
