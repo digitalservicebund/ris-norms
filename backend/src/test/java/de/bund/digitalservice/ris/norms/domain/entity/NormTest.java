@@ -1197,18 +1197,6 @@ class NormTest {
     assertThat(eId).contains("meta-1_lebzykl-1_ereignis-4");
   }
 
-  @Test
-  void getStartDateForEventRef() {
-    // given
-    Norm norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-
-    // when
-    var date = norm.getStartDateForEventRef("meta-1_lebzykl-1_ereignis-3");
-
-    // then
-    assertThat(date).contains("2017-03-15");
-  }
-
   @Nested
   class createElementWithEidAndGuid {
 
