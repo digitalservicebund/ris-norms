@@ -358,7 +358,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     announcementRepository.save(
       AnnouncementDto
         .builder()
-        .eli(norm.getEliExpression())
+        .eli(norm.getEliDokumentExpression())
         .releases(List.of(release1, release2))
         .build()
     );
@@ -410,7 +410,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
       assertThat(savedAnnouncement.get().getReleases().getFirst().getNorms()).hasSize(1);
       assertThat(
-        savedAnnouncement.get().getReleases().getFirst().getNorms().getFirst().getEliManifestation()
+        savedAnnouncement
+          .get()
+          .getReleases()
+          .getFirst()
+          .getNorms()
+          .getFirst()
+          .getEliDokumentManifestation()
       )
         .isEqualTo(norm.getManifestationEli().toString());
     }
@@ -445,7 +451,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).isEmpty();
 
-      var savedNorm = normRepository.findByEliManifestation(norm.getManifestationEli().toString());
+      var savedNorm = normRepository.findByEliDokumentManifestation(
+        norm.getManifestationEli().toString()
+      );
       assertThat(savedNorm).isPresent();
     }
   }

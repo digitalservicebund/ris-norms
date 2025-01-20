@@ -360,9 +360,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
                  <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                     <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8e">
                        <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c70" value="eli/bund/bgbl-1/1964/s593/regelungstext-1" />
+                       <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c71" value="eli/bund/bgbl-1/1964/s593" />
                     </akn:FRBRWork>
                     <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                        <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                       <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c79" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu" />
                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
                            <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c"/>
                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
@@ -371,6 +373,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
                                                 GUID="bd2375e5-3e81-435d-a4f8-159d8572c46b">
                             <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                                           GUID="9dcc818e-3ed8-4414-b562-342bd5f405b3"
+                                              value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"/>
+                            <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                          GUID="9dcc818e-3ed8-4414-b562-342bd5f405b4"
                                               value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"/>
                             <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                                           GUID="f3288a2a-3511-454e-ada1-9de8c33f6dbe"
@@ -457,9 +462,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
                   <akn:identification GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
                       <akn:FRBRWork GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8e" eId="meta-1_ident-1_frbrwork-1">
                         <akn:FRBRthis GUID="c01334e2-f12b-4055-ac82-15ac03c74c70" eId="meta-1_ident-1_frbrwork-1_frbrthis-1" value="eli/bund/bgbl-1/1964/s593/regelungstext-1"/>
+                        <akn:FRBRuri GUID="c01334e2-f12b-4055-ac82-15ac03c74c71" eId="meta-1_ident-1_frbrwork-1_frbruri-1" value="eli/bund/bgbl-1/1964/s593"/>
                      </akn:FRBRWork>
                      <akn:FRBRExpression GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d" eId="meta-1_ident-1_frbrexpression-1">
                         <akn:FRBRthis GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
+                        <akn:FRBRuri GUID="c01334e2-f12b-4055-ac82-15ac03c74c79" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"/>
                         <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
                         <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
                         <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>

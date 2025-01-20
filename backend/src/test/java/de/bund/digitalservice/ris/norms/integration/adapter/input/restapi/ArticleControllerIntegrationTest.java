@@ -659,9 +659,11 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                          <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                             <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8a">
                                <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b12619a" value="eli/bund/bgbl-1/1964/s593/regelungstext-1" />
+                               <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b12619b" value="eli/bund/bgbl-1/1964/s593" />
                             </akn:FRBRWork>
                             <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1" />
+                               <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126199" value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu" />
                                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                             </akn:FRBRExpression>
@@ -766,9 +768,11 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                          <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                             <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8a">
                                <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b12619a" value="eli/bund/bgbl-1/1964/s593/regelungstext-1" />
+                               <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b12619b" value="eli/bund/bgbl-1/1964/s593" />
                             </akn:FRBRWork>
                             <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1" />
+                               <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126198" value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu" />
                                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
                                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                             </akn:FRBRExpression>

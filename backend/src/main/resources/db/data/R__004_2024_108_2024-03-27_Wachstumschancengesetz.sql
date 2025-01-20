@@ -2,7 +2,7 @@
 -- TARGET LAW
 DELETE
 FROM norms
-where eli_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1';
+where eli_dokument_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1';
 
 INSERT INTO norms (publish_state, xml)
 VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>

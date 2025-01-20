@@ -36,7 +36,7 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
     publishService.processQueuedFilesForPublish();
 
     // Then
-    final Optional<NormDto> loaded = normRepository.findByEliManifestation(
+    final Optional<NormDto> loaded = normRepository.findByEliDokumentManifestation(
       norm.getManifestationEli().toString()
     );
     assertThat(loaded)

@@ -46,16 +46,28 @@ public class NormDto {
   private UUID guid;
 
   @Generated(event = { INSERT, UPDATE })
-  @Column(name = "eli_work", updatable = false, insertable = false)
-  private String eliWork;
+  @Column(name = "eli_dokument_work", updatable = false, insertable = false)
+  private String eliDokumentWork;
 
   @Generated(event = { INSERT, UPDATE })
-  @Column(name = "eli_expression", updatable = false, insertable = false)
-  private String eliExpression;
+  @Column(name = "eli_dokument_expression", updatable = false, insertable = false)
+  private String eliDokumentExpression;
 
   @Generated(event = { INSERT, UPDATE })
-  @Column(name = "eli_manifestation", updatable = false, insertable = false)
-  private String eliManifestation;
+  @Column(name = "eli_dokument_manifestation", updatable = false, insertable = false)
+  private String eliDokumentManifestation;
+
+  @Generated(event = { INSERT, UPDATE })
+  @Column(name = "eli_norm_work", updatable = false, insertable = false)
+  private String eliNormWork;
+
+  @Generated(event = { INSERT, UPDATE })
+  @Column(name = "eli_norm_expression", updatable = false, insertable = false)
+  private String eliNormExpression;
+
+  @Generated(event = { INSERT, UPDATE })
+  @Column(name = "eli_norm_manifestation", updatable = false, insertable = false)
+  private String eliNormManifestation;
 
   @NotNull
   @Column

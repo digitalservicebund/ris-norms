@@ -70,7 +70,9 @@ public class DBService
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return switch (command.eli()) {
       case DokumentExpressionEli expressionEli -> normRepository
-        .findFirstByEliExpressionOrderByEliManifestationDesc(expressionEli.toString())
+        .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
+          expressionEli.toString()
+        )
         .map(NormMapper::mapToDomain);
       case DokumentManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
@@ -79,7 +81,7 @@ public class DBService
         }
 
         yield normRepository
-          .findByEliManifestation(manifestationEli.toString())
+          .findByEliDokumentManifestation(manifestationEli.toString())
           .map(NormMapper::mapToDomain);
       }
       case DokumentWorkEli workEli -> throw new IllegalArgumentException(
@@ -91,7 +93,7 @@ public class DBService
   @Override
   public Optional<Norm> loadNormByGuid(LoadNormByGuidPort.Command command) {
     return normRepository
-      .findFirstByGuidOrderByEliManifestation(command.guid())
+      .findFirstByGuidOrderByEliDokumentManifestation(command.guid())
       .map(NormMapper::mapToDomain);
   }
 
@@ -122,7 +124,7 @@ public class DBService
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
     return normRepository
-      .findByEliManifestation(command.norm().getManifestationEli().toString())
+      .findByEliDokumentManifestation(command.norm().getManifestationEli().toString())
       .map(normDto -> {
         normDto.setXml(normXml);
         normDto.setPublishState(command.norm().getPublishState());
@@ -173,7 +175,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteNorm(DeleteNormPort.Command command) {
-    normRepository.deleteByEliManifestationAndPublishState(
+    normRepository.deleteByEliDokumentManifestationAndPublishState(
       command.eli().toString(),
       command.publishState()
     );
@@ -182,7 +184,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteQueuedForPublishNorms(DeleteQueuedNormsPort.Command command) {
-    normRepository.deleteAllByEliWorkAndPublishState(
+    normRepository.deleteAllByEliDokumentWorkAndPublishState(
       command.eli().toString(),
       NormPublishState.QUEUED_FOR_PUBLISH
     );
@@ -208,7 +210,7 @@ public class DBService
       .getPublishedNorms()
       .forEach(norm ->
         normRepository
-          .findByEliManifestation(norm.getManifestationEli().toString())
+          .findByEliDokumentManifestation(norm.getManifestationEli().toString())
           .ifPresent(normDto -> releaseDto.getNorms().add(normDto))
       );
 
