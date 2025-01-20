@@ -164,7 +164,7 @@ class ReleaseServiceTest {
         )
       );
     when(timeMachineService.applyPassiveModifications(any()))
-      .thenReturn(manifestationOfTargetNormToQueue);
+      .thenReturn(manifestationOfTargetNormToQueue.getRegelungstext1());
     when(
       createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
     )
@@ -192,9 +192,12 @@ class ReleaseServiceTest {
     assertThat(manifestationOfAmendingNormToQueue.getPublishState())
       .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
     verify(updateOrSaveNormPort, times(1))
-      .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfTargetNormToQueue));
-    assertThat(manifestationOfTargetNormToQueue.getPublishState())
-      .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+      .updateOrSave(
+        argThat(command ->
+          command.norm().getPublishState().equals(NormPublishState.QUEUED_FOR_PUBLISH) &&
+          command.norm().equals(manifestationOfTargetNormToQueue)
+        )
+      );
     verify(updateOrSaveNormPort, times(1))
       .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfTargetNormToUseInTimeMachine));
     assertThat(manifestationOfTargetNormToUseInTimeMachine.getPublishState())

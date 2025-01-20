@@ -89,15 +89,15 @@ public class NormExpressionController {
   }
 
   /**
-   * Retrieves a norm's html render based on its expression ELI.
+   * Retrieves a regelungstext's html render based on its expression ELI.
    *
    * @param eli Eli of the request
    * @param showMetadata Boolean indicating whether to include metadata in the HTML response.
    * @param atIsoDate ISO date string indicating which modifications should be applied before the
    *     HTML gets rendered and returned.
-   * @return A {@link ResponseEntity} containing the retrieved norm as rendered html.
-   *     <p>Returns HTTP 200 (OK) and the norm as rendered html.
-   *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
+   * @return A {@link ResponseEntity} containing the retrieved regelungstext as rendered html.
+   *     <p>Returns HTTP 200 (OK) and the regelungstext as rendered html.
+   *     <p>Returns HTTP 404 (Not Found) if the regelungstext is not found.
    */
   @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getNormRender(
@@ -106,16 +106,18 @@ public class NormExpressionController {
     @RequestParam Optional<Instant> atIsoDate
   ) {
     if (atIsoDate.isPresent()) {
-      var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-      norm =
+      var regelungstext = loadNormUseCase
+        .loadNorm(new LoadNormUseCase.Query(eli))
+        .getRegelungstext1();
+      regelungstext =
       applyPassiveModificationsUseCase.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.get())
+        new ApplyPassiveModificationsUseCase.Query(regelungstext, atIsoDate.get())
       );
 
       return ResponseEntity.ok(
         this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
             new TransformLegalDocMlToHtmlUseCase.Query(
-              XmlMapper.toString(norm.getDocument()),
+              XmlMapper.toString(regelungstext.getDocument()),
               showMetadata,
               false
             )

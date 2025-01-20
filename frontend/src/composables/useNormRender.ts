@@ -48,8 +48,8 @@ export function useNormRenderHtml(
     },
   ).post(
     computed(() => ({
-      norm: toValue(normXml),
-      customNorms: toValue(options?.customNorms),
+      regelungstext: toValue(normXml),
+      customRegelungstexte: toValue(options?.customNorms),
     })),
   )
 }
@@ -93,8 +93,8 @@ export function useNormRenderXml(
     },
   ).post(
     computed(() => ({
-      norm: toValue(normXml),
-      customNorms: toValue(customNorms),
+      regelungstext: toValue(normXml),
+      customRegelungstexte: toValue(customNorms),
     })),
   )
 }

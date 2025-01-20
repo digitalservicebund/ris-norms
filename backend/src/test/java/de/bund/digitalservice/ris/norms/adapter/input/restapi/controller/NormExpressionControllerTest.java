@@ -258,7 +258,7 @@ class NormExpressionControllerTest {
       when(loadNormUseCase.loadNorm(any())).thenReturn(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-        .thenReturn(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
+        .thenReturn(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"));
 
       // When // Then
       mockMvc

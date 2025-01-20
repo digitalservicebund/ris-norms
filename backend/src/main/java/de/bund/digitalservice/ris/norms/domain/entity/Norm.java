@@ -21,15 +21,15 @@ import org.w3c.dom.Element;
  * builders, getters, toString, and constructors.
  */
 @Getter
+@Setter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Norm {
 
-  @Setter
   @Builder.Default
   private NormPublishState publishState = NormPublishState.UNPUBLISHED;
 
-  private final Set<Regelungstext> regelungstexte;
+  private Set<Regelungstext> regelungstexte;
 
   public Norm(Norm norm) {
     this.regelungstexte =

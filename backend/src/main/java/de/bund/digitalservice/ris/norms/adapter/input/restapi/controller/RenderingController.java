@@ -5,7 +5,6 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.PreviewRequestSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -56,7 +55,9 @@ public class RenderingController {
     return ResponseEntity.ok(
       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
           new TransformLegalDocMlToHtmlUseCase.Query(
-            snippet ? previewRequestSchema.getNorm() : render(previewRequestSchema, atIsoDate),
+            snippet
+              ? previewRequestSchema.getRegelungstext()
+              : render(previewRequestSchema, atIsoDate),
             showMetadata,
             snippet
           )
@@ -65,11 +66,11 @@ public class RenderingController {
   }
 
   /**
-   * Retrieves the XML preview of a norm.
+   * Retrieves the XML preview of a regelungstext.
    *
-   * @param previewRequestSchema The Request schema for rendering a norm. It includes the norm xml
-   *     and any additional norms that should be used instead of the saved once for rendering the
-   *     norm.
+   * @param previewRequestSchema The Request schema for rendering a regelungstext. It includes the regelungstext xml
+   *     and any additional regelungstexts that should be used instead of the saved once for rendering the
+   *     regelungstext.
    * @param atIsoDate ISO date string indicating which modifications should be applied before the
    *     HTML gets rendered and returned. If no date is provided the current date is used.
    * @return A {@link ResponseEntity} containing the HTML rendering of the law document.
@@ -83,23 +84,23 @@ public class RenderingController {
   }
 
   private String render(PreviewRequestSchema previewRequestSchema, Optional<Instant> atIsoDate) {
-    final var norm = Norm
-      .builder()
-      .regelungstexte(
-        Set.of(new Regelungstext(XmlMapper.toDocument(previewRequestSchema.getNorm())))
-      )
-      .build();
-    final Set<Norm> customNorms = previewRequestSchema
-      .getCustomNorms()
+    final var regelungstext = new Regelungstext(
+      XmlMapper.toDocument(previewRequestSchema.getRegelungstext())
+    );
+    final Set<Regelungstext> custom = previewRequestSchema
+      .getCustomRegelungstexte()
       .stream()
-      .map(xml ->
-        Norm.builder().regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml)))).build()
-      )
+      .map(xml -> new Regelungstext(XmlMapper.toDocument(xml)))
       .collect(Collectors.toSet());
 
-    Norm normWithAppliedModifications = applyPassiveModificationsUseCase.applyPassiveModifications(
-      new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.orElse(Instant.now()), customNorms)
-    );
+    Regelungstext normWithAppliedModifications =
+      applyPassiveModificationsUseCase.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(
+          regelungstext,
+          atIsoDate.orElse(Instant.now()),
+          custom
+        )
+      );
 
     return XmlMapper.toString(normWithAppliedModifications.getDocument());
   }

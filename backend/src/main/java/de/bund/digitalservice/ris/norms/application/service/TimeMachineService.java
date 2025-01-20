@@ -35,28 +35,33 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
   }
 
   /**
-   * Applies the passive modifications of the norm. Only applies "aenderungsbefehl-ersetzen".
+   * Applies the passive modifications of the regelungstext. Only applies "aenderungsbefehl-ersetzen".
    *
    * @param query An ApplyPassiveModificationsUsecase.Query containing the norm and a date
-   * @return the Norm with the applied passive modifications that are in effect before the date
+   * @return the regelungstext with the applied passive modifications that are in effect before the date
    */
-  public Norm applyPassiveModifications(ApplyPassiveModificationsUseCase.Query query) {
-    var norm = new Norm(query.norm()); // create a copy of the norm to work on
+  public Regelungstext applyPassiveModifications(ApplyPassiveModificationsUseCase.Query query) {
+    var regelungstext = new Regelungstext(query.regelungstext()); // create a copy of the norm to work on
     var date = query.date();
-    var customNorms = query
-      .customNorms()
+    var customRegelungstexts = query
+      .customRegelungstexte()
       .stream()
-      .collect(Collectors.toMap(Norm::getExpressionEli, customNorm -> customNorm));
+      .collect(
+        Collectors.toMap(
+          Regelungstext::getExpressionEli,
+          customRegelungstext -> customRegelungstext
+        )
+      );
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
     try {
-      norm.getMeta();
+      regelungstext.getMeta();
     } catch (final MandatoryNodeNotFoundException e) {
-      return norm;
+      return regelungstext;
     }
 
-    norm
+    regelungstext
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getPassiveModifications().stream())
@@ -64,7 +69,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       .filter((TextualMod passiveModification) -> {
         final var startDate = passiveModification
           .getForcePeriodEid()
-          .flatMap(norm::getStartDateForTemporalGroup)
+          .flatMap(regelungstext::getStartDateForTemporalGroup)
           .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"));
 
         // when no start date exists we do not want to apply the mod
@@ -75,7 +80,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
           // We already filtered out empty Optionals, so safe retrieving directly
           passiveModification
             .getForcePeriodEid()
-            .flatMap(norm::getStartDateForTemporalGroup)
+            .flatMap(regelungstext::getStartDateForTemporalGroup)
             .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"))
             .orElse(Instant.EPOCH) // This is just a fallback
         )
@@ -91,14 +96,15 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
             )
           );
 
-        Norm amendingLaw;
-        if (customNorms.containsKey(sourceEli)) {
-          amendingLaw = customNorms.get(sourceEli);
+        Regelungstext amendingLaw;
+        if (customRegelungstexts.containsKey(sourceEli)) {
+          amendingLaw = customRegelungstexts.get(sourceEli);
         } else {
           amendingLaw =
           loadNormPort
             .loadNorm(new LoadNormPort.Command(sourceEli))
-            .orElseThrow(() -> new NormNotFoundException(sourceEli.toString()));
+            .orElseThrow(() -> new NormNotFoundException(sourceEli.toString()))
+            .getRegelungstext1();
         }
 
         var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);
@@ -108,16 +114,16 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
           .filter(mod -> mod.getEid().equals(sourceEid.get()))
           .map(mod -> new ModData(passiveModification, mod));
       })
-      .forEach(modData -> applyMod(modData, norm));
+      .forEach(modData -> applyMod(modData, regelungstext));
 
-    EidConsistencyGuardian.correctEids(norm.getDocument());
+    EidConsistencyGuardian.correctEids(regelungstext.getDocument());
 
-    return norm;
+    return regelungstext;
   }
 
   record ModData(TextualMod passiveModification, Mod mod) {}
 
-  private void applyMod(final ModData modData, final Norm targetZf0Norm) {
+  private void applyMod(final ModData modData, final Regelungstext targetZf0Norm) {
     if (
       modData.passiveModification().getDestinationHref().isEmpty() ||
       modData.passiveModification().getDestinationHref().get().getEId().isEmpty()
@@ -207,7 +213,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
   private void applyQuotedStructure(
     final ModData modData,
     final Node targetNode,
-    final Norm targetZf0Norm
+    final Regelungstext targetZf0Norm
   ) {
     final Mod mod = modData.mod();
     if (mod.getQuotedStructure().isEmpty()) return;
