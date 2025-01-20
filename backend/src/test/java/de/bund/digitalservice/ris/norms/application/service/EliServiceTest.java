@@ -7,8 +7,8 @@ import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
