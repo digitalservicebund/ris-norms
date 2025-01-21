@@ -92,7 +92,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       assertThat(timeBoundaries).hasSize(2);
 
       // handle 1st time boundary
@@ -212,7 +212,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       assertThat(timeBoundaries).isEmpty();
     }
   }
@@ -301,7 +301,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
 
       assertThat(timeBoundaries).hasSize(2);
 
@@ -423,7 +423,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(normService, times(1)).updateNorm(argThat(argument -> argument.equals(normAfter)));
 
       assertThat(result).isNotEmpty();
@@ -509,7 +509,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(normService, times(1))
         .updateNorm(
           argThat(argument ->
@@ -605,7 +605,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(normService, times(1))
         .updateNorm(
           argThat(argument ->
@@ -683,7 +683,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(normService, times(1))
         .updateNorm(
           argThat(argument ->
@@ -764,7 +764,7 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(normService, times(1)).updateNorm(any());
 
       assertThat(

@@ -13,6 +13,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -423,7 +424,9 @@ class ElementServiceTest {
       // When
       var elements = service.loadElementsByTypeFromNorm(
         new LoadElementsByTypeFromNormUseCase.Query(
-          new DokumentExpressionEli(),
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+          ),
           List.of("preface", "preamble", "article", "conclusions")
         )
       );
@@ -436,7 +439,14 @@ class ElementServiceTest {
       assertThat(elements.get(3).getNodeName()).isEqualTo("akn:article");
       assertThat(elements.get(4).getNodeName()).isEqualTo("akn:conclusions");
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(any()));
+      verify(loadNormPort)
+        .loadNorm(
+          argThat(command ->
+            command
+              .eli()
+              .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu"))
+          )
+        );
     }
 
     @Test

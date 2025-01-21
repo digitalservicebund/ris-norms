@@ -335,7 +335,7 @@ class ArticleServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       assertThat(xmls).isNotEmpty();
       assertThat(xmls.getFirst()).contains("hauptteil-1_art-1");
       assertThat(xmls.get(1)).contains("hauptteil-1_art-3");
@@ -356,7 +356,7 @@ class ArticleServiceTest {
         .isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
     }
 
     @Test
@@ -406,7 +406,7 @@ class ArticleServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       assertThat(xmls).isNotEmpty();
       assertThat(xmls.getFirst()).contains("hauptteil-1_art-3");
     }
@@ -453,7 +453,7 @@ class ArticleServiceTest {
         .isInstanceOf(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
     }
 
     @Test
@@ -494,7 +494,7 @@ class ArticleServiceTest {
         .isInstanceOf(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
     }
   }
 }

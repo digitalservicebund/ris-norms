@@ -18,6 +18,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -77,6 +78,31 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
+  void itFindsAllDokumenteOfNormOnDB() {
+    // Given
+    var norm = new Norm(
+      NormPublishState.UNPUBLISHED,
+      Set.of(
+        Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml"),
+        Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml")
+      )
+    );
+    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+
+    // When
+    final Optional<Norm> normOptional = dbService.loadNorm(
+      new LoadNormPort.Command(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+      )
+    );
+
+    // Then
+    assertThat(normOptional).isPresent();
+    assertThat(normOptional.get().getRegelungstexte()).hasSize(2);
+    assertThat(normOptional).contains(norm);
+  }
+
+  @Test
   void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
@@ -85,9 +111,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // When
     final Optional<Norm> normOptional = dbService.loadNorm(
       new LoadNormPort.Command(
-        DokumentManifestationEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1.xml"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       )
     );
 

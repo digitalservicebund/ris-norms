@@ -13,9 +13,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Migra
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Comparator;
 import java.util.List;
@@ -70,24 +70,20 @@ public class DBService
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return switch (command.eli()) {
-      case DokumentExpressionEli expressionEli -> dokumentRepository
-        .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
-          expressionEli.toString()
-        )
-        .map(List::of)
-        .flatMap(NormMapper::mapToDomain);
-      case DokumentManifestationEli manifestationEli -> {
+      case NormExpressionEli expressionEli -> NormMapper.mapToDomain(
+        dokumentRepository.findLatestManifestationByEliNormExpression(expressionEli.toString())
+      );
+      case NormManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
-          // we can find the norm based on the expression eli as the point in time manifestation is the only additional identifying part of the eli in our system (all norms are xmls)
+          // we can find the norm based on the expression eli as the point in time manifestation is the only additional identifying part of the eli
           yield this.loadNorm(new LoadNormPort.Command(manifestationEli.asExpressionEli()));
         }
 
-        yield dokumentRepository
-          .findByEliDokumentManifestation(manifestationEli.toString())
-          .map(List::of)
-          .flatMap(NormMapper::mapToDomain);
+        yield NormMapper.mapToDomain(
+          dokumentRepository.findAllByEliNormManifestation(manifestationEli.toString())
+        );
       }
-      case DokumentWorkEli workEli -> throw new IllegalArgumentException(
+      case NormWorkEli ignored -> throw new IllegalArgumentException(
         "It's currently not possible to load a norm by it's work eli."
       );
     };

@@ -24,18 +24,45 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
    *
    * @param expressionEli The ELI to search for.
    * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
+   * @deprecated
    */
+  @Deprecated(forRemoval = true)
   Optional<DokumentDto> findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
     final String expressionEli
   );
 
   /**
-   * Finds a {@link DokumentDto} by its manifestation ELI (European Legislation Identifier).
+   * Finds the {@link DokumentDto}s by the norm expression ELI (European Legislation Identifier).
+   * It takes the newest manifestation if multiple exist.
    *
+   * @param expressionEli The ELI to search for.
+   * @return A {@link List} containing the found {@link DokumentDto}s or empty if not found.
+   */
+  @Query(
+    """
+      SELECT d FROM DokumentDto d WHERE d.eliNormManifestation = (
+          SELECT MAX(d2.eliNormManifestation) FROM DokumentDto d2 WHERE d2.eliNormExpression = ?1
+      )
+    """
+  )
+  List<DokumentDto> findLatestManifestationByEliNormExpression(final String expressionEli);
+
+  /**
+   * Finds a {@link DokumentDto} by its manifestation ELI (European Legislation Identifier).   *
    * @param manifestationEli The ELI to search for.
    * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
+   * @deprecated
    */
+  @Deprecated(forRemoval = true)
   Optional<DokumentDto> findByEliDokumentManifestation(final String manifestationEli);
+
+  /**
+   * Finds all {@link DokumentDto} by its norm manifestation ELI (European Legislation Identifier).
+   *
+   * @param manifestationEli The ELI to search for.
+   * @return A {@link List} containing the found {@link DokumentDto}s or empty if not found.
+   */
+  List<DokumentDto> findAllByEliNormManifestation(final String manifestationEli);
 
   /**
    * Finds a {@link DokumentDto} by its GUID.

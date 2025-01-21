@@ -85,7 +85,7 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       assertThat(returnedNorm).isEqualTo(norm);
     }
 
@@ -104,7 +104,7 @@ class NormServiceTest {
         .isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
     }
   }
 
@@ -153,7 +153,7 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       assertThat(xml).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
     }
 
@@ -268,7 +268,7 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(updateNormPort, times(1))
         .updateNorm(argThat(argument -> argument.norm().equals(newNorm)));
       assertThat(result)
@@ -326,7 +326,7 @@ class NormServiceTest {
         .isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(updateNormPort, times(0)).updateNorm(any());
     }
 
@@ -419,7 +419,7 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
@@ -513,7 +513,7 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
@@ -548,7 +548,9 @@ class NormServiceTest {
 
       // then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0EliTargetNorm)));
+        .loadNorm(
+          argThat(argument -> Objects.equals(argument.eli(), zf0EliTargetNorm.asNormEli()))
+        );
       verify(updateNormPort, times(1))
         .updateNorm(
           argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(amendingNorm)))
@@ -651,7 +653,9 @@ class NormServiceTest {
 
       // then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0EliNonExistent)));
+        .loadNorm(
+          argThat(argument -> Objects.equals(argument.eli(), zf0EliNonExistent.asNormEli()))
+        );
       verify(updateNormPort, never())
         .updateNorm(
           argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(amendingNorm)))
@@ -701,7 +705,7 @@ class NormServiceTest {
       assertThat(throwable).isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
       verify(updateNormPort, times(0)).updateNorm(any());
     }
 
@@ -910,9 +914,11 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.asNormEli())));
       verify(loadNormPort, times(2))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
+        .loadNorm(
+          argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getNormExpressionEli()))
+        );
       verify(updateNormService, times(1))
         .updateOneActiveModification(
           argThat(argument ->
@@ -1065,9 +1071,11 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.asNormEli())));
       verify(loadNormPort, times(2))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
+        .loadNorm(
+          argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getNormExpressionEli()))
+        );
       verify(updateNormService, times(1))
         .updateOneActiveModification(
           argThat(argument ->
@@ -1138,9 +1146,9 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.asNormEli())));
       verify(loadNormPort, times(2))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli.asNormEli())));
       verify(updateNormService, times(2)).updateOneActiveModification(any());
       verify(updateNormService, times(3)).updateOnePassiveModification(any());
       verify(updateNormPort, times(2)).updateNorm(any());
@@ -1184,9 +1192,9 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.asNormEli())));
       verify(loadNormPort, times(2))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli.asNormEli())));
       verify(updateNormService, times(2)).updateOneActiveModification(any());
       verify(updateNormService, times(3)).updateOnePassiveModification(any());
       verify(updateNormPort, times(2)).updateNorm(any());
