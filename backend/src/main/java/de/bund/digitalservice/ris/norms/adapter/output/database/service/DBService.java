@@ -47,7 +47,6 @@ public class DBService
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
     DeleteNormPort,
-    DeleteQueuedNormsPort,
     SaveReleaseToAnnouncementPort,
     DeleteQueuedReleasesPort,
     LoadNormIdsByPublishStatePort,
@@ -209,15 +208,6 @@ public class DBService
     dokumentRepository.deleteByEliNormManifestationAndPublishState(
       command.eli().toString(),
       command.publishState()
-    );
-  }
-
-  @Override
-  @Transactional
-  public void deleteQueuedForPublishNorms(DeleteQueuedNormsPort.Command command) {
-    dokumentRepository.deleteAllByEliDokumentWorkAndPublishState(
-      command.eli().toString(),
-      NormPublishState.QUEUED_FOR_PUBLISH
     );
   }
 

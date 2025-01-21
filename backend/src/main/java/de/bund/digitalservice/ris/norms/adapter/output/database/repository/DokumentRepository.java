@@ -80,16 +80,6 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
   );
 
   /**
-   * Deletes all {@link DokumentDto} of the given work ELI that are in the given publish state.
-   * @param workEli The ELI to search for.
-   * @param publishState The publishState to search for.
-   */
-  void deleteAllByEliDokumentWorkAndPublishState(
-    final String workEli,
-    final NormPublishState publishState
-  );
-
-  /**
    * Retrieves the ids of all {@link DokumentDto} with a specific {@link NormPublishState}.
    *
    * @param normPublishState the publish state to filter the norms by (e.g., {@link NormPublishState#QUEUED_FOR_PUBLISH})
