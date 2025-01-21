@@ -59,106 +59,110 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     migrationLogRepository.deleteAll();
   }
 
-  @Test
-  void itFindsNormOnDB() {
-    // Given
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+  @Nested
+  class loadNorm {
 
-    // When
-    final Optional<Norm> normOptional = dbService.loadNorm(
-      new LoadNormPort.Command(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+    @Test
+    void itFindsNormOnDB() {
+      // Given
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+
+      // When
+      final Optional<Norm> normOptional = dbService.loadNorm(
+        new LoadNormPort.Command(
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         )
-      )
-    );
+      );
 
-    // Then
-    assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
-  }
+      // Then
+      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+    }
 
-  @Test
-  void itFindsAllDokumenteOfNormOnDB() {
-    // Given
-    var norm = new Norm(
-      NormPublishState.UNPUBLISHED,
-      Set.of(
-        Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml"),
-        Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml")
-      )
-    );
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-
-    // When
-    final Optional<Norm> normOptional = dbService.loadNorm(
-      new LoadNormPort.Command(
-        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
-      )
-    );
-
-    // Then
-    assertThat(normOptional).isPresent();
-    assertThat(normOptional.get().getRegelungstexte()).hasSize(2);
-    assertThat(normOptional).contains(norm);
-  }
-
-  @Test
-  void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
-    // Given
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-
-    // When
-    final Optional<Norm> normOptional = dbService.loadNorm(
-      new LoadNormPort.Command(
-        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
-      )
-    );
-
-    // Then
-    assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
-  }
-
-  @Test
-  void itFindsNormByManifestationEli() {
-    // Given
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-
-    // When
-    final Optional<Norm> normOptional = dbService.loadNorm(
-      new LoadNormPort.Command(
-        DokumentManifestationEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    @Test
+    void itFindsAllDokumenteOfNormOnDB() {
+      // Given
+      var norm = new Norm(
+        NormPublishState.UNPUBLISHED,
+        Set.of(
+          Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml"),
+          Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml")
         )
-      )
-    );
+      );
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
 
-    // Then
-    assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
-  }
-
-  @Test
-  void itFindsNewestManifestationOfNorm() {
-    // Given
-    dokumentRepository.saveAll(
-      NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
-    );
-    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-
-    // When
-    final Optional<Norm> normOptional = dbService.loadNorm(
-      new LoadNormPort.Command(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      // When
+      final Optional<Norm> normOptional = dbService.loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
-      )
-    );
+      );
 
-    // Then
-    assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+      // Then
+      assertThat(normOptional).isPresent();
+      assertThat(normOptional.get().getRegelungstexte()).hasSize(2);
+      assertThat(normOptional).contains(norm);
+    }
+
+    @Test
+    void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
+      // Given
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+
+      // When
+      final Optional<Norm> normOptional = dbService.loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        )
+      );
+
+      // Then
+      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+    }
+
+    @Test
+    void itFindsNormByManifestationEli() {
+      // Given
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+
+      // When
+      final Optional<Norm> normOptional = dbService.loadNorm(
+        new LoadNormPort.Command(
+          DokumentManifestationEli.fromString(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
+      );
+
+      // Then
+      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+    }
+
+    @Test
+    void itFindsNewestManifestationOfNorm() {
+      // Given
+      dokumentRepository.saveAll(
+        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      );
+      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+
+      // When
+      final Optional<Norm> normOptional = dbService.loadNorm(
+        new LoadNormPort.Command(
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
+        )
+      );
+
+      // Then
+      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+    }
   }
 
   @Nested
