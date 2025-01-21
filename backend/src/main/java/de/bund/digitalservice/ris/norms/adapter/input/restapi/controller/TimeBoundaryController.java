@@ -15,7 +15,7 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/** Controller for norm-related actions. */
+/** Controller for listing and managing time boundaries of a regelungstext. */
 @RestController
 @RequestMapping(
   "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/timeBoundaries"
@@ -37,7 +37,7 @@ public class TimeBoundaryController {
   }
 
   /**
-   * Retrieves time boundaries for a norm based on its ELI with an optional filtering by the eli of
+   * Retrieves time boundaries for a regelungstext based on its ELI with an optional filtering by the eli of
    * an amending law.
    *
    * <p>The method constructs an ELI from the provided path variables, queries the use case to
@@ -62,7 +62,7 @@ public class TimeBoundaryController {
           )
         )
         .orElseGet(() ->
-          loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
+          loadTimeBoundariesUseCase.loadTimeBoundariesFromRegelungstext(
             new LoadTimeBoundariesUseCase.Query(eli)
           )
         )
@@ -73,7 +73,7 @@ public class TimeBoundaryController {
   }
 
   /**
-   * Updates time boundaries for a norm based on its ELI.
+   * Updates time boundaries for a regelungstext based on its ELI.
    *
    * <p>The method constructs an ELI from the provided path variables, queries the use case to
    * update time boundaries, and maps the resulting data to {@link TimeBoundarySchema}. If no data
@@ -95,7 +95,7 @@ public class TimeBoundaryController {
   ) {
     return ResponseEntity.ok(
       updateTimeBoundariesUseCase
-        .updateTimeBoundariesOfNorm(
+        .updateTimeBoundariesOfRegelungstext(
           new UpdateTimeBoundariesUseCase.Query(
             eli,
             TimeBoundaryMapper.fromResponseSchema(timeBoundaries)

@@ -86,7 +86,7 @@ class TimeBoundaryServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var timeBoundaries = service.loadTimeBoundariesOfNorm(
+      var timeBoundaries = service.loadTimeBoundariesFromRegelungstext(
         new LoadTimeBoundariesUseCase.Query(eli)
       );
 
@@ -206,7 +206,7 @@ class TimeBoundaryServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var timeBoundaries = service.loadTimeBoundariesOfNorm(
+      var timeBoundaries = service.loadTimeBoundariesFromRegelungstext(
         new LoadTimeBoundariesUseCase.Query(eli)
       );
 
@@ -417,7 +417,7 @@ class TimeBoundaryServiceTest {
         LocalDate.parse("2023-12-30")
       );
 
-      var result = service.updateTimeBoundariesOfNorm(
+      var result = service.updateTimeBoundariesOfRegelungstext(
         new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays))
       );
 
@@ -500,7 +500,7 @@ class TimeBoundaryServiceTest {
         LocalDate.parse("2024-01-02")
       );
 
-      service.updateTimeBoundariesOfNorm(
+      service.updateTimeBoundariesOfRegelungstext(
         new UpdateTimeBoundariesUseCase.Query(
           eli,
           List.of(timeBoundaryChangeDataOldStays, timeBoundaryChangeDataNewDate)
@@ -599,7 +599,7 @@ class TimeBoundaryServiceTest {
         LocalDate.parse("2023-12-30")
       );
 
-      service.updateTimeBoundariesOfNorm(
+      service.updateTimeBoundariesOfRegelungstext(
         new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays))
       );
 
@@ -674,7 +674,7 @@ class TimeBoundaryServiceTest {
         LocalDate.parse("1990-01-01")
       );
 
-      service.updateTimeBoundariesOfNorm(
+      service.updateTimeBoundariesOfRegelungstext(
         new UpdateTimeBoundariesUseCase.Query(
           eli,
           List.of(timeBoundaryChangeDataNewDate1, timeBoundaryChangeDataNewDate2)
@@ -758,7 +758,7 @@ class TimeBoundaryServiceTest {
         LocalDate.parse("1970-01-01")
       );
 
-      service.updateTimeBoundariesOfNorm(
+      service.updateTimeBoundariesOfRegelungstext(
         new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataNewDate1))
       );
 

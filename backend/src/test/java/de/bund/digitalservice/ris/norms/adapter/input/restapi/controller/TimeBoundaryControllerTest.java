@@ -92,7 +92,8 @@ class TimeBoundaryControllerTest {
         )
       );
 
-      when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(any())).thenReturn(timeBoundaries);
+      when(loadTimeBoundariesUseCase.loadTimeBoundariesFromRegelungstext(any()))
+        .thenReturn(timeBoundaries);
 
       // When // Then
       mockMvc
@@ -104,7 +105,7 @@ class TimeBoundaryControllerTest {
         .andExpect(jsonPath("$[0].temporalGroupEid", is("meta-1_geltzeiten-1_geltungszeitgr-1")));
 
       verify(loadTimeBoundariesUseCase, times(1))
-        .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
+        .loadTimeBoundariesFromRegelungstext(any(LoadTimeBoundariesUseCase.Query.class));
     }
 
     @Test
@@ -206,7 +207,7 @@ class TimeBoundaryControllerTest {
         )
       );
 
-      when(updateTimeBoundariesUseCase.updateTimeBoundariesOfNorm(any()))
+      when(updateTimeBoundariesUseCase.updateTimeBoundariesOfRegelungstext(any()))
         .thenReturn(timeBoundaries);
 
       // When // Then
@@ -227,7 +228,7 @@ class TimeBoundaryControllerTest {
         .andExpect(jsonPath("$[0].temporalGroupEid", is("meta-1_geltzeiten-1_geltungszeitgr-1")));
 
       verify(updateTimeBoundariesUseCase, times(1))
-        .updateTimeBoundariesOfNorm(any(UpdateTimeBoundariesUseCase.Query.class));
+        .updateTimeBoundariesOfRegelungstext(any(UpdateTimeBoundariesUseCase.Query.class));
     }
 
     @Test

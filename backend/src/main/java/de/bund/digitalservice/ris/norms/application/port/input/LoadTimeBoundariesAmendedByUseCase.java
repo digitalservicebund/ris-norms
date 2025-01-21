@@ -5,24 +5,24 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.List;
 
 /**
- * Interface representing the use case for loading a list of {@link TimeBoundary} of a norm
+ * Interface representing the use case for loading a list of {@link TimeBoundary} of a regelungstext
  * containing passive mods. It will filter out those time boundaries that were introduced by the
  * given amending law.
  */
 public interface LoadTimeBoundariesAmendedByUseCase {
   /**
-   * Retrieves a list of time boundaries related to the specified norm filtered by the amending law
+   * Retrieves a list of time boundaries related to the specified regelungstext filtered by the amending law
    * eli.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the norm.
-   * @return A list of {@link TimeBoundary} entities related to the specified norm.
+   * @param query The query containing the ELI (European Legislation Identifier) of the regelungstext.
+   * @return A list of {@link TimeBoundary} entities related to the specified regelungstext.
    */
   List<TimeBoundary> loadTimeBoundariesAmendedBy(Query query);
 
   /**
-   * A record representing the parameters needed to query time boundaries related to a norm.
+   * A record representing the parameters needed to query time boundaries related to a regelungstext.
    *
-   * @param eli The ELI used to identify the norm in the query.
+   * @param eli The ELI used to identify the regelungstext in the query.
    * @param amendingLawEli The ELI of the amending law.
    */
   record Query(DokumentExpressionEli eli, DokumentExpressionEli amendingLawEli) {}

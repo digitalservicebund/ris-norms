@@ -30,14 +30,17 @@ public class TimeBoundaryService
   }
 
   /**
-   * @param query The query containing the ELI (European Legislation Identifier) of the norm.
+   * @param query The query containing the ELI (European Legislation Identifier) of the regelungstext.
    * @return a List of TimeBoundaries
    */
   @Override
-  public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
+  public List<TimeBoundary> loadTimeBoundariesFromRegelungstext(
+    LoadTimeBoundariesUseCase.Query query
+  ) {
     return loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
+      .getRegelungstext1()
       .getTimeBoundaries();
   }
 
@@ -45,11 +48,12 @@ public class TimeBoundaryService
   public List<TimeBoundary> loadTimeBoundariesAmendedBy(
     LoadTimeBoundariesAmendedByUseCase.Query query
   ) {
-    final Norm norm = loadNormPort
+    final Regelungstext regelungstext = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
+      .getRegelungstext1();
 
-    final List<String> temporalGroupEidAmendedBy = norm
+    final List<String> temporalGroupEidAmendedBy = regelungstext
       .getMeta()
       .getOrCreateAnalysis()
       .getPassiveModifications()
@@ -67,25 +71,30 @@ public class TimeBoundaryService
       .filter(Objects::nonNull)
       .toList();
 
-    final List<TemporalGroup> temporalGroups = norm
+    final List<TemporalGroup> temporalGroups = regelungstext
       .getMeta()
       .getTemporalData()
       .getTemporalGroups()
       .stream()
       .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid()))
       .toList();
-    return norm.getTimeBoundaries(temporalGroups);
+    return regelungstext.getTimeBoundaries(temporalGroups);
   }
 
   /**
-   * @param query The query containing the ELI (European Legislation Identifier) of the norm.
+   * @param query The query containing the ELI (European Legislation Identifier) of the regelungstext.
    * @return a List of TimeBoundaries
    */
   @Override
-  public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
+  public List<TimeBoundary> updateTimeBoundariesOfRegelungstext(
+    UpdateTimeBoundariesUseCase.Query query
+  ) {
     final Norm norm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+
+    var regelungstext = norm.getRegelungstext1();
+
     // At first time boundaries that shall be deleted need to be selected
     // if we would delete first, there are cases where the next possible eId could not be safely
     // calculated
@@ -94,28 +103,31 @@ public class TimeBoundaryService
     // is being added. Then id3 could not be calculated.
     List<TimeBoundaryChangeData> timeBoundariesToDelete = selectTimeBoundariesToDelete(
       query.timeBoundaries(),
-      norm
+      regelungstext
     );
 
     // Add TimeBoundaries where eid is null|empty
-    addTimeBoundaries(query.timeBoundaries(), norm);
+    addTimeBoundaries(query.timeBoundaries(), regelungstext);
 
-    deleteTimeBoundaries(timeBoundariesToDelete, norm);
+    deleteTimeBoundaries(timeBoundariesToDelete, regelungstext);
 
-    editTimeBoundaries(query.timeBoundaries(), norm);
+    editTimeBoundaries(query.timeBoundaries(), regelungstext);
 
     Map<DokumentExpressionEli, Norm> result = normService.updateNorm(norm);
 
-    return result.get(query.eli()).getTimeBoundaries();
+    return result.get(query.eli()).getRegelungstext1().getTimeBoundaries();
   }
 
-  private void editTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+  private void editTimeBoundaries(
+    List<TimeBoundaryChangeData> timeBoundaryChangeData,
+    Regelungstext regelungstext
+  ) {
     List<TimeBoundaryChangeData> datesToUpdate = timeBoundaryChangeData
       .stream()
       .filter(tb -> tb.eid() != null && !tb.eid().isEmpty())
       .toList();
 
-    List<TimeBoundary> timeBoundariesToUpdate = norm
+    List<TimeBoundary> timeBoundariesToUpdate = regelungstext
       .getTimeBoundaries()
       .stream()
       .filter(tb ->
@@ -137,14 +149,14 @@ public class TimeBoundaryService
       tb.setEventRefDate(newDate);
     });
 
-    logChangeDataWithoutCorrespondingEidInXml(norm, datesToUpdate);
+    logChangeDataWithoutCorrespondingEidInXml(regelungstext, datesToUpdate);
   }
 
   private void logChangeDataWithoutCorrespondingEidInXml(
-    Norm norm,
+    Regelungstext regelungstext,
     List<TimeBoundaryChangeData> datesToUpdate
   ) {
-    List<String> timeBoundaryEids = norm
+    List<String> timeBoundaryEids = regelungstext
       .getTimeBoundaries()
       .stream()
       .map(TimeBoundary::getEventRefEid)
@@ -165,24 +177,27 @@ public class TimeBoundaryService
     }
   }
 
-  private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+  private void addTimeBoundaries(
+    List<TimeBoundaryChangeData> timeBoundaryChangeData,
+    Regelungstext regelungstext
+  ) {
     timeBoundaryChangeData
       .stream()
       .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
       .map(TimeBoundaryChangeData::date)
-      .forEach(date -> norm.addTimeBoundary(date, EventRefType.GENERATION));
+      .forEach(date -> regelungstext.addTimeBoundary(date, EventRefType.GENERATION));
   }
 
   private List<TimeBoundaryChangeData> selectTimeBoundariesToDelete(
     List<TimeBoundaryChangeData> timeBoundaryChangeData,
-    Norm norm
+    Regelungstext regelungstext
   ) {
     List<String> allChangeDateEids = timeBoundaryChangeData
       .stream()
       .map(TimeBoundaryChangeData::eid)
       .toList();
 
-    List<String> allEventRefEidsToDelete = norm
+    List<String> allEventRefEidsToDelete = regelungstext
       .getTimeBoundaries()
       .stream()
       .map(TimeBoundary::getEventRefEid)
@@ -197,8 +212,8 @@ public class TimeBoundaryService
 
   private void deleteTimeBoundaries(
     List<TimeBoundaryChangeData> timeBoundariesToDelete,
-    Norm norm
+    Regelungstext regelungstext
   ) {
-    timeBoundariesToDelete.forEach(norm::deleteTimeBoundary);
+    timeBoundariesToDelete.forEach(regelungstext::deleteTimeBoundary);
   }
 }
