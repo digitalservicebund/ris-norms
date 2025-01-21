@@ -340,22 +340,45 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(announcements).containsExactly(announcement2, announcement1);
   }
 
-  @Test
-  void itUpdatesNorm() {
-    // Given
-    var oldNorm = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
-    oldNorm.setPublishState(NormPublishState.UNPUBLISHED);
-    dokumentRepository.saveAll(NormMapper.mapToDtos(oldNorm));
+  @Nested
+  class updateNorm {
 
-    var newNorm = new Norm(oldNorm);
-    newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+    @Test
+    void itUpdatesNorm() {
+      // Given
+      var oldNorm = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
+      oldNorm.setPublishState(NormPublishState.UNPUBLISHED);
+      dokumentRepository.saveAll(NormMapper.mapToDtos(oldNorm));
 
-    // When
-    var normFromDatabase = dbService.updateNorm(new UpdateNormPort.Command(newNorm));
+      var newNorm = new Norm(oldNorm);
+      newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
-    // Then
-    assertThat(dokumentRepository.findAll()).hasSize(1);
-    assertThat(normFromDatabase).contains(newNorm);
+      // When
+      var normFromDatabase = dbService.updateNorm(new UpdateNormPort.Command(newNorm));
+
+      // Then
+      assertThat(dokumentRepository.findAll()).hasSize(1);
+      assertThat(normFromDatabase).contains(newNorm);
+    }
+
+    @Test
+    void itUpdatesNormWithMultipleRegelungstexte() {
+      // Given
+      var regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      var regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      var oldNorm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
+      dokumentRepository.saveAll(NormMapper.mapToDtos(oldNorm));
+
+      var newNorm = new Norm(oldNorm);
+      newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+
+      // When
+      var normFromDatabase = dbService.updateNorm(new UpdateNormPort.Command(newNorm));
+
+      // Then
+      assertThat(dokumentRepository.findAll()).hasSize(2);
+      assertThat(normFromDatabase).contains(newNorm);
+    }
   }
 
   @Test

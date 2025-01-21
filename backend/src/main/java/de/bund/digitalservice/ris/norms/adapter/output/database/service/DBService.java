@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -152,14 +153,23 @@ public class DBService
 
   @Override
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
-    var normXml = XmlMapper.toString(command.norm().getDocument());
-    return dokumentRepository
-      .findByEliDokumentManifestation(command.norm().getManifestationEli().toString())
-      .flatMap(normDto -> {
-        normDto.setXml(normXml);
-        normDto.setPublishState(command.norm().getPublishState());
-        return NormMapper.mapToDomain(List.of(dokumentRepository.save(normDto)));
-      });
+    Set<DokumentDto> dokumente = command
+      .norm()
+      .getRegelungstexte()
+      .stream()
+      .map(regelungstext ->
+        dokumentRepository
+          .findByEliDokumentManifestation(regelungstext.getManifestationEli().toString())
+          .map(dokumentDto -> {
+            dokumentDto.setXml(XmlMapper.toString(regelungstext.getDocument()));
+            dokumentDto.setPublishState(command.norm().getPublishState());
+            return dokumentDto;
+          })
+      )
+      .flatMap(Optional::stream)
+      .collect(Collectors.toSet());
+
+    return NormMapper.mapToDomain(dokumentRepository.saveAll(dokumente));
   }
 
   @Override
