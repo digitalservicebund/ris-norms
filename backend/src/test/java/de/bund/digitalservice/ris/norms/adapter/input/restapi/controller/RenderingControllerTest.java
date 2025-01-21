@@ -8,12 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.Instant;
-import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalMatchers;
@@ -52,14 +50,7 @@ class RenderingControllerTest {
     void itThrowsXmlProcessingException() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenThrow(new XmlProcessingException("Error message", null));
@@ -74,7 +65,7 @@ class RenderingControllerTest {
               """
 
                                     {
-                "norm": "<law>original-law</law>"
+                "regelungstext": "<law>original-law</law>"
               }
               """
             )
@@ -91,14 +82,7 @@ class RenderingControllerTest {
     void getHtmlPreviewWithShowMetadataTrue() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -114,7 +98,7 @@ class RenderingControllerTest {
               """
 
                                     {
-                "norm": "<law>original-law</law>"
+                "regelungstext": "<law>original-law</law>"
               }
               """
             )
@@ -125,7 +109,12 @@ class RenderingControllerTest {
       verify(applyPassiveModificationsUseCase, times(1))
         .applyPassiveModifications(
           argThat(query ->
-            query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+            query
+              .regelungstext()
+              .getDocument()
+              .getFirstChild()
+              .getTextContent()
+              .equals("original-law")
           )
         );
       verify(transformLegalDocMlToHtmlUseCase, times(1))
@@ -142,14 +131,7 @@ class RenderingControllerTest {
     void getHtmlPreviewWithShowMetadataFalse() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -164,7 +146,7 @@ class RenderingControllerTest {
             .content(
               """
               {
-                "norm": "<law>original-law</law>"
+                "regelungstext": "<law>original-law</law>"
               }
               """
             )
@@ -175,7 +157,12 @@ class RenderingControllerTest {
       verify(applyPassiveModificationsUseCase, times(1))
         .applyPassiveModifications(
           argThat(query ->
-            query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+            query
+              .regelungstext()
+              .getDocument()
+              .getFirstChild()
+              .getTextContent()
+              .equals("original-law")
           )
         );
       verify(transformLegalDocMlToHtmlUseCase, times(1))
@@ -192,14 +179,7 @@ class RenderingControllerTest {
     void getHtmlPreviewForDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -215,7 +195,7 @@ class RenderingControllerTest {
             .content(
               """
               {
-                "norm": "<law>original-law</law>"
+                "regelungstext": "<law>original-law</law>"
               }
               """
             )
@@ -236,9 +216,14 @@ class RenderingControllerTest {
           AdditionalMatchers.and(
             argThat(query -> query.date().equals(Instant.parse("2024-01-01T00:00:00.0Z"))),
             AdditionalMatchers.and(
-              argThat(query -> query.customNorms().isEmpty()),
+              argThat(query -> query.customRegelungstexte().isEmpty()),
               argThat(query ->
-                query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+                query
+                  .regelungstext()
+                  .getDocument()
+                  .getFirstChild()
+                  .getTextContent()
+                  .equals("original-law")
               )
             )
           )
@@ -249,14 +234,7 @@ class RenderingControllerTest {
     void getHtmlPreviewForCurrentDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -272,7 +250,7 @@ class RenderingControllerTest {
             .content(
               """
               {
-                "norm": "<law>original-law</law>"
+                "regelungstext": "<law>original-law</law>"
               }
               """
             )
@@ -289,17 +267,10 @@ class RenderingControllerTest {
     }
 
     @Test
-    void getHtmlPreviewForDateWithCustomNorms() throws Exception {
+    void getHtmlPreviewForDateWithCustomRegelungstexte() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -315,8 +286,8 @@ class RenderingControllerTest {
             .content(
               """
               {
-                "norm": "<law>original-law</law>",
-                "customNorms": ["<law>amending-law</law>"]
+                "regelungstext": "<law>original-law</law>",
+                "customRegelungstexte": ["<law>amending-law</law>"]
               }
               """
             )
@@ -328,7 +299,7 @@ class RenderingControllerTest {
         .applyPassiveModifications(
           argThat(query ->
             query
-              .customNorms()
+              .customRegelungstexte()
               .iterator()
               .next()
               .getDocument()
@@ -353,7 +324,7 @@ class RenderingControllerTest {
             .content(
               """
               {
-                 "norm": "<law>original-law</law>"
+                 "regelungstext": "<law>original-law</law>"
                }
                """
             )
@@ -376,14 +347,7 @@ class RenderingControllerTest {
     void getXmlPreviewForCurrentDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
 
       Instant instantBefore = Instant.now();
@@ -397,7 +361,7 @@ class RenderingControllerTest {
             .content(
               """
                 {
-                  "norm": "<law>original-law</law>"
+                  "regelungstext": "<law>original-law</law>"
                 }
               """
             )
@@ -417,9 +381,14 @@ class RenderingControllerTest {
               query.date().isAfter(instantBefore) && query.date().isBefore(Instant.now())
             ),
             AdditionalMatchers.and(
-              argThat(query -> query.customNorms().isEmpty()),
+              argThat(query -> query.customRegelungstexte().isEmpty()),
               argThat(query ->
-                query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+                query
+                  .regelungstext()
+                  .getDocument()
+                  .getFirstChild()
+                  .getTextContent()
+                  .equals("original-law")
               )
             )
           )
@@ -430,14 +399,7 @@ class RenderingControllerTest {
     void getXmlPreviewForDate() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
 
       mockMvc
@@ -450,7 +412,7 @@ class RenderingControllerTest {
             .content(
               """
                 {
-                  "norm": "<law>original-law</law>"
+                  "regelungstext": "<law>original-law</law>"
                 }
               """
             )
@@ -468,9 +430,14 @@ class RenderingControllerTest {
           AdditionalMatchers.and(
             argThat(query -> query.date().equals(Instant.parse("2024-01-01T00:00:00.0Z"))),
             AdditionalMatchers.and(
-              argThat(query -> query.customNorms().isEmpty()),
+              argThat(query -> query.customRegelungstexte().isEmpty()),
               argThat(query ->
-                query.norm().getDocument().getFirstChild().getTextContent().equals("original-law")
+                query
+                  .regelungstext()
+                  .getDocument()
+                  .getFirstChild()
+                  .getTextContent()
+                  .equals("original-law")
               )
             )
           )
@@ -478,17 +445,10 @@ class RenderingControllerTest {
     }
 
     @Test
-    void getXmlPreviewForDateWithCustomNorms() throws Exception {
+    void getXmlPreviewForDateWithCustomRegelungstexte() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
-          Norm
-            .builder()
-            .regelungstexte(
-              Set.of(
-                new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
-              )
-            )
-            .build()
+          new Regelungstext(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
         );
 
       mockMvc
@@ -501,8 +461,8 @@ class RenderingControllerTest {
             .content(
               """
                   {
-                    "norm": "<law>original-law</law>",
-                    "customNorms": ["<law>amending-law</law>"]
+                    "regelungstext": "<law>original-law</law>",
+                    "customRegelungstexte": ["<law>amending-law</law>"]
                   }
               """
             )
@@ -519,7 +479,7 @@ class RenderingControllerTest {
         .applyPassiveModifications(
           argThat(query ->
             query
-              .customNorms()
+              .customRegelungstexte()
               .iterator()
               .next()
               .getDocument()

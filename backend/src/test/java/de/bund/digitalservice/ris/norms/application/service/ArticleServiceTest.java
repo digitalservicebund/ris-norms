@@ -47,7 +47,8 @@ class ArticleServiceTest {
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var eid = "hauptteil-1_art-1";
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
-      when(timeMachineService.applyPassiveModifications(any())).thenReturn(norm);
+      when(timeMachineService.applyPassiveModifications(any()))
+        .thenReturn(norm.getRegelungstext1());
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // when

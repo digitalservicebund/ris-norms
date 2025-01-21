@@ -799,11 +799,11 @@ components:
     RenderRequest:
       type: object
       properties:
-        norm:
+        regelungstext:
           description: The xml of the norm which should be rendered
           type: string
           format: LegalDocML.de XML
-        customNorms:
+        customRegelungtext:
           type: object
           additionalProperties:
             description: The xmls of norms which are referenced by the norm (e.g. in passiveModifications) and should not be loaded from the database.

@@ -16,13 +16,14 @@ import org.w3c.dom.Node;
 public class SingleModValidator {
 
   /**
-   * Validates the given ZF0 norm using the one mod of the amending law being modified.
+   * Validates the given ZF0 regelungstext using the one mod of the amending law being modified.
    *
-   * @param zf0Norm - the ZF0 {@link Norm}
+   * @param zf0Norm - the ZF0 {@link Regelungstext}
    * @param activeMod - the {@link Mod} that is being modified.
    * @throws ValidationException if a validation step fails
    */
-  public void validate(final Norm zf0Norm, final Mod activeMod) throws ValidationException {
+  public void validate(final Regelungstext zf0Norm, final Mod activeMod)
+    throws ValidationException {
     final String modEId = activeMod.getEid();
     final DokumentExpressionEli zf0NormEli = zf0Norm.getExpressionEli();
 
@@ -109,7 +110,7 @@ public class SingleModValidator {
 
   private void validateQuotedStructure(
     final TextualMod affectedPassiveMod,
-    final Norm zf0Norm,
+    final Regelungstext zf0Norm,
     final String targetNodeEid,
     final Node targetNode
   ) throws ValidationException {

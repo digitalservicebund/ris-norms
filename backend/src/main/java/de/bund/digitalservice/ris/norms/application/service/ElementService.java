@@ -117,17 +117,18 @@ public class ElementService
   public String loadElementHtmlAtDateFromNorm(
     final LoadElementHtmlAtDateFromNormUseCase.Query query
   ) {
-    var norm = loadNormPort
+    var regelungstext = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
+      .getRegelungstext1();
 
-    norm =
+    regelungstext =
     timeMachineService.applyPassiveModifications(
-      new ApplyPassiveModificationsUseCase.Query(norm, query.atDate())
+      new ApplyPassiveModificationsUseCase.Query(regelungstext, query.atDate())
     );
 
     final var element = NodeParser
-      .getElementFromExpression(getXPathForEid(query.eid()), norm.getDocument())
+      .getElementFromExpression(getXPathForEid(query.eid()), regelungstext.getDocument())
       .orElseThrow(() -> new ElementNotFoundException(query.eli().toString(), query.eid()));
 
     return xsltTransformationService.transformLegalDocMlToHtml(

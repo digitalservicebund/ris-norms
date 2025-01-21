@@ -312,10 +312,10 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(
         timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(norm, date)
+          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
         )
       )
-        .thenReturn(norm);
+        .thenReturn(norm.getRegelungstext1());
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
@@ -327,7 +327,9 @@ class ElementServiceTest {
       assertThat(html).contains("<div></div>");
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
       verify(timeMachineService)
-        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));
+        .applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
+        );
       verify(xsltTransformationService, times(1)).transformLegalDocMlToHtml(any());
     }
 
@@ -391,10 +393,10 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(
         timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(norm, date)
+          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
         )
       )
-        .thenReturn(norm);
+        .thenReturn(norm.getRegelungstext1());
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When / Then
@@ -403,7 +405,9 @@ class ElementServiceTest {
 
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
       verify(timeMachineService)
-        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));
+        .applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
+        );
     }
   }
 

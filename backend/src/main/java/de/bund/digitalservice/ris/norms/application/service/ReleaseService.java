@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedReleasesPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.application.service.CreateNewVersionOfNormService.CreateNewExpressionResult;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -18,6 +19,7 @@ import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -145,15 +147,27 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
         .sorted();
 
       for (LocalDate date : dates.toList()) {
-        var result = createNewVersionOfNormService.createNewExpression(latestNormExpression, date);
+        CreateNewExpressionResult result = createNewVersionOfNormService.createNewExpression(
+          latestNormExpression,
+          date
+        );
         allVersionsOfAllNormsToPublish.add(result.newManifestationOfOldExpression());
 
-        latestNormExpression =
-        timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(
-            result.newExpression(),
-            date.atStartOfDay(ZoneId.systemDefault()).toInstant()
-          )
+        latestNormExpression = result.newExpression();
+
+        latestNormExpression.setRegelungstexte(
+          latestNormExpression
+            .getRegelungstexte()
+            .stream()
+            .map(regelungstext ->
+              timeMachineService.applyPassiveModifications(
+                new ApplyPassiveModificationsUseCase.Query(
+                  regelungstext,
+                  date.atStartOfDay(ZoneId.systemDefault()).toInstant()
+                )
+              )
+            )
+            .collect(Collectors.toSet())
         );
       }
 

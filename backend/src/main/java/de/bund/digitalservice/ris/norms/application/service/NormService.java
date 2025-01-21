@@ -214,8 +214,8 @@ public class NormService
       .map(filtered -> filtered.getEventRef().getDate())
       .flatMap(date -> date.map(d -> d.minusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant()))
       .orElse(Instant.MIN);
-    final Norm futureVersionAtDate = timeMachineService.applyPassiveModifications(
-      new ApplyPassiveModificationsUseCase.Query(zf0Norm, atDate)
+    final Regelungstext futureVersionAtDate = timeMachineService.applyPassiveModifications(
+      new ApplyPassiveModificationsUseCase.Query(zf0Norm.getRegelungstext1(), atDate)
     );
     singleModValidator.validate(futureVersionAtDate, selectedMod);
   }

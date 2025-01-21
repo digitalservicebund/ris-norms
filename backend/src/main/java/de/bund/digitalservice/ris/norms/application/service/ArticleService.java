@@ -36,18 +36,19 @@ public class ArticleService
 
   @Override
   public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
-    var norm = loadNormPort
+    var regelungstext = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
+      .getRegelungstext1();
 
     if (query.atIsoDate() != null) {
-      norm =
+      regelungstext =
       timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate())
+        new ApplyPassiveModificationsUseCase.Query(regelungstext, query.atIsoDate())
       );
     }
 
-    return norm
+    return regelungstext
       .getArticles()
       .stream()
       .filter(article -> article.getEid().equals(query.eid()))

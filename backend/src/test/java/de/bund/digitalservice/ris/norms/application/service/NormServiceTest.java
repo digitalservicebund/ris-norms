@@ -805,7 +805,8 @@ class NormServiceTest {
       verify(timeMachineService, times(1))
         .applyPassiveModifications(
           argThat(argument ->
-            Objects.equals(argument.norm(), zf0Norm) && Objects.equals(argument.date(), Instant.MIN)
+            Objects.equals(argument.regelungstext(), zf0Norm.getRegelungstext1()) &&
+            Objects.equals(argument.date(), Instant.MIN)
           )
         );
     }
@@ -843,7 +844,8 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
+      when(timeMachineService.applyPassiveModifications(any()))
+        .thenReturn(zf0Norm.getRegelungstext1());
 
       // When
       service.updateMod(
@@ -863,7 +865,10 @@ class NormServiceTest {
 
       // Then
       verify(singleModValidator, times(1))
-        .validate(argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)), argThat(m -> m.equals(mod)));
+        .validate(
+          argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm.getRegelungstext1())),
+          argThat(m -> m.equals(mod))
+        );
     }
 
     @Test
@@ -979,7 +984,8 @@ class NormServiceTest {
       verify(timeMachineService, times(1))
         .applyPassiveModifications(
           argThat(argument ->
-            Objects.equals(argument.norm(), zf0Norm) && Objects.equals(argument.date(), Instant.MIN)
+            Objects.equals(argument.regelungstext(), zf0Norm.getRegelungstext1()) &&
+            Objects.equals(argument.date(), Instant.MIN)
           )
         );
     }
@@ -1008,7 +1014,8 @@ class NormServiceTest {
       when(updateNormService.updateOneActiveModification(any())).thenReturn(amendingNorm);
       when(updateNormService.updateOnePassiveModification(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(timeMachineService.applyPassiveModifications(any())).thenReturn(zf0Norm);
+      when(timeMachineService.applyPassiveModifications(any()))
+        .thenReturn(zf0Norm.getRegelungstext1());
 
       // When
       service.updateMods(
@@ -1026,7 +1033,10 @@ class NormServiceTest {
 
       // Then
       verify(singleModValidator, times(1))
-        .validate(argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)), argThat(m -> m.equals(mod)));
+        .validate(
+          argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm.getRegelungstext1())),
+          argThat(m -> m.equals(mod))
+        );
     }
 
     @Test

@@ -7,7 +7,6 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -33,58 +32,53 @@ class TimeMachineServiceTest {
     @Test
     void returnUnchangedIfNoPassiveModifications() {
       // given
-      final var norm = Norm
-        .builder()
-        .regelungstexte(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                    <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                       xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                           http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                   <akn:act name="regelungstext">
-                      <!-- Metadaten -->
-                      <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                         <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                            <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                                <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                                <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                                <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                             </akn:FRBRWork>
-                        </akn:identification>
-                      </akn:meta>
-                   </akn:act>
-                </akn:akomaNtoso>
-                """
-              )
-            )
-          )
+      final var regelungstext = new Regelungstext(
+        XmlMapper.toDocument(
+          """
+          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                     http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+             <akn:act name="regelungstext">
+                <!-- Metadaten -->
+                <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                   <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                      <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+                          <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
+                          <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
+                          <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
+                       </akn:FRBRWork>
+                  </akn:identification>
+                </akn:meta>
+             </akn:act>
+          </akn:akomaNtoso>
+          """
         )
-        .build();
+      );
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(regelungstext, Instant.MAX)
       );
 
       // then
-      assertThat(result).isEqualTo(norm);
+      assertThat(result).isEqualTo(regelungstext);
     }
 
     @Test
     void applyOnePassiveModification() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithPassiveModifications.xml"
+      );
 
       final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(regelungstext, Instant.MAX)
       );
 
       // then
@@ -104,15 +98,17 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsInCorrectOrder() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
 
       final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(regelungstext, Instant.MAX)
       );
 
       // then
@@ -133,14 +129,16 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsDoesNotModifyTheParameter() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var norm = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
 
       final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
+      Regelungstext result = timeMachineService.applyPassiveModifications(
         new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
       );
 
@@ -153,7 +151,7 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsWhereTargetNodeEqualsNodeToChange() {
       // given
-      final var norm = Fixtures.loadNormFromDisk(
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "NormWithPassiveModsWhereTargetNodeEqualsNodeToChange.xml"
       );
 
@@ -163,8 +161,8 @@ class TimeMachineServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(regelungstext, Instant.MAX)
       );
 
       // then
@@ -194,14 +192,19 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsBeforeDate() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
       final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, Instant.parse("2017-03-01T00:00:00.000Z"))
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(
+          regelungstext,
+          Instant.parse("2017-03-01T00:00:00.000Z")
+        )
       );
 
       // then
@@ -219,13 +222,19 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModificationWithCustomNorm() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithPassiveModifications.xml"
+      );
 
-      final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      final var amendingLawRegelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX, Set.of(amendingLaw))
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(
+          regelungstext,
+          Instant.MAX,
+          Set.of(amendingLawRegelungstext)
+        )
       );
 
       // then
@@ -243,7 +252,7 @@ class TimeMachineServiceTest {
     @Test
     void doNotApplyPassiveModificationWithoutForcePeriod() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      final var norm = Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml");
       norm.deleteByEId("meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1");
 
       final var amendingLaw = Fixtures.loadNormFromDisk("NormWithMods.xml");
@@ -251,7 +260,7 @@ class TimeMachineServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
+      Regelungstext result = timeMachineService.applyPassiveModifications(
         new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
       );
 
@@ -270,15 +279,17 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModificationQuotedStructure() {
       // given
-      final var targetLawNorm = Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml");
+      final var targetLawRegelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithPassiveModsQuotedStructure.xml"
+      );
       final var amendingLawNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
       final var expectedResult = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(targetLawNorm, Instant.MAX)
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(targetLawRegelungstext, Instant.MAX)
       );
 
       // then
@@ -295,7 +306,7 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModificationQuotedStructureWithUpTo() {
       // given
-      final var targetLawNorm = Fixtures.loadNormFromDisk(
+      final var targetLawNormRegelungstext = Fixtures.loadRegelungstextFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
       final var amendingLawNorm = Fixtures.loadNormFromDisk(
@@ -308,8 +319,8 @@ class TimeMachineServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(targetLawNorm, Instant.MAX)
+      Regelungstext result = timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(targetLawNormRegelungstext, Instant.MAX)
       );
 
       // then
@@ -325,7 +336,7 @@ class TimeMachineServiceTest {
     @Test
     void applyQuotedTextWithRefs() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      final var norm = Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml");
 
       final var amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedTextModAndRefs.xml");
 
@@ -339,7 +350,7 @@ class TimeMachineServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
+      Regelungstext result = timeMachineService.applyPassiveModifications(
         new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
       );
 
@@ -360,7 +371,9 @@ class TimeMachineServiceTest {
     @Test
     void applyQuotedTextWithRefsToNodeWithExistingRefs() {
       // given
-      final var norm = Fixtures.loadNormFromDisk("NormWithPassiveModificationsAndExistingRef.xml");
+      final var norm = Fixtures.loadRegelungstextFromDisk(
+        "NormWithPassiveModificationsAndExistingRef.xml"
+      );
 
       final var amendingLaw = Fixtures.loadNormFromDisk("NormWithQuotedTextModAndRefs.xml");
 
@@ -375,7 +388,7 @@ class TimeMachineServiceTest {
       );
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(
+      Regelungstext result = timeMachineService.applyPassiveModifications(
         new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX)
       );
 
