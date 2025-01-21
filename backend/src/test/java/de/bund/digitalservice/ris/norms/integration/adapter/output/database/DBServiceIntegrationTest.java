@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
@@ -158,6 +159,60 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // Then
     assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+  }
+
+  @Nested
+  class loadRegelungstext {
+
+    @Test
+    void itFindsRegelungstextByExpressionEli() {
+      // Given
+      var regelungstextOld = Fixtures.loadRegelungstextFromDisk(
+        "NormWithoutPassiveModifications.xml"
+      );
+      var regelungstextCurrent = Fixtures.loadRegelungstextFromDisk(
+        "NormWithPassiveModifications.xml"
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(regelungstextOld, NormPublishState.UNPUBLISHED)
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(regelungstextCurrent, NormPublishState.UNPUBLISHED)
+      );
+
+      // When
+      var loadedRegelungstext = dbService.loadRegelungstext(
+        new LoadRegelungstextPort.Command(
+          DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
+        )
+      );
+
+      // Then
+      assertThat(loadedRegelungstext).contains(regelungstextCurrent);
+    }
+
+    @Test
+    void itFindsRegelungstextByManifestationEli() {
+      // Given
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(regelungstext, NormPublishState.UNPUBLISHED)
+      );
+
+      // When
+      var loadedRegelungstext = dbService.loadRegelungstext(
+        new LoadRegelungstextPort.Command(
+          DokumentManifestationEli.fromString(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
+      );
+
+      // Then
+      assertThat(loadedRegelungstext).contains(regelungstext);
+    }
   }
 
   @Test

@@ -52,6 +52,11 @@ public class ProblemDetailFactory {
       URI.create("/errors/norm-not-found"),
       "Norm not found"
     ),
+    REGELUNGSTEXT_NOT_FOUND(
+      RegelungstextNotFoundException.class,
+      URI.create("/errors/regelungstext-not-found"),
+      "Regelungstext not found"
+    ),
     ARTICLE_NOT_FOUND(
       ArticleNotFoundException.class,
       URI.create("/errors/article-not-found"),

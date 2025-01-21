@@ -24,9 +24,7 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
    *
    * @param expressionEli The ELI to search for.
    * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
-   * @deprecated
    */
-  @Deprecated(forRemoval = true)
   Optional<DokumentDto> findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
     final String expressionEli
   );
@@ -51,9 +49,7 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
    * Finds a {@link DokumentDto} by its manifestation ELI (European Legislation Identifier).   *
    * @param manifestationEli The ELI to search for.
    * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
-   * @deprecated
    */
-  @Deprecated(forRemoval = true)
   Optional<DokumentDto> findByEliDokumentManifestation(final String manifestationEli);
 
   /**

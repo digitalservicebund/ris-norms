@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
@@ -13,6 +14,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Migra
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
@@ -48,7 +52,8 @@ public class DBService
     DeleteQueuedReleasesPort,
     LoadNormIdsByPublishStatePort,
     LoadNormByIdPort,
-    LoadMigrationLogByDatePort {
+    LoadMigrationLogByDatePort,
+    LoadRegelungstextPort {
 
   private final AnnouncementRepository announcementRepository;
   private final DokumentRepository dokumentRepository;
@@ -85,6 +90,32 @@ public class DBService
       }
       case NormWorkEli ignored -> throw new IllegalArgumentException(
         "It's currently not possible to load a norm by it's work eli."
+      );
+    };
+  }
+
+  @Override
+  public Optional<Regelungstext> loadRegelungstext(LoadRegelungstextPort.Command command) {
+    return switch (command.eli()) {
+      case DokumentExpressionEli expressionEli -> dokumentRepository
+        .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
+          expressionEli.toString()
+        )
+        .map(RegelungstextMapper::mapToDomain);
+      case DokumentManifestationEli manifestationEli -> {
+        if (!manifestationEli.hasPointInTimeManifestation()) {
+          // we can find the regelungstext based on the expression eli as the point in time manifestation is the only additional identifying part of the eli
+          yield this.loadRegelungstext(
+              new LoadRegelungstextPort.Command(manifestationEli.asExpressionEli())
+            );
+        }
+
+        yield dokumentRepository
+          .findByEliDokumentManifestation(manifestationEli.toString())
+          .map(RegelungstextMapper::mapToDomain);
+      }
+      case DokumentWorkEli ignored -> throw new IllegalArgumentException(
+        "It's currently not possible to load a regelungstext by it's work eli."
       );
     };
   }

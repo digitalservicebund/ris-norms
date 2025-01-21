@@ -108,6 +108,23 @@ public class NormsAppExceptionHandler {
   }
 
   /**
+   * Exception handler method for handling {@link RegelungstextNotFoundException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
+   */
+  @ExceptionHandler(RegelungstextNotFoundException.class)
+  public ProblemDetail handleException(final RegelungstextNotFoundException e) {
+    log.error("RegelungstextNotFoundException: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
+      e,
+      HttpStatus.NOT_FOUND
+    );
+    problemDetail.setProperty("eli", e.getEli());
+    return problemDetail;
+  }
+
+  /**
    * Exception handler method for handling {@link ArticleNotFoundException}.
    *
    * @param e The exception that occurred.

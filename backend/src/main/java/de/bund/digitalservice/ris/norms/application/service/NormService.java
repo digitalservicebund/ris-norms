@@ -2,9 +2,11 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -27,26 +29,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class NormService
   implements
-    LoadNormUseCase, LoadNormXmlUseCase, UpdateNormXmlUseCase, UpdateModUseCase, UpdateModsUseCase {
+    LoadNormUseCase,
+    LoadNormXmlUseCase,
+    UpdateNormXmlUseCase,
+    UpdateModUseCase,
+    UpdateModsUseCase,
+    LoadRegelungstextUseCase {
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
   private final SingleModValidator singleModValidator;
   private final UpdateNormService updateNormService;
   private final TimeMachineService timeMachineService;
+  private final LoadRegelungstextPort loadRegelungstextPort;
 
   public NormService(
     LoadNormPort loadNormPort,
     UpdateNormPort updateNormPort,
     SingleModValidator singleModValidator,
     UpdateNormService updateNormService,
-    TimeMachineService timeMachineService
+    TimeMachineService timeMachineService,
+    LoadRegelungstextPort loadRegelungstextPort
   ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
     this.singleModValidator = singleModValidator;
     this.updateNormService = updateNormService;
     this.timeMachineService = timeMachineService;
+    this.loadRegelungstextPort = loadRegelungstextPort;
   }
 
   @Override
@@ -54,6 +64,13 @@ public class NormService
     return loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+  }
+
+  @Override
+  public Regelungstext loadRegelungstext(final LoadRegelungstextUseCase.Query query) {
+    return loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
   }
 
   @Override
