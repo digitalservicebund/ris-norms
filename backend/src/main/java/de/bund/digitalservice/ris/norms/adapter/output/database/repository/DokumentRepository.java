@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -68,14 +67,6 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
    * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
    */
   Optional<DokumentDto> findFirstByGuidOrderByEliDokumentManifestation(final UUID guid);
-
-  /**
-   * Deletes all {@link DokumentDto} with the given GUID
-   *
-   * @param guid The GUID to search for.
-   */
-  @Transactional
-  void deleteAllByGuid(final UUID guid);
 
   /**
    * Deletes a {@link DokumentDto} by its manifestation ELI (European Legislation Identifier) if it is in the given publish state.
