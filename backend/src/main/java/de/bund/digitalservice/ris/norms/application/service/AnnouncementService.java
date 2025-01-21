@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
@@ -191,7 +190,7 @@ public class AnnouncementService
         .forEach(norm ->
           deleteNormPort.deleteNorm(
             new DeleteNormPort.Command(
-              norm.getManifestationEli(),
+              norm.getNormManifestationEli(),
               NormPublishState.QUEUED_FOR_PUBLISH
             )
           )
@@ -210,15 +209,14 @@ public class AnnouncementService
     activeModDestinationElis.forEach(expressionEli ->
       loadNormPort
         .loadNorm(new LoadNormPort.Command(expressionEli))
-        .ifPresent(targetNorm -> {
-          DokumentManifestationEli manifestationEli = targetNorm
-            .getMeta()
-            .getFRBRManifestation()
-            .getEli();
+        .ifPresent(targetNorm ->
           deleteNormPort.deleteNorm(
-            new DeleteNormPort.Command(manifestationEli, NormPublishState.UNPUBLISHED)
-          );
-        })
+            new DeleteNormPort.Command(
+              targetNorm.getNormManifestationEli(),
+              NormPublishState.UNPUBLISHED
+            )
+          )
+        )
     );
   }
 

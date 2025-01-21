@@ -121,7 +121,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       .forEach(queuedNorm ->
         deleteNormPort.deleteNorm(
           new DeleteNormPort.Command(
-            queuedNorm.getManifestationEli(),
+            queuedNorm.getNormManifestationEli(),
             NormPublishState.QUEUED_FOR_PUBLISH
           )
         )
@@ -198,7 +198,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       );
       // delete the old unpublished manifestation so no residual data remains in the database
       deleteNormPort.deleteNorm(
-        new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+        new DeleteNormPort.Command(norm.getNormManifestationEli(), NormPublishState.UNPUBLISHED)
       );
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(nextManifestationOfNorm));
     });

@@ -101,7 +101,7 @@ class ReleaseServiceTest {
       .updateOrSave(new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfNorm));
     verify(deleteNormPort, times(1))
       .deleteNorm(
-        new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+        new DeleteNormPort.Command(norm.getNormManifestationEli(), NormPublishState.UNPUBLISHED)
       );
     verify(saveReleaseToAnnouncementPort, times(1)).saveReleaseToAnnouncement(any());
 
@@ -206,11 +206,17 @@ class ReleaseServiceTest {
     // the old manifestations for editing are deleted (as they might no longer be the newest manifestation, that's why new once are created)
     verify(deleteNormPort, times(1))
       .deleteNorm(
-        new DeleteNormPort.Command(amendingNorm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+        new DeleteNormPort.Command(
+          amendingNorm.getNormManifestationEli(),
+          NormPublishState.UNPUBLISHED
+        )
       );
     verify(deleteNormPort, times(1))
       .deleteNorm(
-        new DeleteNormPort.Command(targetNorm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+        new DeleteNormPort.Command(
+          targetNorm.getNormManifestationEli(),
+          NormPublishState.UNPUBLISHED
+        )
       );
 
     // new manifestations for further editing are saved

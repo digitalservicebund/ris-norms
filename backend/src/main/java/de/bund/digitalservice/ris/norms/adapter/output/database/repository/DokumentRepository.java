@@ -74,7 +74,7 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
    * @param manifestationEli The ELI to search for.
    * @param publishState The publishState to search for.
    */
-  void deleteByEliDokumentManifestationAndPublishState(
+  void deleteByEliNormManifestationAndPublishState(
     final String manifestationEli,
     final NormPublishState publishState
   );

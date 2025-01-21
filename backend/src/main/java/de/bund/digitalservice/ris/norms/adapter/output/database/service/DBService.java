@@ -206,7 +206,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteNorm(DeleteNormPort.Command command) {
-    dokumentRepository.deleteByEliDokumentManifestationAndPublishState(
+    dokumentRepository.deleteByEliNormManifestationAndPublishState(
       command.eli().toString(),
       command.publishState()
     );
