@@ -24,20 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class ArticleController {
 
-  private final LoadNormUseCase loadNormUseCase;
+  private final LoadRegelungstextUseCase loadRegelungstextUseCase;
   private final LoadArticlesFromNormUseCase loadArticlesFromNormUseCase;
   private final LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   public ArticleController(
-    LoadNormUseCase loadNormUseCase,
+    LoadRegelungstextUseCase loadRegelungstextUseCase1,
     LoadArticlesFromNormUseCase loadArticlesFromNormUseCase,
     LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
     LoadArticleHtmlUseCase loadArticleHtmlUseCase
   ) {
-    this.loadNormUseCase = loadNormUseCase;
+    this.loadRegelungstextUseCase = loadRegelungstextUseCase1;
     this.loadArticlesFromNormUseCase = loadArticlesFromNormUseCase;
     this.loadSpecificArticlesXmlFromNormUseCase = loadSpecificArticlesXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
@@ -128,10 +128,12 @@ public class ArticleController {
     final DokumentExpressionEli eli,
     @PathVariable final String eid
   ) {
-    final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+    final var regelungstext = loadRegelungstextUseCase.loadRegelungstext(
+      new LoadRegelungstextUseCase.Query(eli)
+    );
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper
-    return norm
+    return regelungstext
       .getArticles()
       .stream()
       .filter(article -> article.getEid().equals(eid))

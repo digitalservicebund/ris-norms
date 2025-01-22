@@ -72,7 +72,9 @@ class ReleaseServiceTest {
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
     when(deleteQueuedReleasesPort.deleteQueuedReleases(any())).thenReturn(List.of());
-    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
+    when(
+      normService.loadNorm(argThat(command -> command.eli().equals(norm.getNormExpressionEli())))
+    )
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
       .thenReturn(manifestationOfNormToQueue);
@@ -295,7 +297,9 @@ class ReleaseServiceTest {
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
-    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
+    when(
+      normService.loadNorm(argThat(command -> command.eli().equals(norm.getNormExpressionEli())))
+    )
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
       .thenReturn(manifestationOfNormToQueue);
@@ -343,7 +347,9 @@ class ReleaseServiceTest {
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
-    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
+    when(
+      normService.loadNorm(argThat(command -> command.eli().equals(norm.getNormExpressionEli())))
+    )
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
       .thenReturn(manifestationOfNormToQueue);

@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.*;
 public class NormExpressionController {
 
   private final LoadNormUseCase loadNormUseCase;
+  private final LoadRegelungstextUseCase loadRegelungstextUseCase;
   private final LoadNormXmlUseCase loadNormXmlUseCase;
   private final UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
@@ -45,6 +46,7 @@ public class NormExpressionController {
 
   public NormExpressionController(
     LoadNormUseCase loadNormUseCase,
+    LoadRegelungstextUseCase loadRegelungstextUseCase,
     LoadNormXmlUseCase loadNormXmlUseCase,
     UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
@@ -53,6 +55,7 @@ public class NormExpressionController {
     UpdateModsUseCase updateModsUseCase
   ) {
     this.loadNormUseCase = loadNormUseCase;
+    this.loadRegelungstextUseCase = loadRegelungstextUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateRegelungstextXmlUseCase = updateRegelungstextXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
@@ -71,7 +74,7 @@ public class NormExpressionController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<NormResponseSchema> getNorm(final DokumentExpressionEli eli) {
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.asNormEli()));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 
@@ -106,9 +109,9 @@ public class NormExpressionController {
     @RequestParam Optional<Instant> atIsoDate
   ) {
     if (atIsoDate.isPresent()) {
-      var regelungstext = loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli))
-        .getRegelungstext1();
+      var regelungstext = loadRegelungstextUseCase.loadRegelungstext(
+        new LoadRegelungstextUseCase.Query(eli)
+      );
       regelungstext =
       applyPassiveModificationsUseCase.applyPassiveModifications(
         new ApplyPassiveModificationsUseCase.Query(regelungstext, atIsoDate.get())

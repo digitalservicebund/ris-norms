@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstex
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
@@ -50,9 +51,7 @@ class NormServiceTest {
     @Test
     void itCallsLoadNormAndReturnsNorm() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
 
       var norm = Norm
         .builder()
@@ -89,16 +88,14 @@ class NormServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(returnedNorm).isEqualTo(norm);
     }
 
     @Test
     void itThrowsWhenNormIsNotFound() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
       var query = new LoadNormUseCase.Query(eli);
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
@@ -108,7 +105,7 @@ class NormServiceTest {
         .isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
     }
   }
 

@@ -269,9 +269,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
-            .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
-            )
+            .value("Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu does not exist")
         )
         .andExpect(
           jsonPath("instance")
@@ -279,9 +277,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
               "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
             )
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test

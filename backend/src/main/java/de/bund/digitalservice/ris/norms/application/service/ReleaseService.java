@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -89,7 +90,9 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
 
     // find all norms to publish
     Set<Norm> normsToPublish = new HashSet<>();
-    normsToPublish.add(normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli())));
+    normsToPublish.add(
+      normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli().asNormEli()))
+    );
 
     for (Norm norm : normsToPublish) {
       var analysis = norm.getMeta().getAnalysis();
@@ -105,6 +108,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
         .flatMap(Optional::stream)
         .map(Href::getExpressionEli)
         .flatMap(Optional::stream)
+        .map(DokumentExpressionEli::asNormEli)
         .map(eli -> normService.loadNorm(new LoadNormUseCase.Query(eli)))
         .forEach(normsToPublish::add);
     }

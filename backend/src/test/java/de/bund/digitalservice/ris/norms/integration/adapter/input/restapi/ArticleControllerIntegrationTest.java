@@ -440,13 +440,13 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
+              "Regelungstext with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(

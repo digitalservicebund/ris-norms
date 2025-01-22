@@ -37,7 +37,7 @@ public class EliService {
 
     for (int i = 0; i < 1000; i++) {
       try {
-        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(expressionEli));
+        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(expressionEli.asNormEli()));
         expressionEli.setVersion(expressionEli.getVersion() + 1);
       } catch (NormNotFoundException e) {
         return expressionEli;

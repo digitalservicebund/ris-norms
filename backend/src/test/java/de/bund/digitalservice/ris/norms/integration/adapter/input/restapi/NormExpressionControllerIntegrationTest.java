@@ -201,10 +201,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
   class PutNormByEli {
 
     @Test
-    void itReturnsNormNotFound() throws Exception {
+    void itReturnsNotFound() throws Exception {
       // Given no norm in database
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String xml = "<akn:doc>new</akn:doc>";
+      final String xml =
+        "<akn:doc xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.1/\">new</akn:doc>";
 
       // When
       mockMvc
@@ -221,17 +222,13 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
-            .value(
-              "Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1 does not exist"
-            )
+            .value("Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu does not exist")
         )
         .andExpect(
           jsonPath("instance")
             .value("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu"));
     }
 
     @Test

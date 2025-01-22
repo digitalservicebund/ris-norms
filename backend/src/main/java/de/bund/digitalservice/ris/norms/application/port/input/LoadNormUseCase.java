@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
 
 /**
  * Interface representing the use case for loading a {@link Norm}. Implementations of this interface
@@ -24,5 +24,5 @@ public interface LoadNormUseCase {
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the norm in the query.
    */
-  record Query(DokumentEli eli) {}
+  record Query(NormEli eli) {}
 }

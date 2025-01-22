@@ -139,7 +139,7 @@ public class NormService
     Map<DokumentExpressionEli, Norm> zf0s = allTargetLawsEli
       .stream()
       .map(expressionEli -> {
-        Norm zf0 = loadNorm(new LoadNormUseCase.Query(expressionEli));
+        Norm zf0 = loadNorm(new LoadNormUseCase.Query(expressionEli.asNormEli()));
         return new AbstractMap.SimpleImmutableEntry<>(expressionEli, zf0);
       })
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
