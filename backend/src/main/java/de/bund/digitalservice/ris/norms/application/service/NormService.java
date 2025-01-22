@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 public class NormService
   implements
     LoadNormUseCase,
-    LoadNormXmlUseCase,
+    LoadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase,
     UpdateModUseCase,
     UpdateModsUseCase,
@@ -74,12 +74,12 @@ public class NormService
   }
 
   @Override
-  public String loadNormXml(final LoadNormXmlUseCase.Query query) {
-    final Norm norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+  public String loadRegelungstextXml(final LoadRegelungstextXmlUseCase.Query query) {
+    final Regelungstext regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
-    return XmlMapper.toString(norm.getDocument());
+    return XmlMapper.toString(regelungstext.getDocument());
   }
 
   @Override

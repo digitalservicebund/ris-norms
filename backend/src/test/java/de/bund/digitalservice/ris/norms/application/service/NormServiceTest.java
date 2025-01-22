@@ -173,67 +173,60 @@ class NormServiceTest {
   }
 
   @Nested
-  class loadNormXml {
+  class loadRegelungstextXml {
 
     @Test
-    void itCallsLoadNormAndReturnsXml() {
+    void itCallsLoadRegelungstextAndReturnsXml() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                        <!-- Metadaten -->
-                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                           <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                              <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                 <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                              </akn:FRBRExpression>
-                          </akn:identification>
-                        </akn:meta>
-                     </akn:act>
-                  </akn:akomaNtoso>
-                """
-              )
-            )
-          )
+      var regelungstext = new Regelungstext(
+        XmlMapper.toDocument(
+          """
+            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                       http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+               <akn:act name="regelungstext">
+                  <!-- Metadaten -->
+                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                        </akn:FRBRExpression>
+                    </akn:identification>
+                  </akn:meta>
+               </akn:act>
+            </akn:akomaNtoso>
+          """
         )
-        .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(eli));
+      var xml = service.loadRegelungstextXml(new LoadRegelungstextXmlUseCase.Query(eli));
 
       // Then
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadRegelungstextPort, times(1))
+        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(xml).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
     }
 
     @Test
-    void itCallsLoadNormAndThrowsNotFound() {
+    void itCallsLoadRegelungstextAndThrowsNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      var query = new LoadNormXmlUseCase.Query(eli);
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
+      var query = new LoadRegelungstextXmlUseCase.Query(eli);
 
       // When
-      assertThatThrownBy(() -> service.loadNormXml(query))
+      assertThatThrownBy(() -> service.loadRegelungstextXml(query))
         // then
-        .isInstanceOf(NormNotFoundException.class);
+        .isInstanceOf(RegelungstextNotFoundException.class);
     }
   }
 

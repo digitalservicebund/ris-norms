@@ -51,7 +51,7 @@ class NormExpressionControllerTest {
   private LoadRegelungstextUseCase loadRegelungstextUseCase;
 
   @MockitoBean
-  private LoadNormXmlUseCase loadNormXmlUseCase;
+  private LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase;
 
   @MockitoBean
   private UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
@@ -189,7 +189,7 @@ class NormExpressionControllerTest {
       final String xml = "<target></target>";
 
       // When
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
+      when(loadRegelungstextXmlUseCase.loadRegelungstextXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -209,7 +209,7 @@ class NormExpressionControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
+      when(loadRegelungstextXmlUseCase.loadRegelungstextXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -232,7 +232,7 @@ class NormExpressionControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
+      when(loadRegelungstextXmlUseCase.loadRegelungstextXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then

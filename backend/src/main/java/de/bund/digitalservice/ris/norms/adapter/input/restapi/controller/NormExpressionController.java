@@ -37,7 +37,7 @@ public class NormExpressionController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final LoadRegelungstextUseCase loadRegelungstextUseCase;
-  private final LoadNormXmlUseCase loadNormXmlUseCase;
+  private final LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase;
   private final UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
@@ -47,7 +47,7 @@ public class NormExpressionController {
   public NormExpressionController(
     LoadNormUseCase loadNormUseCase,
     LoadRegelungstextUseCase loadRegelungstextUseCase,
-    LoadNormXmlUseCase loadNormXmlUseCase,
+    LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
     ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
@@ -56,7 +56,7 @@ public class NormExpressionController {
   ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadRegelungstextUseCase = loadRegelungstextUseCase;
-    this.loadNormXmlUseCase = loadNormXmlUseCase;
+    this.loadRegelungstextXmlUseCase = loadRegelungstextXmlUseCase;
     this.updateRegelungstextXmlUseCase = updateRegelungstextXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
@@ -88,7 +88,9 @@ public class NormExpressionController {
    */
   @GetMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormXml(final DokumentExpressionEli eli) {
-    return ResponseEntity.ok(loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli)));
+    return ResponseEntity.ok(
+      loadRegelungstextXmlUseCase.loadRegelungstextXml(new LoadRegelungstextXmlUseCase.Query(eli))
+    );
   }
 
   /**
@@ -128,7 +130,9 @@ public class NormExpressionController {
       );
     }
 
-    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli));
+    var normXml = loadRegelungstextXmlUseCase.loadRegelungstextXml(
+      new LoadRegelungstextXmlUseCase.Query(eli)
+    );
     var legalDocHtml =
       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
           new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false)

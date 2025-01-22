@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadRegelungstextXmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class NormManifestationController {
 
-  private final LoadNormXmlUseCase loadNormXmlUseCase;
+  private final LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase;
 
-  public NormManifestationController(LoadNormXmlUseCase loadNormXmlUseCase) {
-    this.loadNormXmlUseCase = loadNormXmlUseCase;
+  public NormManifestationController(LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase) {
+    this.loadRegelungstextXmlUseCase = loadRegelungstextXmlUseCase;
   }
 
   /**
@@ -40,7 +40,9 @@ public class NormManifestationController {
    */
   @GetMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormManifestationXml(final DokumentManifestationEli eli) {
-    var norm = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli));
+    var norm = loadRegelungstextXmlUseCase.loadRegelungstextXml(
+      new LoadRegelungstextXmlUseCase.Query(eli)
+    );
     return ResponseEntity.ok(norm);
   }
 }

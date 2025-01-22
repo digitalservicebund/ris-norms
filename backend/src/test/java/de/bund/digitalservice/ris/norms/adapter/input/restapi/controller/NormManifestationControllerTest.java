@@ -4,7 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadRegelungstextXmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import org.junit.jupiter.api.Nested;
@@ -32,7 +32,7 @@ public class NormManifestationControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean
-  private LoadNormXmlUseCase loadNormXmlUseCase;
+  private LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase;
 
   @Nested
   class getNormManifestationXml {
@@ -72,7 +72,7 @@ public class NormManifestationControllerTest {
         """;
 
       // When
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
+      when(loadRegelungstextXmlUseCase.loadRegelungstextXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -80,8 +80,10 @@ public class NormManifestationControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML));
 
-      verify(loadNormXmlUseCase, times(1))
-        .loadNormXml(new LoadNormXmlUseCase.Query(DokumentManifestationEli.fromString(eli)));
+      verify(loadRegelungstextXmlUseCase, times(1))
+        .loadRegelungstextXml(
+          new LoadRegelungstextXmlUseCase.Query(DokumentManifestationEli.fromString(eli))
+        );
     }
   }
 }
