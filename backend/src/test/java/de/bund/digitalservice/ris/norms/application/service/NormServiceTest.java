@@ -586,8 +586,8 @@ class NormServiceTest {
       // given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      DokumentExpressionEli zf0EliTargetNorm = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      NormExpressionEli zf0EliTargetNorm = NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetNorm));
@@ -607,9 +607,7 @@ class NormServiceTest {
 
       // then
       verify(loadNormPort, times(1))
-        .loadNorm(
-          argThat(argument -> Objects.equals(argument.eli(), zf0EliTargetNorm.asNormEli()))
-        );
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0EliTargetNorm)));
       verify(updateNormPort, times(1))
         .updateNorm(
           argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(amendingNorm)))
@@ -683,11 +681,11 @@ class NormServiceTest {
         .build();
       amendingNorm.getMeta().getAnalysis().get().getActiveModifications();
       Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      DokumentExpressionEli zf0EliTargetNorm = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      NormExpressionEli zf0EliTargetNorm = NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
       );
-      DokumentExpressionEli zf0EliNonExistent = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2000/s111/2000-08-05/1/deu/regelungstext-1"
+      NormExpressionEli zf0EliNonExistent = NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2000/s111/2000-08-05/1/deu"
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(zf0EliTargetNorm)))
@@ -712,9 +710,7 @@ class NormServiceTest {
 
       // then
       verify(loadNormPort, times(1))
-        .loadNorm(
-          argThat(argument -> Objects.equals(argument.eli(), zf0EliNonExistent.asNormEli()))
-        );
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0EliNonExistent)));
       verify(updateNormPort, never())
         .updateNorm(
           argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(amendingNorm)))

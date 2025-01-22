@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModif
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,7 @@ class UpdateNormServiceTest {
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
-          targetLaw.getExpressionEli()
+          targetLaw.getNormExpressionEli()
         )
       );
 
@@ -70,9 +71,7 @@ class UpdateNormServiceTest {
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
@@ -118,7 +117,7 @@ class UpdateNormServiceTest {
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
-          targetLaw.getExpressionEli()
+          targetLaw.getNormExpressionEli()
         )
       );
 
@@ -187,9 +186,7 @@ class UpdateNormServiceTest {
         new UpdatePassiveModificationsUseCase.Query(
           zf0Law,
           amendingLaw,
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
@@ -240,8 +237,8 @@ class UpdateNormServiceTest {
       final Norm zf0Law = Fixtures.loadNormFromDisk(
         "NormWithPassiveModsQuotedStructureAndUpTo.xml"
       );
-      final DokumentExpressionEli targetLawELi = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1"
+      final NormExpressionEli targetLawELi = NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu"
       );
 
       // When

@@ -147,7 +147,7 @@ public class NormService
     // Update passive modifications for each target norm
     zf0s.forEach((eli, zf0) ->
       updateNormService.updateOnePassiveModification(
-        new UpdatePassiveModificationsUseCase.Query(zf0, normToBeUpdated, eli)
+        new UpdatePassiveModificationsUseCase.Query(zf0, normToBeUpdated, eli.asNormEli())
       )
     );
 
@@ -228,7 +228,7 @@ public class NormService
     );
 
     updateNormService.updateOnePassiveModification(
-      new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli)
+      new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.asNormEli())
     );
 
     // Validate changes on the future version valid one day before the time boundary of this mod

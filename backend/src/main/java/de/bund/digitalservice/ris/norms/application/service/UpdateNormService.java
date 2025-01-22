@@ -71,7 +71,7 @@ public class UpdateNormService
         activeModification
           .getDestinationHref()
           .flatMap(Href::getExpressionEli)
-          .filter(eli -> eli.equals(query.targetNormEli()))
+          .filter(eli -> eli.asNormEli().equals(query.targetNormEli()))
           .isPresent()
       )
       .toList();
