@@ -67,7 +67,7 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -146,7 +146,7 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
     );
 
-    var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -252,7 +252,7 @@ class ReleaseServiceTest {
   void itShouldUpdateTheReleasedByDocumentalistAtDate() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -293,7 +293,7 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -343,7 +343,7 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);

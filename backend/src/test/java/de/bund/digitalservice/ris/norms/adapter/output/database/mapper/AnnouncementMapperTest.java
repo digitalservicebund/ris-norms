@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import org.junit.jupiter.api.Test;
 
 class AnnouncementMapperTest {
@@ -14,7 +14,7 @@ class AnnouncementMapperTest {
     // Given
     var announcementDto = AnnouncementDto
       .builder()
-      .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       .build();
 
     // When
@@ -31,11 +31,7 @@ class AnnouncementMapperTest {
     // Given
     var announcement = Announcement
       .builder()
-      .eli(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
-      )
+      .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
       .build();
 
     // When

@@ -65,7 +65,6 @@ public class AnnouncementController {
       .loadAllAnnouncements()
       .stream()
       .map(Announcement::getEli)
-      .map(DokumentExpressionEli::asNormEli)
       .map(LoadNormUseCase.Query::new)
       .map(loadNormUseCase::loadNorm)
       .map(NormResponseMapper::fromUseCaseData)
@@ -137,9 +136,7 @@ public class AnnouncementController {
     var announcement = createAnnouncementUseCase.createAnnouncement(
       new CreateAnnouncementUseCase.Query(file, force)
     );
-    var norm = loadNormUseCase.loadNorm(
-      new LoadNormUseCase.Query(announcement.getEli().asNormEli())
-    );
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(announcement.getEli()));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 }

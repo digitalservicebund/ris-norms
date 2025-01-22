@@ -221,7 +221,7 @@ public class AnnouncementService
   }
 
   private Announcement saveNewAnnouncement(Norm norm) {
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
     updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
     updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
       new UpdateOrSaveAnnouncementPort.Command(announcement)

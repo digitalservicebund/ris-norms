@@ -133,7 +133,7 @@ public class DBService
     LoadAnnouncementByNormEliPort.Command command
   ) {
     return announcementRepository
-      .findByEli(command.eli().toString())
+      .findByEli(command.eli().asNormEli().toString())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -207,8 +207,8 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    var announcementDto = announcementRepository.findByEli(command.eli().toString());
-    announcementRepository.deleteByEli(command.eli().toString());
+    var announcementDto = announcementRepository.findByEli(command.eli().asNormEli().toString());
+    announcementRepository.deleteByEli(command.eli().asNormEli().toString());
     announcementDto.ifPresent(dto -> releaseRepository.deleteAll(dto.getReleases()));
   }
 
@@ -224,7 +224,7 @@ public class DBService
   @Override
   public Optional<Release> loadLatestRelease(LoadLatestReleasePort.Command command) {
     return announcementRepository
-      .findByEli(command.eli().toString())
+      .findByEli(command.eli().asNormEli().toString())
       .stream()
       .map(AnnouncementMapper::mapToDomain)
       .map(Announcement::getReleases)

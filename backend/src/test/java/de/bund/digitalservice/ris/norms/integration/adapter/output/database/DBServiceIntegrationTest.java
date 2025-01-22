@@ -233,7 +233,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsAnnouncementOnDB() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
     // When
@@ -319,13 +319,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       .builder()
       .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml1))))
       .build();
-    var announcement1 = Announcement.builder().eli(norm1.getExpressionEli()).build();
+    var announcement1 = Announcement.builder().eli(norm1.getNormExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
     var norm2 = Norm
       .builder()
       .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml2))))
       .build();
-    var announcement2 = Announcement.builder().eli(norm2.getExpressionEli()).build();
+    var announcement2 = Announcement.builder().eli(norm2.getNormExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
 
     // When
@@ -422,7 +422,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       .builder()
       .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
       .build();
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
 
     // When
     var announcementFromDatabase = dbService.updateOrSaveAnnouncement(
@@ -458,7 +458,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     announcementRepository.save(
       AnnouncementDto
         .builder()
-        .eli(norm1.getExpressionEli().toString())
+        .eli(norm1.getNormExpressionEli().toString())
         .releases(List.of(release1, release2))
         .build()
     );
@@ -493,7 +493,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     void itUpdatesAnnouncementAndSavesRelease() {
       // Given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
       dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
@@ -504,7 +504,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         new SaveReleaseToAnnouncementPort.Command(release, announcement)
       );
 
-      var savedAnnouncement = announcementRepository.findByEli(norm.getExpressionEli().toString());
+      var savedAnnouncement = announcementRepository.findByEli(
+        norm.getNormExpressionEli().toString()
+      );
 
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
@@ -530,7 +532,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       // Given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
       var normDto = dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
@@ -547,7 +549,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       dbService.deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
 
       // Then
-      var savedAnnouncement = announcementRepository.findByEli(norm.getExpressionEli().toString());
+      var savedAnnouncement = announcementRepository.findByEli(
+        norm.getNormExpressionEli().toString()
+      );
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).isEmpty();
 
