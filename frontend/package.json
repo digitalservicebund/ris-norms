@@ -27,7 +27,7 @@
     "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },
   "engines": {
-    "node": "22.13.0",
+    "node": "22.13.1",
     "npm": "11.0.0"
   },
   "dependencies": {
