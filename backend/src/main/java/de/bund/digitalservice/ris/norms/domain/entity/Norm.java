@@ -1,7 +1,9 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
@@ -44,6 +46,28 @@ public class Norm {
    */
   public Regelungstext getRegelungstext1() {
     return regelungstexte.iterator().next();
+  }
+
+  /**
+   * Get a specific regelungstext of this norm by its ELI
+   * @param dokumentEli the eli of the dokument
+   * @return the {@link Regelungstext} or empty if none of the {@link Regelungstext}e match
+   */
+  public Optional<Regelungstext> getRegelungstextByEli(DokumentEli dokumentEli) {
+    return getRegelungstexte()
+      .stream()
+      .filter(regelungstext ->
+        switch (dokumentEli) {
+          case DokumentManifestationEli manifestationEli -> regelungstext
+            .getManifestationEli()
+            .equals(manifestationEli);
+          case DokumentExpressionEli expressionEli -> regelungstext
+            .getExpressionEli()
+            .equals(expressionEli);
+          case DokumentWorkEli workEli -> regelungstext.getWorkEli().equals(workEli);
+        }
+      )
+      .findFirst();
   }
 
   @Deprecated(forRemoval = true)

@@ -51,7 +51,7 @@ class NormExpressionControllerTest {
   private LoadNormXmlUseCase loadNormXmlUseCase;
 
   @MockitoBean
-  private UpdateNormXmlUseCase updateNormXmlUseCase;
+  private UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
 
   @MockitoBean
   private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
@@ -283,7 +283,7 @@ class NormExpressionControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(xml);
+      when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -298,8 +298,8 @@ class NormExpressionControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
         .andExpect(content().string(xml));
 
-      verify(updateNormXmlUseCase, times(1))
-        .updateNormXml(argThat(query -> query.xml().equals(xml)));
+      verify(updateRegelungstextXmlUseCase, times(1))
+        .updateRegelungstextXml(argThat(query -> query.xml().equals(xml)));
     }
 
     @Test
@@ -308,7 +308,7 @@ class NormExpressionControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any()))
+      when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any()))
         .thenThrow(new InvalidUpdateException("Error Message"));
 
       // When // Then
@@ -330,8 +330,8 @@ class NormExpressionControllerTest {
             .value("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
         );
 
-      verify(updateNormXmlUseCase, times(1))
-        .updateNormXml(argThat(query -> query.xml().equals(xml)));
+      verify(updateRegelungstextXmlUseCase, times(1))
+        .updateRegelungstextXml(argThat(query -> query.xml().equals(xml)));
     }
 
     @Test
@@ -340,7 +340,7 @@ class NormExpressionControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any()))
+      when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any()))
         .thenThrow(new MandatoryNodeNotFoundException("example-xpath", "example/eli"));
 
       // When

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
@@ -1550,6 +1551,68 @@ class NormTest {
 
       // then
       assertThat(textualMod).isEqualTo(2);
+    }
+  }
+
+  @Nested
+  class getRegelungstextByEli {
+
+    @Test
+    void itReturnsRegelungstext1ByExpressionEli() {
+      // Given
+      Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
+
+      // When
+      var loadedRegelungstext = norm.getRegelungstextByEli(regelungstext1.getExpressionEli());
+
+      // Then
+      assertThat(loadedRegelungstext).contains(regelungstext1);
+    }
+
+    @Test
+    void itReturnsRegelungstext2ByManifestationEli() {
+      // Given
+      Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
+
+      // When
+      var loadedRegelungstext = norm.getRegelungstextByEli(regelungstext2.getManifestationEli());
+
+      // Then
+      assertThat(loadedRegelungstext).contains(regelungstext2);
+    }
+
+    @Test
+    void itReturnsRegelungstext1ByWorkEli() {
+      // Given
+      Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
+
+      // When
+      var loadedRegelungstext = norm.getRegelungstextByEli(regelungstext1.getWorkEli());
+
+      // Then
+      assertThat(loadedRegelungstext).contains(regelungstext1);
+    }
+
+    @Test
+    void itReturnsEmptyForUnknownEli() {
+      // Given
+      Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
+
+      // When
+      var loadedRegelungstext = norm.getRegelungstextByEli(
+        DokumentWorkEli.fromString("eli/bund/bgbl-1/2022/23/regelungstext-3")
+      );
+
+      // Then
+      assertThat(loadedRegelungstext).isEmpty();
     }
   }
 }

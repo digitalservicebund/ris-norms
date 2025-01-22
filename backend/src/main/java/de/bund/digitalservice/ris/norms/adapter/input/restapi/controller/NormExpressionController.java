@@ -37,7 +37,7 @@ public class NormExpressionController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final LoadNormXmlUseCase loadNormXmlUseCase;
-  private final UpdateNormXmlUseCase updateNormXmlUseCase;
+  private final UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   private final UpdateModUseCase updateModUseCase;
@@ -46,7 +46,7 @@ public class NormExpressionController {
   public NormExpressionController(
     LoadNormUseCase loadNormUseCase,
     LoadNormXmlUseCase loadNormXmlUseCase,
-    UpdateNormXmlUseCase updateNormXmlUseCase,
+    UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
     ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
     UpdateModUseCase updateModUseCase,
@@ -54,7 +54,7 @@ public class NormExpressionController {
   ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
-    this.updateNormXmlUseCase = updateNormXmlUseCase;
+    this.updateRegelungstextXmlUseCase = updateRegelungstextXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
     this.updateModUseCase = updateModUseCase;
@@ -148,8 +148,8 @@ public class NormExpressionController {
     final DokumentExpressionEli eli,
     @RequestBody String xml
   ) {
-    var updatedAmendingLaw = updateNormXmlUseCase.updateNormXml(
-      new UpdateNormXmlUseCase.Query(eli, xml)
+    var updatedAmendingLaw = updateRegelungstextXmlUseCase.updateRegelungstextXml(
+      new UpdateRegelungstextXmlUseCase.Query(eli, xml)
     );
 
     return ResponseEntity.ok(updatedAmendingLaw);

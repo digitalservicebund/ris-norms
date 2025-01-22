@@ -241,7 +241,7 @@ class NormServiceTest {
   }
 
   @Nested
-  class updateNormXml {
+  class updateRegelungstextXml {
 
     @Test
     void itUpdatesXml() throws InvalidUpdateException {
@@ -331,7 +331,9 @@ class NormServiceTest {
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(newNorm));
 
       // When
-      var result = service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml));
+      var result = service.updateRegelungstextXml(
+        new UpdateRegelungstextXmlUseCase.Query(eli, newXml)
+      );
 
       // Then
       verify(loadNormPort, times(1))
@@ -385,10 +387,10 @@ class NormServiceTest {
         """;
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      var query = new UpdateNormXmlUseCase.Query(eli, newXml);
+      var query = new UpdateRegelungstextXmlUseCase.Query(eli, newXml);
 
       // When
-      assertThatThrownBy(() -> service.updateNormXml(query))
+      assertThatThrownBy(() -> service.updateRegelungstextXml(query))
         // then
         .isInstanceOf(NormNotFoundException.class);
 
@@ -481,7 +483,7 @@ class NormServiceTest {
 
       // When
       var thrown = catchThrowable(() ->
-        service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml))
+        service.updateRegelungstextXml(new UpdateRegelungstextXmlUseCase.Query(eli, newXml))
       );
 
       // Then
@@ -575,7 +577,7 @@ class NormServiceTest {
 
       // When
       var thrown = catchThrowable(() ->
-        service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml))
+        service.updateRegelungstextXml(new UpdateRegelungstextXmlUseCase.Query(eli, newXml))
       );
 
       // Then

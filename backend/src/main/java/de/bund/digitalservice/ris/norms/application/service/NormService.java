@@ -31,7 +31,7 @@ public class NormService
   implements
     LoadNormUseCase,
     LoadNormXmlUseCase,
-    UpdateNormXmlUseCase,
+    UpdateRegelungstextXmlUseCase,
     UpdateModUseCase,
     UpdateModsUseCase,
     LoadRegelungstextUseCase {
@@ -83,26 +83,35 @@ public class NormService
   }
 
   @Override
-  public String updateNormXml(UpdateNormXmlUseCase.Query query) {
+  public String updateRegelungstextXml(UpdateRegelungstextXmlUseCase.Query query) {
+    var regelungstextToBeUpdated = new Regelungstext(XmlMapper.toDocument(query.xml()));
+
     var existingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+      .loadNorm(new LoadNormPort.Command(query.eli().asNormEli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().asNormEli().toString()));
+    var existingRegelungstext = existingNorm
+      .getRegelungstextByEli(query.eli())
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
-    var normToBeUpdated = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(query.xml()))))
-      .build();
-
-    if (!existingNorm.getExpressionEli().equals(normToBeUpdated.getExpressionEli())) {
+    if (
+      !existingRegelungstext.getExpressionEli().equals(regelungstextToBeUpdated.getExpressionEli())
+    ) {
       throw new InvalidUpdateException("Changing the ELI is not supported.");
     }
 
-    if (!existingNorm.getGuid().equals(normToBeUpdated.getGuid())) {
+    if (!existingRegelungstext.getGuid().equals(regelungstextToBeUpdated.getGuid())) {
       throw new InvalidUpdateException("Changing the GUID is not supported.");
     }
-    var updatedNorm = updateNorm(normToBeUpdated);
 
-    return XmlMapper.toString(updatedNorm.get(query.eli()).getDocument());
+    var regelungstexte = new HashSet<>(existingNorm.getRegelungstexte());
+    regelungstexte.remove(existingRegelungstext);
+    regelungstexte.add(regelungstextToBeUpdated);
+    existingNorm.setRegelungstexte(regelungstexte);
+
+    var updatedNorm = updateNorm(existingNorm).get(query.eli());
+    var updatedRegelungstext = updatedNorm.getRegelungstextByEli(query.eli()).orElseThrow();
+
+    return XmlMapper.toString(updatedRegelungstext.getDocument());
   }
 
   /**
