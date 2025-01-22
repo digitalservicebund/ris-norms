@@ -7,7 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
@@ -110,9 +110,9 @@ public class ProprietaryService
       query.metadata().organisationsEinheit()
     );
 
-    Map<DokumentExpressionEli, Norm> updatedNorms = normService.updateNorm(norm);
+    Map<NormExpressionEli, Norm> updatedNorms = normService.updateNorm(norm);
 
-    Norm updatedNorm = updatedNorms.get(query.eli());
+    Norm updatedNorm = updatedNorms.get(query.eli().asNormEli());
     if (updatedNorm != null) return updatedNorm
       .getMeta()
       .getOrCreateProprietary(); else return null;

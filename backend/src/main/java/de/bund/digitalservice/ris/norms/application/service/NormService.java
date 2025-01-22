@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstex
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -108,7 +109,7 @@ public class NormService
     regelungstexte.add(regelungstextToBeUpdated);
     existingNorm.setRegelungstexte(regelungstexte);
 
-    var updatedNorm = updateNorm(existingNorm).get(query.eli());
+    var updatedNorm = updateNorm(existingNorm).get(query.eli().asNormEli());
     var updatedRegelungstext = updatedNorm.getRegelungstextByEli(query.eli()).orElseThrow();
 
     return XmlMapper.toString(updatedRegelungstext.getDocument());
@@ -122,9 +123,10 @@ public class NormService
    * @return An {@link Map} containing the updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
-  public Map<DokumentExpressionEli, Norm> updateNorm(Norm normToBeUpdated) {
+  public Map<NormExpressionEli, Norm> updateNorm(Norm normToBeUpdated) {
     // Collect all target norms' ELI without duplications
-    Set<DokumentExpressionEli> allTargetLawsEli = normToBeUpdated
+    Set<NormExpressionEli> allTargetLawsEli = normToBeUpdated
+      .getRegelungstext1()
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getActiveModifications().stream())
@@ -133,13 +135,14 @@ public class NormService
       .flatMap(Optional::stream)
       .map(Href::getExpressionEli)
       .flatMap(Optional::stream)
+      .map(DokumentExpressionEli::asNormEli)
       .collect(Collectors.toSet());
 
     // Load all target norms
-    Map<DokumentExpressionEli, Norm> zf0s = allTargetLawsEli
+    Map<NormExpressionEli, Norm> zf0s = allTargetLawsEli
       .stream()
       .map(expressionEli -> {
-        Norm zf0 = loadNorm(new LoadNormUseCase.Query(expressionEli.asNormEli()));
+        Norm zf0 = loadNorm(new LoadNormUseCase.Query(expressionEli));
         return new AbstractMap.SimpleImmutableEntry<>(expressionEli, zf0);
       })
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -147,25 +150,29 @@ public class NormService
     // Update passive modifications for each target norm
     zf0s.forEach((eli, zf0) ->
       updateNormService.updateOnePassiveModification(
-        new UpdatePassiveModificationsUseCase.Query(zf0, normToBeUpdated, eli.asNormEli())
+        new UpdatePassiveModificationsUseCase.Query(zf0, normToBeUpdated, eli)
       )
     );
 
     // Add the norm to be updated to the map of updated norms
-    Map<DokumentExpressionEli, Norm> updatedNorms = new HashMap<>(zf0s);
-    updatedNorms.put(normToBeUpdated.getExpressionEli(), normToBeUpdated);
+    Map<NormExpressionEli, Norm> updatedNorms = new HashMap<>(zf0s);
+    updatedNorms.put(normToBeUpdated.getNormExpressionEli(), normToBeUpdated);
 
     return updatedNorms
       .entrySet()
       .stream()
       .map(entry -> {
         Norm norm = entry.getValue();
-        EidConsistencyGuardian.eliminateDeadReferences(norm.getDocument());
-        EidConsistencyGuardian.correctEids(norm.getDocument());
+        norm
+          .getRegelungstexte()
+          .forEach(regelungstext -> {
+            EidConsistencyGuardian.eliminateDeadReferences(regelungstext.getDocument());
+            EidConsistencyGuardian.correctEids(regelungstext.getDocument());
+          });
 
         Norm savedNorm = updateNormPort
           .updateNorm(new UpdateNormPort.Command(norm))
-          .orElseThrow(() -> new NormNotFoundException(norm.getManifestationEli().toString()));
+          .orElseThrow(() -> new NormNotFoundException(norm.getNormManifestationEli().toString()));
 
         return new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), savedNorm);
       })

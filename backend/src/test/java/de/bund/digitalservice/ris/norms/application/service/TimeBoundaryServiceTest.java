@@ -409,7 +409,7 @@ class TimeBoundaryServiceTest {
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       when(normService.updateNorm(any()))
-        .thenReturn(Map.of(normAfter.getExpressionEli(), normAfter));
+        .thenReturn(Map.of(normAfter.getNormExpressionEli(), normAfter));
 
       // When
       var timeBoundaryChangeDataOldStays = new TimeBoundaryChangeData(
@@ -489,7 +489,7 @@ class TimeBoundaryServiceTest {
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       // since we don't test results the return value is relevant but must be present
-      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli.asNormEli(), normBefore));
       // When
       var timeBoundaryChangeDataOldStays = new TimeBoundaryChangeData(
         "meta-1_lebzykl-1_ereignis-2",
@@ -591,7 +591,7 @@ class TimeBoundaryServiceTest {
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       // since we don't test results the return value is relevant but must be present
-      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli.asNormEli(), normBefore));
 
       // When
       var timeBoundaryChangeDataOldStays = new TimeBoundaryChangeData(
@@ -662,7 +662,7 @@ class TimeBoundaryServiceTest {
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       // since we don't test results the return value is relevant but must be present
-      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli.asNormEli(), normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 = new TimeBoundaryChangeData(
@@ -750,7 +750,7 @@ class TimeBoundaryServiceTest {
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       // since we don't test results the return value is not relevant but must be present
-      when(normService.updateNorm(any())).thenReturn(Map.of(eli, normBefore));
+      when(normService.updateNorm(any())).thenReturn(Map.of(eli.asNormEli(), normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 = new TimeBoundaryChangeData(
