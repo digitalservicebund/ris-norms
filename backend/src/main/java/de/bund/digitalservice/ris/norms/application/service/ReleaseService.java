@@ -90,9 +90,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
 
     // find all norms to publish
     Set<Norm> normsToPublish = new HashSet<>();
-    normsToPublish.add(
-      normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli().asNormEli()))
-    );
+    normsToPublish.add(normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli())));
 
     for (Norm norm : normsToPublish) {
       var analysis = norm.getMeta().getAnalysis();
