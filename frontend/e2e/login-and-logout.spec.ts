@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-test.describe("Login / logout functionality", () => {
+test.describe("Login / logout functionality", { tag: ["@RISDEV-5654"] }, () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/")
   })
