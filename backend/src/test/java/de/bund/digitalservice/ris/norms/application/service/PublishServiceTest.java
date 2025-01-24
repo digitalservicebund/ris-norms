@@ -40,9 +40,7 @@ class PublishServiceTest {
   final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort = mock(DeleteAllPrivateNormsPort.class);
   final LoadNormByIdPort loadNormByIdPort = mock(LoadNormByIdPort.class);
 
-  final LoadMigrationLogByDatePort loadMigrationLogByDatePort = mock(
-    LoadMigrationLogByDatePort.class
-  );
+  final LoadLastMigrationLogPort loadLastMigrationLogPort = mock(LoadLastMigrationLogPort.class);
 
   final PublishChangelogsPort publishChangelogsPort = mock(PublishChangelogsPort.class);
 
@@ -54,7 +52,7 @@ class PublishServiceTest {
     deletePublicNormPort,
     deletePrivateNormPort,
     loadNormByIdPort,
-    loadMigrationLogByDatePort,
+    loadLastMigrationLogPort,
     deleteAllPublicNormsPort,
     deleteAllPrivateNormsPort,
     publishChangelogsPort
@@ -86,7 +84,7 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(1))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      verify(publishChangelogsPort, times(1)).publishChangelogs();
+      verify(publishChangelogsPort, times(1)).publishChangelogs(any());
     }
 
     @Test
@@ -117,7 +115,7 @@ class PublishServiceTest {
       verify(deletePrivateNormPort, never())
         .deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Command.class));
-      verify(publishChangelogsPort, times(1)).publishChangelogs();
+      verify(publishChangelogsPort, times(1)).publishChangelogs(any());
     }
 
     @Test
@@ -148,7 +146,7 @@ class PublishServiceTest {
       verify(deletePrivateNormPort, never())
         .deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Command.class));
-      verify(publishChangelogsPort, times(1)).publishChangelogs();
+      verify(publishChangelogsPort, times(1)).publishChangelogs(any());
     }
 
     @Test
@@ -166,8 +164,7 @@ class PublishServiceTest {
         .thenReturn(List.of(uuid));
       when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
         .thenReturn(Optional.of(norm));
-      when(loadMigrationLogByDatePort.loadMigrationLogByDate(any()))
-        .thenReturn(Optional.of(migrationLog)); // Migration log found
+      when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
 
       // When
       publishService.processQueuedFilesForPublish();
@@ -188,7 +185,7 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(1))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      verify(publishChangelogsPort, times(1)).publishChangelogs();
+      verify(publishChangelogsPort, times(1)).publishChangelogs(any());
     }
 
     @Test
@@ -206,8 +203,7 @@ class PublishServiceTest {
         .thenReturn(List.of(uuid));
       when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
         .thenReturn(Optional.of(norm));
-      when(loadMigrationLogByDatePort.loadMigrationLogByDate(any()))
-        .thenReturn(Optional.of(migrationLog)); // Migration log found
+      when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
 
       // Then When
 
@@ -230,7 +226,7 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(0))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(0)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      verify(publishChangelogsPort, times(0)).publishChangelogs();
+      verify(publishChangelogsPort, times(0)).publishChangelogs(any());
     }
 
     @Test
@@ -243,7 +239,7 @@ class PublishServiceTest {
         .thenReturn(List.of(uuid));
       when(loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(uuid)))
         .thenReturn(Optional.of(norm));
-      when(loadMigrationLogByDatePort.loadMigrationLogByDate(any())).thenReturn(Optional.empty()); // No migration log found
+      when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.empty()); // No migration log found
 
       // When
       publishService.processQueuedFilesForPublish();
@@ -264,7 +260,7 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(1))
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      verify(publishChangelogsPort, times(1)).publishChangelogs();
+      verify(publishChangelogsPort, times(1)).publishChangelogs(any());
     }
   }
 

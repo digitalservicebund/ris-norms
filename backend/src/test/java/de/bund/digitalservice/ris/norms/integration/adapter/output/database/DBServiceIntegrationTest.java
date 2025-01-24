@@ -612,7 +612,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   class loadsMigrationLog {
 
     @Test
-    void itLoadsMigrationLogByDate() {
+    void itLoadLastMigrationLogWithTwoDates() {
       // Given
       var date1 = LocalDate.parse("2024-11-06");
       var migrationLog1 = new MigrationLog(5, date1.atStartOfDay().toInstant(ZoneOffset.UTC));
@@ -624,14 +624,32 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog2));
 
       // When
-      final Optional<MigrationLog> migrationLogOptional = dbService.loadMigrationLogByDate(
-        new LoadMigrationLogByDatePort.Command(date1)
-      );
+      final Optional<MigrationLog> migrationLogOptional = dbService.loadLastMigrationLog();
 
       // Then
       assertThat(migrationLogOptional)
         .isPresent()
         .satisfies(log -> assertThat(log).contains(migrationLog1));
+    }
+
+    @Test
+    void itLoadLastMigrationLogWithSameDate() {
+      // Given
+      var date1 = LocalDate.parse("2024-11-06");
+      var migrationLog1 = new MigrationLog(5, date1.atTime(9, 30).toInstant(ZoneOffset.UTC));
+
+      var migrationLog2 = new MigrationLog(12, date1.atTime(11, 45).toInstant(ZoneOffset.UTC));
+
+      migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog1));
+      migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog2));
+
+      // When
+      final Optional<MigrationLog> migrationLogOptional = dbService.loadLastMigrationLog();
+
+      // Then
+      assertThat(migrationLogOptional)
+        .isPresent()
+        .satisfies(log -> assertThat(log).contains(migrationLog2));
     }
   }
 }

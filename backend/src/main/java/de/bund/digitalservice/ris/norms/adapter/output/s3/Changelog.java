@@ -32,11 +32,16 @@ public class Changelog {
 
   /**
    * Retrieves the content of the changelog in string format
+   * @param allChanged if the changelog should reflect a reset
    * @return string formatted version of the changelog
    * @throws JsonProcessingException - if the parsing fails
    */
-  public String getContent() throws JsonProcessingException {
-    return objectMapper.writeValueAsString(content);
+  public String getContent(boolean allChanged) throws JsonProcessingException {
+    if (allChanged) {
+      return "{\"change_all\" : true}";
+    } else {
+      return objectMapper.writeValueAsString(content);
+    }
   }
 
   /**

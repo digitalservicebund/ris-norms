@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,7 +32,7 @@ public class PublishService implements PublishNormUseCase {
   private final DeletePublicNormPort deletePublicNormPort;
   private final DeletePrivateNormPort deletePrivateNormPort;
   private final LoadNormByIdPort loadNormByIdPort;
-  private final LoadMigrationLogByDatePort loadMigrationLogByDatePort;
+  private final LoadLastMigrationLogPort loadLastMigrationLogPort;
   private final DeleteAllPublicNormsPort deleteAllPublicNormsPort;
   private final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort;
   private final PublishChangelogsPort publishChangelogsPort;
@@ -44,7 +45,7 @@ public class PublishService implements PublishNormUseCase {
     DeletePublicNormPort deletePublicNormPort,
     DeletePrivateNormPort deletePrivateNormPort,
     LoadNormByIdPort loadNormByIdPort,
-    LoadMigrationLogByDatePort loadMigrationLogByDatePort,
+    LoadLastMigrationLogPort loadLastMigrationLogPort,
     DeleteAllPublicNormsPort deleteAllPublicNormsPort,
     DeleteAllPrivateNormsPort deleteAllPrivateNormsPort,
     PublishChangelogsPort publishChangelogsPort
@@ -56,7 +57,7 @@ public class PublishService implements PublishNormUseCase {
     this.deletePublicNormPort = deletePublicNormPort;
     this.deletePrivateNormPort = deletePrivateNormPort;
     this.loadNormByIdPort = loadNormByIdPort;
-    this.loadMigrationLogByDatePort = loadMigrationLogByDatePort;
+    this.loadLastMigrationLogPort = loadLastMigrationLogPort;
     this.deleteAllPublicNormsPort = deleteAllPublicNormsPort;
     this.deleteAllPrivateNormsPort = deleteAllPrivateNormsPort;
     this.publishChangelogsPort = publishChangelogsPort;
@@ -64,22 +65,29 @@ public class PublishService implements PublishNormUseCase {
 
   @Override
   public void processQueuedFilesForPublish() {
-    loadMigrationLogByDatePort
-      .loadMigrationLogByDate(new LoadMigrationLogByDatePort.Command(LocalDate.now()))
+    loadLastMigrationLogPort
+      .loadLastMigrationLog()
       .ifPresent(migrationLog -> {
-        log.info(
-          "Migration log found with timestamp {}. Deleting all norms in both buckets",
-          migrationLog
-            .getCreatedAt()
-            .atOffset(ZoneOffset.UTC)
-            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        );
-        if (migrationLog.getSize() > 0) {
+        final LocalDate createdAtDate = migrationLog
+          .getCreatedAt()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDate();
+        final LocalDate today = LocalDate.now();
+        final LocalDate yesterday = today.minusDays(1);
+        if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
+          log.info(
+            "Migration log found with timestamp {} (UTC). Deleting all norms in both buckets",
+            migrationLog
+              .getCreatedAt()
+              .atOffset(ZoneOffset.UTC)
+              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+          );
+          if (migrationLog.getSize() <= 0) {
+            throw new MigrationJobException();
+          }
           deleteAllPublicNormsPort.deleteAllPublicNorms();
           deleteAllPrivateNormsPort.deleteAllPrivateNorms();
           log.info("Deleted all norms in both buckets");
-        } else {
-          throw new MigrationJobException();
         }
       });
 
@@ -97,7 +105,7 @@ public class PublishService implements PublishNormUseCase {
         log.error("Norm with id {} not found", publishId);
       }
     });
-    publishChangelogsPort.publishChangelogs();
+    publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(true));
     log.info("Publish job successfully completed.");
   }
 

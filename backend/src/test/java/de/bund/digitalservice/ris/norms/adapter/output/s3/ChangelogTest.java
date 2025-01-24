@@ -20,24 +20,24 @@ class ChangelogTest {
   @Test
   void itReturnsEmptyContent() throws JsonProcessingException {
     final Changelog changelog = new Changelog();
-    assertThat(changelog.getContent()).isEqualTo("{}");
+    assertThat(changelog.getContent(false)).isEqualTo("{}");
   }
 
   @Test
   void itSetsContent() throws IOException {
     final Changelog changelog = new Changelog();
-    assertThat(changelog.getContent()).isEqualTo("{}");
+    assertThat(changelog.getContent(false)).isEqualTo("{}");
     changelog.setContent("{\"changed\":[\"eli/norm/to/add\"]}");
-    assertThat(changelog.getContent()).isEqualTo("{\"changed\":[\"eli/norm/to/add\"]}");
+    assertThat(changelog.getContent(false)).isEqualTo("{\"changed\":[\"eli/norm/to/add\"]}");
   }
 
   @Test
   void itAddsContentToEmptyContent() throws JsonProcessingException {
     final Changelog changelog = new Changelog();
-    assertThat(changelog.getContent()).isEqualTo("{}");
+    assertThat(changelog.getContent(false)).isEqualTo("{}");
     changelog.addContent(Changelog.CHANGED, "eli/norm/to/add");
     changelog.addContent(Changelog.DELETED, "eli/norm/to/delete");
-    assertThat(changelog.getContent())
+    assertThat(changelog.getContent(false))
       .isEqualTo("{\"deleted\":[\"eli/norm/to/delete\"],\"changed\":[\"eli/norm/to/add\"]}");
   }
 
@@ -46,7 +46,7 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     changelog.setContent("{\"changed\":[\"eli/norm/to/add\"]}");
     changelog.addContent(Changelog.CHANGED, "eli/another-norm/to/add");
-    assertThat(changelog.getContent())
+    assertThat(changelog.getContent(false))
       .isEqualTo("{\"changed\":[\"eli/another-norm/to/add\",\"eli/norm/to/add\"]}");
   }
 
@@ -55,7 +55,7 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     changelog.setContent("{\"changed\":[\"eli/norm/to/add\"]}");
     changelog.addContent(Changelog.DELETED, "eli/another-norm/to/add");
-    assertThat(changelog.getContent())
+    assertThat(changelog.getContent(false))
       .isEqualTo("{\"deleted\":[\"eli/another-norm/to/add\"],\"changed\":[\"eli/norm/to/add\"]}");
   }
 
@@ -64,7 +64,7 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     changelog.setContent("{\"changed\":[\"eli/norm/to/add\"]}");
     changelog.addContent(Changelog.DELETED, "eli/norm/to/add");
-    assertThat(changelog.getContent()).isEqualTo("{}");
+    assertThat(changelog.getContent(false)).isEqualTo("{}");
   }
 
   @Test
@@ -72,6 +72,12 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     changelog.setContent("{\"deleted\":[\"eli/norm/to/add\"]}");
     changelog.addContent(Changelog.CHANGED, "eli/norm/to/add");
-    assertThat(changelog.getContent()).isEqualTo("{\"changed\":[\"eli/norm/to/add\"]}");
+    assertThat(changelog.getContent(false)).isEqualTo("{\"changed\":[\"eli/norm/to/add\"]}");
+  }
+
+  @Test
+  void itReturnsAllChange() throws IOException {
+    final Changelog changelog = new Changelog();
+    assertThat(changelog.getContent(true)).isEqualTo("{\"change_all\" : true}");
   }
 }

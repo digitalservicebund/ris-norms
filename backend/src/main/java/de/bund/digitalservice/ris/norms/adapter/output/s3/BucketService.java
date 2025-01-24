@@ -124,14 +124,14 @@ public class BucketService
   }
 
   @Override
-  public void publishChangelogs() {
+  public void publishChangelogs(PublishChangelogsPort.Command command) {
     if (publicChangelog != null) {
       try {
         uploadToBucket(
           publicS3Client,
           publicBucketName,
           publicChangelog.getFileName(),
-          publicChangelog.getContent()
+          publicChangelog.getContent(command.allChanged())
         );
         publicChangelog = null;
         log.info("Successfully uploaded changelog to public bucket");
@@ -151,7 +151,7 @@ public class BucketService
           privateS3Client,
           privateBucketName,
           privateChangelog.getFileName(),
-          privateChangelog.getContent()
+          privateChangelog.getContent(command.allChanged())
         );
         privateChangelog = null;
         log.info("Successfully uploaded changelog to private bucket");

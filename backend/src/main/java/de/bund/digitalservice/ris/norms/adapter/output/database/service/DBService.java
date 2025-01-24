@@ -52,7 +52,7 @@ public class DBService
     DeleteQueuedReleasesPort,
     LoadNormIdsByPublishStatePort,
     LoadNormByIdPort,
-    LoadMigrationLogByDatePort,
+    LoadLastMigrationLogPort,
     LoadRegelungstextPort {
 
   private final AnnouncementRepository announcementRepository;
@@ -299,9 +299,9 @@ public class DBService
   }
 
   @Override
-  public Optional<MigrationLog> loadMigrationLogByDate(LoadMigrationLogByDatePort.Command command) {
+  public Optional<MigrationLog> loadLastMigrationLog() {
     return migrationLogRepository
-      .findByCreatedAt(command.date())
+      .findFirstByOrderByCreatedAtDesc()
       .map(MigrationLogMapper::mapToDomain);
   }
 }

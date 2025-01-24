@@ -6,10 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.Changelog;
-import de.bund.digitalservice.ris.norms.application.port.output.DeletePrivateNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.DeletePublicNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.PublishPrivateNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.PublishPublicNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
@@ -39,8 +36,10 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     // When
     final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
     bucketService.publishPublicNorm(command);
-    bucketService.publishChangelogs();
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     final Path filePath = getPublicPath(norm);
@@ -55,8 +54,10 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     // When
     final PublishPrivateNormPort.Command command = new PublishPrivateNormPort.Command(norm);
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
     bucketService.publishPrivateNorm(command);
-    bucketService.publishChangelogs();
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     final Path filePath = getPrivatePath(norm);
@@ -74,7 +75,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishPublicNorm(commandPublic);
     final PublishPrivateNormPort.Command commandPrivate = new PublishPrivateNormPort.Command(norm);
     bucketService.publishPrivateNorm(commandPrivate);
-    bucketService.publishChangelogs();
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     final Path publicFilePath = getPublicPath(norm);
@@ -95,7 +98,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // When
     final DeletePublicNormPort.Command commandDelete = new DeletePublicNormPort.Command(norm);
     bucketService.deletePublicNorm(commandDelete);
-    bucketService.publishChangelogs();
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     final Path filePath = getPublicPath(norm);
@@ -114,7 +119,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // When
     final DeletePrivateNormPort.Command commandDelete = new DeletePrivateNormPort.Command(norm);
     bucketService.deletePrivateNorm(commandDelete);
-    bucketService.publishChangelogs();
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     final Path filePath = getPrivatePath(norm);
@@ -135,7 +142,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     // When
     bucketService.deleteAllPublicNorms();
-    bucketService.publishChangelogs();
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     final Path filePath1 = getPublicPath(norm1);
@@ -162,7 +171,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     // When
     bucketService.deleteAllPrivateNorms();
-    bucketService.publishChangelogs();
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     final Path filePath1 = getPrivatePath(norm1);
@@ -182,11 +193,13 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     final PublishPublicNormPort.Command commandAnotherNorm = new PublishPublicNormPort.Command(
       anotherNorm
     );
+    final PublishChangelogsPort.Command commandPublishChangelogs =
+      new PublishChangelogsPort.Command(false);
     // When
     bucketService.publishPublicNorm(command);
-    bucketService.publishChangelogs();
+    bucketService.publishChangelogs(commandPublishChangelogs);
     bucketService.publishPublicNorm(commandAnotherNorm);
-    bucketService.publishChangelogs();
+    bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
     assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
