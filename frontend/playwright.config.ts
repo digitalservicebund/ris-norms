@@ -41,6 +41,7 @@ const config: PlaywrightTestConfig = {
         ...devices["Desktop Chrome"],
         storageState: "e2e/setup/.auth/user.json",
       },
+      timeout: 30000,
       testIgnore: "e2e/login-and-logout.spec.ts",
       dependencies: ["setup-chromium"],
     },
