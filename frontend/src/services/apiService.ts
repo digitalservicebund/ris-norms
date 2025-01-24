@@ -1,5 +1,6 @@
 import { getFallbackError } from "@/lib/errorResponseMapper"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
+import { auth } from "@/lib/auth"
 
 /**
  * The same as UseFetchReturn, but without the methods to get more specific useFetch instances.
@@ -54,14 +55,16 @@ export const useApiFetch = createFetch({
         }
       }
 
+      options.headers = {
+        ...options.headers,
+        Authorization: `Bearer ${auth.getToken()}`,
+      }
       return { options }
     },
 
     onFetchError(fetchContext) {
       // redirect to 404 if anything goes wrong.
-      if (fetchContext.response?.status === 401) {
-        window.location.assign("/login")
-      }
+      //TODO implement error page
 
       // this error is sometimes throws when previous requests are automatically aborted as
       // some of the data changed and refetch is true. It seems to only be throws when the request

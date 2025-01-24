@@ -10,6 +10,7 @@ import App from "./App.vue"
 import { detectEnv, RisEnvironment } from "./lib/env"
 import router from "./router"
 import "./style.css"
+import { auth } from "./lib/auth"
 
 const app = createApp(App)
   .use(PrimeVue, {
@@ -50,3 +51,5 @@ if (enableSentry) {
 }
 
 app.mount("#app")
+
+console.log(auth.isAuthenticated())
