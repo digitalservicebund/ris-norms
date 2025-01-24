@@ -12,7 +12,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:fna>111-11-1</meta:fna>
             </meta:legalDocML.de_metadaten>
         """
@@ -27,7 +27,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
             </meta:legalDocML.de_metadaten>
         """
       )
@@ -41,7 +41,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:fna>111-11-1</meta:fna>
             </meta:legalDocML.de_metadaten>
         """
@@ -58,7 +58,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
         </meta:legalDocML.de_metadaten>
         """
       )
@@ -74,7 +74,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:art>test art</meta:art>
             </meta:legalDocML.de_metadaten>
         """
@@ -89,7 +89,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
             </meta:legalDocML.de_metadaten>
         """
       )
@@ -103,7 +103,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:typ>typi1</meta:typ>
             </meta:legalDocML.de_metadaten>
         """
@@ -118,7 +118,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
             </meta:legalDocML.de_metadaten>
         """
       )
@@ -132,7 +132,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:gesta>nicht-vorhanden</meta:gesta>
             </meta:legalDocML.de_metadaten>
         """
@@ -147,7 +147,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:gesta>nicht-vorhanden</meta:gesta>
             </meta:legalDocML.de_metadaten>
         """
@@ -164,7 +164,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
         </meta:legalDocML.de_metadaten>
         """
       )
@@ -180,7 +180,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:fassung>verkuendungsfassung</meta:fassung>
             </meta:legalDocML.de_metadaten>
         """
@@ -195,7 +195,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 <meta:fassung>verkuendungsfassung</meta:fassung>
             </meta:legalDocML.de_metadaten>
         """
@@ -212,7 +212,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe = new MetadatenDe(
       XmlMapper.toElement(
         """
-        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
         </meta:legalDocML.de_metadaten>
         """
       )

@@ -10,7 +10,7 @@ Information on the modules can be found in their respective folder's README file
 
 - [`./frontend/README.md`](./frontend/README.md)
 - [`./backend/README.md`](./backend/README.md)
-- [`./LegalDocML.de/1.7.1/README.md`](./LegalDocML.de/1.7.1/README.md)
+- [`./LegalDocML.de/1.7.2/README.md`](./LegalDocML.de/1.7.2/README.md)
 
 # The Main Repository
 

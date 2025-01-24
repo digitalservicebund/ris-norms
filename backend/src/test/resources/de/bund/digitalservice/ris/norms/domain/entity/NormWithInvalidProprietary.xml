@@ -12,9 +12,9 @@
 	##################################################################################
 -->
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-rechtsetzungsdokument.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-rechtsetzungsdokument.xsd">
    <akn:act name="regelungstext">
         <!-- Metadaten-->
        <akn:meta eId="meta-1" GUID="eae1e025-1648-4053-9d33-b64bff221b3d">
@@ -111,7 +111,7 @@
            <akn:proprietary eId="meta-1_proprietary-1"
                             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                     <!-- typ, art, subtyp removed for testing purposes-->
                 <meta:form>stammform</meta:form>
                <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -122,7 +122,7 @@
                 <meta:gesta>nicht-vorhanden</meta:gesta>
                 <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
              </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
                 <meta:federfuehrung>
                   <meta:federfuehrend ab="2002-12-01"
                                       bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>

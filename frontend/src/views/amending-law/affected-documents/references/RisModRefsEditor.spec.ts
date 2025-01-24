@@ -84,7 +84,7 @@ describe("risModRefsEditor", () => {
     render(RisModRefsEditor, {
       props: {
         normXml: `
-          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/">
+          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
             <akn:mod eId='mod-1'>
                <akn:quotedText eId='mod-1_quot-1'>First mod old text</akn:quotedText>
                <akn:quotedText eId='mod-1_quot-2'>Render of <akn:ref eId='mod-1_quot-2_ref-1'>a ref</akn:ref> and <akn:ref eId='mod-1_quot-2_ref-2'>a second ref</akn:ref> and <akn:p eId='mod-1_quot-2_p-1'>place for a third ref</akn:p></akn:quotedText>
@@ -126,7 +126,7 @@ describe("risModRefsEditor", () => {
     const { emitted } = render(RisModRefsEditor, {
       props: {
         normXml: `
-          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/">
+          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
             <akn:mod eId='mod-1'>
                <akn:quotedText eId='mod-1_quot-1'>First mod old text</akn:quotedText>
                <akn:quotedText eId='mod-1_quot-2'>Render of <akn:ref eId='mod-1_quot-2_ref-1'>a ref</akn:ref> and <akn:ref eId='mod-1_quot-2_ref-2'>a second ref</akn:ref> and <akn:p eId='mod-1_quot-2_p-1'>place for a third ref</akn:p></akn:quotedText>
@@ -152,7 +152,7 @@ describe("risModRefsEditor", () => {
               handleClick() {
                 this.$emit(
                   "update:xml-snippet",
-                  `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="mod-1_quot-2">NEW XML SNIPPET</akn:quotedText>`,
+                  `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="mod-1_quot-2">NEW XML SNIPPET</akn:quotedText>`,
                 )
               },
             },
@@ -166,7 +166,7 @@ describe("risModRefsEditor", () => {
 
     expect(emitted("save")).toHaveLength(1)
     expect(emitted("save")[0]).toEqual([
-      `<akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/">
+      `<akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
             <akn:mod eId="mod-1">
                <akn:quotedText eId="mod-1_quot-1">First mod old text</akn:quotedText>
                <akn:quotedText eId="mod-1_quot-2">NEW XML SNIPPET</akn:quotedText>
@@ -197,7 +197,7 @@ describe("risModRefsEditor", () => {
     const { emitted } = render(RisModRefsEditor, {
       props: {
         normXml: `
-          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/">
+          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
             <akn:mod eId='mod-1'>
                <akn:quotedText eId='mod-1_quot-1'>First mod old text</akn:quotedText>
                <akn:quotedText eId='mod-1_quot-2'>Render of <akn:ref eId='mod-1_quot-2_ref-1'>a ref</akn:ref> and <akn:ref eId='mod-1_quot-2_ref-2'>a second ref</akn:ref> and <akn:p eId='mod-1_quot-2_p-1'>place for a third ref</akn:p></akn:quotedText>
@@ -222,7 +222,7 @@ describe("risModRefsEditor", () => {
               handleClick() {
                 this.$emit(
                   "update:xml-snippet",
-                  `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="mod-1_quot-2">NEW XML SNIPPET</akn:quotedText>`,
+                  `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="mod-1_quot-2">NEW XML SNIPPET</akn:quotedText>`,
                 )
               },
             },
@@ -236,7 +236,7 @@ describe("risModRefsEditor", () => {
 
     expect(emitted("save")).toHaveLength(1)
     expect(emitted("save")[0]).toEqual([
-      `<akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/">
+      `<akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
             <akn:mod eId="mod-1">
                <akn:quotedText eId="mod-1_quot-1">First mod old text</akn:quotedText>
                <akn:quotedText eId="mod-1_quot-2">NEW XML SNIPPET</akn:quotedText>
@@ -271,7 +271,7 @@ describe("risModRefsEditor", () => {
     render(RisModRefsEditor, {
       props: {
         normXml: `
-          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/">
+          <akn:act xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
             <akn:mod eId='mod-1'>
                <akn:quotedText eId='mod-1_quot-1'>First mod old text</akn:quotedText>
                <akn:quotedText eId='mod-1_quot-2'>Render of <akn:ref eId='mod-1_quot-2_ref-1'>a ref</akn:ref> and <akn:ref eId='mod-1_quot-2_ref-2'>a second ref</akn:ref> and <akn:p eId='mod-1_quot-2_p-1'>place for a third ref</akn:p></akn:quotedText>

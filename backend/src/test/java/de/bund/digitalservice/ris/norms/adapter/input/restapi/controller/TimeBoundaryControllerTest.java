@@ -69,17 +69,17 @@ class TimeBoundaryControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String eventRef =
         """
-        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2017-03-16" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2017-03-16" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
             """.strip();
 
       final String timeInterval =
         """
-        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
             """.strip();
 
       final String temporalGroup =
         """
-        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
                                 <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
                              </akn:temporalGroup>
             """;
@@ -116,17 +116,17 @@ class TimeBoundaryControllerTest {
 
       final String eventRef =
         """
-        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2017-03-16" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2017-03-16" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
                 """.strip();
 
       final String timeInterval =
         """
-        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
                 """.strip();
 
       final String temporalGroup =
         """
-        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
                                     <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
                                  </akn:temporalGroup>
                 """.strip();
@@ -176,7 +176,7 @@ class TimeBoundaryControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String eventRef1 =
         """
-        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_lebzykl-1_ereignis-2"
+        <akn:eventRef xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_lebzykl-1_ereignis-2"
                         GUID="7174df87-6418-4d47-ac4e-5fb87c2caa50"
                         date="1964-09-21"
                         source="attributsemantik-noch-undefiniert"
@@ -186,7 +186,7 @@ class TimeBoundaryControllerTest {
 
       final String timeInterval1 =
         """
-        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
+        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
                          GUID="6fc42c43-6598-4c95-ac57-da132b047ec1"
                          refersTo="geltungszeit"
                          start="#meta-1_lebzykl-1_ereignis-2"/>
@@ -194,7 +194,7 @@ class TimeBoundaryControllerTest {
 
       final String temporalGroup =
         """
-        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
                                 <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
                              </akn:temporalGroup>
             """.strip();

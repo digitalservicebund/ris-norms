@@ -21,7 +21,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 	Veröffentlicht unter der Lizenz CC&#x2D;BY&#x2D;3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
     <!-- Metadaten -->
     <akn:meta GUID="e4e9224c-a2ff-46af-b390-eef666ee6706" eId="meta-1">
@@ -66,7 +66,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
       </akn:temporalData>
       <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung besitzen keine fachliche Korrektheit. -->
       <akn:proprietary source="attributsemantik-noch-undefiniert" GUID="da72a3ac-309a-41e5-80ff-8cbbb385c0ac" eId="meta-1_proprietary-1">
-        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
           <meta:typ>gesetz</meta:typ>
           <meta:form>stammform</meta:form>
           <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -76,7 +76,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
           <meta:fna>754-28-1</meta:fna>
           <meta:gesta>nicht-vorhanden</meta:gesta>
         </meta:legalDocML.de_metadaten>
-        <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+        <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
           <meta-breg:federfuehrung>
             <meta-breg:federfuehrend ab="2001-01-01" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
             <meta-breg:federfuehrend ab="1964-08-05" bis="2000-12-31">BMJ - Bundesministerium der Justiz</meta-breg:federfuehrend>

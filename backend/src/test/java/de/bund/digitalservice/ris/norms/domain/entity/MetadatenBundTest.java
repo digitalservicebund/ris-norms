@@ -13,7 +13,7 @@ class MetadatenBundTest {
     final MetadatenBund metadatenBund = new MetadatenBund(
       XmlMapper.toElement(
         """
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
             <meta:federfuehrung>
                 <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                 <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
@@ -58,7 +58,7 @@ class MetadatenBundTest {
     final MetadatenBund metadatenBund = new MetadatenBund(
       XmlMapper.toElement(
         """
-                <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
             </meta:legalDocML.de_metadaten>
         """
       )
@@ -73,7 +73,7 @@ class MetadatenBundTest {
     final MetadatenBund metadatenBund = new MetadatenBund(
       XmlMapper.toElement(
         """
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
             <meta:federfuehrung>
                 <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                 <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
@@ -100,7 +100,7 @@ class MetadatenBundTest {
     final MetadatenBund metadatenBund = new MetadatenBund(
       XmlMapper.toElement(
         """
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
             <meta:federfuehrung>
                 <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                 <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>

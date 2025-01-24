@@ -7,9 +7,9 @@ where eli_dokument_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regel
 INSERT INTO dokumente (publish_state, xml)
 VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
         <!-- Metadaten-->
       <akn:meta eId="meta-1" GUID="52226401-eb20-4c64-8077-bacdcf3bf584">
@@ -178,7 +178,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
                <meta:fassung>verkuendungsfassung</meta:fassung>

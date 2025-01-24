@@ -14,7 +14,7 @@ export function xmlNodeToString(node: Node): string {
 
 const namespaceResolver = (prefix: string | null): string | null => {
   const namespaces: Record<string, string> = {
-    akn: "http://Inhaltsdaten.LegalDocML.de/1.7.1/",
+    akn: "http://Inhaltsdaten.LegalDocML.de/1.7.2/",
   }
   return prefix ? namespaces[prefix] || null : null
 }

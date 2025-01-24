@@ -13,7 +13,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-          <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+          <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
             <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
                 <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
                     <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
@@ -40,7 +40,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
         """
       )
@@ -55,7 +55,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
             <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
               <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
@@ -82,7 +82,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
         """
       )
@@ -97,7 +97,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
             <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
               <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
@@ -129,7 +129,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
         """
       )
@@ -147,7 +147,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
         </akn:analysis>
         """
       )
@@ -166,7 +166,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
             <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
               <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
@@ -198,7 +198,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
             <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
               <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
@@ -241,7 +241,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" GUID="72cd555b-de7d-4d5e-ba2e-4dc50800400f" eId="meta-1_analysis-1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" GUID="72cd555b-de7d-4d5e-ba2e-4dc50800400f" eId="meta-1_analysis-1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications GUID="ca13a0cc-8f37-42c7-920b-f0d2fb59c81c" eId="meta-1_analysis-1_activemod-1">
             <akn:textualMod GUID="ae8e4880-4385-4e54-9b7c-1337d8015d33" eId="meta-1_analysis-1_activemod-1_textualmod-1" type="substitution">
               <akn:source GUID="30406542-d2e5-41fb-81ae-da19efa66aae" eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
@@ -286,7 +286,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
             <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
               <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
@@ -319,7 +319,7 @@ class AnalysisTest {
     final Analysis analysis = new Analysis(
       XmlMapper.toElement(
         """
-        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+        <akn:analysis xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
           <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
             <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
               <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>

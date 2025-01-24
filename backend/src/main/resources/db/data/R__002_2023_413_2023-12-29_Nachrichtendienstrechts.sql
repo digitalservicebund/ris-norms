@@ -7,7 +7,7 @@ WHERE eli_dokument_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/reg
 INSERT INTO dokumente (publish_state, xml)
 VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
 <!-- NOTE: THIS FILES CONTAINS ERRORS AND SHOULD NOT BE USED ANYMORE. -->
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
     <akn:meta GUID="bbb5e6be-08f2-4dc3-b17a-529e09f8da8b" eId="meta-1">
       <akn:identification source="attributsemantik-noch-undefiniert" GUID="c104c9d4-8142-4dea-bcef-acb40a3f676b" eId="meta-1_ident-1">
@@ -50,7 +50,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
         </akn:temporalGroup>
       </akn:temporalData>
       <akn:proprietary source="attributsemantik-noch-undefiniert" GUID="2a01e95a-f73a-4999-aa87-6997f5c18589" eId="meta-1_proprietary-1">
-        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+        <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
           <meta:typ>gesetz</meta:typ>
           <meta:form>stammform</meta:form>
           <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -61,7 +61,7 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
           <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
           <meta:gesta>nicht-vorhanden</meta:gesta>
         </meta:legalDocML.de_metadaten>
-        <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/">
+        <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
           <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
           <meta-breg:federfuehrung>
             <meta-breg:federfuehrend ab="2023-12-29" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>

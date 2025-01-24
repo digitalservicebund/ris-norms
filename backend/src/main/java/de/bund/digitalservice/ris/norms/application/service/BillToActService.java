@@ -69,11 +69,11 @@ public class BillToActService {
     akomaNtoso.setAttribute("xmlns:akn", Namespace.INHALTSDATEN.getNamespaceUri());
     akomaNtoso.setAttribute(
       "xsi:schemaLocation",
-      "http://Metadaten.LegalDocML.de/1.7.1/ " +
+      "http://Metadaten.LegalDocML.de/1.7.2/ " +
       ROOT_DIR +
       "/" +
       SCHEMA +
-      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ " +
+      "/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ " +
       ROOT_DIR +
       "/" +
       SCHEMA +

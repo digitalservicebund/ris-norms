@@ -26,7 +26,7 @@ public class Proprietary {
   public Optional<MetadatenDe> getMetadatenDe() {
     return NodeParser
       .getElementFromExpression(
-        "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        "./Q{http://Metadaten.LegalDocML.de/1.7.2/}legalDocML.de_metadaten",
         element
       )
       .map(MetadatenDe::new);
@@ -40,7 +40,7 @@ public class Proprietary {
   public MetadatenDe getOrCreateMetadatenDe() {
     return NodeParser
       .getElementFromExpression(
-        "./Q{http://Metadaten.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        "./Q{http://Metadaten.LegalDocML.de/1.7.2/}legalDocML.de_metadaten",
         element
       )
       .map(MetadatenDe::new)
@@ -62,7 +62,7 @@ public class Proprietary {
   public Optional<MetadatenDs> getMetadatenDs() {
     return NodeParser
       .getElementFromExpression(
-        "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        "./Q{http://MetadatenRIS.LegalDocML.de/1.7.2/}legalDocML.de_metadaten",
         element
       )
       .map(MetadatenDs::new);
@@ -76,7 +76,7 @@ public class Proprietary {
   public MetadatenDs getOrCreateMetadatenDs() {
     return NodeParser
       .getElementFromExpression(
-        "./Q{http://MetadatenRIS.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        "./Q{http://MetadatenRIS.LegalDocML.de/1.7.2/}legalDocML.de_metadaten",
         element
       )
       .map(MetadatenDs::new)
@@ -98,7 +98,7 @@ public class Proprietary {
   public Optional<MetadatenBund> getMetadatenBund() {
     return NodeParser
       .getElementFromExpression(
-        "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.2/}legalDocML.de_metadaten",
         element
       )
       .map(MetadatenBund::new);
@@ -112,7 +112,7 @@ public class Proprietary {
   public MetadatenBund getOrCreateMetadatenBund() {
     return NodeParser
       .getElementFromExpression(
-        "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.1/}legalDocML.de_metadaten",
+        "./Q{http://MetadatenBundesregierung.LegalDocML.de/1.7.2/}legalDocML.de_metadaten",
         element
       )
       .map(MetadatenBund::new)

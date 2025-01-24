@@ -5,7 +5,7 @@ FROM dokumente
 WHERE eli_dokument_expression = 'eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/regelungstext-1';
 
 INSERT INTO dokumente (publish_state, xml)
-VALUES ('PUBLISHED', '<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+VALUES ('PUBLISHED', '<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
     <akn:meta GUID="95331d84-69b2-4f2d-a20a-d9bd802cfecc" eId="meta-1">
       <akn:identification source="attributsemantik-noch-undefiniert" GUID="71fd03aa-f8ed-4928-90bf-1e48546bc8d1" eId="meta-1_ident-1">

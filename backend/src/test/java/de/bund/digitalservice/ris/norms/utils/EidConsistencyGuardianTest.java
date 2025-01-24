@@ -15,7 +15,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
            <akn:p eId="meta-1_text-1">
                <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
                <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
@@ -47,7 +47,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
            <akn:p eId="meta-1_text-1">
                <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
                <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
@@ -68,7 +68,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
            <akn:p eId="meta-1_text-1">
                <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
                <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
@@ -94,7 +94,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
                <akn:p eId="meta-1_text-2">
                    <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
                    <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
@@ -115,7 +115,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
                <akn:p eId="meta-1_text-1">
                    <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
                    <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
@@ -142,7 +142,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
                <akn:p eId="meta-1_text-1">
                    <akn:ref eId="meta-1_text-1_text-1"></akn:ref>
                    <akn:ref eId="meta-1_text-1_text-2"></akn:ref>
@@ -159,7 +159,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
                <akn:p eId="meta-1_text-1">
                    <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
                    <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
@@ -182,7 +182,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
                <akn:p>
                    <akn:ref></akn:ref>
                    <akn:ref></akn:ref>
@@ -199,7 +199,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
                <akn:p eId="meta-1_text-1">
                    <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
                    <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
@@ -223,8 +223,8 @@ class EidConsistencyGuardianTest {
     var text =
       """
       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                                                   http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                                                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
           <akn:act name="regelungstext">
               <!-- Metadaten -->
               <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
@@ -276,7 +276,7 @@ class EidConsistencyGuardianTest {
     var exectedResult =
       """
       <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                                                                              http://Inhaltsdaten.LegalDocML.de/1.7.1/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                                                                              http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
           <akn:act name="regelungstext">
               <!-- Metadaten -->
               <akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">

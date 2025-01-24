@@ -17,13 +17,13 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
               <meta:typ>gesetz</meta:typ>
               <meta:fna>754-28-1</meta:fna>
@@ -42,13 +42,13 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
               <meta:typ>gesetz</meta:typ>
               <meta:form>stammform</meta:form>
@@ -67,20 +67,20 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
               <meta:typ>gesetz</meta:typ>
               <meta:fna>000-00-0</meta:fna>
               <meta:fassung>verkuendungsfassung</meta:fassung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten
-              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
             >
               <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
               <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
@@ -114,9 +114,9 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
-                            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+                            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                                 <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
                                 <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
                                 <ris:fna start="2001-01-01">333-33-3</ris:fna>
@@ -134,8 +134,8 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                             <meta:typ>gesetz</meta:typ>
                             <meta:fna>000-00-0</meta:fna>
                             <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -153,8 +153,8 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/">
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                             <meta:typ>gesetz</meta:typ>
                             <meta:fna>000-00-0</meta:fna>
                             <meta:fassung>verkuendungsfassung</meta:fassung>
@@ -177,13 +177,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
               <meta:art>rechtsetzungsdokument</meta:art>
             </meta:legalDocML.de_metadaten>
@@ -202,13 +202,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
             <!-- Art is missing -->
             </meta:legalDocML.de_metadaten>
@@ -226,18 +226,18 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
               <meta:art>rechtsetzungsdokument</meta:art>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten
-              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
             >
               <ris:art start="1990-01-01" end="1994-12-31">regelungstext</ris:art>
               <ris:art start="1995-01-01" end="2000-12-31">begruendung</ris:art>
@@ -273,13 +273,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
               <meta:typ>rechtsetzungsdokument</meta:typ>
             </meta:legalDocML.de_metadaten>
@@ -298,13 +298,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
             <!-- Typ is missing -->
             </meta:legalDocML.de_metadaten>
@@ -322,18 +322,18 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <meta:legalDocML.de_metadaten
-                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
+                  xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
             >
               <meta:typ>gesetz</meta:typ>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten
-              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
             >
               <ris:typ start="1990-01-01" end="1994-12-31">verordnung</ris:typ>
               <ris:typ start="1995-01-01" end="2000-12-31">begruendung</ris:typ>
@@ -368,13 +368,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <ris:legalDocML.de_metadaten
-              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
             >
               <ris:subtyp>Anordnung des Bundespräsidenten</ris:subtyp>
            </ris:legalDocML.de_metadaten>
@@ -393,13 +393,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <ris:legalDocML.de_metadaten
-              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
             >
             <!-- Subtyp is missing -->
             </ris:legalDocML.de_metadaten>
@@ -417,13 +417,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
             eId="meta-1_proprietary-1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert"
           >
             <ris:legalDocML.de_metadaten
-              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+              xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
             >
               <ris:subtyp end="1989-12-31">Anordnung des Bundespräsidenten</ris:subtyp>
               <ris:subtyp start="1990-01-01" end="1994-12-31">Bekanntmachung vor einer Neufassung</ris:subtyp>
@@ -466,13 +466,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                     eId="meta-1_proprietary-1"
                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                     source="attributsemantik-noch-undefiniert"
                   >
                     <ris:legalDocML.de_metadaten
-                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                     >
                       <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
                    </ris:legalDocML.de_metadaten>
@@ -491,13 +491,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                     eId="meta-1_proprietary-1"
                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                     source="attributsemantik-noch-undefiniert"
                   >
                     <ris:legalDocML.de_metadaten
-                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                     >
                     <!-- BezeichnungInVorlage is missing -->
                     </ris:legalDocML.de_metadaten>
@@ -515,13 +515,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                     eId="meta-1_proprietary-1"
                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                     source="attributsemantik-noch-undefiniert"
                   >
                     <ris:legalDocML.de_metadaten
-                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                     >
                       <ris:bezeichnungInVorlage end="1989-12-31">Bezeichnung gemäß Vorlage 1</ris:bezeichnungInVorlage>
                       <ris:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">Bezeichnung gemäß Vorlage 2</ris:bezeichnungInVorlage>
@@ -566,13 +566,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                     eId="meta-1_proprietary-1"
                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                     source="attributsemantik-noch-undefiniert"
                                   >
                                     <ris:legalDocML.de_metadaten
-                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                     >
                                       <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
                                    </ris:legalDocML.de_metadaten>
@@ -590,13 +590,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                     eId="meta-1_proprietary-1"
                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                     source="attributsemantik-noch-undefiniert"
                                   >
                                     <ris:legalDocML.de_metadaten
-                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                     >
                                     <!-- ArtDerNorm is missing -->
                                     </ris:legalDocML.de_metadaten>
@@ -614,13 +614,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                     eId="meta-1_proprietary-1"
                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                     source="attributsemantik-noch-undefiniert"
                                   >
                                     <ris:legalDocML.de_metadaten
-                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                     >
                                       <ris:artDerNorm end="1989-12-31">SN,ÄN,ÜN</ris:artDerNorm>
                                       <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</ris:artDerNorm>
@@ -656,13 +656,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                     eId="meta-1_proprietary-1"
                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                     source="attributsemantik-noch-undefiniert"
                                                   >
                                                     <ris:legalDocML.de_metadaten
-                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                     >
                                                       <ris:normgeber>DEU</ris:normgeber>
                                                    </ris:legalDocML.de_metadaten>
@@ -680,13 +680,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                     eId="meta-1_proprietary-1"
                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                     source="attributsemantik-noch-undefiniert"
                                                   >
                                                     <ris:legalDocML.de_metadaten
-                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                     >
                                                     <!-- Normgeber is missing -->
                                                     </ris:legalDocML.de_metadaten>
@@ -704,13 +704,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                     eId="meta-1_proprietary-1"
                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                     source="attributsemantik-noch-undefiniert"
                                                   >
                                                     <ris:legalDocML.de_metadaten
-                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                     >
                                                       <ris:normgeber end="1989-12-31">DEU</ris:normgeber>
                                                       <ris:normgeber start="1990-01-01" end="1994-12-31">DDR</ris:normgeber>
@@ -746,13 +746,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                                     eId="meta-1_proprietary-1"
                                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                                     source="attributsemantik-noch-undefiniert"
                                                                   >
                                                                     <ris:legalDocML.de_metadaten
-                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                                     >
                                                                       <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
                                                                    </ris:legalDocML.de_metadaten>
@@ -773,13 +773,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                                     eId="meta-1_proprietary-1"
                                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                                     source="attributsemantik-noch-undefiniert"
                                                                   >
                                                                     <ris:legalDocML.de_metadaten
-                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                                     >
                                                                     <!-- BeschliessendesOrgan is missing -->
                                                                     </ris:legalDocML.de_metadaten>
@@ -798,13 +798,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                                     eId="meta-1_proprietary-1"
                                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                                     source="attributsemantik-noch-undefiniert"
                                                                   >
                                                                     <ris:legalDocML.de_metadaten
-                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                                     >
                                                                       <ris:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</ris:beschliessendesOrgan>
                                                                       <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag 2</ris:beschliessendesOrgan>
@@ -845,13 +845,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                                                     eId="meta-1_proprietary-1"
                                                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                                                     source="attributsemantik-noch-undefiniert"
                                                                                   >
                                                                                     <ris:legalDocML.de_metadaten
-                                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                                                     >
                                                                                       <ris:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</ris:beschliessendesOrgan>
                                                                                       <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="false">Bundestag 2</ris:beschliessendesOrgan>
@@ -896,13 +896,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                     eId="meta-1_proprietary-1"
                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                     source="attributsemantik-noch-undefiniert"
                   >
                     <ris:legalDocML.de_metadaten
-                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                     >
                       <ris:organisationsEinheit>Organisationseinheit 1</ris:organisationsEinheit>
                    </ris:legalDocML.de_metadaten>
@@ -921,13 +921,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                                     eId="meta-1_proprietary-1"
                                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                                     source="attributsemantik-noch-undefiniert"
                                                                   >
                                                                     <ris:legalDocML.de_metadaten
-                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                                     >
                                                                     <!-- OrganisationsEinheit is missing -->
                                                                     </ris:legalDocML.de_metadaten>
@@ -945,13 +945,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                                     eId="meta-1_proprietary-1"
                                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                                     source="attributsemantik-noch-undefiniert"
                                                                   >
                                                                     <ris:legalDocML.de_metadaten
-                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                                     >
                                                                       <ris:organisationsEinheit end="1989-12-31">Organisationseinheit 1</ris:organisationsEinheit>
                                                                       <ris:organisationsEinheit start="1990-01-01" end="1994-12-31">Organisationseinheit 2</ris:organisationsEinheit>
@@ -997,13 +997,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                         <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                           eId="meta-1_proprietary-1"
                           GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                           source="attributsemantik-noch-undefiniert"
                         >
                           <ris:legalDocML.de_metadaten
-                            xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                            xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                           >
                             <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
                                     <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
@@ -1025,13 +1025,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                     eId="meta-1_proprietary-1"
                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                     source="attributsemantik-noch-undefiniert"
                                                   >
                                                     <ris:legalDocML.de_metadaten
-                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                     >
                                                     <!-- ArtDerNorm is missing -->
                                                     </ris:legalDocML.de_metadaten>
@@ -1050,13 +1050,13 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
                                                   <akn:proprietary
-          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                                                     eId="meta-1_proprietary-1"
                                                     GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                                                     source="attributsemantik-noch-undefiniert"
                                                   >
                                                     <ris:legalDocML.de_metadaten
-                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/"
+                                                      xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"
                                                     >
                                                       <ris:artDerNorm end="1989-12-31">SN,ÄN,ÜN</ris:artDerNorm>
                                                       <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</ris:artDerNorm>

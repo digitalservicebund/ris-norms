@@ -19,7 +19,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
                   <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
                   <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
@@ -78,7 +78,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
                   <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
                   <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
@@ -104,7 +104,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
               </ris:legalDocML.de_metadaten>
           """
         )
@@ -134,7 +134,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
                   <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
                   <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
@@ -166,7 +166,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
                   <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
                   <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
@@ -209,7 +209,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-          <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+          <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
               <ris:subtyp>subtyp0</ris:subtyp>
           </ris:legalDocML.de_metadaten>
           """
@@ -243,7 +243,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
                   <ris:fna start="1995-01-01" end="2000-12-31">222-22-2</ris:fna>
                   <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
@@ -268,7 +268,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:fna start="1990-01-01" end="1994-12-31">111-11-1</ris:fna>
                   <ris:fna start="2001-01-01" end="unbestimmt">333-33-3</ris:fna>
               </ris:legalDocML.de_metadaten>
@@ -295,7 +295,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
                   <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
                   <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
@@ -377,7 +377,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
               </ris:legalDocML.de_metadaten>
           """
@@ -413,7 +413,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</ris:beschliessendesOrgan>
               </ris:legalDocML.de_metadaten>
           """
@@ -449,7 +449,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
                   <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</ris:beschliessendesOrgan>
               </ris:legalDocML.de_metadaten>
@@ -486,7 +486,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                   <ris:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</ris:beschliessendesOrgan>
                   <ris:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt"></ris:beschliessendesOrgan>
               </ris:legalDocML.de_metadaten>
@@ -530,7 +530,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                           <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                       <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
                       <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
@@ -628,7 +628,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
               </ris:legalDocML.de_metadaten>
           """
         )
@@ -657,7 +657,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                     <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
                     <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
@@ -691,7 +691,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                     <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
                     <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
@@ -725,7 +725,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                     <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
                     <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
@@ -759,7 +759,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs = new MetadatenDs(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                         <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                     <ris:artDerNorm end="unbestimmt" start="1980-01-01">SN</ris:artDerNorm>
                 </ris:einzelelement>

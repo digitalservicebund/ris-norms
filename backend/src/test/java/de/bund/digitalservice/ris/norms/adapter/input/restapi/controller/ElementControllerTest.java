@@ -138,7 +138,7 @@ class ElementControllerTest {
       // given
       var elementNode =
         """
-            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/" eId="hauptteil-1_art-1"
+            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1"
                         GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
                         period="#meta-1_geltzeiten-1_geltungszeitgr-1"
                         refersTo="hauptaenderung">

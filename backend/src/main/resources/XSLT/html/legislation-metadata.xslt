@@ -2,10 +2,10 @@
 <xsl:stylesheet
         version="2.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.1/"
-        xmlns:meta="http://Metadaten.LegalDocML.de/1.7.1/"
-        xmlns:meta-ds="http://MetadatenRIS.LegalDocML.de/1.7.1/"
-        xmlns:meta-bund="http://MetadatenBundesregierung.LegalDocML.de/1.7.1/"
+        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+        xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
+        xmlns:meta-ds="http://MetadatenRIS.LegalDocML.de/1.7.2/"
+        xmlns:meta-bund="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/"
         exclude-result-prefixes="#all"
 >
 
