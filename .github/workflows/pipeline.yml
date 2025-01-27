@@ -157,6 +157,16 @@ jobs:
   setup-e2e-tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Debug workspace
+        run: |
+          echo "Workspace root contents:"
+          ls -R
+          echo "Frontend folder contents:"
+          ls -R frontend
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -167,9 +177,8 @@ jobs:
         uses: actions/cache@v4
         id: cache-npm-cache
         with:
-          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
           path: /home/runner/.npm
-          key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
+          key: npm-cache-${{ hashFiles('frontend/package-lock.json') }}
       - name: Install node modules
         run: npm ci
         working-directory: ./frontend
