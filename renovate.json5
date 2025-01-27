@@ -14,6 +14,14 @@
   "ignoreDeps": [],
   "packageRules": [
     {
+      "matchDepNames": [
+        "software.amazon.awssdk:bom",
+        "software.amazon.awssdk:s3"
+      ],
+      "allowedVersions": "2.29.x",
+      "description": "Allow only patch updates for AWS SDK in the 2.29.x series. With new minor version 2.30.x we have some issue with the integrity checks when communicating with OTC OBS"
+    },
+    {
       "groupName": "all non-major frontend dependencies",
       "matchPaths": [
         "frontend/**"
