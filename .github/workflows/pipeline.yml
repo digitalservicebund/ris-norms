@@ -158,10 +158,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox, msedge]
+        project:
+          [
+            chromium,
+            firefox,
+            msedge,
+            login-logout-test-chromium,
+            login-logout-test-firefox,
+            login-logout-test-msedge,
+          ]
     uses: ./.github/workflows/end-to-end-tests.yml
     with:
-      browser: ${{ matrix.browser }}
+      project: ${{ matrix.project }}
     secrets: inherit
 
   ################

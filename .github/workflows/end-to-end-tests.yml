@@ -1,7 +1,7 @@
 on:
   workflow_call:
     inputs:
-      browser:
+      project:
         required: false
         type: string
         default: chromium
@@ -50,11 +50,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}-${{ inputs.browser }}
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}-${{ inputs.project }}
       - name: Install playwright browsers
         if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
         run: |
-          npx --yes playwright install --with-deps ${{ inputs.browser }}
+          npx --yes playwright install --with-deps ${{ inputs.project }}
         working-directory: ./frontend
       - name: Wait for backend to be fully up
         timeout-minutes: 5
@@ -64,24 +64,23 @@ jobs:
             sleep 1
           done
         working-directory: ./backend
-      - name: Run e2e tests in ${{ inputs.browser }} against localhost
+      - name: Run e2e tests in ${{ inputs.project }} against localhost
         env:
           E2E_BASE_URL: "http://localhost:5173"
           TZ: "Europe/Berlin"
         run: |
-          echo "Running e2e tests 1 time"
-
+          echo "Running e2e tests for ${{ inputs.project }}"
           npm run build
           npm run preview -- --port 5173 &
           DEV_PID=$!
-          npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1
+          npm run test:e2e -- --project ${{ inputs.project }} --repeat-each 1
           pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
-          name: failed-e2e-tests-${{ inputs.browser }}
+          name: failed-e2e-tests-${{ inputs.project }}
           path: |
             ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
@@ -89,7 +88,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: test-results-blob-e2e-${{ inputs.browser }}
+          name: test-results-blob-e2e-${{ inputs.project }}
           path: ./frontend/blob-report/test-report.zip
           retention-days: 1
       - name: Send status to Slack
