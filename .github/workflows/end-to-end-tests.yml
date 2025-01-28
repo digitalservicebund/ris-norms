@@ -40,6 +40,15 @@ jobs:
         with:
           path: ./frontend/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/package-lock.json') }}
+      - name: Get Playwright version
+        working-directory: ./frontend
+        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
+      - name: Restore Playwright browser binaries
+        uses: actions/cache@v4
+        id: restore-browser-binaries
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
       - name: Run e2e tests in ${{ inputs.project }} against localhost
         env:
           E2E_BASE_URL: "http://localhost:5173"
