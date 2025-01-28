@@ -34,6 +34,12 @@ jobs:
             sleep 1
           done
         working-directory: ./backend
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        id: restore-node-modules
+        with:
+          path: ./frontend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/package-lock.json') }}
       - name: Run e2e tests in ${{ inputs.project }} against localhost
         env:
           E2E_BASE_URL: "http://localhost:5173"
