@@ -9,7 +9,10 @@ import { createApp } from "vue"
 import App from "./App.vue"
 import { useAuthentication } from "./lib/auth"
 import router from "./router"
+import { getEnv } from "./services/envService"
 import "./style.css"
+
+const env = await getEnv()
 
 const app = createApp(App)
   .use(PrimeVue, {
@@ -20,14 +23,14 @@ const app = createApp(App)
   .use(ToastService)
   .use(ConfirmationService)
   .use(router)
-  .use(Sentry, { environmentName: "local", router })
+  .use(Sentry, { environment: env.name, router })
 
 const auth = useAuthentication()
 
 await auth.configure({
-  url: "http://localhost:8443",
-  clientId: "ris-norms-local",
-  realm: "ris",
+  url: env.authUrl,
+  clientId: env.authClientId,
+  realm: env.authRealm,
 })
 
 app.mount("#app")
