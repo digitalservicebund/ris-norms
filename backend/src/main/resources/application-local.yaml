@@ -12,3 +12,9 @@ spring:
 
 local:
   file-storage: .local-storage
+
+frontend:
+  auth:
+    clientId: ris-norms-local
+    realm: ris
+    url: http://localhost:8443

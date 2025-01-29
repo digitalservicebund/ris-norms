@@ -37,7 +37,8 @@ public class SecurityConfig {
             "/.well-known/security.txt",
             "/favicon.svg",
             "/actuator/health/**",
-            "/actuator/prometheus"
+            "/actuator/prometheus",
+            "/environment"
           )
           .permitAll()
           .anyRequest()
