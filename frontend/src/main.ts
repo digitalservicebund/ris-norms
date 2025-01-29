@@ -7,10 +7,9 @@ import ConfirmationService from "primevue/confirmationservice"
 import ToastService from "primevue/toastservice"
 import { createApp } from "vue"
 import App from "./App.vue"
-import { detectEnv, RisEnvironment } from "./lib/env"
+import { useAuthentication, auth } from "./lib/auth"
 import router from "./router"
 import "./style.css"
-import { auth } from "./lib/auth"
 
 const app = createApp(App)
   .use(PrimeVue, {
@@ -21,6 +20,13 @@ const app = createApp(App)
   .use(ToastService)
   .use(ConfirmationService)
   .use(router)
+const auth = useAuthentication()
+
+await auth.configure({
+  url: "http://localhost:8443",
+  clientId: "ris-norms-local",
+  realm: "ris",
+})
 
 const env = detectEnv()
 

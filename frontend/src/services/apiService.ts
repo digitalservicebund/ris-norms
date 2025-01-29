@@ -1,6 +1,6 @@
+import { useAuthentication } from "@/lib/auth"
 import { getFallbackError } from "@/lib/errorResponseMapper"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
-import { auth } from "@/lib/auth"
 
 /**
  * The same as UseFetchReturn, but without the methods to get more specific useFetch instances.
@@ -55,10 +55,9 @@ export const useApiFetch = createFetch({
         }
       }
 
-      options.headers = {
-        ...options.headers,
-        Authorization: `Bearer ${auth.getToken()}`,
-      }
+      const { addAuthorizationHeader } = useAuthentication()
+      options.headers = addAuthorizationHeader(options.headers)
+
       return { options }
     },
 

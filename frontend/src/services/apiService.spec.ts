@@ -1,6 +1,13 @@
 import { INVALID_URL } from "@/services/apiService"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
+import * as Auth from "@/lib/auth"
+
+vi.mock("@/lib/auth", () => ({
+  useAuthentication: () => ({
+    addAuthorizationHeader: vi.fn().mockImplementation((init) => init),
+  }),
+}))
 
 describe("useApiFetch", () => {
   beforeEach(() => {
@@ -112,5 +119,57 @@ describe("useApiFetch", () => {
     await vi.waitFor(() => {
       expect(error.value).toEqual({ type: "__fallback__", status: 404 })
     })
+  })
+
+  it("adds the Authorization header if available", async () => {
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockResolvedValue(new Response("{}"))
+
+    vi.spyOn(Auth, "useAuthentication").mockReturnValue({
+      addAuthorizationHeader: (init) => {
+        console.log("call")
+        return {
+          ...init,
+          Authorization: "Bearer 1234",
+        }
+      },
+      configure: vi.fn().mockResolvedValue(undefined),
+      isConfigured: vi.fn().mockReturnValue(true),
+    })
+
+    const { useApiFetch } = await import("@/services/apiService")
+
+    useApiFetch("foo/bar")
+
+    await vi.waitFor(() =>
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/foo/bar",
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: "Bearer 1234" }),
+        }),
+      ),
+    )
+  })
+
+  it("doesn't add an Authorization header if none is available", async () => {
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockResolvedValue(new Response("{}"))
+
+    const { useApiFetch } = await import("@/services/apiService")
+
+    useApiFetch("foo/bar")
+
+    await vi.waitFor(() =>
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/foo/bar",
+        expect.objectContaining({
+          headers: expect.not.objectContaining({
+            Authorization: "Bearer 1234",
+          }),
+        }),
+      ),
+    )
   })
 })
