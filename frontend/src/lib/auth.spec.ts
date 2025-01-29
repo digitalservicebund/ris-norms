@@ -6,6 +6,7 @@ vi.mock("keycloak-js", () => {
   MockKeycloak.prototype.init = vi.fn().mockResolvedValue(true)
   MockKeycloak.prototype.didInitialize = false
   MockKeycloak.prototype.token = undefined
+  MockKeycloak.prototype.idTokenParsed = undefined
 
   return { default: MockKeycloak }
 })
@@ -139,5 +140,45 @@ describe("auth", () => {
 
     // @ts-expect-error TypeScript is not sure it's there, but that's what we're testing
     expect(headers.test).toBe("true")
+  })
+
+  it("returns the username", async () => {
+    vi.spyOn(
+      Keycloak.default.prototype,
+      "idTokenParsed",
+      "get",
+    ).mockReturnValue({ name: "Jane Doe" })
+    const { useAuthentication } = await import("./auth")
+    const { configure, getUsername } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const username = getUsername()
+
+    expect(username).toBe("Jane Doe")
+  })
+
+  it("returns undefined as the username if no token exists", async () => {
+    vi.spyOn(
+      Keycloak.default.prototype,
+      "idTokenParsed",
+      "get",
+    ).mockReturnValue(undefined)
+    const { useAuthentication } = await import("./auth")
+    const { configure, getUsername } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const username = getUsername()
+
+    expect(username).toBeUndefined()
   })
 })

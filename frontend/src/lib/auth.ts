@@ -58,9 +58,20 @@ function createAuthentication() {
     return { ...init, Authorization: `Bearer ${keycloak?.token}` }
   }
 
+  /**
+   * Returns the name of the currently active user, if they have a name and
+   * authentication has been configured. Otherwise `undefined` is returned.
+   *
+   * @returns Name of the logged in user if known
+   */
+  function getUsername(): string | undefined {
+    return keycloak?.idTokenParsed?.name
+  }
+
   return () => ({
     addAuthorizationHeader,
     configure,
+    getUsername,
     isConfigured,
   })
 }

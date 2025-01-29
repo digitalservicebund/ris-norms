@@ -128,7 +128,6 @@ describe("useApiFetch", () => {
 
     vi.spyOn(Auth, "useAuthentication").mockReturnValue({
       addAuthorizationHeader: (init) => {
-        console.log("call")
         return {
           ...init,
           Authorization: "Bearer 1234",
@@ -136,6 +135,7 @@ describe("useApiFetch", () => {
       },
       configure: vi.fn().mockResolvedValue(undefined),
       isConfigured: vi.fn().mockReturnValue(true),
+      getUsername: vi.fn().mockReturnValue("Jane Doe"),
     })
 
     const { useApiFetch } = await import("@/services/apiService")
