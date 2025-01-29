@@ -25,3 +25,5 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.xml
     ignore_detectors: [filecontent]
+  - filename: frontend/src/plugins/sentry.ts
+    checksum: 8ca1a5dd4dffae5a4179484b0818c3f5185cc1fba68e7ba260993534d584f4ac
