@@ -5,9 +5,32 @@
     <link rel="icon" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NeuRIS Rechtsinformationssystem</title>
+
+    <style>
+      body {
+        background-color: #f6f7f8; /* gray-100 */
+        margin: 0;
+        padding: 0;
+      }
+
+      .fallback {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        gap: 8px;
+        height: 100dvh;
+        justify-content: center;
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="fallback">
+        <p>Die Anwendung wird geladen...</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
