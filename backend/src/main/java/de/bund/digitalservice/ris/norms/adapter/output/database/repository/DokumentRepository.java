@@ -1,13 +1,11 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -67,26 +65,4 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
    * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
    */
   Optional<DokumentDto> findFirstByGuidOrderByEliDokumentManifestation(final UUID guid);
-
-  /**
-   * Deletes a {@link DokumentDto} by its manifestation ELI (European Legislation Identifier) if it is in the given publish state.
-   *
-   * @param manifestationEli The ELI to search for.
-   * @param publishState The publishState to search for.
-   */
-  void deleteByEliNormManifestationAndPublishState(
-    final String manifestationEli,
-    final NormPublishState publishState
-  );
-
-  /**
-   * Retrieves the ids of all {@link DokumentDto} with a specific {@link NormPublishState}.
-   *
-   * @param normPublishState the publish state to filter the norms by (e.g., {@link NormPublishState#QUEUED_FOR_PUBLISH})
-   * @return a {@link List} of {@link UUID}s of the {@link DokumentDto}s matching the specified publish state
-   */
-  @Query("SELECT n.id FROM DokumentDto n WHERE n.publishState = :publishState")
-  List<UUID> findNormIdsByPublishState(
-    @Param("publishState") final NormPublishState normPublishState
-  );
 }

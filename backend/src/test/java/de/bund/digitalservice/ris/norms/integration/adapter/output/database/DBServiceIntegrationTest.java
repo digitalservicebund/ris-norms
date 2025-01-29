@@ -3,16 +3,15 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
@@ -22,7 +21,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationE
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -47,6 +45,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   private DokumentRepository dokumentRepository;
 
   @Autowired
+  private NormManifestationRepository normManifestationRepository;
+
+  @Autowired
   private ReleaseRepository releaseRepository;
 
   @Autowired
@@ -57,6 +58,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     announcementRepository.deleteAll();
     releaseRepository.deleteAll();
     dokumentRepository.deleteAll();
+    normManifestationRepository.deleteAll();
     migrationLogRepository.deleteAll();
   }
 
@@ -66,8 +68,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFindsNormOnDB() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // When
       final Optional<Norm> normOptional = dbService.loadNorm(
@@ -77,20 +80,22 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+      assertThat(normOptional)
+        .isPresent()
+        .satisfies(normDb ->
+          assertThat(normDb).contains(Fixtures.loadNormFromDisk("SimpleNorm.xml"))
+        );
     }
 
     @Test
     void itFindsAllDokumenteOfNormOnDB() {
       // Given
-      var norm = new Norm(
-        NormPublishState.UNPUBLISHED,
-        Set.of(
-          Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml"),
-          Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml")
-        )
-      );
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      var regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      var regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstext1));
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstext2));
+
+      var norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
 
       // When
       final Optional<Norm> normOptional = dbService.loadNorm(
@@ -108,8 +113,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // When
       final Optional<Norm> normOptional = dbService.loadNorm(
@@ -119,14 +125,15 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+      assertThat(normOptional).contains(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
     }
 
     @Test
     void itFindsNormByManifestationEli() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // When
       final Optional<Norm> normOptional = dbService.loadNorm(
@@ -136,17 +143,22 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+      assertThat(normOptional).contains(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
     }
 
     @Test
     void itFindsNewestManifestationOfNorm() {
       // Given
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
 
       // When
       final Optional<Norm> normOptional = dbService.loadNorm(
@@ -156,7 +168,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+      assertThat(normOptional)
+        .contains(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"));
     }
   }
 
@@ -172,12 +185,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       var regelungstextCurrent = Fixtures.loadRegelungstextFromDisk(
         "NormWithPassiveModifications.xml"
       );
-      dokumentRepository.save(
-        RegelungstextMapper.mapToDto(regelungstextOld, NormPublishState.UNPUBLISHED)
-      );
-      dokumentRepository.save(
-        RegelungstextMapper.mapToDto(regelungstextCurrent, NormPublishState.UNPUBLISHED)
-      );
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstextOld));
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstextCurrent));
 
       // When
       var loadedRegelungstext = dbService.loadRegelungstext(
@@ -196,9 +205,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     void itFindsRegelungstextByManifestationEli() {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
-      dokumentRepository.save(
-        RegelungstextMapper.mapToDto(regelungstext, NormPublishState.UNPUBLISHED)
-      );
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstext));
 
       // When
       var loadedRegelungstext = dbService.loadRegelungstext(
@@ -217,8 +224,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNormByGuidOnDB() {
     // When
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+    dokumentRepository.save(
+      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+    );
 
     // When
     final Optional<Norm> normOptional = dbService.loadNormByGuid(
@@ -226,7 +234,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     );
 
     // Then
-    assertThat(normOptional).isPresent().contains(norm);
+    assertThat(normOptional).isPresent().contains(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
   }
 
   @Test
@@ -252,13 +260,22 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itLoadsAllAnnouncementsFromDB() {
     // Given
-    var norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm1));
-    var announcement1 = Announcement.builder().eli(norm1.getNormExpressionEli()).build();
+    dokumentRepository.save(
+      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+    );
+    dokumentRepository.save(
+      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+    );
+
+    var announcement1 = Announcement
+      .builder()
+      .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+      .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
-    var norm2 = Fixtures.loadNormFromDisk("NormWithMods.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm2));
-    var announcement2 = Announcement.builder().eli(norm2.getNormExpressionEli()).build();
+    var announcement2 = Announcement
+      .builder()
+      .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+      .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
 
     // When
@@ -274,11 +291,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesNorm() {
       // Given
-      var oldNorm = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
-      oldNorm.setPublishState(NormPublishState.UNPUBLISHED);
-      dokumentRepository.saveAll(NormMapper.mapToDtos(oldNorm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithAppliedQuotedStructure.xml")
+        )
+      );
 
-      var newNorm = new Norm(oldNorm);
+      var newNorm = Fixtures.loadNormFromDisk("NormWithAppliedQuotedStructure.xml");
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       // When
@@ -294,10 +313,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       // Given
       var regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
       var regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
-      var oldNorm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(oldNorm));
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstext1));
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstext2));
 
-      var newNorm = new Norm(oldNorm);
+      var newNorm = new Norm(
+        NormPublishState.QUEUED_FOR_PUBLISH,
+        Set.of(regelungstext1, regelungstext2)
+      );
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       // When
@@ -312,9 +334,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itCreatesNewAnnouncement() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-    dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+    dokumentRepository.save(
+      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+    );
+    var announcement = Announcement
+      .builder()
+      .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+      .build();
 
     // When
     var announcementFromDatabase = dbService.updateOrSaveAnnouncement(
@@ -328,29 +354,38 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsReleaseOnDB() {
     // Given
-    var norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    var norm1Dtos = dokumentRepository.saveAll(NormMapper.mapToDtos(norm1));
-    var norm2Dtos = dokumentRepository.saveAll(
-      NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+    dokumentRepository.save(
+      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
     );
+    dokumentRepository.save(
+      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+    );
+
+    var norm1 = normManifestationRepository
+      .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+      .orElseThrow();
+    var norm2 = normManifestationRepository
+      .findByManifestationEli("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+      .orElseThrow();
+
     var release1 = releaseRepository.save(
       ReleaseDto
         .builder()
         .releasedAt(Instant.parse("2024-01-01T00:00:00Z"))
-        .norms(norm2Dtos)
+        .norms(List.of(norm2))
         .build()
     );
     var release2 = releaseRepository.save(
       ReleaseDto
         .builder()
         .releasedAt(Instant.parse("2024-02-01T00:00:00Z"))
-        .norms(norm1Dtos)
+        .norms(List.of(norm1))
         .build()
     );
     announcementRepository.save(
       AnnouncementDto
         .builder()
-        .eli(norm1.getNormExpressionEli().toString())
+        .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         .releases(List.of(release1, release2))
         .build()
     );
@@ -369,12 +404,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(releaseOptional.get().getReleasedAt()).isEqualTo("2024-02-01T00:00:00Z");
     assertThat(releaseOptional.get().getPublishedNorms()).hasSize(1);
     assertThat(
-      releaseOptional.get().getPublishedNorms().stream().findFirst().get().getManifestationEli()
+      releaseOptional.get().getPublishedNorms().stream().findFirst().get().getNormManifestationEli()
     )
       .isEqualTo(
-        DokumentManifestationEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+        NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
       );
   }
 
@@ -384,12 +417,18 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesAnnouncementAndSavesRelease() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
-      var release = Release.builder().publishedNorms(List.of(norm)).build();
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+
+      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      var release = Release.builder().publishedNorms(List.of(norm)).build();
 
       // When
       dbService.saveReleaseToAnnouncement(
@@ -404,15 +443,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
       assertThat(savedAnnouncement.get().getReleases().getFirst().getNorms()).hasSize(1);
       assertThat(
-        savedAnnouncement
-          .get()
-          .getReleases()
-          .getFirst()
-          .getNorms()
-          .getFirst()
-          .getEliDokumentManifestation()
+        savedAnnouncement.get().getReleases().getFirst().getNorms().getFirst().getManifestationEli()
       )
-        .isEqualTo(norm.getManifestationEli().toString());
+        .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     }
   }
 
@@ -422,15 +455,26 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itDeletesQueuedReleases() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
-      var release = Release.builder().publishedNorms(List.of(norm)).build();
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
+      var normDto = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        .orElseThrow();
+      normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      normDto = normManifestationRepository.save(normDto);
 
-      var normDto = dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        .build();
+      var release = Release
+        .builder()
+        .publishedNorms(List.of(Fixtures.loadNormFromDisk("SimpleNorm.xml")))
+        .build();
 
       var releaseDto = ReleaseMapper.mapToDto(release);
-      releaseDto.setNorms(normDto);
+      releaseDto.setNorms(List.of(normDto));
       releaseRepository.save(releaseDto);
 
       var announcementDto = AnnouncementMapper.mapToDto(announcement);
@@ -442,13 +486,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       var savedAnnouncement = announcementRepository.findByEli(
-        norm.getNormExpressionEli().toString()
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
       );
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).isEmpty();
 
       var savedNorm = dokumentRepository.findByEliDokumentManifestation(
-        norm.getManifestationEli().toString()
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       assertThat(savedNorm).isPresent();
     }
@@ -460,43 +504,35 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itLoadsNormIdByPublishState() {
       // Given
-      var normQueued = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      normQueued.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var normPublished = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
-      normPublished.setPublishState(NormPublishState.PUBLISHED);
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
+      var normDto = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        .orElseThrow();
+      normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      normManifestationRepository.save(normDto);
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(normQueued));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(normPublished));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormToBeReleased.xml"))
+      );
+      var normDto2 = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/2022-08-23")
+        .orElseThrow();
+      normDto2.setPublishState(NormPublishState.PUBLISHED);
+      normManifestationRepository.save(normDto);
 
       // When
-      final List<UUID> publishedNorms = dbService.loadNormIdsByPublishState(
-        new LoadNormIdsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
-      );
+      final List<NormManifestationEli> publishedNorms =
+        dbService.loadNormManifestationElisByPublishState(
+          new LoadNormManifestationElisByPublishStatePort.Command(
+            NormPublishState.QUEUED_FOR_PUBLISH
+          )
+        );
 
       // Then
       assertThat(publishedNorms).isNotEmpty().hasSize(1);
-    }
-
-    @Test
-    void itLoadsNormById() {
-      // Given
-      var normQueued = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      normQueued.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-
-      DokumentDto norm = dokumentRepository.save(
-        NormMapper.mapToDtos(normQueued).stream().findFirst().get()
-      );
-      UUID normId = norm.getId();
-
-      // When
-      final Optional<Norm> publishedNorm = dbService.loadNormById(
-        new LoadNormByIdPort.Command(normId)
-      );
-
-      // Then
-      assertThat(publishedNorm).isNotEmpty();
-      assertThat(XmlMapper.toString(publishedNorm.get().getDocument())).isEqualTo(norm.getXml());
     }
   }
 

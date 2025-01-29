@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 
@@ -26,17 +25,9 @@ public class RegelungstextMapper {
    * Maps a domain {@link Regelungstext} to {@link DokumentDto}.
    *
    * @param regelungstext The input {@link Regelungstext} to be mapped.
-   * @param publishState The publishState of the {@link Norm} associated with the {@link Regelungstext}. For now this is still stored on every dokument.
    * @return A new {@link DokumentDto} mapped from the input {@link Regelungstext}.
    */
-  public static DokumentDto mapToDto(
-    final Regelungstext regelungstext,
-    final NormPublishState publishState
-  ) {
-    return DokumentDto
-      .builder()
-      .xml(XmlMapper.toString(regelungstext.getDocument()))
-      .publishState(publishState)
-      .build();
+  public static DokumentDto mapToDto(final Regelungstext regelungstext) {
+    return DokumentDto.builder().xml(XmlMapper.toString(regelungstext.getDocument())).build();
   }
 }
