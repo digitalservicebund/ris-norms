@@ -52,13 +52,13 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+              "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
             )
         )
         .andExpect(
@@ -119,13 +119,13 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+              "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
             )
         )
         .andExpect(

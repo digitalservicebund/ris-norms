@@ -31,14 +31,24 @@ public class Fixtures {
   }
 
   public static Norm loadNormFromDisk(final String fileName, boolean validated) {
+    return Norm
+      .builder()
+      .regelungstexte(Set.of(loadRegelungstextFromDisk(fileName, validated)))
+      .build();
+  }
+
+  public static Regelungstext loadRegelungstextFromDisk(final String fileName) {
+    return loadRegelungstextFromDisk(fileName, false);
+  }
+
+  public static Regelungstext loadRegelungstextFromDisk(
+    final String fileName,
+    final boolean validated
+  ) {
     if (validated) {
       return ldmlDeValidator.parseAndValidate(loadFile(fileName));
     }
 
-    return Norm.builder().regelungstexte(Set.of(loadRegelungstextFromDisk(fileName))).build();
-  }
-
-  public static Regelungstext loadRegelungstextFromDisk(final String fileName) {
     return new Regelungstext(XmlMapper.toDocument(loadFile(fileName)));
   }
 

@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidExce
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.net.URI;
 import java.util.Objects;
@@ -39,14 +40,14 @@ class LdmlDeValidatorTest {
       String xml = Fixtures.loadTextFromDisk("NormWithMods.xml");
 
       // When
-      Norm norm = ldmlDeValidator.parseAndValidate(xml);
+      Regelungstext regelungstext = ldmlDeValidator.parseAndValidate(xml);
 
       // Then
       // we can't use Norm::getEli as it is not yet namespace-aware
       assertThat(
         NodeParser.getValueFromMandatoryNodeFromExpression(
           "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
-          norm.getDocument()
+          regelungstext.getDocument()
         )
       )
         .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml");

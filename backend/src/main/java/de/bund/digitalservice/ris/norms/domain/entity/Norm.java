@@ -130,9 +130,7 @@ public class Norm {
    * Returns the current version GUID as {@link UUID} from the {@link Norm}.
    *
    * @return An GUID of the norm (of the expression level)
-   * @deprecated
    */
-  @Deprecated(forRemoval = true)
   public UUID getGuid() {
     return getRegelungstext1().getGuid();
   }
@@ -176,19 +174,6 @@ public class Norm {
   @Deprecated(forRemoval = true)
   public List<Article> getArticles() {
     return getRegelungstext1().getArticles();
-  }
-
-  /**
-   * Returns a {@link List} of all target norms {@link DokumentExpressionEli}s of an amending {@link Norm}.
-   *
-   * @return The list of target norm elis
-   */
-  public List<DokumentExpressionEli> getTargetLawElis() {
-    return getArticles()
-      .stream()
-      .filter(article -> !article.isGeltungszeitregel())
-      .map(Article::getMandatoryAffectedDocumentEli)
-      .toList();
   }
 
   /**
@@ -262,18 +247,6 @@ public class Norm {
   }
 
   /**
-   * Searches for a given eId and returns the number of matches.
-   *
-   * @param eId the eId of the element to search for.
-   * @return the number of nodes for a given eId.
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public int getNumberOfNodesWithEid(String eId) {
-    return getRegelungstext1().getNumberOfNodesWithEid(eId);
-  }
-
-  /**
    * Returns the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to return
@@ -319,17 +292,6 @@ public class Norm {
   @Deprecated(forRemoval = true)
   public Optional<Element> deleteEventRefIfUnused(String eId) {
     return getRegelungstext1().deleteEventRefIfUnused(eId);
-  }
-
-  /**
-   * Deletes one time boundary (Zeitgrenze) from the document.
-   *
-   * @param timeBoundaryToDelete the time boundary that should be deleted from the xml
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
-    getRegelungstext1().deleteTimeBoundary(timeBoundaryToDelete);
   }
 
   @Override

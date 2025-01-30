@@ -13,6 +13,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUs
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -27,10 +28,12 @@ import org.junit.jupiter.api.Test;
 class ArticleServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
   final ArticleService articleService = new ArticleService(
     loadNormPort,
+    loadRegelungstextPort,
     timeMachineService,
     xsltTransformationService
   );
@@ -44,11 +47,11 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
       var eid = "hauptteil-1_art-1";
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
-      when(timeMachineService.applyPassiveModifications(any()))
-        .thenReturn(norm.getRegelungstext1());
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
+      when(timeMachineService.applyPassiveModifications(any())).thenReturn(regelungstext);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // when
@@ -66,7 +69,8 @@ class ArticleServiceTest {
       );
       var eid = "meta-1";
       var query = new LoadArticleHtmlUseCase.Query(eli, eid);
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.empty());
 
       // when
       assertThatThrownBy(() -> articleService.loadArticleHtml(query))
@@ -77,14 +81,16 @@ class ArticleServiceTest {
     @Test
     void throwsIfArticleNotFound() {
       // given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "NOT_IN_NORM";
       var query = new LoadArticleHtmlUseCase.Query(eli, eid);
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
 
       // when
       assertThatThrownBy(() -> articleService.loadArticleHtml(query))

@@ -25,3 +25,5 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.xml
     ignore_detectors: [filecontent]
+  - filename: backend/src/test/resources/de/bund/digitalservice/ris/norms/domain/entity/*.xml
+    ignore_detectors: [filecontent]

@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
@@ -91,8 +92,8 @@ public class AnnouncementService
     // it throws an exception if the validation fails or the LDML.de Version is not 1.7.2
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
     // not yet.
-    var validatedNorm = ldmlDeValidator.parseAndValidate(actString);
-    ldmlDeValidator.validateSchematron(validatedNorm);
+    var validatedRegelungstext = ldmlDeValidator.parseAndValidate(actString);
+    ldmlDeValidator.validateSchematron(validatedRegelungstext);
 
     var norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(document))).build();
 
@@ -103,7 +104,7 @@ public class AnnouncementService
     final boolean normFound = isNormRetrievableByEli(query.force(), norm);
 
     if (normFound && query.force()) {
-      deleteAnnouncement(norm.getExpressionEli());
+      deleteAnnouncement(norm.getNormExpressionEli());
     } else if (
       loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
     ) {
@@ -134,10 +135,14 @@ public class AnnouncementService
 
   private Set<DokumentExpressionEli> getActiveModDestinationElis(Norm norm) {
     var activeMods = norm
-      .getMeta()
-      .getAnalysis()
+      .getRegelungstexte()
+      .stream()
+      .map(Regelungstext::getMeta)
+      .map(Meta::getAnalysis)
+      .flatMap(Optional::stream)
       .map(Analysis::getActiveModifications)
-      .orElseGet(List::of);
+      .flatMap(List::stream)
+      .toList();
     return activeMods
       .stream()
       .map(TextualMod::getDestinationHref)
@@ -152,9 +157,9 @@ public class AnnouncementService
     Norm norm
   ) {
     activeModDestinationElis.forEach(eli -> {
-      if (loadNormPort.loadNorm(new LoadNormPort.Command(eli)).isEmpty()) {
+      if (loadNormPort.loadNorm(new LoadNormPort.Command(eli.asNormEli())).isEmpty()) {
         throw new ActiveModDestinationNormNotFoundException(
-          norm.getExpressionEli().toString(),
+          norm.getNormExpressionEli().toString(),
           eli.toString()
         );
       }
@@ -163,16 +168,16 @@ public class AnnouncementService
 
   private boolean isNormRetrievableByEli(boolean forceOverwrite, Norm norm) {
     final boolean normExists = loadNormPort
-      .loadNorm(new LoadNormPort.Command(norm.getExpressionEli()))
+      .loadNorm(new LoadNormPort.Command(norm.getNormExpressionEli()))
       .isPresent();
 
     if (normExists && !forceOverwrite) {
-      throw new NormExistsAlreadyException(norm.getExpressionEli().toString());
+      throw new NormExistsAlreadyException(norm.getNormExpressionEli().toString());
     }
     return normExists;
   }
 
-  private void deleteAnnouncement(DokumentExpressionEli expressionEli) {
+  private void deleteAnnouncement(NormExpressionEli expressionEli) {
     var announcement = loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliPort.Command(expressionEli)
     );
@@ -208,7 +213,7 @@ public class AnnouncementService
   private void deleteTargetNormsZf0(Set<DokumentExpressionEli> activeModDestinationElis) {
     activeModDestinationElis.forEach(expressionEli ->
       loadNormPort
-        .loadNorm(new LoadNormPort.Command(expressionEli))
+        .loadNorm(new LoadNormPort.Command(expressionEli.asNormEli()))
         .ifPresent(targetNorm ->
           deleteNormPort.deleteNorm(
             new DeleteNormPort.Command(
@@ -234,11 +239,13 @@ public class AnnouncementService
     final Set<DokumentExpressionEli> activeModDestinationElis
   ) {
     // 1. Eid-Correction
-    EidConsistencyGuardian.correctEids(norm.getDocument());
+    norm
+      .getRegelungstexte()
+      .forEach(dokument -> EidConsistencyGuardian.correctEids(dokument.getDocument()));
     // 2. ZF0 creation
     activeModDestinationElis.forEach(eli ->
       loadNormPort
-        .loadNorm(new LoadNormPort.Command(eli))
+        .loadNorm(new LoadNormPort.Command(eli.asNormEli()))
         .ifPresent(targetNorm ->
           createZf0Service.createZf0(new CreateZf0UseCase.Query(norm, targetNorm, true))
         )

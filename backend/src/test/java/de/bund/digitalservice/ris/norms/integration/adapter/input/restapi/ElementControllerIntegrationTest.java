@@ -35,7 +35,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   class getElementHtmlPreview {
 
     @Test
-    void returnsNotFoundIfNormNotFoundByEli() throws Exception {
+    void returnsNotFoundIfRegelungstextNotFoundByEli() throws Exception {
       // Given
       // Nothing
 
@@ -49,13 +49,13 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // Then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
@@ -184,7 +184,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   class getElementInfo {
 
     @Test
-    void returnsNotFoundIfNormNotFoundByEli() throws Exception {
+    void returnsNotFoundIfRegelungstextNotFoundByEli() throws Exception {
       // Given
       // Nothing
 
@@ -198,13 +198,13 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // Then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
@@ -338,7 +338,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsNotFoundIfNormIsNotFound() throws Exception {
+    void itReturnsNotFoundIfRegelungstextIsNotFound() throws Exception {
       // Given
       // Nothing
 
@@ -351,13 +351,13 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // Then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
+              "Regelungstext with eli eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(

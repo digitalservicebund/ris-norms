@@ -64,7 +64,7 @@ public class LdmlDeValidator {
    * @return The parsed norm (namespace-aware)
    * @throws LdmlDeNotValidException The document is not valid according to the XSD-Schema
    */
-  public Norm parseAndValidate(String ldmlDeString) {
+  public Regelungstext parseAndValidate(String ldmlDeString) {
     Schema schema = null;
     try {
       Source schemaSource = new StreamSource(xsdSchema.getInputStream());
@@ -114,18 +114,29 @@ public class LdmlDeValidator {
       );
     }
 
-    return Norm.builder().regelungstexte(Set.of(new Regelungstext(result))).build();
+    return new Regelungstext(result);
   }
 
   /**
    * Validate the norm against the schematron rules. Throws if a rule is not fulfilled.
    *
-   * @param norm the norm to validate
+   * @param norm the Norm to validate
    * @throws XmlProcessingException A problem occurred during the processing of the XML
    * @throws LdmlDeSchematronException A Schematron rule is violated
    */
   public void validateSchematron(Norm norm) {
-    Source xmlSource = new DOMSource(norm.getDocument());
+    norm.getRegelungstexte().forEach(this::validateSchematron);
+  }
+
+  /**
+   * Validate the regelungstext against the schematron rules. Throws if a rule is not fulfilled.
+   *
+   * @param regelungstext the Regelungstext to validate
+   * @throws XmlProcessingException A problem occurred during the processing of the XML
+   * @throws LdmlDeSchematronException A Schematron rule is violated
+   */
+  public void validateSchematron(Regelungstext regelungstext) {
+    Source xmlSource = new DOMSource(regelungstext.getDocument());
 
     var result = new DOMResult();
     try {
@@ -193,7 +204,7 @@ public class LdmlDeValidator {
           xPath + "/ancestor-or-self::*/@eId",
           key ->
             NodeParser
-              .getNodesFromExpression(key, norm.getDocument())
+              .getNodesFromExpression(key, regelungstext.getDocument())
               .stream()
               .map(Node::getNodeValue)
               .reduce("", (a, b) -> a.length() > b.length() ? a : b)

@@ -36,13 +36,13 @@ class ElementControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean
-  private LoadElementFromNormUseCase loadElementFromNormUseCase;
+  private LoadElementUseCase loadElementUseCase;
 
   @MockitoBean
-  private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
+  private LoadElementHtmlUseCase loadElementHtmlUseCase;
 
   @MockitoBean
-  private LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
+  private LoadElementsByTypeUseCase loadElementsByTypeUseCase;
 
   @MockitoBean
   private LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
@@ -52,7 +52,7 @@ class ElementControllerTest {
 
     @Test
     void itThrowsXmlProcessingException() throws Exception {
-      when(loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(any()))
+      when(loadElementHtmlUseCase.loadElementHtml(any()))
         .thenThrow(new XmlProcessingException("Error message", null));
       mockMvc
         .perform(
@@ -105,8 +105,8 @@ class ElementControllerTest {
       // given
       var elementHtml = "<div></div>";
       when(
-        loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
-          new LoadElementHtmlFromNormUseCase.Query(
+        loadElementHtmlUseCase.loadElementHtml(
+          new LoadElementHtmlUseCase.Query(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             ),
@@ -151,8 +151,8 @@ class ElementControllerTest {
                     </akn:article>
         """;
       when(
-        loadElementFromNormUseCase.loadElementFromNorm(
-          new LoadElementFromNormUseCase.Query(
+        loadElementUseCase.loadElement(
+          new LoadElementUseCase.Query(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             ),
@@ -185,8 +185,8 @@ class ElementControllerTest {
     void itReturnsListOfElements() throws Exception {
       // given
       when(
-        loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
-          new LoadElementsByTypeFromNormUseCase.Query(
+        loadElementsByTypeUseCase.loadElementsByType(
+          new LoadElementsByTypeUseCase.Query(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             ),
@@ -213,8 +213,8 @@ class ElementControllerTest {
     @Test
     void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
       when(
-        loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
-          new LoadElementsByTypeFromNormUseCase.Query(
+        loadElementsByTypeUseCase.loadElementsByType(
+          new LoadElementsByTypeUseCase.Query(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
             ),

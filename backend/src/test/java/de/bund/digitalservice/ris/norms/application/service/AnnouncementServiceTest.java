@@ -87,9 +87,7 @@ class AnnouncementServiceTest {
       // given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -106,9 +104,7 @@ class AnnouncementServiceTest {
     void itThrowsAnnouncementNotFoundExceptionIfNormDoesNotExist() {
       // given
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -132,9 +128,7 @@ class AnnouncementServiceTest {
       // When
       var loadedAnnouncement = announcementService.loadAnnouncementByNormEli(
         new LoadAnnouncementByNormEliUseCase.Query(
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
@@ -388,8 +382,8 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotSchematronValid() throws IOException {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithModsSchematronInvalid.xml");
+      var xmlContent = XmlMapper.toString(regelungstext.getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -417,10 +411,10 @@ class AnnouncementServiceTest {
         )
       )
         .thenReturn(Optional.empty());
-      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(norm);
+      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(regelungstext);
       doThrow(new LdmlDeSchematronException(List.of()))
         .when(ldmlDeValidator)
-        .validateSchematron(norm);
+        .validateSchematron(regelungstext);
 
       // When // Then
       var query = new CreateAnnouncementUseCase.Query(file, false);

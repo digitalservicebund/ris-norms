@@ -2,8 +2,10 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -28,12 +30,13 @@ import org.w3c.dom.Node;
 @Service
 public class ElementService
   implements
-    LoadElementFromNormUseCase,
-    LoadElementHtmlFromNormUseCase,
+    LoadElementUseCase,
+    LoadElementHtmlUseCase,
     LoadElementHtmlAtDateFromNormUseCase,
-    LoadElementsByTypeFromNormUseCase {
+    LoadElementsByTypeUseCase {
 
   private final LoadNormPort loadNormPort;
+  private final LoadRegelungstextPort loadRegelungstextPort;
   private final XsltTransformationService xsltTransformationService;
   private final TimeMachineService timeMachineService;
 
@@ -81,35 +84,37 @@ public class ElementService
 
   public ElementService(
     LoadNormPort loadNormPort,
+    LoadRegelungstextPort loadRegelungstextPort,
     XsltTransformationService xsltTransformationService,
     TimeMachineService timeMachineService
   ) {
     this.loadNormPort = loadNormPort;
+    this.loadRegelungstextPort = loadRegelungstextPort;
     this.xsltTransformationService = xsltTransformationService;
     this.timeMachineService = timeMachineService;
   }
 
   @Override
-  public Node loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
+  public Node loadElement(final LoadElementUseCase.Query query) {
     final var xPath = getXPathForEid(query.eid());
 
-    final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+    final var regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
     return NodeParser
-      .getNodeFromExpression(xPath, norm.getDocument())
+      .getNodeFromExpression(xPath, regelungstext.getDocument())
       .orElseThrow(() -> new ElementNotFoundException(query.eli().toString(), query.eid()));
   }
 
   @Override
-  public String loadElementHtmlFromNorm(final LoadElementHtmlFromNormUseCase.Query query) {
-    final var normXml = XmlMapper.toString(
-      loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid()))
+  public String loadElementHtml(final LoadElementHtmlUseCase.Query query) {
+    final var elementXml = XmlMapper.toString(
+      loadElement(new LoadElementUseCase.Query(query.eli(), query.eid()))
     );
 
     return xsltTransformationService.transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query(normXml, false, false)
+      new TransformLegalDocMlToHtmlUseCase.Query(elementXml, false, false)
     );
   }
 
@@ -137,7 +142,7 @@ public class ElementService
   }
 
   @Override
-  public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query) {
+  public List<Node> loadElementsByType(LoadElementsByTypeUseCase.Query query) {
     // No need to do anything if no types are requested
     if (query.elementType().isEmpty()) return List.of();
 
@@ -146,13 +151,13 @@ public class ElementService
       query.elementType().stream().map(label -> ElementType.fromLabel(label).xPath).toList()
     );
 
-    final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+    final var regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
     // Source EIDs from passive mods
     final var passiveModsDestinationEids = getDestinationEidsFromPassiveMods(
-      norm
+      regelungstext
         .getMeta()
         .getAnalysis()
         .map(Analysis::getPassiveModifications)
@@ -161,7 +166,7 @@ public class ElementService
     );
 
     return NodeParser
-      .getNodesFromExpression(combinedXPaths, norm.getDocument())
+      .getNodesFromExpression(combinedXPaths, regelungstext.getDocument())
       .stream()
       .filter(element -> { // filter by "amendedBy")
         // no amending law -> all elements are fine

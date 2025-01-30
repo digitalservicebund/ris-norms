@@ -126,7 +126,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
+              "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu does not exist"
             )
         )
         .andExpect(
@@ -135,9 +135,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
               "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
             )
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"));
     }
 
     @Test
@@ -257,7 +255,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
+              "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu does not exist"
             )
         )
         .andExpect(
@@ -266,9 +264,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
               "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
             )
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"));
     }
 
     @Test
@@ -733,9 +729,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/active-mod/destination/norm-not-found")))
-        .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
-        )
+        .andExpect(jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")))
         .andExpect(
           jsonPath(
             "destinationEli",
