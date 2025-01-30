@@ -1,8 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.time.LocalDate;
@@ -22,10 +24,16 @@ public class TimeBoundaryService
     LoadTimeBoundariesUseCase, LoadTimeBoundariesAmendedByUseCase, UpdateTimeBoundariesUseCase {
 
   private final LoadNormPort loadNormPort;
+  private final LoadRegelungstextPort loadRegelungstextPort;
   private final NormService normService;
 
-  public TimeBoundaryService(LoadNormPort loadNormPort, NormService normService) {
+  public TimeBoundaryService(
+    LoadNormPort loadNormPort,
+    LoadRegelungstextPort loadRegelungstextPort,
+    NormService normService
+  ) {
     this.loadNormPort = loadNormPort;
+    this.loadRegelungstextPort = loadRegelungstextPort;
     this.normService = normService;
   }
 
@@ -37,10 +45,9 @@ public class TimeBoundaryService
   public List<TimeBoundary> loadTimeBoundariesFromRegelungstext(
     LoadTimeBoundariesUseCase.Query query
   ) {
-    return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
-      .getRegelungstext1()
+    return loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()))
       .getTimeBoundaries();
   }
 
@@ -48,10 +55,9 @@ public class TimeBoundaryService
   public List<TimeBoundary> loadTimeBoundariesAmendedBy(
     LoadTimeBoundariesAmendedByUseCase.Query query
   ) {
-    final Regelungstext regelungstext = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
-      .getRegelungstext1();
+    final Regelungstext regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
     final List<String> temporalGroupEidAmendedBy = regelungstext
       .getMeta()
@@ -90,10 +96,12 @@ public class TimeBoundaryService
     UpdateTimeBoundariesUseCase.Query query
   ) {
     final Norm norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .loadNorm(new LoadNormPort.Command(query.eli().asNormEli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
-    var regelungstext = norm.getRegelungstext1();
+    var regelungstext = norm
+      .getRegelungstextByEli(query.eli())
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
     // At first time boundaries that shall be deleted need to be selected
     // if we would delete first, there are cases where the next possible eId could not be safely
