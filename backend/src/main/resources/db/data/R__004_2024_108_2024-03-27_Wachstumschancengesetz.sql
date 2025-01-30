@@ -1,6 +1,6 @@
 -- REAPPLY
 -- TARGET LAW
-DELETE FROM dokumente WHERE eli_dokument_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
+DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
 DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
 DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
 

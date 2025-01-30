@@ -1,7 +1,7 @@
 -- REAPPLY
 -- TARGET LAW
-DELETE FROM dokumente WHERE eli_dokument_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
-DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
+DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
+DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu' ;
 DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
 
 INSERT INTO dokumente (xml)
