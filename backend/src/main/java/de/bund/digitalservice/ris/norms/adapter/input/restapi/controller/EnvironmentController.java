@@ -30,8 +30,6 @@ public class EnvironmentController {
   @Value("${frontend.auth.url:http://localhost:8443}")
   private String frontendAuthUrl;
 
-  public EnvironmentController() {}
-
   /**
    * Returns information and configuration details for the current environment.
    *
