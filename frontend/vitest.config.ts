@@ -49,8 +49,9 @@ export default defineConfig((context) =>
             // then should be tested
             "src/router.ts",
 
-            // Just the init file, nothing much to test here.
+            // Just the init file and global setup, nothing much to test here.
             "src/main.ts",
+            "src/plugins/sentry.ts",
 
             // Stories are just for internal development use and don't need to be
             // tested
