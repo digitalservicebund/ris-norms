@@ -44,7 +44,7 @@ public class ReleaseDto {
     joinColumns = @JoinColumn(name = "release_id"),
     inverseJoinColumns = @JoinColumn(
       name = "norm_eli_manifestation",
-      referencedColumnName = "eli_dokument_manifestation"
+      referencedColumnName = "eli_norm_manifestation"
     )
   )
   @Builder.Default
