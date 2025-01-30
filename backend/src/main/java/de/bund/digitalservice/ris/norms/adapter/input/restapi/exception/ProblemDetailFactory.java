@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
@@ -93,7 +93,7 @@ public class ProblemDetailFactory {
       "XML processing error"
     ),
     UNSUPPORTED_ELEMENT_TYPE(
-      LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class,
+      LoadElementsByTypeUseCase.UnsupportedElementTypeException.class,
       URI.create("/errors/unsupported-element-type"),
       "Unsupported element type"
     ),
