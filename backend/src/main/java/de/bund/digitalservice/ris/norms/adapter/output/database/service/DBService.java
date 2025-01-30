@@ -40,7 +40,6 @@ public class DBService
     LoadNormByGuidPort,
     LoadAnnouncementByNormEliPort,
     LoadAllAnnouncementsPort,
-    LoadLatestReleasePort,
     UpdateNormPort,
     UpdateAnnouncementPort,
     UpdateOrSaveNormPort,
@@ -133,7 +132,7 @@ public class DBService
     LoadAnnouncementByNormEliPort.Command command
   ) {
     return announcementRepository
-      .findByEli(command.eli().asNormEli().toString())
+      .findByEli(command.eli().toString())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -240,8 +239,8 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    var announcementDto = announcementRepository.findByEli(command.eli().asNormEli().toString());
-    announcementRepository.deleteByEli(command.eli().asNormEli().toString());
+    var announcementDto = announcementRepository.findByEli(command.eli().toString());
+    announcementRepository.deleteByEli(command.eli().toString());
     announcementDto.ifPresent(dto -> releaseRepository.deleteAll(dto.getReleases()));
   }
 
@@ -260,17 +259,6 @@ public class DBService
 
     dokumentRepository.deleteAll(normDto.get().getDokumente());
     normManifestationRepository.delete(normDto.get());
-  }
-
-  @Override
-  public Optional<Release> loadLatestRelease(LoadLatestReleasePort.Command command) {
-    return announcementRepository
-      .findByEli(command.eli().asNormEli().toString())
-      .stream()
-      .map(AnnouncementMapper::mapToDomain)
-      .map(Announcement::getReleases)
-      .flatMap(List::stream)
-      .max(Comparator.comparing(Release::getReleasedAt));
   }
 
   @Override

@@ -132,7 +132,6 @@ public class Norm {
    * @return An GUID of the norm (of the expression level)
    * @deprecated
    */
-  @Deprecated(forRemoval = true)
   public UUID getGuid() {
     return getRegelungstext1().getGuid();
   }

@@ -2,8 +2,6 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
@@ -21,7 +19,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationE
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -241,15 +238,14 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itFindsAnnouncementOnDB() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    dokumentRepository.save(RegelungstextMapper.mapToDto(norm.getRegelungstext1()));
     var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
     // When
     final Optional<Announcement> announcementOptional = dbService.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliPort.Command(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       )
     );
 
@@ -349,66 +345,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // Then
     assertThat(announcementFromDatabase).isEqualTo(announcement);
-  }
-
-  @Test
-  void itFindsReleaseOnDB() {
-    // Given
-    dokumentRepository.save(
-      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
-    );
-    dokumentRepository.save(
-      RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
-    );
-
-    var norm1 = normManifestationRepository
-      .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
-      .orElseThrow();
-    var norm2 = normManifestationRepository
-      .findByManifestationEli("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
-      .orElseThrow();
-
-    var release1 = releaseRepository.save(
-      ReleaseDto
-        .builder()
-        .releasedAt(Instant.parse("2024-01-01T00:00:00Z"))
-        .norms(List.of(norm2))
-        .build()
-    );
-    var release2 = releaseRepository.save(
-      ReleaseDto
-        .builder()
-        .releasedAt(Instant.parse("2024-02-01T00:00:00Z"))
-        .norms(List.of(norm1))
-        .build()
-    );
-    announcementRepository.save(
-      AnnouncementDto
-        .builder()
-        .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
-        .releases(List.of(release1, release2))
-        .build()
-    );
-
-    // When
-    final Optional<Release> releaseOptional = dbService.loadLatestRelease(
-      new LoadLatestReleasePort.Command(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
-      )
-    );
-
-    // Then
-    assertThat(releaseOptional).isPresent();
-    assertThat(releaseOptional.get().getReleasedAt()).isEqualTo("2024-02-01T00:00:00Z");
-    assertThat(releaseOptional.get().getPublishedNorms()).hasSize(1);
-    assertThat(
-      releaseOptional.get().getPublishedNorms().stream().findFirst().get().getNormManifestationEli()
-    )
-      .isEqualTo(
-        NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
-      );
   }
 
   @Nested

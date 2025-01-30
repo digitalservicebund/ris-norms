@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
@@ -103,7 +104,7 @@ public class AnnouncementService
     final boolean normFound = isNormRetrievableByEli(query.force(), norm);
 
     if (normFound && query.force()) {
-      deleteAnnouncement(norm.getExpressionEli());
+      deleteAnnouncement(norm.getNormExpressionEli());
     } else if (
       loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
     ) {
@@ -172,7 +173,7 @@ public class AnnouncementService
     return normExists;
   }
 
-  private void deleteAnnouncement(DokumentExpressionEli expressionEli) {
+  private void deleteAnnouncement(NormExpressionEli expressionEli) {
     var announcement = loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliPort.Command(expressionEli)
     );

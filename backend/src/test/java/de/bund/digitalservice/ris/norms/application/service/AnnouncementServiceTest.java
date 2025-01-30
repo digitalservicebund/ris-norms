@@ -87,9 +87,7 @@ class AnnouncementServiceTest {
       // given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -106,9 +104,7 @@ class AnnouncementServiceTest {
     void itThrowsAnnouncementNotFoundExceptionIfNormDoesNotExist() {
       // given
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -132,9 +128,7 @@ class AnnouncementServiceTest {
       // When
       var loadedAnnouncement = announcementService.loadAnnouncementByNormEli(
         new LoadAnnouncementByNormEliUseCase.Query(
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
