@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -21,25 +22,27 @@ public class ArticleService
     LoadArticleHtmlUseCase, LoadArticlesFromNormUseCase, LoadSpecificArticlesXmlFromNormUseCase {
 
   LoadNormPort loadNormPort;
+  LoadRegelungstextPort loadRegelungstextPort;
   TimeMachineService timeMachineService;
   XsltTransformationService xsltTransformationService;
 
   public ArticleService(
     LoadNormPort loadNormPort,
+    LoadRegelungstextPort loadRegelungstextPort,
     TimeMachineService timeMachineService,
     XsltTransformationService xsltTransformationService
   ) {
     this.loadNormPort = loadNormPort;
+    this.loadRegelungstextPort = loadRegelungstextPort;
     this.timeMachineService = timeMachineService;
     this.xsltTransformationService = xsltTransformationService;
   }
 
   @Override
   public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
-    var regelungstext = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
-      .getRegelungstext1();
+    var regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
     if (query.atIsoDate() != null) {
       regelungstext =

@@ -729,9 +729,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/active-mod/destination/norm-not-found")))
-        .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
-        )
+        .andExpect(jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")))
         .andExpect(
           jsonPath(
             "destinationEli",

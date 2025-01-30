@@ -135,10 +135,14 @@ public class AnnouncementService
 
   private Set<DokumentExpressionEli> getActiveModDestinationElis(Norm norm) {
     var activeMods = norm
-      .getMeta()
-      .getAnalysis()
+      .getRegelungstexte()
+      .stream()
+      .map(Regelungstext::getMeta)
+      .map(Meta::getAnalysis)
+      .flatMap(Optional::stream)
       .map(Analysis::getActiveModifications)
-      .orElseGet(List::of);
+      .flatMap(List::stream)
+      .toList();
     return activeMods
       .stream()
       .map(TextualMod::getDestinationHref)
@@ -153,9 +157,9 @@ public class AnnouncementService
     Norm norm
   ) {
     activeModDestinationElis.forEach(eli -> {
-      if (loadNormPort.loadNorm(new LoadNormPort.Command(eli)).isEmpty()) {
+      if (loadNormPort.loadNorm(new LoadNormPort.Command(eli.asNormEli())).isEmpty()) {
         throw new ActiveModDestinationNormNotFoundException(
-          norm.getExpressionEli().toString(),
+          norm.getNormExpressionEli().toString(),
           eli.toString()
         );
       }
@@ -164,11 +168,11 @@ public class AnnouncementService
 
   private boolean isNormRetrievableByEli(boolean forceOverwrite, Norm norm) {
     final boolean normExists = loadNormPort
-      .loadNorm(new LoadNormPort.Command(norm.getExpressionEli()))
+      .loadNorm(new LoadNormPort.Command(norm.getNormExpressionEli()))
       .isPresent();
 
     if (normExists && !forceOverwrite) {
-      throw new NormExistsAlreadyException(norm.getExpressionEli().toString());
+      throw new NormExistsAlreadyException(norm.getNormExpressionEli().toString());
     }
     return normExists;
   }
@@ -209,7 +213,7 @@ public class AnnouncementService
   private void deleteTargetNormsZf0(Set<DokumentExpressionEli> activeModDestinationElis) {
     activeModDestinationElis.forEach(expressionEli ->
       loadNormPort
-        .loadNorm(new LoadNormPort.Command(expressionEli))
+        .loadNorm(new LoadNormPort.Command(expressionEli.asNormEli()))
         .ifPresent(targetNorm ->
           deleteNormPort.deleteNorm(
             new DeleteNormPort.Command(
@@ -239,7 +243,7 @@ public class AnnouncementService
     // 2. ZF0 creation
     activeModDestinationElis.forEach(eli ->
       loadNormPort
-        .loadNorm(new LoadNormPort.Command(eli))
+        .loadNorm(new LoadNormPort.Command(eli.asNormEli()))
         .ifPresent(targetNorm ->
           createZf0Service.createZf0(new CreateZf0UseCase.Query(norm, targetNorm, true))
         )
