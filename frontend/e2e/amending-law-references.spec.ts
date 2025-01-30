@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test"
+import { selectText } from "./utils/select-text"
 
 test("navigate to amending law references page without selected mods", async ({
   page,
@@ -76,15 +77,15 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
     "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
   )
 
-  const textBoundingBox = await page
+  const container = page
     .getByRole("region", { name: "Textbasierte Metadaten" })
-    .getByText(/Zur Unterstützung der Implementierung /)
-    .boundingBox()
+    .getByRole("textbox")
 
-  await page.mouse.move(textBoundingBox!.x + 30, textBoundingBox!.y)
-  await page.mouse.down()
-  await page.mouse.move(textBoundingBox!.x + 145, textBoundingBox!.y)
-  await page.mouse.up()
+  const textElement = container.getByText(/Zur Unterstützung der/)
+
+  await container.focus()
+  await selectText(textElement, "Unterstützung der")
+  await container.blur()
 
   const newRefRegion = page.getByRole("region", {
     name: "Unterstützung der",
@@ -147,15 +148,15 @@ test("should be able to select a mod, add two new ref's and delete one using the
     .getByRole("button", { name: /Absatz 2 bis Absatz 3 wird ersetzt durch/ })
     .click()
 
-  const textBoundingBox = await page
+  const container = page
     .getByRole("region", { name: "Textbasierte Metadaten" })
-    .getByText(/Zur Unterstützung der Implementierung /)
-    .boundingBox()
+    .getByRole("textbox")
 
-  await page.mouse.move(textBoundingBox!.x + 30, textBoundingBox!.y)
-  await page.mouse.down()
-  await page.mouse.move(textBoundingBox!.x + 145, textBoundingBox!.y)
-  await page.mouse.up()
+  const textElement = container.getByText(/Zur Unterstützung der/)
+
+  await container.focus()
+  await selectText(textElement, "Unterstützung der")
+  await container.blur()
 
   const ref1Highlight = page.getByRole("button", {
     name: "Unterstützung der",
@@ -163,10 +164,9 @@ test("should be able to select a mod, add two new ref's and delete one using the
   })
   await expect(ref1Highlight).toBeVisible()
 
-  await page.mouse.move(textBoundingBox!.x + 30, textBoundingBox!.y + 25)
-  await page.mouse.down()
-  await page.mouse.move(textBoundingBox!.x + 220, textBoundingBox!.y + 25)
-  await page.mouse.up()
+  await container.focus()
+  await selectText(textElement, "zentrale Koordinierungsstelle", 2)
+  await container.blur()
 
   const ref2Highlight = page.getByRole("button", {
     name: "zentrale Koordinierungsstelle",
