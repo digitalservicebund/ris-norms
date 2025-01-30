@@ -64,7 +64,7 @@ public class LdmlDeValidator {
    * @return The parsed norm (namespace-aware)
    * @throws LdmlDeNotValidException The document is not valid according to the XSD-Schema
    */
-  public Norm parseAndValidate(String ldmlDeString) {
+  public Regelungstext parseAndValidate(String ldmlDeString) {
     Schema schema = null;
     try {
       Source schemaSource = new StreamSource(xsdSchema.getInputStream());
@@ -114,7 +114,7 @@ public class LdmlDeValidator {
       );
     }
 
-    return Norm.builder().regelungstexte(Set.of(new Regelungstext(result))).build();
+    return new Regelungstext(result);
   }
 
   /**

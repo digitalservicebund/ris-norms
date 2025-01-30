@@ -382,8 +382,8 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotSchematronValid() throws IOException {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithModsSchematronInvalid.xml");
+      var xmlContent = XmlMapper.toString(regelungstext.getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -411,10 +411,10 @@ class AnnouncementServiceTest {
         )
       )
         .thenReturn(Optional.empty());
-      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(norm);
+      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(regelungstext);
       doThrow(new LdmlDeSchematronException(List.of()))
         .when(ldmlDeValidator)
-        .validateSchematron(norm);
+        .validateSchematron(regelungstext);
 
       // When // Then
       var query = new CreateAnnouncementUseCase.Query(file, false);
