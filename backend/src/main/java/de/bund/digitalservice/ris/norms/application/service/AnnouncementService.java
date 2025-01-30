@@ -239,7 +239,9 @@ public class AnnouncementService
     final Set<DokumentExpressionEli> activeModDestinationElis
   ) {
     // 1. Eid-Correction
-    EidConsistencyGuardian.correctEids(norm.getDocument());
+    norm
+      .getRegelungstexte()
+      .forEach(dokument -> EidConsistencyGuardian.correctEids(dokument.getDocument()));
     // 2. ZF0 creation
     activeModDestinationElis.forEach(eli ->
       loadNormPort

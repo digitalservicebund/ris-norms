@@ -16,6 +16,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnn
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -323,7 +324,7 @@ class ReleaseServiceTest {
       .parseAndValidate(
         XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
       );
-    verify(ldmlDeValidator, times(0)).validateSchematron(any());
+    verify(ldmlDeValidator, times(0)).validateSchematron(any(Norm.class));
     verify(createNewVersionOfNormService, times(0))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
@@ -363,7 +364,7 @@ class ReleaseServiceTest {
       .thenReturn(newNewestUnpublishedManifestationOfNorm);
     doThrow(new LdmlDeSchematronException(List.of()))
       .when(ldmlDeValidator)
-      .validateSchematron(any());
+      .validateSchematron(any(Norm.class));
 
     var query = new ReleaseAnnouncementUseCase.Query(norm.getNormExpressionEli());
 
