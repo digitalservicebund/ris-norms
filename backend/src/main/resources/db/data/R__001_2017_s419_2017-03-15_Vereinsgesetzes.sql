@@ -1,11 +1,11 @@
 -- REAPPLY
 -- TARGET LAW
-DELETE
-FROM dokumente
-WHERE eli_dokument_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1';
+DELETE FROM dokumente WHERE eli_dokument_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
+DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
+DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
 
-INSERT INTO dokumente (publish_state, xml)
-VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO dokumente (xml)
+VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 <!--
    This is a modified example from the LDML.de specification.
 -->
@@ -178,3 +178,5 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
     </akn:conclusions>
   </akn:act>
 </akn:akomaNtoso>');
+
+UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';

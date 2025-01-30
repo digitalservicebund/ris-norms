@@ -8,20 +8,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,6 +44,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   private DokumentRepository dokumentRepository;
 
   @Autowired
+  private NormManifestationRepository normManifestationRepository;
+
+  @Autowired
   private ReleaseRepository releaseRepository;
 
   @AfterEach
@@ -51,6 +54,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     announcementRepository.deleteAll();
     releaseRepository.deleteAll();
     dokumentRepository.deleteAll();
+    normManifestationRepository.deleteAll();
   }
 
   @Nested
@@ -71,9 +75,13 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsAllAnnouncementsNorm() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        .build();
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
+      );
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When
@@ -135,10 +143,14 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itDoesReturnNoReleasesIfNoneFound() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
-      var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When // Then
@@ -156,29 +168,41 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsRelease() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-
-      var dokumentDtos = dokumentRepository.saveAll(
-        Stream
-          .of(amendingNorm, affectedNorm, affectedNormZf0)
-          .map(NormMapper::mapToDtos)
-          .flatMap(Set::stream)
-          .collect(Collectors.toSet())
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
+
+      var amendingNorm = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+        .orElseThrow();
+      var affectedNorm = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        .orElseThrow();
+      var affectedNormZf0 = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
+        .orElseThrow();
 
       var releaseDto = releaseRepository.save(
         ReleaseDto
           .builder()
           .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-          .norms(dokumentDtos)
+          .norms(List.of(amendingNorm, affectedNorm, affectedNormZf0))
           .build()
       );
       announcementRepository.save(
         AnnouncementDto
           .builder()
-          .eli(amendingNorm.getNormExpressionEli().toString())
+          .eli("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           .releases(List.of(releaseDto))
           .build()
       );
@@ -250,9 +274,13 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itDoesNotReleaseButReturnsNotFoundIfTargetLawNotFound() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+        .build();
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+      );
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When // Then
@@ -283,15 +311,25 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReleaseAnnouncement() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+        .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       mockMvc
@@ -321,37 +359,32 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           )
         );
 
-      var publishedManifestationOfAmendingNorm = dokumentRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().toString()
-          )
+      var publishedManifestationOfAmendingNorm = normManifestationRepository.findByManifestationEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(LocalDate.now().toString())
       );
       assertThat(publishedManifestationOfAmendingNorm).isPresent();
       assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var publishedZf0ManifestationOfTargetNorm = dokumentRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().toString()
-          )
-      );
+      var publishedZf0ManifestationOfTargetNorm =
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s".formatted(LocalDate.now().toString())
+        );
       assertThat(publishedZf0ManifestationOfTargetNorm).isPresent();
       assertThat(publishedZf0ManifestationOfTargetNorm.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
       var publishedManifestationOfTargetNormAtFirstTimeBoundary =
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
-              LocalDate.now().toString()
-            )
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s".formatted(LocalDate.now().toString())
         );
       assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary).isPresent();
       assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
       var newUnpublishedManifestationOfAmendingNorm =
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(
               LocalDate.now().plusDays(1).toString()
             )
         );
@@ -360,8 +393,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .isEqualTo(NormPublishState.UNPUBLISHED);
 
       var newUnpublishedManifestationOfTargetNorm =
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s".formatted(
               LocalDate.now().plusDays(1).toString()
             )
         );
@@ -371,22 +404,38 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // original target norm + 3 queued for publish norms + 2 newly created manifestations for further work. The original amending norm and zf0 norm should no longer exist
       assertThat(dokumentRepository.findAll()).hasSize(6);
+      assertThat(normManifestationRepository.findAll()).hasSize(6);
     }
 
     @Test
     void releasingAnAnnouncementASecondTimeCreatesTheSameFilesAndCleansUpOldRelease()
       throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      affectedNorm.setPublishState(NormPublishState.PUBLISHED);
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      var affectedNorm = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        .orElseThrow();
+      affectedNorm.setPublishState(NormPublishState.PUBLISHED);
+      normManifestationRepository.save(affectedNorm);
+
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+        .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       mockMvc
@@ -408,37 +457,32 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk());
 
-      var publishedManifestationOfAmendingNorm = dokumentRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().toString()
-          )
+      var publishedManifestationOfAmendingNorm = normManifestationRepository.findByManifestationEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(LocalDate.now().toString())
       );
       assertThat(publishedManifestationOfAmendingNorm).isPresent();
       assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
-      var publishedZf0ManifestationOfTargetNorm = dokumentRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-            LocalDate.now().toString()
-          )
-      );
+      var publishedZf0ManifestationOfTargetNorm =
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s".formatted(LocalDate.now().toString())
+        );
       assertThat(publishedZf0ManifestationOfTargetNorm).isPresent();
       assertThat(publishedZf0ManifestationOfTargetNorm.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
       var publishedManifestationOfTargetNormAtFirstTimeBoundary =
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s/regelungstext-1.xml".formatted(
-              LocalDate.now().toString()
-            )
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/2017-03-23/1/deu/%s".formatted(LocalDate.now().toString())
         );
       assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary).isPresent();
       assertThat(publishedManifestationOfTargetNormAtFirstTimeBoundary.get().getPublishState())
         .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
 
       var newUnpublishedManifestationOfAmendingNorm =
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(
               LocalDate.now().plusDays(1).toString()
             )
         );
@@ -447,8 +491,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .isEqualTo(NormPublishState.UNPUBLISHED);
 
       var newUnpublishedManifestationOfTargetNorm =
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s".formatted(
               LocalDate.now().plusDays(1).toString()
             )
         );
@@ -463,17 +507,33 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void failsWhenTryingToReleaseAnXsdInvalidNorm() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithModsXsdInvalid.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
+
+      var affectedNormZf0 = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
+        .orElseThrow();
       affectedNormZf0.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      normManifestationRepository.save(affectedNormZf0);
 
-      var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
-
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+        .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       // Request is refused
@@ -502,8 +562,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       )
         .isNotEmpty();
 
-      var originalNormWithPassiveMods = dokumentRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
+      var originalNormWithPassiveMods = normManifestationRepository.findByManifestationEli(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23"
       );
 
       assertThat(originalNormWithPassiveMods).isNotEmpty();
@@ -514,15 +574,28 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void failsWhenTryingToReleaseASchematronInvalidNorm() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithModsSchematronInvalid.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+        .build();
+
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
 
       // When // Then
       // Request is refused
@@ -566,9 +639,11 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itCreatesANewAnnouncement() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
 
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
@@ -672,13 +747,16 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheNormAlreadyExist() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -696,18 +774,27 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfANormWithSameGuidAlreadyExist() throws Exception {
       // Given
-      var normWithSameGuid = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNormForNormWithSameGuid = Fixtures.loadNormFromDisk(
-        "NormWithoutPassiveModifications.xml"
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
+        )
       );
-      var norm = Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml");
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
+        )
+      );
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormForNormWithSameGuid));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-
-      normWithSameGuid.getMeta().getFRBRExpression().setFRBRaliasCurrentVersionId(norm.getGuid());
+      var normWithSameGuid = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      normWithSameGuid
+        .getMeta()
+        .getFRBRExpression()
+        .setFRBRaliasCurrentVersionId(UUID.fromString("c4166ebb-b6df-4f61-8ac1-1d6399cc80ef"));
       var xmlContent = XmlMapper.toString(normWithSameGuid.getDocument());
       var file = new MockMultipartFile(
         "file",
@@ -726,11 +813,13 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheNormIsInvalid() throws Exception {
       // Given
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+
       var norm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
         "file",
@@ -752,11 +841,13 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheNormIsSchematronInvalid() throws Exception {
       // Given
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      );
+
       var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-
       var xmlContent = XmlMapper.toString(norm.getDocument());
       var file = new MockMultipartFile(
         "file",
@@ -821,17 +912,27 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void ifCreatesAnnouncementWithForce() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
+      ); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      ); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
 
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(affectedNormZf0));
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+        .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       var file = new MockMultipartFile(
         "file",
         "norm.xml",

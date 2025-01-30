@@ -4,39 +4,45 @@
 classDiagram
 direction BT
 class announcement_releases {
-uuid announcement_id
-uuid release_id
+   uuid announcement_id
+   uuid release_id
 }
 class announcements {
-text eli
-uuid id
+   text eli
+   uuid id
 }
 class dokumente {
-xml xml
-norms.norm_publish_state publish_state
-text eli_dokument_manifestation
-text eli_dokument_expression
-uuid guid
-text eli_dokument_work
-text eli_norm_manifestation
-text eli_norm_expression
-text eli_norm_work
-uuid id
+   xml xml
+   text eli_dokument_manifestation
+   text eli_dokument_expression
+   uuid guid
+   text eli_dokument_work
+   text eli_norm_manifestation
+   text eli_norm_expression
+   text eli_norm_work
+   uuid id
+}
+class migration_log {
+   integer size
+   timestamp with time zone created_at
+   uuid id
 }
 class norm_expression {
-text eli_norm_expression
+   text eli_norm_expression
 }
 class norm_manifestation {
-text eli_norm_expression
-text eli_norm_manifestation
+   text eli_norm_expression
+   norms.norm_publish_state publish_state
+   uuid expression_aktuelle_version_id
+   text eli_norm_manifestation
 }
 class release_norms {
-uuid release_id
-text norm_eli_manifestation
+   uuid release_id
+   text norm_eli_manifestation
 }
 class releases {
-timestamp with time zone released_at
-uuid id
+   timestamp with time zone released_at
+   uuid id
 }
 
 announcement_releases  -->  announcements : announcement_id/id

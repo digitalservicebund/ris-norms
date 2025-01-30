@@ -48,5 +48,5 @@ public class ReleaseDto {
     )
   )
   @Builder.Default
-  private List<DokumentDto> norms = new ArrayList<>();
+  private List<NormManifestationDto> norms = new ArrayList<>();
 }

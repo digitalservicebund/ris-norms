@@ -3,13 +3,13 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
@@ -19,26 +19,23 @@ class NormMapperTest {
   void itShouldMapToDomain() {
     // Given
     var regelungstext1Xml = Fixtures.loadTextFromDisk("SimpleNorm.xml");
-    var dokumentDto1 = DokumentDto
-      .builder()
-      .xml(regelungstext1Xml)
-      .publishState(NormPublishState.QUEUED_FOR_PUBLISH)
-      .build();
+    var dokumentDto1 = DokumentDto.builder().xml(regelungstext1Xml).build();
 
     var regelungstext2Xml = Fixtures.loadTextFromDisk("NormWithMods.xml");
-    var dokumentDto2 = DokumentDto
-      .builder()
-      .xml(regelungstext2Xml)
-      .publishState(NormPublishState.QUEUED_FOR_PUBLISH)
-      .build();
+    var dokumentDto2 = DokumentDto.builder().xml(regelungstext2Xml).build();
 
     // When
-    final Optional<Norm> norm = NormMapper.mapToDomain(List.of(dokumentDto1, dokumentDto2));
+    final Norm norm = NormManifestationMapper.mapToDomain(
+      NormManifestationDto
+        .builder()
+        .dokumente(List.of(dokumentDto1, dokumentDto2))
+        .publishState(NormPublishState.QUEUED_FOR_PUBLISH)
+        .build()
+    );
 
     // Then
-    assertThat(norm).isPresent();
-    assertThat(norm.get().getPublishState()).isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
-    assertThat(norm.get().getRegelungstexte())
+    assertThat(norm.getPublishState()).isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+    assertThat(norm.getRegelungstexte())
       .containsExactlyInAnyOrder(
         new Regelungstext(XmlMapper.toDocument(regelungstext1Xml)),
         new Regelungstext(XmlMapper.toDocument(regelungstext2Xml))
@@ -57,13 +54,11 @@ class NormMapperTest {
       .build();
 
     // When
-    final Set<DokumentDto> dokumentDtos = NormMapper.mapToDtos(norm);
+    final NormManifestationDto normManifestationDto = NormManifestationMapper.mapToDto(norm);
 
     // Then
-    assertThat(dokumentDtos).hasSize(2);
-    assertThat(dokumentDtos.stream().findFirst().get().getPublishState())
-      .isEqualTo(NormPublishState.PUBLISHED);
-    assertThat(dokumentDtos)
+    assertThat(normManifestationDto.getPublishState()).isEqualTo(NormPublishState.PUBLISHED);
+    assertThat(normManifestationDto.getDokumente())
       .map(DokumentDto::getXml)
       .containsExactlyInAnyOrder(
         XmlMapper.toString(regelungstext1.getDocument()),

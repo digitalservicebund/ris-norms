@@ -6,16 +6,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.XmlMatcher;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,9 +34,13 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private DokumentRepository dokumentRepository;
 
+  @Autowired
+  private NormManifestationRepository normManifestationRepository;
+
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    normManifestationRepository.deleteAll();
   }
 
   @Nested
@@ -48,8 +51,8 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormsServiceAndReturnsNorm() throws Exception {
       // Given
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("Vereinsgesetz.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
       );
 
       // When // Then
@@ -71,8 +74,8 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormsServiceAndReturnsNormXml() throws Exception {
       // Given
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("Vereinsgesetz.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
       );
 
       // When // Then
@@ -91,8 +94,10 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormServiceAndReturnsNormRender() throws Exception {
       // Given
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")
+        )
       );
 
       // When // Then
@@ -122,8 +127,8 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
       // Given
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
 
       // When // Then
@@ -158,7 +163,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsBadRequestWhenRenderingAtInvalidIsoDate() throws Exception {
       // Given
-      dokumentRepository.saveAll(NormMapper.mapToDtos(Fixtures.loadNormFromDisk("SimpleNorm.xml")));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // When // Then
       mockMvc
@@ -182,7 +189,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsHtmlWhenRenderingAtValidTimeBoundary() throws Exception {
       // Given
-      dokumentRepository.saveAll(NormMapper.mapToDtos(Fixtures.loadNormFromDisk("SimpleNorm.xml")));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // When // Then
       mockMvc
@@ -234,7 +243,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsInvalidUpdateExceptionBecauseEliChanged() throws Exception {
       // Given
-      dokumentRepository.saveAll(NormMapper.mapToDtos(Fixtures.loadNormFromDisk("SimpleNorm.xml")));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
       var newXml =
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -292,7 +303,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsInvalidUpdateExceptionBecauseGuidChanged() throws Exception {
       // Given
-      dokumentRepository.saveAll(NormMapper.mapToDtos(Fixtures.loadNormFromDisk("SimpleNorm.xml")));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
       var newXml =
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -350,7 +363,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormServiceAndUpdatesNorm() throws Exception {
       // Given
-      dokumentRepository.saveAll(NormMapper.mapToDtos(Fixtures.loadNormFromDisk("SimpleNorm.xml")));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
       var newXml =
         """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -436,8 +451,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itExtractsAndReturnsTimeBoundariesFromNorm() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+      );
 
       // When // Then
       mockMvc
@@ -514,11 +530,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
           </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
-        .build();
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(new Regelungstext(XmlMapper.toDocument(xml)))
+      );
 
       // When // Then
       mockMvc
@@ -583,8 +597,8 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseDestinationHrefHasNoEli() throws Exception {
       // Given
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
       final String destinationHref = "#destination-href-without-eli";
@@ -630,14 +644,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itThrowsValidationExceptionBecauseModWithGivenEidNotFound() throws Exception {
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
@@ -683,14 +701,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @ValueSource(strings = { "", "?dryRun=true" })
     void itUpdatesAQuotedTextMod(String queryParameters) throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       String path =
@@ -794,12 +816,14 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesAQuotedTextModBasedOnPreviousChange() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithModsSameTarget.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithModsSameTarget.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(
-          Fixtures.loadNormFromDisk("NormWithoutPassiveModificationsSameTarget.xml")
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModificationsSameTarget.xml")
         )
       );
 
@@ -904,14 +928,20 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesAQuotedStructureMod() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModsQuotedStructure.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
+        )
       );
 
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
@@ -1004,14 +1034,20 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesAQuotedStructureModFromRefToRref() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModsQuotedStructure.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
+        )
       );
 
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
@@ -1116,20 +1152,24 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesAQuotedStructureModFromRrefToRef() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml"))
-      );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(
-          Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructureAndUpTo.xml")
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureModsAndUpTo.xml")
         )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModsQuotedStructureAndUpTo.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(
-          Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml")
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModsQuotedStructure.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml")
         )
       );
 
@@ -1201,14 +1241,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseCharacterRangeNotPresent() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       String path =
@@ -1273,14 +1317,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseCharacterRangeHasInvalidFormat() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       String path =
@@ -1343,14 +1391,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itThrowsValidationExceptionBecauseCharacterRangeDoesNotResolveToTargetText()
       throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       String path =
@@ -1412,14 +1464,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseCharacterRangeNotWithinNodeRange() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       String path =
@@ -1482,14 +1538,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseTargetNodeNotPresent() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       String path =
@@ -1554,14 +1614,20 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseTargetUptoNodeNotPresent() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModsQuotedStructure.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
+        )
       );
 
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
@@ -1628,14 +1694,20 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseTargetNodeAndUptoNodeNotSiblings() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModsQuotedStructure.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
+        )
       );
 
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
@@ -1703,14 +1775,20 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsValidationExceptionBecauseTargetNodeAfterUptoNode() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithQuotedStructureMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModsQuotedStructure.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructure.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
+        )
       );
 
       String refersTo = "THIS_IS_NOT_BEING_HANDLED";
@@ -1824,8 +1902,8 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsInvalidUpdateExceptionBecauseModEidNotInAmendingLaw() throws Exception {
       // Given
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
 
@@ -1857,8 +1935,8 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsInvalidateUpdateExceptionBecauseTargetHrefWithoutEli() throws Exception {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      norm
+      final Regelungstext regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      regelungstext
         .getMods()
         .stream()
         .filter(mod ->
@@ -1868,7 +1946,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         )
         .findFirst()
         .ifPresent(mod -> mod.setTargetRefHref(new Href("#href-without-eli")));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstext));
 
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
 
@@ -1902,8 +1980,10 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itThrowsInvalidateUpdateExceptionBecauseModsWithoutSameTarget() throws Exception {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      norm
+      final Regelungstext regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultipleMods.xml"
+      );
+      regelungstext
         .getMods()
         .stream()
         .filter(mod ->
@@ -1919,7 +1999,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
             )
           )
         );
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(RegelungstextMapper.mapToDto(regelungstext));
 
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
 
@@ -1952,14 +2032,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesASingleMod() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       // When
@@ -2080,11 +2164,15 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itUpdatesMultipleMods() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMultipleSimpleMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithMultipleSimpleMods.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMultipleSimpleModsTargetNorm.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithMultipleSimpleModsTargetNorm.xml")
+        )
       );
 
       // When
@@ -2176,14 +2264,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itDryRunsTheUpdate() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       // When
@@ -2246,14 +2338,18 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsBadRequestAndDoesNotSaveIt() throws Exception {
       // When
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithMods.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+        )
       );
-      dokumentRepository.saveAll(
-        NormMapper.mapToDtos(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"))
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
       );
 
       // When (the eid does not exist)
