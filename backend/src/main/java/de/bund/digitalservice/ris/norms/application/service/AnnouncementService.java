@@ -195,7 +195,7 @@ public class AnnouncementService
         .forEach(norm ->
           deleteNormPort.deleteNorm(
             new DeleteNormPort.Command(
-              norm.getNormManifestationEli(),
+              norm.getManifestationEli(),
               NormPublishState.QUEUED_FOR_PUBLISH
             )
           )
@@ -217,7 +217,7 @@ public class AnnouncementService
         .ifPresent(targetNorm ->
           deleteNormPort.deleteNorm(
             new DeleteNormPort.Command(
-              targetNorm.getNormManifestationEli(),
+              targetNorm.getManifestationEli(),
               NormPublishState.UNPUBLISHED
             )
           )

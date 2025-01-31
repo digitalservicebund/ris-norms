@@ -300,7 +300,7 @@ class AnnouncementControllerTest {
     void itCreatesAnAnnouncement() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
         "norm.txt",
@@ -330,7 +330,7 @@ class AnnouncementControllerTest {
     void itCreatesAnAnnouncementWithForce() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
         "norm.txt",
@@ -360,7 +360,7 @@ class AnnouncementControllerTest {
     void itShouldNotExposeInternalInformationOnUnexpectedErrors() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
         "norm.txt",

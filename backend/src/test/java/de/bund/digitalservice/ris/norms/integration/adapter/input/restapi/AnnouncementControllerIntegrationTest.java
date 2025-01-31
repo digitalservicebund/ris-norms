@@ -634,14 +634,13 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCreatesANewAnnouncement() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
       dokumentRepository.save(
         RegelungstextMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
 
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -714,9 +713,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfTheAffectedNormDoesNotExist() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -784,12 +781,12 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var normWithSameGuid = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      normWithSameGuid
+      var regelungstextWithSameGuid = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      regelungstextWithSameGuid
         .getMeta()
         .getFRBRExpression()
         .setFRBRaliasCurrentVersionId(UUID.fromString("c4166ebb-b6df-4f61-8ac1-1d6399cc80ef"));
-      var xmlContent = XmlMapper.toString(normWithSameGuid.getDocument());
+      var xmlContent = XmlMapper.toString(regelungstextWithSameGuid.getDocument());
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -813,8 +810,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var norm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -841,8 +837,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsSchematronInvalid.xml");
       var file = new MockMultipartFile(
         "file",
         "norm.xml",

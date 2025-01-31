@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -78,13 +79,8 @@ public class BucketService
     if (publicChangelog == null) {
       publicChangelog = loadChangelog(publicS3Client, publicBucketName);
     }
-    uploadToBucket(
-      publicS3Client,
-      publicBucketName,
-      command.norm().getManifestationEli().toString(),
-      XmlMapper.toString(command.norm().getDocument())
-    );
-    publicChangelog.addContent(Changelog.CHANGED, command.norm().getManifestationEli().toString());
+
+    uploadNormToBucket(publicChangelog, publicS3Client, publicBucketName, command.norm());
   }
 
   @Override
@@ -92,25 +88,18 @@ public class BucketService
     if (privateChangelog == null) {
       privateChangelog = loadChangelog(privateS3Client, privateBucketName);
     }
-    uploadToBucket(
-      privateS3Client,
-      privateBucketName,
-      command.norm().getManifestationEli().toString(),
-      XmlMapper.toString(command.norm().getDocument())
-    );
-    privateChangelog.addContent(Changelog.CHANGED, command.norm().getManifestationEli().toString());
+
+    uploadNormToBucket(privateChangelog, privateS3Client, privateBucketName, command.norm());
   }
 
   @Override
   public void deletePrivateNorm(DeletePrivateNormPort.Command command) throws BucketException {
-    deleteFromBucket(privateS3Client, privateBucketName, command.norm());
-    privateChangelog.addContent(Changelog.DELETED, command.norm().getManifestationEli().toString());
+    deleteFromBucket(privateChangelog, privateS3Client, privateBucketName, command.norm());
   }
 
   @Override
   public void deletePublicNorm(DeletePublicNormPort.Command command) throws BucketException {
-    deleteFromBucket(publicS3Client, publicBucketName, command.norm());
-    publicChangelog.addContent(Changelog.DELETED, command.norm().getManifestationEli().toString());
+    deleteFromBucket(publicChangelog, publicS3Client, publicBucketName, command.norm());
   }
 
   @Override
@@ -167,6 +156,25 @@ public class BucketService
     }
   }
 
+  private void uploadNormToBucket(
+    final Changelog changelog,
+    final S3Client s3Client,
+    final String bucketName,
+    final Norm norm
+  ) {
+    norm
+      .getRegelungstexte()
+      .forEach(regelungstext -> {
+        uploadToBucket(
+          s3Client,
+          bucketName,
+          regelungstext.getManifestationEli().toString(),
+          XmlMapper.toString(regelungstext.getDocument())
+        );
+        changelog.addContent(Changelog.CHANGED, regelungstext.getManifestationEli().toString());
+      });
+  }
+
   private void uploadToBucket(
     final S3Client s3Client,
     final String bucketName,
@@ -190,22 +198,40 @@ public class BucketService
     }
   }
 
-  private void deleteFromBucket(final S3Client s3Client, final String bucketName, final Norm norm) {
+  private void deleteFromBucket(
+    final Changelog changelog,
+    final S3Client s3Client,
+    final String bucketName,
+    final Norm norm
+  ) {
+    norm
+      .getRegelungstexte()
+      .forEach(regelungstext -> deleteFromBucket(changelog, s3Client, bucketName, regelungstext));
+  }
+
+  private void deleteFromBucket(
+    final Changelog changelog,
+    final S3Client s3Client,
+    final String bucketName,
+    final Regelungstext dokument
+  ) {
     try {
       final DeleteObjectRequest request = DeleteObjectRequest
         .builder()
         .bucket(bucketName)
-        .key(norm.getManifestationEli().toString())
+        .key(dokument.getManifestationEli().toString())
         .build();
       s3Client.deleteObject(request);
     } catch (final Exception e) {
       throw new BucketException(
         BucketException.Operation.DELETE,
         bucketName,
-        "Key %s could not be deleted".formatted(norm.getManifestationEli().toString()),
+        "Key %s could not be deleted".formatted(dokument.getManifestationEli().toString()),
         e
       );
     }
+
+    changelog.addContent(Changelog.DELETED, dokument.getManifestationEli().toString());
   }
 
   /**

@@ -102,28 +102,16 @@ public class Norm {
    */
   // TODO: (Malte Laukötter, 2025-01-17) rename to getExpressionEli once the deprecated method is removed.
   public NormExpressionEli getNormExpressionEli() {
-    return getExpressionEli().asNormEli();
+    return getRegelungstext1().getExpressionEli().asNormEli();
   }
 
   /**
    * Returns the manifestation Eli of the {@link Norm}.
    *
    * @return The manifestation Eli
-   * @deprecated use {@link #getNormManifestationEli()} instead
    */
-  @Deprecated(forRemoval = true)
-  public DokumentManifestationEli getManifestationEli() {
-    return getRegelungstext1().getManifestationEli();
-  }
-
-  /**
-   * Returns the expression Eli of the {@link Norm}.
-   *
-   * @return The expression Eli
-   */
-  // TODO: (Malte Laukötter, 2025-01-17) rename to getManifestationEli once the deprecated method is removed.
-  public NormManifestationEli getNormManifestationEli() {
-    return getManifestationEli().asNormEli();
+  public NormManifestationEli getManifestationEli() {
+    return getRegelungstext1().getManifestationEli().asNormEli();
   }
 
   /**

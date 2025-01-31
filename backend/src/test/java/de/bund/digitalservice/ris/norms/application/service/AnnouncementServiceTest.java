@@ -144,9 +144,7 @@ class AnnouncementServiceTest {
     @Test
     void itCreatesANewAnnouncement() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -184,9 +182,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheFileIsNotXML() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.txt",
@@ -225,9 +221,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenADestinationEliDoesNotExist() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -255,9 +249,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenAnEliOfTheSameEliExists() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -296,7 +288,7 @@ class AnnouncementServiceTest {
     void itThrowsWhenANormWithSameGuidExists() throws IOException {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -340,9 +332,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotXsdValid() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -425,9 +415,7 @@ class AnnouncementServiceTest {
     @Test
     void itCreatesANewAnnouncementWithForce() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",

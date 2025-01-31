@@ -9,7 +9,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
-import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -22,7 +21,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 class NormTest {
 
@@ -77,7 +75,7 @@ class NormTest {
     );
 
     // when
-    var actualEli = norm.getNormManifestationEli();
+    var actualEli = norm.getManifestationEli();
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);
@@ -1117,78 +1115,6 @@ class NormTest {
 
     // then
     assertThat(eId).contains("meta-1_lebzykl-1_ereignis-4");
-  }
-
-  @Nested
-  class createElementWithEidAndGuid {
-
-    @Test
-    void itShouldCreatesANewElement() {
-      // given
-      Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      Node parentNode = NodeParser
-        .getNodeFromExpression("//act/meta", norm.getDocument())
-        .orElseThrow();
-
-      // when
-      final Node createdNode = NodeCreator.createElementWithEidAndGuid("akn:analysis", parentNode);
-
-      // then
-      assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-        .contains(createdNode);
-      assertThat(NodeParser.getValueFromExpression("@eId", createdNode))
-        .contains("meta-1_analysis-1");
-    }
-  }
-
-  @Nested
-  class getOrCreateAnalysisNode {
-
-    @Test
-    void itShouldCreatesTheAnalysisNodeIfItDoesNotExist() {
-      // given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-
-      // when
-      final var analysis = norm.getMeta().getOrCreateAnalysis();
-
-      // then
-      assertThat(analysis).isNotNull();
-      assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-        .contains(analysis.getElement());
-    }
-  }
-
-  @Nested
-  class getOrCreateTemporalDataNode {
-
-    @Test
-    void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
-      // given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-
-      // when
-      final var temporalData = norm.getMeta().getOrCreateTemporalData();
-
-      // then
-      assertThat(temporalData).isNotNull();
-      assertThat(NodeParser.getNodeFromExpression("//act//temporalData", norm.getDocument()))
-        .contains(temporalData.getElement());
-    }
-
-    @Test
-    void itShouldFindTheTemporalDataNodeIfItExist() {
-      // given
-      final Norm norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      final var temporalData = norm.getMeta().getTemporalData();
-
-      // then
-      assertThat(temporalData).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getElement()))
-        .contains("f866d5a3-98c8-4927-8cab-1630c5832f3c");
-    }
   }
 
   @Nested
