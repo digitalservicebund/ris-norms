@@ -17,9 +17,7 @@ import java.util.*;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.w3c.dom.Element;
 
 class NormTest {
@@ -636,64 +634,6 @@ class NormTest {
         "hauptteil-1_abschnitt-erster_art-3"
       )
     );
-  }
-
-  @ParameterizedTest
-  @MethodSource("provideParametersForGetArticles")
-  void getArticles(String xml, String firstArticleEid, String secondArticleEid) {
-    // given
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    var expectedNumberOfArticles = 2;
-    var firstExpectedHeading = "Änderung des Vereinsgesetzes";
-    var secondExpectedHeading = "Inkrafttreten";
-
-    // when
-    List<Article> actualArticles = norm.getArticles();
-
-    // then
-    assertThat(actualArticles).hasSize(expectedNumberOfArticles);
-    assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
-    assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
-    assertThat(actualArticles.get(0).getEid()).isEqualTo(firstArticleEid);
-    assertThat(actualArticles.get(0).getAffectedDocumentEli())
-      .contains(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
-      );
-
-    assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
-    assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
-    assertThat(actualArticles.get(1).getEid()).isEqualTo(secondArticleEid);
-    assertThat(actualArticles.get(1).getAffectedDocumentEli()).isNotPresent();
-  }
-
-  @Test
-  void returnsEmptyListIfNoArticlesAreFound() {
-    // given
-    String normString =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-              </akn:body>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    Norm norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
-      .build();
-
-    // when
-    List<Article> actualArticles = norm.getArticles();
-
-    // then
-    assertThat(actualArticles).isEmpty();
   }
 
   @Test

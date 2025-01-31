@@ -153,18 +153,6 @@ public class Norm {
   }
 
   /**
-   * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}. It
-   * filters out articles within akn:mod
-   *
-   * @return The list of articles
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public List<Article> getArticles() {
-    return getRegelungstext1().getArticles();
-  }
-
-  /**
    * Extracts a list of {@link Mod}s from the document.
    *
    * @return a list of {@link Mod}s
