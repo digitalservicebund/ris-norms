@@ -466,20 +466,18 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+        .loadNorm(assertArg(argument -> assertThat(argument.eli()).isEqualTo(eli.asNormEli())));
       verify(normService, times(1))
         .updateNorm(
-          argThat(argument ->
-            Objects.equals(
-              argument.getTimeBoundaries().getFirst().getEventRef().getDate().get(),
-              LocalDate.parse("2023-12-30")
-            ) &&
-            Objects.equals(
-              argument.getTimeBoundaries().getLast().getEventRef().getDate().get(),
-              LocalDate.parse("2024-01-02")
-            ) &&
-            argument.getTimeBoundaries().size() == 2
-          )
+          assertArg(argument -> {
+            assertThat(argument.getRegelungstexte()).hasSize(1);
+            var timeBoundaries = argument.getRegelungstext1().getTimeBoundaries();
+            assertThat(timeBoundaries).hasSize(2);
+            assertThat(timeBoundaries.getFirst().getEventRef().getDate())
+              .contains(LocalDate.parse("2023-12-30"));
+            assertThat(timeBoundaries.getLast().getEventRef().getDate())
+              .contains(LocalDate.parse("2024-01-02"));
+          })
         );
     }
 
@@ -562,16 +560,16 @@ class TimeBoundaryServiceTest {
 
       // Then
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+        .loadNorm(assertArg(argument -> assertThat(argument.eli()).isEqualTo(eli.asNormEli())));
       verify(normService, times(1))
         .updateNorm(
-          argThat(argument ->
-            Objects.equals(
-              argument.getTimeBoundaries().getLast().getEventRef().getDate().get(),
-              LocalDate.parse("2023-12-30")
-            ) &&
-            argument.getTimeBoundaries().size() == 1
-          )
+          assertArg(argument -> {
+            assertThat(argument.getRegelungstexte()).hasSize(1);
+            var timeBoundaries = argument.getRegelungstext1().getTimeBoundaries();
+            assertThat(timeBoundaries).hasSize(1);
+            assertThat(timeBoundaries.getFirst().getEventRef().getDate())
+              .contains(LocalDate.parse("2023-12-30"));
+          })
         );
     }
 
@@ -611,19 +609,20 @@ class TimeBoundaryServiceTest {
       );
 
       // Then
+
       verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+        .loadNorm(assertArg(argument -> assertThat(argument.eli()).isEqualTo(eli.asNormEli())));
       verify(normService, times(1))
         .updateNorm(
-          argThat(argument ->
-            LocalDate
-              .parse("1980-01-01")
-              .equals(argument.getTimeBoundaries().getFirst().getEventRef().getDate().get()) &&
-            LocalDate
-              .parse("1990-01-01")
-              .equals(argument.getTimeBoundaries().get(1).getEventRef().getDate().get()) &&
-            argument.getTimeBoundaries().size() == 2
-          )
+          assertArg(argument -> {
+            assertThat(argument.getRegelungstexte()).hasSize(1);
+            var timeBoundaries = argument.getRegelungstext1().getTimeBoundaries();
+            assertThat(timeBoundaries).hasSize(2);
+            assertThat(timeBoundaries.getFirst().getEventRef().getDate())
+              .contains(LocalDate.parse("1980-01-01"));
+            assertThat(timeBoundaries.getLast().getEventRef().getDate())
+              .contains(LocalDate.parse("1990-01-01"));
+          })
         );
     }
 

@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundar
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -41,10 +40,10 @@ class TimeBoundaryMapperTest {
   @Test
   void canMapFromUseCaseData() {
     // Given
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
-    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
-    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
+    Regelungstext regelungstext = new Regelungstext(toDocument(xml));
+    TimeInterval timeInterval = regelungstext.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = regelungstext.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = regelungstext.getTimeBoundaries().getFirst().getTemporalGroup();
     TimeBoundary timeBoundary = new TimeBoundary(timeInterval, eventRef, temporalGroup);
 
     // When
