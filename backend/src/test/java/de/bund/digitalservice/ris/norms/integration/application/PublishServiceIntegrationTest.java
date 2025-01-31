@@ -49,9 +49,9 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
       .hasValueSatisfying(loadedNormDto ->
         assertThat(loadedNormDto.getPublishState()).isEqualTo(NormPublishState.PUBLISHED)
       );
-    final Path publicFilePath = getPublicPath(norm);
+    final Path publicFilePath = getPublicPath(norm.getRegelungstext1());
     assertThat(Files.exists(publicFilePath)).isTrue();
-    final Path privateFilePath = getPublicPath(norm);
+    final Path privateFilePath = getPublicPath(norm.getRegelungstext1());
     assertThat(Files.exists(privateFilePath)).isTrue();
   }
 }
