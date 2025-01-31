@@ -66,8 +66,8 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
-        .thenReturn(List.of(norm.getNormManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getNormManifestationEli())))
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
         .thenReturn(Optional.of(norm));
 
       // When
@@ -93,8 +93,8 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
-        .thenReturn(List.of(norm.getNormManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getNormManifestationEli())))
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
         .thenReturn(Optional.of(norm));
       doThrow(BucketException.class).when(publishPrivateNormPort).publishPrivateNorm(any());
 
@@ -125,8 +125,8 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
-        .thenReturn(List.of(norm.getNormManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getNormManifestationEli())))
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
         .thenReturn(Optional.of(norm));
       doThrow(BucketException.class).when(publishPublicNormPort).publishPublicNorm(any());
 
@@ -163,8 +163,8 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
-        .thenReturn(List.of(norm.getNormManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getNormManifestationEli())))
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
         .thenReturn(Optional.of(norm));
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
 
@@ -203,8 +203,8 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
-        .thenReturn(List.of(norm.getNormManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getNormManifestationEli())))
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
         .thenReturn(Optional.of(norm));
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
 
@@ -240,8 +240,8 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
-        .thenReturn(List.of(norm.getNormManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getNormManifestationEli())))
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
         .thenReturn(Optional.of(norm));
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.empty()); // No migration log found
 

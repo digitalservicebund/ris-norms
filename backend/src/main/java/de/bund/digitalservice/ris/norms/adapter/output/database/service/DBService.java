@@ -154,7 +154,7 @@ public class DBService
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     Optional<NormManifestationDto> normManifestationDto =
       normManifestationRepository.findByManifestationEli(
-        command.norm().getNormManifestationEli().toString()
+        command.norm().getManifestationEli().toString()
       );
 
     if (normManifestationDto.isEmpty()) {
@@ -202,7 +202,7 @@ public class DBService
       );
 
       NormManifestationDto normManifestationDto = normManifestationRepository
-        .findByManifestationEli(command.norm().getNormManifestationEli().toString())
+        .findByManifestationEli(command.norm().getManifestationEli().toString())
         .orElseThrow();
 
       normManifestationDto.setPublishState(command.norm().getPublishState());
@@ -270,7 +270,7 @@ public class DBService
       .getPublishedNorms()
       .forEach(norm ->
         normManifestationRepository
-          .findByManifestationEli(norm.getNormManifestationEli().toString())
+          .findByManifestationEli(norm.getManifestationEli().toString())
           .ifPresent(normDto -> releaseDto.getNorms().add(normDto))
       );
 

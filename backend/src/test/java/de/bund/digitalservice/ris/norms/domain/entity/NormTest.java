@@ -75,7 +75,7 @@ class NormTest {
     );
 
     // when
-    var actualEli = norm.getNormManifestationEli();
+    var actualEli = norm.getManifestationEli();
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);

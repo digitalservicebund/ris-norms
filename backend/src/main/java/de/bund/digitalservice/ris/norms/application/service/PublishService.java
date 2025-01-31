@@ -124,9 +124,9 @@ public class PublishService implements PublishNormUseCase {
       // If both succeed, update the publish state
       norm.setPublishState(NormPublishState.PUBLISHED);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      log.info("Published norm: {}", norm.getNormManifestationEli().toString());
+      log.info("Published norm: {}", norm.getManifestationEli().toString());
     } catch (final Exception e) {
-      log.error("Norm {} could not be published", norm.getNormManifestationEli().toString());
+      log.error("Norm {} could not be published", norm.getManifestationEli().toString());
       log.error(e.getMessage(), e);
       // Rollback logic based on what succeeded
       if (isPublicPublished) {
@@ -152,7 +152,7 @@ public class PublishService implements PublishNormUseCase {
       deletePublicNormPort.deletePublicNorm(new DeletePublicNormPort.Command(norm));
       log.info(
         "Deleted public norm on rollback strategy: {}",
-        norm.getNormManifestationEli().toString()
+        norm.getManifestationEli().toString()
       );
     } catch (final StorageException e) {
       log.error(e.getMessage(), e);
@@ -164,7 +164,7 @@ public class PublishService implements PublishNormUseCase {
       deletePrivateNormPort.deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
       log.info(
         "Deleted privated norm on rollback strategy: {}",
-        norm.getNormManifestationEli().toString()
+        norm.getManifestationEli().toString()
       );
     } catch (StorageException e) {
       log.error(e.getMessage(), e);
