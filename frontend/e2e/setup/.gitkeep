@@ -1,0 +1,1 @@
+This folder is needed for storing Playwright state to be shared between tests.
