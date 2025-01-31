@@ -185,16 +185,6 @@ public class Norm {
   }
 
   /**
-   * @param temporalGroupEid EId of a temporal group
-   * @return eid of the event ref of the start of the temporal group
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
-    return getRegelungstext1().getStartEventRefForTemporalGroup(temporalGroupEid);
-  }
-
-  /**
    * Adds one time boundary (Zeitgrenze) to the document. New eventRef node as child of lifecycle.
    * The temporalData node will get a new temporalGroup node as child, which will have a new
    * timeInterval node as child.

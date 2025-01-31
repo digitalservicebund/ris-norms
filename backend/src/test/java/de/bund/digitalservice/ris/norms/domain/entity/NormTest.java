@@ -1006,18 +1006,6 @@ class NormTest {
     assertThat(date).contains("2017-03-23");
   }
 
-  @Test
-  void getStartEventRefForTemporalGroup() {
-    // given
-    Norm norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-
-    // when
-    var eId = norm.getStartEventRefForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
-
-    // then
-    assertThat(eId).contains("meta-1_lebzykl-1_ereignis-4");
-  }
-
   @Nested
   class deleteByEId {
 
