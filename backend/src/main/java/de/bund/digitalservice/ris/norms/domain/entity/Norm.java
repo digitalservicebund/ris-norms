@@ -175,19 +175,6 @@ public class Norm {
   }
 
   /**
-   * * Extracts a list of time boundaries (Zeitgrenzen) from the document of a pre-filtered given
-   * list of temporal groups.
-   *
-   * @param temporalGroups - the pre-filtered listed of temporal groups
-   * @return a list of {@link TimeBoundary} containing dates and event IDs.
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
-    return getRegelungstext1().getTimeBoundaries(temporalGroups);
-  }
-
-  /**
    * @param temporalGroupEid EId of a temporal group
    * @return Start date of the temporal group
    * @deprecated
