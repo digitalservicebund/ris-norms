@@ -15,6 +15,11 @@ export type Token = {
 
 export type AuthorizationHeader = { Authorization: string }
 
+/**
+ * Drop-in replacement for Playwright's regular test method that also handles
+ * the authorization token. This should be used for all tests in order to
+ * guarantee that the token is always up to date.
+ */
 export const test = base.extend<{
   /**
    * Hooks into the requests made by the page. If one of them contains a new token,
