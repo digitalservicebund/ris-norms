@@ -18,13 +18,13 @@ public class NormResponseMapper {
   public static NormResponseSchema fromUseCaseData(final Norm norm) {
     return NormResponseSchema
       .builder()
-      .eli(norm.getExpressionEli().toString())
+      .eli(norm.getRegelungstext1().getExpressionEli().toString())
       .title(norm.getTitle().orElse(null))
-      .frbrName(norm.getMeta().getFRBRWork().getFRBRname().orElse(null))
-      .frbrNumber(norm.getMeta().getFRBRWork().getFRBRnumber().orElse(null))
-      .frbrDateVerkuendung(norm.getMeta().getFRBRWork().getFBRDate())
+      .frbrName(norm.getRegelungstext1().getMeta().getFRBRWork().getFRBRname().orElse(null))
+      .frbrNumber(norm.getRegelungstext1().getMeta().getFRBRWork().getFRBRnumber().orElse(null))
+      .frbrDateVerkuendung(norm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate())
       .shortTitle(norm.getShortTitle().orElse(null))
-      .fna(norm.getMeta().getOrCreateProprietary().getFna().orElse(null))
+      .fna(norm.getRegelungstext1().getMeta().getOrCreateProprietary().getFna().orElse(null))
       .build();
   }
 }
