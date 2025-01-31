@@ -275,7 +275,7 @@ class PublishServiceTest {
     void removesOrganisationsEinheitFromMetadata() {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
-      var proprietary = norm.getMeta().getProprietary().get();
+      var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
 
       assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1)))
         .contains("Aktuelle Organisationseinheit");
