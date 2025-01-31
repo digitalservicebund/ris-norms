@@ -37,7 +37,7 @@ public class ProprietaryService
   public Proprietary loadProprietaryFromNorm(LoadProprietaryFromNormUseCase.Query query) {
     return loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .map(m -> m.getMeta().getOrCreateProprietary())
+      .map(m -> m.getRegelungstext1().getMeta().getOrCreateProprietary())
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
   }
 
@@ -48,7 +48,9 @@ public class ProprietaryService
     final Norm norm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
-    final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
+    final Regelungstext regelungstext = norm.getRegelungstext1();
+
+    final Proprietary proprietary = regelungstext.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
     final MetadatenBund metadatenBund = proprietary.getOrCreateMetadatenBund();
 
@@ -112,8 +114,9 @@ public class ProprietaryService
 
     Map<NormExpressionEli, Norm> updatedNorms = normService.updateNorm(norm);
 
-    Norm updatedNorm = updatedNorms.get(query.eli().asNormEli());
+    Norm updatedNorm = updatedNorms.get(query.eli());
     if (updatedNorm != null) return updatedNorm
+      .getRegelungstext1()
       .getMeta()
       .getOrCreateProprietary(); else return null;
   }
@@ -125,7 +128,8 @@ public class ProprietaryService
     final Norm norm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
-    final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
+    final Regelungstext regelungstext = norm.getRegelungstext1();
+    final Proprietary proprietary = regelungstext.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
 
     metadatenDs.updateSingleElementSimpleMetadatum(

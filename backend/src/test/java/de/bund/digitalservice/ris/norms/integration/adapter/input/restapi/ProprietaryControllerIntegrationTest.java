@@ -58,7 +58,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
             )
         )
         .andExpect(
@@ -67,10 +67,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/2024-06-03"
             )
         )
-        .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
@@ -206,7 +203,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
             )
         )
         .andExpect(
@@ -215,10 +212,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/1990-01-01"
             )
         )
-        .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
@@ -801,7 +795,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
             )
         )
         .andExpect(
@@ -810,10 +804,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1/2024-06-03"
             )
         )
-        .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
@@ -917,7 +908,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
             )
         )
         .andExpect(
@@ -926,10 +917,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1/2024-06-03"
             )
         )
-        .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test

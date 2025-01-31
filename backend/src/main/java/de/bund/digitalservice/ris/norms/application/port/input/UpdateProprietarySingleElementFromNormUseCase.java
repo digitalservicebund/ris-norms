@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.time.LocalDate;
 
 /**
@@ -27,7 +27,7 @@ public interface UpdateProprietarySingleElementFromNormUseCase {
    * @param atDate the date at which the metadata are being updated.
    * @param metadata object containing the metadata to update
    */
-  record Query(DokumentExpressionEli eli, String eid, LocalDate atDate, Metadata metadata) {}
+  record Query(NormExpressionEli eli, String eid, LocalDate atDate, Metadata metadata) {}
 
   /**
    * Record representing the list of metadata to update.
