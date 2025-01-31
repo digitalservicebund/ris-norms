@@ -8,7 +8,6 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -23,13 +22,11 @@ import org.junit.jupiter.api.Test;
 
 class ElementServiceTest {
 
-  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final ElementService service = new ElementService(
-    loadNormPort,
     loadRegelungstextPort,
     xsltTransformationService,
     timeMachineService

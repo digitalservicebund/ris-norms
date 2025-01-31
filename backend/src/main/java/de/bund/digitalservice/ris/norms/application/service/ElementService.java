@@ -3,7 +3,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
@@ -34,7 +33,6 @@ public class ElementService
     LoadElementHtmlAtDateUseCase,
     LoadElementsByTypeUseCase {
 
-  private final LoadNormPort loadNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final XsltTransformationService xsltTransformationService;
   private final TimeMachineService timeMachineService;
@@ -82,12 +80,10 @@ public class ElementService
   }
 
   public ElementService(
-    LoadNormPort loadNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     XsltTransformationService xsltTransformationService,
     TimeMachineService timeMachineService
   ) {
-    this.loadNormPort = loadNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.xsltTransformationService = xsltTransformationService;
     this.timeMachineService = timeMachineService;
