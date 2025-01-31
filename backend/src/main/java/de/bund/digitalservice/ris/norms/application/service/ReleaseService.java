@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNorm
 import de.bund.digitalservice.ris.norms.application.service.CreateNewVersionOfNormService.CreateNewExpressionResult;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Meta;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -143,13 +142,16 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       var dates = norm
         .getRegelungstexte()
         .stream()
-        .map(Regelungstext::getMeta)
-        .map(Meta::getAnalysis)
-        .flatMap(Optional::stream)
-        .flatMap(analysis -> analysis.getPassiveModifications().stream())
-        .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
-        .map(norm::getStartDateForTemporalGroup)
-        .flatMap(Optional::stream)
+        .flatMap(regelungstext ->
+          regelungstext
+            .getMeta()
+            .getAnalysis()
+            .stream()
+            .flatMap(analysis -> analysis.getPassiveModifications().stream())
+            .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
+            .map(regelungstext::getStartDateForTemporalGroup)
+            .flatMap(Optional::stream)
+        )
         .map(LocalDate::parse)
         .distinct()
         .sorted();
