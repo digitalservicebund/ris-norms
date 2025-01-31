@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.Arrays;
@@ -164,15 +164,15 @@ public class NormsAppExceptionHandler {
 
   /**
    * Exception handler method for handling {@link
-   * LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException}.
+   * LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException}.
    *
    * @param e The exception that occurred.
    * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
    */
-  @ExceptionHandler(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class)
+  @ExceptionHandler(LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(
-    final LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException e
+    final LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException e
   ) {
     log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
     final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(

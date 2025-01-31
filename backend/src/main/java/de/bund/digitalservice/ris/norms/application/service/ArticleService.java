@@ -4,7 +4,6 @@ import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -22,20 +21,17 @@ public class ArticleService
   implements
     LoadArticleHtmlUseCase,
     LoadArticlesFromDokumentUseCase,
-    LoadSpecificArticlesXmlFromNormUseCase {
+    LoadSpecificArticlesXmlFromDokumentUseCase {
 
-  LoadNormPort loadNormPort;
   LoadRegelungstextPort loadRegelungstextPort;
   TimeMachineService timeMachineService;
   XsltTransformationService xsltTransformationService;
 
   public ArticleService(
-    LoadNormPort loadNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     TimeMachineService timeMachineService,
     XsltTransformationService xsltTransformationService
   ) {
-    this.loadNormPort = loadNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.timeMachineService = timeMachineService;
     this.xsltTransformationService = xsltTransformationService;
@@ -124,11 +120,11 @@ public class ArticleService
   }
 
   @Override
-  public List<String> loadSpecificArticlesXmlFromNorm(
-    LoadSpecificArticlesXmlFromNormUseCase.Query query
+  public List<String> loadSpecificArticlesXmlFromDokument(
+    LoadSpecificArticlesXmlFromDokumentUseCase.Query query
   ) {
-    List<Article> articles = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
+    List<Article> articles = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
       .getArticles();
 

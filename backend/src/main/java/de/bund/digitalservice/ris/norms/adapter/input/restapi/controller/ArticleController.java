@@ -26,20 +26,20 @@ public class ArticleController {
 
   private final LoadRegelungstextUseCase loadRegelungstextUseCase;
   private final LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase;
-  private final LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
+  private final LoadSpecificArticlesXmlFromDokumentUseCase loadSpecificArticlesXmlFromDokumentUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   public ArticleController(
     LoadRegelungstextUseCase loadRegelungstextUseCase1,
     LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase,
-    LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
+    LoadSpecificArticlesXmlFromDokumentUseCase loadSpecificArticlesXmlFromDokumentUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
     LoadArticleHtmlUseCase loadArticleHtmlUseCase
   ) {
     this.loadRegelungstextUseCase = loadRegelungstextUseCase1;
     this.loadArticlesFromDokumentUseCase = loadArticlesFromDokumentUseCase;
-    this.loadSpecificArticlesXmlFromNormUseCase = loadSpecificArticlesXmlFromNormUseCase;
+    this.loadSpecificArticlesXmlFromDokumentUseCase = loadSpecificArticlesXmlFromDokumentUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
   }
@@ -95,9 +95,9 @@ public class ArticleController {
     final DokumentExpressionEli eli,
     @RequestParam(required = false, name = "refersTo") final String refersTo
   ) {
-    String articles = loadSpecificArticlesXmlFromNormUseCase
-      .loadSpecificArticlesXmlFromNorm(
-        new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, refersTo)
+    String articles = loadSpecificArticlesXmlFromDokumentUseCase
+      .loadSpecificArticlesXmlFromDokument(
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, refersTo)
       )
       .stream()
       .map(xml ->

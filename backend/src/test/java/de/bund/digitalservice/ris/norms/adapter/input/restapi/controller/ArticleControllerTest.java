@@ -45,7 +45,7 @@ class ArticleControllerTest {
   private LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase;
 
   @MockitoBean
-  private LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
+  private LoadSpecificArticlesXmlFromDokumentUseCase loadSpecificArticlesXmlFromDokumentUseCase;
 
   @MockitoBean
   private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
@@ -224,7 +224,7 @@ class ArticleControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadSpecificArticlesXmlFromNormUseCase.loadSpecificArticlesXmlFromNorm(any()))
+      when(loadSpecificArticlesXmlFromDokumentUseCase.loadSpecificArticlesXmlFromDokument(any()))
         .thenReturn(List.of(xml));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 

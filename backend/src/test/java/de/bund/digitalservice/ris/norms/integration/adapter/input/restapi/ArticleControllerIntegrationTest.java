@@ -363,7 +363,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"
+              "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"
             )
         )
         .andExpect(
@@ -400,7 +400,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"
+              "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"
             )
         )
         .andExpect(

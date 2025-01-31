@@ -9,19 +9,18 @@ import static org.mockito.Mockito.times;
 
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromDokumentUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +31,6 @@ class ArticleServiceTest {
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
   final ArticleService articleService = new ArticleService(
-    loadNormPort,
     loadRegelungstextPort,
     timeMachineService,
     xsltTransformationService
@@ -198,7 +196,7 @@ class ArticleServiceTest {
     }
 
     @Test
-    void itThrowsWhenTheNormIsNotFound() {
+    void itThrowsWhenTheDokumentIsNotFound() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
@@ -209,7 +207,7 @@ class ArticleServiceTest {
 
       // When / Then
       assertThatThrownBy(() -> articleService.loadArticlesFromDokument(query))
-        .isInstanceOf(NormNotFoundException.class);
+        .isInstanceOf(RegelungstextNotFoundException.class);
     }
 
     @Test
@@ -302,7 +300,7 @@ class ArticleServiceTest {
   }
 
   @Nested
-  class loadSpecificArticlesXmlFromNorm {
+  class loadSpecificArticlesXmlFromDokument {
 
     @Test
     void loadAllArticles() {
@@ -311,68 +309,61 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                        <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                 <!-- Artikel 1 : Hauptänderung -->
-                                 <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                                    Some Text
-                                 </akn:article>
+      var regelungstext = new Regelungstext(
+        XmlMapper.toDocument(
+          """
+            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+               <akn:act name="regelungstext">
+                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+                           <!-- Artikel 1 : Hauptänderung -->
+                           <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
+                              Some Text
+                           </akn:article>
 
-                                 <!-- Artikel 3: Geltungszeitregel-->
-                                 <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
-                                    More Text
-                                 </akn:article>
-                              </akn:body>
-                     </akn:act>
-                  </akn:akomaNtoso>
-                """
-              )
-            )
-          )
+                           <!-- Artikel 3: Geltungszeitregel-->
+                           <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
+                              More Text
+                           </akn:article>
+                        </akn:body>
+               </akn:act>
+            </akn:akomaNtoso>
+          """
         )
-        .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var xmls = articleService.loadSpecificArticlesXmlFromNorm(
-        new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, null)
+      var xmls = articleService.loadSpecificArticlesXmlFromDokument(
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, null)
       );
 
       // Then
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadRegelungstextPort, times(1))
+        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(xmls).isNotEmpty();
       assertThat(xmls.getFirst()).contains("hauptteil-1_art-1");
       assertThat(xmls.get(1)).contains("hauptteil-1_art-3");
     }
 
     @Test
-    void itCallsLoadNormAndThrowsIfNotFound() {
+    void itCallsLoadDokumentAndThrowsIfNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromNorm(query))
+      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query))
         // Then
         .isInstanceOf(NormNotFoundException.class);
 
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadRegelungstextPort, times(1))
+        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
     }
 
     @Test
@@ -382,135 +373,118 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                        <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                 <!-- Artikel 1 : Hauptänderung -->
-                                 <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                                    Some Text
-                                 </akn:article>
+      var regelungstext = new Regelungstext(
+        XmlMapper.toDocument(
+          """
+            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+               <akn:act name="regelungstext">
+                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+                           <!-- Artikel 1 : Hauptänderung -->
+                           <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
+                              Some Text
+                           </akn:article>
 
-                                 <!-- Artikel 3: Geltungszeitregel-->
-                                 <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
-                                    More Text
-                                 </akn:article>
-                              </akn:body>
-                     </akn:act>
-                  </akn:akomaNtoso>
-                """
-              )
-            )
-          )
+                           <!-- Artikel 3: Geltungszeitregel-->
+                           <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
+                              More Text
+                           </akn:article>
+                        </akn:body>
+               </akn:act>
+            </akn:akomaNtoso>
+          """
         )
-        .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var xmls = articleService.loadSpecificArticlesXmlFromNorm(
-        new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel")
+      var xmls = articleService.loadSpecificArticlesXmlFromDokument(
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel")
       );
 
       // Then
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadRegelungstextPort, times(1))
+        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(xmls).isNotEmpty();
       assertThat(xmls.getFirst()).contains("hauptteil-1_art-3");
     }
 
     @Test
-    void itThrowsWhenNoArticlesOfTypeAreFoundInNorm() {
+    void itThrowsWhenNoArticlesOfTypeAreFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                        <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                 <!-- Artikel 1 : Hauptänderung -->
-                                 <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                                    Some Text
-                                 </akn:article>
-                              </akn:body>
-                     </akn:act>
-                  </akn:akomaNtoso>
-                """
-              )
-            )
-          )
+      var regelungstext = new Regelungstext(
+        XmlMapper.toDocument(
+          """
+            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+               <akn:act name="regelungstext">
+                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+                           <!-- Artikel 1 : Hauptänderung -->
+                           <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
+                              Some Text
+                           </akn:article>
+                        </akn:body>
+               </akn:act>
+            </akn:akomaNtoso>
+          """
         )
-        .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromNorm(query))
+      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query))
         // Then
-        .isInstanceOf(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class);
+        .isInstanceOf(
+          LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
+        );
 
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadRegelungstextPort, times(1))
+        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
     }
 
     @Test
-    void itThrowsWhenTheNormHasNoArticles() {
+    void itThrowsWhenTheDokumentHasNoArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                        <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                        </akn:body>
-                     </akn:act>
-                  </akn:akomaNtoso>
-                """
-              )
-            )
-          )
+      var regelungstext = new Regelungstext(
+        XmlMapper.toDocument(
+          """
+            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+               <akn:act name="regelungstext">
+                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+                  </akn:body>
+               </akn:act>
+            </akn:akomaNtoso>
+          """
         )
-        .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromNorm(query))
+      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query))
         // Then
-        .isInstanceOf(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class);
+        .isInstanceOf(
+          LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
+        );
 
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadRegelungstextPort, times(1))
+        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
     }
   }
 }
