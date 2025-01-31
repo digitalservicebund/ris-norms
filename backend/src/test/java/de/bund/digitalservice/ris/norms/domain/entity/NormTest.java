@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
 class NormTest {
 
   @Test
-  void getExpressionEli() {
+  void getRegelungstext1ExpressionEli() {
     // given
     Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     DokumentExpressionEli expectedEli = DokumentExpressionEli.fromString(
@@ -31,14 +31,14 @@ class NormTest {
     );
 
     // when
-    var actualEli = norm.getExpressionEli();
+    var actualEli = norm.getRegelungstext1ExpressionEli();
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);
   }
 
   @Test
-  void getNormExpressionEli() {
+  void getExpressionEli() {
     // given
     Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     NormExpressionEli expectedEli = NormExpressionEli.fromString(
@@ -46,7 +46,7 @@ class NormTest {
     );
 
     // when
-    var actualEli = norm.getNormExpressionEli();
+    var actualEli = norm.getExpressionEli();
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);
@@ -98,7 +98,8 @@ class NormTest {
       .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
-    assertThatThrownBy(norm::getExpressionEli).isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(norm::getRegelungstext1ExpressionEli)
+      .isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 
   @Test
@@ -1019,7 +1020,8 @@ class NormTest {
       norm.deleteByEId("meta-1_ident-1_frbrmanifestation-1_frbrthis-1");
 
       // then
-      assertThatThrownBy(norm::getExpressionEli).isInstanceOf(MandatoryNodeNotFoundException.class);
+      assertThatThrownBy(norm::getRegelungstext1ExpressionEli)
+        .isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }
 

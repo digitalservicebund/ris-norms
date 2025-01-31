@@ -88,10 +88,10 @@ public class Norm {
    * Returns the expression Eli of the {@link Norm}.
    *
    * @return The expression Eli
-   * @deprecated use {@link #getNormExpressionEli()} instead
+   * @deprecated use {@link #getExpressionEli()} instead
    */
   @Deprecated(forRemoval = true)
-  public DokumentExpressionEli getExpressionEli() {
+  public DokumentExpressionEli getRegelungstext1ExpressionEli() {
     return getRegelungstext1().getExpressionEli();
   }
 
@@ -100,8 +100,7 @@ public class Norm {
    *
    * @return The expression Eli
    */
-  // TODO: (Malte Laukötter, 2025-01-17) rename to getExpressionEli once the deprecated method is removed.
-  public NormExpressionEli getNormExpressionEli() {
+  public NormExpressionEli getExpressionEli() {
     return getRegelungstext1().getExpressionEli().asNormEli();
   }
 

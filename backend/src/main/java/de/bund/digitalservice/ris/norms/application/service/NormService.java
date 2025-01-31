@@ -156,7 +156,7 @@ public class NormService
 
     // Add the norm to be updated to the map of updated norms
     Map<NormExpressionEli, Norm> updatedNorms = new HashMap<>(zf0s);
-    updatedNorms.put(normToBeUpdated.getNormExpressionEli(), normToBeUpdated);
+    updatedNorms.put(normToBeUpdated.getExpressionEli(), normToBeUpdated);
 
     return updatedNorms
       .entrySet()
@@ -218,7 +218,10 @@ public class NormService
         new ValidationException(
           ValidationException.ErrorType.META_MOD_NOT_FOUND,
           Pair.of(ValidationException.FieldName.EID, eId),
-          Pair.of(ValidationException.FieldName.ELI, amendingNorm.getExpressionEli().toString())
+          Pair.of(
+            ValidationException.FieldName.ELI,
+            amendingNorm.getRegelungstext1ExpressionEli().toString()
+          )
         )
       );
 
@@ -267,7 +270,7 @@ public class NormService
         new InvalidUpdateException(
           "Mod with eId %s not found in amending law %s".formatted(
               queryModEId,
-              amendingNorm.getExpressionEli()
+              amendingNorm.getRegelungstext1ExpressionEli()
             )
         )
       );

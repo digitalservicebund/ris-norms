@@ -42,7 +42,7 @@ class CreateNewVersionOfNormServiceTest {
     );
 
     // Then
-    assertThat(result.newExpression().getNormExpressionEli())
+    assertThat(result.newExpression().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu");
     assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
     assertThat(result.newExpression().getRegelungstext1().getExpressionEli())
@@ -112,7 +112,7 @@ class CreateNewVersionOfNormServiceTest {
     // Then
 
     assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
-    assertThat(result.newExpression().getNormExpressionEli())
+    assertThat(result.newExpression().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu");
     assertThat(result.newExpression().getRegelungstext1().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1");
@@ -174,7 +174,7 @@ class CreateNewVersionOfNormServiceTest {
     );
 
     // Then
-    assertThat(result.getNormExpressionEli()).isEqualTo(norm.getNormExpressionEli());
+    assertThat(result.getExpressionEli()).isEqualTo(norm.getExpressionEli());
     assertThat(result.getManifestationEli())
       .isEqualTo(
         NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01")

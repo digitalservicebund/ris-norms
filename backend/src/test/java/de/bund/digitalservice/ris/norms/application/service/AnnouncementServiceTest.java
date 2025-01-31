@@ -67,7 +67,7 @@ class AnnouncementServiceTest {
     void itReturnsAnnouncements() {
       // Given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
 
       // When
@@ -119,7 +119,7 @@ class AnnouncementServiceTest {
     void itReturnsAnnouncement() {
       // Given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))

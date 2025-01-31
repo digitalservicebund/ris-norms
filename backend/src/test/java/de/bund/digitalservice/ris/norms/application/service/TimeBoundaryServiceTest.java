@@ -366,7 +366,7 @@ class TimeBoundaryServiceTest {
       // Given
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       when(normService.updateNorm(any()))
-        .thenReturn(Map.of(normAfter.getNormExpressionEli(), normAfter));
+        .thenReturn(Map.of(normAfter.getExpressionEli(), normAfter));
 
       // When
       var timeBoundaryChangeDataOldStays = new TimeBoundaryChangeData(

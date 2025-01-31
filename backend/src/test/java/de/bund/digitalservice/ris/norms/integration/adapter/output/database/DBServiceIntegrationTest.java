@@ -239,7 +239,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     dokumentRepository.save(RegelungstextMapper.mapToDto(norm.getRegelungstext1()));
-    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
     // When
@@ -371,9 +371,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         new SaveReleaseToAnnouncementPort.Command(release, announcement)
       );
 
-      var savedAnnouncement = announcementRepository.findByEli(
-        norm.getNormExpressionEli().toString()
-      );
+      var savedAnnouncement = announcementRepository.findByEli(norm.getExpressionEli().toString());
 
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
