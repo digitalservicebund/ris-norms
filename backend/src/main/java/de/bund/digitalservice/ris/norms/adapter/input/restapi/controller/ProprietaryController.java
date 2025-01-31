@@ -56,7 +56,7 @@ public class ProprietaryController {
     @PathVariable final LocalDate atDate
   ) {
     var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli)
+      new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
     );
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
@@ -84,7 +84,7 @@ public class ProprietaryController {
   ) {
     var proprietary = updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(
       new UpdateProprietaryFrameFromNormUseCase.Query(
-        eli,
+        eli.asNormEli(),
         atDate,
         new UpdateProprietaryFrameFromNormUseCase.Metadata(
           proprietaryFrameSchema.getFna(),
@@ -121,7 +121,7 @@ public class ProprietaryController {
     @PathVariable final LocalDate atDate
   ) {
     var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli)
+      new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
     );
 
     return ResponseEntity.ok(
@@ -154,7 +154,7 @@ public class ProprietaryController {
     var proprietary =
       updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
         new UpdateProprietarySingleElementFromNormUseCase.Query(
-          eli,
+          eli.asNormEli(),
           eid,
           atDate,
           new UpdateProprietarySingleElementFromNormUseCase.Metadata(

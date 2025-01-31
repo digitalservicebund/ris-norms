@@ -65,10 +65,10 @@ class ProprietaryControllerTest {
       var atDateString = "2024-06-03";
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
-        .thenThrow(new NormNotFoundException(eli.toString()));
+        .thenThrow(new NormNotFoundException(eli.asNormEli().toString()));
       // when
       mockMvc
         .perform(
@@ -90,7 +90,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
         .thenReturn(proprietary);
@@ -126,7 +126,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
         .thenReturn(proprietary);
@@ -162,7 +162,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
         .thenReturn(proprietary);
@@ -256,10 +256,7 @@ class ProprietaryControllerTest {
       verify(updateProprietaryFrameFromNormUseCase, times(1))
         .updateProprietaryFrameFromNorm(
           argThat(query ->
-            query
-              .eli()
-              .toString()
-              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
+            query.eli().toString().equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu") &&
             query.atDate().isEqual(date) &&
             query.metadata().fna().equals("new-fna") &&
             query.metadata().art().equals("new-art") &&
@@ -320,7 +317,7 @@ class ProprietaryControllerTest {
       var atDateString = "2024-06-03";
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
         .thenThrow(new NormNotFoundException(eli.toString()));
@@ -346,7 +343,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
         .thenReturn(proprietary);
@@ -374,7 +371,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
         .thenReturn(proprietary);
@@ -402,7 +399,7 @@ class ProprietaryControllerTest {
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli)
+          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
         )
       )
         .thenReturn(proprietary);
@@ -466,10 +463,7 @@ class ProprietaryControllerTest {
       verify(updateProprietarySingleElementFromNormUseCase, times(1))
         .updateProprietarySingleElementFromNorm(
           argThat(query ->
-            query
-              .eli()
-              .toString()
-              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
+            query.eli().toString().equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu") &&
             query.eid().equals(eid) &&
             query.atDate().isEqual(date) &&
             query.metadata().artDerNorm().equals("SN")
