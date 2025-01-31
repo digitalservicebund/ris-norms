@@ -18,7 +18,7 @@ setup("login", async ({ page }) => {
   await page.context().storageState({ path: `e2e/setup/.auth/user.json` })
 })
 
-setup("create sample data", async ({ page, token }) => {
+setup("create sample data", async ({ authenticatedRequest: request }) => {
   const files = [
     "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",
     "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
@@ -34,12 +34,9 @@ setup("create sample data", async ({ page, token }) => {
     formData.append("file", new Blob([fileContent], { type: "text/xml" }), file)
     formData.append("force", String(true))
 
-    const response = await page.request.post(
+    const response = await request.post(
       `${process.env.E2E_BASE_URL}/api/v1/announcements`,
-      {
-        multipart: formData,
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      },
+      { multipart: formData },
     )
 
     if (!response.ok()) {

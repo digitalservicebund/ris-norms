@@ -1,7 +1,8 @@
 import { ElementProprietary } from "@/types/proprietary"
-import { Locator, Page, expect, test } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { APIRequestContext, expect, Locator, Page } from "@playwright/test"
 
-async function restoreInitialState(page: Page) {
+async function restoreInitialState(request: APIRequestContext) {
   const dataIn2015: ElementProprietary = {
     artDerNorm: "SN",
   }
@@ -10,12 +11,12 @@ async function restoreInitialState(page: Page) {
     artDerNorm: "ÄN",
   }
 
-  await page.request.put(
+  await request.put(
     "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-1_art-6/2023-12-30",
     { data: dataIn2015 },
   )
 
-  await page.request.put(
+  await request.put(
     "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-1_art-6/2024-06-01",
     { data: dataIn2023 },
   )
@@ -211,9 +212,12 @@ test.describe("XML view", () => {
     ).toBeVisible()
   })
 
-  test("updates the XML preview after saving metadata", async ({ page }) => {
+  test("updates the XML preview after saving metadata", async ({
+    page,
+    authenticatedRequest,
+  }) => {
     // Given
-    await restoreInitialState(page)
+    await restoreInitialState(authenticatedRequest)
 
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-1_art-6",
@@ -239,7 +243,7 @@ test.describe("XML view", () => {
     expect(textResponse).toContain("ÜN</ris:artDerNorm")
 
     // Cleanup
-    await restoreInitialState(page)
+    await restoreInitialState(authenticatedRequest)
   })
 
   test("shows an error when the XML could not be loaded", async ({ page }) => {
@@ -307,14 +311,14 @@ test.describe("metadata view", () => {
     )
   }
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({ browser, authenticatedRequest }) => {
     sharedPage = await browser.newPage()
-    await restoreInitialState(sharedPage)
+    await restoreInitialState(authenticatedRequest)
     await gotoTimeBoundary("2024-06-01")
   })
 
-  test.afterAll(async () => {
-    await restoreInitialState(sharedPage)
+  test.afterAll(async ({ authenticatedRequest }) => {
+    await restoreInitialState(authenticatedRequest)
   })
 
   test.describe("Art der Norm", () => {

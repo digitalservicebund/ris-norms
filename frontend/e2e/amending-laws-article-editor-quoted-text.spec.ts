@@ -1,5 +1,6 @@
-import { expect, test } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
 import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
+import { expect } from "@playwright/test"
 
 test.describe("Loading mod details", () => {
   test.beforeEach(async ({ page }) => {
@@ -107,7 +108,7 @@ test.describe("Editing a single mod", () => {
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
   })
-  test.afterEach(async ({ request }) => {
+  test.afterEach(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(request, "bgbl-1_2017_s419/aenderungsgesetz.xml")
   })
   test("editing and saving the quotedTextSecondElement", async ({ page }) => {
@@ -241,9 +242,12 @@ test.describe("Editing a single mod", () => {
     },
   )
 
-  test("selecting and saving the time boundary", async ({ page }) => {
+  test("selecting and saving the time boundary", async ({
+    page,
+    authenticatedRequest: request,
+  }) => {
     // use api to create new time boundary
-    await page.request.put(
+    await request.put(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
       {
         data: [
@@ -290,7 +294,7 @@ test.describe("Editing a single mod", () => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
     )
-    await page.request.put(
+    await request.put(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
       {
         data: [
@@ -311,7 +315,7 @@ test.describe("Editing multiple mods", () => {
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
   })
-  test.afterEach(async ({ request }) => {
+  test.afterEach(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
       "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",

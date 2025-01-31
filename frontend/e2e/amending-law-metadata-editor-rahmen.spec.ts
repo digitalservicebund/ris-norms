@@ -1,7 +1,8 @@
 import { RahmenProprietary } from "@/types/proprietary"
-import { expect, test } from "@playwright/test"
 import { MetadataEditorRahmenPage } from "@e2e/pages/MetadataEditorRahmenPage"
+import { test } from "@e2e/utils/test-with-auth"
 import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
+import { expect } from "@playwright/test"
 
 test.describe("navigate to page", () => {
   test("navigate to the metadata editor", async ({ page }) => {
@@ -166,7 +167,7 @@ test.describe("XML view", () => {
 
   test("updates the XML preview after saving metadata", async ({
     page,
-    request,
+    authenticatedRequest: request,
   }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/2023-12-30",
@@ -239,11 +240,11 @@ test.describe("XML view", () => {
 })
 
 test.describe("metadata view", () => {
-  test.afterAll(async ({ request }) => {
+  test.afterAll(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(request, "bgbl-1_2023_413/aenderungsgesetz.xml")
   })
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ authenticatedRequest: request }) => {
     const dataIn2023: RahmenProprietary = {
       fna: "210-5",
       art: "regelungstext",
@@ -272,12 +273,12 @@ test.describe("metadata view", () => {
       organisationsEinheit: "Einheit 2",
     }
 
-    await page.request.put(
+    await request.put(
       "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/2023-12-30",
       { data: dataIn2023 },
     )
 
-    await page.request.put(
+    await request.put(
       "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/2024-06-01",
       { data: dataIn2024 },
     )

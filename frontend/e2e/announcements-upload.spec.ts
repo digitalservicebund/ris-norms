@@ -1,10 +1,10 @@
 /* eslint-disable playwright/no-raw-locators */
-
-import { expect, test } from "@playwright/test"
+import { samplesDirectory } from "@e2e/utils/samples-directory"
+import { test } from "@e2e/utils/test-with-auth"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
+import { expect } from "@playwright/test"
 import fs from "fs"
 import path from "node:path"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
-import { samplesDirectory } from "@e2e/utils/samples-directory"
 
 test(
   "navigates to the upload page",
@@ -54,7 +54,7 @@ test(
 test(
   "shows a confirmation dialog if the uploaded norm already exists",
   { tag: ["@RISDEV-4775"] },
-  async ({ page, request }) => {
+  async ({ page, authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
       "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
@@ -84,7 +84,7 @@ test(
 test(
   "confirming to overwrite an existing norm overwrites it",
   { tag: ["@RISDEV-4775"] },
-  async ({ page, request }) => {
+  async ({ page, authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
       "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
@@ -122,7 +122,7 @@ test(
 test(
   "closes the confirmation dialog for a forced upload when user chooses not to overwrite",
   { tag: ["@RISDEV-4775"] },
-  async ({ page, request }) => {
+  async ({ page, authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
       "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
