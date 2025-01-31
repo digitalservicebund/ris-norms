@@ -3,7 +3,7 @@
 import { expect, test } from "@playwright/test"
 import fs from "fs"
 import path from "node:path"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
 import { samplesDirectory } from "@e2e/utils/samples-directory"
 
 test(

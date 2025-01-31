@@ -1,7 +1,7 @@
 import { RahmenProprietary } from "@/types/proprietary"
 import { expect, test } from "@playwright/test"
 import { MetadataEditorRahmenPage } from "@e2e/pages/MetadataEditorRahmenPage"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
 
 test.describe("navigate to page", () => {
   test("navigate to the metadata editor", async ({ page }) => {

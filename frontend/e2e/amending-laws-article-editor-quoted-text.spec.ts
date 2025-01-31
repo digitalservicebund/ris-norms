@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
 
 test.describe("Loading mod details", () => {
   test.beforeEach(async ({ page }) => {

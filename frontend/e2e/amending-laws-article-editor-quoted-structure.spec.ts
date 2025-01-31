@@ -1,5 +1,5 @@
 import { expect, Page, test } from "@playwright/test"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
 
 let sharedPage: Page
 test.beforeAll(async ({ browser }) => {
