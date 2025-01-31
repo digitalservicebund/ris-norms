@@ -9,8 +9,8 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -42,7 +42,10 @@ class CreateNewVersionOfNormServiceTest {
     );
 
     // Then
-    assertThat(result.newExpression().getExpressionEli())
+    assertThat(result.newExpression().getNormExpressionEli())
+      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu");
+    assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
+    assertThat(result.newExpression().getRegelungstext1().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/regelungstext-1");
     FRBRExpression expression = result.newExpression().getMeta().getFRBRExpression();
     assertThat(expression.getURI()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu");
@@ -54,7 +57,10 @@ class CreateNewVersionOfNormServiceTest {
       .isEqualTo(norm.getMeta().getFRBRExpression().getFRBRaliasPreviousVersionId());
     assertThat(expression.getFRBRaliasNextVersionId()).isEmpty();
 
-    assertThat(result.newExpression().getManifestationEli())
+    assertThat(result.newExpression().getNormManifestationEli())
+      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/%s".formatted(currentDate));
+
+    assertThat(result.newExpression().getRegelungstext1().getManifestationEli())
       .hasToString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/%s/regelungstext-1.xml".formatted(currentDate)
       );
@@ -65,7 +71,10 @@ class CreateNewVersionOfNormServiceTest {
       );
     assertThat(manifestation.getFBRDate()).isEqualTo(currentDate);
 
-    assertThat(result.newManifestationOfOldExpression().getManifestationEli())
+    assertThat(result.newManifestationOfOldExpression().getNormManifestationEli())
+      .hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(currentDate));
+
+    assertThat(result.newManifestationOfOldExpression().getRegelungstext1().getManifestationEli())
       .hasToString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
       );
@@ -101,7 +110,11 @@ class CreateNewVersionOfNormServiceTest {
     );
 
     // Then
-    assertThat(result.newExpression().getExpressionEli())
+
+    assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
+    assertThat(result.newExpression().getNormExpressionEli())
+      .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu");
+    assertThat(result.newExpression().getRegelungstext1().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1");
     FRBRExpression expression = result.newExpression().getMeta().getFRBRExpression();
     assertThat(expression.getURI()).hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu");
@@ -112,8 +125,9 @@ class CreateNewVersionOfNormServiceTest {
     assertThat(expression.getFRBRaliasPreviousVersionId())
       .contains(norm.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId());
     assertThat(expression.getFRBRaliasNextVersionId()).isEmpty();
-
-    assertThat(result.newExpression().getManifestationEli())
+    assertThat(result.newExpression().getNormManifestationEli())
+      .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s".formatted(currentDate));
+    assertThat(result.newExpression().getRegelungstext1().getManifestationEli())
       .hasToString(
         "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
       );
@@ -124,7 +138,10 @@ class CreateNewVersionOfNormServiceTest {
       );
     assertThat(manifestation.getFBRDate()).isEqualTo(currentDate);
 
-    assertThat(result.newManifestationOfOldExpression().getManifestationEli())
+    assertThat(result.newManifestationOfOldExpression().getRegelungstexte()).hasSize(1);
+    assertThat(result.newManifestationOfOldExpression().getNormManifestationEli())
+      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s".formatted(currentDate));
+    assertThat(result.newManifestationOfOldExpression().getRegelungstext1().getManifestationEli())
       .hasToString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
       );
@@ -157,12 +174,10 @@ class CreateNewVersionOfNormServiceTest {
     );
 
     // Then
-    assertThat(result.getExpressionEli()).isEqualTo(norm.getExpressionEli());
-    assertThat(result.getManifestationEli())
+    assertThat(result.getNormExpressionEli()).isEqualTo(norm.getNormExpressionEli());
+    assertThat(result.getNormManifestationEli())
       .isEqualTo(
-        DokumentManifestationEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01/regelungstext-1.xml"
-        )
+        NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01")
       );
     FRBRManifestation manifestationOldExpression = result.getMeta().getFRBRManifestation();
     assertThat(manifestationOldExpression.getURI())

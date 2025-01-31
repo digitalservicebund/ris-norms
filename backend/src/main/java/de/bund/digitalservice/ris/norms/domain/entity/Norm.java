@@ -102,7 +102,7 @@ public class Norm {
    */
   // TODO: (Malte Laukötter, 2025-01-17) rename to getExpressionEli once the deprecated method is removed.
   public NormExpressionEli getNormExpressionEli() {
-    return getExpressionEli().asNormEli();
+    return getRegelungstext1().getExpressionEli().asNormEli();
   }
 
   /**
@@ -123,7 +123,7 @@ public class Norm {
    */
   // TODO: (Malte Laukötter, 2025-01-17) rename to getManifestationEli once the deprecated method is removed.
   public NormManifestationEli getNormManifestationEli() {
-    return getManifestationEli().asNormEli();
+    return getRegelungstext1().getManifestationEli().asNormEli();
   }
 
   /**

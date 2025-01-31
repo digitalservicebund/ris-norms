@@ -2,8 +2,10 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 
 /** Mapper class for converting to a {@link ReleaseResponseSchema}. */
@@ -28,7 +30,9 @@ public class ReleaseResponseMapper {
         release
           .getPublishedNorms()
           .stream()
-          .map(Norm::getManifestationEli)
+          .map(Norm::getRegelungstexte)
+          .flatMap(Set::stream)
+          .map(Regelungstext::getManifestationEli)
           .map(DokumentManifestationEli::toString)
           .toList()
       )

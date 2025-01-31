@@ -178,7 +178,11 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
 
     // Validate all resulting versions
     allVersionsOfAllNormsToPublish.forEach(norm -> {
-      ldmlDeValidator.parseAndValidate(XmlMapper.toString(norm.getDocument()));
+      norm
+        .getRegelungstexte()
+        .forEach(regelungstext ->
+          ldmlDeValidator.parseAndValidate(XmlMapper.toString(regelungstext.getDocument()))
+        );
       ldmlDeValidator.validateSchematron(norm);
     });
 
