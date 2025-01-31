@@ -6,13 +6,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -20,7 +18,6 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -301,51 +298,48 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-        .build();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
       when(
         timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
+          new ApplyPassiveModificationsUseCase.Query(regelungstext, date)
         )
       )
-        .thenReturn(norm.getRegelungstext1());
+        .thenReturn(regelungstext);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html = service.loadElementHtmlAtDateFromNorm(
-        new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
+      var html = service.loadElementHtmlAtDate(
+        new LoadElementHtmlAtDateUseCase.Query(eli, eid, date)
       );
 
       // Then
       assertThat(html).contains("<div></div>");
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
       verify(timeMachineService)
-        .applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
-        );
+        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(regelungstext, date));
       verify(xsltTransformationService, times(1)).transformLegalDocMlToHtml(any());
     }
 
     @Test
-    void itThrowsIfNormIsNotFound() {
+    void itThrowsIfDokumentIsNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
-      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date);
+      var query = new LoadElementHtmlAtDateUseCase.Query(eli, eid, date);
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementHtmlAtDateFromNorm(query))
-        .isInstanceOf(NormNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElementHtmlAtDate(query))
+        .isInstanceOf(RegelungstextNotFoundException.class);
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
 
     @Test
@@ -356,7 +350,7 @@ class ElementServiceTest {
       );
       var eid = "meta-1000";
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
-      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date);
+      var query = new LoadElementHtmlAtDateUseCase.Query(eli, eid, date);
 
       var normXml =
         """
@@ -382,28 +376,24 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-        .build();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
       when(
         timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
+          new ApplyPassiveModificationsUseCase.Query(regelungstext, date)
         )
       )
-        .thenReturn(norm.getRegelungstext1());
+        .thenReturn(regelungstext);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementHtmlAtDateFromNorm(query))
+      assertThatThrownBy(() -> service.loadElementHtmlAtDate(query))
         .isInstanceOf(ElementNotFoundException.class);
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
       verify(timeMachineService)
-        .applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(norm.getRegelungstext1(), date)
-        );
+        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(regelungstext, date));
     }
   }
 

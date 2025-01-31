@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -32,7 +31,7 @@ public class ElementService
   implements
     LoadElementUseCase,
     LoadElementHtmlUseCase,
-    LoadElementHtmlAtDateFromNormUseCase,
+    LoadElementHtmlAtDateUseCase,
     LoadElementsByTypeUseCase {
 
   private final LoadNormPort loadNormPort;
@@ -119,13 +118,10 @@ public class ElementService
   }
 
   @Override
-  public String loadElementHtmlAtDateFromNorm(
-    final LoadElementHtmlAtDateFromNormUseCase.Query query
-  ) {
-    var regelungstext = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
-      .getRegelungstext1();
+  public String loadElementHtmlAtDate(final LoadElementHtmlAtDateUseCase.Query query) {
+    var regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
     regelungstext =
     timeMachineService.applyPassiveModifications(
