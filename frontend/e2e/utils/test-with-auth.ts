@@ -1,4 +1,7 @@
-import { APIRequestContext, test as base } from "@playwright/test"
+import {
+  APIRequestContext,
+  test as base /* eslint-disable-line no-restricted-imports -- We need this here to extend it */,
+} from "@playwright/test"
 import { readFile, writeFile } from "node:fs/promises"
 import { fileURLToPath, URL } from "node:url"
 

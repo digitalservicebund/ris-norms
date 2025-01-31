@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect } from "@playwright/test"
 
 test.describe("Login / logout functionality", { tag: ["@RISDEV-5654"] }, () => {
   test.beforeEach(async ({ page }) => {

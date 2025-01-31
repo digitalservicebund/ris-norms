@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect } from "@playwright/test"
 
 test.describe("404 Page", () => {
   test(`should display 404 page when trying to access a non existing url`, async ({
