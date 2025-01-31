@@ -1,14 +1,11 @@
-import { test as setup } from "@playwright/test"
-import path from "node:path"
-import fs from "fs"
 import { samplesDirectory } from "@e2e/utils/samples-directory"
+import { test as setup } from "@e2e/utils/test-with-auth"
+import fs from "fs"
+import path from "node:path"
 
-setup("global setup", async ({ page }) => {
-  // Login
+setup("login", async ({ page }) => {
   await page.goto("/")
   await page.waitForURL(/localhost:8443/)
-
-  const pendingTokenResponse = page.waitForResponse(/token$/)
 
   await page
     .getByRole("textbox", { name: "Username or email" })
@@ -18,11 +15,10 @@ setup("global setup", async ({ page }) => {
 
   await page.getByRole("button", { name: "Sign In" }).click()
 
-  const tokenResponse = await pendingTokenResponse
-  const token = (await tokenResponse.json()).access_token
-
   await page.context().storageState({ path: `e2e/setup/.auth/user.json` })
+})
 
+setup("create sample data", async ({ page, token }) => {
   const files = [
     "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",
     "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
@@ -40,7 +36,10 @@ setup("global setup", async ({ page }) => {
 
     const response = await page.request.post(
       `${process.env.E2E_BASE_URL}/api/v1/announcements`,
-      { multipart: formData, headers: { Authorization: `Bearer ${token}` } },
+      {
+        multipart: formData,
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      },
     )
 
     if (!response.ok()) {
