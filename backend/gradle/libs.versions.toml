@@ -49,7 +49,7 @@ testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.6.0"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
-sentry = "io.sentry.jvm.gradle:5.0.0"
+sentry = "io.sentry.jvm.gradle:5.1.0"
 sonarqube = "org.sonarqube:6.0.1.5171"
 spotless = "com.diffplug.spotless:7.0.2"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
