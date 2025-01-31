@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
@@ -22,12 +22,12 @@ class EliServiceTest {
     when(loadNormUseCase.loadNorm(any())).thenThrow(new NormNotFoundException(""));
 
     var eli = eliService.findNextExpressionEli(
-      DokumentWorkEli.fromString("eli/bund/bgbl-1/1990/s2954/regelungstext-1"),
+      NormWorkEli.fromString("eli/bund/bgbl-1/1990/s2954"),
       LocalDate.parse("2025-01-01"),
       "deu"
     );
 
-    assertThat(eli).hasToString("eli/bund/bgbl-1/1990/s2954/2025-01-01/1/deu/regelungstext-1");
+    assertThat(eli).hasToString("eli/bund/bgbl-1/1990/s2954/2025-01-01/1/deu");
   }
 
   @Test
@@ -37,11 +37,11 @@ class EliServiceTest {
       .thenThrow(new NormNotFoundException(""));
 
     var eli = eliService.findNextExpressionEli(
-      DokumentWorkEli.fromString("eli/bund/bgbl-1/1990/s2954/regelungstext-1"),
+      NormWorkEli.fromString("eli/bund/bgbl-1/1990/s2954"),
       LocalDate.parse("2025-01-01"),
       "deu"
     );
 
-    assertThat(eli).hasToString("eli/bund/bgbl-1/1990/s2954/2025-01-01/2/deu/regelungstext-1");
+    assertThat(eli).hasToString("eli/bund/bgbl-1/1990/s2954/2025-01-01/2/deu");
   }
 }

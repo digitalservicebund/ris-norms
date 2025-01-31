@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -35,7 +35,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   class getElementHtmlPreview {
 
     @Test
-    void returnsNotFoundIfNormNotFoundByEli() throws Exception {
+    void returnsNotFoundIfRegelungstextNotFoundByEli() throws Exception {
       // Given
       // Nothing
 
@@ -49,13 +49,13 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // Then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
@@ -73,8 +73,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+      );
 
       // When
       mockMvc
@@ -110,8 +111,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsElementRenderedAsHtml() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+      );
 
       // When
       mockMvc
@@ -129,11 +131,14 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsElementAtGivenIsoDateRenderedAsHtml() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
-      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
+        )
+      );
 
       // When / Then
       mockMvc
@@ -179,7 +184,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   class getElementInfo {
 
     @Test
-    void returnsNotFoundIfNormNotFoundByEli() throws Exception {
+    void returnsNotFoundIfRegelungstextNotFoundByEli() throws Exception {
       // Given
       // Nothing
 
@@ -193,13 +198,13 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // Then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+              "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
@@ -217,8 +222,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+      );
 
       // When
       mockMvc
@@ -254,8 +260,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnElementEidTitleAndType() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+      );
 
       // When
       mockMvc
@@ -331,7 +338,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsNotFoundIfNormIsNotFound() throws Exception {
+    void itReturnsNotFoundIfRegelungstextIsNotFound() throws Exception {
       // Given
       // Nothing
 
@@ -344,13 +351,13 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // Then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
+              "Regelungstext with eli eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
@@ -367,8 +374,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+      );
 
       // When
       mockMvc
@@ -385,8 +393,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsEntriesWithPrefacePreambleArticleAndConclusionInformation() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPrefacePreambleAndConclusions.xml")
+        )
+      );
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
         "?type=preface" +
@@ -425,8 +436,9 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEntriesWithBookPartChapterTitleSubtitleSectionAndSubsectionInformation()
       throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithGliederung.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithGliederung.xml"))
+      );
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
         "?type=book" +
@@ -490,10 +502,16 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
       // Given
-      var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(amendingNorm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
+        )
+      );
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPrefacePreambleAndConclusions.xml")
+        )
+      );
 
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
@@ -501,8 +519,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         "&type=preamble" +
         "&type=article" +
         "&type=conclusions" +
-        "&amendedBy=" +
-        amendingNorm.getExpressionEli(); // amending norm eli
+        "&amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"; // amending norm eli
 
       // When
       mockMvc
@@ -514,10 +531,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
-      var targetNorm = Fixtures.loadNormFromDisk(
-        "NormWithPassiveModificationsInDifferentArticles.xml"
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModificationsInDifferentArticles.xml")
+        )
       );
-      dokumentRepository.saveAll(NormMapper.mapToDtos(targetNorm));
 
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements" +

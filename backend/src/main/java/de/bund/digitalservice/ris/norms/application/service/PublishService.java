@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.exception.MigrationJobExcept
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
 import java.time.LocalDate;
@@ -12,7 +13,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,38 +25,38 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PublishService implements PublishNormUseCase {
 
-  private final LoadNormIdsByPublishStatePort loadNormIdsByPublishStatePort;
+  private final LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort;
+  private final LoadNormPort loadNormPort;
   private final PublishPublicNormPort publishPublicNormPort;
   private final PublishPrivateNormPort publishPrivateNormPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final DeletePublicNormPort deletePublicNormPort;
   private final DeletePrivateNormPort deletePrivateNormPort;
-  private final LoadNormByIdPort loadNormByIdPort;
   private final LoadLastMigrationLogPort loadLastMigrationLogPort;
   private final DeleteAllPublicNormsPort deleteAllPublicNormsPort;
   private final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort;
   private final PublishChangelogsPort publishChangelogsPort;
 
   public PublishService(
-    LoadNormIdsByPublishStatePort loadNormIdsByPublishStatePort,
+    LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
+    LoadNormPort loadNormPort,
     PublishPublicNormPort publishPublicNormPort,
     PublishPrivateNormPort publishPrivateNormPort,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     DeletePublicNormPort deletePublicNormPort,
     DeletePrivateNormPort deletePrivateNormPort,
-    LoadNormByIdPort loadNormByIdPort,
     LoadLastMigrationLogPort loadLastMigrationLogPort,
     DeleteAllPublicNormsPort deleteAllPublicNormsPort,
     DeleteAllPrivateNormsPort deleteAllPrivateNormsPort,
     PublishChangelogsPort publishChangelogsPort
   ) {
-    this.loadNormIdsByPublishStatePort = loadNormIdsByPublishStatePort;
+    this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
+    this.loadNormPort = loadNormPort;
     this.publishPublicNormPort = publishPublicNormPort;
     this.publishPrivateNormPort = publishPrivateNormPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.deletePublicNormPort = deletePublicNormPort;
     this.deletePrivateNormPort = deletePrivateNormPort;
-    this.loadNormByIdPort = loadNormByIdPort;
     this.loadLastMigrationLogPort = loadLastMigrationLogPort;
     this.deleteAllPublicNormsPort = deleteAllPublicNormsPort;
     this.deleteAllPrivateNormsPort = deleteAllPrivateNormsPort;
@@ -91,18 +91,19 @@ public class PublishService implements PublishNormUseCase {
         }
       });
 
-    List<UUID> normIds = loadNormIdsByPublishStatePort.loadNormIdsByPublishState(
-      new LoadNormIdsByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
-    );
+    List<NormManifestationEli> manifestationElis =
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(
+        new LoadNormManifestationElisByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+      );
 
-    log.info("Found {} norms that are queued for publishing", normIds.size());
+    log.info("Found {} norms that are queued for publishing", manifestationElis.size());
 
-    normIds.forEach(publishId -> {
-      log.info("Processing norm with id {}", publishId);
-      Optional<Norm> norm = loadNormByIdPort.loadNormById(new LoadNormByIdPort.Command(publishId));
+    manifestationElis.forEach(manifestationEli -> {
+      log.info("Processing norm with manifestation eli {}", manifestationEli);
+      Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(manifestationEli));
       norm.ifPresent(this::processNorm);
       if (norm.isEmpty()) {
-        log.error("Norm with id {} not found", publishId);
+        log.error("Norm with manifestation eli {} not found", manifestationEli);
       }
     });
     publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(true));

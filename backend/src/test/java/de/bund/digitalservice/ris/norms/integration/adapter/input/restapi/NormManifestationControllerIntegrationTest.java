@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -35,7 +35,9 @@ public class NormManifestationControllerIntegrationTest extends BaseIntegrationT
     @Test
     void itCallsNormServiceAndReturnsNormXml() throws Exception {
       // Given
-      dokumentRepository.saveAll(NormMapper.mapToDtos(Fixtures.loadNormFromDisk("SimpleNorm.xml")));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml";
 
       // When // Then
@@ -78,7 +80,9 @@ public class NormManifestationControllerIntegrationTest extends BaseIntegrationT
     @Test
     void itReturnsNotFoundIfTypeIsNotXml() throws Exception {
       // Given
-      dokumentRepository.saveAll(NormMapper.mapToDtos(Fixtures.loadNormFromDisk("SimpleNorm.xml")));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf";
 
       // When // Then

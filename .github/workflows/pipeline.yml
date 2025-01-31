@@ -86,8 +86,8 @@ jobs:
 
   # ######################
   # # Check time for automatic deployments
-  # # Should only deploy automatically outside the hours when migration job (1:00AM UTC) and publishing job run (2:00AM UTC),
-  # # meaning not between 0:30 AM UTC and 4:00AM UTC
+  # # Should only deploy automatically outside the hours when publication job is running (starts 4:00AM UTC and finishes in less than 1 hour),
+  # # meaning not between 03:45 AM UTC and 4:00AM UTC
   # ######################
 
   check-auto-deploy:
@@ -99,7 +99,7 @@ jobs:
       - id: check-time
         run: |
           current_time=$(TZ=UTC date "+%H:%M")
-          if [[ "$current_time" > "00:30" && "$current_time" < "04:00" ]]; then
+          if [[ "$current_time" > "03:45" && "$current_time" < "05:00" ]]; then
             echo "Should not deploy automatically. Current time is $current_time"
             echo "should-auto-deploy=false" >> "$GITHUB_OUTPUT"
           else
@@ -151,17 +151,63 @@ jobs:
     secrets: inherit
 
   # ########################
-  # # system test jobs
+  # # e2e test jobs
   # ########################
 
+  setup-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: frontend/.node-version
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install node modules
+        run: npm ci
+        working-directory: ./frontend
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: cache-node-modules
+        with:
+          path: ./frontend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/package-lock.json') }}
+      - name: Get Playwright version
+        working-directory: ./frontend
+        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
+      - name: Cache Playwright browser binaries
+        id: cache-browser-binaries
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Install Playwright browsers
+        if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
+        run: |
+          npx playwright install chromium firefox msedge
+        working-directory: ./frontend
+
   e2e-tests:
+    needs: setup-e2e-tests
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox, msedge]
+        project:
+          [
+            chromium,
+            firefox,
+            msedge,
+            login-logout-test-chromium,
+            login-logout-test-firefox,
+            login-logout-test-msedge,
+          ]
     uses: ./.github/workflows/end-to-end-tests.yml
     with:
-      browser: ${{ matrix.browser }}
+      project: ${{ matrix.project }}
     secrets: inherit
 
   ################

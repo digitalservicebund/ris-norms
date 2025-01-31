@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
@@ -69,14 +70,15 @@ class ReferenceServiceTest {
         )
       )
       .build();
+    Node oldDocument = norm.getRegelungstext1().getDocument().getDocumentElement().cloneNode(true);
 
     // When
-    final String result = service.findAndCreateReferences(norm);
+    service.findAndCreateReferences(norm);
 
     // Then
     final Diff diff = DiffBuilder
-      .compare(Input.from(XmlMapper.toDocument(result)))
-      .withTest(Input.from(norm.getDocument()))
+      .compare(Input.from(norm.getRegelungstext1().getDocument().getDocumentElement()))
+      .withTest(Input.from(oldDocument))
       .build();
     assertThat(diff.hasDifferences()).isFalse();
   }
@@ -85,14 +87,15 @@ class ReferenceServiceTest {
   void itDoesNotLookForReferencesBecauseQuotedStructureContainReferencesAlready() {
     // Given
     final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesFound.xml");
+    var oldDocument = norm.getRegelungstext1().getDocument().getDocumentElement().cloneNode(true);
 
     // When
-    final String result = service.findAndCreateReferences(norm);
+    service.findAndCreateReferences(norm);
 
     // Then
     final Diff diff = DiffBuilder
-      .compare(Input.from(XmlMapper.toDocument(result)))
-      .withTest(Input.from(norm.getDocument()))
+      .compare(Input.from(norm.getRegelungstext1().getDocument().getDocumentElement()))
+      .withTest(Input.from(oldDocument))
       .build();
     assertThat(diff.hasDifferences()).isFalse();
   }
@@ -103,14 +106,18 @@ class ReferenceServiceTest {
     final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesToFind.xml");
 
     // When
-    final String result = service.findAndCreateReferences(norm);
+    service.findAndCreateReferences(norm);
 
     // Then
-    final Norm expectedUpdatedNorm = Fixtures.loadNormFromDisk("NormWithReferencesFound.xml");
+    final Regelungstext expectedUpdatedRegelungstext = Fixtures.loadRegelungstextFromDisk(
+      "NormWithReferencesFound.xml"
+    );
     final Diff diff = DiffBuilder
-      .compare(Input.from(XmlMapper.toDocument(result)))
+      .compare(
+        Input.from(XmlMapper.toDocument(XmlMapper.toString(norm.getRegelungstext1().getDocument())))
+      )
       .ignoreElementContentWhitespace()
-      .withTest(Input.from(expectedUpdatedNorm.getDocument()))
+      .withTest(Input.from(expectedUpdatedRegelungstext.getDocument()))
       .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))
       .build();
     assertThat(diff.hasDifferences()).isFalse();
@@ -121,12 +128,14 @@ class ReferenceServiceTest {
     // Given
     final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesInNumToSkip.xml");
     // When
-    final String result = service.findAndCreateReferences(norm);
+    service.findAndCreateReferences(norm);
 
     // Then
-    final Norm sameNormReload = Fixtures.loadNormFromDisk("NormWithReferencesInNumToSkip.xml");
+    final Regelungstext sameNormReload = Fixtures.loadRegelungstextFromDisk(
+      "NormWithReferencesInNumToSkip.xml"
+    );
     final Diff diff = DiffBuilder
-      .compare(Input.from(XmlMapper.toDocument(result)))
+      .compare(Input.from(norm.getRegelungstext1().getDocument()))
       .withTest(Input.from(sameNormReload.getDocument()))
       .ignoreWhitespace()
       .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))

@@ -1,11 +1,11 @@
 -- REAPPLY
 -- TARGET LAW
-DELETE
-FROM dokumente
-WHERE eli_dokument_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1';
+DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';
+DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';
+DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';
 
-INSERT INTO dokumente (publish_state, xml)
-VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO dokumente (xml)
+VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 <!-- NOTE: THIS FILES CONTAINS ERRORS AND SHOULD NOT BE USED ANYMORE. -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
@@ -1764,3 +1764,5 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
     </akn:conclusions>
   </akn:act>
 </akn:akomaNtoso>');
+
+UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';

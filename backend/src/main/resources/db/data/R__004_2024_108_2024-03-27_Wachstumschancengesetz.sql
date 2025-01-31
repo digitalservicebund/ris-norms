@@ -1,11 +1,11 @@
 -- REAPPLY
 -- TARGET LAW
-DELETE
-FROM dokumente
-where eli_dokument_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1';
+DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
+DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
+DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
 
-INSERT INTO dokumente (publish_state, xml)
-VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO dokumente (xml)
+VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -632,3 +632,5 @@ VALUES ('PUBLISHED', '<?xml version="1.0" encoding="UTF-8"?>
       </akn:conclusions>
    </akn:act>
 </akn:akomaNtoso>');
+
+UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';

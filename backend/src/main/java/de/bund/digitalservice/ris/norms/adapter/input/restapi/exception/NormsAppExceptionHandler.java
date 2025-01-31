@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -210,15 +210,15 @@ public class NormsAppExceptionHandler {
 
   /**
    * Exception handler method for handling {@link
-   * LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException}.
+   * LoadElementsByTypeUseCase.UnsupportedElementTypeException}.
    *
    * @param e The exception that occurred.
    * @return A {@link ResponseEntity} with an HTTP 400 status code and the exception message.
    */
-  @ExceptionHandler(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class)
+  @ExceptionHandler(LoadElementsByTypeUseCase.UnsupportedElementTypeException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ProblemDetail handleException(
-    final LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e
+    final LoadElementsByTypeUseCase.UnsupportedElementTypeException e
   ) {
     log.error("UnsupportedElementTypeException: {}", e.getMessage(), e);
     return ProblemDetailFactory.createProblemDetail(e, HttpStatus.BAD_REQUEST);

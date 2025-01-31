@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Test;
@@ -33,15 +32,11 @@ class RegelungstextMapperTest {
     var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
 
     // When
-    final DokumentDto dokumentDto = RegelungstextMapper.mapToDto(
-      regelungstext,
-      NormPublishState.QUEUED_FOR_PUBLISH
-    );
+    final DokumentDto dokumentDto = RegelungstextMapper.mapToDto(regelungstext);
 
     // Then
     assertThat(dokumentDto).isNotNull();
     assertThat(XmlMapper.toDocument(dokumentDto.getXml()).isEqualNode(regelungstext.getDocument()))
       .isTrue();
-    assertThat(dokumentDto.getPublishState()).isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
   }
 }

@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.*;
 )
 public class ElementController {
 
-  private final LoadElementFromNormUseCase loadElementFromNormUseCase;
-  private final LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
+  private final LoadElementUseCase loadElementUseCase;
+  private final LoadElementHtmlUseCase loadElementHtmlUseCase;
   private final LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
-  private final LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
+  private final LoadElementsByTypeUseCase loadElementsByTypeUseCase;
 
   public ElementController(
-    LoadElementFromNormUseCase loadElementFromNormUseCase,
-    LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase,
+    LoadElementUseCase loadElementUseCase,
+    LoadElementHtmlUseCase loadElementHtmlUseCase,
     LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase,
-    LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase
+    LoadElementsByTypeUseCase loadElementsByTypeUseCase
   ) {
-    this.loadElementFromNormUseCase = loadElementFromNormUseCase;
-    this.loadElementHtmlFromNormUseCase = loadElementHtmlFromNormUseCase;
+    this.loadElementUseCase = loadElementUseCase;
+    this.loadElementHtmlUseCase = loadElementHtmlUseCase;
     this.loadElementHtmlAtDateFromNormUseCase = loadElementHtmlAtDateFromNormUseCase;
-    this.loadElementsByTypeFromNormUseCase = loadElementsByTypeFromNormUseCase;
+    this.loadElementsByTypeUseCase = loadElementsByTypeUseCase;
   }
 
   /**
@@ -59,9 +59,7 @@ public class ElementController {
         )
       )
       .orElseGet(() ->
-        loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
-          new LoadElementHtmlFromNormUseCase.Query(eli, eid)
-        )
+        loadElementHtmlUseCase.loadElementHtml(new LoadElementHtmlUseCase.Query(eli, eid))
       );
 
     return ResponseEntity.ok(elementHtml);
@@ -80,9 +78,7 @@ public class ElementController {
     final DokumentExpressionEli eli,
     @PathVariable final String eid
   ) {
-    var element = loadElementFromNormUseCase.loadElementFromNorm(
-      new LoadElementFromNormUseCase.Query(eli, eid)
-    );
+    var element = loadElementUseCase.loadElement(new LoadElementUseCase.Query(eli, eid));
 
     return ResponseEntity.ok(ElementResponseMapper.fromElementNode(element));
   }
@@ -106,13 +102,9 @@ public class ElementController {
     @RequestParam final String[] type,
     @RequestParam final Optional<DokumentExpressionEli> amendedBy
   ) {
-    List<ElementResponseSchema> elements = loadElementsByTypeFromNormUseCase
-      .loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(
-          eli,
-          Arrays.asList(type),
-          amendedBy.orElse(null)
-        )
+    List<ElementResponseSchema> elements = loadElementsByTypeUseCase
+      .loadElementsByType(
+        new LoadElementsByTypeUseCase.Query(eli, Arrays.asList(type), amendedBy.orElse(null))
       )
       .stream()
       .map(ElementResponseMapper::fromElementNode)

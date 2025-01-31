@@ -172,7 +172,7 @@ public class NormService
 
         Norm savedNorm = updateNormPort
           .updateNorm(new UpdateNormPort.Command(norm))
-          .orElseThrow(() -> new NormNotFoundException(norm.getNormManifestationEli().toString()));
+          .orElseThrow(() -> new NormNotFoundException(norm.getManifestationEli().toString()));
 
         return new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), savedNorm);
       })

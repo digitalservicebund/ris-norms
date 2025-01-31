@@ -16,8 +16,9 @@ import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnn
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -85,7 +86,7 @@ class ReleaseServiceTest {
 
     // When
     releaseService.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
+      new ReleaseAnnouncementUseCase.Query(norm.getNormExpressionEli())
     );
 
     // Then
@@ -95,7 +96,9 @@ class ReleaseServiceTest {
     verify(deleteQueuedReleasesPort, times(1))
       .deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
+      .parseAndValidate(
+        XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
+      );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(updateOrSaveNormPort, times(1))
       .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfNormToQueue));
@@ -103,7 +106,7 @@ class ReleaseServiceTest {
       .updateOrSave(new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfNorm));
     verify(deleteNormPort, times(1))
       .deleteNorm(
-        new DeleteNormPort.Command(norm.getNormManifestationEli(), NormPublishState.UNPUBLISHED)
+        new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
       );
     verify(saveReleaseToAnnouncementPort, times(1)).saveReleaseToAnnouncement(any());
 
@@ -175,7 +178,7 @@ class ReleaseServiceTest {
 
     // When
     releaseService.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(amendingNorm.getExpressionEli())
+      new ReleaseAnnouncementUseCase.Query(amendingNorm.getNormExpressionEli())
     );
 
     // Then
@@ -185,7 +188,9 @@ class ReleaseServiceTest {
 
     // results are validated
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(XmlMapper.toString(manifestationOfAmendingNormToQueue.getDocument()));
+      .parseAndValidate(
+        XmlMapper.toString(manifestationOfAmendingNormToQueue.getRegelungstext1().getDocument())
+      );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfAmendingNormToQueue);
 
     // the queue norms are saved
@@ -208,17 +213,11 @@ class ReleaseServiceTest {
     // the old manifestations for editing are deleted (as they might no longer be the newest manifestation, that's why new once are created)
     verify(deleteNormPort, times(1))
       .deleteNorm(
-        new DeleteNormPort.Command(
-          amendingNorm.getNormManifestationEli(),
-          NormPublishState.UNPUBLISHED
-        )
+        new DeleteNormPort.Command(amendingNorm.getManifestationEli(), NormPublishState.UNPUBLISHED)
       );
     verify(deleteNormPort, times(1))
       .deleteNorm(
-        new DeleteNormPort.Command(
-          targetNorm.getNormManifestationEli(),
-          NormPublishState.UNPUBLISHED
-        )
+        new DeleteNormPort.Command(targetNorm.getManifestationEli(), NormPublishState.UNPUBLISHED)
       );
 
     // new manifestations for further editing are saved
@@ -263,16 +262,14 @@ class ReleaseServiceTest {
     var instantBeforeRelease = Instant.now();
     releaseService.releaseAnnouncement(
       new ReleaseAnnouncementUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       )
     );
 
     // Then
     verify(loadAnnouncementByNormEliUseCase, times(1))
       .loadAnnouncementByNormEli(
-        new LoadAnnouncementByNormEliUseCase.Query(norm.getExpressionEli())
+        new LoadAnnouncementByNormEliUseCase.Query(norm.getNormExpressionEli())
       );
 
     verify(saveReleaseToAnnouncementPort, times(1)).saveReleaseToAnnouncement(any());
@@ -309,7 +306,7 @@ class ReleaseServiceTest {
       .thenReturn(newNewestUnpublishedManifestationOfNorm);
     when(ldmlDeValidator.parseAndValidate(any())).thenThrow(new LdmlDeNotValidException(List.of()));
 
-    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseAnnouncementUseCase.Query(norm.getNormExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
@@ -318,8 +315,10 @@ class ReleaseServiceTest {
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
-    verify(ldmlDeValidator, times(0)).validateSchematron(any());
+      .parseAndValidate(
+        XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
+      );
+    verify(ldmlDeValidator, times(0)).validateSchematron(any(Norm.class));
     verify(createNewVersionOfNormService, times(0))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
@@ -359,9 +358,9 @@ class ReleaseServiceTest {
       .thenReturn(newNewestUnpublishedManifestationOfNorm);
     doThrow(new LdmlDeSchematronException(List.of()))
       .when(ldmlDeValidator)
-      .validateSchematron(any());
+      .validateSchematron(any(Norm.class));
 
-    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseAnnouncementUseCase.Query(norm.getNormExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
@@ -370,7 +369,9 @@ class ReleaseServiceTest {
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(XmlMapper.toString(manifestationOfNormToQueue.getDocument()));
+      .parseAndValidate(
+        XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
+      );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(createNewVersionOfNormService, times(0))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));

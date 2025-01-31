@@ -1,11 +1,11 @@
 -- REAPPLY
 -- TARGET LAW
-DELETE
-FROM dokumente
-WHERE eli_dokument_expression = 'eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1';
+DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu';
+DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu';
+DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu';
 
-INSERT INTO dokumente (publish_state, xml)
-VALUES ('PUBLISHED', '<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+INSERT INTO dokumente (xml)
+VALUES ('<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
     <akn:meta GUID="24742477-cfd0-4df5-8df1-8da2ed8100e9" eId="meta-1">
       <akn:identification source="attributsemantik-noch-undefiniert" GUID="13a74d12-5e00-4389-a066-554cfeb701d2" eId="meta-1_ident-1">
@@ -725,3 +725,5 @@ VALUES ('PUBLISHED', '<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.
     </akn:conclusions>
   </akn:act>
 </akn:akomaNtoso>');
+
+UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu';

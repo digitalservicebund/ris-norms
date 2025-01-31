@@ -7,14 +7,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,9 +31,13 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private DokumentRepository dokumentRepository;
 
+  @Autowired
+  private NormManifestationRepository normManifestationRepository;
+
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    normManifestationRepository.deleteAll();
   }
 
   @Nested
@@ -49,13 +52,13 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+              "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
             )
         )
         .andExpect(
@@ -72,13 +75,19 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsGetTimeBoundariesAndReturnsJson() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
 
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/{eli}/timeBoundaries", norm.getExpressionEli())
+          get(
+            "/api/v1/norms/{eli}/timeBoundaries",
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -110,13 +119,13 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+              "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
             )
         )
         .andExpect(
@@ -134,18 +143,18 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsGetTimeBoundariesAmendedByAndReturnsEmpty() throws Exception {
       // Given
       var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/non-in-norm";
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
-      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
 
       // When // Then
       mockMvc
         .perform(
-          get(
-            "/api/v1/norms/{eli}/timeBoundaries?amendedBy={amendedBy}",
-            norm.getExpressionEli(),
-            amendedBy
-          )
+          get("/api/v1/norms/{eli}/timeBoundaries?amendedBy={amendedBy}", eli, amendedBy)
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -156,18 +165,18 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsGetTimeBoundariesAmendedByAndReturnsJson() throws Exception {
       // Given
       var amendedBy = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
-      var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
 
       // When // Then
       mockMvc
         .perform(
-          get(
-            "/api/v1/norms/{eli}/timeBoundaries?amendedBy={amendedBy}",
-            norm.getExpressionEli(),
-            amendedBy
-          )
+          get("/api/v1/norms/{eli}/timeBoundaries?amendedBy={amendedBy}", eli, amendedBy)
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -220,13 +229,15 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateTimeBoundariesDateNull() throws Exception {
       // When
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/timeBoundaries", norm.getExpressionEli())
+          put("/api/v1/norms/{eli}/timeBoundaries", eli)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": null, \"eventRefEid\": null}]")
@@ -249,8 +260,9 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       // When
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // Then
       mockMvc
@@ -277,8 +289,9 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       // When
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
 
       // Then
       mockMvc
@@ -405,11 +418,9 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
         """.strip();
 
       // When
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
-        .build();
-      dokumentRepository.saveAll(NormMapper.mapToDtos(norm));
+      dokumentRepository.save(
+        RegelungstextMapper.mapToDto(new Regelungstext(XmlMapper.toDocument(xml)))
+      );
 
       // Then
       mockMvc

@@ -3,9 +3,9 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -23,21 +23,26 @@ public class ReferenceService {
   /**
    * It looks for references in the norm and creates akn:ref elements with those.
    * @param norm - the norm to be analyzed
-   * @return the resulted XML of the norm with possible added references
    */
-  public String findAndCreateReferences(final Norm norm) {
-    if (norm.getMods().stream().anyMatch(Mod::containsRef)) {
-      return XmlMapper.toString(norm.getDocument());
+  public void findAndCreateReferences(final Norm norm) {
+    norm.getRegelungstexte().forEach(this::findAndCreateReferences);
+  }
+
+  /**
+   * It looks for references in the regelungstext and creates akn:ref elements with those.
+   * @param regelungstext - the regelungstext to be analyzed
+   */
+  public void findAndCreateReferences(final Regelungstext regelungstext) {
+    if (regelungstext.getMods().stream().anyMatch(Mod::containsRef)) {
+      return;
     }
 
-    norm
+    regelungstext
       .getMods()
       .forEach(mod -> {
         mod.getSecondQuotedText().ifPresent(this::findAndCreateReferencesInNode);
         mod.getQuotedStructure().ifPresent(this::findAndCreateReferencesInNode);
       });
-
-    return XmlMapper.toString(norm.getDocument());
   }
 
   private void findAndCreateReferencesInNode(final Node node) {

@@ -87,7 +87,7 @@ public class AnnouncementController {
   )
   public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final DokumentExpressionEli eli) {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
-      new LoadAnnouncementByNormEliUseCase.Query(eli)
+      new LoadAnnouncementByNormEliUseCase.Query(eli.asNormEli())
     );
 
     return ResponseEntity.ok(
@@ -110,7 +110,7 @@ public class AnnouncementController {
   )
   public ResponseEntity<ReleaseResponseSchema> postReleases(final DokumentExpressionEli eli) {
     var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(eli)
+      new ReleaseAnnouncementUseCase.Query(eli.asNormEli())
     );
     var latestRelease = announcement
       .getReleases()

@@ -12,7 +12,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libxml2-utils -y
-      - name: Lint LDML.de de/1.7.2 schema
+      - name: Lint LDML.de 1.7.2 schema
         working-directory: ./LegalDocML.de/1.7.2/
         run: |
           xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd fixtures/SaatG_regelungstext.xml

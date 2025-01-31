@@ -7,13 +7,14 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -26,20 +27,22 @@ import org.junit.jupiter.api.Test;
 class ElementServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final ElementService service = new ElementService(
     loadNormPort,
+    loadRegelungstextPort,
     xsltTransformationService,
     timeMachineService
   );
 
   @Nested
-  class loadElementFromNorm {
+  class loadElement {
 
     @Test
-    void itLoadsAnElementFromANorm() {
+    void itLoadsAnElement() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
@@ -70,37 +73,36 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-        .build();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
 
       // When
-      var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
+      var element = service.loadElement(new LoadElementUseCase.Query(eli, eid));
 
       // Then
       assertThat(NodeParser.getValueFromExpression("./@eId", element)).contains(eid);
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
 
     @Test
-    void itThrowsIfNormIsNotFound() {
+    void itThrowsIfDokumentIsNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
-      var query = new LoadElementFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementUseCase.Query(eli, eid);
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementFromNorm(query))
-        .isInstanceOf(NormNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElement(query))
+        .isInstanceOf(RegelungstextNotFoundException.class);
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
 
     @Test
@@ -110,7 +112,7 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1000";
-      var query = new LoadElementFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementUseCase.Query(eli, eid);
 
       var normXml =
         """
@@ -136,25 +138,23 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-        .build();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementFromNorm(query))
+      assertThatThrownBy(() -> service.loadElement(query))
         .isInstanceOf(ElementNotFoundException.class);
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
   }
 
   @Nested
-  class loadElementHtmlFromNorm {
+  class loadElementHtml {
 
     @Test
-    void itLoadsTheElementHtmlFromANorm() {
+    void itLoadsTheElementHtml() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
@@ -185,41 +185,38 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-        .build();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html = service.loadElementHtmlFromNorm(
-        new LoadElementHtmlFromNormUseCase.Query(eli, eid)
-      );
+      var html = service.loadElementHtml(new LoadElementHtmlUseCase.Query(eli, eid));
 
       // Then
       assertThat(html).contains("<div></div>");
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
       verify(xsltTransformationService, times(1)).transformLegalDocMlToHtml(any());
     }
 
     @Test
-    void itThrowsIfNoNormIsFound() {
+    void itThrowsIfNoRegelungstextIsFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1";
-      var query = new LoadElementHtmlFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlUseCase.Query(eli, eid);
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementHtmlFromNorm(query))
-        .isInstanceOf(NormNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElementHtml(query))
+        .isInstanceOf(RegelungstextNotFoundException.class);
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
 
     @Test
@@ -229,7 +226,7 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = "meta-1000";
-      var query = new LoadElementHtmlFromNormUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlUseCase.Query(eli, eid);
 
       var normXml =
         """
@@ -255,18 +252,16 @@ class ElementServiceTest {
         </akn:akomaNtoso>
         """;
 
-      var norm = Norm
-        .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-        .build();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementHtmlFromNorm(query))
+      assertThatThrownBy(() -> service.loadElementHtml(query))
         .isInstanceOf(ElementNotFoundException.class);
 
-      verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
   }
 
@@ -413,17 +408,19 @@ class ElementServiceTest {
   }
 
   @Nested
-  class loadElementsByTypeFromNorm {
+  class loadElementsByType {
 
     @Test
-    void returnsAllSupportedTypesFromANorm() {
+    void returnsAllSupportedTypes() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithPrefacePreambleAndConclusions.xml"
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(
+      var elements = service.loadElementsByType(
+        new LoadElementsByTypeUseCase.Query(
           DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
           ),
@@ -439,25 +436,31 @@ class ElementServiceTest {
       assertThat(elements.get(3).getNodeName()).isEqualTo("akn:article");
       assertThat(elements.get(4).getNodeName()).isEqualTo("akn:conclusions");
 
-      verify(loadNormPort)
-        .loadNorm(
+      verify(loadRegelungstextPort)
+        .loadRegelungstext(
           argThat(command ->
             command
               .eli()
-              .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu"))
+              .equals(
+                DokumentExpressionEli.fromString(
+                  "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+                )
+              )
           )
         );
     }
 
     @Test
-    void returnsASubsetOfTypesFromANorm() {
+    void returnsASubsetOfTypes() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithPrefacePreambleAndConclusions.xml"
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(new DokumentExpressionEli(), List.of("article"))
+      var elements = service.loadElementsByType(
+        new LoadElementsByTypeUseCase.Query(new DokumentExpressionEli(), List.of("article"))
       );
 
       // Then
@@ -469,12 +472,12 @@ class ElementServiceTest {
     @Test
     void returnsEmptyListIfTypeIsNotInNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml");
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(new DokumentExpressionEli(), List.of("preface"))
+      var elements = service.loadElementsByType(
+        new LoadElementsByTypeUseCase.Query(new DokumentExpressionEli(), List.of("preface"))
       );
 
       // Then
@@ -484,12 +487,12 @@ class ElementServiceTest {
     @Test
     void returnsEmptyListIfTypesAreEmpty() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml");
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(new DokumentExpressionEli(), List.of())
+      var elements = service.loadElementsByType(
+        new LoadElementsByTypeUseCase.Query(new DokumentExpressionEli(), List.of())
       );
 
       // Then
@@ -499,13 +502,13 @@ class ElementServiceTest {
     @Test
     void throwsWhenAttemptingToLoadUnsupportedType() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMultipleMods.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml");
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When / Then
       assertThatThrownBy(() ->
-          service.loadElementsByTypeFromNorm(
-            new LoadElementsByTypeFromNormUseCase.Query(
+          service.loadElementsByType(
+            new LoadElementsByTypeUseCase.Query(
               DokumentExpressionEli.fromString(
                 "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
               ),
@@ -513,7 +516,7 @@ class ElementServiceTest {
             )
           )
         )
-        .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
+        .isInstanceOf(LoadElementsByTypeUseCase.UnsupportedElementTypeException.class);
     }
 
     @Test
@@ -521,7 +524,7 @@ class ElementServiceTest {
       // Given
       // Nothing given -> Loading should fail
 
-      LoadElementsByTypeFromNormUseCase.Query query = new LoadElementsByTypeFromNormUseCase.Query(
+      LoadElementsByTypeUseCase.Query query = new LoadElementsByTypeUseCase.Query(
         DokumentExpressionEli.fromString(
           "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
         ),
@@ -529,24 +532,24 @@ class ElementServiceTest {
       );
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementsByTypeFromNorm(query))
-        .isInstanceOf(NormNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElementsByType(query))
+        .isInstanceOf(RegelungstextNotFoundException.class);
     }
 
     @Test
     void filtersReturnedElementsByAmendingNorm() {
       // Given
-      var targetNorm = Fixtures.loadNormFromDisk(
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
       );
-      var targetNormEli = targetNorm.getExpressionEli();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)))
-        .thenReturn(Optional.of(targetNorm));
+      var eli = regelungstext.getExpressionEli();
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
 
       // When
-      var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(
-          targetNormEli,
+      var elements = service.loadElementsByType(
+        new LoadElementsByTypeUseCase.Query(
+          eli,
           List.of("preface", "preamble", "article", "conclusions"),
           DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
@@ -562,23 +565,25 @@ class ElementServiceTest {
     @Test
     void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() {
       // Given
-      var targetNorm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      var targetNormEli = targetNorm.getExpressionEli();
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
+      var eli = regelungstext.getExpressionEli();
       when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+        loadRegelungstextPort.loadRegelungstext(
+          new LoadRegelungstextPort.Command(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
             )
           )
         )
       )
-        .thenReturn(Optional.of(targetNorm));
+        .thenReturn(Optional.of(regelungstext));
 
       // When
-      var elements = service.loadElementsByTypeFromNorm(
-        new LoadElementsByTypeFromNormUseCase.Query(
-          targetNormEli,
+      var elements = service.loadElementsByType(
+        new LoadElementsByTypeUseCase.Query(
+          eli,
           List.of("preface", "preamble", "article", "conclusions"),
           DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1"
@@ -607,7 +612,7 @@ class ElementServiceTest {
     void throwsWhenAttemptingToGetTheValueForAnUnsupportedType() {
       // When / Then
       assertThatThrownBy(() -> ElementService.ElementType.fromLabel("invalid_type"))
-        .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
+        .isInstanceOf(LoadElementsByTypeUseCase.UnsupportedElementTypeException.class);
     }
   }
 }

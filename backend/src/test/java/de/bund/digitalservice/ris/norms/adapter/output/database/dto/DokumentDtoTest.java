@@ -3,7 +3,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -53,17 +52,5 @@ class DokumentDtoTest {
       .extracting(violation -> violation.getPropertyPath().toString() + " " + violation.getMessage()
       )
       .containsExactlyInAnyOrder("xml must not be null");
-  }
-
-  @Test
-  void shouldBeUnpublishedByDefaultWhenCreatedUsingBuilder() {
-    // Given
-    final DokumentDto dokumentDto = DokumentDto
-      .builder()
-      .xml(Fixtures.loadTextFromDisk("SimpleNorm.xml"))
-      .build();
-
-    // Then
-    assertThat(dokumentDto.getPublishState()).isEqualTo(NormPublishState.UNPUBLISHED);
   }
 }

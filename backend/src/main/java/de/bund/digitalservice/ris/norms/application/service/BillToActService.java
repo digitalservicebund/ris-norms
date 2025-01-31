@@ -50,13 +50,13 @@ public class BillToActService {
     updateXsdLocation(document);
     updateBillToAct(document);
 
-    var norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(document))).build();
-    rewriteFbrWork(norm);
+    var regelungstext = new Regelungstext(document);
+    rewriteFbrWork(regelungstext);
 
-    rewriteFbrExpression(norm);
-    rewriteFbrManifestation(norm);
-    addNecessaryMetaData(norm);
-    addTemporalInformation(norm);
+    rewriteFbrExpression(regelungstext);
+    rewriteFbrManifestation(regelungstext);
+    addNecessaryMetaData(regelungstext);
+    addTemporalInformation(regelungstext);
     addPeriodToArticle(document);
 
     addFormulaAndSignature(document);
@@ -90,9 +90,9 @@ public class BillToActService {
     parentNode.replaceChild(act, bill);
   }
 
-  private void rewriteFbrWork(Norm norm) {
+  private void rewriteFbrWork(Regelungstext regelungstext) {
     // (3) Rewrite FRBRWork
-    final FRBRWork frbrWork = norm.getMeta().getFRBRWork();
+    final FRBRWork frbrWork = regelungstext.getMeta().getFRBRWork();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(frbrWork.getFBRDate(), formatter);
@@ -111,14 +111,14 @@ public class BillToActService {
     frbrWork.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
   }
 
-  private void rewriteFbrExpression(Norm norm) {
-    final FRBRExpression fRBRExpression = norm.getMeta().getFRBRExpression();
+  private void rewriteFbrExpression(Regelungstext regelungstext) {
+    final FRBRExpression fRBRExpression = regelungstext.getMeta().getFRBRExpression();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
     final DokumentExpressionEli expressionEli = DokumentExpressionEli.fromWorkEli(
-      norm.getRegelungstext1().getWorkEli(),
+      regelungstext.getWorkEli(),
       verkuendungsDate,
       fRBRExpression.getFRBRVersionNumber().orElseThrow(),
       fRBRExpression.getFRBRlanguage().orElseThrow()
@@ -136,15 +136,15 @@ public class BillToActService {
     fRBRExpression.setFRBRaliasNextVersionId(UUID.randomUUID());
   }
 
-  private void rewriteFbrManifestation(Norm norm) {
-    final FRBRExpression fRBRExpression = norm.getMeta().getFRBRExpression();
-    final FRBRManifestation frbrManifestation = norm.getMeta().getFRBRManifestation();
+  private void rewriteFbrManifestation(Regelungstext regelungstext) {
+    final FRBRExpression fRBRExpression = regelungstext.getMeta().getFRBRExpression();
+    final FRBRManifestation frbrManifestation = regelungstext.getMeta().getFRBRManifestation();
 
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
     final LocalDate verkuendungsDate = LocalDate.parse(fRBRExpression.getFBRDate(), formatter);
 
     final DokumentManifestationEli manifestationEli = DokumentManifestationEli.fromExpressionEli(
-      norm.getExpressionEli(),
+      regelungstext.getExpressionEli(),
       verkuendungsDate,
       "xml"
     );
@@ -154,8 +154,8 @@ public class BillToActService {
     frbrManifestation.setFBRDate(verkuendungsDate.format(formatter), "generierung");
   }
 
-  private void addNecessaryMetaData(Norm norm) {
-    Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
+  private void addNecessaryMetaData(Regelungstext regelungstext) {
+    Proprietary proprietary = regelungstext.getMeta().getOrCreateProprietary();
     MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
 
     metadatenDe.setFassung(VERKUENDUNGSFASSUNG);
@@ -172,7 +172,7 @@ public class BillToActService {
     if (metadatenBund.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, LocalDate.MAX).isEmpty()) {
       final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
       final LocalDate verkuendungsDate = LocalDate.parse(
-        norm.getMeta().getFRBRExpression().getFBRDate(),
+        regelungstext.getMeta().getFRBRExpression().getFBRDate(),
         formatter
       );
 
@@ -184,15 +184,15 @@ public class BillToActService {
     }
   }
 
-  private void addTemporalInformation(Norm norm) {
+  private void addTemporalInformation(Regelungstext regelungstext) {
     try {
-      norm.getMeta().getTemporalData();
-      norm.getMeta().getLifecycle();
+      regelungstext.getMeta().getTemporalData();
+      regelungstext.getMeta().getLifecycle();
     } catch (MandatoryNodeNotFoundException exception) {
-      final Lifecycle lifecycle = norm.getMeta().getOrCreateLifecycle();
+      final Lifecycle lifecycle = regelungstext.getMeta().getOrCreateLifecycle();
 
       final EventRef ausfertigung = lifecycle.addEventRef();
-      ausfertigung.setDate(norm.getMeta().getFRBRExpression().getFBRDate());
+      ausfertigung.setDate(regelungstext.getMeta().getFRBRExpression().getFBRDate());
       ausfertigung.setRefersTo("ausfertigung");
       ausfertigung.setType("generation");
 
@@ -201,7 +201,7 @@ public class BillToActService {
       inkrafttreten.setRefersTo("inkrafttreten-mit-noch-unbekanntem-datum");
       inkrafttreten.setType("generation");
 
-      final TemporalData temporalData = norm.getMeta().getOrCreateTemporalData();
+      final TemporalData temporalData = regelungstext.getMeta().getOrCreateTemporalData();
       final TemporalGroup temporalGroup = temporalData.addTemporalGroup();
       final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
       timeInterval.setStart(

@@ -253,8 +253,8 @@ class NodeParserTest {
     { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act/@name" }
   )
   void xPathsWorkWithoutNamespaceAwareness(String xPath) {
-    var norm = Fixtures.loadNormFromDisk("NormWithMods.xml", false);
-    Node node = norm.getDocument();
+    var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml", false);
+    Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
     assertThat(result).contains("regelungstext");
   }
@@ -264,16 +264,16 @@ class NodeParserTest {
     { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act/@name" }
   )
   void xPathsWorkWithNamespaceAwareness(String xPath) {
-    var norm = Fixtures.loadNormFromDisk("NormWithMods.xml", true);
-    Node node = norm.getDocument();
+    var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml", true);
+    Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
     assertThat(result).contains("regelungstext");
   }
 
   @Test
   void xPathsWorkWithNamespaceDoesNotMatchInDocumentWithDifferentNamespace() {
-    var norm = Fixtures.loadNormFromDisk("NormWithMods.xml", true);
-    Node node = norm.getDocument();
+    var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml", true);
+    Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(
       "//Q{http://Inhaltsdaten.LegalDocML.de/1.5/}act/@name",
       node

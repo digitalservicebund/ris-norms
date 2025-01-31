@@ -2,7 +2,7 @@ import { createEliPathParameter } from "@/composables/useEliPathParameter"
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
 /**
- * The regular expressions for the eId is based on the definitions from LDML.de de/1.7.2 (Section 9.2.12.67, eIdLiterals.einzelvorschrift)
+ * The regular expressions for the eId is based on the definitions from LDML.de 1.7.2 (Section 9.2.12.67, eIdLiterals.einzelvorschrift)
  *
  * The expression only matches eIds that represent articles or paragraphs.
  *

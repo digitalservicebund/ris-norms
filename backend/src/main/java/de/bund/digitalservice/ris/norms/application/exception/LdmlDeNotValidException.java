@@ -16,7 +16,7 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
   public static final URI TYPE = URI.create("/errors/ldml-de-not-valid");
 
   public LdmlDeNotValidException(List<ValidationError> errors) {
-    super("The provided xml is not a valid LDML.de de/1.7.2 document.");
+    super("The provided xml is not a valid LDML.de 1.7.2 document.");
     this.errors = errors;
   }
 

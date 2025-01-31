@@ -87,9 +87,7 @@ class AnnouncementServiceTest {
       // given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -106,9 +104,7 @@ class AnnouncementServiceTest {
     void itThrowsAnnouncementNotFoundExceptionIfNormDoesNotExist() {
       // given
       final var query = new LoadAnnouncementByNormEliUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -132,9 +128,7 @@ class AnnouncementServiceTest {
       // When
       var loadedAnnouncement = announcementService.loadAnnouncementByNormEli(
         new LoadAnnouncementByNormEliUseCase.Query(
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
@@ -150,9 +144,7 @@ class AnnouncementServiceTest {
     @Test
     void itCreatesANewAnnouncement() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -190,9 +182,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheFileIsNotXML() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.txt",
@@ -231,9 +221,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenADestinationEliDoesNotExist() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -261,9 +249,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenAnEliOfTheSameEliExists() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -302,7 +288,7 @@ class AnnouncementServiceTest {
     void itThrowsWhenANormWithSameGuidExists() throws IOException {
       // Given
       var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -346,9 +332,7 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotXsdValid() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -388,8 +372,8 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotSchematronValid() throws IOException {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml");
-      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithModsSchematronInvalid.xml");
+      var xmlContent = XmlMapper.toString(regelungstext.getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -417,10 +401,10 @@ class AnnouncementServiceTest {
         )
       )
         .thenReturn(Optional.empty());
-      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(norm);
+      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(regelungstext);
       doThrow(new LdmlDeSchematronException(List.of()))
         .when(ldmlDeValidator)
-        .validateSchematron(norm);
+        .validateSchematron(regelungstext);
 
       // When // Then
       var query = new CreateAnnouncementUseCase.Query(file, false);
@@ -431,9 +415,7 @@ class AnnouncementServiceTest {
     @Test
     void itCreatesANewAnnouncementWithForce() throws IOException {
       // Given
-      var xmlContent = XmlMapper.toString(
-        Fixtures.loadNormFromDisk("NormWithMods.xml").getDocument()
-      );
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
