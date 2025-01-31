@@ -25,20 +25,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
 
   private final LoadRegelungstextUseCase loadRegelungstextUseCase;
-  private final LoadArticlesFromNormUseCase loadArticlesFromNormUseCase;
+  private final LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase;
   private final LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   public ArticleController(
     LoadRegelungstextUseCase loadRegelungstextUseCase1,
-    LoadArticlesFromNormUseCase loadArticlesFromNormUseCase,
+    LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase,
     LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
     LoadArticleHtmlUseCase loadArticleHtmlUseCase
   ) {
     this.loadRegelungstextUseCase = loadRegelungstextUseCase1;
-    this.loadArticlesFromNormUseCase = loadArticlesFromNormUseCase;
+    this.loadArticlesFromDokumentUseCase = loadArticlesFromDokumentUseCase;
     this.loadSpecificArticlesXmlFromNormUseCase = loadSpecificArticlesXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
@@ -63,14 +63,14 @@ public class ArticleController {
     @RequestParam final Optional<DokumentExpressionEli> amendedBy,
     @RequestParam final Optional<String> amendedAt
   ) {
-    final var query = new LoadArticlesFromNormUseCase.Query(
+    final var query = new LoadArticlesFromDokumentUseCase.Query(
       eli,
       amendedBy.orElse(null),
       amendedAt.orElse(null)
     );
 
-    final var articlesWithZf0 = loadArticlesFromNormUseCase
-      .loadArticlesFromNorm(query)
+    final var articlesWithZf0 = loadArticlesFromDokumentUseCase
+      .loadArticlesFromDokument(query)
       .stream()
       .map(ArticleResponseMapper::fromNormArticle)
       .toList();

@@ -42,7 +42,7 @@ class ArticleControllerTest {
   private LoadRegelungstextUseCase loadRegelungstextUseCase;
 
   @MockitoBean
-  private LoadArticlesFromNormUseCase loadArticlesFromNormUseCase;
+  private LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase;
 
   @MockitoBean
   private LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
@@ -63,7 +63,7 @@ class ArticleControllerTest {
       var zf0Regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml");
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(zf0Regelungstext);
-      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
+      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
         .thenReturn(regelungstext.getArticles());
 
       // When
@@ -86,8 +86,8 @@ class ArticleControllerTest {
         .andExpect(jsonPath("$[1].affectedDocumentZf0Eli").doesNotExist())
         .andExpect(jsonPath("$[2]").doesNotExist());
 
-      verify(loadArticlesFromNormUseCase, times(1))
-        .loadArticlesFromNorm(
+      verify(loadArticlesFromDokumentUseCase, times(1))
+        .loadArticlesFromDokument(
           argThat(argument ->
             Objects.equals(
               argument.eli(),
@@ -108,7 +108,7 @@ class ArticleControllerTest {
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
 
-      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
+      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
         .thenReturn(
           regelungstext
             .getArticles()
@@ -131,9 +131,9 @@ class ArticleControllerTest {
         .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
 
-      verify(loadArticlesFromNormUseCase, times(1))
-        .loadArticlesFromNorm(
-          new LoadArticlesFromNormUseCase.Query(
+      verify(loadArticlesFromDokumentUseCase, times(1))
+        .loadArticlesFromDokument(
+          new LoadArticlesFromDokumentUseCase.Query(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
             ),
@@ -152,7 +152,7 @@ class ArticleControllerTest {
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
 
-      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
+      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
         .thenReturn(
           regelungstext
             .getArticles()
@@ -175,9 +175,9 @@ class ArticleControllerTest {
         .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
 
-      verify(loadArticlesFromNormUseCase, times(1))
-        .loadArticlesFromNorm(
-          new LoadArticlesFromNormUseCase.Query(
+      verify(loadArticlesFromDokumentUseCase, times(1))
+        .loadArticlesFromDokument(
+          new LoadArticlesFromDokumentUseCase.Query(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
             ),
@@ -198,7 +198,7 @@ class ArticleControllerTest {
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
 
-      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
+      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
         .thenThrow(new MandatoryNodeNotFoundException("example-xpath", "example/eli"));
 
       // When

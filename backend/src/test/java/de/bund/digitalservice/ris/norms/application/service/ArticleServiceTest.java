@@ -10,7 +10,7 @@ import static org.mockito.Mockito.times;
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
@@ -100,7 +100,7 @@ class ArticleServiceTest {
   }
 
   @Nested
-  class loadArticlesFromNorm {
+  class loadArticlesFromDokument {
 
     @Test
     void itReturnsArticlesFromNorm() {
@@ -108,13 +108,15 @@ class ArticleServiceTest {
       final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      final var query = new LoadArticlesFromNormUseCase.Query(eli);
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).hasSize(2);
@@ -132,15 +134,15 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
       );
       final String amendedAt = null;
-      final var norm = Fixtures.loadNormFromDisk(
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "NormWithPassiveModificationsInDifferentArticles.xml"
       );
-      final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli, amendedBy, amendedAt);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).hasSize(1);
@@ -155,13 +157,15 @@ class ArticleServiceTest {
       );
       final DokumentExpressionEli amendedBy = null;
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli, amendedBy, amendedAt);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).hasSize(1);
@@ -178,13 +182,15 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli, amendedBy, amendedAt);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).hasSize(1);
@@ -197,12 +203,12 @@ class ArticleServiceTest {
       final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var query = new LoadArticlesFromNormUseCase.Query(eli);
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() -> articleService.loadArticlesFromNorm(query))
+      assertThatThrownBy(() -> articleService.loadArticlesFromDokument(query))
         .isInstanceOf(NormNotFoundException.class);
     }
 
@@ -212,13 +218,13 @@ class ArticleServiceTest {
       final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      final var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      final var query = new LoadArticlesFromNormUseCase.Query(eli);
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).isEmpty();
@@ -234,13 +240,15 @@ class ArticleServiceTest {
         "eli/bund/DOES-NOT-EXIST/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli, amendedBy, amendedAt);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).isEmpty();
@@ -256,13 +264,15 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "DOES-NOT-EXIST";
-      final var norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-      final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "NormWithMultiplePassiveModifications.xml"
+      );
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli, amendedBy, amendedAt);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).isEmpty();
@@ -278,13 +288,13 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
       final var amendedAt = "meta-1_lebzykl-1_ereignis-4";
-      final var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      final var query = new LoadArticlesFromNormUseCase.Query(eli, amendedBy, amendedAt);
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      final var query = new LoadArticlesFromDokumentUseCase.Query(eli, amendedBy, amendedAt);
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      final var articles = articleService.loadArticlesFromNorm(query);
+      final var articles = articleService.loadArticlesFromDokument(query);
 
       // Then
       assertThat(articles).isEmpty();
