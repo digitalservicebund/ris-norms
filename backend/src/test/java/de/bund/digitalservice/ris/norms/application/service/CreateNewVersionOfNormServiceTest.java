@@ -9,8 +9,8 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -31,11 +31,7 @@ class CreateNewVersionOfNormServiceTest {
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     when(eliService.findNextExpressionEli(any(), any(), any()))
-      .thenReturn(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/regelungstext-1"
-        )
-      );
+      .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu"));
     when(loadNormByGuidPort.loadNormByGuid(any()))
       .thenReturn(Optional.of(Fixtures.loadNormFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")));
 
@@ -94,11 +90,7 @@ class CreateNewVersionOfNormServiceTest {
   void createNewExpressionWithDifferentDate() {
     // Given
     when(eliService.findNextExpressionEli(any(), any(), any()))
-      .thenReturn(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1"
-        )
-      );
+      .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu"));
     var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
