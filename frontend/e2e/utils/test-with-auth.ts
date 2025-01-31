@@ -1,4 +1,4 @@
-import { test as base } from "@playwright/test"
+import { APIRequestContext, test as base } from "@playwright/test"
 import { readFile, writeFile } from "node:fs/promises"
 import { fileURLToPath, URL } from "node:url"
 
@@ -13,15 +13,6 @@ export type Token = {
 export type AuthorizationHeader = { Authorization: string }
 
 export const test = base.extend<{
-  /** Provides the shared authentication token to tests. */
-  token: Token
-
-  /**
-   * Provides an authorization header containing the shared authentication token
-   * to tests.
-   */
-  authorizationHeader: AuthorizationHeader
-
   /**
    * Hooks into the requests made by the page. If one of them contains a new token,
    * the token will automatically be saved to a shared location, so it can be used
@@ -31,17 +22,13 @@ export const test = base.extend<{
    * called manually.
    */
   updateToken: void
+
+  /**
+   * Provides an API context that can be used to make requests just like `page.request`,
+   * except that those requests will be authenticated with a previously saved token.
+   */
+  authenticatedRequest: APIRequestContext
 }>({
-  token: async ({}, use) => {
-    const token = await restoreToken()
-    await use(token)
-  },
-
-  authorizationHeader: async ({}, use) => {
-    const token = await restoreToken()
-    await use({ Authorization: `Bearer ${token.access_token}` })
-  },
-
   updateToken: [
     async ({ page }, use) => {
       await page.route(/token$/, async (route) => {
@@ -57,6 +44,18 @@ export const test = base.extend<{
     },
     { auto: true },
   ],
+
+  authenticatedRequest: async ({ playwright }, use) => {
+    const token = await restoreToken()
+
+    const request = await playwright.request.newContext({
+      extraHTTPHeaders: {
+        Authorization: `Bearer ${token.access_token}`,
+      },
+    })
+
+    await use(request)
+  },
 })
 
 const storagePath = fileURLToPath(
