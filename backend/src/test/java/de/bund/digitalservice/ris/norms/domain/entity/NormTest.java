@@ -17,15 +17,13 @@ import java.util.*;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.w3c.dom.Element;
 
 class NormTest {
 
   @Test
-  void getExpressionEli() {
+  void getRegelungstext1ExpressionEli() {
     // given
     Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     DokumentExpressionEli expectedEli = DokumentExpressionEli.fromString(
@@ -33,14 +31,14 @@ class NormTest {
     );
 
     // when
-    var actualEli = norm.getExpressionEli();
+    var actualEli = norm.getRegelungstext1ExpressionEli();
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);
   }
 
   @Test
-  void getNormExpressionEli() {
+  void getExpressionEli() {
     // given
     Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     NormExpressionEli expectedEli = NormExpressionEli.fromString(
@@ -48,7 +46,7 @@ class NormTest {
     );
 
     // when
-    var actualEli = norm.getNormExpressionEli();
+    var actualEli = norm.getExpressionEli();
 
     // then
     assertThat(actualEli).isEqualTo(expectedEli);
@@ -100,7 +98,8 @@ class NormTest {
       .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
-    assertThatThrownBy(norm::getExpressionEli).isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(norm::getRegelungstext1ExpressionEli)
+      .isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 
   @Test
@@ -248,149 +247,6 @@ class NormTest {
 
     // then
     assertThat(shortTitle).contains("Vereinsgesetz");
-  }
-
-  @Test
-  void getFRBRname() {
-    // given
-    String normString =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="bgbl-1" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    Norm norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
-      .build();
-    String expectedFRBRname = "BGBl. I";
-
-    // when
-    String actualFRBRname = norm.getMeta().getFRBRWork().getFRBRname().get();
-
-    // then
-    assertThat(actualFRBRname).contains(expectedFRBRname);
-  }
-
-  @Test
-  void getFRBRnumber() {
-    // given
-    String normString =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="bgbl-1" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    Norm norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
-      .build();
-    String expectedFRBRname = "s593";
-
-    // when
-    String actualAnnouncementGazette = norm.getMeta().getFRBRWork().getFRBRnumber().get();
-
-    // then
-    assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
-  }
-
-  @Test
-  void getFRBRnameAlreadyProperlyFormatted() {
-    // given
-    String normString =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    Norm norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
-      .build();
-    String expectedFRBRname = "BGBl. I";
-
-    // when
-    String actualAnnouncementGazette = norm.getMeta().getFRBRWork().getFRBRname().get();
-
-    // then
-    assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
-  }
-
-  @Test
-  void getPublishingDate() {
-    // given
-    String normString =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                        <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    Norm norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
-      .build();
-    // when
-    String actualFBRDateVerkuendung = norm.getMeta().getFRBRWork().getFBRDate();
-
-    // then
-    assertThat(actualFBRDateVerkuendung).isEqualTo("1964-08-05");
   }
 
   @Test
@@ -638,64 +494,6 @@ class NormTest {
     );
   }
 
-  @ParameterizedTest
-  @MethodSource("provideParametersForGetArticles")
-  void getArticles(String xml, String firstArticleEid, String secondArticleEid) {
-    // given
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    var expectedNumberOfArticles = 2;
-    var firstExpectedHeading = "Änderung des Vereinsgesetzes";
-    var secondExpectedHeading = "Inkrafttreten";
-
-    // when
-    List<Article> actualArticles = norm.getArticles();
-
-    // then
-    assertThat(actualArticles).hasSize(expectedNumberOfArticles);
-    assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
-    assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
-    assertThat(actualArticles.get(0).getEid()).isEqualTo(firstArticleEid);
-    assertThat(actualArticles.get(0).getAffectedDocumentEli())
-      .contains(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
-      );
-
-    assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
-    assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
-    assertThat(actualArticles.get(1).getEid()).isEqualTo(secondArticleEid);
-    assertThat(actualArticles.get(1).getAffectedDocumentEli()).isNotPresent();
-  }
-
-  @Test
-  void returnsEmptyListIfNoArticlesAreFound() {
-    // given
-    String normString =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-              </akn:body>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    Norm norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
-      .build();
-
-    // when
-    List<Article> actualArticles = norm.getArticles();
-
-    // then
-    assertThat(actualArticles).isEmpty();
-  }
-
   @Test
   void equalsShouldEqualWithSameXml() {
     // given
@@ -911,45 +709,6 @@ class NormTest {
   }
 
   @Test
-  void extractTimeBoundariesFromTemporalGroups() {
-    String xml =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
-                    <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
-                        source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
-                    <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
-                        source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
-                 </akn:lifecycle>
-                 <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
-                             <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
-                                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
-                             </akn:temporalGroup>
-                 </akn:temporalData>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """.strip();
-
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries(
-      norm.getMeta().getTemporalData().getTemporalGroups()
-    );
-
-    assertThat(actualBoundaries.getFirst().getEventRef().getDate())
-      .contains(LocalDate.parse("2023-12-30"));
-
-    assertThat(actualBoundaries.getFirst().getEventRefEid())
-      .isEqualTo("meta-1_lebzykl-1_ereignis-2");
-  }
-
-  @Test
   void getTimeBoundariesEmpty() {
     String xml =
       """
@@ -1105,18 +864,6 @@ class NormTest {
     assertThat(date).contains("2017-03-23");
   }
 
-  @Test
-  void getStartEventRefForTemporalGroup() {
-    // given
-    Norm norm = Fixtures.loadNormFromDisk("NormWithMultiplePassiveModifications.xml");
-
-    // when
-    var eId = norm.getStartEventRefForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
-
-    // then
-    assertThat(eId).contains("meta-1_lebzykl-1_ereignis-4");
-  }
-
   @Nested
   class deleteByEId {
 
@@ -1130,7 +877,8 @@ class NormTest {
       norm.deleteByEId("meta-1_ident-1_frbrmanifestation-1_frbrthis-1");
 
       // then
-      assertThatThrownBy(norm::getExpressionEli).isInstanceOf(MandatoryNodeNotFoundException.class);
+      assertThatThrownBy(norm::getRegelungstext1ExpressionEli)
+        .isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }
 

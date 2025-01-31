@@ -140,13 +140,18 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       Norm latestNormExpression = createNewVersionOfNormService.createNewManifestation(norm);
 
       var dates = norm
-        .getMeta()
-        .getAnalysis()
+        .getRegelungstexte()
         .stream()
-        .flatMap(analysis -> analysis.getPassiveModifications().stream())
-        .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
-        .map(norm::getStartDateForTemporalGroup)
-        .flatMap(Optional::stream)
+        .flatMap(regelungstext ->
+          regelungstext
+            .getMeta()
+            .getAnalysis()
+            .stream()
+            .flatMap(analysis -> analysis.getPassiveModifications().stream())
+            .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
+            .map(regelungstext::getStartDateForTemporalGroup)
+            .flatMap(Optional::stream)
+        )
         .map(LocalDate::parse)
         .distinct()
         .sorted();

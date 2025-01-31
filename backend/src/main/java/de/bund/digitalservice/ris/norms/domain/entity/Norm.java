@@ -88,10 +88,10 @@ public class Norm {
    * Returns the expression Eli of the {@link Norm}.
    *
    * @return The expression Eli
-   * @deprecated use {@link #getNormExpressionEli()} instead
+   * @deprecated use {@link #getExpressionEli()} instead
    */
   @Deprecated(forRemoval = true)
-  public DokumentExpressionEli getExpressionEli() {
+  public DokumentExpressionEli getRegelungstext1ExpressionEli() {
     return getRegelungstext1().getExpressionEli();
   }
 
@@ -100,8 +100,7 @@ public class Norm {
    *
    * @return The expression Eli
    */
-  // TODO: (Malte Laukötter, 2025-01-17) rename to getExpressionEli once the deprecated method is removed.
-  public NormExpressionEli getNormExpressionEli() {
+  public NormExpressionEli getExpressionEli() {
     return getRegelungstext1().getExpressionEli().asNormEli();
   }
 
@@ -153,18 +152,6 @@ public class Norm {
   }
 
   /**
-   * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}. It
-   * filters out articles within akn:mod
-   *
-   * @return The list of articles
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public List<Article> getArticles() {
-    return getRegelungstext1().getArticles();
-  }
-
-  /**
    * Extracts a list of {@link Mod}s from the document.
    *
    * @return a list of {@link Mod}s
@@ -187,19 +174,6 @@ public class Norm {
   }
 
   /**
-   * * Extracts a list of time boundaries (Zeitgrenzen) from the document of a pre-filtered given
-   * list of temporal groups.
-   *
-   * @param temporalGroups - the pre-filtered listed of temporal groups
-   * @return a list of {@link TimeBoundary} containing dates and event IDs.
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
-    return getRegelungstext1().getTimeBoundaries(temporalGroups);
-  }
-
-  /**
    * @param temporalGroupEid EId of a temporal group
    * @return Start date of the temporal group
    * @deprecated
@@ -207,16 +181,6 @@ public class Norm {
   @Deprecated(forRemoval = true)
   public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
     return getRegelungstext1().getStartDateForTemporalGroup(temporalGroupEid);
-  }
-
-  /**
-   * @param temporalGroupEid EId of a temporal group
-   * @return eid of the event ref of the start of the temporal group
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
-    return getRegelungstext1().getStartEventRefForTemporalGroup(temporalGroupEid);
   }
 
   /**

@@ -21,18 +21,18 @@ public class ElementController {
 
   private final LoadElementUseCase loadElementUseCase;
   private final LoadElementHtmlUseCase loadElementHtmlUseCase;
-  private final LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
+  private final LoadElementHtmlAtDateUseCase loadElementHtmlAtDateUseCase;
   private final LoadElementsByTypeUseCase loadElementsByTypeUseCase;
 
   public ElementController(
     LoadElementUseCase loadElementUseCase,
     LoadElementHtmlUseCase loadElementHtmlUseCase,
-    LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase,
+    LoadElementHtmlAtDateUseCase loadElementHtmlAtDateUseCase,
     LoadElementsByTypeUseCase loadElementsByTypeUseCase
   ) {
     this.loadElementUseCase = loadElementUseCase;
     this.loadElementHtmlUseCase = loadElementHtmlUseCase;
-    this.loadElementHtmlAtDateFromNormUseCase = loadElementHtmlAtDateFromNormUseCase;
+    this.loadElementHtmlAtDateUseCase = loadElementHtmlAtDateUseCase;
     this.loadElementsByTypeUseCase = loadElementsByTypeUseCase;
   }
 
@@ -54,8 +54,8 @@ public class ElementController {
   ) {
     var elementHtml = atIsoDate
       .map(date ->
-        loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
-          new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
+        loadElementHtmlAtDateUseCase.loadElementHtmlAtDate(
+          new LoadElementHtmlAtDateUseCase.Query(eli, eid, date)
         )
       )
       .orElseGet(() ->

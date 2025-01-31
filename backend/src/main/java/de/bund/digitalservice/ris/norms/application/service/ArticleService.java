@@ -2,8 +2,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -19,20 +19,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArticleService
   implements
-    LoadArticleHtmlUseCase, LoadArticlesFromNormUseCase, LoadSpecificArticlesXmlFromNormUseCase {
+    LoadArticleHtmlUseCase,
+    LoadArticlesFromDokumentUseCase,
+    LoadSpecificArticlesXmlFromDokumentUseCase {
 
-  LoadNormPort loadNormPort;
   LoadRegelungstextPort loadRegelungstextPort;
   TimeMachineService timeMachineService;
   XsltTransformationService xsltTransformationService;
 
   public ArticleService(
-    LoadNormPort loadNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     TimeMachineService timeMachineService,
     XsltTransformationService xsltTransformationService
   ) {
-    this.loadNormPort = loadNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.timeMachineService = timeMachineService;
     this.xsltTransformationService = xsltTransformationService;
@@ -66,19 +65,19 @@ public class ArticleService
   }
 
   @Override
-  public List<Article> loadArticlesFromNorm(final LoadArticlesFromNormUseCase.Query query) {
+  public List<Article> loadArticlesFromDokument(final LoadArticlesFromDokumentUseCase.Query query) {
     final var amendedAt = query.amendedAt();
     final var amendedBy = query.amendedBy();
 
-    final var norm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+    final var regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
-    List<Article> articles = norm.getArticles();
+    List<Article> articles = regelungstext.getArticles();
 
     // Filter list of articles by passive mods if at least one filter is specified
     if (amendedBy != null || amendedAt != null) {
-      var filterPassiveMods = getPassiveModsAmendingByOrAt(norm, amendedBy, amendedAt);
+      var filterPassiveMods = getPassiveModsAmendingByOrAt(regelungstext, amendedBy, amendedAt);
       var passiveModFilter = createPassiveModFilter(filterPassiveMods);
       articles = articles.stream().filter(passiveModFilter).toList();
     }
@@ -87,13 +86,13 @@ public class ArticleService
   }
 
   private List<TextualMod> getPassiveModsAmendingByOrAt(
-    final Norm fromNorm,
+    final Regelungstext fromRegelungstext,
     final DokumentExpressionEli amendingBy,
     final String amendingAt
   ) {
     if (amendingBy == null && amendingAt == null) return List.of();
 
-    return fromNorm
+    return fromRegelungstext
       .getMeta()
       .getAnalysis()
       .map(Analysis::getPassiveModifications)
@@ -113,7 +112,7 @@ public class ArticleService
 
         return passiveModification
           .getForcePeriodEid()
-          .flatMap(fromNorm::getStartEventRefForTemporalGroup)
+          .flatMap(fromRegelungstext::getStartEventRefForTemporalGroup)
           .map(startEventRef -> startEventRef.equals(amendingAt))
           .orElse(false);
       })
@@ -121,11 +120,11 @@ public class ArticleService
   }
 
   @Override
-  public List<String> loadSpecificArticlesXmlFromNorm(
-    LoadSpecificArticlesXmlFromNormUseCase.Query query
+  public List<String> loadSpecificArticlesXmlFromDokument(
+    LoadSpecificArticlesXmlFromDokumentUseCase.Query query
   ) {
-    List<Article> articles = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
+    List<Article> articles = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
       .getArticles();
 

@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
-import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Node;
 
@@ -445,9 +444,9 @@ class MetaTest {
   }
 
   @Test
-  void returnsProprietaryEvenIfDoesNotExistInNorm() {
+  void returnsProprietaryEvenIfDoesNotExist() {
     // Given
-    var normXml =
+    var xml =
       """
       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
@@ -460,13 +459,10 @@ class MetaTest {
       </akn:akomaNtoso>
       """;
 
-    var norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-      .build();
+    var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
 
     // When
-    var result = norm.getMeta().getOrCreateProprietary();
+    var result = regelungstext.getMeta().getOrCreateProprietary();
 
     // Then
     assertThat(result).isInstanceOf(Proprietary.class);
@@ -496,7 +492,7 @@ class MetaTest {
   @Test
   void returnsEmptyOptionalIfProprietaryDoesNotExist() {
     // Given
-    var normXml =
+    var xml =
       """
       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
@@ -509,13 +505,10 @@ class MetaTest {
       </akn:akomaNtoso>
       """;
 
-    var norm = Norm
-      .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normXml))))
-      .build();
+    var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
 
     // When
-    var result = norm.getMeta().getProprietary();
+    var result = regelungstext.getMeta().getProprietary();
 
     // Then
     assertThat(result).isEmpty();

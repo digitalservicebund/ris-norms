@@ -45,7 +45,7 @@ class ElementControllerTest {
   private LoadElementsByTypeUseCase loadElementsByTypeUseCase;
 
   @MockitoBean
-  private LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
+  private LoadElementHtmlAtDateUseCase loadElementHtmlAtDateUseCase;
 
   @Nested
   class getElementHtmlPreview {
@@ -77,7 +77,7 @@ class ElementControllerTest {
 
     @Test
     void itThrowsXmlProcessingExceptionWithPassedDate() throws Exception {
-      when(loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(any()))
+      when(loadElementHtmlAtDateUseCase.loadElementHtmlAtDate(any()))
         .thenThrow(new XmlProcessingException("Error message", null));
       mockMvc
         .perform(

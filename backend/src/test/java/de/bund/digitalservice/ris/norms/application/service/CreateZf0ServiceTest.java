@@ -43,6 +43,7 @@ class CreateZf0ServiceTest {
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(targetLaw);
     assertThat(
       targetLaw
+        .getRegelungstext1()
         .getMeta()
         .getAnalysis()
         .map(analysis -> analysis.getPassiveModifications().stream())
@@ -51,6 +52,7 @@ class CreateZf0ServiceTest {
       .isEmpty();
     assertThat(
       zf0Norm
+        .getRegelungstext1()
         .getMeta()
         .getAnalysis()
         .map(analysis -> analysis.getPassiveModifications().stream())
@@ -58,6 +60,7 @@ class CreateZf0ServiceTest {
     )
       .hasSize(1);
     final TextualMod activeMod = amendingLaw
+      .getRegelungstext1()
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getActiveModifications().stream())
@@ -65,6 +68,7 @@ class CreateZf0ServiceTest {
       .toList()
       .getFirst();
     final TextualMod passiveMod = zf0Norm
+      .getRegelungstext1()
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getPassiveModifications().stream())
@@ -102,6 +106,7 @@ class CreateZf0ServiceTest {
 
     assertThat(
       targetLaw
+        .getRegelungstext1()
         .getMeta()
         .getAnalysis()
         .map(analysis -> analysis.getPassiveModifications().stream())
@@ -110,6 +115,7 @@ class CreateZf0ServiceTest {
       .isEmpty();
     assertThat(
       zf0Norm
+        .getRegelungstext1()
         .getMeta()
         .getAnalysis()
         .map(analysis -> analysis.getPassiveModifications().stream())
@@ -117,6 +123,7 @@ class CreateZf0ServiceTest {
     )
       .hasSize(2);
     final TextualMod firstActiveMod = amendingLaw
+      .getRegelungstext1()
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getActiveModifications().stream())
@@ -124,6 +131,7 @@ class CreateZf0ServiceTest {
       .toList()
       .getFirst();
     final TextualMod firstPassiveMod = zf0Norm
+      .getRegelungstext1()
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getPassiveModifications().stream())
@@ -142,6 +150,7 @@ class CreateZf0ServiceTest {
       .isEqualTo(firstPassiveMod.getDestinationUpTo().orElseThrow().toString().replace("#", ""));
 
     final TextualMod secondActiveMod = amendingLaw
+      .getRegelungstext1()
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getActiveModifications().stream())
@@ -149,6 +158,7 @@ class CreateZf0ServiceTest {
       .toList()
       .getLast();
     final TextualMod secondPassiveMod = zf0Norm
+      .getRegelungstext1()
       .getMeta()
       .getAnalysis()
       .map(analysis -> analysis.getPassiveModifications().stream())

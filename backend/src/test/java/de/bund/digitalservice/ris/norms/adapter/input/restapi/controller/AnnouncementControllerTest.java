@@ -110,7 +110,7 @@ class AnnouncementControllerTest {
           )
         )
         .build();
-      var announcement1 = Announcement.builder().eli(norm1.getNormExpressionEli()).build();
+      var announcement1 = Announcement.builder().eli(norm1.getExpressionEli()).build();
 
       var norm2 = Norm
         .builder()
@@ -156,7 +156,7 @@ class AnnouncementControllerTest {
           )
         )
         .build();
-      var announcement2 = Announcement.builder().eli(norm2.getNormExpressionEli()).build();
+      var announcement2 = Announcement.builder().eli(norm2.getExpressionEli()).build();
 
       // When
       when(loadAllAnnouncementsUseCase.loadAllAnnouncements())
@@ -200,7 +200,7 @@ class AnnouncementControllerTest {
       var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement
         .builder()
-        .eli(amendingNorm.getNormExpressionEli())
+        .eli(amendingNorm.getExpressionEli())
         .releases(
           List.of(
             Release
@@ -252,7 +252,7 @@ class AnnouncementControllerTest {
       var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement
         .builder()
-        .eli(amendingNorm.getNormExpressionEli())
+        .eli(amendingNorm.getExpressionEli())
         .releases(
           List.of(
             Release
@@ -307,7 +307,7 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
@@ -337,7 +337,7 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
@@ -367,7 +367,7 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
       when(loadNormUseCase.loadNorm(any()))

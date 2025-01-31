@@ -53,7 +53,7 @@ public class CreateNewVersionOfNormService {
     var newExpressionEli = eliService.findNextExpressionEli(
       newExpression.getWorkEli(),
       date,
-      newExpression.getNormExpressionEli().getLanguage()
+      newExpression.getExpressionEli().getLanguage()
     );
     var newManifestationEli = NormManifestationEli.fromExpressionEli(
       newExpressionEli,
@@ -107,7 +107,7 @@ public class CreateNewVersionOfNormService {
   public Norm createNewManifestation(Norm norm, LocalDate pointInTimeManifestation) {
     var newManifestation = new Norm(norm);
     var newManifestationEli = NormManifestationEli.fromExpressionEli(
-      newManifestation.getNormExpressionEli(),
+      newManifestation.getExpressionEli(),
       pointInTimeManifestation
     );
 
@@ -163,9 +163,9 @@ public class CreateNewVersionOfNormService {
   private Norm findPreviousExpressionOfNewExpression(Norm oldExpression, Norm newExpression) {
     if (
       !newExpression
-        .getNormExpressionEli()
+        .getExpressionEli()
         .getPointInTime()
-        .isEqual(oldExpression.getNormExpressionEli().getPointInTime())
+        .isEqual(oldExpression.getExpressionEli().getPointInTime())
     ) {
       return oldExpression;
     }

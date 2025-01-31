@@ -68,14 +68,12 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
     when(deleteQueuedReleasesPort.deleteQueuedReleases(any())).thenReturn(List.of());
-    when(
-      normService.loadNorm(argThat(command -> command.eli().equals(norm.getNormExpressionEli())))
-    )
+    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
       .thenReturn(manifestationOfNormToQueue);
@@ -86,7 +84,7 @@ class ReleaseServiceTest {
 
     // When
     releaseService.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(norm.getNormExpressionEli())
+      new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
     );
 
     // Then
@@ -149,7 +147,7 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
     );
 
-    var announcement = Announcement.builder().eli(amendingNorm.getNormExpressionEli()).build();
+    var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -178,7 +176,7 @@ class ReleaseServiceTest {
 
     // When
     releaseService.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(amendingNorm.getNormExpressionEli())
+      new ReleaseAnnouncementUseCase.Query(amendingNorm.getExpressionEli())
     );
 
     // Then
@@ -251,7 +249,7 @@ class ReleaseServiceTest {
   void itShouldUpdateTheReleasedByDocumentalistAtDate() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
@@ -269,7 +267,7 @@ class ReleaseServiceTest {
     // Then
     verify(loadAnnouncementByNormEliUseCase, times(1))
       .loadAnnouncementByNormEli(
-        new LoadAnnouncementByNormEliUseCase.Query(norm.getNormExpressionEli())
+        new LoadAnnouncementByNormEliUseCase.Query(norm.getExpressionEli())
       );
 
     verify(saveReleaseToAnnouncementPort, times(1)).saveReleaseToAnnouncement(any());
@@ -290,13 +288,11 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
-    when(
-      normService.loadNorm(argThat(command -> command.eli().equals(norm.getNormExpressionEli())))
-    )
+    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
       .thenReturn(manifestationOfNormToQueue);
@@ -306,7 +302,7 @@ class ReleaseServiceTest {
       .thenReturn(newNewestUnpublishedManifestationOfNorm);
     when(ldmlDeValidator.parseAndValidate(any())).thenThrow(new LdmlDeNotValidException(List.of()));
 
-    var query = new ReleaseAnnouncementUseCase.Query(norm.getNormExpressionEli());
+    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
@@ -342,13 +338,11 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
     when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
       .thenReturn(announcement);
-    when(
-      normService.loadNorm(argThat(command -> command.eli().equals(norm.getNormExpressionEli())))
-    )
+    when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
       .thenReturn(manifestationOfNormToQueue);
@@ -360,7 +354,7 @@ class ReleaseServiceTest {
       .when(ldmlDeValidator)
       .validateSchematron(any(Norm.class));
 
-    var query = new ReleaseAnnouncementUseCase.Query(norm.getNormExpressionEli());
+    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))

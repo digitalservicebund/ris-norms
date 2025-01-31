@@ -826,12 +826,12 @@ class NormServiceTest {
     void itCallsTimeMachineBeforeValidator() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       String newCharacterRange = "20-25";
       String newTimeBoundaryEid = "#time-boundary-eid";
       Href newDestinationHref = new Href.Builder()
-        .setEli(zf0Norm.getExpressionEli())
+        .setEli(zf0Norm.getRegelungstext1ExpressionEli())
         .setEId("hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange(newCharacterRange))
         .setFileExtension("xml")
@@ -874,7 +874,7 @@ class NormServiceTest {
     void itCallsTheValidator() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Mod mod = amendingNorm
         .getMods()
         .stream()
@@ -886,7 +886,7 @@ class NormServiceTest {
         .findFirst()
         .orElseThrow();
       Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
-      DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
+      DokumentExpressionEli targetNormEli = targetNorm.getRegelungstext1ExpressionEli();
       Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       String newCharacterRange = "20-25";
       String newTimeBoundaryEid = "#time-boundary-eid";
@@ -934,13 +934,13 @@ class NormServiceTest {
     void itCallsAllUpdateServices() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "9-34";
       String newTimeBoundaryEid = "#time-boundary-eid";
       Href newDestinationHref = new Href.Builder()
-        .setEli(zf0Norm.getExpressionEli())
+        .setEli(zf0Norm.getRegelungstext1ExpressionEli())
         .setEId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
         .setCharacterRange(new CharacterRange(newCharacterRange))
         .setFileExtension("xml")
@@ -971,9 +971,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.asNormEli())));
       verify(loadNormPort, times(2))
-        .loadNorm(
-          argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getNormExpressionEli()))
-        );
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
         .updateOneActiveModification(
           argThat(argument ->
@@ -1017,7 +1015,7 @@ class NormServiceTest {
     void itCallsTheTimeMachineBeforeValidator() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       String newTimeBoundaryEid = "#time-boundary-eid";
       when(loadNormPort.loadNorm(any()))
@@ -1055,7 +1053,7 @@ class NormServiceTest {
     void itCallsTheValidator() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Mod mod = amendingNorm
         .getMods()
         .stream()
@@ -1104,7 +1102,7 @@ class NormServiceTest {
     void itCallsAllUpdateServices() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newTimeBoundaryEid = "#time-boundary-eid";
@@ -1128,9 +1126,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli.asNormEli())));
       verify(loadNormPort, times(2))
-        .loadNorm(
-          argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getNormExpressionEli()))
-        );
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), zf0Norm.getExpressionEli())));
       verify(updateNormService, times(1))
         .updateOneActiveModification(
           argThat(argument ->
@@ -1169,9 +1165,9 @@ class NormServiceTest {
     void itUpdatesTheSameZf0IfMultipleModsModifyIt() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMultipleSimpleMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Norm targetNorm = Fixtures.loadNormFromDisk("NormWithMultipleSimpleModsTargetNorm.xml");
-      DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
+      DokumentExpressionEli targetNormEli = targetNorm.getRegelungstext1ExpressionEli();
       Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithMultipleSimpleModsTargetNorm.xml");
 
       when(loadNormPort.loadNorm(any()))
@@ -1213,11 +1209,11 @@ class NormServiceTest {
     void itUpdatesUsingRref() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       Norm targetNorm = Fixtures.loadNormFromDisk(
         "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
       );
-      DokumentExpressionEli targetNormEli = targetNorm.getExpressionEli();
+      DokumentExpressionEli targetNormEli = targetNorm.getRegelungstext1ExpressionEli();
       Norm zf0Norm = Fixtures.loadNormFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
 
       when(loadNormPort.loadNorm(any()))
@@ -1281,7 +1277,7 @@ class NormServiceTest {
     void itThrowsInvalidUpdateExceptionWhenModWithGivenEidNotFound() {
       // Given
       Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       String newTimeBoundaryEid = "#time-boundary-eid";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
@@ -1312,7 +1308,7 @@ class NormServiceTest {
         .findFirst()
         .ifPresent(m -> m.setTargetRefHref(new Href("#fake-href")));
 
-      DokumentExpressionEli amendingNormEli = amendingNorm.getExpressionEli();
+      DokumentExpressionEli amendingNormEli = amendingNorm.getRegelungstext1ExpressionEli();
       String newTimeBoundaryEid = "#time-boundary-eid";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
