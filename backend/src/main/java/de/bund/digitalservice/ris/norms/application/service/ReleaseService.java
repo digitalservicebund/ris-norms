@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNorm
 import de.bund.digitalservice.ris.norms.application.service.CreateNewVersionOfNormService.CreateNewExpressionResult;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import de.bund.digitalservice.ris.norms.domain.entity.Meta;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -140,9 +141,11 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       Norm latestNormExpression = createNewVersionOfNormService.createNewManifestation(norm);
 
       var dates = norm
-        .getMeta()
-        .getAnalysis()
+        .getRegelungstexte()
         .stream()
+        .map(Regelungstext::getMeta)
+        .map(Meta::getAnalysis)
+        .flatMap(Optional::stream)
         .flatMap(analysis -> analysis.getPassiveModifications().stream())
         .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
         .map(norm::getStartDateForTemporalGroup)
