@@ -75,11 +75,10 @@ const storagePath = fileURLToPath(
  *
  * @param token Token to save
  */
-export async function saveToken(token: Token): Promise<void> {
-  await writeFile(storagePath, JSON.stringify(token, undefined, 2), {
+export function saveToken(token: Token): Promise<void> {
+  return writeFile(storagePath, JSON.stringify(token, undefined, 2), {
     encoding: "utf-8",
   })
-  console.log(`Saved token to ${storagePath}`)
 }
 
 /**
@@ -90,6 +89,5 @@ export async function saveToken(token: Token): Promise<void> {
  */
 export async function restoreToken(): Promise<Token> {
   const raw = await readFile(storagePath, { encoding: "utf-8" })
-  console.log(`Loaded token from ${storagePath}`)
   return JSON.parse(raw)
 }

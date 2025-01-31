@@ -58,7 +58,7 @@ jobs:
           npm run build
           npm run preview -- --port 5173 &
           DEV_PID=$!
-          npm run test:e2e -- --project ${{ inputs.project }} --repeat-each 1 --reporter=list
+          npm run test:e2e -- --project ${{ inputs.project }} --repeat-each 1
           pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
