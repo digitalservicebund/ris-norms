@@ -55,7 +55,7 @@ class NormServiceTest {
 
       var norm = Norm
         .builder()
-        .regelungstexte(
+        .dokumente(
           Set.of(
             new Regelungstext(
               XmlMapper.toDocument(
@@ -310,11 +310,11 @@ class NormServiceTest {
         """;
       var oldNorm = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
         .build();
       var newNorm = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(newXml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(newXml))))
         .build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
@@ -466,7 +466,7 @@ class NormServiceTest {
         """;
       var oldNorm = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
         .build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
@@ -560,7 +560,7 @@ class NormServiceTest {
         """;
       var oldNorm = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
         .build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
@@ -677,7 +677,7 @@ class NormServiceTest {
         """;
       Norm amendingNorm = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(text))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(text))))
         .build();
       amendingNorm.getMeta().getAnalysis().get().getActiveModifications();
       Norm targetNorm = Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml");
@@ -996,7 +996,7 @@ class NormServiceTest {
       final Document amendingXmlDocument = XmlMapper.toDocument(returnedXml.amendingNormXml());
       final Norm resultAmendingNorm = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(amendingXmlDocument)))
+        .dokumente(Set.of(new Regelungstext(amendingXmlDocument)))
         .build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
@@ -1148,7 +1148,7 @@ class NormServiceTest {
       final Document amendingXmlDocument = XmlMapper.toDocument(result.amendingNormXml());
       final Norm resultAmendingNorm = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(amendingXmlDocument)))
+        .dokumente(Set.of(new Regelungstext(amendingXmlDocument)))
         .build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();

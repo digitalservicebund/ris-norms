@@ -28,11 +28,18 @@ class LdmlDeValidatorTest {
             "/LegalDocML.de/1.7.2/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
           )
       )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            "/LegalDocML.de/1.7.2/legalDocML.de-risnorms-offenestruktur.xsd"
+          )
+      )
     )
   );
 
   @Nested
-  class parseAndValidate {
+  class parseAndValidateRegelungstext {
 
     @Test
     void itShouldParseAValidNorm() {
@@ -40,7 +47,7 @@ class LdmlDeValidatorTest {
       String xml = Fixtures.loadTextFromDisk("NormWithMods.xml");
 
       // When
-      Regelungstext regelungstext = ldmlDeValidator.parseAndValidate(xml);
+      Regelungstext regelungstext = ldmlDeValidator.parseAndValidateRegelungstext(xml);
 
       // Then
       // we can't use Norm::getEli as it is not yet namespace-aware
@@ -59,7 +66,7 @@ class LdmlDeValidatorTest {
       String xml = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
 
       // When // Then
-      assertThatThrownBy(() -> ldmlDeValidator.parseAndValidate(xml))
+      assertThatThrownBy(() -> ldmlDeValidator.parseAndValidateRegelungstext(xml))
         .isInstanceOf(LdmlDeNotValidException.class)
         .satisfies(e -> {
           if (e instanceof LdmlDeNotValidException ldmlDeNotValidException) {

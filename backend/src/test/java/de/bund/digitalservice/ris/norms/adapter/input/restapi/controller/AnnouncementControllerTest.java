@@ -67,7 +67,7 @@ class AnnouncementControllerTest {
       // Given
       var norm1 = Norm
         .builder()
-        .regelungstexte(
+        .dokumente(
           Set.of(
             new Regelungstext(
               XmlMapper.toDocument(
@@ -114,7 +114,7 @@ class AnnouncementControllerTest {
 
       var norm2 = Norm
         .builder()
-        .regelungstexte(
+        .dokumente(
           Set.of(
             new Regelungstext(
               XmlMapper.toDocument(

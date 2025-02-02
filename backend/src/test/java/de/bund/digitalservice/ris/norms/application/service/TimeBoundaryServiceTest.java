@@ -356,11 +356,11 @@ class TimeBoundaryServiceTest {
 
       var normBefore = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
         .build();
       var normAfter = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(oldXml))))
         .build();
 
       // Given
@@ -440,7 +440,7 @@ class TimeBoundaryServiceTest {
 
       var normBefore = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
         .build();
 
       // Given
@@ -540,7 +540,7 @@ class TimeBoundaryServiceTest {
 
       var normBefore = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
         .build();
 
       // Given
@@ -583,7 +583,7 @@ class TimeBoundaryServiceTest {
 
       var normBefore = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
         .build();
 
       // Given
@@ -644,7 +644,7 @@ class TimeBoundaryServiceTest {
 
       var normBefore = Norm
         .builder()
-        .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
+        .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(xml))))
         .build();
 
       // Given

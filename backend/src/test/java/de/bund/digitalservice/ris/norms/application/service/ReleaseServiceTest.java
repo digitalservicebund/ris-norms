@@ -94,7 +94,7 @@ class ReleaseServiceTest {
     verify(deleteQueuedReleasesPort, times(1))
       .deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(
+      .parseAndValidateRegelungstext(
         XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
       );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
@@ -186,7 +186,7 @@ class ReleaseServiceTest {
 
     // results are validated
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(
+      .parseAndValidateRegelungstext(
         XmlMapper.toString(manifestationOfAmendingNormToQueue.getRegelungstext1().getDocument())
       );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfAmendingNormToQueue);
@@ -300,7 +300,8 @@ class ReleaseServiceTest {
       createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
     )
       .thenReturn(newNewestUnpublishedManifestationOfNorm);
-    when(ldmlDeValidator.parseAndValidate(any())).thenThrow(new LdmlDeNotValidException(List.of()));
+    when(ldmlDeValidator.parseAndValidateRegelungstext(any()))
+      .thenThrow(new LdmlDeNotValidException(List.of()));
 
     var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
 
@@ -311,7 +312,7 @@ class ReleaseServiceTest {
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(
+      .parseAndValidateRegelungstext(
         XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
       );
     verify(ldmlDeValidator, times(0)).validateSchematron(any(Norm.class));
@@ -363,7 +364,7 @@ class ReleaseServiceTest {
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
     verify(ldmlDeValidator, times(1))
-      .parseAndValidate(
+      .parseAndValidateRegelungstext(
         XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
       );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);

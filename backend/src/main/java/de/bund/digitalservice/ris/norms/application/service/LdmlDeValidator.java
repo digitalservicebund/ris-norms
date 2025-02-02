@@ -3,13 +3,17 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
@@ -35,16 +39,23 @@ import org.xml.sax.SAXParseException;
 @Service
 public class LdmlDeValidator {
 
-  private final Resource xsdSchema;
+  // Schema resource for Regelungstexte
+  private final Resource regelungstextXsdSchema;
+  // Schema resource for OffeneStrukturen
+  private final Resource offeneStrukturXsdSchema;
   private final Transformer schematronValidationTransformer;
 
   public LdmlDeValidator(
     @Value("classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de.xsl") Resource schematronXslt,
     @Value(
       "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
-    ) Resource xsdSchema
+    ) Resource regelungstextXsdSchema,
+    @Value(
+      "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-offenestruktur.xsd"
+    ) Resource offeneStrukturXsdSchema
   ) {
-    this.xsdSchema = xsdSchema;
+    this.regelungstextXsdSchema = regelungstextXsdSchema;
+    this.offeneStrukturXsdSchema = offeneStrukturXsdSchema;
 
     try {
       Source xsltSource = new StreamSource(schematronXslt.getInputStream());
@@ -57,23 +68,44 @@ public class LdmlDeValidator {
   }
 
   /**
-   * Parses the given text as a LDML.de XML. It validates the XSD Schema and parses the norm
-   * namespace-aware.
+   * Parses and validates the given LDML.de XML as a Regelungstext.
    *
-   * @param ldmlDeString The xml-string of the LDML.de document.
-   * @return The parsed norm (namespace-aware)
-   * @throws LdmlDeNotValidException The document is not valid according to the XSD-Schema
+   * @param ldmlDeString The XML string of the LDML.de document.
+   * @return A Regelungstext instance.
+   * @throws LdmlDeNotValidException if the document is not valid according to the XSD.
    */
-  public Regelungstext parseAndValidate(String ldmlDeString) {
-    Schema schema = null;
+  public Regelungstext parseAndValidateRegelungstext(String ldmlDeString) {
+    Schema schema = getSchemaFor(regelungstextXsdSchema);
+    Document document = parseDocument(ldmlDeString, schema);
+    return new Regelungstext(document);
+  }
+
+  /**
+   * Parses and validates the given LDML.de XML as an OffeneStruktur.
+   *
+   * @param ldmlDeString The XML string of the LDML.de document.
+   * @return An OffeneStruktur instance.
+   * @throws LdmlDeNotValidException if the document is not valid according to the XSD.
+   */
+  public OffeneStruktur parseAndValidateOffeneStruktur(String ldmlDeString) {
+    Schema schema = getSchemaFor(offeneStrukturXsdSchema);
+    Document document = parseDocument(ldmlDeString, schema);
+    return new OffeneStruktur(document);
+  }
+
+  // Helper method to create a Schema from a Resource.
+  private Schema getSchemaFor(Resource schemaResource) {
     try {
-      Source schemaSource = new StreamSource(xsdSchema.getInputStream());
-      schemaSource.setSystemId(xsdSchema.getURL().toString());
-      schema = SchemaFactory.newDefaultInstance().newSchema(schemaSource);
+      Source schemaSource = new StreamSource(schemaResource.getInputStream());
+      schemaSource.setSystemId(schemaResource.getURL().toString());
+      return SchemaFactory.newDefaultInstance().newSchema(schemaSource);
     } catch (IOException | SAXException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
+  }
 
+  // Helper method to parse an XML string into a Document with validation.
+  private Document parseDocument(String xmlString, Schema schema) {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setSchema(schema);
     factory.setIgnoringElementContentWhitespace(true);
@@ -96,8 +128,7 @@ public class LdmlDeValidator {
       }
     };
 
-    var result = XmlMapper.toDocument(ldmlDeString, factory, errorHandler);
-
+    Document document = XmlMapper.toDocument(xmlString, factory, errorHandler);
     if (!parsingExceptions.isEmpty()) {
       throw new LdmlDeNotValidException(
         parsingExceptions
@@ -113,19 +144,20 @@ public class LdmlDeValidator {
           .toList()
       );
     }
-
-    return new Regelungstext(result);
+    return document;
   }
 
   /**
-   * Validate the norm against the schematron rules. Throws if a rule is not fulfilled.
+   * Validate the schematron rules for a Norm.
    *
-   * @param norm the Norm to validate
-   * @throws XmlProcessingException A problem occurred during the processing of the XML
-   * @throws LdmlDeSchematronException A Schematron rule is violated
+   * @param norm the Norm to validate.
+   * @throws XmlProcessingException if an error occurs during processing.
+   * @throws LdmlDeSchematronException if a Schematron rule is violated.
    */
   public void validateSchematron(Norm norm) {
+    // For a Norm, validate each contained Regelungstext.
     norm.getRegelungstexte().forEach(this::validateSchematron);
+    // TODO: (Victor del Campo, 2025-02-02) add also schematron validation for offene-struktur
   }
 
   /**

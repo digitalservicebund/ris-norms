@@ -21,7 +21,7 @@ public class NormManifestationMapper {
   public static Norm mapToDomain(@Nonnull final NormManifestationDto normManifestationDto) {
     return Norm
       .builder()
-      .regelungstexte(
+      .dokumente(
         normManifestationDto
           .getDokumente()
           .stream()

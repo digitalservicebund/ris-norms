@@ -92,10 +92,10 @@ public class AnnouncementService
     // it throws an exception if the validation fails or the LDML.de Version is not 1.7.2
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
     // not yet.
-    var validatedRegelungstext = ldmlDeValidator.parseAndValidate(actString);
+    var validatedRegelungstext = ldmlDeValidator.parseAndValidateRegelungstext(actString);
     ldmlDeValidator.validateSchematron(validatedRegelungstext);
 
-    var norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(document))).build();
+    var norm = Norm.builder().dokumente(Set.of(new Regelungstext(document))).build();
 
     var activeModDestinationElis = getActiveModDestinationElis(norm);
 

@@ -340,7 +340,7 @@ class AnnouncementServiceTest {
         )
       )
         .thenReturn(Optional.empty());
-      when(ldmlDeValidator.parseAndValidate(any()))
+      when(ldmlDeValidator.parseAndValidateRegelungstext(any()))
         .thenThrow(new LdmlDeNotValidException(List.of()));
 
       // When // Then
@@ -377,7 +377,7 @@ class AnnouncementServiceTest {
         )
       )
         .thenReturn(Optional.empty());
-      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(regelungstext);
+      when(ldmlDeValidator.parseAndValidateRegelungstext(any())).thenReturn(regelungstext);
       doThrow(new LdmlDeSchematronException(List.of()))
         .when(ldmlDeValidator)
         .validateSchematron(regelungstext);

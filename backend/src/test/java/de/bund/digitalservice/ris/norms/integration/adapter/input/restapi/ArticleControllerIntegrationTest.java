@@ -683,7 +683,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       final Norm targetNorm = Norm
         .builder()
-        .regelungstexte(
+        .dokumente(
           Set.of(
             new Regelungstext(
               XmlMapper.toDocument(
@@ -793,7 +793,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       final Norm targetNorm = Norm
         .builder()
-        .regelungstexte(
+        .dokumente(
           Set.of(
             new Regelungstext(
               XmlMapper.toDocument(

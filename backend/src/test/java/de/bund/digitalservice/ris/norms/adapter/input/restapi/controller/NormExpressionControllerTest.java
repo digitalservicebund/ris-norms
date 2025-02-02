@@ -76,7 +76,7 @@ class NormExpressionControllerTest {
       // Given
       var norm = Norm
         .builder()
-        .regelungstexte(
+        .dokumente(
           Set.of(
             new Regelungstext(
               XmlMapper.toDocument(

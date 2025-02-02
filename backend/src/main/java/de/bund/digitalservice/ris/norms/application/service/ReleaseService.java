@@ -189,7 +189,9 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       norm
         .getRegelungstexte()
         .forEach(regelungstext ->
-          ldmlDeValidator.parseAndValidate(XmlMapper.toString(regelungstext.getDocument()))
+          ldmlDeValidator.parseAndValidateRegelungstext(
+            XmlMapper.toString(regelungstext.getDocument())
+          )
         );
       ldmlDeValidator.validateSchematron(norm);
     });

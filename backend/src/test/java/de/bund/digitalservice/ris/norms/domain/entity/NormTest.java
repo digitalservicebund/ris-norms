@@ -95,7 +95,7 @@ class NormTest {
 
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
     assertThatThrownBy(norm::getRegelungstext1ExpressionEli)
@@ -129,7 +129,7 @@ class NormTest {
 
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
     // when
@@ -171,7 +171,7 @@ class NormTest {
 
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
     String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
@@ -205,7 +205,7 @@ class NormTest {
       """;
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
     // when
@@ -239,7 +239,7 @@ class NormTest {
       """;
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
     // when
@@ -277,7 +277,7 @@ class NormTest {
 
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
     // when
@@ -303,7 +303,7 @@ class NormTest {
 
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
     assertThatThrownBy(norm::getMeta).isInstanceOf(MandatoryNodeNotFoundException.class);
@@ -518,8 +518,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm1 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm2 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml)))).build();
 
     // then
     assertThat(norm1).isEqualTo(norm2);
@@ -570,8 +570,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml1)))).build();
-    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml2)))).build();
+    Norm norm1 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml1)))).build();
+    Norm norm2 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml2)))).build();
     // then
     assertThat(norm1).isNotEqualTo(norm2);
   }
@@ -600,8 +600,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm1 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm2 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml)))).build();
     // then
     assertThat(norm1.hashCode()).hasSameHashCodeAs(norm2.hashCode());
   }
@@ -611,7 +611,7 @@ class NormTest {
     // Given
     final Norm norm = Norm
       .builder()
-      .regelungstexte(
+      .dokumente(
         Set.of(new Regelungstext(XmlMapper.toDocument(Fixtures.loadTextFromDisk("SimpleNorm.xml"))))
       )
       .build();
@@ -665,8 +665,8 @@ class NormTest {
         </akn:akomaNtoso>
       """;
 
-    Norm norm1 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml1)))).build();
-    Norm norm2 = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml2)))).build();
+    Norm norm1 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml1)))).build();
+    Norm norm2 = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml2)))).build();
     // then
     assertThat(norm1.hashCode()).isNotEqualTo(norm2.hashCode());
   }
@@ -698,7 +698,7 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml)))).build();
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
     assertThat(actualBoundaries.getFirst().getEventRef().getDate())
@@ -730,7 +730,7 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml)))).build();
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
     assertThat(timeBoundaries).isEmpty();
   }
@@ -762,7 +762,7 @@ class NormTest {
         </akn:akomaNtoso>
       """.strip();
 
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
+    Norm norm = Norm.builder().dokumente(Set.of(new Regelungstext(toDocument(xml)))).build();
     norm.addTimeBoundary(LocalDate.parse("2024-01-02"), EventRefType.GENERATION);
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
 
@@ -995,7 +995,7 @@ class NormTest {
 
     Norm norm = Norm
       .builder()
-      .regelungstexte(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
+      .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(normString))))
       .build();
 
     // when

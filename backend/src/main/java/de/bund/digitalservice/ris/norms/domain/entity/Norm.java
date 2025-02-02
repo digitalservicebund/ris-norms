@@ -19,8 +19,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Represents an LDML.de norm. This class is annotated with Lombok annotations for generating
- * builders, getters, toString, and constructors.
+ * Represents a Norm containing {@link Dokument}s (which can be either {@link Regelungstext} or {@link OffeneStruktur}) and {@link BinaryFile}s.
+ * It also maintains a publish state defined by {@link NormPublishState}.
  */
 @Getter
 @Setter
@@ -31,12 +31,62 @@ public class Norm {
   @Builder.Default
   private NormPublishState publishState = NormPublishState.UNPUBLISHED;
 
-  private Set<Regelungstext> regelungstexte;
+  private Set<Dokument> dokumente;
+
+  @Builder.Default
+  private Set<BinaryFile> binaryFiles = new HashSet<>();
+
+  public Norm(NormPublishState publishState, Set<Dokument> dokumente) {
+    this.publishState = publishState;
+    this.dokumente = dokumente;
+    this.binaryFiles = new HashSet<>();
+  }
 
   public Norm(Norm norm) {
-    this.regelungstexte =
-    norm.getRegelungstexte().stream().map(Regelungstext::new).collect(Collectors.toSet());
     this.publishState = NormPublishState.UNPUBLISHED;
+    this.dokumente =
+    norm.getDokumente() != null
+      ? norm.getDokumente().stream().map(Dokument::copy).collect(Collectors.toSet())
+      : new HashSet<>();
+    this.binaryFiles =
+    norm.getBinaryFiles() != null
+      ? norm
+        .getBinaryFiles()
+        .stream()
+        .map(b -> new BinaryFile(b.getDokumentManifestationEli(), b.getContent()))
+        .collect(Collectors.toSet())
+      : new HashSet<>();
+  }
+
+  /**
+   * Returns all Regelungstext objects from the dokumente set.
+   *
+   * @return a set of Regelungstext objects, or an empty set if none exist
+   */
+  public Set<Regelungstext> getRegelungstexte() {
+    return dokumente
+      .stream()
+      .filter(Regelungstext.class::isInstance)
+      .map(Regelungstext.class::cast)
+      .collect(Collectors.toSet());
+  }
+
+  /**
+   * Replaces the current {@link Regelungstext} objects in {@link #dokumente} with the provided set.
+   * <p>
+   * If the underlying {@code dokumente} set is immutable (for example, created via {@code Set.of(...)}),
+   * this method creates a new mutable {@link HashSet} containing all non-{@link Regelungstext} elements,
+   * then adds the provided {@code regelungstexte} to it.
+   * </p>
+   *
+   * @param regelungstexte the new set of {@link Regelungstext} objects to set
+   */
+  public void setRegelungstexte(final Set<Regelungstext> regelungstexte) {
+    final Set<Dokument> newDokumente = (dokumente == null)
+      ? new HashSet<>()
+      : dokumente.stream().filter(d -> !(d instanceof Regelungstext)).collect(Collectors.toSet());
+    newDokumente.addAll(regelungstexte);
+    dokumente = newDokumente;
   }
 
   /**
@@ -45,7 +95,7 @@ public class Norm {
    * @return the "Regelungstext"
    */
   public Regelungstext getRegelungstext1() {
-    return regelungstexte.iterator().next();
+    return getRegelungstexte().iterator().next();
   }
 
   /**
@@ -247,15 +297,17 @@ public class Norm {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) return true;
-    if (object == null || getClass() != object.getClass()) return false;
-    Norm norm = (Norm) object;
-    return regelungstexte.containsAll(norm.regelungstexte);
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Norm norm = (Norm) o;
+    return (
+      Objects.equals(dokumente, norm.dokumente) && Objects.equals(binaryFiles, norm.binaryFiles)
+    );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(regelungstexte);
+    return Objects.hash(dokumente, binaryFiles);
   }
 }
