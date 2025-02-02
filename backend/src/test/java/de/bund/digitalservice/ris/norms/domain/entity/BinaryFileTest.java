@@ -21,8 +21,7 @@ class BinaryFileTest {
     BinaryFile file2 = new BinaryFile(eli, Arrays.copyOf(content, content.length));
 
     // They should be equal (value equality) and have the same hash code.
-    assertThat(file1).isEqualTo(file2);
-    assertThat(file1.hashCode()).isEqualTo(file2.hashCode());
+    assertThat(file1).isEqualTo(file2).hasSameHashCodeAs(file2);
   }
 
   @Test

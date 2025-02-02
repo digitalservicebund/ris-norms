@@ -51,15 +51,6 @@ public class Regelungstext extends Dokument {
   }
 
   /**
-   * Returns a {@link Meta} instance from a {@link Document} in a {@link Regelungstext}.
-   *
-   * @return the meta node as {@link Meta}
-   */
-  public Meta getMeta() {
-    return new Meta(NodeParser.getMandatoryElementFromExpression("//act/meta", getDocument()));
-  }
-
-  /**
    * Returns a list of articles as {@link List} from a {@link Document} in a {@link Regelungstext}. It
    * filters out articles within akn:mod
    *
