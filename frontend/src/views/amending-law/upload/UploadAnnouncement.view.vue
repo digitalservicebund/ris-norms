@@ -21,6 +21,17 @@ import { useToast } from "primevue/usetoast"
 import { computed, ref, useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 import { useForceUploadFile } from "@/services/uploadService"
+import { useAuthentication } from "@/lib/auth"
+import type { FileUploadBeforeSendEvent } from "primevue/fileupload"
+
+const { addAuthorizationHeader } = useAuthentication()
+
+function addAuthHeader(event: FileUploadBeforeSendEvent) {
+  const headers = addAuthorizationHeader({})
+  Object.entries(headers).forEach(([key, value]) => {
+    event.xhr.setRequestHeader(key, value)
+  })
+}
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -197,6 +208,7 @@ function resetUploadPage() {
           @before-upload="onBeginUpload()"
           @error="onUploadError"
           @upload="onUploaded"
+          @before-send="addAuthHeader"
         />
 
         <Button
