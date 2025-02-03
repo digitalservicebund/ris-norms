@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
@@ -48,15 +48,15 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -85,7 +85,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsArticlesFilteredByAmendedAt() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
         )
       );
@@ -108,7 +108,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsArticlesFilteredByAmendedBy() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModificationsInDifferentArticles.xml")
         )
       );
@@ -131,7 +131,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListWhenTheNormHasNoArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
       );
 
       // When // Then
@@ -148,7 +148,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListIfAmendedByIsNotFound() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
         )
       );
@@ -169,7 +169,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListIfAmendedAtIsNotFound() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
         )
       );
@@ -227,7 +227,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsTheXmlOfArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
 
       // When // Then
@@ -266,7 +266,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsTheXmlOfTheArticleInkrafttreten() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
 
       // When // Then
@@ -343,7 +343,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsNotFoundIfNoArticleOfTypeExist() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
@@ -382,7 +382,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsNotFoundIfTheNormHasNoArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
       );
 
       // When // Then
@@ -424,15 +424,15 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
 
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -491,7 +491,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsNothingIfArticleDoesNotExist() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
 
       // When // Then
@@ -532,7 +532,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsArticleRender() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
 
       // When // Then
@@ -555,10 +555,10 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsArticleRenderAtIsoDate() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
         )
       );
@@ -639,10 +639,10 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsNotFoundIfArticleDoesntExist() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
         )
       );
@@ -753,9 +753,9 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .build();
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.save(RegelungstextMapper.mapToDto(targetNorm.getRegelungstext1()));
+      dokumentRepository.save(DokumentMapper.mapToDto(targetNorm.getRegelungstext1()));
 
       // When / Then
       mockMvc
@@ -858,9 +858,9 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .build();
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.save(RegelungstextMapper.mapToDto(targetNorm.getRegelungstext1()));
+      dokumentRepository.save(DokumentMapper.mapToDto(targetNorm.getRegelungstext1()));
 
       // When / Then
       mockMvc

@@ -3,26 +3,26 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Test;
 
-class RegelungstextMapperTest {
+class DokumentMapperTest {
 
   @Test
   void itShouldMapToDomain() {
     // Given
     var regelungstextXml = Fixtures.loadTextFromDisk("SimpleNorm.xml");
-    var dokumentDto = DokumentDto.builder().xml(regelungstextXml).build();
+    var dokumentDto = DokumentDto.builder().xml(regelungstextXml).subtype("regelungstext").build();
 
     // When
-    final Regelungstext regelungstext = RegelungstextMapper.mapToDomain(dokumentDto);
+    final Dokument dokument = DokumentMapper.mapToDomain(dokumentDto);
 
     // Then
-    assertThat(regelungstext).isNotNull();
-    assertThat(regelungstext.getDocument().isEqualNode(XmlMapper.toDocument(regelungstextXml)))
-      .isTrue();
+    assertThat(dokument).isNotNull().isInstanceOf(Regelungstext.class);
+    assertThat(dokument.getDocument().isEqualNode(XmlMapper.toDocument(regelungstextXml))).isTrue();
   }
 
   @Test
@@ -32,7 +32,7 @@ class RegelungstextMapperTest {
     var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
 
     // When
-    final DokumentDto dokumentDto = RegelungstextMapper.mapToDto(regelungstext);
+    final DokumentDto dokumentDto = DokumentMapper.mapToDto(regelungstext);
 
     // Then
     assertThat(dokumentDto).isNotNull();

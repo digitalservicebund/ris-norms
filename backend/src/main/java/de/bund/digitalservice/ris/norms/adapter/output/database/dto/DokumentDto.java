@@ -67,4 +67,8 @@ public class DokumentDto {
   @Column
   @JdbcTypeCode(SqlTypes.SQLXML)
   private String xml;
+
+  @Generated(event = { INSERT, UPDATE })
+  @Column(name = "subtype", updatable = false, insertable = false)
+  private String subtype;
 }

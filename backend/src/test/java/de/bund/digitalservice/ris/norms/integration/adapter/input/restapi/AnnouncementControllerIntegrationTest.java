@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
@@ -80,7 +80,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
         .build();
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
       );
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -142,7 +142,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itDoesReturnNoReleasesIfNoneFound() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
       );
 
       var announcement = Announcement
@@ -167,15 +167,15 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsRelease() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -275,7 +275,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
         .build();
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -308,15 +308,15 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itReleaseAnnouncement() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -408,15 +408,15 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -504,17 +504,15 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void failsWhenTryingToReleaseAnXsdInvalidNorm() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithModsXsdInvalid.xml")
-        )
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithModsXsdInvalid.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -571,17 +569,17 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void failsWhenTryingToReleaseASchematronInvalidNorm() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithModsSchematronInvalid.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -635,7 +633,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itCreatesANewAnnouncement() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
@@ -739,10 +737,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itFailsIfTheNormAlreadyExist() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
@@ -766,17 +764,17 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itFailsIfANormWithSameGuidAlreadyExist() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
         )
       );
@@ -805,7 +803,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itFailsIfTheNormIsInvalid() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
@@ -832,7 +830,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itFailsIfTheNormIsSchematronInvalid() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       );
@@ -902,15 +900,15 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void ifCreatesAnnouncementWithForce() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
         )
       ); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       ); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
