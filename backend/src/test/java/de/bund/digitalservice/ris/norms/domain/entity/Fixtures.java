@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.application.service.LdmlDeValidator;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -69,6 +70,20 @@ public class Fixtures {
     }
 
     return new OffeneStruktur(XmlMapper.toDocument(loadFile(fileName)));
+  }
+
+  public static BinaryFile loadBinaryFileFromDisk(
+    final String fileName,
+    DokumentManifestationEli dokumentManifestationEli
+  ) {
+    try (var resourceStream = Fixtures.class.getResourceAsStream(fileName)) {
+      return new BinaryFile(
+        dokumentManifestationEli,
+        Objects.requireNonNull(resourceStream).readAllBytes()
+      );
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public static String loadTextFromDisk(final String fileName) {

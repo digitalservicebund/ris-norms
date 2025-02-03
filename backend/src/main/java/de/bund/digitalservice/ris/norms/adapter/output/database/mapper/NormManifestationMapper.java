@@ -28,6 +28,13 @@ public class NormManifestationMapper {
           .map(DokumentMapper::mapToDomain)
           .collect(Collectors.toSet())
       )
+      .binaryFiles(
+        normManifestationDto
+          .getBinaryFiles()
+          .stream()
+          .map(BinaryFileMapper::mapToDomain)
+          .collect(Collectors.toSet())
+      )
       .publishState(normManifestationDto.getPublishState())
       .build();
   }
@@ -43,6 +50,7 @@ public class NormManifestationMapper {
       .builder()
       .publishState(norm.getPublishState())
       .dokumente(norm.getDokumente().stream().map(DokumentMapper::mapToDto).toList())
+      .binaryFiles(norm.getBinaryFiles().stream().map(BinaryFileMapper::mapToDto).toList())
       .build();
   }
 }
