@@ -25,7 +25,7 @@ const { getUsername } = useAuthentication()
           {{ getUsername() ?? "Unbekannt" }}
         </span>
         <a href="/logout" class="ris-link2-regular underline-offset-2">
-          Ausloggen
+          Abmelden
         </a>
       </div>
     </div>

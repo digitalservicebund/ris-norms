@@ -18,7 +18,7 @@ test.describe("Login / logout functionality", { tag: ["@RISDEV-5654"] }, () => {
     await page.getByRole("button", { name: "Sign In" }).click()
 
     await page.waitForURL(/\/amending-laws/)
-    const logoutLinkAfterLogin = page.getByRole("link", { name: "Ausloggen" })
+    const logoutLinkAfterLogin = page.getByRole("link", { name: "Abmelden" })
     await expect(logoutLinkAfterLogin).toBeVisible()
 
     const usernameDisplay = page.getByText("Jane Doe")

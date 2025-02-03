@@ -23,7 +23,7 @@ describe("risNavbar", () => {
     })
 
     render(RisNavbar, { global: { plugins: [router] } })
-    const logoutLink = screen.getByRole("link", { name: "Ausloggen" })
+    const logoutLink = screen.getByRole("link", { name: "Abmelden" })
     expect(logoutLink).toBeInTheDocument()
     expect(logoutLink).toHaveAttribute("href", "/logout")
   })
