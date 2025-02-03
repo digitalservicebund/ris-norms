@@ -12,25 +12,49 @@ import router from "./router"
 import { getEnv } from "./services/envService"
 import "./style.css"
 
-const env = await getEnv()
+try {
+  // Fetch environment configuration
+  const env = await getEnv()
 
-const app = createApp(App)
-  .use(PrimeVue, {
-    pt: RisUiTheme,
-    unstyled: true,
-    locale: RisUiLocale.deDE,
+  // Initialize Vue application
+  const app = createApp(App)
+    .use(PrimeVue, {
+      pt: RisUiTheme,
+      unstyled: true,
+      locale: RisUiLocale.deDE,
+    })
+    .use(ToastService)
+    .use(ConfirmationService)
+    .use(router)
+    .use(Sentry, { environment: env.name, router })
+
+  // Configure authentication
+  const auth = useAuthentication()
+  await auth.configure({
+    url: env.authUrl,
+    clientId: env.authClientId,
+    realm: env.authRealm,
   })
-  .use(ToastService)
-  .use(ConfirmationService)
-  .use(router)
-  .use(Sentry, { environment: env.name, router })
 
-const auth = useAuthentication()
+  // If all initialization succeeds, mount app
+  app.mount("#app")
+} catch (e: unknown) {
+  // If an error occurs above, catch it here
 
-await auth.configure({
-  url: env.authUrl,
-  clientId: env.authClientId,
-  realm: env.authRealm,
-})
+  // Get references to the error message container and the loading message
+  const errorContainer = document.getElementById("error-container")
+  const loadingMessage = document.querySelector(".fallback p")
 
-app.mount("#app")
+  if (errorContainer) {
+    errorContainer.removeAttribute("hidden")
+    if (loadingMessage) {
+      loadingMessage.setAttribute("hidden", "true")
+    }
+    if (e instanceof Error) {
+      const errorDetails = errorContainer.querySelector("#error-detail")
+      if (errorDetails) {
+        errorDetails.textContent = e.message
+      }
+    }
+  }
+}
