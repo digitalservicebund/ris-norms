@@ -53,10 +53,10 @@ class releases {
 
 announcement_releases  -->  announcements : announcement_id/id
 announcement_releases  -->  releases : release_id/id
-announcements  -->  norm_expression : eli/eli_norm_expression
+announcements  -->  norm_expression : eli_norm_expression
 binary_files  -->  norm_manifestation : eli_norm_manifestation
 dokumente  -->  norm_manifestation : eli_norm_manifestation
 norm_manifestation  -->  norm_expression : eli_norm_expression
-release_norms  -->  norm_manifestation : norm_eli_manifestation/eli_norm_manifestation
+release_norms  -->  norm_manifestation : eli_norm_manifestation
 release_norms  -->  releases : release_id/id
 ```

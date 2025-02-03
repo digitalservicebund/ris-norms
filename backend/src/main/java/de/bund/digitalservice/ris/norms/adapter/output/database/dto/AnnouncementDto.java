@@ -35,8 +35,8 @@ public class AnnouncementDto {
   @GeneratedValue
   private UUID id;
 
-  @Column(name = "eli")
-  private String eli;
+  @Column(name = "eli_norm_expression")
+  private String eliNormExpression;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(

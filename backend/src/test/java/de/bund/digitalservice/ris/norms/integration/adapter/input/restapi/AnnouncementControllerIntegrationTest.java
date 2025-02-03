@@ -200,7 +200,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       announcementRepository.save(
         AnnouncementDto
           .builder()
-          .eli("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+          .eliNormExpression("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           .releases(List.of(releaseDto))
           .build()
       );

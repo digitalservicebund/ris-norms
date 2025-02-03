@@ -377,7 +377,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         new SaveReleaseToAnnouncementPort.Command(release, announcement)
       );
 
-      var savedAnnouncement = announcementRepository.findByEli(norm.getExpressionEli().toString());
+      var savedAnnouncement = announcementRepository.findByEliNormExpression(
+        norm.getExpressionEli().toString()
+      );
 
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
@@ -425,7 +427,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       dbService.deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
 
       // Then
-      var savedAnnouncement = announcementRepository.findByEli(
+      var savedAnnouncement = announcementRepository.findByEliNormExpression(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
       );
       assertThat(savedAnnouncement).isPresent();

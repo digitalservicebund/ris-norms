@@ -21,7 +21,7 @@ public class AnnouncementMapper {
   public static Announcement mapToDomain(final AnnouncementDto announcementDto) {
     return Announcement
       .builder()
-      .eli(NormExpressionEli.fromString(announcementDto.getEli()))
+      .eli(NormExpressionEli.fromString(announcementDto.getEliNormExpression()))
       .releases(
         announcementDto
           .getReleases()
@@ -41,7 +41,7 @@ public class AnnouncementMapper {
   public static AnnouncementDto mapToDto(final Announcement announcement) {
     return AnnouncementDto
       .builder()
-      .eli(announcement.getEli().toString())
+      .eliNormExpression(announcement.getEli().toString())
       .releases(announcement.getReleases().stream().map(ReleaseMapper::mapToDto).toList())
       .build();
   }
