@@ -4,7 +4,6 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class TimeBoundaryTest {
@@ -38,10 +37,10 @@ class TimeBoundaryTest {
   void getDate() {
     // given
 
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
-    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
-    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
+    Regelungstext regelungstext = new Regelungstext(toDocument(xml));
+    TimeInterval timeInterval = regelungstext.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = regelungstext.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = regelungstext.getTimeBoundaries().getFirst().getTemporalGroup();
 
     // when
     TimeBoundary tb = new TimeBoundary(timeInterval, eventRef, temporalGroup);
@@ -53,11 +52,10 @@ class TimeBoundaryTest {
   @Test
   void getEventRefEid() {
     // given
-
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
-    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
-    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
+    Regelungstext regelungstext = new Regelungstext(toDocument(xml));
+    TimeInterval timeInterval = regelungstext.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = regelungstext.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = regelungstext.getTimeBoundaries().getFirst().getTemporalGroup();
 
     // when
     TimeBoundary tb = new TimeBoundary(timeInterval, eventRef, temporalGroup);
@@ -69,10 +67,10 @@ class TimeBoundaryTest {
   @Test
   void getTimeIntervalEid() {
     // given
-    Norm norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(toDocument(xml)))).build();
-    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
-    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
-    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
+    Regelungstext regelungstext = new Regelungstext(toDocument(xml));
+    TimeInterval timeInterval = regelungstext.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = regelungstext.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = regelungstext.getTimeBoundaries().getFirst().getTemporalGroup();
 
     // when
     TimeBoundary tb = new TimeBoundary(timeInterval, eventRef, temporalGroup);

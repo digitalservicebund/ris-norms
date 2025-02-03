@@ -144,7 +144,11 @@ public class PublishService implements PublishNormUseCase {
    * @param normToBeReleased Norm that will be released
    */
   public void prepareForPublish(final Norm normToBeReleased) {
-    normToBeReleased.getMeta().getProprietary().ifPresent(this::removePrivateMetadata);
+    normToBeReleased
+      .getRegelungstexte()
+      .forEach(regelungstext ->
+        regelungstext.getMeta().getProprietary().ifPresent(this::removePrivateMetadata)
+      );
   }
 
   private void rollbackPublicPublish(Norm norm) {

@@ -1,10 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
@@ -32,10 +30,9 @@ public class ElementService
   implements
     LoadElementUseCase,
     LoadElementHtmlUseCase,
-    LoadElementHtmlAtDateFromNormUseCase,
+    LoadElementHtmlAtDateUseCase,
     LoadElementsByTypeUseCase {
 
-  private final LoadNormPort loadNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final XsltTransformationService xsltTransformationService;
   private final TimeMachineService timeMachineService;
@@ -83,12 +80,10 @@ public class ElementService
   }
 
   public ElementService(
-    LoadNormPort loadNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     XsltTransformationService xsltTransformationService,
     TimeMachineService timeMachineService
   ) {
-    this.loadNormPort = loadNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.xsltTransformationService = xsltTransformationService;
     this.timeMachineService = timeMachineService;
@@ -119,13 +114,10 @@ public class ElementService
   }
 
   @Override
-  public String loadElementHtmlAtDateFromNorm(
-    final LoadElementHtmlAtDateFromNormUseCase.Query query
-  ) {
-    var regelungstext = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
-      .getRegelungstext1();
+  public String loadElementHtmlAtDate(final LoadElementHtmlAtDateUseCase.Query query) {
+    var regelungstext = loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
     regelungstext =
     timeMachineService.applyPassiveModifications(

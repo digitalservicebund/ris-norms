@@ -23,6 +23,13 @@ public class Fixtures {
             "/LegalDocML.de/1.7.2/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
           )
       )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            "/LegalDocML.de/1.7.2/legalDocML.de-risnorms-offenestruktur.xsd"
+          )
+      )
     )
   );
 
@@ -31,10 +38,7 @@ public class Fixtures {
   }
 
   public static Norm loadNormFromDisk(final String fileName, boolean validated) {
-    return Norm
-      .builder()
-      .regelungstexte(Set.of(loadRegelungstextFromDisk(fileName, validated)))
-      .build();
+    return Norm.builder().dokumente(Set.of(loadRegelungstextFromDisk(fileName, validated))).build();
   }
 
   public static Regelungstext loadRegelungstextFromDisk(final String fileName) {
@@ -46,10 +50,25 @@ public class Fixtures {
     final boolean validated
   ) {
     if (validated) {
-      return ldmlDeValidator.parseAndValidate(loadFile(fileName));
+      return ldmlDeValidator.parseAndValidateRegelungstext(loadFile(fileName));
     }
 
     return new Regelungstext(XmlMapper.toDocument(loadFile(fileName)));
+  }
+
+  public static OffeneStruktur loadOffeneStrukturFromDisk(final String fileName) {
+    return loadOffeneStrukturFromDisk(fileName, false);
+  }
+
+  public static OffeneStruktur loadOffeneStrukturFromDisk(
+    final String fileName,
+    final boolean validated
+  ) {
+    if (validated) {
+      return ldmlDeValidator.parseAndValidateOffeneStruktur(loadFile(fileName));
+    }
+
+    return new OffeneStruktur(XmlMapper.toDocument(loadFile(fileName)));
   }
 
   public static String loadTextFromDisk(final String fileName) {

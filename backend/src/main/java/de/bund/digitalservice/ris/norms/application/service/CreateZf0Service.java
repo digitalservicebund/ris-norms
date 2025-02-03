@@ -42,7 +42,7 @@ public class CreateZf0Service implements CreateZf0UseCase {
       new UpdatePassiveModificationsUseCase.Query(
         zf0Norm,
         amendingNorm,
-        targetNorm.getNormExpressionEli()
+        targetNorm.getExpressionEli()
       )
     );
 

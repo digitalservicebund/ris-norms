@@ -22,7 +22,7 @@ class ReferenceServiceTest {
     // Given
     final Norm norm = Norm
       .builder()
-      .regelungstexte(
+      .dokumente(
         Set.of(
           new Regelungstext(
             XmlMapper.toDocument(

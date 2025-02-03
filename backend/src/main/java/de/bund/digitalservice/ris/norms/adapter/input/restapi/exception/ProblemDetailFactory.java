@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -63,7 +63,7 @@ public class ProblemDetailFactory {
       "Article not found"
     ),
     ARTICLE_OF_TYPE_NOT_FOUND(
-      LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class,
+      LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class,
       URI.create("/errors/article-of-type-not-found"),
       "Article of specific type not found"
     ),

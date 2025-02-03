@@ -58,7 +58,10 @@ public class UpdateNormService
     var norm = query.zf0Norm();
 
     // clean up existing passive modifications stemming from the amending zf0Norm
-    removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getExpressionEli());
+    removePassiveModificationsThatStemFromSource(
+      norm,
+      query.amendingNorm().getRegelungstext1ExpressionEli()
+    );
     EidConsistencyGuardian.correctEids(norm.getDocument());
 
     final List<TextualMod> activeModificationsToAdd = query
@@ -107,7 +110,7 @@ public class UpdateNormService
         .addPassiveModification(
           activeModification.getType().orElseThrow(),
           new Href.Builder()
-            .setEli(query.amendingNorm().getExpressionEli())
+            .setEli(query.amendingNorm().getRegelungstext1ExpressionEli())
             .setEId(activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
             .setFileExtension("xml")
             .buildAbsolute()

@@ -92,10 +92,10 @@ public class AnnouncementService
     // it throws an exception if the validation fails or the LDML.de Version is not 1.7.2
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
     // not yet.
-    var validatedRegelungstext = ldmlDeValidator.parseAndValidate(actString);
+    var validatedRegelungstext = ldmlDeValidator.parseAndValidateRegelungstext(actString);
     ldmlDeValidator.validateSchematron(validatedRegelungstext);
 
-    var norm = Norm.builder().regelungstexte(Set.of(new Regelungstext(document))).build();
+    var norm = Norm.builder().dokumente(Set.of(new Regelungstext(document))).build();
 
     var activeModDestinationElis = getActiveModDestinationElis(norm);
 
@@ -104,7 +104,7 @@ public class AnnouncementService
     final boolean normFound = isNormRetrievableByEli(query.force(), norm);
 
     if (normFound && query.force()) {
-      deleteAnnouncement(norm.getNormExpressionEli());
+      deleteAnnouncement(norm.getExpressionEli());
     } else if (
       loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
     ) {
@@ -159,7 +159,7 @@ public class AnnouncementService
     activeModDestinationElis.forEach(eli -> {
       if (loadNormPort.loadNorm(new LoadNormPort.Command(eli.asNormEli())).isEmpty()) {
         throw new ActiveModDestinationNormNotFoundException(
-          norm.getNormExpressionEli().toString(),
+          norm.getExpressionEli().toString(),
           eli.toString()
         );
       }
@@ -168,11 +168,11 @@ public class AnnouncementService
 
   private boolean isNormRetrievableByEli(boolean forceOverwrite, Norm norm) {
     final boolean normExists = loadNormPort
-      .loadNorm(new LoadNormPort.Command(norm.getNormExpressionEli()))
+      .loadNorm(new LoadNormPort.Command(norm.getExpressionEli()))
       .isPresent();
 
     if (normExists && !forceOverwrite) {
-      throw new NormExistsAlreadyException(norm.getNormExpressionEli().toString());
+      throw new NormExistsAlreadyException(norm.getExpressionEli().toString());
     }
     return normExists;
   }
@@ -226,7 +226,7 @@ public class AnnouncementService
   }
 
   private Announcement saveNewAnnouncement(Norm norm) {
-    var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
     updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
     updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
       new UpdateOrSaveAnnouncementPort.Command(announcement)

@@ -25,21 +25,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
 
   private final LoadRegelungstextUseCase loadRegelungstextUseCase;
-  private final LoadArticlesFromNormUseCase loadArticlesFromNormUseCase;
-  private final LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
+  private final LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase;
+  private final LoadSpecificArticlesXmlFromDokumentUseCase loadSpecificArticlesXmlFromDokumentUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   public ArticleController(
     LoadRegelungstextUseCase loadRegelungstextUseCase1,
-    LoadArticlesFromNormUseCase loadArticlesFromNormUseCase,
-    LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
+    LoadArticlesFromDokumentUseCase loadArticlesFromDokumentUseCase,
+    LoadSpecificArticlesXmlFromDokumentUseCase loadSpecificArticlesXmlFromDokumentUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
     LoadArticleHtmlUseCase loadArticleHtmlUseCase
   ) {
     this.loadRegelungstextUseCase = loadRegelungstextUseCase1;
-    this.loadArticlesFromNormUseCase = loadArticlesFromNormUseCase;
-    this.loadSpecificArticlesXmlFromNormUseCase = loadSpecificArticlesXmlFromNormUseCase;
+    this.loadArticlesFromDokumentUseCase = loadArticlesFromDokumentUseCase;
+    this.loadSpecificArticlesXmlFromDokumentUseCase = loadSpecificArticlesXmlFromDokumentUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
   }
@@ -63,14 +63,14 @@ public class ArticleController {
     @RequestParam final Optional<DokumentExpressionEli> amendedBy,
     @RequestParam final Optional<String> amendedAt
   ) {
-    final var query = new LoadArticlesFromNormUseCase.Query(
+    final var query = new LoadArticlesFromDokumentUseCase.Query(
       eli,
       amendedBy.orElse(null),
       amendedAt.orElse(null)
     );
 
-    final var articlesWithZf0 = loadArticlesFromNormUseCase
-      .loadArticlesFromNorm(query)
+    final var articlesWithZf0 = loadArticlesFromDokumentUseCase
+      .loadArticlesFromDokument(query)
       .stream()
       .map(ArticleResponseMapper::fromNormArticle)
       .toList();
@@ -95,9 +95,9 @@ public class ArticleController {
     final DokumentExpressionEli eli,
     @RequestParam(required = false, name = "refersTo") final String refersTo
   ) {
-    String articles = loadSpecificArticlesXmlFromNormUseCase
-      .loadSpecificArticlesXmlFromNorm(
-        new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, refersTo)
+    String articles = loadSpecificArticlesXmlFromDokumentUseCase
+      .loadSpecificArticlesXmlFromDokument(
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, refersTo)
       )
       .stream()
       .map(xml ->

@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -93,22 +94,24 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     normsToPublish.add(normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli())));
 
     for (Norm norm : normsToPublish) {
-      var analysis = norm.getMeta().getAnalysis();
-      if (analysis.isEmpty()) {
-        break;
-      }
+      for (Regelungstext regelungstext : norm.getRegelungstexte()) {
+        var analysis = regelungstext.getMeta().getAnalysis();
+        if (analysis.isEmpty()) {
+          break;
+        }
 
-      analysis
-        .get()
-        .getActiveModifications()
-        .stream()
-        .map(TextualMod::getDestinationHref)
-        .flatMap(Optional::stream)
-        .map(Href::getExpressionEli)
-        .flatMap(Optional::stream)
-        .map(DokumentExpressionEli::asNormEli)
-        .map(eli -> normService.loadNorm(new LoadNormUseCase.Query(eli)))
-        .forEach(normsToPublish::add);
+        analysis
+          .get()
+          .getActiveModifications()
+          .stream()
+          .map(TextualMod::getDestinationHref)
+          .flatMap(Optional::stream)
+          .map(Href::getExpressionEli)
+          .flatMap(Optional::stream)
+          .map(DokumentExpressionEli::asNormEli)
+          .map(eli -> normService.loadNorm(new LoadNormUseCase.Query(eli)))
+          .forEach(normsToPublish::add);
+      }
     }
 
     // Delete the files from a previous release of the same announcement if they are still queued for publishing.
@@ -137,13 +140,18 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       Norm latestNormExpression = createNewVersionOfNormService.createNewManifestation(norm);
 
       var dates = norm
-        .getMeta()
-        .getAnalysis()
+        .getRegelungstexte()
         .stream()
-        .flatMap(analysis -> analysis.getPassiveModifications().stream())
-        .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
-        .map(norm::getStartDateForTemporalGroup)
-        .flatMap(Optional::stream)
+        .flatMap(regelungstext ->
+          regelungstext
+            .getMeta()
+            .getAnalysis()
+            .stream()
+            .flatMap(analysis -> analysis.getPassiveModifications().stream())
+            .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
+            .map(regelungstext::getStartDateForTemporalGroup)
+            .flatMap(Optional::stream)
+        )
         .map(LocalDate::parse)
         .distinct()
         .sorted();
@@ -181,7 +189,9 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       norm
         .getRegelungstexte()
         .forEach(regelungstext ->
-          ldmlDeValidator.parseAndValidate(XmlMapper.toString(regelungstext.getDocument()))
+          ldmlDeValidator.parseAndValidateRegelungstext(
+            XmlMapper.toString(regelungstext.getDocument())
+          )
         );
       ldmlDeValidator.validateSchematron(norm);
     });

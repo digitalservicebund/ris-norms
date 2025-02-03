@@ -42,19 +42,27 @@ class CreateNewVersionOfNormServiceTest {
     );
 
     // Then
-    assertThat(result.newExpression().getNormExpressionEli())
+    assertThat(result.newExpression().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu");
     assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
     assertThat(result.newExpression().getRegelungstext1().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/regelungstext-1");
-    FRBRExpression expression = result.newExpression().getMeta().getFRBRExpression();
+    FRBRExpression expression = result
+      .newExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression();
     assertThat(expression.getURI()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu");
     assertThat(expression.getFBRDate()).isEqualTo("1964-08-05");
     assertThat(expression.getFRBRVersionNumber()).contains(2);
     assertThat(expression.getFRBRaliasCurrentVersionId())
-      .isNotEqualTo(norm.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId());
+      .isNotEqualTo(
+        norm.getRegelungstext1().getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId()
+      );
     assertThat(expression.getFRBRaliasPreviousVersionId())
-      .isEqualTo(norm.getMeta().getFRBRExpression().getFRBRaliasPreviousVersionId());
+      .isEqualTo(
+        norm.getRegelungstext1().getMeta().getFRBRExpression().getFRBRaliasPreviousVersionId()
+      );
     assertThat(expression.getFRBRaliasNextVersionId()).isEmpty();
 
     assertThat(result.newExpression().getManifestationEli())
@@ -64,7 +72,11 @@ class CreateNewVersionOfNormServiceTest {
       .hasToString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/%s/regelungstext-1.xml".formatted(currentDate)
       );
-    FRBRManifestation manifestation = result.newExpression().getMeta().getFRBRManifestation();
+    FRBRManifestation manifestation = result
+      .newExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRManifestation();
     assertThat(manifestation.getURI())
       .hasToString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/%s/regelungstext-1.xml".formatted(currentDate)
@@ -80,12 +92,14 @@ class CreateNewVersionOfNormServiceTest {
       );
     FRBRExpression expressionOldExpression = result
       .newManifestationOfOldExpression()
+      .getRegelungstext1()
       .getMeta()
       .getFRBRExpression();
     assertThat(expressionOldExpression.getFRBRaliasNextVersionId())
       .contains(expression.getFRBRaliasCurrentVersionId());
     FRBRManifestation manifestationOldExpression = result
       .newManifestationOfOldExpression()
+      .getRegelungstext1()
       .getMeta()
       .getFRBRManifestation();
     assertThat(manifestationOldExpression.getURI())
@@ -112,18 +126,26 @@ class CreateNewVersionOfNormServiceTest {
     // Then
 
     assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
-    assertThat(result.newExpression().getNormExpressionEli())
+    assertThat(result.newExpression().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu");
     assertThat(result.newExpression().getRegelungstext1().getExpressionEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1");
-    FRBRExpression expression = result.newExpression().getMeta().getFRBRExpression();
+    FRBRExpression expression = result
+      .newExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression();
     assertThat(expression.getURI()).hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu");
     assertThat(expression.getFBRDate()).isEqualTo("2024-01-01");
     assertThat(expression.getFRBRVersionNumber()).contains(1);
     assertThat(expression.getFRBRaliasCurrentVersionId())
-      .isNotEqualTo(norm.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId());
+      .isNotEqualTo(
+        norm.getRegelungstext1().getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId()
+      );
     assertThat(expression.getFRBRaliasPreviousVersionId())
-      .contains(norm.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId());
+      .contains(
+        norm.getRegelungstext1().getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId()
+      );
     assertThat(expression.getFRBRaliasNextVersionId()).isEmpty();
     assertThat(result.newExpression().getManifestationEli())
       .hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s".formatted(currentDate));
@@ -131,7 +153,11 @@ class CreateNewVersionOfNormServiceTest {
       .hasToString(
         "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
       );
-    FRBRManifestation manifestation = result.newExpression().getMeta().getFRBRManifestation();
+    FRBRManifestation manifestation = result
+      .newExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRManifestation();
     assertThat(manifestation.getURI())
       .hasToString(
         "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
@@ -147,12 +173,14 @@ class CreateNewVersionOfNormServiceTest {
       );
     FRBRExpression expressionOldExpression = result
       .newManifestationOfOldExpression()
+      .getRegelungstext1()
       .getMeta()
       .getFRBRExpression();
     assertThat(expressionOldExpression.getFRBRaliasNextVersionId())
       .contains(expression.getFRBRaliasCurrentVersionId());
     FRBRManifestation manifestationOldExpression = result
       .newManifestationOfOldExpression()
+      .getRegelungstext1()
       .getMeta()
       .getFRBRManifestation();
     assertThat(manifestationOldExpression.getURI())
@@ -174,12 +202,15 @@ class CreateNewVersionOfNormServiceTest {
     );
 
     // Then
-    assertThat(result.getNormExpressionEli()).isEqualTo(norm.getNormExpressionEli());
+    assertThat(result.getExpressionEli()).isEqualTo(norm.getExpressionEli());
     assertThat(result.getManifestationEli())
       .isEqualTo(
         NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01")
       );
-    FRBRManifestation manifestationOldExpression = result.getMeta().getFRBRManifestation();
+    FRBRManifestation manifestationOldExpression = result
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRManifestation();
     assertThat(manifestationOldExpression.getURI())
       .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01/regelungstext-1.xml");
     assertThat(manifestationOldExpression.getFBRDate()).isEqualTo("2024-01-01");

@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementB
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
@@ -67,7 +66,7 @@ class AnnouncementServiceTest {
     void itReturnsAnnouncements() {
       // Given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
 
       // When
@@ -119,7 +118,7 @@ class AnnouncementServiceTest {
     void itReturnsAnnouncement() {
       // Given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      var announcement = Announcement.builder().eli(norm.getNormExpressionEli()).build();
+      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
@@ -229,16 +228,7 @@ class AnnouncementServiceTest {
         new ByteArrayInputStream(xmlContent.getBytes())
       );
 
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-            )
-          )
-        )
-      )
-        .thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When // Then
       var query = new CreateAnnouncementUseCase.Query(file, false);
@@ -257,26 +247,24 @@ class AnnouncementServiceTest {
         new ByteArrayInputStream(xmlContent.getBytes())
       );
 
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-            )
+      doReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")))
+        .when(loadNormPort)
+        .loadNorm(
+          argThat(argument ->
+            argument
+              .eli()
+              .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
           )
-        )
-      )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-            )
+        );
+      doReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithMods.xml")))
+        .when(loadNormPort)
+        .loadNorm(
+          argThat(argument ->
+            argument
+              .eli()
+              .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
           )
-        )
-      )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithMods.xml")));
+        );
 
       // When // Then
       var query = new CreateAnnouncementUseCase.Query(file, false);
@@ -299,9 +287,7 @@ class AnnouncementServiceTest {
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-            )
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
           )
         )
       )
@@ -309,9 +295,7 @@ class AnnouncementServiceTest {
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-            )
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           )
         )
       )
@@ -343,9 +327,7 @@ class AnnouncementServiceTest {
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-            )
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
           )
         )
       )
@@ -353,14 +335,12 @@ class AnnouncementServiceTest {
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-            )
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           )
         )
       )
         .thenReturn(Optional.empty());
-      when(ldmlDeValidator.parseAndValidate(any()))
+      when(ldmlDeValidator.parseAndValidateRegelungstext(any()))
         .thenThrow(new LdmlDeNotValidException(List.of()));
 
       // When // Then
@@ -384,9 +364,7 @@ class AnnouncementServiceTest {
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-            )
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
           )
         )
       )
@@ -394,14 +372,12 @@ class AnnouncementServiceTest {
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-            )
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           )
         )
       )
         .thenReturn(Optional.empty());
-      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(regelungstext);
+      when(ldmlDeValidator.parseAndValidateRegelungstext(any())).thenReturn(regelungstext);
       doThrow(new LdmlDeSchematronException(List.of()))
         .when(ldmlDeValidator)
         .validateSchematron(regelungstext);

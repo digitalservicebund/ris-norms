@@ -49,7 +49,7 @@ class NormMapperTest {
     var regelungstext2 = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
     var norm = Norm
       .builder()
-      .regelungstexte(Set.of(regelungstext1, regelungstext2))
+      .dokumente(Set.of(regelungstext1, regelungstext2))
       .publishState(NormPublishState.PUBLISHED)
       .build();
 
