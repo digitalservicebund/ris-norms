@@ -4,7 +4,8 @@ import { useAuthentication } from "@/lib/auth"
 import { RouterLink } from "vue-router"
 import UseOutline from "~icons/ic/baseline-person-outline"
 
-const { getUsername } = useAuthentication()
+const { getUsername, getLogoutLink } = useAuthentication()
+const logoutLink = getLogoutLink()
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const { getUsername } = useAuthentication()
         <span class="ris-label2-regular">
           {{ getUsername() ?? "Unbekannt" }}
         </span>
-        <a href="/logout" class="ris-link2-regular underline-offset-2">
+        <a :href="logoutLink" class="ris-link2-regular underline-offset-2">
           Abmelden
         </a>
       </div>

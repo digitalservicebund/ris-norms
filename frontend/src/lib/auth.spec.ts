@@ -7,6 +7,7 @@ vi.mock("keycloak-js", () => {
   MockKeycloak.prototype.didInitialize = false
   MockKeycloak.prototype.token = undefined
   MockKeycloak.prototype.idTokenParsed = undefined
+  MockKeycloak.prototype.createLogoutUrl = vi.fn().mockReturnValue(undefined)
 
   return { default: MockKeycloak }
 })
@@ -180,5 +181,24 @@ describe("auth", () => {
     const username = getUsername()
 
     expect(username).toBeUndefined()
+  })
+
+  it("returns a logout link", async () => {
+    vi.spyOn(Keycloak.default.prototype, "createLogoutUrl").mockReturnValue(
+      "http://example.com",
+    )
+
+    const { useAuthentication } = await import("./auth")
+    const { configure, getLogoutLink } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const logoutLink = getLogoutLink()
+
+    expect(logoutLink).toBe("http://example.com")
   })
 })

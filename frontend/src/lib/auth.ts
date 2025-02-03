@@ -68,9 +68,19 @@ function createAuthentication() {
     return keycloak?.idTokenParsed?.name
   }
 
+  /**
+   * Creates a URL which, when visited, ends the current session and redirects
+   * the user to the login page. Can be undefined if keycloak hasn't been configured
+   * yet.
+   */
+  function getLogoutLink(): string | undefined {
+    return keycloak?.createLogoutUrl()
+  }
+
   return () => ({
     addAuthorizationHeader,
     configure,
+    getLogoutLink,
     getUsername,
     isConfigured,
   })

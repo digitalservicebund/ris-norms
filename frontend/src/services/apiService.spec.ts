@@ -136,6 +136,7 @@ describe("useApiFetch", () => {
       configure: vi.fn().mockResolvedValue(undefined),
       isConfigured: vi.fn().mockReturnValue(true),
       getUsername: vi.fn().mockReturnValue("Jane Doe"),
+      getLogoutLink: vi.fn().mockReturnValue(undefined),
     })
 
     const { useApiFetch } = await import("@/services/apiService")
