@@ -25,6 +25,11 @@ import org.hibernate.annotations.Generated;
 @Table(name = "binary_files")
 public class BinaryFileDto {
 
+  public BinaryFileDto(String eliDokumentManifestation, @NotNull byte[] content) {
+    this.content = content;
+    this.eliDokumentManifestation = eliDokumentManifestation;
+  }
+
   @Column(name = "eli_dokument_manifestation", updatable = false)
   @Id
   private String eliDokumentManifestation;

@@ -32,7 +32,6 @@ public class BinaryFileMapper {
   public static BinaryFileDto mapToDto(final BinaryFile binaryFile) {
     return new BinaryFileDto(
       binaryFile.getDokumentManifestationEli().toString(),
-      null,
       binaryFile.getContent()
     );
   }
