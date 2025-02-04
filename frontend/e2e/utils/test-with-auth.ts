@@ -64,7 +64,7 @@ export const test = base.extend<{
 })
 
 const storagePath = fileURLToPath(
-  new URL("../setup/token.json", import.meta.url),
+  new URL("../storage/token.json", import.meta.url),
 )
 
 /**
