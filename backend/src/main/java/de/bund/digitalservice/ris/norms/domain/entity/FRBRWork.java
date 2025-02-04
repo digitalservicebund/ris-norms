@@ -33,7 +33,7 @@ public class FRBRWork extends FRBR {
   public void setEli(final DokumentWorkEli eli) {
     NodeParser
       .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
-      .setAttribute("value", eli.toString());
+      .setAttribute(VALUE_ATTIBUTE, eli.toString());
   }
 
   /**
@@ -61,7 +61,7 @@ public class FRBRWork extends FRBR {
       "./FRBRname",
       getElement()
     );
-    fRBRName.setAttribute("value", name);
+    fRBRName.setAttribute(VALUE_ATTIBUTE, name);
   }
 
   /**

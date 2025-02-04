@@ -12,8 +12,6 @@ import org.w3c.dom.Element;
 @Getter
 public class FRBRExpression extends FRBR {
 
-  private static final String VALUE_ATTIBUTE = "value";
-
   public FRBRExpression(final Element element) {
     super(element);
   }

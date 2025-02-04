@@ -18,8 +18,8 @@ import org.w3c.dom.Element;
 @AllArgsConstructor
 public abstract class FRBR {
 
+  protected static final String VALUE_ATTIBUTE = "value";
   private final Element element;
-  private static final String VALUE_ATTIBUTE = "value";
 
   /**
    * Returns the Eli as {@link String} from the FRBRThis of the specific FRBR level.
