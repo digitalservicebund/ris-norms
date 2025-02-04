@@ -1,3 +1,6 @@
+# Domain model
+
+```mermaid
 
 classDiagram
 direction BT
@@ -199,10 +202,6 @@ class NormExpressionEli {
 - TemporalGroup temporalGroup
 - TimeInterval timeInterval
   }
-  class TimeBoundaryChangeData {
-- String eid
-- LocalDate date
-  }
   class TimeInterval {
 - Element element
   }
@@ -233,6 +232,7 @@ MetadatenDe "1" *-- "many" SimpleProprietary
 Norm "1" *-- "1" NormPublishState
 Norm "1" *-- "many" Dokument
 Norm "1" *-- "many" BinaryFile
+Norm "1" *-- "1" NormManifestationEli
 
 Announcement "1" -- "1" NormExpressionEli
 Announcement "1" *-- "many" Release
@@ -245,25 +245,34 @@ BinaryFile "1" -- "1" DokumentManifestationEli
 Regelungstext "1" *-- "many" Article
 
 EId "1" *-- "many" EIdPart
+EIdPart "1" *-- "1" EIdPartType
 Href "1" *-- "1" CharacterRange
 TextualMod "1" -- "1" Href
 TimeInterval "1" -- "1" Href
 
 Dokument "1" *-- "1" Meta
 Meta "1" *-- "1" FRBRWork
+FRBRWork "1" -- "1" DokumentWorkEli
 Meta "1" *-- "1" FRBRExpression
+FRBRExpression "1" -- "1" DokumentExpressionEli
 Meta "1" *-- "1" FRBRManifestation
+FRBRManifestation "1" -- "1" DokumentManifestationEli
 Meta "1" o-- "0..1" Analysis
 Analysis "1" *-- "many" TextualMod
 Meta "1" *-- "1" Lifecycle
 Lifecycle "1" *-- "many" EventRef
+EventRef "1" *-- "1" EventRefType
 Meta "1" *-- "1" TemporalData
 TemporalData "1" *-- "many" TemporalGroup
 TemporalGroup "1" *-- "1" TimeInterval
 Meta "1" o-- "0..1" Proprietary
+Proprietary "1" o-- "0..1" MetadatenDe
+Proprietary "1" o-- "0..1" MetadatenDs
+Proprietary "1" o-- "0..1" MetadatenBund
 
 Regelungstext "0" *-- "many" Mod
 Article "1" o-- "0..1" Mod
 
 FRBR "1" -- "1" Namespace
 Dokument "0" *-- "many" TimeBoundary
+```
