@@ -13,6 +13,7 @@ class announcements {
 }
 class dokumente {
    xml xml
+   text subtype
    text eli_dokument_manifestation
    text eli_dokument_expression
    uuid guid

@@ -4,9 +4,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.Announcement
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManifestationMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
@@ -101,7 +101,9 @@ public class DBService
         .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
           expressionEli.toString()
         )
-        .map(RegelungstextMapper::mapToDomain);
+        .map(DokumentMapper::mapToDomain)
+        .filter(Regelungstext.class::isInstance)
+        .map(Regelungstext.class::cast);
       case DokumentManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
           // we can find the regelungstext based on the expression eli as the point in time manifestation is the only additional identifying part of the eli
@@ -112,7 +114,9 @@ public class DBService
 
         yield dokumentRepository
           .findByEliDokumentManifestation(manifestationEli.toString())
-          .map(RegelungstextMapper::mapToDomain);
+          .map(DokumentMapper::mapToDomain)
+          .filter(Regelungstext.class::isInstance)
+          .map(Regelungstext.class::cast);
       }
       case DokumentWorkEli ignored -> throw new IllegalArgumentException(
         "It's currently not possible to load a regelungstext by it's work eli."
@@ -197,7 +201,7 @@ public class DBService
           .norm()
           .getRegelungstexte()
           .stream()
-          .map(RegelungstextMapper::mapToDto)
+          .map(DokumentMapper::mapToDto)
           .collect(Collectors.toSet())
       );
 

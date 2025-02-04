@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -78,9 +78,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var atDateString = "2024-06-03";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml")
-        )
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
 
       // when
@@ -111,7 +109,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var atDateString = "2024-06-03";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
         )
       );
@@ -144,7 +142,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var atDateString = "2024-06-03";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
 
       // when
@@ -221,7 +219,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
 
       // when
@@ -257,7 +255,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").value("Bundesministerium der Magie"))
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
@@ -301,7 +299,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
 
       // when
@@ -338,7 +336,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
@@ -379,7 +377,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
 
       // when
@@ -416,7 +414,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
@@ -457,7 +455,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
 
       // when
@@ -494,7 +492,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").value("andere org einheit"));
 
       // then
-      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
@@ -538,7 +536,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
 
       // when
@@ -575,7 +573,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       // then
-      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
@@ -616,7 +614,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("2003-01-01");
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithProprietaryAndMultipleTimeBoundaries.xml")
         )
       );
@@ -655,7 +653,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty()) // meaning json "qualifizierteMehrheit":null
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
@@ -697,9 +695,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml")
-        )
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
 
       // when
@@ -733,7 +729,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
         .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
 
-      final Regelungstext regelungstextLoaded = RegelungstextMapper.mapToDomain(
+      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
           .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
           .get()
@@ -816,9 +812,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml")
-        )
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
 
       // when
@@ -841,7 +835,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
         )
       );
@@ -866,7 +860,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
 
       // when
@@ -929,9 +923,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       var atDateString = "2024-06-03";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml")
-        )
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
 
       // when

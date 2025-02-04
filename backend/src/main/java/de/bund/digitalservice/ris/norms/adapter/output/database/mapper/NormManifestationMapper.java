@@ -25,7 +25,7 @@ public class NormManifestationMapper {
         normManifestationDto
           .getDokumente()
           .stream()
-          .map(RegelungstextMapper::mapToDomain)
+          .map(DokumentMapper::mapToDomain)
           .collect(Collectors.toSet())
       )
       .publishState(normManifestationDto.getPublishState())
@@ -42,7 +42,7 @@ public class NormManifestationMapper {
     return NormManifestationDto
       .builder()
       .publishState(norm.getPublishState())
-      .dokumente(norm.getRegelungstexte().stream().map(RegelungstextMapper::mapToDto).toList())
+      .dokumente(norm.getDokumente().stream().map(DokumentMapper::mapToDto).toList())
       .build();
   }
 }

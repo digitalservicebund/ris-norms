@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -74,7 +74,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
 
       // When
@@ -112,7 +112,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsElementRenderedAsHtml() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
 
       // When
@@ -132,10 +132,10 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsElementAtGivenIsoDateRenderedAsHtml() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
         )
       );
@@ -223,7 +223,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
 
       // When
@@ -261,7 +261,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnElementEidTitleAndType() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
 
       // When
@@ -375,7 +375,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
       );
 
       // When
@@ -394,7 +394,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEntriesWithPrefacePreambleArticleAndConclusionInformation() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPrefacePreambleAndConclusions.xml")
         )
       );
@@ -437,7 +437,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithGliederung.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithGliederung.xml"))
       );
       var url =
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
@@ -503,12 +503,12 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
         )
       );
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPrefacePreambleAndConclusions.xml")
         )
       );
@@ -532,7 +532,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModificationsInDifferentArticles.xml")
         )
       );
