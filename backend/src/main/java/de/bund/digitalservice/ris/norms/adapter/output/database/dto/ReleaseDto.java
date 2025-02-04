@@ -43,7 +43,7 @@ public class ReleaseDto {
     name = "release_norms",
     joinColumns = @JoinColumn(name = "release_id"),
     inverseJoinColumns = @JoinColumn(
-      name = "norm_eli_manifestation",
+      name = "eli_norm_manifestation",
       referencedColumnName = "eli_norm_manifestation"
     )
   )

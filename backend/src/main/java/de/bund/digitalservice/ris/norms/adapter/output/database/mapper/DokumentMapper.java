@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 
-/** Mapper class for converting between {@link DokumentDto} and {@link Dokument}. */
+/** Mapper class for converting between {@link DokumentDto} and {@link Regelungstext} or {@link OffeneStruktur}. */
 public class DokumentMapper {
 
   // Private constructor to hide the implicit public one and prevent instantiation

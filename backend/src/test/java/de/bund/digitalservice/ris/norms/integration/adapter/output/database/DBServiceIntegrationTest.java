@@ -3,10 +3,12 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
@@ -39,6 +41,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   private AnnouncementRepository announcementRepository;
 
   @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
   private DokumentRepository dokumentRepository;
 
   @Autowired
@@ -55,6 +60,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     announcementRepository.deleteAll();
     releaseRepository.deleteAll();
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
     migrationLogRepository.deleteAll();
   }
@@ -94,9 +100,18 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext2));
       dokumentRepository.save(DokumentMapper.mapToDto(offenestruktur));
 
+      var binaryFile = Fixtures.loadBinaryFileFromDisk(
+        "image-1.png",
+        DokumentManifestationEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
+        )
+      );
+      binaryFileRepository.save(BinaryFileMapper.mapToDto(binaryFile));
+
       var norm = new Norm(
         NormPublishState.UNPUBLISHED,
-        Set.of(regelungstext1, regelungstext2, offenestruktur)
+        Set.of(regelungstext1, regelungstext2, offenestruktur),
+        Set.of(binaryFile)
       );
 
       // When
@@ -106,10 +121,11 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      assertThat(normOptional.get().getDokumente()).hasSize(3);
       // Then
       assertThat(normOptional).isPresent();
       assertThat(normOptional.get().getRegelungstexte()).hasSize(2);
+      assertThat(normOptional.get().getDokumente()).hasSize(3);
+      assertThat(normOptional.get().getBinaryFiles()).hasSize(1);
       assertThat(normOptional).contains(norm);
     }
 
@@ -377,7 +393,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         new SaveReleaseToAnnouncementPort.Command(release, announcement)
       );
 
-      var savedAnnouncement = announcementRepository.findByEli(norm.getExpressionEli().toString());
+      var savedAnnouncement = announcementRepository.findByEliNormExpression(
+        norm.getExpressionEli().toString()
+      );
 
       assertThat(savedAnnouncement).isPresent();
       assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
@@ -425,7 +443,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       dbService.deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
 
       // Then
-      var savedAnnouncement = announcementRepository.findByEli(
+      var savedAnnouncement = announcementRepository.findByEliNormExpression(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
       );
       assertThat(savedAnnouncement).isPresent();

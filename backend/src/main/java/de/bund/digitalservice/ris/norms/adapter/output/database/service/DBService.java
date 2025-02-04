@@ -136,7 +136,7 @@ public class DBService
     LoadAnnouncementByNormEliPort.Command command
   ) {
     return announcementRepository
-      .findByEli(command.eli().toString())
+      .findByEliNormExpression(command.eli().toString())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -222,7 +222,7 @@ public class DBService
   @Override
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
     return announcementRepository
-      .findByEli(command.announcement().getEli().toString())
+      .findByEliNormExpression(command.announcement().getEli().toString())
       // There is no field in an announcement that can change, so we do nothing here
       .map(AnnouncementMapper::mapToDomain);
   }
@@ -243,8 +243,8 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    var announcementDto = announcementRepository.findByEli(command.eli().toString());
-    announcementRepository.deleteByEli(command.eli().toString());
+    var announcementDto = announcementRepository.findByEliNormExpression(command.eli().toString());
+    announcementRepository.deleteByEliNormExpression(command.eli().toString());
     announcementDto.ifPresent(dto -> releaseRepository.deleteAll(dto.getReleases()));
   }
 
@@ -281,7 +281,7 @@ public class DBService
     var release = releaseRepository.save(releaseDto);
 
     announcementRepository
-      .findByEli(command.announcement().getEli().toString())
+      .findByEliNormExpression(command.announcement().getEli().toString())
       .ifPresent(announcementDto -> {
         announcementDto.getReleases().add(release);
         announcementRepository.save(announcementDto);
@@ -292,7 +292,7 @@ public class DBService
 
   @Override
   public List<Release> deleteQueuedReleases(DeleteQueuedReleasesPort.Command command) {
-    var announcementDto = announcementRepository.findByEli(command.eli().toString());
+    var announcementDto = announcementRepository.findByEliNormExpression(command.eli().toString());
 
     if (announcementDto.isEmpty()) {
       return List.of();
