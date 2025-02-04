@@ -95,7 +95,12 @@ public class Norm {
    * @return the "Regelungstext"
    */
   public Regelungstext getRegelungstext1() {
-    return getRegelungstexte().iterator().next();
+    return dokumente
+      .stream()
+      .filter(Regelungstext.class::isInstance)
+      .map(Regelungstext.class::cast)
+      .findFirst()
+      .orElseThrow();
   }
 
   /**
