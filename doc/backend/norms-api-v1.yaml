@@ -676,6 +676,8 @@ paths:
 
   /renderings:
     post:
+      tags:
+        - Rendering
       summary: Create and return an HTML rendering of the provided LDML.de XML
       parameters:
         - in: query
@@ -711,6 +713,26 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"
+
+  /environment:
+    get:
+      summary: Return configuration for the frontend specific to the current environment
+      responses:
+        "200":
+          description: Configuration for the frontend specific to the current environment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  authClientId:
+                    type: string
+                  authRealm:
+                    type: string
+                  authUrl:
+                    type: string
 
 components:
   schemas:

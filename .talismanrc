@@ -19,11 +19,15 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: doc/adr/0009-renovate.md
     checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
-  - filename: frontend/src/main.ts
-    checksum: 91cd971f76b5ec94e94dadb88933c4c623d1244defb54b31e6cf4bf055afc0a8
+  - filename: src/main.ts
+    checksum: d750adb15bff02d686e1b28f2c138af0460bdff4c560398a61cc27818e380d6c
   - filename: LegalDocML.de/*/fixtures/*.xml
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.xml
     ignore_detectors: [filecontent]
+  - filename: frontend/src/plugins/sentry.ts
+    checksum: 8139c80e6a60abcd8055f3e4e59655e0b7e1ea1839a75a1d0ecaf0c799c7e2e2
   - filename: backend/src/test/resources/de/bund/digitalservice/ris/norms/domain/entity/*.xml
     ignore_detectors: [filecontent]
+  - filename: backend/src/test/java/de/bund/digitalservice/ris/norms/utils/NodeParserTest.java
+    checksum: 37b659328bdbba83886283555c3e3a3892f49218d6d37ac270dff9943e34f44f

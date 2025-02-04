@@ -80,13 +80,8 @@ public abstract class BaseIntegrationTest {
     registry.add("spring.data.redis.password", () -> "");
 
     registry.add(
-      "spring.security.oauth2.client.provider.keycloak.issuer-uri",
+      "spring.security.oauth2.resourceserver.jwt.issuer-uri",
       () -> keycloak.getAuthServerUrl() + "/realms/testing"
-    );
-    registry.add("spring.security.oauth2.client.registration.oidcclient.client-id", () -> "norms");
-    registry.add(
-      "spring.security.oauth2.client.registration.oidcclient.client-secret",
-      () -> "3LEwwv3DNY0N086lCOYeuri3aLicVDw1"
     );
   }
 }

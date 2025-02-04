@@ -1,15 +1,12 @@
-import { test, expect } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect } from "@playwright/test"
 
 test.describe("Login / logout functionality", { tag: ["@RISDEV-5654"] }, () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/")
-  })
-
   test("Clicking logout should redirect to the login UI and verify user info after login", async ({
     page,
   }) => {
     await page.goto("/")
-    await page.getByRole("link").click()
+
     await expect(
       page.getByRole("heading", { name: "Sign in to your account" }),
     ).toBeVisible()
@@ -20,8 +17,8 @@ test.describe("Login / logout functionality", { tag: ["@RISDEV-5654"] }, () => {
     await page.getByRole("textbox", { name: "Password" }).fill("test")
     await page.getByRole("button", { name: "Sign In" }).click()
 
-    await page.goto("/amending-laws")
-    const logoutLinkAfterLogin = page.getByRole("link", { name: "Ausloggen" })
+    await page.waitForURL(/\/amending-laws/)
+    const logoutLinkAfterLogin = page.getByRole("link", { name: "Abmelden" })
     await expect(logoutLinkAfterLogin).toBeVisible()
 
     const usernameDisplay = page.getByText("Jane Doe")

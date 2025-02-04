@@ -1,4 +1,5 @@
-import { Page, expect, test } from "@playwright/test"
+import { APIRequestContext, Page, expect } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
 
 test.describe("navigate to temporal data page", () => {
   test("navigate to temporal data page for an amending law using side navigation", async ({
@@ -21,8 +22,8 @@ test.describe("navigate to temporal data page", () => {
 })
 
 test.describe("manage temporal data for an amending law", () => {
-  async function setupInitialData(page: Page) {
-    await page.request.put(
+  async function setupInitialData(request: APIRequestContext) {
+    await request.put(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
       {
         headers: {
@@ -39,16 +40,16 @@ test.describe("manage temporal data for an amending law", () => {
   test.describe("adding, editing, deleting and saving time boundaries", () => {
     let sharedPage: Page
 
-    test.beforeAll(async ({ browser }) => {
+    test.beforeAll(async ({ browser, authenticatedRequest: request }) => {
       sharedPage = await browser.newPage()
-      await setupInitialData(sharedPage)
+      await setupInitialData(request)
       await sharedPage.goto(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
       )
     })
 
-    test.afterAll(async () => {
-      await setupInitialData(sharedPage)
+    test.afterAll(async ({ authenticatedRequest: request }) => {
+      await setupInitialData(request)
     })
 
     test("renders the HTML preview", async () => {
@@ -126,13 +127,16 @@ test.describe("manage temporal data for an amending law", () => {
     })
   })
 
-  test("allows 100 time boundaries at most", async ({ page }) => {
+  test("allows 100 time boundaries at most", async ({
+    page,
+    authenticatedRequest: request,
+  }) => {
     test.slow()
 
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
     )
-    await setupInitialData(page)
+    await setupInitialData(request)
 
     // check contents of entry into force article html rendering
     await expect(page.getByText("Artikel 3Inkrafttreten")).toBeVisible()
@@ -196,9 +200,10 @@ test.describe("Error handling for Temporal Data page", () => {
 
   test("displays error toast when API call to save timeboundaries is called with an empty input field", async ({
     page,
+    authenticatedRequest: request,
   }) => {
     // reset page
-    await page.request.put(
+    await request.put(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
       {
         headers: {

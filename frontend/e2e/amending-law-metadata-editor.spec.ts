@@ -1,4 +1,5 @@
-import { expect, test } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect } from "@playwright/test"
 
 test.describe("navigate to page", () => {
   // Opening the page is tested in amending-law-metadata-editor-rahmen.spec.ts as that's

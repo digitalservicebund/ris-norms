@@ -115,6 +115,21 @@ export default defineConfig(
       // See https://playwright.dev/docs/locators#quick-guide
       "playwright/no-raw-locators": "error",
       "playwright/prefer-native-locators": "error",
+
+      // We use our own `test` fixture to support authentication. Use this over
+      // the built-in `test`.
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@playwright/test",
+              importNames: ["test"],
+              message: "Use `test` from `@e2e/utils/test-with-auth` instead.",
+            },
+          ],
+        },
+      ],
     },
   },
 

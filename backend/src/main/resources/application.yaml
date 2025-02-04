@@ -9,32 +9,10 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0.0
     locations: ${flyway.locations:classpath:db/migration}
-  data:
-    redis:
-      host: ${redis.host:localhost}
-      username: ${redis.user:redis}
-      password: ${redis.password:password}
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
-  security:
-    oauth2:
-      client:
-        registration:
-          oidcclient:
-            provider: keycloak
-            scope:
-              - openid
-              - profile
-              - email
-server:
-  servlet:
-    session:
-      cookie:
-        same-site: lax
-        max-age: 43200 # 12*60*60
 
 # expose health endpoint
 management:
@@ -50,7 +28,7 @@ management:
         liveness:
           include: livenessState
         readiness:
-          include: readinessState,db,redis
+          include: readinessState,db
     prometheus:
       enabled: true
   health:

@@ -22,10 +22,12 @@
       "rootUrl": "http://localhost:8080",
       "baseUrl": "http://localhost:8080",
       "redirectUris": [
-        "http://localhost:8080/*"
+        "http://localhost:8080/*",
+        "http://localhost:5173/*"
       ],
       "webOrigins": [
-        "http://localhost:8080"
+        "http://localhost:8080",
+        "http://localhost:5173"
       ],
       "clientAuthenticatorType": "client-secret",
       "secret": "ris-norms-local",

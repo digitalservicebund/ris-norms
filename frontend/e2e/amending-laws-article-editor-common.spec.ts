@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect } from "@playwright/test"
 
 test.describe("Navigation", () => {
   test("Navigate to article editor using side navigation", async ({ page }) => {
