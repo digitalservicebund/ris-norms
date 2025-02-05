@@ -534,34 +534,21 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /norms/{expressionEli}/proprietary/{eid}/{atDate}:
+  /norms/{dokumentExpressionEli}/proprietary:
     get:
       tags:
-        - Norm expression
-      summary: Get the proprietary metadata of a single element at the specified date
+        - Dokument expression
+      summary: Get the proprietary metadata of Dokument
       parameters:
-        - name: expressionEli
+        - name: dokumentExpressionEli
           in: path
           required: true
-          description: Expression ELI of the norm
+          description: Expression ELI of the Dokument
           schema:
             type: string
-        - name: eid
-          in: path
-          required: true
-          description: The eId of the selected single element
-          schema:
-            type: string
-        - name: atDate
-          in: path
-          required: false
-          description: date at which the metadata should be loaded
-          schema:
-            type: string
-            format: date
       responses:
         "200":
-          description: List of proprietary metadata at that date for the single element
+          description: List of proprietary metadata
           content:
             application/json:
               schema:
@@ -573,14 +560,47 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
     put:
-      summary: Replace the proprietary metadata of a single element at the specified date
+      summary: Replace the proprietary metadata of a Dokument
       tags:
-        - Norm expression
+        - Dokument expression
       parameters:
-        - name: expressionEli
+        - name: dokumentExpressionEli
           in: path
           required: false
-          description: Expression ELI of the norm
+          description: Expression ELI of the Dokument
+          schema:
+            type: string
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SingleElementMetadata"
+      responses:
+        "200":
+          description: Metadata was updated successfully. Returns the updated metadata.
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/SingleElementMetadata"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /norms/{dokumentExpressionEli}/proprietary/{eid}:
+    get:
+      tags:
+        - Dokument expression
+      summary: Get the proprietary metadata of a single element
+      parameters:
+        - name: dokumentExpressionEli
+          in: path
+          required: true
+          description: Expression ELI of the Dokument
           schema:
             type: string
         - name: eid
@@ -589,13 +609,36 @@ paths:
           description: The eId of the selected single element
           schema:
             type: string
-        - name: atDate
+      responses:
+        "200":
+          description: List of proprietary metadata for the single element
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleElementMetadata"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    put:
+      summary: Replace the proprietary metadata of a single element
+      tags:
+        - Dokument expression
+      parameters:
+        - name: dokumentExpressionEli
           in: path
-          required: true
-          description: eId of the time boundary at which the metadata should be updated
+          required: false
+          description: Expression ELI of the Dokument
           schema:
             type: string
-            format: date
+        - name: eid
+          in: path
+          required: true
+          description: The eId of the selected single element
+          schema:
+            type: string
       requestBody:
         description: The proprietary request schema containing several metadata.
         required: true
