@@ -145,9 +145,9 @@ public class PublishService implements PublishNormUseCase {
    */
   public void prepareForPublish(final Norm normToBeReleased) {
     normToBeReleased
-      .getRegelungstexte()
-      .forEach(regelungstext ->
-        regelungstext.getMeta().getProprietary().ifPresent(this::removePrivateMetadata)
+      .getDokumente()
+      .forEach(dokument ->
+        dokument.getMeta().getProprietary().ifPresent(this::removePrivateMetadata)
       );
   }
 

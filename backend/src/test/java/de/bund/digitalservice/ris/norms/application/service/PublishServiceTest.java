@@ -11,10 +11,13 @@ import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.MigrationLog;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -62,7 +65,15 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicAndPrivateStorage() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
+        "SimpleOffenestruktur.xml"
+      );
+      final Norm norm = new Norm(
+        NormPublishState.QUEUED_FOR_PUBLISH,
+        Set.of(regelungstext1, offenestruktur1),
+        Set.of()
+      );
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )

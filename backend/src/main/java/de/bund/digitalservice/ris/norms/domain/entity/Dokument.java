@@ -88,7 +88,7 @@ public abstract class Dokument {
    * @return the meta node as {@link Meta}
    */
   public Meta getMeta() {
-    return new Meta(NodeParser.getMandatoryElementFromExpression("//act/meta", document));
+    return new Meta(NodeParser.getMandatoryElementFromExpression("//meta", document));
   }
 
   /**
