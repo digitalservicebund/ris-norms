@@ -18,6 +18,40 @@ const routes: readonly RouteRecordRaw[] = [
     redirect: { name: "AmendingLaws" },
   },
   {
+    path: "/eli",
+    name: "ExpressionMetadataEditor",
+    component: () =>
+      import(
+        "@/views/expression/metadata-editor/ExpressionMetadataEditor.view.vue"
+      ),
+    children: [
+      {
+        path: "",
+        name: "ExpressionMetadataEditorRahmen",
+        component: () =>
+          import(
+            "@/views/expression/metadata-editor/rahmen/ExpressionMetadataEditorRahmen.view.vue"
+          ),
+      },
+      {
+        path: "element",
+        name: "ExpressionMetadataEditorElement",
+        component: () =>
+          import(
+            "@/views/expression/metadata-editor/element/ExpressionMetadataEditorElement.view.vue"
+          ),
+      },
+      {
+        path: "outline",
+        name: "ExpressionMetadataEditorOutlineElement",
+        component: () =>
+          import(
+            "@/views/expression/metadata-editor/outline-element/ExpressionMetadataEditorOutlineElement.view.vue"
+          ),
+      },
+    ],
+  },
+  {
     path: "/amending-laws",
     children: [
       {
