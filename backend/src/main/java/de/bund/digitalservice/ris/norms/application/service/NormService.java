@@ -3,7 +3,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
@@ -13,13 +12,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nullable;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,29 +28,22 @@ public class NormService
     LoadNormUseCase,
     LoadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase,
-    UpdateModUseCase,
     LoadRegelungstextUseCase {
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
-  private final SingleModValidator singleModValidator;
   private final UpdateNormService updateNormService;
-  private final TimeMachineService timeMachineService;
   private final LoadRegelungstextPort loadRegelungstextPort;
 
   public NormService(
     LoadNormPort loadNormPort,
     UpdateNormPort updateNormPort,
-    SingleModValidator singleModValidator,
     UpdateNormService updateNormService,
-    TimeMachineService timeMachineService,
     LoadRegelungstextPort loadRegelungstextPort
   ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
-    this.singleModValidator = singleModValidator;
     this.updateNormService = updateNormService;
-    this.timeMachineService = timeMachineService;
     this.loadRegelungstextPort = loadRegelungstextPort;
   }
 
@@ -176,126 +164,5 @@ public class NormService
         return new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), savedNorm);
       })
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  /**
-   * Updates the akn:mod, akn:activeModifications and akn:passiveModifications with the given eId.
-   * The amendingNorm and zf0Norm are updated in place.
-   *
-   * @param amendingNorm the norm in which the akn:mod exists
-   * @param zf0Norm the zf0 version of the norm targeted by the akn:mod
-   * @param eId the eId of the akn:mod
-   * @param destinationHref the new destination href of the akn:mod
-   * @param destinationUpTo the last element that should be replaced
-   * @param timeBoundaryEId the eid of the new time-boundary of the akn:mod
-   * @param newContent the new future text of the akn:mod
-   */
-  private void updateModInPlace(
-    Norm amendingNorm,
-    Norm zf0Norm,
-    String eId,
-    Href destinationHref,
-    @Nullable Href destinationUpTo,
-    String timeBoundaryEId,
-    String newContent
-  ) {
-    var targetNormEli = destinationHref
-      .getExpressionEli()
-      .orElseThrow(() ->
-        new ValidationException(
-          ValidationException.ErrorType.ELI_NOT_IN_HREF,
-          Pair.of(ValidationException.FieldName.DESTINATION_HREF, destinationHref.toString())
-        )
-      );
-
-    final Mod selectedMod = amendingNorm
-      .getMods()
-      .stream()
-      .filter(m -> m.getEid().equals(eId))
-      .findFirst()
-      .orElseThrow(() ->
-        new ValidationException(
-          ValidationException.ErrorType.META_MOD_NOT_FOUND,
-          Pair.of(ValidationException.FieldName.EID, eId),
-          Pair.of(
-            ValidationException.FieldName.ELI,
-            amendingNorm.getRegelungstext1ExpressionEli().toString()
-          )
-        )
-      );
-
-    // Updates one active mod (meta and body) in amending law
-    updateNormService.updateOneActiveModification(
-      new UpdateActiveModificationsUseCase.Query(
-        amendingNorm,
-        eId,
-        destinationHref,
-        destinationUpTo,
-        timeBoundaryEId,
-        newContent
-      )
-    );
-
-    updateNormService.updateOnePassiveModification(
-      new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.asNormEli())
-    );
-
-    // Validate changes on the future version valid one day before the time boundary of this mod
-    final Instant atDate = amendingNorm
-      .getTimeBoundaries()
-      .stream()
-      .filter(timeBoundary -> timeBoundary.getTemporalGroupEid().equals(timeBoundaryEId))
-      .findFirst()
-      .map(filtered -> filtered.getEventRef().getDate())
-      .flatMap(date -> date.map(d -> d.minusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant()))
-      .orElse(Instant.MIN);
-    final Regelungstext futureVersionAtDate = timeMachineService.applyPassiveModifications(
-      new ApplyPassiveModificationsUseCase.Query(zf0Norm.getRegelungstext1(), atDate)
-    );
-    singleModValidator.validate(futureVersionAtDate, selectedMod);
-  }
-
-  @Override
-  public UpdateModUseCase.Result updateMod(UpdateModUseCase.Query query) {
-    final Norm amendingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
-
-    final var targetNormEli = query
-      .destinationHref()
-      .getExpressionEli()
-      .orElseThrow(() ->
-        new ValidationException(
-          ValidationException.ErrorType.ELI_NOT_IN_HREF,
-          Pair.of(
-            ValidationException.FieldName.DESTINATION_HREF,
-            query.destinationHref().toString()
-          )
-        )
-      );
-
-    final Norm targetNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(targetNormEli))
-      .orElseThrow(() -> new NormNotFoundException(targetNormEli.toString()));
-
-    this.updateModInPlace(
-        amendingNorm,
-        targetNorm,
-        query.eid(),
-        query.destinationHref(),
-        query.destinationUpTo(),
-        query.timeBoundaryEid(),
-        query.newContent()
-      );
-
-    // Don't save changes when dryRun (when preview is being generated but changes not saved)
-    if (!query.dryRun()) {
-      updateNorm(amendingNorm);
-    }
-
-    return new UpdateModUseCase.Result(
-      XmlMapper.toString(amendingNorm.getDocument()),
-      XmlMapper.toString(targetNorm.getDocument())
-    );
   }
 }
