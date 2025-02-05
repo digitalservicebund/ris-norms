@@ -3,8 +3,6 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModsResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
@@ -18,6 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +40,6 @@ public class NormExpressionController {
   private final UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
-  private final UpdateModUseCase updateModUseCase;
-  private final UpdateModsUseCase updateModsUseCase;
 
   public NormExpressionController(
     LoadNormUseCase loadNormUseCase,
@@ -50,9 +47,7 @@ public class NormExpressionController {
     LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-    ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
-    UpdateModUseCase updateModUseCase,
-    UpdateModsUseCase updateModsUseCase
+    ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase
   ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadRegelungstextUseCase = loadRegelungstextUseCase;
@@ -60,8 +55,6 @@ public class NormExpressionController {
     this.updateRegelungstextXmlUseCase = updateRegelungstextXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
-    this.updateModUseCase = updateModUseCase;
-    this.updateModsUseCase = updateModsUseCase;
   }
 
   /**
@@ -174,32 +167,27 @@ public class NormExpressionController {
    *     <p>Returns HTTP 200 (OK) if both amending law and zf0 successfully uddated.
    *     <p>Returns HTTP 404 (Not Found) if amending law, target law or node within target law not
    *     found.
+   * @deprecated
    */
   @PutMapping(
     path = "/mods/{eid}",
     consumes = { APPLICATION_JSON_VALUE },
     produces = { APPLICATION_JSON_VALUE }
   )
+  @Deprecated(forRemoval = true)
   public ResponseEntity<UpdateModResponseSchema> updateMod(
     final DokumentExpressionEli eli,
     @PathVariable final String eid,
     @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
     @RequestParam(defaultValue = "false") final Boolean dryRun
   ) {
-    var result = updateModUseCase.updateMod(
-      new UpdateModUseCase.Query(
-        eli,
-        eid,
-        updateModRequestSchema.getRefersTo(),
-        updateModRequestSchema.getTimeBoundaryEid(),
-        updateModRequestSchema.getDestinationHref(),
-        updateModRequestSchema.getDestinationUpTo(),
-        updateModRequestSchema.getNewContent(),
-        dryRun
+    return ResponseEntity
+      .status(
+        HttpStatusCode.valueOf(
+          501 // Not implemented
+        )
       )
-    );
-
-    return ResponseEntity.ok(UpdateModResponseMapper.fromResult(result));
+      .build();
   }
 
   /**
@@ -213,12 +201,14 @@ public class NormExpressionController {
    *     <p>Returns HTTP 200 (OK) if the amending law and all zf0 successfully updated.
    *     <p>Returns HTTP 404 (Not Found) if amending law, target law or node within target law not
    *     found.
+   * @deprecated
    */
   @PatchMapping(
     path = "/mods",
     consumes = { APPLICATION_JSON_VALUE },
     produces = { APPLICATION_JSON_VALUE }
   )
+  @Deprecated(forRemoval = true)
   public ResponseEntity<UpdateModsResponseSchema> updateMods(
     final DokumentExpressionEli eli,
     @RequestBody @Valid @NotEmpty final Map<
@@ -227,20 +217,12 @@ public class NormExpressionController {
     > updateModsRequestSchema,
     @RequestParam(defaultValue = "false") final Boolean dryRun
   ) {
-    final var result = updateModsUseCase.updateMods(
-      new UpdateModsUseCase.Query(
-        eli,
-        updateModsRequestSchema
-          .entrySet()
-          .stream()
-          .map(entry ->
-            new UpdateModsUseCase.NewModData(entry.getKey(), entry.getValue().timeBoundaryEid())
-          )
-          .toList(),
-        dryRun
+    return ResponseEntity
+      .status(
+        HttpStatusCode.valueOf(
+          501 // Not implemented
+        )
       )
-    );
-
-    return ResponseEntity.ok(UpdateModsResponseMapper.fromResult(result));
+      .build();
   }
 }
