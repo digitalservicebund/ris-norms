@@ -3,8 +3,8 @@ package de.bund.digitalservice.ris.norms.adapter.output.s3;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -163,15 +163,15 @@ public class BucketService
     final Norm norm
   ) {
     norm
-      .getRegelungstexte()
-      .forEach(regelungstext -> {
+      .getDokumente()
+      .forEach(dokument -> {
         uploadToBucket(
           s3Client,
           bucketName,
-          regelungstext.getManifestationEli().toString(),
-          XmlMapper.toString(regelungstext.getDocument())
+          dokument.getManifestationEli().toString(),
+          XmlMapper.toString(dokument.getDocument())
         );
-        changelog.addContent(Changelog.CHANGED, regelungstext.getManifestationEli().toString());
+        changelog.addContent(Changelog.CHANGED, dokument.getManifestationEli().toString());
       });
   }
 
@@ -205,15 +205,15 @@ public class BucketService
     final Norm norm
   ) {
     norm
-      .getRegelungstexte()
-      .forEach(regelungstext -> deleteFromBucket(changelog, s3Client, bucketName, regelungstext));
+      .getDokumente()
+      .forEach(dokument -> deleteFromBucket(changelog, s3Client, bucketName, dokument));
   }
 
   private void deleteFromBucket(
     final Changelog changelog,
     final S3Client s3Client,
     final String bucketName,
-    final Regelungstext dokument
+    final Dokument dokument
   ) {
     try {
       final DeleteObjectRequest request = DeleteObjectRequest
