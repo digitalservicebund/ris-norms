@@ -34,7 +34,6 @@ public class NormService
     LoadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase,
     UpdateModUseCase,
-    UpdateModsUseCase,
     LoadRegelungstextUseCase {
 
   private final LoadNormPort loadNormPort;
@@ -254,86 +253,6 @@ public class NormService
       new ApplyPassiveModificationsUseCase.Query(zf0Norm.getRegelungstext1(), atDate)
     );
     singleModValidator.validate(futureVersionAtDate, selectedMod);
-  }
-
-  @Override
-  public UpdateModsUseCase.Result updateMods(UpdateModsUseCase.Query query) {
-    final Norm amendingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
-
-    final String queryModEId = query.mods().stream().findAny().orElseThrow().eId();
-    final Mod modObject = amendingNorm
-      .getElementByEId(queryModEId)
-      .map(Mod::new)
-      .orElseThrow(() ->
-        new InvalidUpdateException(
-          "Mod with eId %s not found in amending law %s".formatted(
-              queryModEId,
-              amendingNorm.getRegelungstext1ExpressionEli()
-            )
-        )
-      );
-
-    final DokumentExpressionEli targetNormEli = modObject
-      .getTargetRefHref()
-      .or(modObject::getTargetRrefFrom)
-      .flatMap(Href::getExpressionEli)
-      .orElseThrow(() ->
-        new InvalidUpdateException("No eli found in href of mod %s".formatted(queryModEId))
-      );
-
-    if (
-      !query
-        .mods()
-        .stream()
-        .allMatch(modData -> {
-          final var modNode = amendingNorm.getElementByEId(modData.eId()).map(Mod::new);
-          final var eli = modNode
-            .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
-            .flatMap(Href::getExpressionEli)
-            .orElseThrow(() ->
-              new InvalidUpdateException("No eli found in href of mod %s".formatted(modData.eId()))
-            );
-          return eli.equals(targetNormEli);
-        })
-    ) {
-      throw new InvalidUpdateException(
-        "Currently not supported: Not all mods have the same target norm"
-      );
-    }
-
-    final Norm targetNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(targetNormEli))
-      .orElseThrow(() -> new NormNotFoundException(targetNormEli.toString()));
-
-    query
-      .mods()
-      .forEach(newModData -> {
-        final Mod mod = amendingNorm.getElementByEId(newModData.eId()).map(Mod::new).orElseThrow();
-
-        this.updateModInPlace(
-            amendingNorm,
-            targetNorm,
-            newModData.eId(),
-            mod.getTargetRefHref().or(mod::getTargetRrefFrom).orElse(null),
-            null,
-            newModData.timeBoundaryEId(),
-            mod.getNewText().orElse(null)
-          );
-      });
-
-    // Don't save changes when dryRun (when preview is being generated but changes not saved)
-    if (!query.dryRun()) {
-      // Since we only update time boundaries here (and not destination elis) it is fine to only update the zf0s and
-      // not create them when they are missing
-      updateNorm(amendingNorm);
-    }
-
-    return new UpdateModsUseCase.Result(
-      XmlMapper.toString(amendingNorm.getDocument()),
-      XmlMapper.toString(targetNorm.getDocument())
-    );
   }
 
   @Override
