@@ -1,56 +1,20 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/controls/RisEmptyState.vue"
-import RisHeader, {
-  HeaderBreadcrumb,
-} from "@/components/controls/RisHeader.vue"
+import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import { getFrbrDisplayText } from "@/lib/frbr"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetElements } from "@/services/elementService"
 import { computed, ref } from "vue"
-import { useRoute } from "vue-router"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
 
-const route = useRoute()
-const eli = computed(() => route.params.eli)
-const expandedKeys = ref<Record<string, boolean>>({})
-if (!expandedKeys.value) {
-  expandedKeys.value = {}
-}
-const selectionKeys = ref<Record<string, boolean>>({})
-const expression = ref(null)
-const expressionIsLoading = ref(false)
-const expressionError = ref(null)
-
-const expressionData = computed(
-  () =>
-    expression.value ?? {
-      title: "Dummy Expression Title",
-      content: "This is a placeholder for the full expression content.",
-    },
-)
-
-/* -------------------------------------------------- *
- * Header                                             *
- * -------------------------------------------------- */
-const breadcrumbs = ref<HeaderBreadcrumb[]>([
-  {
-    key: "expression",
-    title: () => getFrbrDisplayText(expressionData.value) ?? "...",
-    to: `/eli/${eli.value}`,
-  },
-  { key: "metadataEditor", title: "Metadaten dokumentieren" },
-])
-
-/* -------------------------------------------------- *
- * Sidebar                                            *
- * -------------------------------------------------- */
+const expressionEli = useEliPathParameter()
 
 const {
   data: elements,
   isFetching: elementsIsLoading,
   error: elementsError,
-} = useGetElements(eli, [
+} = useGetElements(expressionEli, [
   "article",
   "conclusions",
   "preamble",
@@ -63,6 +27,13 @@ const {
   "subtitle",
   "title",
 ])
+
+const expandedKeys = ref<Record<string, boolean>>({})
+if (!expandedKeys.value) {
+  expandedKeys.value = {}
+}
+
+const selectionKeys = ref<Record<string, boolean>>({})
 
 const elementData = computed(
   () =>
@@ -93,8 +64,8 @@ const elementLinks = computed(() => {
           ? "ExpressionMetadataEditorElement"
           : "ExpressionMetadataEditorOutlineElement",
       params: {
-        eli: eli.value,
-        eid: el.eid,
+        eli: expressionEli.value,
+        eid: expressionEli.eid,
       },
     },
   }))
@@ -126,28 +97,14 @@ interface TreeNode {
   secondaryLabel?: string
   children?: TreeNode[]
 }
-
-console.log("Tree Nodes:", treeNodes.value)
 </script>
 
 <template>
   <div class="h-[calc(100dvh-5rem)] bg-gray-100">
     <div
-      v-if="expressionIsLoading"
-      class="flex h-full items-center justify-center"
-    >
-      <RisLoadingSpinner />
-    </div>
-
-    <div v-else-if="expressionError" class="p-24">
-      <RisErrorCallout :error="expressionError" />
-    </div>
-
-    <div
-      v-else
       class="grid h-full grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] bg-gray-100"
     >
-      <RisHeader class="col-span-2" :breadcrumbs>
+      <RisHeader class="col-span-2">
         <aside
           class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white px-8 pt-16"
         >
@@ -161,22 +118,7 @@ console.log("Tree Nodes:", treeNodes.value)
           >
             Rahmen
           </router-link>
-          <router-link
-            :to="{ name: 'ExpressionMetadataEditorElement' }"
-            class="px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-            exact-active-class="font-bold underline bg-blue-200"
-          >
-            Element
-          </router-link>
-          <router-link
-            :to="{ name: 'ExpressionMetadataEditorOutlineElement' }"
-            class="px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-            exact-active-class="font-bold underline bg-blue-200"
-          >
-            Outline Element
-          </router-link>
           <hr class="mx-16 my-8 border-t border-gray-400" />
-
           <!-- Content links -->
           <div
             v-if="elementsIsLoading"

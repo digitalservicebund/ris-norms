@@ -18,7 +18,7 @@ const routes: readonly RouteRecordRaw[] = [
     redirect: { name: "AmendingLaws" },
   },
   {
-    path: "/eli",
+    path: "/eli/:eli",
     name: "ExpressionMetadataEditor",
     component: () =>
       import(
@@ -34,7 +34,7 @@ const routes: readonly RouteRecordRaw[] = [
           ),
       },
       {
-        path: "element",
+        path: "element/:eid",
         name: "ExpressionMetadataEditorElement",
         component: () =>
           import(
@@ -42,7 +42,7 @@ const routes: readonly RouteRecordRaw[] = [
           ),
       },
       {
-        path: "outline",
+        path: "outline/:eid",
         name: "ExpressionMetadataEditorOutlineElement",
         component: () =>
           import(
