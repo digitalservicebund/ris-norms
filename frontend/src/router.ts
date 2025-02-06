@@ -18,7 +18,7 @@ const routes: readonly RouteRecordRaw[] = [
     redirect: { name: "AmendingLaws" },
   },
   {
-    path: "/eli/:eli",
+    path: `/${createEliPathParameter()}`,
     name: "ExpressionMetadataEditor",
     component: () =>
       import(

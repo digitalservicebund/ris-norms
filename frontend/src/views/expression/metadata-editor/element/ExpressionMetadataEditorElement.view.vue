@@ -4,14 +4,10 @@ import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisRadioInput from "@/components/controls/RisRadioInput.vue"
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import RisTabs from "@/components/editor/RisTabs.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useElementId } from "@/composables/useElementId"
-// import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useNormXml } from "@/composables/useNormXml"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useTimeBoundaryPathParameter } from "@/views/amending-law/affected-documents/metadata-editor/useTimeBoundaryPathParameter"
 import { useErrorToast } from "@/lib/errorToast"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
 import {
@@ -23,19 +19,16 @@ import { produce } from "immer"
 import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
-import { useRoute } from "vue-router"
 
-const route = useRoute()
-const affectedDocumentEli = computed(() => route.params.eli || "fake-eli")
+const dokumentExpressionEli = useEliPathParameter()
 const elementEid = useEidPathParameter()
-const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 const { actionTeleportTarget } = useHeaderContext()
 
 const {
   data: element,
   isFetching: elementIsLoading,
   error: elementError,
-} = useGetElement(affectedDocumentEli, elementEid)
+} = useGetElement(dokumentExpressionEli, elementEid)
 
 /* -------------------------------------------------- *
  * API handling                                       *
@@ -47,9 +40,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetElementProprietary(affectedDocumentEli, elementEid, {
-  atDate: timeBoundaryAsDate,
-})
+} = useGetElementProprietary(dokumentExpressionEli, elementEid)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -61,20 +52,7 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutElementProprietary(
-  localData,
-  affectedDocumentEli,
-  elementEid,
-  { atDate: timeBoundaryAsDate },
-  {
-    afterFetch(c) {
-      // Whenever the metadata has been saved successfully, reload the
-      // XML to keep it in sync
-      reloadXml()
-      return c
-    },
-  },
-).put(localData)
+} = usePutElementProprietary(localData, dokumentExpressionEli, elementEid)
 
 watch(savedData, (newData) => {
   localData.value = newData
@@ -99,23 +77,13 @@ const artNorm = computed<string | undefined>({
 })
 
 /* -------------------------------------------------- *
- * XML + HTML preview                                 *
+ * HTML preview                                 *
  * -------------------------------------------------- */
-
-const {
-  data: xml,
-  isFetching: xmlIsLoading,
-  error: xmlError,
-  execute: reloadXml,
-} = useNormXml(affectedDocumentEli)
-
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetElementHtml(affectedDocumentEli, elementEid, {
-  at: timeBoundaryAsDate,
-})
+} = useGetElementHtml(dokumentExpressionEli, elementEid)
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
@@ -177,74 +145,49 @@ watch(hasSaved, (finished) => {
       </section>
 
       <section class="flex flex-col gap-8" aria-label="Metadaten dokumentieren">
-        <RisTabs
-          align="right"
-          :tabs="[
-            { id: 'editor', label: 'Rubriken' },
-            { id: 'xml', label: 'XML' },
-          ]"
+        <div v-if="isFetching" class="my-16 flex justify-center">
+          <RisLoadingSpinner />
+        </div>
+
+        <RisErrorCallout v-else-if="fetchError" :error="fetchError" />
+
+        <form
+          v-else
+          class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
+          @submit.prevent
         >
-          <template #editor>
-            <div v-if="isFetching" class="my-16 flex justify-center">
-              <RisLoadingSpinner />
-            </div>
+          <fieldset class="contents">
+            <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
-            <RisErrorCallout v-else-if="fetchError" :error="fetchError" />
+            <fieldset class="col-span-2 contents">
+              <legend class="self-start">Art der Norm</legend>
 
-            <form
-              v-else
-              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
-              @submit.prevent
-            >
-              <fieldset class="contents">
-                <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
-
-                <fieldset class="col-span-2 contents">
-                  <legend class="self-start">Art der Norm</legend>
-
-                  <div class="space-y-10">
-                    <RisRadioInput
-                      :id="artNormSnId"
-                      v-model="artNorm"
-                      value="SN"
-                      name="artNorm"
-                      label="SN - Stammnorm"
-                    />
-                    <RisRadioInput
-                      :id="artNormAnId"
-                      v-model="artNorm"
-                      value="ÄN"
-                      name="artNorm"
-                      label="ÄN - Änderungsnorm"
-                    />
-                    <RisRadioInput
-                      :id="artNormUnId"
-                      v-model="artNorm"
-                      value="ÜN"
-                      name="artNorm"
-                      label="ÜN - Übergangsnorm"
-                    />
-                  </div>
-                </fieldset>
-              </fieldset>
-            </form>
-          </template>
-
-          <template #xml>
-            <div v-if="xmlIsLoading" class="my-16 flex justify-center">
-              <RisLoadingSpinner />
-            </div>
-
-            <RisErrorCallout v-else-if="xmlError" :error="xmlError" />
-
-            <RisCodeEditor
-              :model-value="xml ?? ''"
-              :readonly="true"
-              class="flex-grow"
-            />
-          </template>
-        </RisTabs>
-
+              <div class="space-y-10">
+                <RisRadioInput
+                  :id="artNormSnId"
+                  v-model="artNorm"
+                  value="SN"
+                  name="artNorm"
+                  label="SN - Stammnorm"
+                />
+                <RisRadioInput
+                  :id="artNormAnId"
+                  v-model="artNorm"
+                  value="ÄN"
+                  name="artNorm"
+                  label="ÄN - Änderungsnorm"
+                />
+                <RisRadioInput
+                  :id="artNormUnId"
+                  v-model="artNorm"
+                  value="ÜN"
+                  name="artNorm"
+                  label="ÜN - Übergangsnorm"
+                />
+              </div>
+            </fieldset>
+          </fieldset>
+        </form>
         <!-- Save button -->
         <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
           <div class="relative">

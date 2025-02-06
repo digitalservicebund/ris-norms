@@ -3,32 +3,24 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
-// import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTimeBoundaryPathParameter } from "@/views/amending-law/affected-documents/metadata-editor/useTimeBoundaryPathParameter"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
 import Message from "primevue/message"
-import { computed } from "vue"
-import { useRoute } from "vue-router"
 
-const route = useRoute()
-
-const affectedDocumentEli = computed(() => route.params.eli || "fake-eli")
+const dokumentExpressionEli = useEliPathParameter()
 const elementEid = useEidPathParameter()
-const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
 const {
   data: element,
   isFetching: elementIsLoading,
   error: elementError,
-} = useGetElement(affectedDocumentEli, elementEid)
+} = useGetElement(dokumentExpressionEli, elementEid)
 
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetElementHtml(affectedDocumentEli, elementEid, {
-  at: timeBoundaryAsDate,
-})
+} = useGetElementHtml(dokumentExpressionEli, elementEid)
 </script>
 
 <template>

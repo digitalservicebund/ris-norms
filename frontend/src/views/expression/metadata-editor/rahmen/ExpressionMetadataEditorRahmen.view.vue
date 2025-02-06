@@ -20,7 +20,7 @@ import {
   udpateArtNorm,
   UNKNOWN_DOCUMENT_TYPE,
 } from "@/lib/proprietary"
-import { useGetNormHtml } from "@/services/normService"
+import { useGetNorm, useGetNormHtml } from "@/services/normService"
 import {
   useGetRahmenProprietary,
   usePutRahmenProprietary,
@@ -33,13 +33,15 @@ import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
 import Select from "primevue/select"
 
-const expressionEli = useEliPathParameter()
-const affectedDocumentEli = useEliPathParameter("affectedDocument")
+const dokumentExpressionEli = useEliPathParameter()
 const { actionTeleportTarget } = useHeaderContext()
 
 /* -------------------------------------------------- *
  * API handling                                       *
  * -------------------------------------------------- */
+
+const { data: normData } = useGetNorm(dokumentExpressionEli)
+console.log(normData)
 
 const localData = ref<RahmenProprietary | null>(null)
 
@@ -47,7 +49,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetRahmenProprietary(affectedDocumentEli)
+} = useGetRahmenProprietary(dokumentExpressionEli)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -59,7 +61,7 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutRahmenProprietary(localData, affectedDocumentEli).put(localData)
+} = usePutRahmenProprietary(localData, dokumentExpressionEli).put(localData)
 
 watch(savedData, (newData) => {
   localData.value = newData
@@ -283,7 +285,7 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetNormHtml(expressionEli)
+} = useGetNormHtml(dokumentExpressionEli)
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
@@ -312,11 +314,11 @@ watch(hasSaved, (finished) => {
   <div class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ris-label2-bold">Rahmen</h2>
+        <h2 class="ris-label2-bold">{{ normData?.shortTitle ?? "Rahmen" }}</h2>
       </div>
     </div>
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-16">
-      <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+      <section class="mt-16 flex flex-col gap-8" aria-label="Vorschau">
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
           <RisLoadingSpinner />
         </div>

@@ -4,7 +4,7 @@ import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetElements } from "@/services/elementService"
-import { computed, ref } from "vue"
+import { ComputedRef, computed, ref } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
 
@@ -29,51 +29,33 @@ const {
 ])
 
 const expandedKeys = ref<Record<string, boolean>>({})
-if (!expandedKeys.value) {
-  expandedKeys.value = {}
-}
-
 const selectionKeys = ref<Record<string, boolean>>({})
 
-const elementData = computed(
+const elementLinks = computed(
   () =>
-    elements.value ?? [
-      { eid: "1", title: "Kapitel 1", type: "article" },
-      { eid: "2", title: "Kapitel 2", type: "book" },
-      { eid: "3", title: "Annex 1", type: "annex" },
-      { eid: "4", title: "Appendix A", type: "appendix" },
-    ],
-)
-
-const elementLinks = computed(() => {
-  const items = elements.value ?? [
-    { eid: "1", title: "Kapitel 1", type: "article" },
-    { eid: "2", title: "Kapitel 2", type: "book" },
-  ]
-
-  return items.map((el) => ({
-    eid: el.eid,
-    title: el.title,
-    type: el.type,
-    route: {
-      name:
-        el.type === "article" ||
-        el.type === "conclusions" ||
-        el.type === "preamble" ||
-        el.type === "preface"
+    elements.value?.map((el) => ({
+      eid: el.eid,
+      title: el.title,
+      type: el.type,
+      route: {
+        name: ["article", "conclusions", "preamble", "preface"].includes(
+          el.type,
+        )
           ? "ExpressionMetadataEditorElement"
           : "ExpressionMetadataEditorOutlineElement",
-      params: {
-        eli: expressionEli.value,
-        eid: expressionEli.eid,
+        params: { eid: el.eid },
       },
-    },
-  }))
-})
+    })) ?? [],
+)
 
-const treeNodes = computed<TreeNode[]>(() => {
-  if (!elementLinks.value) return []
+interface TreeNode {
+  key: string
+  label: string
+  route?: { name: string; params: { expressionEli: string; eid: string } }
+  children?: TreeNode[]
+}
 
+const treeNodes: ComputedRef<TreeNode[]> = computed(() => {
   return elementLinks.value.map((el) => ({
     key: el.eid,
     label: el.title,
@@ -81,22 +63,13 @@ const treeNodes = computed<TreeNode[]>(() => {
       ? {
           name: el.route.name,
           params: {
-            eli: eli.value ?? "default-eli", // Ensure eli is never undefined
+            expressionEli: expressionEli.value,
             eid: el.eid,
           },
         }
       : undefined,
-    children: el.children ?? [],
   }))
 })
-
-interface TreeNode {
-  key: string
-  label: string
-  route?: { name: string; params: Record<string, string | number> }
-  secondaryLabel?: string
-  children?: TreeNode[]
-}
 </script>
 
 <template>
@@ -134,7 +107,7 @@ interface TreeNode {
           />
 
           <RisEmptyState
-            v-else-if="!elementData.length"
+            v-else-if="!elements || !elements.length"
             text-content="Keine Artikel gefunden."
             class="mx-16"
             variant="simple"
