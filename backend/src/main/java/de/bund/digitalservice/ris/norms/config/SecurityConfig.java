@@ -35,14 +35,19 @@ public class SecurityConfig {
         authorize
           .requestMatchers(
             "/.well-known/security.txt",
-            "/favicon.svg",
             "/actuator/health/**",
             "/actuator/prometheus",
-            "/environment"
+            "/",
+            "/favicon.svg",
+            "/index.html",
+            "/environment",
+            "/assets/*"
           )
           .permitAll()
-          .anyRequest()
+          .requestMatchers("/api/**")
           .authenticated()
+          .anyRequest() // this should prevent an (authenticated) user to access accidentally available urls
+          .denyAll()
       )
       .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
       .csrf(AbstractHttpConfigurer::disable)
