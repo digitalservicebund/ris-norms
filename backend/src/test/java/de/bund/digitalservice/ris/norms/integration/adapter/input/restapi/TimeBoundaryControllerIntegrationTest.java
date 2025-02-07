@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
@@ -76,7 +76,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsGetTimeBoundariesAndReturnsJson() throws Exception {
       // Given
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -146,7 +146,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -168,7 +168,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(
+        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
@@ -231,7 +231,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       // When
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
       );
 
       // Then
@@ -261,7 +261,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
       // When
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
       );
 
       // Then
@@ -290,7 +290,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
       // When
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
       );
 
       // Then
@@ -419,7 +419,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
       // When
       dokumentRepository.save(
-        RegelungstextMapper.mapToDto(new Regelungstext(XmlMapper.toDocument(xml)))
+        DokumentMapper.mapToDto(new Regelungstext(XmlMapper.toDocument(xml)))
       );
 
       // Then

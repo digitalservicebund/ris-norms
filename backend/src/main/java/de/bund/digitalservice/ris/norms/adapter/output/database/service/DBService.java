@@ -4,9 +4,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.Announcement
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManifestationMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
@@ -101,7 +101,9 @@ public class DBService
         .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
           expressionEli.toString()
         )
-        .map(RegelungstextMapper::mapToDomain);
+        .map(DokumentMapper::mapToDomain)
+        .filter(Regelungstext.class::isInstance)
+        .map(Regelungstext.class::cast);
       case DokumentManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
           // we can find the regelungstext based on the expression eli as the point in time manifestation is the only additional identifying part of the eli
@@ -112,7 +114,9 @@ public class DBService
 
         yield dokumentRepository
           .findByEliDokumentManifestation(manifestationEli.toString())
-          .map(RegelungstextMapper::mapToDomain);
+          .map(DokumentMapper::mapToDomain)
+          .filter(Regelungstext.class::isInstance)
+          .map(Regelungstext.class::cast);
       }
       case DokumentWorkEli ignored -> throw new IllegalArgumentException(
         "It's currently not possible to load a regelungstext by it's work eli."
@@ -132,7 +136,7 @@ public class DBService
     LoadAnnouncementByNormEliPort.Command command
   ) {
     return announcementRepository
-      .findByEli(command.eli().toString())
+      .findByEliNormExpression(command.eli().toString())
       .map(AnnouncementMapper::mapToDomain);
   }
 
@@ -197,7 +201,7 @@ public class DBService
           .norm()
           .getRegelungstexte()
           .stream()
-          .map(RegelungstextMapper::mapToDto)
+          .map(DokumentMapper::mapToDto)
           .collect(Collectors.toSet())
       );
 
@@ -218,7 +222,7 @@ public class DBService
   @Override
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
     return announcementRepository
-      .findByEli(command.announcement().getEli().toString())
+      .findByEliNormExpression(command.announcement().getEli().toString())
       // There is no field in an announcement that can change, so we do nothing here
       .map(AnnouncementMapper::mapToDomain);
   }
@@ -239,8 +243,8 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    var announcementDto = announcementRepository.findByEli(command.eli().toString());
-    announcementRepository.deleteByEli(command.eli().toString());
+    var announcementDto = announcementRepository.findByEliNormExpression(command.eli().toString());
+    announcementRepository.deleteByEliNormExpression(command.eli().toString());
     announcementDto.ifPresent(dto -> releaseRepository.deleteAll(dto.getReleases()));
   }
 
@@ -277,7 +281,7 @@ public class DBService
     var release = releaseRepository.save(releaseDto);
 
     announcementRepository
-      .findByEli(command.announcement().getEli().toString())
+      .findByEliNormExpression(command.announcement().getEli().toString())
       .ifPresent(announcementDto -> {
         announcementDto.getReleases().add(release);
         announcementRepository.save(announcementDto);
@@ -288,7 +292,7 @@ public class DBService
 
   @Override
   public List<Release> deleteQueuedReleases(DeleteQueuedReleasesPort.Command command) {
-    var announcementDto = announcementRepository.findByEli(command.eli().toString());
+    var announcementDto = announcementRepository.findByEliNormExpression(command.eli().toString());
 
     if (announcementDto.isEmpty()) {
       return List.of();

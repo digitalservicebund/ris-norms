@@ -50,6 +50,10 @@ public class NormManifestationDto {
   @Column(name = "eli_norm_manifestation")
   private List<DokumentDto> dokumente;
 
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "eliNormManifestation")
+  @Column(name = "eli_norm_manifestation")
+  private List<BinaryFileDto> binaryFiles;
+
   @Column
   @Enumerated(EnumType.STRING)
   @JdbcType(PostgreSQLEnumJdbcType.class)

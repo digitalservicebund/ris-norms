@@ -6,8 +6,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,7 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Represents an abstract "Dokument" in LDML.de (which can be a "Rechtsetzungsdokument", a "Regelungstext" and a "Offene Struktur")
@@ -86,7 +88,7 @@ public abstract class Dokument {
    * @return the meta node as {@link Meta}
    */
   public Meta getMeta() {
-    return new Meta(NodeParser.getMandatoryElementFromExpression("//act/meta", document));
+    return new Meta(NodeParser.getMandatoryElementFromExpression("//meta", document));
   }
 
   /**
@@ -306,7 +308,59 @@ public abstract class Dokument {
 
   @Override
   public int hashCode() {
-    return Objects.hash(XmlMapper.toString(document));
+    return hashNode(document);
+  }
+
+  /**
+   * Custom hashCode implementation that uses the same semantic as Node::isEqualNode to determine the hash code so two
+   * Dokumente that are equal also have the same hashCode. We ignore Node::getNodeType as it would be really odd for two
+   * Nodes to only differ in it, and it is the slowest part to call.
+   *
+   * @param node the {@link Node} to create a hash for
+   * @return a hash code for the node
+   */
+  private static int hashNode(Node node) {
+    if (node == null) {
+      return 1;
+    }
+
+    return Objects.hash(
+      node.getNodeName(),
+      node.getLocalName(),
+      node.getNamespaceURI(),
+      node.getPrefix(),
+      node.getNodeValue(),
+      hashNamedNodeMap(node.getAttributes()),
+      hashNodeList(node.getChildNodes())
+    );
+  }
+
+  private static int hashNodeList(NodeList nodeList) {
+    if (nodeList == null || nodeList.getLength() == 0) {
+      return 1;
+    }
+
+    int[] hashes = new int[nodeList.getLength()];
+
+    for (int i = 0; i < nodeList.getLength(); i++) {
+      hashes[i] = hashNode(nodeList.item(i));
+    }
+
+    return Arrays.hashCode(hashes);
+  }
+
+  private static int hashNamedNodeMap(NamedNodeMap nodeMap) {
+    if (nodeMap == null || nodeMap.getLength() == 0) {
+      return 1;
+    }
+
+    int[] hashes = new int[nodeMap.getLength()];
+
+    for (int i = 0; i < nodeMap.getLength(); i++) {
+      hashes[i] = hashNode(nodeMap.item(i));
+    }
+
+    return Arrays.hashCode(hashes);
   }
 
   /**

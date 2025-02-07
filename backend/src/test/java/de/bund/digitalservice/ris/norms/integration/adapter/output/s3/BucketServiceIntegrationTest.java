@@ -7,9 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.Changelog;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
@@ -35,31 +37,16 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itPublishesNormToPublicBucket() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-
-    // When
-    final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
-    final PublishChangelogsPort.Command commandPublishChangelogs =
-      new PublishChangelogsPort.Command(false);
-    bucketService.publishPublicNorm(command);
-    bucketService.publishChangelogs(commandPublishChangelogs);
-
-    // Then
-    final Path filePath = getPublicPath(norm.getRegelungstext1());
-    assertThat(Files.exists(filePath)).isTrue();
-    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
-  }
-
-  @Test
-  void itPublishesAllRegelungstexteOfNormToPublicBucket() {
-    // Given
     final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
     final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
       "SimpleRegelungstext2.xml"
     );
+    final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
+      "SimpleOffenestruktur.xml"
+    );
     final Norm norm = new Norm(
       NormPublishState.QUEUED_FOR_PUBLISH,
-      Set.of(regelungstext1, regelungstext2)
+      Set.of(regelungstext1, offenestruktur1, regelungstext2)
     );
 
     // When
@@ -72,13 +59,24 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // Then
     assertThat(Files.exists(getPublicPath(regelungstext1))).isTrue();
     assertThat(Files.exists(getPublicPath(regelungstext2))).isTrue();
+    assertThat(Files.exists(getPublicPath(offenestruktur1))).isTrue();
     assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
   }
 
   @Test
   void itPublishesNormToPrivateBucket() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "SimpleRegelungstext2.xml"
+    );
+    final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
+      "SimpleOffenestruktur.xml"
+    );
+    final Norm norm = new Norm(
+      NormPublishState.QUEUED_FOR_PUBLISH,
+      Set.of(regelungstext1, offenestruktur1, regelungstext2)
+    );
 
     // When
     final PublishPrivateNormPort.Command command = new PublishPrivateNormPort.Command(norm);
@@ -88,8 +86,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
-    final Path filePath = getPrivatePath(norm.getRegelungstext1());
-    assertThat(Files.exists(filePath)).isTrue();
+    assertThat(Files.exists(getPrivatePath(regelungstext1))).isTrue();
+    assertThat(Files.exists(getPrivatePath(regelungstext2))).isTrue();
+    assertThat(Files.exists(getPrivatePath(offenestruktur1))).isTrue();
     assertChangelogContains(true, PRIVATE_BUCKET, CHANGED, norm);
   }
 
@@ -119,7 +118,17 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesNormFromPublicBucket() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "SimpleRegelungstext2.xml"
+    );
+    final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
+      "SimpleOffenestruktur.xml"
+    );
+    final Norm norm = new Norm(
+      NormPublishState.QUEUED_FOR_PUBLISH,
+      Set.of(regelungstext1, offenestruktur1, regelungstext2)
+    );
     final PublishPublicNormPort.Command commandPublish = new PublishPublicNormPort.Command(norm);
     bucketService.publishPublicNorm(commandPublish);
 
@@ -131,8 +140,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
-    final Path filePath = getPublicPath(norm.getRegelungstext1());
-    assertThat(Files.exists(filePath)).isFalse();
+    assertThat(Files.exists(getPublicPath(regelungstext1))).isFalse();
+    assertThat(Files.exists(getPublicPath(regelungstext2))).isFalse();
+    assertThat(Files.exists(getPublicPath(offenestruktur1))).isFalse();
     assertChangelogContains(false, PUBLIC_BUCKET, DELETED, norm);
     assertChangelogContains(false, PUBLIC_BUCKET, CHANGED, norm);
   }
@@ -140,7 +150,17 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesNormFromPrivateBucket() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "SimpleRegelungstext2.xml"
+    );
+    final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
+      "SimpleOffenestruktur.xml"
+    );
+    final Norm norm = new Norm(
+      NormPublishState.QUEUED_FOR_PUBLISH,
+      Set.of(regelungstext1, offenestruktur1, regelungstext2)
+    );
     final PublishPrivateNormPort.Command commandPublish = new PublishPrivateNormPort.Command(norm);
     bucketService.publishPrivateNorm(commandPublish);
 
@@ -152,8 +172,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
-    final Path filePath = getPrivatePath(norm.getRegelungstext1());
-    assertThat(Files.exists(filePath)).isFalse();
+    assertThat(Files.exists(getPublicPath(regelungstext1))).isFalse();
+    assertThat(Files.exists(getPublicPath(regelungstext2))).isFalse();
+    assertThat(Files.exists(getPublicPath(offenestruktur1))).isFalse();
     assertChangelogContains(false, PRIVATE_BUCKET, DELETED, norm);
     assertChangelogContains(false, PRIVATE_BUCKET, CHANGED, norm);
   }
@@ -269,9 +290,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
       assertThat(set)
         .containsAll(
           norm
-            .getRegelungstexte()
+            .getDokumente()
             .stream()
-            .map(Regelungstext::getManifestationEli)
+            .map(Dokument::getManifestationEli)
             .map(DokumentManifestationEli::toString)
             .toList()
         );
@@ -282,9 +303,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
       assertThat(set)
         .containsAll(
           norm
-            .getRegelungstexte()
+            .getDokumente()
             .stream()
-            .map(Regelungstext::getManifestationEli)
+            .map(Dokument::getManifestationEli)
             .map(DokumentManifestationEli::toString)
             .toList()
         );

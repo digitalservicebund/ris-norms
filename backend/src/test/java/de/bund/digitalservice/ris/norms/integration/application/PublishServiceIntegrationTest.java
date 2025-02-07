@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.integration.application;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.RegelungstextMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.application.service.PublishService;
@@ -30,7 +30,7 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
   void processQueuedFilesForPublish() {
     // Given
     final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    dokumentRepository.save(RegelungstextMapper.mapToDto(norm.getRegelungstext1()));
+    dokumentRepository.save(DokumentMapper.mapToDto(norm.getRegelungstext1()));
 
     var normDto = normManifestationRepository
       .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")

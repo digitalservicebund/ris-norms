@@ -14,7 +14,7 @@ class AnnouncementMapperTest {
     // Given
     var announcementDto = AnnouncementDto
       .builder()
-      .eli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+      .eliNormExpression("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       .build();
 
     // When
@@ -22,7 +22,7 @@ class AnnouncementMapperTest {
 
     // Then
     assertThat(announcement).isNotNull();
-    assertThat(announcement.getEli()).hasToString(announcementDto.getEli());
+    assertThat(announcement.getEli()).hasToString(announcementDto.getEliNormExpression());
     // TODO: (Malte Laukötter, 2024-10-28) test release mapping
   }
 
@@ -39,7 +39,7 @@ class AnnouncementMapperTest {
 
     // Then
     assertThat(announcementDto).isNotNull();
-    assertThat(announcementDto.getEli()).isEqualTo(announcement.getEli().toString());
+    assertThat(announcementDto.getEliNormExpression()).isEqualTo(announcement.getEli().toString());
     // TODO: (Malte Laukötter, 2024-10-28) test release mapping
   }
 }
