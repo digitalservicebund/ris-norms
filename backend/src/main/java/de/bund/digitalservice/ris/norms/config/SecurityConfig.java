@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -37,11 +38,10 @@ public class SecurityConfig {
             "/.well-known/security.txt",
             "/actuator/health/**",
             "/actuator/prometheus",
-            "/",
             "/favicon.svg",
             "/index.html",
             "/environment",
-            "/assets/*"
+            "/assets/**"
           )
           .permitAll()
           .requestMatchers("/api/**")
@@ -49,17 +49,22 @@ public class SecurityConfig {
           .anyRequest() // this should prevent an (authenticated) user to access accidentally available urls
           .denyAll()
       )
+      .exceptionHandling(configurer ->
+        configurer
+          .defaultAuthenticationEntryPointFor(
+            new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+            new AntPathRequestMatcher("/api/**")
+          )
+          .defaultAuthenticationEntryPointFor(
+            new LoginUrlAuthenticationEntryPoint("/index.html"),
+            new AntPathRequestMatcher("/**")
+          )
+      )
       .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
       .csrf(AbstractHttpConfigurer::disable)
       .cors(Customizer.withDefaults())
       .sessionManagement(sessionManagement ->
         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      )
-      .exceptionHandling(exceptionHandlingConfigurer ->
-        exceptionHandlingConfigurer.defaultAuthenticationEntryPointFor(
-          new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-          new AntPathRequestMatcher("/api/**")
-        )
       );
     return http.build();
   }
