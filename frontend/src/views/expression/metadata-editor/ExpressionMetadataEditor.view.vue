@@ -38,7 +38,6 @@ interface TreeNode {
   route: {
     name: string
     params: {
-      expressionEli: string
       eid: string
     }
   }
@@ -70,7 +69,6 @@ const mapElement = (el: ElementResponse): TreeNode => ({
       ? "ExpressionMetadataEditorElement"
       : "ExpressionMetadataEditorOutlineElement",
     params: {
-      expressionEli: expressionEli.value,
       eid: el.eid,
     },
   },
