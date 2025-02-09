@@ -12,7 +12,6 @@ import lombok.Getter;
  *   <li>A tag name that represents the metadata field.</li>
  *   <li>An optional attribute flag indicating whether the metadata is an XML attribute.</li>
  * </ul>
- * </p>
  */
 @Getter
 public enum Metadata {
