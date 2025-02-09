@@ -5,13 +5,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryFrameSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,73 +19,65 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Retrieve proprietary data of a {@link Norm}. */
+/** Retrieve proprietary data of a {@link Dokument}. */
 @RestController
 @RequestMapping(
   "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/proprietary"
 )
 public class ProprietaryController {
 
-  private final LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
-  private final UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase;
-  private final UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase;
+  private final LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase;
+  private final UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase;
+  private final UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase;
 
   public ProprietaryController(
-    LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase,
-    UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase,
-    UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase
+    LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase,
+    UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase,
+    UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase
   ) {
-    this.loadProprietaryFromNormUseCase = loadProprietaryFromNormUseCase;
-    this.updateProprietaryFrameFromNormUseCase = updateProprietaryFrameFromNormUseCase;
-    this.updateProprietarySingleElementFromNormUseCase =
-    updateProprietarySingleElementFromNormUseCase;
+    this.loadProprietaryFromDokumentUseCase = loadProprietaryFromDokumentUseCase;
+    this.updateProprietaryFrameFromDokumentUseCase = updateProprietaryFrameFromDokumentUseCase;
+    this.updateProprietarySingleElementFromDokumentUseCase =
+    updateProprietarySingleElementFromDokumentUseCase;
   }
 
   /**
-   * Return specific metadata of the {@link Norm} at a given date within the {@link Proprietary}
-   * node.
+   * Return specific metadata of the {@link Dokument} within the {@link Proprietary} node.
    *
-   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
-   * @param atDate the time boundary at which to return the metadata
+   * @param dokumentExpressionEli the eli at the document level
    * @return the specific metadata returned in the form of {@link ProprietaryFrameSchema}
    */
-  @GetMapping(path = "/{atDate}", produces = { APPLICATION_JSON_VALUE })
-  public ResponseEntity<ProprietaryFrameSchema> getProprietaryAtDate(
-    final DokumentExpressionEli eli,
-    @PathVariable final LocalDate atDate
+  @GetMapping(produces = { APPLICATION_JSON_VALUE })
+  public ResponseEntity<ProprietaryFrameSchema> getProprietary(
+    final DokumentExpressionEli dokumentExpressionEli
   ) {
-    var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+    var proprietary = loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+      new LoadProprietaryFromDokumentUseCase.Query(dokumentExpressionEli)
     );
 
-    return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
+    return ResponseEntity.ok(
+      ProprietaryResponseMapper.fromProprietary(proprietary, dokumentExpressionEli.getPointInTime())
+    );
   }
 
   /**
-   * Updates specific metadata of the {@link Norm} at a given date that are present within the
+   * Updates specific metadata of the {@link Dokument} within the
    * {@link Proprietary} node.
    *
-   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
-   * @param atDate the time boundary at which to update the metadata.
+   * @param dokumentExpressionEli the eli at the document level
    * @param proprietaryFrameSchema the request {@link ProprietaryFrameSchema} with the new metadata
    *     values.
    * @return the specific metadata updated in the form of {@link ProprietaryFrameSchema}
    */
-  @PutMapping(
-    path = "/{atDate}",
-    consumes = { APPLICATION_JSON_VALUE },
-    produces = { APPLICATION_JSON_VALUE }
-  )
-  public ResponseEntity<ProprietaryFrameSchema> updateProprietaryAtDate(
-    final DokumentExpressionEli eli,
-    @PathVariable final LocalDate atDate,
+  @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
+  public ResponseEntity<ProprietaryFrameSchema> updateProprietary(
+    final DokumentExpressionEli dokumentExpressionEli,
     @RequestBody ProprietaryFrameSchema proprietaryFrameSchema
   ) {
-    var proprietary = updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(
-      new UpdateProprietaryFrameFromNormUseCase.Query(
-        eli.asNormEli(),
-        atDate,
-        new UpdateProprietaryFrameFromNormUseCase.Metadata(
+    var proprietary = updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(
+      new UpdateProprietaryFrameFromDokumentUseCase.Query(
+        dokumentExpressionEli,
+        new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
           proprietaryFrameSchema.getFna(),
           proprietaryFrameSchema.getArt(),
           proprietaryFrameSchema.getTyp(),
@@ -102,30 +93,30 @@ public class ProprietaryController {
       )
     );
 
-    return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
+    return ResponseEntity.ok(
+      ProprietaryResponseMapper.fromProprietary(proprietary, dokumentExpressionEli.getPointInTime())
+    );
   }
 
   /**
    * Return specific metadata of a single element at a given date within the {@link Proprietary}
    * node.
    *
-   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
-   * @param eid the eId of the single element within the ZF0
-   * @param atDate the time boundary at which to return the metadata
+   * @param dokumentExpressionEli the eli at the document level
+   * @param eid the eId of the single element within the {@link Dokument}
    * @return the specific metadata returned in the form of {@link ProprietarySingleElementSchema}
    */
-  @GetMapping(path = "/{eid}/{atDate}", produces = { APPLICATION_JSON_VALUE })
-  public ResponseEntity<ProprietarySingleElementSchema> getProprietaryAtDate(
-    final DokumentExpressionEli eli,
-    @PathVariable final String eid,
-    @PathVariable final LocalDate atDate
+  @GetMapping(path = "/{eid}", produces = { APPLICATION_JSON_VALUE })
+  public ResponseEntity<ProprietarySingleElementSchema> getProprietarySingleElement(
+    final DokumentExpressionEli dokumentExpressionEli,
+    @PathVariable final String eid
   ) {
-    var proprietary = loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-      new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+    var proprietary = loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+      new LoadProprietaryFromDokumentUseCase.Query(dokumentExpressionEli)
     );
 
     return ResponseEntity.ok(
-      ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate)
+      ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid)
     );
   }
 
@@ -133,38 +124,35 @@ public class ProprietaryController {
    * Updates specific metadata of a single element at a given date within the {@link Proprietary}
    * node.
    *
-   * @param eli Eli of the ZF0 version of the target law where the metadata are saved
-   * @param eid the eId of the single element within the ZF0
-   * @param atDate the time boundary at which to return the metadata
+   * @param dokumentExpressionEli the eli at the document level
+   * @param eid the eId of the single element within the {@link Dokument}
    * @param proprietarySchema the request {@link ProprietarySingleElementSchema} with the new
    *     metadata values.
    * @return the specific metadata returned in the form of {@link ProprietarySingleElementSchema}
    */
   @PutMapping(
-    path = "/{eid}/{atDate}",
+    path = "/{eid}",
     consumes = { APPLICATION_JSON_VALUE },
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<ProprietarySingleElementSchema> updateProprietaryAtDate(
-    final DokumentExpressionEli eli,
+  public ResponseEntity<ProprietarySingleElementSchema> updateProprietarySingleElement(
+    final DokumentExpressionEli dokumentExpressionEli,
     @PathVariable final String eid,
-    @PathVariable final LocalDate atDate,
     @RequestBody ProprietarySingleElementSchema proprietarySchema
   ) {
     var proprietary =
-      updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
-        new UpdateProprietarySingleElementFromNormUseCase.Query(
-          eli.asNormEli(),
+      updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(
+        new UpdateProprietarySingleElementFromDokumentUseCase.Query(
+          dokumentExpressionEli,
           eid,
-          atDate,
-          new UpdateProprietarySingleElementFromNormUseCase.Metadata(
+          new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata(
             proprietarySchema.getArtDerNorm()
           )
         )
       );
 
     return ResponseEntity.ok(
-      ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate)
+      ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid)
     );
   }
 }
