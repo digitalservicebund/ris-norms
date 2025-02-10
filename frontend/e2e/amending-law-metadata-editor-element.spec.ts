@@ -1,5 +1,5 @@
 import { ElementProprietary } from "@/types/proprietary"
-import { Locator, Page, expect, test } from "@playwright/test"
+import { Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
   const dataIn2015: ElementProprietary = {
@@ -11,12 +11,11 @@ async function restoreInitialState(page: Page) {
   }
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-1_art-6/2023-12-30",
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-1_art-6",
     { data: dataIn2015 },
   )
-
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-1_art-6/2024-06-01",
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-1_art-6",
     { data: dataIn2023 },
   )
 }
@@ -273,115 +272,5 @@ test.describe("XML view", () => {
 
     // Cleanup
     await page.unrouteAll()
-  })
-})
-
-test.describe("metadata view", () => {
-  let sharedPage: Page
-
-  async function saveMetadata() {
-    await sharedPage.getByRole("button", { name: "Speichern" }).click()
-    await sharedPage.waitForResponse(/proprietary/)
-  }
-
-  async function gotoTimeBoundary(date: string) {
-    await sharedPage.goto(
-      `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/${date}/hauptteil-1_abschnitt-1_art-6`,
-    )
-  }
-
-  async function mockPutResponse(data: ElementProprietary) {
-    await sharedPage.route(
-      /\/proprietary\/hauptteil-1_abschnitt-1_art-6\/2024-06-01/,
-      async (route) => {
-        if (route.request().method() === "PUT") {
-          const response = await route.fetch()
-          const body = await response.json()
-
-          await route.fulfill({
-            response,
-            body: JSON.stringify({ ...body, ...data }),
-          })
-        } else await route.continue()
-      },
-    )
-  }
-
-  test.beforeAll(async ({ browser }) => {
-    sharedPage = await browser.newPage()
-    await restoreInitialState(sharedPage)
-    await gotoTimeBoundary("2024-06-01")
-  })
-
-  test.afterAll(async () => {
-    await restoreInitialState(sharedPage)
-  })
-
-  test.describe("Art der Norm", () => {
-    let artSnRadio: Locator
-    let artAnRadio: Locator
-    let artUnRadio: Locator
-
-    test.beforeAll(() => {
-      // Given
-      artSnRadio = sharedPage.getByRole("radio", {
-        name: "SN - Stammnorm",
-      })
-      artAnRadio = sharedPage.getByRole("radio", {
-        name: "ÄN - Änderungsnorm",
-      })
-      artUnRadio = sharedPage.getByRole("radio", {
-        name: "ÜN - Übergangsnorm",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(artSnRadio).toBeChecked()
-      await expect(artAnRadio).not.toBeChecked()
-      await expect(artUnRadio).not.toBeChecked()
-
-      // When
-      await gotoTimeBoundary("2024-06-01")
-
-      // Then
-      await expect(artSnRadio).not.toBeChecked()
-      await expect(artAnRadio).toBeChecked()
-      await expect(artUnRadio).not.toBeChecked()
-    })
-
-    test("saves changes", async () => {
-      // When
-      await artUnRadio.check()
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(artSnRadio).not.toBeChecked()
-      await expect(artAnRadio).not.toBeChecked()
-      await expect(artUnRadio).toBeChecked()
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ artDerNorm: "SN" })
-      await expect(artSnRadio).not.toBeChecked()
-      await expect(artAnRadio).not.toBeChecked()
-      await expect(artUnRadio).toBeChecked()
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(artSnRadio).toBeChecked()
-      await expect(artAnRadio).not.toBeChecked()
-      await expect(artUnRadio).not.toBeChecked()
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
   })
 })

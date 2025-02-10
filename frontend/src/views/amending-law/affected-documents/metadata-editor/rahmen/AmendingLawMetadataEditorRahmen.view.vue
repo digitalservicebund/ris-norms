@@ -51,9 +51,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetRahmenProprietary(affectedDocumentEli, {
-  atDate: timeBoundaryAsDate,
-})
+} = useGetRahmenProprietary(affectedDocumentEli)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -65,19 +63,14 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutRahmenProprietary(
-  localData,
-  affectedDocumentEli,
-  { atDate: timeBoundaryAsDate },
-  {
-    afterFetch(c) {
-      // Whenever the metadata has been saved successfully, reload the
-      // XML to keep it in sync
-      reloadXml()
-      return c
-    },
+} = usePutRahmenProprietary(localData, affectedDocumentEli, {
+  afterFetch(c) {
+    // Whenever the metadata has been saved successfully, reload the
+    // XML to keep it in sync
+    reloadXml()
+    return c
   },
-).put(localData)
+}).put(localData)
 
 watch(savedData, (newData) => {
   localData.value = newData

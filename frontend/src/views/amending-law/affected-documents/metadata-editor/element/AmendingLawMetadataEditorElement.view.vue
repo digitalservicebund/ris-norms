@@ -45,9 +45,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetElementProprietary(affectedDocumentEli, elementEid, {
-  atDate: timeBoundaryAsDate,
-})
+} = useGetElementProprietary(affectedDocumentEli, elementEid)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -59,20 +57,14 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutElementProprietary(
-  localData,
-  affectedDocumentEli,
-  elementEid,
-  { atDate: timeBoundaryAsDate },
-  {
-    afterFetch(c) {
-      // Whenever the metadata has been saved successfully, reload the
-      // XML to keep it in sync
-      reloadXml()
-      return c
-    },
+} = usePutElementProprietary(localData, affectedDocumentEli, elementEid, {
+  afterFetch(c) {
+    // Whenever the metadata has been saved successfully, reload the
+    // XML to keep it in sync
+    reloadXml()
+    return c
   },
-).put(localData)
+}).put(localData)
 
 watch(savedData, (newData) => {
   localData.value = newData
