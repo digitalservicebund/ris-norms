@@ -3,6 +3,15 @@ import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
 
+vi.mock("@/lib/auth", () => {
+  return {
+    useAuthentication: () => ({
+      addAuthorizationHeader: (init: HeadersInit) => ({ ...init }),
+      tryRefresh: vi.fn().mockReturnValue(true),
+    }),
+  }
+})
+
 describe("useElementsService", () => {
   beforeEach(() => {
     vi.resetAllMocks()

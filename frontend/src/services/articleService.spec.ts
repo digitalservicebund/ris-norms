@@ -2,6 +2,15 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 import { useArticles } from "@/services/articleService"
 
+vi.mock("@/lib/auth", () => {
+  return {
+    useAuthentication: () => ({
+      addAuthorizationHeader: (init: HeadersInit) => ({ ...init }),
+      tryRefresh: vi.fn().mockReturnValue(true),
+    }),
+  }
+})
+
 describe("articleService", () => {
   describe("useArticles", () => {
     beforeEach(() => {

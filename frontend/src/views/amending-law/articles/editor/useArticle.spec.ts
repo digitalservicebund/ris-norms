@@ -2,6 +2,15 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
+vi.mock("@/lib/auth", () => {
+  return {
+    useAuthentication: () => ({
+      addAuthorizationHeader: (init: HeadersInit) => ({ ...init }),
+      tryRefresh: vi.fn().mockReturnValue(true),
+    }),
+  }
+})
+
 describe("useArticle", () => {
   beforeEach(() => {
     vi.resetModules()
