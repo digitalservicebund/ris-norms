@@ -40,13 +40,14 @@ public class SecurityConfig {
             "/actuator/prometheus",
             "/favicon.svg",
             "/index.html",
+            "/",
             "/environment",
             "/assets/**"
           )
           .permitAll()
           .requestMatchers("/api/**")
           .authenticated()
-          .anyRequest() // this should prevent an (authenticated) user to access accidentally available urls
+          .anyRequest() // shall prevent an (authenticated) user to access accidentally available urls
           .denyAll()
       )
       .exceptionHandling(configurer ->
@@ -56,7 +57,7 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/api/**")
           )
           .defaultAuthenticationEntryPointFor(
-            new LoginUrlAuthenticationEntryPoint("/index.html"),
+            new LoginUrlAuthenticationEntryPoint("/"),
             new AntPathRequestMatcher("/**")
           )
       )
