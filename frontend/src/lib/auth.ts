@@ -77,12 +77,43 @@ function createAuthentication() {
     return keycloak?.createLogoutUrl()
   }
 
+  let pendingRefresh: Promise<boolean> | null = null
+
+  /**
+   * Attempts to refresh the token. If the refresh fails (e.g. because the user
+   * has logged out in a different tab), the user is automatically redirected to
+   * the login page.
+   *
+   * Repeated calls to refresh the token will automatically be de-duplicated,
+   * so consumers of this method don't need to worry about triggering multiple
+   * token refreshes at the same time.
+   *
+   * @returns A boolean indicating whether a valid token exists after the
+   *  attempt. This will be true if the current token can still be used,
+   *  or if it has been refreshed successfully. It will be false if keycloak
+   *  hasn't been initialized, or the refresh has failed.
+   */
+  async function tryRefresh(): Promise<boolean> {
+    if (!keycloak) return false
+
+    try {
+      pendingRefresh ??= keycloak.updateToken()
+      await pendingRefresh
+      return true
+    } catch {
+      return false
+    } finally {
+      pendingRefresh = null
+    }
+  }
+
   return () => ({
     addAuthorizationHeader,
     configure,
     getLogoutLink,
     getUsername,
     isConfigured,
+    tryRefresh,
   })
 }
 

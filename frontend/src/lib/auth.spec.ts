@@ -8,6 +8,7 @@ vi.mock("keycloak-js", () => {
   MockKeycloak.prototype.token = undefined
   MockKeycloak.prototype.idTokenParsed = undefined
   MockKeycloak.prototype.createLogoutUrl = vi.fn().mockReturnValue(undefined)
+  MockKeycloak.prototype.updateToken = vi.fn().mockResolvedValue(true)
 
   return { default: MockKeycloak }
 })
@@ -15,6 +16,7 @@ vi.mock("keycloak-js", () => {
 describe("auth", () => {
   afterEach(() => {
     vi.resetAllMocks()
+    vi.resetModules()
   })
 
   it("configures a new instance", async () => {
@@ -200,5 +202,108 @@ describe("auth", () => {
     const logoutLink = getLogoutLink()
 
     expect(logoutLink).toBe("http://example.com")
+  })
+
+  it("returns false when attempting to refresh a token before configuring auth", async () => {
+    const { useAuthentication } = await import("./auth")
+    const { tryRefresh } = useAuthentication()
+
+    const result = await tryRefresh()
+
+    expect(result).toBe(false)
+  })
+
+  it("returns false when the token refresh throws", async () => {
+    vi.spyOn(Keycloak.default.prototype, "updateToken").mockImplementation(
+      () => {
+        throw new Error()
+      },
+    )
+
+    const { useAuthentication } = await import("./auth")
+    const { tryRefresh, configure } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const result = await tryRefresh()
+
+    expect(result).toBe(false)
+  })
+
+  it("returns true when the token refresh succeeds", async () => {
+    vi.spyOn(Keycloak.default.prototype, "updateToken").mockResolvedValue(true)
+    const { useAuthentication } = await import("./auth")
+    const { tryRefresh, configure } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const result = await tryRefresh()
+
+    expect(result).toBe(true)
+  })
+
+  it("returns true when the token doesn't need refreshing", async () => {
+    vi.spyOn(Keycloak.default.prototype, "updateToken").mockResolvedValue(false)
+    const { useAuthentication } = await import("./auth")
+    const { tryRefresh, configure } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const result = await tryRefresh()
+
+    expect(result).toBe(true)
+  })
+
+  it("doesn't run multiple token refresh requests at the same time", async () => {
+    vi.spyOn(Keycloak.default.prototype, "updateToken").mockResolvedValue(true)
+
+    const { useAuthentication } = await import("./auth")
+    const { tryRefresh, configure } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const result1 = tryRefresh()
+    const result2 = tryRefresh()
+
+    await expect(result1).resolves.toBe(true)
+    await expect(result2).resolves.toBe(true)
+    expect(Keycloak.default.prototype.updateToken).toHaveBeenCalledTimes(1)
+  })
+
+  it("runs multiple token refresh requests sequentially", async () => {
+    vi.spyOn(Keycloak.default.prototype, "updateToken").mockResolvedValue(true)
+
+    const { useAuthentication } = await import("./auth")
+    const { tryRefresh, configure } = useAuthentication()
+
+    await configure({
+      clientId: "test-client",
+      realm: "test-realm",
+      url: "http://test.url",
+    })
+
+    const result1 = tryRefresh()
+    await expect(result1).resolves.toBe(true)
+    expect(Keycloak.default.prototype.updateToken).toHaveBeenCalledTimes(1)
+
+    const result2 = tryRefresh()
+    await expect(result2).resolves.toBe(true)
+    expect(Keycloak.default.prototype.updateToken).toHaveBeenCalledTimes(2)
   })
 })
