@@ -138,28 +138,31 @@ const toggleNode = (node: TreeNode) => {
               <router-link
                 v-if="node.route"
                 :to="node.route"
-                class="flex-grow truncate whitespace-nowrap"
+                class="w-full overflow-hidden truncate text-ellipsis"
                 :title="node.primaryLabel"
                 @click="toggleNode(node)"
               >
                 {{ node.primaryLabel }}
               </router-link>
-              <span
+
+              <button
                 v-else
-                class="w-full truncate whitespace-nowrap"
+                class="w-full overflow-hidden truncate text-ellipsis"
                 :title="node.primaryLabel"
                 @click="toggleNode(node)"
               >
-                {{ node.primaryLabel }}test
-              </span>
-              <span
+                {{ node.primaryLabel }}
+              </button>
+
+              <router-link
                 v-if="node.secondaryLabel"
-                class="ris-label2-regular truncate whitespace-nowrap"
+                :to="node.route"
+                class="ris-label2-regular w-full overflow-hidden truncate text-ellipsis"
                 :title="node.secondaryLabel"
                 @click="toggleNode(node)"
               >
                 {{ node.secondaryLabel }}
-              </span>
+              </router-link>
             </template>
 
             <template #nodetoggleicon="{ expanded }">
