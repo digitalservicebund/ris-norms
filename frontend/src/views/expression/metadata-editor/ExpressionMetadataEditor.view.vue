@@ -3,7 +3,7 @@ import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { ComputedRef, computed, ref, watchEffect, nextTick } from "vue"
+import { ComputedRef, computed, ref, watch, nextTick } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
 import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
@@ -63,55 +63,57 @@ const mapElement = (el: TabelOfContentsItem): TreeNode => ({
 const treeNodes: ComputedRef<TreeNode[]> = elementLinks
 
 const collapseAllNodes = async () => {
-  expandedKeys.value = {}
+  expandedKeys.value = { ...{} }
   await nextTick()
 }
 
-const handleRahmenClick = () => {
-  collapseAllNodes()
+const handleRahmenClick = async () => {
+  await collapseAllNodes()
   selectionKeys.value = {}
 }
 
 const toggleNode = (node: TreeNode) => {
   if (expandedKeys.value[node.key]) {
-    delete expandedKeys.value[node.key]
+    const newExpandedKeys = { ...expandedKeys.value }
+    newExpandedKeys[node.key] = false
+    expandedKeys.value = newExpandedKeys
   } else {
-    expandedKeys.value[node.key] = true
+    expandedKeys.value = { ...expandedKeys.value, [node.key]: true }
   }
-  expandedKeys.value = { ...expandedKeys.value }
-
-  selectionKeys.value = { [node.key]: true }
 }
 
-const findParentIds = (eid: string, nodes: TreeNode[]): string[] => {
+const findParentIds = (
+  eid: string,
+  nodes: TreeNode[],
+  parents: string[] = [],
+): string[] => {
   for (const node of nodes) {
-    if (node.key === eid) return [] // Root node, no parents
-
-    for (const child of node.children ?? []) {
-      if (child.key === eid) return [node.key]
-
-      const subTree = findParentIds(eid, node.children ?? []) // Fix here
-      if (subTree.length) return [node.key, ...subTree]
-    }
+    if (node.key === eid) return parents
+    const found = findParentIds(eid, node.children ?? [], [
+      ...parents,
+      node.key,
+    ])
+    if (found.length) return found
   }
   return []
 }
 
-watchEffect(() => {
-  const eid = selectedEid.value
-  if (eid && treeNodes.value.length > 0) {
-    const parentIds = findParentIds(eid, treeNodes.value)
+watch(
+  () => [selectedEid.value, treeNodes.value.length],
+  ([eid]) => {
+    if (!eid || treeNodes.value.length === 0) return
 
+    const stringEid = String(eid)
+    const parentIds = findParentIds(stringEid, treeNodes.value)
     parentIds.forEach((id) => (expandedKeys.value[id] = true))
-    expandedKeys.value[eid] = true
+    expandedKeys.value[stringEid] = true
 
     if (!Object.keys(selectionKeys.value).length) {
-      selectionKeys.value = { [eid]: true }
+      selectionKeys.value = { [stringEid]: true }
     }
-
-    expandedKeys.value = { ...expandedKeys.value }
-  }
-})
+  },
+  { immediate: true },
+)
 
 const handleNodeSelect = (node: TreeNode) => {
   if (node.data?.route) {

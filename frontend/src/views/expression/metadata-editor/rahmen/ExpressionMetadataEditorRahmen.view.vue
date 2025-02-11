@@ -41,7 +41,6 @@ const { actionTeleportTarget } = useHeaderContext()
  * -------------------------------------------------- */
 
 const { data: normData } = useGetNorm(dokumentExpressionEli)
-console.log(normData)
 
 const localData = ref<RahmenProprietary | null>(null)
 
