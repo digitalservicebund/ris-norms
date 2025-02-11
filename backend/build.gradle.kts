@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
     implementation(libs.spring.oauth2.client)
+    implementation(libs.netty.handler)
 
     compileOnly(libs.lombok)
 
