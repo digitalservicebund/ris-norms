@@ -11,7 +11,9 @@ import ChevronDownIcon from "~icons/ic/baseline-keyboard-arrow-down"
 import { useGetNormTableOfContents } from "@/services/normService"
 import { TabelOfContentsItem } from "@/types/tableOfContents"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
+import { useRouter } from "vue-router"
 
+const router = useRouter()
 const expressionEli = useEliPathParameter()
 const selectedEid = useEidPathParameter()
 
@@ -77,6 +79,8 @@ const toggleNode = (node: TreeNode) => {
     expandedKeys.value[node.key] = true
   }
   expandedKeys.value = { ...expandedKeys.value }
+
+  selectionKeys.value = { [node.key]: true }
 }
 
 const findParentIds = (eid: string, nodes: TreeNode[]): string[] => {
@@ -86,7 +90,7 @@ const findParentIds = (eid: string, nodes: TreeNode[]): string[] => {
     if (node.children) {
       for (const child of node.children) {
         if (child.key === eid) {
-          return [node.key]
+          return [node.key] // Direct parent found
         }
 
         const subTree = findParentIds(eid, node.children)
@@ -105,11 +109,19 @@ watchEffect(() => {
     parentIds.forEach((id) => (expandedKeys.value[id] = true))
     expandedKeys.value[eid] = true
 
-    selectionKeys.value = { [eid]: true }
+    if (!Object.keys(selectionKeys.value).length) {
+      selectionKeys.value = { [eid]: true }
+    }
 
     expandedKeys.value = { ...expandedKeys.value }
   }
 })
+
+const handleNodeSelect = (node: TreeNode) => {
+  if (node.data?.route) {
+    router.push(node.data.route)
+  }
+}
 </script>
 
 <template>
@@ -159,6 +171,7 @@ watchEffect(() => {
             v-model:selection-keys="selectionKeys"
             :value="treeNodes"
             selection-mode="single"
+            @node-select="handleNodeSelect"
           >
             <template #default="{ node }">
               <router-link
@@ -166,6 +179,7 @@ watchEffect(() => {
                 :to="node.data.route"
                 class="w-full overflow-hidden truncate text-ellipsis"
                 :title="node.data.primaryLabel"
+                tabindex="-1"
                 @click="toggleNode(node)"
               >
                 {{ node.data.primaryLabel }}
@@ -175,6 +189,7 @@ watchEffect(() => {
                 v-else
                 class="w-full overflow-hidden truncate text-ellipsis"
                 :title="node.data.primaryLabel"
+                tabindex="-1"
                 @click="toggleNode(node)"
               >
                 {{ node.data.primaryLabel }}
@@ -185,6 +200,7 @@ watchEffect(() => {
                 :to="node.data.route"
                 class="ris-label2-regular w-full overflow-hidden truncate text-ellipsis"
                 :title="node.data.secondaryLabel"
+                tabindex="-1"
                 @click="toggleNode(node)"
               >
                 {{ node.data.secondaryLabel }}
