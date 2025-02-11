@@ -85,17 +85,13 @@ const toggleNode = (node: TreeNode) => {
 
 const findParentIds = (eid: string, nodes: TreeNode[]): string[] => {
   for (const node of nodes) {
-    if (node.key === eid) return []
+    if (node.key === eid) return [] // Root node, no parents
 
-    if (node.children) {
-      for (const child of node.children) {
-        if (child.key === eid) {
-          return [node.key] // Direct parent found
-        }
+    for (const child of node.children ?? []) {
+      if (child.key === eid) return [node.key]
 
-        const subTree = findParentIds(eid, node.children)
-        if (subTree.length) return [node.key, ...subTree]
-      }
+      const subTree = findParentIds(eid, node.children ?? []) // Fix here
+      if (subTree.length) return [node.key, ...subTree]
     }
   }
   return []

@@ -37,7 +37,8 @@ export function useProprietaryService(
       return INVALID_URL
     }
 
-    return `/norms/${eliVal}/proprietary${eidVal ? `/${eidVal}` : ""}`
+    const baseUrl = `/norms/${eliVal}/proprietary`
+    return eidVal ? `${baseUrl}/${eidVal}` : baseUrl
   })
 
   return useApiFetch<RahmenProprietary>(url, fetchOptions)
