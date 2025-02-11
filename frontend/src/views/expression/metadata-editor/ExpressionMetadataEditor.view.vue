@@ -20,19 +20,19 @@ const {
   isFetching: tocIsLoading,
   error: tocError,
 } = useGetNormTableOfContents(expressionEli)
-console.log(tocItems)
+
 interface TreeNode {
   key: string
-  primaryLabel: string
-  secondaryLabel: string | null
-  type: string
-  route: {
-    name: string
-    params: {
-      eid: string
+  label?: string
+  data?: {
+    primaryLabel: string
+    secondaryLabel: string | null
+    route: {
+      name: string
+      params: { eid: string }
     }
   }
-  children: TreeNode[]
+  children?: TreeNode[]
 }
 
 const expandedKeys = ref<Record<string, boolean>>({})
@@ -44,15 +44,15 @@ const elementLinks = computed<TreeNode[]>(
 
 const mapElement = (el: TabelOfContentsItem): TreeNode => ({
   key: el.id,
-  primaryLabel: el.marker,
-  secondaryLabel: el.heading || null,
-  type: el.type,
-  route: {
-    name: ["article", "conclusions", "preamble", "preface"].includes(el.type)
-      ? "ExpressionMetadataEditorElement"
-      : "ExpressionMetadataEditorOutlineElement",
-    params: {
-      eid: el.id,
+  label: el.marker || "",
+  data: {
+    primaryLabel: el.marker || "",
+    secondaryLabel: el.heading || null,
+    route: {
+      name: ["article", "conclusions", "preamble", "preface"].includes(el.type)
+        ? "ExpressionMetadataEditorElement"
+        : "ExpressionMetadataEditorOutlineElement",
+      params: { eid: el.id },
     },
   },
   children: el.children?.map(mapElement) ?? [],
@@ -162,32 +162,32 @@ watchEffect(() => {
           >
             <template #default="{ node }">
               <router-link
-                v-if="node.route"
-                :to="node.route"
+                v-if="node.data.route"
+                :to="node.data.route"
                 class="w-full overflow-hidden truncate text-ellipsis"
-                :title="node.primaryLabel"
+                :title="node.data.primaryLabel"
                 @click="toggleNode(node)"
               >
-                {{ node.primaryLabel }}
+                {{ node.data.primaryLabel }}
               </router-link>
 
               <button
                 v-else
                 class="w-full overflow-hidden truncate text-ellipsis"
-                :title="node.primaryLabel"
+                :title="node.data.primaryLabel"
                 @click="toggleNode(node)"
               >
-                {{ node.primaryLabel }}
+                {{ node.data.primaryLabel }}
               </button>
 
               <router-link
-                v-if="node.secondaryLabel"
-                :to="node.route"
+                v-if="node.data.secondaryLabel"
+                :to="node.data.route"
                 class="ris-label2-regular w-full overflow-hidden truncate text-ellipsis"
-                :title="node.secondaryLabel"
+                :title="node.data.secondaryLabel"
                 @click="toggleNode(node)"
               >
-                {{ node.secondaryLabel }}
+                {{ node.data.secondaryLabel }}
               </router-link>
             </template>
 
