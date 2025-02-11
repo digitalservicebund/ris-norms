@@ -9,6 +9,8 @@ scopeconfig:
 fileignoreconfig:
   - filename: frontend/Dockerfile
     checksum: 0db2e063587f46b2150f978f8dd9c5ce3d001fa8b89a1b67904f7a8363a6bd2a
+  - filename: frontend/e2e/login-and-logout.spec.ts
+    checksum: 01f015833d7876edb7e050874a02bc8d6041ecab56a7ef1bec05d3a514a1be63
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
     checksum: e252d2546a75459a49ac1c4073dd76a3a48861b64843b11fa8271b675490cfd8
   - filename: DockerfileApp
