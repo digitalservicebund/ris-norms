@@ -8,7 +8,7 @@ org-testcontainers = "1.20.4"
 spring-boot = "3.4.2"
 
 [libraries]
-archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.3.0"
+archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.0"
 aws-bom = "software.amazon.awssdk:bom:2.29.52"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
@@ -23,7 +23,7 @@ lombok = "org.projectlombok:lombok:1.18.36"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.15.2"
 netty-handler = "io.netty:netty-handler:4.1.118.Final"
 postgresql = "org.postgresql:postgresql:42.7.5"
-prometheus = "io.micrometer:micrometer-registry-prometheus:1.14.3"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.14.4"
 saxon-he = "net.sf.saxon:Saxon-HE:12.5"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
