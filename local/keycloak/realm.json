@@ -1,6 +1,8 @@
 {
   "id": "ris",
   "realm": "ris",
+  "revokeRefreshToken": true,
+  "refreshTokenMaxReuse": 0,
   "sslRequired": "none",
   "ssoSessionIdleTimeout": 432000,
   "ssoSessionMaxLifespan": 7776000,
