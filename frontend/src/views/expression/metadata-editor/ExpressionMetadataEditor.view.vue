@@ -3,33 +3,24 @@ import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useGetElements } from "@/services/elementService"
-import { ComputedRef, computed, ref } from "vue"
+import { ComputedRef, computed, ref, watchEffect, nextTick } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
 import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
 import ChevronDownIcon from "~icons/ic/baseline-keyboard-arrow-down"
+import { useGetNormTableOfContents } from "@/services/normService"
+import { TabelOfContentsItem } from "@/types/tableOfContents"
+import { useEidPathParameter } from "@/composables/useEidPathParameter"
 
 const expressionEli = useEliPathParameter()
+const selectedEid = useEidPathParameter()
 
 const {
-  data: elements,
-  isFetching: elementsIsLoading,
-  error: elementsError,
-} = useGetElements(expressionEli, [
-  "article",
-  "conclusions",
-  "preamble",
-  "preface",
-  "book",
-  "chapter",
-  "part",
-  "section",
-  "subsection",
-  "subtitle",
-  "title",
-])
-
+  data: tocItems,
+  isFetching: tocIsLoading,
+  error: tocError,
+} = useGetNormTableOfContents(expressionEli)
+console.log(tocItems)
 interface TreeNode {
   key: string
   primaryLabel: string
@@ -44,38 +35,40 @@ interface TreeNode {
   children: TreeNode[]
 }
 
-interface ElementResponse {
-  eid: string
-  marker: string
-  title?: string | null
-  type: string
-  children?: ElementResponse[]
-}
-
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
 
 const elementLinks = computed<TreeNode[]>(
-  () => elements.value?.map(mapElement) ?? [],
+  () => tocItems.value?.map(mapElement) ?? [],
 )
 
-const mapElement = (el: ElementResponse): TreeNode => ({
-  key: el.eid,
+const mapElement = (el: TabelOfContentsItem): TreeNode => ({
+  key: el.id,
   primaryLabel: el.marker,
-  secondaryLabel: el.title || null,
+  secondaryLabel: el.heading || null,
   type: el.type,
   route: {
     name: ["article", "conclusions", "preamble", "preface"].includes(el.type)
       ? "ExpressionMetadataEditorElement"
       : "ExpressionMetadataEditorOutlineElement",
     params: {
-      eid: el.eid,
+      eid: el.id,
     },
   },
   children: el.children?.map(mapElement) ?? [],
 })
 
 const treeNodes: ComputedRef<TreeNode[]> = elementLinks
+
+const collapseAllNodes = async () => {
+  expandedKeys.value = {}
+  await nextTick()
+}
+
+const handleRahmenClick = () => {
+  collapseAllNodes()
+  selectionKeys.value = {}
+}
 
 const toggleNode = (node: TreeNode) => {
   if (expandedKeys.value[node.key]) {
@@ -85,6 +78,38 @@ const toggleNode = (node: TreeNode) => {
   }
   expandedKeys.value = { ...expandedKeys.value }
 }
+
+const findParentIds = (eid: string, nodes: TreeNode[]): string[] => {
+  for (const node of nodes) {
+    if (node.key === eid) return []
+
+    if (node.children) {
+      for (const child of node.children) {
+        if (child.key === eid) {
+          return [node.key]
+        }
+
+        const subTree = findParentIds(eid, node.children)
+        if (subTree.length) return [node.key, ...subTree]
+      }
+    }
+  }
+  return []
+}
+
+watchEffect(() => {
+  const eid = selectedEid.value
+  if (eid && treeNodes.value.length > 0) {
+    const parentIds = findParentIds(eid, treeNodes.value)
+
+    parentIds.forEach((id) => (expandedKeys.value[id] = true))
+    expandedKeys.value[eid] = true
+
+    selectionKeys.value = { [eid]: true }
+
+    expandedKeys.value = { ...expandedKeys.value }
+  }
+})
 </script>
 
 <template>
@@ -103,26 +128,27 @@ const toggleNode = (node: TreeNode) => {
             :to="{ name: 'ExpressionMetadataEditorRahmen' }"
             class="px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
             exact-active-class="font-bold underline bg-blue-200"
+            @click="handleRahmenClick"
           >
             Rahmen
           </router-link>
           <hr class="mx-16 my-8 border-t border-gray-400" />
           <!-- Content links -->
           <div
-            v-if="elementsIsLoading"
+            v-if="tocIsLoading"
             class="m-16 flex items-center justify-center"
           >
             <RisLoadingSpinner />
           </div>
 
           <RisErrorCallout
-            v-else-if="elementsError"
-            :error="elementsError"
+            v-else-if="tocError"
+            :error="tocError"
             class="mx-16"
           />
 
           <RisEmptyState
-            v-else-if="!elements || !elements.length"
+            v-else-if="!tocItems || !tocItems.length"
             text-content="Keine Artikel gefunden."
             class="mx-16"
             variant="simple"
