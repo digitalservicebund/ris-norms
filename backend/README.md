@@ -15,7 +15,7 @@ Install the latest LTS version of node for running Spotless with Prettier.
 
 ## Running and developing
 
-Set up and boot the postgres database and the redis database (from the project root):
+Set up and boot and the postgres database (from the project root):
 
 ```sh
 docker compose -f docker-compose-services.yaml up

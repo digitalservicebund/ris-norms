@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect, Page } from "@playwright/test"
 
 test.describe(
   "Publishing flow for an announcement",
@@ -23,7 +24,10 @@ test.describe(
       ).toBeVisible()
     })
 
-    test("publishing a norm", async ({ page }) => {
+    test("publishing a norm", async ({
+      page,
+      authenticatedRequest: request,
+    }) => {
       await page.goto(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
@@ -58,10 +62,9 @@ test.describe(
           name: `eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         }),
       ).toBeVisible()
-      const manifestationOfPreviouslyPublishedExpression =
-        await page.request.get(
-          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
-        )
+      const manifestationOfPreviouslyPublishedExpression = await request.get(
+        `/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+      )
       expect(
         await manifestationOfPreviouslyPublishedExpression.text(),
       ).toContain(
@@ -73,7 +76,7 @@ test.describe(
         "Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet",
       )
 
-      const expressionAtFirstTimeBoundary = await page.request.get(
+      const expressionAtFirstTimeBoundary = await request.get(
         `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
       )
       expect(await expressionAtFirstTimeBoundary.text()).toContain(
@@ -83,6 +86,7 @@ test.describe(
 
     test.skip("editing of a published announcement doesn't change the published norms contents", async ({
       page,
+      authenticatedRequest: request,
     }) => {
       await page.goto(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
@@ -99,7 +103,7 @@ test.describe(
       )
 
       // Submit metadata change (API)
-      await page.request.put(
+      await request.put(
         "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/2017-03-16",
         { data: { beschliessendesOrgan: "AA - Auswärtiges Amt" } },
       )
@@ -117,13 +121,14 @@ test.describe(
 
     test.skip("editing of a published announcement and re-publishing updates the published norms", async ({
       page,
+      authenticatedRequest: request,
     }) => {
       await page.goto(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
 
       // We'll use a metadatum to check if something changed; first verify it's not there
-      const expressionAtFirstTimeBoundaryBefore = await page.request
+      const expressionAtFirstTimeBoundaryBefore = await request
         .get(
           `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         )
@@ -133,7 +138,7 @@ test.describe(
       )
 
       // Submit metadata change (API)
-      await page.request.put(
+      await request.put(
         "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary",
         { data: { beschliessendesOrgan: "AA - Auswärtiges Amt" } },
       )
@@ -153,7 +158,7 @@ test.describe(
       await verifyPublicationTime(page, expectedDateString, expectedTimeString)
 
       // Fetch same document again and ensure nothing has changed
-      const expressionAtFirstTimeBoundaryAfter = await page.request
+      const expressionAtFirstTimeBoundaryAfter = await request
         .get(
           `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         )

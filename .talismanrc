@@ -9,8 +9,14 @@ scopeconfig:
 fileignoreconfig:
   - filename: frontend/Dockerfile
     checksum: 0db2e063587f46b2150f978f8dd9c5ce3d001fa8b89a1b67904f7a8363a6bd2a
+  - filename: frontend/e2e/login-and-logout.spec.ts
+    checksum: 01f015833d7876edb7e050874a02bc8d6041ecab56a7ef1bec05d3a514a1be63
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
     checksum: e252d2546a75459a49ac1c4073dd76a3a48861b64843b11fa8271b675490cfd8
+  - filename: frontend/src/main.ts
+    checksum: d7ef7857d0478c6ccb525b8632b334ab2deb6cb8309e09787e71ca3ad7c5f5bf
+  - filename: frontend/src/plugins/sentry.ts
+    checksum: dfb628f8d1a02534e102228789abcbbe4e193e5671cc9762febee195f18bb200
   - filename: DockerfileApp
     checksum: 79dcfe570176f7ad6b8341bd0b358b2676355b34ba654c29ae267d54a03f7e64
   - filename: docker-compose.yaml
@@ -19,11 +25,13 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: doc/adr/0009-renovate.md
     checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
-  - filename: frontend/src/main.ts
-    checksum: d7ef7857d0478c6ccb525b8632b334ab2deb6cb8309e09787e71ca3ad7c5f5bf
   - filename: LegalDocML.de/*/fixtures/*.xml
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.xml
     ignore_detectors: [filecontent]
+  - filename: frontend/src/plugins/sentry.ts
+    checksum: 8139c80e6a60abcd8055f3e4e59655e0b7e1ea1839a75a1d0ecaf0c799c7e2e2
   - filename: backend/src/test/resources/de/bund/digitalservice/ris/norms/domain/entity/*.xml
     ignore_detectors: [filecontent]
+  - filename: backend/src/test/java/de/bund/digitalservice/ris/norms/utils/NodeParserTest.java
+    checksum: 37b659328bdbba83886283555c3e3a3892f49218d6d37ac270dff9943e34f44f

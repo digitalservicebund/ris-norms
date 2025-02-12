@@ -1,5 +1,6 @@
-import { expect, Page, test } from "@playwright/test"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
+import { test } from "@e2e/utils/test-with-auth"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
+import { expect, Page } from "@playwright/test"
 
 let sharedPage: Page
 test.beforeAll(async ({ browser }) => {
@@ -82,7 +83,7 @@ test.describe("Load mod details", () => {
 })
 
 test.describe("Editing a single mod", () => {
-  test.afterEach(async ({ request }) => {
+  test.afterEach(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
       "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
@@ -121,7 +122,7 @@ test.describe("Editing a single mod", () => {
 })
 
 test.describe("Editing multiple mods", () => {
-  test.afterEach(async ({ request }) => {
+  test.afterEach(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
       "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",

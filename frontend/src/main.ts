@@ -1,51 +1,60 @@
+import { Sentry } from "@/plugins/sentry"
 import "@digitalservicebund/ris-ui/fonts.css"
 import { RisUiLocale, RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
-import * as Sentry from "@sentry/vue"
-import PrimeVue from "primevue/config"
 import "@digitalservicebund/ris-ui/primevue/style.css"
+import PrimeVue from "primevue/config"
 import ConfirmationService from "primevue/confirmationservice"
 import ToastService from "primevue/toastservice"
 import { createApp } from "vue"
 import App from "./App.vue"
-import { detectEnv, RisEnvironment } from "./lib/env"
+import { useAuthentication } from "./lib/auth"
 import router from "./router"
+import { getEnv } from "./services/envService"
 import "./style.css"
 
-const app = createApp(App)
-  .use(PrimeVue, {
-    pt: RisUiTheme,
-    unstyled: true,
-    locale: RisUiLocale.deDE,
+try {
+  // Fetch environment configuration
+  const env = await getEnv()
+
+  // Initialize Vue application
+  const app = createApp(App)
+    .use(PrimeVue, {
+      pt: RisUiTheme,
+      unstyled: true,
+      locale: RisUiLocale.deDE,
+    })
+    .use(ToastService)
+    .use(ConfirmationService)
+    .use(router)
+    .use(Sentry, { environment: env.name, router })
+
+  // Configure authentication
+  const auth = useAuthentication()
+  await auth.configure({
+    url: env.authUrl,
+    clientId: env.authClientId,
+    realm: env.authRealm,
   })
-  .use(ToastService)
-  .use(ConfirmationService)
-  .use(router)
 
-const env = detectEnv()
+  // If all initialization succeeds, mount app
+  app.mount("#app")
+} catch (e: unknown) {
+  // If an error occurs above, catch it here
 
-const enableSentry = [
-  RisEnvironment.PRODUCTION,
-  RisEnvironment.UAT,
-  RisEnvironment.STAGING,
-].includes(env)
+  // Get references to the error message container and the loading message
+  const errorContainer = document.getElementById("error-container")
+  const loadingMessage = document.querySelector(".fallback p")
 
-console.info(
-  `Sentry reporting is ${enableSentry ? "enabled" : "disabled"} in environment "${env}"`,
-)
-
-if (enableSentry) {
-  Sentry.init({
-    app,
-    environment: env,
-    dsn: "https://bc002a52fd187905497284bed2d771c1@o1248831.ingest.us.sentry.io/4507543284613120",
-    initialScope: { tags: { source: "frontend" } },
-    integrations: [
-      Sentry.browserTracingIntegration({ router }),
-      Sentry.captureConsoleIntegration(),
-    ],
-    tracesSampleRate: 0.01,
-    attachProps: true,
-  })
+  if (errorContainer) {
+    errorContainer.removeAttribute("hidden")
+    if (loadingMessage) {
+      loadingMessage.setAttribute("hidden", "true")
+    }
+    if (e instanceof Error) {
+      const errorDetails = errorContainer.querySelector("#error-detail")
+      if (errorDetails) {
+        errorDetails.textContent = e.message
+      }
+    }
+  }
 }
-
-app.mount("#app")

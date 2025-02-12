@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import neurisLogo from "@/assets/neuRIS-logo.svg"
+import { useAuthentication } from "@/lib/auth"
 import { RouterLink } from "vue-router"
 import UseOutline from "~icons/ic/baseline-person-outline"
-import { useGetUserName } from "@/services/userService"
 
-const { data: user } = useGetUserName()
+const { getUsername, getLogoutLink } = useAuthentication()
+const logoutLink = getLogoutLink()
 </script>
 
 <template>
@@ -22,10 +23,10 @@ const { data: user } = useGetUserName()
       <UseOutline />
       <div class="flex flex-col">
         <span class="ris-label2-regular">
-          {{ user?.name ?? "Unbekannt" }}
+          {{ getUsername() ?? "Unbekannt" }}
         </span>
-        <a href="/logout" class="ris-link2-regular underline-offset-2">
-          Ausloggen
+        <a :href="logoutLink" class="ris-link2-regular underline-offset-2">
+          Abmelden
         </a>
       </div>
     </div>

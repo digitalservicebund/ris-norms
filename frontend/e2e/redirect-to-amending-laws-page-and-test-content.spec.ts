@@ -1,11 +1,13 @@
-import { test, expect } from "@playwright/test"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect } from "@playwright/test"
 
 test.describe("Redirect and start page content", () => {
   test(`redirect to amending laws page and test content for eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`, async ({
     page,
   }) => {
     await page.goto("/")
-    await expect(page).toHaveURL("/amending-laws")
+    // Ignore fragments after the URL, those might be there from the authentication
+    await expect(page).toHaveURL(/\/amending-laws(#.*)?/)
 
     const link = page.getByRole("link", { name: "BGBl. I 2017 S. 419" })
     await expect(link).toBeVisible()
@@ -16,7 +18,8 @@ test.describe("Redirect and start page content", () => {
     page,
   }) => {
     await page.goto("/")
-    await expect(page).toHaveURL("/amending-laws")
+    // Ignore fragments after the URL, those might be there from the authentication
+    await expect(page).toHaveURL(/\/amending-laws(#.*)?/)
 
     const link = page.getByRole("link", { name: "BGBl. I 2023 Nr. 413" })
     await expect(link).toBeVisible()

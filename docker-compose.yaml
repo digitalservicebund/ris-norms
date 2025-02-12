@@ -24,13 +24,10 @@ services:
       dockerfile: DockerfileApp
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
-      - REDIS_HOST=redis
       - SPRING_PROFILES_ACTIVE=local-docker
     network_mode: "service:localhost"
     depends_on:
       postgres14:
-        condition: service_healthy
-      redis:
         condition: service_healthy
       keycloak:
         condition: service_healthy
@@ -41,11 +38,6 @@ services:
     extends:
       file: docker-compose-services.yaml
       service: postgres14
-
-  redis:
-    extends:
-      file: docker-compose-services.yaml
-      service: redis
 
   keycloak:
     extends:

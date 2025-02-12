@@ -1,5 +1,6 @@
-import { test, expect } from "@playwright/test"
 import { amendingLaws } from "@e2e/testData/testData"
+import { test } from "@e2e/utils/test-with-auth"
+import { expect } from "@playwright/test"
 
 test.describe("Affected documents page", () => {
   for (const amendingLaw of amendingLaws) {

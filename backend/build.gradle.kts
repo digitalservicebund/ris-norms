@@ -50,6 +50,8 @@ val schematronToXsltCompileOnly by configurations.getting {
 dependencies {
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.security)
+    implementation(libs.spring.security.oauth2.resource.server)
+    implementation(libs.spring.security.oauth2.jose)
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.validation)
@@ -61,8 +63,6 @@ dependencies {
     implementation(libs.flyway.postgres)
     implementation(libs.jose4j)
     implementation(libs.prometheus)
-    implementation(libs.spring.starter.data.redis)
-    implementation(libs.spring.session.data.redis)
     implementation(libs.saxon.he)
     implementation(libs.bouncycastle.bcprov)
     implementation(libs.bouncycastle.bcpkix)
@@ -70,7 +70,6 @@ dependencies {
     implementation(platform(libs.aws.bom))
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
-    implementation(libs.spring.oauth2.client)
     implementation(libs.netty.handler)
 
     compileOnly(libs.lombok)

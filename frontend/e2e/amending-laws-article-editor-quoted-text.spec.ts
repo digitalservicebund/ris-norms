@@ -1,5 +1,6 @@
-import { expect, test } from "@playwright/test"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with.force"
+import { test } from "@e2e/utils/test-with-auth"
+import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
+import { expect } from "@playwright/test"
 
 test.describe("Editing a single mod", () => {
   test.beforeEach(async ({ page }) => {
@@ -7,7 +8,7 @@ test.describe("Editing a single mod", () => {
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
   })
-  test.afterEach(async ({ request }) => {
+  test.afterEach(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(request, "bgbl-1_2017_s419/aenderungsgesetz.xml")
   })
 
@@ -66,7 +67,7 @@ test.describe("Editing multiple mods", () => {
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
   })
-  test.afterEach(async ({ request }) => {
+  test.afterEach(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
       "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",

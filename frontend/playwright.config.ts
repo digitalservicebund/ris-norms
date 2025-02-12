@@ -23,23 +23,23 @@ const config: PlaywrightTestConfig = {
     {
       name: "setup-chromium",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /.*global-setup\.ts/,
+      testMatch: /.*.setup.ts$/,
     },
     {
       name: "setup-firefox",
       use: { ...devices["Desktop Firefox"] },
-      testMatch: /.*global-setup\.ts/,
+      testMatch: /.*.setup.ts$/,
     },
     {
       name: "setup-msedge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
-      testMatch: /.*global-setup\.ts/,
+      testMatch: /.*.setup.ts$/,
     },
     {
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        storageState: "e2e/setup/.auth/user.json",
+        storageState: "e2e/storage/state.json",
       },
       timeout: 30000,
       testIgnore: "e2e/login-and-logout.spec.ts",
@@ -49,7 +49,7 @@ const config: PlaywrightTestConfig = {
       name: "firefox",
       use: {
         ...devices["Desktop Firefox"],
-        storageState: "e2e/setup/.auth/user.json",
+        storageState: "e2e/storage/state.json",
       },
       timeout: 30000,
       testIgnore: "e2e/login-and-logout.spec.ts",
@@ -60,7 +60,7 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices["Desktop Edge"],
         channel: "msedge",
-        storageState: "e2e/setup/.auth/user.json",
+        storageState: "e2e/storage/state.json",
       },
       timeout: 30000,
       testIgnore: "e2e/login-and-logout.spec.ts",

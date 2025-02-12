@@ -1,6 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { nextTick, ref } from "vue"
 
+vi.mock("@/lib/auth", () => {
+  return {
+    useAuthentication: () => ({
+      addAuthorizationHeader: (init: HeadersInit) => ({ ...init }),
+      tryRefresh: vi.fn().mockReturnValue(true),
+    }),
+  }
+})
+
 describe("temporalDataService", () => {
   beforeEach(() => {
     vi.resetModules()

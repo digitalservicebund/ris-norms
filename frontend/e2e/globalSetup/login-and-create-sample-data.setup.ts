@@ -1,12 +1,11 @@
-import { test as setup } from "@playwright/test"
-import path from "node:path"
-import fs from "fs"
 import { samplesDirectory } from "@e2e/utils/samples-directory"
+import { test as setup } from "@e2e/utils/test-with-auth"
+import fs from "fs"
+import path from "node:path"
 
-setup("global setup", async ({ page }) => {
-  // Login
-  await page.goto("/login")
-  await page.getByRole("link").click()
+setup("login", async ({ page }) => {
+  await page.goto("/")
+  await page.waitForURL(/localhost:8443/)
 
   await page
     .getByRole("textbox", { name: "Username or email" })
@@ -16,8 +15,10 @@ setup("global setup", async ({ page }) => {
 
   await page.getByRole("button", { name: "Sign In" }).click()
 
-  await page.context().storageState({ path: `e2e/setup/.auth/user.json` })
+  await page.context().storageState({ path: `e2e/storage/state.json` })
+})
 
+setup("create sample data", async ({ authenticatedRequest: request }) => {
   const files = [
     "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",
     "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
@@ -33,7 +34,7 @@ setup("global setup", async ({ page }) => {
     formData.append("file", new Blob([fileContent], { type: "text/xml" }), file)
     formData.append("force", String(true))
 
-    const response = await page.request.post(
+    const response = await request.post(
       `${process.env.E2E_BASE_URL}/api/v1/announcements`,
       { multipart: formData },
     )

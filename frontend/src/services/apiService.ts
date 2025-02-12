@@ -1,3 +1,4 @@
+import { useAuthentication } from "@/lib/auth"
 import { getFallbackError } from "@/lib/errorResponseMapper"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
 
@@ -54,15 +55,18 @@ export const useApiFetch = createFetch({
         }
       }
 
+      // Authorize requests
+      const { addAuthorizationHeader, tryRefresh } = useAuthentication()
+
+      const hasValidSession = await tryRefresh()
+      if (!hasValidSession) cancel()
+
+      options.headers = addAuthorizationHeader(options.headers)
+
       return { options }
     },
 
     onFetchError(fetchContext) {
-      // redirect to 404 if anything goes wrong.
-      if (fetchContext.response?.status === 401) {
-        window.location.assign("/login")
-      }
-
       // this error is sometimes throws when previous requests are automatically aborted as
       // some of the data changed and refetch is true. It seems to only be throws when the request
       // is aborted before it was actually send.

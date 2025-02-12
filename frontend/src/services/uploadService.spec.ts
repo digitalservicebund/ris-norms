@@ -1,6 +1,15 @@
 import { describe, it, vi, beforeEach, expect } from "vitest"
 import { useForceUploadFile } from "@/services/uploadService"
 
+vi.mock("@/lib/auth", () => {
+  return {
+    useAuthentication: () => ({
+      addAuthorizationHeader: (init: HeadersInit) => ({ ...init }),
+      tryRefresh: vi.fn().mockReturnValue(true),
+    }),
+  }
+})
+
 describe("uploadService", () => {
   beforeEach(() => {
     vi.resetModules()

@@ -13,6 +13,15 @@ import {
 } from "@/services/ldmldeModService"
 import { nextTick, ref } from "vue"
 
+vi.mock("@/lib/auth", () => {
+  return {
+    useAuthentication: () => ({
+      addAuthorizationHeader: (init: HeadersInit) => ({ ...init }),
+      tryRefresh: vi.fn().mockReturnValue(true),
+    }),
+  }
+})
+
 describe("ldmldeModService", () => {
   beforeEach(() => {
     vi.resetModules()
