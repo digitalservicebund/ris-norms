@@ -13,6 +13,11 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${oauth2.issuer-uri:http://localhost:8443/realms/ris}
 
 # expose health endpoint
 management:

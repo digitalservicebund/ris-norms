@@ -4,11 +4,6 @@ app:
 spring:
   flyway:
     locations: classpath:db/migration,classpath:db/data
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8443/realms/ris
 
 local:
   file-storage: .local-storage
