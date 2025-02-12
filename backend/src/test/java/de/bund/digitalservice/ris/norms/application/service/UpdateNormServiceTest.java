@@ -41,7 +41,7 @@ class UpdateNormServiceTest {
         .map(Analysis::getPassiveModifications)
         .orElse(Collections.emptyList());
       assertThat(passiveModifications).hasSize(1);
-      assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(5);
+      assertThat(updatedZfoLaw.getRegelungstext1().getTimeBoundaries()).hasSize(5);
 
       var passiveModification = passiveModifications.getFirst();
       assertThat(passiveModification.getType()).contains("substitution");
@@ -79,8 +79,13 @@ class UpdateNormServiceTest {
         .map(Analysis::getPassiveModifications)
         .orElse(Collections.emptyList());
       assertThat(passiveModifications).hasSize(1);
-      assertThat(updatedZf0Law.getTimeBoundaries()).hasSize(4); // 3 existing time-boundaries + 1 new one for the mod
-      var eventRefNode = updatedZf0Law.getTimeBoundaries().get(3).getEventRef().getElement();
+      assertThat(updatedZf0Law.getRegelungstext1().getTimeBoundaries()).hasSize(4); // 3 existing time-boundaries + 1 new one for the mod
+      var eventRefNode = updatedZf0Law
+        .getRegelungstext1()
+        .getTimeBoundaries()
+        .get(3)
+        .getEventRef()
+        .getElement();
       assertThat(NodeParser.getValueFromExpression("@type", eventRefNode))
         .contains(EventRefType.AMENDMENT.getValue());
 
@@ -125,7 +130,7 @@ class UpdateNormServiceTest {
         .map(Analysis::getPassiveModifications)
         .orElse(Collections.emptyList());
       assertThat(passiveModifications).hasSize(2);
-      assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(5); // 4 existing time-boundaries + 1 new one for both mods
+      assertThat(updatedZfoLaw.getRegelungstext1().getTimeBoundaries()).hasSize(5); // 4 existing time-boundaries + 1 new one for both mods
 
       var newPassiveModification1 = passiveModifications.getFirst();
       assertThat(newPassiveModification1.getType()).contains("substitution");
@@ -196,7 +201,7 @@ class UpdateNormServiceTest {
           .orElse(Collections.emptyList())
       )
         .hasSize(1);
-      assertThat(updatedZf0Law.getTimeBoundaries()).hasSize(3); // 3 existing time-boundaries
+      assertThat(updatedZf0Law.getRegelungstext1().getTimeBoundaries()).hasSize(3); // 3 existing time-boundaries
 
       var newPassiveModification = updatedZf0Law
         .getMeta()
