@@ -9,11 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * This class is a base class for integration tests which require a PostgreSQL database
@@ -39,19 +37,13 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class BaseIntegrationTest {
 
   protected static final KeycloakContainer keycloak;
-  protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test";
+  protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test=";
 
   @Container
   static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:14")
     .withDatabaseName("postgres")
     .withUsername("postgres")
     .withPassword("pass");
-
-  @Container
-  static final GenericContainer<?> redis = new GenericContainer<>(
-    DockerImageName.parse("cgr.dev/chainguard/redis")
-  )
-    .withExposedPorts(6379);
 
   static {
     keycloak =
@@ -72,12 +64,6 @@ public abstract class BaseIntegrationTest {
             postgreSQLContainer.getDatabaseName()
           )
     );
-
-    registry.add("spring.data.redis.host", redis::getHost);
-    registry.add("spring.data.redis.port", () -> redis.getMappedPort(6379).toString());
-    // Removing user/pass for redis
-    registry.add("spring.data.redis.username", () -> "");
-    registry.add("spring.data.redis.password", () -> "");
 
     registry.add(
       "spring.security.oauth2.resourceserver.jwt.issuer-uri",

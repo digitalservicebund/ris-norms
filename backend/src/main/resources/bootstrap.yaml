@@ -6,7 +6,6 @@ spring:
         fail-fast: true
         sources:
           - name: database-config
-          - name: redis-config
       secrets:
         enabled: true
         fail-fast: true
