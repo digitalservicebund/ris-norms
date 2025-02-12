@@ -21,13 +21,13 @@ public class EnvironmentController {
   @Value("${sentry.environment:local}")
   private String environmentName;
 
-  @Value("${frontend.auth.clientId:ris-norms-local}")
+  @Value("${frontend.auth.clientId}")
   private String frontendAuthClientId;
 
-  @Value("${frontend.auth.realm:ris}")
+  @Value("${frontend.auth.realm}")
   private String frontendAuthRealm;
 
-  @Value("${frontend.auth.url:http://localhost:8443}")
+  @Value("${frontend.auth.url}")
   private String frontendAuthUrl;
 
   /**
