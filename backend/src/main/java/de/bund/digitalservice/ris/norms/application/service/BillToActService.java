@@ -156,31 +156,20 @@ public class BillToActService {
 
   private void addNecessaryMetaData(Regelungstext regelungstext) {
     Proprietary proprietary = regelungstext.getMeta().getOrCreateProprietary();
-    MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
-
-    metadatenDe.setFassung(VERKUENDUNGSFASSUNG);
-
-    if (metadatenDe.getFna().isEmpty()) {
-      metadatenDe.setFna("nicht-vorhanden");
+    proprietary.setMetadataValue(Metadata.FASSUNG, VERKUENDUNGSFASSUNG);
+    if (proprietary.getMetadataValue(Metadata.FNA).isEmpty()) {
+      proprietary.setMetadataValue(Metadata.FNA, "nicht-vorhanden");
     }
-
-    if (metadatenDe.getGesta().isEmpty()) {
-      metadatenDe.setGesta("nicht-vorhanden");
+    if (proprietary.getMetadataValue(Metadata.GESTA).isEmpty()) {
+      proprietary.setMetadataValue(Metadata.GESTA, "nicht-vorhanden");
     }
-
-    MetadatenBund metadatenBund = proprietary.getOrCreateMetadatenBund();
-    if (metadatenBund.getSimpleMetadatum(MetadatenBund.Metadata.RESSORT, LocalDate.MAX).isEmpty()) {
+    if (proprietary.getRessort(LocalDate.MAX).isEmpty()) {
       final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD);
       final LocalDate verkuendungsDate = LocalDate.parse(
         regelungstext.getMeta().getFRBRExpression().getFBRDate(),
         formatter
       );
-
-      metadatenBund.updateSimpleMetadatum(
-        MetadatenBund.Metadata.RESSORT,
-        verkuendungsDate,
-        "Bundesministerium der Justiz"
-      );
+      proprietary.setRessort("Bundesministerium der Justiz", verkuendungsDate);
     }
   }
 

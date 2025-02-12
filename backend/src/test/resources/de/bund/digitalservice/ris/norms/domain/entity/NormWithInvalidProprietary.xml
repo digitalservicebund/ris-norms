@@ -122,13 +122,6 @@
                 <meta:gesta>nicht-vorhanden</meta:gesta>
                 <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
              </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
-                <meta:federfuehrung>
-                  <meta:federfuehrend ab="2002-12-01"
-                                      bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                  <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
-               </meta:federfuehrung>
-            </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
    </akn:act>

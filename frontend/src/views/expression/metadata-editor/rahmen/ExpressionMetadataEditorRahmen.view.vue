@@ -4,14 +4,10 @@ import { DropdownItem } from "@/types/dropdownItem"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import RisTabs from "@/components/editor/RisTabs.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useNormXml } from "@/composables/useNormXml"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useTimeBoundaryPathParameter } from "@/views/amending-law/affected-documents/metadata-editor/useTimeBoundaryPathParameter"
 import { useErrorToast } from "@/lib/errorToast"
 import {
   BeschliessendesOrganValues,
@@ -24,7 +20,7 @@ import {
   udpateArtNorm,
   UNKNOWN_DOCUMENT_TYPE,
 } from "@/lib/proprietary"
-import { useGetNormHtml } from "@/services/normService"
+import { useGetNorm, useGetNormHtml } from "@/services/normService"
 import {
   useGetRahmenProprietary,
   usePutRahmenProprietary,
@@ -37,13 +33,14 @@ import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
 import Select from "primevue/select"
 
-const affectedDocumentEli = useEliPathParameter("affectedDocument")
-const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
+const dokumentExpressionEli = useEliPathParameter()
 const { actionTeleportTarget } = useHeaderContext()
 
 /* -------------------------------------------------- *
  * API handling                                       *
  * -------------------------------------------------- */
+
+const { data: normData } = useGetNorm(dokumentExpressionEli)
 
 const localData = ref<RahmenProprietary | null>(null)
 
@@ -51,9 +48,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetRahmenProprietary(affectedDocumentEli, {
-  atDate: timeBoundaryAsDate,
-})
+} = useGetRahmenProprietary(dokumentExpressionEli)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -65,19 +60,7 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutRahmenProprietary(
-  localData,
-  affectedDocumentEli,
-  { atDate: timeBoundaryAsDate },
-  {
-    afterFetch(c) {
-      // Whenever the metadata has been saved successfully, reload the
-      // XML to keep it in sync
-      reloadXml()
-      return c
-    },
-  },
-).put(localData)
+} = usePutRahmenProprietary(localData, dokumentExpressionEli).put(localData)
 
 watch(savedData, (newData) => {
   localData.value = newData
@@ -294,21 +277,14 @@ const organisationsEinheit = computed<string>({
 })
 
 /* -------------------------------------------------- *
- * XML + HTML preview                                 *
+ * HTML preview                                 *
  * -------------------------------------------------- */
-
-const {
-  data: xml,
-  isFetching: xmlIsLoading,
-  error: xmlError,
-  execute: reloadXml,
-} = useNormXml(affectedDocumentEli)
 
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetNormHtml(affectedDocumentEli, { at: timeBoundaryAsDate })
+} = useGetNormHtml(dokumentExpressionEli)
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
@@ -337,12 +313,11 @@ watch(hasSaved, (finished) => {
   <div class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ris-label2-bold">Rahmen</h2>
+        <h2 class="ris-label2-bold">{{ normData?.shortTitle ?? "Rahmen" }}</h2>
       </div>
     </div>
-
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-16">
-      <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+      <section class="mt-16 flex flex-col gap-8" aria-label="Vorschau">
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
           <RisLoadingSpinner />
         </div>
@@ -357,151 +332,120 @@ watch(hasSaved, (finished) => {
       </section>
 
       <section class="flex flex-col gap-8" aria-label="Metadaten dokumentieren">
-        <RisTabs
-          align="right"
-          :tabs="[
-            { id: 'editor', label: 'Rubriken' },
-            { id: 'xml', label: 'XML' },
-          ]"
+        <div v-if="isFetching" class="my-16 flex justify-center">
+          <RisLoadingSpinner />
+        </div>
+
+        <RisErrorCallout v-else-if="fetchError" :error="fetchError" />
+
+        <form
+          v-else
+          class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
+          @submit.prevent
         >
-          <template #editor>
-            <div v-if="isFetching" class="my-16 flex justify-center">
-              <RisLoadingSpinner />
-            </div>
+          <fieldset class="contents">
+            <legend class="ris-label2-bold col-span-2">Sachgebiet</legend>
+            <label :for="fnaId">Sachgebiet</label>
+            <InputText :id="fnaId" v-model="fna" />
+          </fieldset>
 
-            <RisErrorCallout v-else-if="fetchError" :error="fetchError" />
+          <fieldset class="contents">
+            <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
-            <form
-              v-else
-              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
-              @submit.prevent
+            <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+            <label :id="documentTypeId" class="ris-label2-regular"
+              >Dokumenttyp</label
             >
-              <fieldset class="contents">
-                <legend class="ris-label2-bold col-span-2">Sachgebiet</legend>
-                <label :for="fnaId">Sachgebiet</label>
-                <InputText :id="fnaId" v-model="fna" />
-              </fieldset>
+            <Select
+              v-model="documentType"
+              :options="documentTypeItems"
+              option-label="label"
+              option-value="value"
+              :aria-labelledby="documentTypeId"
+            />
 
-              <fieldset class="contents">
-                <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
-
-                <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-                <label :id="documentTypeId" class="ris-label2-regular"
-                  >Dokumenttyp</label
-                >
-                <Select
-                  v-model="documentType"
-                  :options="documentTypeItems"
-                  option-label="label"
-                  option-value="value"
-                  :aria-labelledby="documentTypeId"
-                />
-
-                <label :for="artNormSnId" class="self-start">
-                  Art der Norm
-                </label>
-                <div class="space-y-10">
-                  <RisCheckboxInput
-                    :id="artNormSnId"
-                    v-model="artNormSN"
-                    label="SN - Stammnorm"
-                  />
-                  <RisCheckboxInput
-                    :id="artNormAnId"
-                    v-model="artNormAN"
-                    label="ÄN - Änderungsnorm"
-                  />
-                  <RisCheckboxInput
-                    :id="artNormUnId"
-                    v-model="artNormUN"
-                    label="ÜN - Übergangsnorm"
-                  />
-                </div>
-
-                <label :for="bezeichnungInVorlageId">
-                  Bezeichnung gemäß Vorlage
-                </label>
-                <InputText
-                  :id="bezeichnungInVorlageId"
-                  v-model="bezeichnungInVorlage"
-                />
-              </fieldset>
-
-              <fieldset class="contents">
-                <legend class="ris-label2-bold col-span-2">Normgeber</legend>
-
-                <label :id="staatId"
-                  ><abbr
-                    title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
-                    >Staat</abbr
-                  ></label
-                >
-                <Select
-                  v-model="staat"
-                  :options="staatItems"
-                  option-label="label"
-                  option-value="value"
-                  :aria-labelledby="staatId"
-                />
-
-                <label :id="beschliessendesOrganId">
-                  beschließendes Organ
-                </label>
-                <Select
-                  v-model="beschliessendesOrgan"
-                  :options="beschliessendesOrganItems"
-                  option-label="label"
-                  option-value="value"
-                  :aria-labelledby="beschliessendesOrganId"
-                />
-
-                <label :for="qualifizierteMehrheitId">
-                  Beschlussf. qual. Mehrheit
-                </label>
-                <RisCheckboxInput
-                  :id="qualifizierteMehrheitId"
-                  v-model="qualifizierteMehrheit"
-                />
-              </fieldset>
-
-              <fieldset class="contents">
-                <legend class="ris-label2-bold col-span-2">Federführung</legend>
-
-                <label :id="ressortId">Ressort</label>
-                <Select
-                  v-model="ressort"
-                  :options="ressortItems"
-                  option-label="label"
-                  option-value="value"
-                  :aria-labelledby="ressortId"
-                />
-
-                <label :for="organisationsEinheitId">
-                  Organisationseinheit
-                </label>
-                <InputText
-                  :id="organisationsEinheitId"
-                  v-model="organisationsEinheit"
-                />
-              </fieldset>
-            </form>
-          </template>
-
-          <template #xml>
-            <div v-if="xmlIsLoading" class="my-16 flex justify-center">
-              <RisLoadingSpinner />
+            <label :for="artNormSnId" class="self-start"> Art der Norm </label>
+            <div class="space-y-10">
+              <RisCheckboxInput
+                :id="artNormSnId"
+                v-model="artNormSN"
+                label="SN - Stammnorm"
+              />
+              <RisCheckboxInput
+                :id="artNormAnId"
+                v-model="artNormAN"
+                label="ÄN - Änderungsnorm"
+              />
+              <RisCheckboxInput
+                :id="artNormUnId"
+                v-model="artNormUN"
+                label="ÜN - Übergangsnorm"
+              />
             </div>
 
-            <RisErrorCallout v-else-if="xmlError" :error="xmlError" />
-
-            <RisCodeEditor
-              v-else
-              :model-value="xml ?? ''"
-              :readonly="true"
-              class="flex-grow"
+            <label :for="bezeichnungInVorlageId">
+              Bezeichnung gemäß Vorlage
+            </label>
+            <InputText
+              :id="bezeichnungInVorlageId"
+              v-model="bezeichnungInVorlage"
             />
-          </template>
-        </RisTabs>
+          </fieldset>
+
+          <fieldset class="contents">
+            <legend class="ris-label2-bold col-span-2">Normgeber</legend>
+
+            <label :id="staatId"
+              ><abbr
+                title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
+                >Staat</abbr
+              ></label
+            >
+            <Select
+              v-model="staat"
+              :options="staatItems"
+              option-label="label"
+              option-value="value"
+              :aria-labelledby="staatId"
+            />
+
+            <label :id="beschliessendesOrganId"> beschließendes Organ </label>
+            <Select
+              v-model="beschliessendesOrgan"
+              :options="beschliessendesOrganItems"
+              option-label="label"
+              option-value="value"
+              :aria-labelledby="beschliessendesOrganId"
+            />
+
+            <label :for="qualifizierteMehrheitId">
+              Beschlussf. qual. Mehrheit
+            </label>
+            <RisCheckboxInput
+              :id="qualifizierteMehrheitId"
+              v-model="qualifizierteMehrheit"
+            />
+          </fieldset>
+
+          <fieldset class="contents">
+            <legend class="ris-label2-bold col-span-2">Federführung</legend>
+
+            <label :id="ressortId">Ressort</label>
+            <Select
+              v-model="ressort"
+              :options="ressortItems"
+              option-label="label"
+              option-value="value"
+              :aria-labelledby="ressortId"
+            />
+
+            <label :for="organisationsEinheitId"> Organisationseinheit </label>
+            <InputText
+              :id="organisationsEinheitId"
+              v-model="organisationsEinheit"
+            />
+          </fieldset>
+        </form>
 
         <!-- Save button -->
         <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">

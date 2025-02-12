@@ -139,12 +139,7 @@
                <ris:normgeber start="2003-01-01" end="unbestimmt">DEU</ris:normgeber>
                <ris:beschliessendesOrgan start="2003-01-01" end="unbestimmt"
                                          qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-                <ris:organisationsEinheit start="2003-01-01"
-                                          end="2027-12-31">Aktuelle Organisationseinheit</ris:organisationsEinheit>
-                <ris:organisationsEinheit start="2028-01-01"
-                                          end="2028-12-31">Nächste Organisationseinheit</ris:organisationsEinheit>
-                <ris:organisationsEinheit start="2029-01-01"
-                                          end="unbestimmt">Übernächste Organisationseinheit</ris:organisationsEinheit>
+                <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
                <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                   <ris:artDerNorm end="unbestimmt" start="1980-01-01">SN</ris:artDerNorm>
                </ris:einzelelement>

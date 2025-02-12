@@ -7,14 +7,10 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.adapter.output.exception.BucketException;
 import de.bund.digitalservice.ris.norms.application.exception.MigrationJobException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.MigrationLog;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -288,20 +284,14 @@ class PublishServiceTest {
       var norm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
       var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
 
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1)))
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
         .contains("Aktuelle Organisationseinheit");
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2028, 6, 1)))
-        .contains("Nächste Organisationseinheit");
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2029, 6, 1)))
-        .contains("Übernächste Organisationseinheit");
 
       // When
       publishService.prepareForPublish(norm);
 
       // Then
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2005, 1, 1))).isEmpty();
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2028, 6, 1))).isEmpty();
-      assertThat(proprietary.getOrganisationsEinheit(LocalDate.of(2029, 6, 1))).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
     }
   }
 }

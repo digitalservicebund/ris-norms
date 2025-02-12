@@ -4,27 +4,23 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTimeBoundaryPathParameter } from "@/views/amending-law/affected-documents/metadata-editor/useTimeBoundaryPathParameter"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
 import Message from "primevue/message"
 
-const affectedDocumentEli = useEliPathParameter("affectedDocument")
+const dokumentExpressionEli = useEliPathParameter()
 const elementEid = useEidPathParameter()
-const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
 const {
   data: element,
   isFetching: elementIsLoading,
   error: elementError,
-} = useGetElement(affectedDocumentEli, elementEid)
+} = useGetElement(dokumentExpressionEli, elementEid)
 
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetElementHtml(affectedDocumentEli, elementEid, {
-  at: timeBoundaryAsDate,
-})
+} = useGetElementHtml(dokumentExpressionEli, elementEid)
 </script>
 
 <template>

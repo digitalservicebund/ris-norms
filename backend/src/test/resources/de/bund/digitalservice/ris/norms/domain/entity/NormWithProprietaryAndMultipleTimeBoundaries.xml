@@ -132,24 +132,16 @@
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:subtyp end="2002-12-31">rechtsverordnung</ris:subtyp>
-               <ris:bezeichnungInVorlage end="2002-12-31">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm end="2002-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber end="2002-12-31">DEU</ris:normgeber>
-               <ris:beschliessendesOrgan end="2002-12-31"
-                                         qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-               <ris:fna start="2003-01-01" end="unbestimmt">new-fna</ris:fna>
-               <ris:art start="2003-01-01" end="unbestimmt">new-art</ris:art>
-               <ris:typ start="2003-01-01" end="unbestimmt">new-typ</ris:typ>
-               <ris:subtyp start="2003-01-01" end="unbestimmt">new-subtyp</ris:subtyp>
-               <ris:bezeichnungInVorlage start="2003-01-01"
-                                         end="unbestimmt">new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm start="2003-01-01" end="unbestimmt">ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber start="2003-01-01" end="unbestimmt">DDR</ris:normgeber>
-               <ris:beschliessendesOrgan start="2003-01-01" end="unbestimmt"
-                                         qualifizierteMehrheit="false">LT</ris:beschliessendesOrgan>
-               <ris:organisationsEinheit start="2003-01-01"
-                                         end="unbestimmt">Andere Organisationseinheit</ris:organisationsEinheit>
+               <ris:subtyp>rechtsverordnung</ris:subtyp>
+               <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
+               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
+               <ris:normgeber>DEU</ris:normgeber>
+               <ris:subtyp>new-subtyp</ris:subtyp>
+               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
+               <ris:artDerNorm>ÄN,ÜN</ris:artDerNorm>
+               <ris:normgeber>DDR</ris:normgeber>
+               <ris:beschliessendesOrgan qualifizierteMehrheit="false">LT</ris:beschliessendesOrgan>
+               <ris:organisationsEinheit>Andere Organisationseinheit</ris:organisationsEinheit>
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

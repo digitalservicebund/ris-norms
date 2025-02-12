@@ -10,16 +10,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,16 +44,16 @@ class ProprietaryControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean
-  private LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
+  private LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase;
 
   @MockitoBean
-  private UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase;
+  private UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase;
 
   @MockitoBean
-  private UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase;
+  private UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase;
 
   @Nested
-  class getProprietaryAtDate {
+  class getProprietary {
 
     @Test
     void returns404IfNormNotFound() throws Exception {
@@ -62,18 +61,16 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var atDateString = "2024-06-03";
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
-        .thenThrow(new NormNotFoundException(eli.asNormEli().toString()));
+        .thenThrow(new DokumentNotFoundException(eli.toString()));
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isNotFound());
@@ -85,14 +82,13 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var atDateString = "2024-06-03";
       var proprietary = Fixtures
         .loadRegelungstextFromDisk("NormWithProprietary.xml")
         .getMeta()
         .getOrCreateProprietary();
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
         .thenReturn(proprietary);
@@ -100,8 +96,7 @@ class ProprietaryControllerTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isOk())
@@ -114,7 +109,8 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("staat").value("DEU"))
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
-        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
+        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"))
+        .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"));
     }
 
     @Test
@@ -123,14 +119,13 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var atDateString = "2024-06-03";
       var proprietary = Fixtures
         .loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
         .getMeta()
         .getOrCreateProprietary();
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
         .thenReturn(proprietary);
@@ -138,8 +133,7 @@ class ProprietaryControllerTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isOk())
@@ -152,7 +146,8 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("staat").isEmpty())
         .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
-        .andExpect(jsonPath("organisationsEinheit").isEmpty());
+        .andExpect(jsonPath("organisationsEinheit").isEmpty())
+        .andExpect(jsonPath("ressort").isEmpty());
     }
 
     @Test
@@ -161,14 +156,13 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var atDateString = "2024-06-03";
       var proprietary = Fixtures
         .loadRegelungstextFromDisk("SimpleNorm.xml")
         .getMeta()
         .getOrCreateProprietary();
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
         .thenReturn(proprietary);
@@ -176,8 +170,7 @@ class ProprietaryControllerTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isOk())
@@ -190,47 +183,56 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("staat").isEmpty())
         .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
-        .andExpect(jsonPath("organisationsEinheit").isEmpty());
+        .andExpect(jsonPath("organisationsEinheit").isEmpty())
+        .andExpect(jsonPath("ressort").isEmpty());
     }
   }
 
   @Nested
-  class updateProprietaryFrameAtDate {
+  class updateProprietary {
 
     @Test
     void updatesProprietarySuccess() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final LocalDate date = LocalDate.parse("1990-01-01");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-
-                                            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-                                                <ris:fna start="1990-01-01" end="1994-12-31">new-fna</ris:fna>
-                                                <ris:art start="1990-01-01" end="1994-12-31">new-art</ris:art>
-                                                <ris:typ start="1990-01-01" end="1994-12-31">new-typ</ris:typ>
-                                                <ris:subtyp start="1990-01-01" end="1994-12-31">new-subtyp</ris:subtyp>
-                                                <ris:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
-                                                <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-                                                <ris:normgeber start="1990-01-01" end="1994-12-31">DEU</ris:normgeber>
-                                                <ris:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-                                                <ris:organisationsEinheit start="1990-01-01" end="1994-12-31">Andere Organisationseinheit</ris:organisationsEinheit>
-                                            </ris:legalDocML.de_metadaten>
-                                        </akn:proprietary>
-                                        """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+               eId="meta-1_proprietary-1"
+               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+               source="attributsemantik-noch-undefiniert">
+               <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
+                   <meta:typ>new-typ</meta:typ>
+                   <meta:fna>new-fna</meta:fna>
+                   <meta:art>new-art</meta:art>
+               </meta:legalDocML.de_metadaten>
+               <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+                   <meta:federfuehrung>
+                       <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">new ressort</meta:federfuehrend>
+                   </meta:federfuehrung>
+               </meta:legalDocML.de_metadaten>
+               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+                   <ris:subtyp>new-subtyp</ris:subtyp>
+                   <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
+                   <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
+                   <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
+                   <ris:normgeber>DEU</ris:normgeber>
+                   <ris:organisationsEinheit>Andere Organisationseinheit</ris:organisationsEinheit>
+               </ris:legalDocML.de_metadaten>
+           </akn:proprietary>
+          """
         )
       );
 
-      when(updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(any()))
+      when(updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any()))
         .thenReturn(proprietary);
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -244,7 +246,8 @@ class ProprietaryControllerTest {
               "\"staat\": \"DEU\"," +
               "\"beschliessendesOrgan\": \"Bundestag\"," +
               "\"qualifizierteMehrheit\": true," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
+              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
+              "\"ressort\": \"new ressort\"}"
             )
         )
         .andExpect(status().isOk())
@@ -257,23 +260,27 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("staat").value("DEU"))
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
-        .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
+        .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"))
+        .andExpect(jsonPath("ressort").value("new ressort"));
 
-      verify(updateProprietaryFrameFromNormUseCase, times(1))
-        .updateProprietaryFrameFromNorm(
+      verify(updateProprietaryFrameFromDokumentUseCase, times(1))
+        .updateProprietaryFrameFromDokument(
           argThat(query ->
-            query.eli().toString().equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu") &&
-            query.atDate().isEqual(date) &&
-            query.metadata().fna().equals("new-fna") &&
-            query.metadata().art().equals("new-art") &&
-            query.metadata().typ().equals("new-typ") &&
-            query.metadata().subtyp().equals("new-subtyp") &&
-            query.metadata().bezeichnungInVorlage().equals("new-bezeichnungInVorlage") &&
-            query.metadata().artDerNorm().equals("SN,ÄN,ÜN") &&
-            query.metadata().staat().equals("DEU") &&
-            query.metadata().beschliessendesOrgan().equals("Bundestag") &&
-            query.metadata().qualifizierterMehrheit().equals(true) &&
-            query.metadata().organisationsEinheit().equals("Andere Organisationseinheit")
+            query
+              .dokumentExpressionEli()
+              .toString()
+              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
+            query.inputMetadata().fna().equals("new-fna") &&
+            query.inputMetadata().art().equals("new-art") &&
+            query.inputMetadata().typ().equals("new-typ") &&
+            query.inputMetadata().subtyp().equals("new-subtyp") &&
+            query.inputMetadata().bezeichnungInVorlage().equals("new-bezeichnungInVorlage") &&
+            query.inputMetadata().artDerNorm().equals("SN,ÄN,ÜN") &&
+            query.inputMetadata().staat().equals("DEU") &&
+            query.inputMetadata().beschliessendesOrgan().equals("Bundestag") &&
+            query.inputMetadata().qualifizierterMehrheit().equals(true) &&
+            query.inputMetadata().organisationsEinheit().equals("Andere Organisationseinheit") &&
+            query.inputMetadata().ressort().equals("new ressort")
           )
         );
     }
@@ -283,13 +290,13 @@ class ProprietaryControllerTest {
       // given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-      when(updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(any()))
-        .thenThrow(new NormNotFoundException("Norm not found"));
+      when(updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any()))
+        .thenThrow(new DokumentNotFoundException("Document not found"));
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -303,7 +310,8 @@ class ProprietaryControllerTest {
               "\"staat\": \"DEU\"," +
               "\"beschliessendesOrgan\": \"Bundestag\"," +
               "\"qualifizierteMehrheit\": true," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
+              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
+              "\"ressort\": \"new ressort\"}"
             )
         )
         .andExpect(status().isNotFound());
@@ -311,7 +319,7 @@ class ProprietaryControllerTest {
   }
 
   @Nested
-  class getProprietaryEinzelelementAtDate {
+  class getProprietarySingleElement {
 
     @Test
     void returns404IfNormNotFound() throws Exception {
@@ -320,17 +328,16 @@ class ProprietaryControllerTest {
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
-        .thenThrow(new NormNotFoundException(eli.toString()));
+        .thenThrow(new DokumentNotFoundException(eli.toString()));
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
@@ -344,14 +351,14 @@ class ProprietaryControllerTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       var proprietary = Fixtures
         .loadRegelungstextFromDisk("NormWithProprietary.xml")
         .getMeta()
         .getOrCreateProprietary();
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
         .thenReturn(proprietary);
@@ -359,7 +366,7 @@ class ProprietaryControllerTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
@@ -374,14 +381,14 @@ class ProprietaryControllerTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       var proprietary = Fixtures
         .loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
         .getMeta()
         .getOrCreateProprietary();
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
         .thenReturn(proprietary);
@@ -389,7 +396,7 @@ class ProprietaryControllerTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
@@ -404,14 +411,14 @@ class ProprietaryControllerTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       var proprietary = Fixtures
         .loadRegelungstextFromDisk("SimpleNorm.xml")
         .getMeta()
         .getOrCreateProprietary();
       when(
-        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-          new LoadProprietaryFromNormUseCase.Query(eli.asNormEli())
+        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
+          new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
       )
         .thenReturn(proprietary);
@@ -419,7 +426,7 @@ class ProprietaryControllerTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
@@ -429,41 +436,40 @@ class ProprietaryControllerTest {
   }
 
   @Nested
-  class updateProprietarySingleElementAtDate {
+  class updateProprietarySingleElement {
 
     @Test
     void updatesProprietarySuccess() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final LocalDate date = LocalDate.parse("1990-01-01");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-                                  <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</ris:artDerNorm>
-                                          <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                                      <ris:artDerNorm start="1990-01-01" end="1994-12-31">SN</ris:artDerNorm>
-                                      <ris:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</ris:artDerNorm>
-                                      <ris:artDerNorm start="2001-01-01">ÜN</ris:artDerNorm>
-                                  </ris:einzelelement>
-                              </ris:legalDocML.de_metadaten>
-                          </akn:proprietary>
-                          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+                                   <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
+                                           <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                                       <ris:artDerNorm>SN</ris:artDerNorm>
+                                   </ris:einzelelement>
+                               </ris:legalDocML.de_metadaten>
+                           </akn:proprietary>
+          """
         )
       );
 
       when(
-        updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(any())
+        updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(
+          any()
+        )
       )
         .thenReturn(proprietary);
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, date.toString())
+          put("/api/v1/norms/{eli}/proprietary/{eid}", eli, eid)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -472,13 +478,15 @@ class ProprietaryControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("artDerNorm").value("SN"));
 
-      verify(updateProprietarySingleElementFromNormUseCase, times(1))
-        .updateProprietarySingleElementFromNorm(
+      verify(updateProprietarySingleElementFromDokumentUseCase, times(1))
+        .updateProprietarySingleElementFromDokument(
           argThat(query ->
-            query.eli().toString().equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu") &&
+            query
+              .dokumentExpressionEli()
+              .toString()
+              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
             query.eid().equals(eid) &&
-            query.atDate().isEqual(date) &&
-            query.metadata().artDerNorm().equals("SN")
+            query.inputMetadata().artDerNorm().equals("SN")
           )
         );
     }
@@ -490,14 +498,16 @@ class ProprietaryControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
       when(
-        updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(any())
+        updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(
+          any()
+        )
       )
-        .thenThrow(new NormNotFoundException("Norm not found"));
+        .thenThrow(new DokumentNotFoundException("Document not found"));
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, "1990-01-01")
+          put("/api/v1/norms/{eli}/proprietary/{eid}", eli, eid)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)

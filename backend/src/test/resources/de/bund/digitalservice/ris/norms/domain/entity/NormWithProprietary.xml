@@ -126,23 +126,19 @@
              </meta:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
                 <meta:federfuehrung>
-                  <meta:federfuehrend ab="2003-01-01"
-                                      bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                  <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
+                    <meta:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                  <meta:federfuehrend ab="2002-10-01" bis="2019-11-21">Bundesministerium der Justiz</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:subtyp start="2003-01-01" end="unbestimmt">rechtsverordnung</ris:subtyp>
-               <ris:bezeichnungInVorlage start="2003-01-01"
-                                         end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm start="2003-01-01" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber start="2003-01-01" end="unbestimmt">DEU</ris:normgeber>
-               <ris:beschliessendesOrgan start="2003-01-01" end="unbestimmt"
-                                         qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-               <ris:organisationsEinheit start="2003-01-01"
-                                         end="unbestimmt">Organisationseinheit</ris:organisationsEinheit>
+               <ris:subtyp>rechtsverordnung</ris:subtyp>
+               <ris:bezeichnungInVorlage >Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
+               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
+               <ris:normgeber>DEU</ris:normgeber>
+               <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
+               <ris:organisationsEinheit >Organisationseinheit</ris:organisationsEinheit>
                <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                  <ris:artDerNorm end="unbestimmt" start="1980-01-01">SN</ris:artDerNorm>
+                  <ris:artDerNorm>SN</ris:artDerNorm>
                </ris:einzelelement>
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
