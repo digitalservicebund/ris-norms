@@ -13,6 +13,10 @@ fileignoreconfig:
     checksum: 01f015833d7876edb7e050874a02bc8d6041ecab56a7ef1bec05d3a514a1be63
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
     checksum: e252d2546a75459a49ac1c4073dd76a3a48861b64843b11fa8271b675490cfd8
+  - filename: frontend/src/main.ts
+    checksum: d7ef7857d0478c6ccb525b8632b334ab2deb6cb8309e09787e71ca3ad7c5f5bf
+  - filename: frontend/src/plugins/sentry.ts
+    checksum: dfb628f8d1a02534e102228789abcbbe4e193e5671cc9762febee195f18bb200
   - filename: DockerfileApp
     checksum: 79dcfe570176f7ad6b8341bd0b358b2676355b34ba654c29ae267d54a03f7e64
   - filename: docker-compose.yaml
@@ -21,8 +25,6 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: doc/adr/0009-renovate.md
     checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
-  - filename: frontend/src/main.ts
-    checksum: d7ef7857d0478c6ccb525b8632b334ab2deb6cb8309e09787e71ca3ad7c5f5bf
   - filename: LegalDocML.de/*/fixtures/*.xml
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.xml
