@@ -6,6 +6,7 @@ spring:
         fail-fast: true
         sources:
           - name: database-config
+          - name: oauth2-config
       secrets:
         enabled: true
         fail-fast: true
