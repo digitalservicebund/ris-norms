@@ -6,15 +6,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -22,42 +23,48 @@ import org.junit.jupiter.api.Test;
 
 class ProprietaryServiceTest {
 
-  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
-  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
-  final NormService normService = mock(NormService.class);
+  final LoadDokumentPort loadDokumentPort = mock(LoadDokumentPort.class);
+  final UpdateDokumentPort updateDokumentPort = mock(UpdateDokumentPort.class);
   final ProprietaryService proprietaryService = new ProprietaryService(
-    loadNormPort,
-    updateNormPort,
-    normService
+    loadDokumentPort,
+    updateDokumentPort
   );
 
   @Nested
   class loadProprietary {
 
     @Test
-    void throwsNormNotFoundExceptionIfNormNotFound() {
+    void throwsDokumentNotFoundExceptionIfNormNotFound() {
       // given
-      var eli = NormExpressionEli.fromString("eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu");
-      LoadProprietaryFromNormUseCase.Query query = new LoadProprietaryFromNormUseCase.Query(eli);
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+      );
+      LoadProprietaryFromDokumentUseCase.Query query = new LoadProprietaryFromDokumentUseCase.Query(
+        eli
+      );
       // when
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
       // then
-      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromNorm(query))
+      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromDokument(query))
         // then
-        .isInstanceOf(NormNotFoundException.class);
+        .isInstanceOf(DokumentNotFoundException.class);
     }
 
     @Test
     void returnNewProprietaryNodeIfProprietaryNotFound() {
       // given
-      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
-      var normWithoutProprietary = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithoutProprietary));
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+      );
+      var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
+        "NormWithoutProprietary.xml"
+      );
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
+        .thenReturn(Optional.of(regelungsTextWithoutProprietary));
 
       // when
-      var result = proprietaryService.loadProprietaryFromNorm(
-        new LoadProprietaryFromNormUseCase.Query(eli)
+      var result = proprietaryService.loadProprietaryFromDokument(
+        new LoadProprietaryFromDokumentUseCase.Query(eli)
       );
 
       // then
@@ -67,13 +74,17 @@ class ProprietaryServiceTest {
     @Test
     void returnsProprietary() {
       // given
-      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu");
-      var normWithProprietary = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithProprietary));
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+      );
+      var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
+        "NormWithProprietary.xml"
+      );
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
+        .thenReturn(Optional.of(regelungsTextWithoutProprietary));
       // when
-      var result = proprietaryService.loadProprietaryFromNorm(
-        new LoadProprietaryFromNormUseCase.Query(eli)
+      var result = proprietaryService.loadProprietaryFromDokument(
+        new LoadProprietaryFromDokumentUseCase.Query(eli)
       );
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -84,14 +95,15 @@ class ProprietaryServiceTest {
   class updateProprietaryFrame {
 
     @Test
-    void throwsNormNotFoundExceptionIfNormNotFound() {
+    void throwsDokumentNotFoundExceptionIfNormNotFound() {
       // given
-      var eli = NormExpressionEli.fromString("eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu");
-      UpdateProprietaryFrameFromNormUseCase.Query query =
-        new UpdateProprietaryFrameFromNormUseCase.Query(
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+      );
+      UpdateProprietaryFrameFromDokumentUseCase.Query query =
+        new UpdateProprietaryFrameFromDokumentUseCase.Query(
           eli,
-          LocalDate.parse("2003-01-01"),
-          new UpdateProprietaryFrameFromNormUseCase.Metadata(
+          new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
             "fna",
             null,
             null,
@@ -106,10 +118,69 @@ class ProprietaryServiceTest {
           )
         );
       // when
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromNorm(query))
+      when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
+      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromDokument(query))
         // then
-        .isInstanceOf(NormNotFoundException.class);
+        .isInstanceOf(DokumentNotFoundException.class);
+    }
+
+    @Test
+    void returnsUpdatedProprietaryNode() {
+      // given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+      );
+      var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
+        "NormWithoutProprietary.xml"
+      );
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
+        .thenReturn(Optional.of(regelungsTextWithoutProprietary));
+      var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
+        "NormWithProprietary.xml"
+      );
+      when(
+        updateDokumentPort.updateDokument(
+          new UpdateDokumentPort.Command(regelungsTextWithoutProprietary)
+        )
+      )
+        .thenReturn(Optional.of(regelungsTextWithProprietary));
+
+      // when
+      var result = proprietaryService.updateProprietaryFrameFromDokument(
+        new UpdateProprietaryFrameFromDokumentUseCase.Query(
+          eli,
+          new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
+            "dummyFna",
+            "dummyArt",
+            "dummyTyp",
+            "dummySubtyp",
+            "dummyBezeichnung",
+            "dummyArtDerNorm",
+            "DE",
+            "dummyOrgan",
+            false,
+            "dummyRessort",
+            "dummyOrganisation"
+          )
+        )
+      );
+
+      // then
+      assertThat(result).isInstanceOf(Proprietary.class);
+      assertThat(result.getMetadataValue(Metadata.FNA)).contains("754-28-1");
+      assertThat(result.getMetadataValue(Metadata.TYP)).contains("gesetz");
+      assertThat(result.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
+      assertThat(result.getMetadataValue(Metadata.SUBTYP)).contains("rechtsverordnung");
+      assertThat(result.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
+        .contains("Bezeichnung gemäß Vorlage");
+      assertThat(result.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
+      assertThat(result.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("Bundestag");
+      assertThat(result.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains("true");
+      assertThat(result.getMetadataValue(Metadata.STAAT)).contains("DEU");
+      assertThat(result.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
+        .contains("Organisationseinheit");
+      assertThat(result.getRessort(LocalDate.parse("2002-10-02")))
+        .contains("Bundesministerium der Justiz");
     }
   }
 
@@ -117,97 +188,59 @@ class ProprietaryServiceTest {
   class updateProprietarySingleElement {
 
     @Test
-    void throwsNormNotFoundExceptionIfNormNotFound() {
+    void throwsDokumentNotFoundExceptionIfNormNotFound() {
       // given
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var eli = NormExpressionEli.fromString("eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu");
-      UpdateProprietarySingleElementFromNormUseCase.Query query =
-        new UpdateProprietarySingleElementFromNormUseCase.Query(
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+      );
+      UpdateProprietarySingleElementFromDokumentUseCase.Query query =
+        new UpdateProprietarySingleElementFromDokumentUseCase.Query(
           eli,
           eid,
-          LocalDate.parse("2003-01-01"),
-          new UpdateProprietarySingleElementFromNormUseCase.Metadata("SN")
+          new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata("SN")
         );
       // when
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietarySingleElementFromNorm(query))
+      when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
+      assertThatThrownBy(() -> proprietaryService.updateProprietarySingleElementFromDokument(query))
         // then
-        .isInstanceOf(NormNotFoundException.class);
+        .isInstanceOf(DokumentNotFoundException.class);
     }
 
     @Test
-    void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsAndEinzelelementNodes() {
+    void returnsUpdatedProprietaryNode() {
       // given
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
-      var date = LocalDate.parse("2003-01-01");
-      var normWithoutProprietary = Fixtures.loadNormFromDisk("NormWithoutProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithoutProprietary));
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+      );
+      var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
+        "NormWithoutProprietary.xml"
+      );
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
+        .thenReturn(Optional.of(regelungsTextWithoutProprietary));
+      var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
+        "NormWithProprietary.xml"
+      );
+      when(
+        updateDokumentPort.updateDokument(
+          new UpdateDokumentPort.Command(regelungsTextWithoutProprietary)
+        )
+      )
+        .thenReturn(Optional.of(regelungsTextWithProprietary));
 
       // when
-      var result = proprietaryService.updateProprietarySingleElementFromNorm(
-        new UpdateProprietarySingleElementFromNormUseCase.Query(
+      var result = proprietaryService.updateProprietarySingleElementFromDokument(
+        new UpdateProprietarySingleElementFromDokumentUseCase.Query(
           eli,
           eid,
-          date,
-          new UpdateProprietarySingleElementFromNormUseCase.Metadata("SN")
+          new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata("SN")
         )
       );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
-      assertThat(result.getArtDerNorm(date, eid)).contains("SN");
-    }
-
-    @Test
-    void updatesProprietaryByCreatingNewMetadatenDsNodes() {
-      // given
-      var eid = "hauptteil-1_abschnitt-0_art-1";
-      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
-      var date = LocalDate.parse("2003-01-01");
-      var normWithProprietary = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithProprietary));
-
-      // when
-      var result = proprietaryService.updateProprietarySingleElementFromNorm(
-        new UpdateProprietarySingleElementFromNormUseCase.Query(
-          eli,
-          eid,
-          date,
-          new UpdateProprietarySingleElementFromNormUseCase.Metadata("ÜN")
-        )
-      );
-
-      // then
-      assertThat(result).isInstanceOf(Proprietary.class);
-      assertThat(result.getArtDerNorm(date, eid)).contains("ÜN");
-    }
-
-    @Test
-    void resetsAllFields() {
-      // given
-      var eid = "hauptteil-1_abschnitt-0_art-1";
-      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
-      var date = LocalDate.parse("1980-01-01");
-      var normWithProprietary = Fixtures.loadNormFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-        .thenReturn(Optional.of(normWithProprietary));
-
-      // when
-      var result = proprietaryService.updateProprietarySingleElementFromNorm(
-        new UpdateProprietarySingleElementFromNormUseCase.Query(
-          eli,
-          eid,
-          date,
-          new UpdateProprietarySingleElementFromNormUseCase.Metadata(null)
-        )
-      );
-
-      // then
-      assertThat(result).isInstanceOf(Proprietary.class);
-      assertThat(result.getArtDerNorm(date, eid)).isEmpty();
+      assertThat(result.getMetadataValue(Metadata.ART_DER_NORM, eid)).contains("SN");
     }
   }
 }

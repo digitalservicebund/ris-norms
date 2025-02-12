@@ -46,4 +46,5 @@ otc:
     endpoint: https://obs.eu-de.otc.t-systems.com
 
 publish:
-  cron: "0 0 2 * * 1-5" # # Runs at 2:00 AM UTC (3:00 AM Berlin time in CET)
+  cron: "0 0 23 * * 0-4" # Runs at 11:00 PM UTC, which is 12:00 AM Berlin time in CET (Winter) and 1:00 AM in CEST (Summer) Mo-Fr
+

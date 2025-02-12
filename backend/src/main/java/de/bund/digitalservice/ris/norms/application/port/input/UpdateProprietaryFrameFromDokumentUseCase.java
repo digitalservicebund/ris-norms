@@ -1,29 +1,26 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
-import java.time.LocalDate;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
-/** Use case for updating metadata within the {@link Proprietary} node of a {@link Norm}. */
-public interface UpdateProprietaryFrameFromNormUseCase {
+/** Use case for updating metadata within the {@link Proprietary} node of a {@link Dokument}. */
+public interface UpdateProprietaryFrameFromDokumentUseCase {
   /**
-   * Updates specific metadata from a {@link Norm}.
+   * Updates specific metadata from a {@link Dokument}.
    *
-   * @param query specifying the eli of ZF0, the date for the metadata as well as the metadata
-   *     themselves.
-   * @return Proprietary node of the norm with the updated metadata.
+   * @param query Query used for identifying the {@link Dokument} as well as the metadata themselves.
+   * @return Proprietary node of the {@link Dokument} with the updated metadata.
    */
-  Proprietary updateProprietaryFrameFromNorm(Query query);
+  Proprietary updateProprietaryFrameFromDokument(Query query);
 
   /**
-   * Contains the parameters needed for loading proprietary metadata from a norm.
+   * Contains the parameters needed for loading proprietary metadata from a {@link Dokument}.
    *
-   * @param eli The ELI used to identify the norm.
-   * @param atDate the date at which the metadata are being updated.
-   * @param metadata object containing the metadata to update
+   * @param dokumentExpressionEli The ELI used to identify the {@link Dokument} at the expression level
+   * @param inputMetadata object containing the metadata to update
    */
-  record Query(NormExpressionEli eli, LocalDate atDate, Metadata metadata) {}
+  record Query(DokumentExpressionEli dokumentExpressionEli, InputMetadata inputMetadata) {}
 
   /**
    * Record representing the list of metadata to update.
@@ -42,7 +39,7 @@ public interface UpdateProprietaryFrameFromNormUseCase {
    * @param ressort - "Ressort"
    * @param organisationsEinheit - "Organisationseinheit"
    */
-  record Metadata(
+  record InputMetadata(
     String fna,
     String art,
     String typ,

@@ -1,7 +1,6 @@
 # Domain model
 
 ```mermaid
-
 classDiagram
 direction BT
 class Analysis {
@@ -108,19 +107,8 @@ class DokumentExpressionEli {
 - String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT
 - String SOURCE_ATTIBUTE
   }
-  class MetadataInterface {
-  <<Interface>>
 
-}
-class Metadaten~T~ {
-- String startAttribute
-- Element element
-- String endAttribute
-- Namespace namespace
-  }
-  class MetadatenBund
-  class MetadatenDe
-  class MetadatenDs
+
   class MigrationLog {
 - Instant createdAt
 - Integer size
@@ -180,13 +168,31 @@ class NormExpressionEli {
   class Proprietary {
 - Element element
   }
+  class Metadata {
+  <<enumeration>>
+- Namespace namespace
+- String xpath
+- String tag
+- boolean isAttribute
++ FNA
++ ART
++ TYP
++ GESTA
++ FASSUNG
++ FEDERFUEHRUNG
++ ART_DER_NORM
++ STAAT
++ SUBTYP
++ BEZEICHNUNG_IN_VORLAGE
++ NORMGEBER
++ BESCHLIESSENDES_ORGAN
++ BESCHLIESSENDES_ORGAN_QUALMEHR
++ ORGANISATIONS_EINHEIT
+}
   class Regelungstext
   class Release {
 - Instant releasedAt
 - List~Norm~ publishedNorms
-  }
-  class SimpleProprietary {
-- Element element
   }
   class TemporalData {
 - Element element
@@ -221,13 +227,6 @@ FRBRManifestation --|> FRBR
 
 Regelungstext --|> Dokument
 OffeneStruktur --|> Dokument
-
-Metadaten~T~  ..|>  MetadataInterface
-MetadatenDe --|> Metadaten~T~
-MetadatenDs --|> Metadaten~T~
-MetadatenBund --|> Metadaten~T~
-Einzelelement --|> Metadaten~T~
-MetadatenDe "1" *-- "many" SimpleProprietary
 
 Norm "1" *-- "1" NormPublishState
 Norm "1" *-- "many" Dokument
@@ -266,9 +265,8 @@ Meta "1" *-- "1" TemporalData
 TemporalData "1" *-- "many" TemporalGroup
 TemporalGroup "1" *-- "1" TimeInterval
 Meta "1" o-- "0..1" Proprietary
-Proprietary "1" o-- "0..1" MetadatenDe
-Proprietary "1" o-- "0..1" MetadatenDs
-Proprietary "1" o-- "0..1" MetadatenBund
+Proprietary "1" *-- "many" Metadata
+Metadata "1" -- "1" Namespace
 
 Regelungstext "0" *-- "many" Mod
 Article "1" o-- "0..1" Mod

@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryFrameSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
+import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
 
@@ -15,50 +16,57 @@ public class ProprietaryResponseMapper {
   private ProprietaryResponseMapper() {}
 
   /**
-   * Creates a {@link ProprietaryFrameSchema} from {@link Proprietary} metadata but getting the
-   * metadata at specific dates.
+   * Creates a {@link ProprietaryFrameSchema} from {@link Proprietary} metadata.
    *
    * @param proprietary Input data to be converted
-   * @param date the specific date
+   * @param dateForRessort date of point in time of the expression needed for determining the ressort
    * @return Converted data
    */
   public static ProprietaryFrameSchema fromProprietary(
-    Proprietary proprietary,
-    final LocalDate date
+    final Proprietary proprietary,
+    final LocalDate dateForRessort
   ) {
     return ProprietaryFrameSchema
       .builder()
-      .fna(proprietary.getFna(date).orElse(null))
-      .art(proprietary.getArt(date).orElse(null))
-      .typ(proprietary.getTyp(date).orElse(null))
-      .subtyp(proprietary.getSubtyp(date).orElse(null))
-      .bezeichnungInVorlage(proprietary.getBezeichnungInVorlage(date).orElse(null))
-      .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
-      .staat(proprietary.getStaat(date).orElse(null))
-      .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
-      .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
-      .ressort(proprietary.getRessort(date).orElse(null))
-      .organisationsEinheit(proprietary.getOrganisationsEinheit(date).orElse(null))
+      .fna(proprietary.getMetadataValue(Metadata.FNA).orElse(null))
+      .art(proprietary.getMetadataValue(Metadata.ART).orElse(null))
+      .typ(proprietary.getMetadataValue(Metadata.TYP).orElse(null))
+      .subtyp(proprietary.getMetadataValue(Metadata.SUBTYP).orElse(null))
+      .bezeichnungInVorlage(
+        proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE).orElse(null)
+      )
+      .artDerNorm(proprietary.getMetadataValue(Metadata.ART_DER_NORM).orElse(null))
+      .staat(proprietary.getMetadataValue(Metadata.STAAT).orElse(null))
+      .beschliessendesOrgan(
+        proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN).orElse(null)
+      )
+      .qualifizierteMehrheit(
+        proprietary
+          .getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)
+          .map(Boolean::parseBoolean)
+          .orElse(null)
+      )
+      .ressort(proprietary.getRessort(dateForRessort).orElse(null))
+      .organisationsEinheit(
+        proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT).orElse(null)
+      )
       .build();
   }
 
   /**
-   * Creates a {@link ProprietarySingleElementSchema} from {@link Proprietary} metadata but getting
-   * the metadata for a single element at specific dates.
+   * Creates a {@link ProprietarySingleElementSchema} from {@link Proprietary} metadata.
    *
    * @param proprietary Input data to be converted
    * @param eid the eId of the single element
-   * @param date the specific date
    * @return Converted data
    */
   public static ProprietarySingleElementSchema fromProprietarySingleElement(
-    Proprietary proprietary,
-    final String eid,
-    final LocalDate date
+    final Proprietary proprietary,
+    final String eid
   ) {
     return ProprietarySingleElementSchema
       .builder()
-      .artDerNorm(proprietary.getArtDerNorm(date, eid).orElse(null))
+      .artDerNorm(proprietary.getMetadataValue(Metadata.ART_DER_NORM, eid).orElse(null))
       .build();
   }
 }

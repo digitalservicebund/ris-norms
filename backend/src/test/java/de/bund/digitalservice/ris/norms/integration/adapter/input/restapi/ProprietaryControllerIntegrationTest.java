@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
+import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -35,7 +37,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class getProprietaryAtDate {
+  class getProprietary {
 
     @Test
     void return404IfNormNotFound() throws Exception {
@@ -43,31 +45,33 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var atDateString = "2024-06-03";
+
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/dokument-not-found"))
+        .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
+              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/2024-06-03"
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
             )
         )
-        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
+        .andExpect(
+          jsonPath("eli")
+            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        );
     }
 
     @Test
@@ -76,7 +80,6 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var atDateString = "2024-06-03";
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
@@ -84,8 +87,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isOk())
@@ -98,7 +100,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").isEmpty())
         .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
-        .andExpect(jsonPath("organisationsEinheit").isEmpty());
+        .andExpect(jsonPath("organisationsEinheit").isEmpty())
+        .andExpect(jsonPath("ressort").isEmpty());
     }
 
     @Test
@@ -107,7 +110,6 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var atDateString = "2024-06-03";
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
@@ -117,8 +119,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isOk())
@@ -131,7 +132,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").isEmpty())
         .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
-        .andExpect(jsonPath("organisationsEinheit").isEmpty());
+        .andExpect(jsonPath("organisationsEinheit").isEmpty())
+        .andExpect(jsonPath("ressort").isEmpty());
     }
 
     @Test
@@ -140,7 +142,6 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var atDateString = "2024-06-03";
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
@@ -148,8 +149,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isOk())
@@ -163,7 +163,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
         .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"))
-        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
+        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"))
+        .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"));
     }
   }
 
@@ -177,7 +178,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -191,33 +192,37 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"beschliessendesOrgan\": \"Bundestag\"," +
               "\"qualifizierteMehrheit\": true," +
               "\"ressort\": \"Bundesministerium der Justiz\"," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
+              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
+              "\"ressort\": \"new ressort\"}"
             )
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/dokument-not-found"))
+        .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
+              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/1990-01-01"
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
             )
         )
-        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
+        .andExpect(
+          jsonPath("eli")
+            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        );
     }
 
     @Test
     void updatesAll() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      final LocalDate date = LocalDate.parse("1990-01-01");
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
@@ -225,7 +230,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -239,7 +244,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"beschliessendesOrgan\": \"LT\"," +
               "\"qualifizierteMehrheit\": false," +
               "\"ressort\": \"Bundesministerium der Magie\"," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
+              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
+              "\"ressort\": \"new ressort\"}"
             )
         )
         .andExpect(status().isOk())
@@ -252,8 +258,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").value("DDR"))
         .andExpect(jsonPath("beschliessendesOrgan").value("LT"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(false))
-        .andExpect(jsonPath("ressort").value("Bundesministerium der Magie"))
-        .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
+        .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"))
+        .andExpect(jsonPath("ressort").value("new ressort"));
 
       final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
         dokumentRepository
@@ -261,43 +267,28 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .get()
       );
 
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
-        .contains("new-fna");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
-        .contains("new-art");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
-        .contains("new-typ");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
-        .contains("new-subtyp");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
-      )
+      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
+      assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
+      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
+      assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
+      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
         .contains("new-bezeichnungInVorlage");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-        .contains("ÄN,ÜN");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
-        .contains("DDR");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
-      )
-        .contains("LT");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
-      )
-        .contains(false);
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date))
-        .contains("Bundesministerium der Magie");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
-      )
+      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("ÄN,ÜN");
+      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DDR");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("LT");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
+        .contains("false");
+      assertThat(proprietary.getRessort(LocalDate.parse("2019-11-22"))).contains("new ressort");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
         .contains("Andere Organisationseinheit");
     }
 
     @Test
-    void doesResetAllFieldsBySendingNullAndGetSomeDefaults() throws Exception {
+    void doesResetAllFieldsBySendingNull() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      final LocalDate date = LocalDate.parse("1990-01-01");
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
@@ -306,7 +297,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -324,9 +315,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             )
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
-        .andExpect(jsonPath("typ").value("gesetz"))
+        .andExpect(jsonPath("fna").isEmpty())
+        .andExpect(jsonPath("art").isEmpty())
+        .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
         .andExpect(jsonPath("artDerNorm").isEmpty())
@@ -342,40 +333,25 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .get()
       );
 
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
-        .contains("754-28-1");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
-        .contains("rechtsetzungsdokument");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
-        .contains("gesetz");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
-      )
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
-      )
-        .isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
-      )
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
-      )
-        .isEmpty();
+      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
+      assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
+      assertThat(proprietary.getRessort(LocalDate.parse("2019-11-22"))).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
     }
 
     @Test
-    void doesResetAllFieldsBySendingEmptyStringAndGetSomeDefaults() throws Exception {
+    void doesResetAllFieldsBySendingEmptyString() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      final LocalDate date = LocalDate.parse("1990-01-01");
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
@@ -384,7 +360,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -396,15 +372,15 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"artDerNorm\": \"\"," +
               "\"staat\": \"\"," +
               "\"beschliessendesOrgan\": \"\"," +
-              "\"qualifizierteMehrheit\": false," +
+              "\"qualifizierteMehrheit\": null," +
               "\"ressort\": \"\"," +
               "\"organisationsEinheit\": \"\"}"
             )
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
-        .andExpect(jsonPath("typ").value("gesetz"))
+        .andExpect(jsonPath("fna").isEmpty())
+        .andExpect(jsonPath("art").isEmpty())
+        .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
         .andExpect(jsonPath("artDerNorm").isEmpty())
@@ -420,199 +396,25 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .get()
       );
 
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
-        .contains("754-28-1");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
-        .contains("rechtsetzungsdokument");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
-        .contains("gesetz");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
-      )
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
-      )
-        .isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
-      )
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
-      )
-        .isEmpty();
-    }
-
-    @Test
-    void updatesProprietaryByCreatingNewMetadatenDsNodes() throws Exception {
-      // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      final LocalDate date = LocalDate.parse("2003-01-01");
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
-      );
-
-      // when
-      mockMvc
-        .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              "{\"fna\": \"fna\"," +
-              "\"art\": \"art\"," +
-              "\"typ\": \"typ\"," +
-              "\"subtyp\": \"subtype\"," +
-              "\"bezeichnungInVorlage\": \"bezeichnungInVorlage\"," +
-              "\"artDerNorm\": \"ÄN,ÜN\"," +
-              "\"staat\": \"DDR\"," +
-              "\"beschliessendesOrgan\": \"Landtag\"," +
-              "\"qualifizierteMehrheit\": false," +
-              "\"ressort\": \"BMJ - Bundesministerium der Justiz\"," +
-              "\"organisationsEinheit\": \"andere org einheit\"}"
-            )
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").value("fna"))
-        .andExpect(jsonPath("art").value("art"))
-        .andExpect(jsonPath("typ").value("typ"))
-        .andExpect(jsonPath("subtyp").value("subtype"))
-        .andExpect(jsonPath("bezeichnungInVorlage").value("bezeichnungInVorlage"))
-        .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
-        .andExpect(jsonPath("staat").value("DDR"))
-        .andExpect(jsonPath("beschliessendesOrgan").value("Landtag"))
-        .andExpect(jsonPath("qualifizierteMehrheit").value(false))
-        .andExpect(jsonPath("ressort").value("BMJ - Bundesministerium der Justiz"))
-        .andExpect(jsonPath("organisationsEinheit").value("andere org einheit"));
-
-      // then
-      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
-        dokumentRepository
-          .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
-          .get()
-      );
-
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
-        .contains("fna");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
-        .contains("art");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
-        .contains("typ");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
-        .contains("subtype");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
-      )
-        .contains("bezeichnungInVorlage");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-        .contains("ÄN,ÜN");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
-        .contains("DDR");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
-      )
-        .contains("Landtag");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
-      )
-        .contains(false);
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date))
-        .contains("BMJ - Bundesministerium der Justiz");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
-      )
-        .contains("andere org einheit");
-    }
-
-    @Test
-    void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() throws Exception {
-      // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      final LocalDate date = LocalDate.parse("2003-01-01");
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
-      );
-
-      // when
-      mockMvc
-        .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              "{\"fna\": \"fna\"," +
-              "\"art\": \"\"," +
-              "\"typ\": \"\"," +
-              "\"subtyp\": \"\"," +
-              "\"bezeichnungInVorlage\": \"\"," +
-              "\"artDerNorm\": \"\"," +
-              "\"staat\": \"\"," +
-              "\"beschliessendesOrgan\": \"\"," +
-              "\"qualifizierteMehrheit\": false," +
-              "\"ressort\": \"\"," +
-              "\"organisationsEinheit\": \"\"}"
-            )
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").value("fna"))
-        .andExpect(jsonPath("art").value("rechtsetzungsdokument")) // ds art is deleted and fallback is de art is delivered
-        .andExpect(jsonPath("typ").value("gesetz")) // fallback from de namespace
-        .andExpect(jsonPath("subtyp").isEmpty())
-        .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
-        .andExpect(jsonPath("artDerNorm").isEmpty())
-        .andExpect(jsonPath("staat").isEmpty())
-        .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-        .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
-        .andExpect(jsonPath("ressort").isEmpty())
-        .andExpect(jsonPath("organisationsEinheit").isEmpty());
-
-      // then
-      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
-        dokumentRepository
-          .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
-          .get()
-      );
-
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
-        .contains("fna");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
-        .contains("rechtsetzungsdokument");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
-        .contains("gesetz");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
-      )
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
-      )
-        .isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
-      )
-        .isEmpty();
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getRessort(date)).isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
-      )
-        .isEmpty();
+      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
+      assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
+      assertThat(proprietary.getRessort(LocalDate.parse("2019-11-22"))).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
     }
 
     @Test
     void doesRemoveQualifizierteMehrheitFromBeschliessendesOrganWhenNull() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      final LocalDate date = LocalDate.parse("2003-01-01");
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithProprietaryAndMultipleTimeBoundaries.xml")
@@ -623,7 +425,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -659,33 +461,18 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .get()
       );
 
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
-        .contains("new-fna");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
-        .contains("new-art");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
-        .contains("new-typ");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
-        .contains("new-subtyp");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
-      )
+      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
+      assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
+      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
+      assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
+      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
         .contains("new-bezeichnungInVorlage");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-        .contains("ÄN,ÜN");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
-        .contains("DDR");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
-      )
-        .isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
-      )
-        .isEmpty();
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
-      )
+      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("ÄN,ÜN");
+      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DDR");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
         .contains("Andere Organisationseinheit");
     }
 
@@ -693,7 +480,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void createsProprietaryAndMetadatenDsAndUpdatesFna() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      final LocalDate date = LocalDate.parse("1990-01-01");
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
@@ -701,7 +488,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+          put("/api/v1/norms/{eli}/proprietary", eli)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -735,39 +522,26 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .get()
       );
 
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getFna(date))
-        .contains("new-fna");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArt(date))
-        .contains("new-art");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getTyp(date))
-        .contains("new-typ");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
-        .contains("new-subtyp");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date)
-      )
+      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
+      assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
+      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
+      assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
+      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
         .contains("new-bezeichnungInVorlage");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-        .contains("SN,ÄN,ÜN");
-      assertThat(regelungstextLoaded.getMeta().getOrCreateProprietary().getStaat(date))
-        .contains("DEU");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date)
-      )
+      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
+      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DEU");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN))
         .contains("Bundestag");
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date)
-      )
-        .contains(true);
-      assertThat(
-        regelungstextLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date)
-      )
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
+        .contains("true");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
         .contains("Organisationseinheit");
     }
   }
 
   @Nested
-  class getProprietaryEinzelelementAtDate {
+  class getProprietarySingleElement {
 
     @Test
     void return404IfNormNotFound() throws Exception {
@@ -776,31 +550,34 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/dokument-not-found"))
+        .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
+              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1/2024-06-03"
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
             )
         )
-        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
+        .andExpect(
+          jsonPath("eli")
+            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        );
     }
 
     @Test
@@ -810,7 +587,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
@@ -818,7 +595,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
@@ -833,7 +610,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
@@ -843,7 +620,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
@@ -852,13 +629,13 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void returnProprietaryEinzelelement() throws Exception {
+    void returnProprietarySingleElement() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
       );
@@ -866,7 +643,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         // then
@@ -876,7 +653,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class updateProprietaryEinzelelementAtDate {
+  class updateProprietarySingleElement {
 
     @Test
     void return404IfNormNotFound() throws Exception {
@@ -885,33 +662,36 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       // when
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{eid}/{atDateString}", eli, eid, atDateString)
+          put("/api/v1/norms/{eli}/proprietary/{eid}", eli, eid)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"artDerNorm\": \"SN\"}")
         )
         // then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("type").value("/errors/dokument-not-found"))
+        .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
             .value(
-              "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
+              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
             )
         )
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1/2024-06-03"
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
             )
         )
-        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
+        .andExpect(
+          jsonPath("eli")
+            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        );
     }
 
     @Test
@@ -921,7 +701,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      var atDateString = "2024-06-03";
+
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
       );
@@ -929,7 +709,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/proprietary/{eid}/{atDateString}", eli, eid, atDateString)
+          put("/api/v1/norms/{eli}/proprietary/{eid}", eli, eid)
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"artDerNorm\": \"SN\"}")

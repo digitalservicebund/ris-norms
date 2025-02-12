@@ -207,28 +207,6 @@ public class Norm {
   }
 
   /**
-   * Extracts a list of {@link Mod}s from the document.
-   *
-   * @return a list of {@link Mod}s
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public List<Mod> getMods() {
-    return getRegelungstext1().getMods();
-  }
-
-  /**
-   * Extracts a list of time boundaries (Zeitgrenzen) from the document.
-   *
-   * @return a list of {@link TimeBoundary} containing dates and event IDs.
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public List<TimeBoundary> getTimeBoundaries() {
-    return getRegelungstext1().getTimeBoundaries();
-  }
-
-  /**
    * @param temporalGroupEid EId of a temporal group
    * @return Start date of the temporal group
    * @deprecated
@@ -251,18 +229,6 @@ public class Norm {
   @Deprecated(forRemoval = true)
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
     return getRegelungstext1().addTimeBoundary(date, eventRefType);
-  }
-
-  /**
-   * Returns the element of the norm identified by the given eId.
-   *
-   * @param eId the eId of the element to return
-   * @return the selected element
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<Element> getElementByEId(String eId) {
-    return getRegelungstext1().getElementByEId(eId);
   }
 
   /**
