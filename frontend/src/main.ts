@@ -45,7 +45,6 @@ if (enableSentry) {
     ],
     tracesSampleRate: 0.01,
     attachProps: true,
-    logErrors: true,
   })
 }
 

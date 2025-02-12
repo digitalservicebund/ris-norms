@@ -20,7 +20,7 @@ fileignoreconfig:
   - filename: doc/adr/0009-renovate.md
     checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
   - filename: frontend/src/main.ts
-    checksum: 91cd971f76b5ec94e94dadb88933c4c623d1244defb54b31e6cf4bf055afc0a8
+    checksum: d7ef7857d0478c6ccb525b8632b334ab2deb6cb8309e09787e71ca3ad7c5f5bf
   - filename: LegalDocML.de/*/fixtures/*.xml
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.xml
