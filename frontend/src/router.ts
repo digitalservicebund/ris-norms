@@ -136,40 +136,6 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/edit`,
-    name: "AmendingLawMetadataEditor",
-    component: () =>
-      import(
-        "@/views/amending-law/affected-documents/metadata-editor/AmendingLawMetadataEditor.view.vue"
-      ),
-    children: [
-      {
-        path: ":timeBoundary?",
-        name: "AmendingLawMetadataEditorRahmen",
-        component: () =>
-          import(
-            "@/views/amending-law/affected-documents/metadata-editor/rahmen/AmendingLawMetadataEditorRahmen.view.vue"
-          ),
-      },
-      {
-        path: ":timeBoundary/:eid",
-        name: "AmendingLawMetadataEditorElement",
-        component: () =>
-          import(
-            "@/views/amending-law/affected-documents/metadata-editor/element/AmendingLawMetadataEditorElement.view.vue"
-          ),
-      },
-      {
-        path: ":timeBoundary/outline/:eid",
-        name: "AmendingLawMetadataEditorOutlineElement",
-        component: () =>
-          import(
-            "@/views/amending-law/affected-documents/metadata-editor/outline-element/AmendingLawMetadataEditorOutlineElement.view.vue"
-          ),
-      },
-    ],
-  },
-  {
     path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/references/:modEid?/:refEid?`,
     name: "References",
     component: () =>
