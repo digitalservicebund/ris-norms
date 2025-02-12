@@ -3,14 +3,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.PreviewRequestSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,14 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class RenderingController {
 
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
-  public RenderingController(
-    TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-    ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase
-  ) {
+  public RenderingController(TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
-    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
 
   /**
@@ -55,9 +45,7 @@ public class RenderingController {
     return ResponseEntity.ok(
       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
           new TransformLegalDocMlToHtmlUseCase.Query(
-            snippet
-              ? previewRequestSchema.getRegelungstext()
-              : render(previewRequestSchema, atIsoDate),
+            previewRequestSchema.getRegelungstext(),
             showMetadata,
             snippet
           )
@@ -74,34 +62,14 @@ public class RenderingController {
    * @param atIsoDate ISO date string indicating which modifications should be applied before the
    *     HTML gets rendered and returned. If no date is provided the current date is used.
    * @return A {@link ResponseEntity} containing the HTML rendering of the law document.
+   * @deprecated
    */
   @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_XML_VALUE })
+  @Deprecated(forRemoval = true)
   public ResponseEntity<String> getXMLPreview(
     @RequestBody final PreviewRequestSchema previewRequestSchema,
     @RequestParam Optional<Instant> atIsoDate
   ) {
-    return ResponseEntity.ok(render(previewRequestSchema, atIsoDate));
-  }
-
-  private String render(PreviewRequestSchema previewRequestSchema, Optional<Instant> atIsoDate) {
-    final var regelungstext = new Regelungstext(
-      XmlMapper.toDocument(previewRequestSchema.getRegelungstext())
-    );
-    final Set<Regelungstext> custom = previewRequestSchema
-      .getCustomRegelungstexte()
-      .stream()
-      .map(xml -> new Regelungstext(XmlMapper.toDocument(xml)))
-      .collect(Collectors.toSet());
-
-    Regelungstext normWithAppliedModifications =
-      applyPassiveModificationsUseCase.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(
-          regelungstext,
-          atIsoDate.orElse(Instant.now()),
-          custom
-        )
-      );
-
-    return XmlMapper.toString(normWithAppliedModifications.getDocument());
+    return ResponseEntity.ok(previewRequestSchema.getRegelungstext());
   }
 }

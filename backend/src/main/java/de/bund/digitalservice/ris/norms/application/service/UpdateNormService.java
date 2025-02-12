@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -15,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 /** Service for updating norms. */
 @Service
-public class UpdateNormService
-  implements UpdatePassiveModificationsUseCase, UpdateActiveModificationsUseCase {
+public class UpdateNormService implements UpdatePassiveModificationsUseCase {
 
   /**
    * Remove passive modifications form the zf0Norm, who originate from the zf0Norm with the given
@@ -139,73 +137,5 @@ public class UpdateNormService
         )
     );
     return norm;
-  }
-
-  @Override
-  public Norm updateOneActiveModification(UpdateActiveModificationsUseCase.Query query) {
-    final Norm amendingNorm = query.amendingNorm();
-
-    // Edit mod in meta
-    amendingNorm
-      .getMeta()
-      .getAnalysis()
-      .map(analysis -> analysis.getActiveModifications().stream())
-      .orElse(Stream.empty())
-      .filter(activeMod ->
-        activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eId()))
-      )
-      .findFirst()
-      .ifPresent(activeMod -> {
-        activeMod.setDestinationHref(query.destinationHref());
-        activeMod.setForcePeriodEid(query.timeBoundaryEid());
-        activeMod.setDestinationUpTo(query.destinationUpTo());
-      });
-
-    // Edit mod in meta
-    amendingNorm
-      .getMods()
-      .stream()
-      .filter(mod -> mod.getEid().equals(query.eId()))
-      .findFirst()
-      .ifPresent(inTextMod -> {
-        if (
-          inTextMod.usesQuotedText() &&
-          !query.newContent().equals(inTextMod.getNewText().orElse(""))
-        ) {
-          inTextMod.setTargetRefHref(query.destinationHref());
-          inTextMod.setNewText(query.newContent());
-        }
-        if (inTextMod.usesQuotedStructure()) {
-          if (inTextMod.hasRref()) {
-            updateQuotedStructureSubstitutionRangeTarget(query, inTextMod);
-          } else {
-            updateQuotedStructureSubstitutionSingleTarget(query, inTextMod);
-          }
-        }
-      });
-    return amendingNorm;
-  }
-
-  private static void updateQuotedStructureSubstitutionSingleTarget(
-    final UpdateActiveModificationsUseCase.Query query,
-    final Mod inTextMod
-  ) {
-    if (query.destinationUpTo() != null) {
-      inTextMod.replaceRefWithRref(query.destinationHref(), query.destinationUpTo());
-    } else {
-      inTextMod.setTargetRefHref(query.destinationHref());
-    }
-  }
-
-  private static void updateQuotedStructureSubstitutionRangeTarget(
-    final UpdateActiveModificationsUseCase.Query query,
-    final Mod inTextMod
-  ) {
-    if (query.destinationUpTo() != null && !query.destinationUpTo().toString().isEmpty()) {
-      inTextMod.setTargetRrefFrom(query.destinationHref());
-      inTextMod.setTargetRrefUpTo(query.destinationUpTo());
-    } else {
-      inTextMod.replaceRrefWithRef(query.destinationHref());
-    }
   }
 }
