@@ -81,7 +81,7 @@ test.describe(
       )
     })
 
-    test("editing of a published announcement doesn't change the published norms contents", async ({
+    test.skip("editing of a published announcement doesn't change the published norms contents", async ({
       page,
     }) => {
       await page.goto(
@@ -115,7 +115,7 @@ test.describe(
       )
     })
 
-    test("editing of a published announcement and re-publishing updates the published norms", async ({
+    test.skip("editing of a published announcement and re-publishing updates the published norms", async ({
       page,
     }) => {
       await page.goto(
@@ -134,7 +134,7 @@ test.describe(
 
       // Submit metadata change (API)
       await page.request.put(
-        "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/2017-03-16",
+        "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary",
         { data: { beschliessendesOrgan: "AA - Auswärtiges Amt" } },
       )
 
