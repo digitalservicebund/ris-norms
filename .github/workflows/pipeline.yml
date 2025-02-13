@@ -111,18 +111,18 @@ jobs:
   # # Deploy new versions to staging
   # ######################
 
-  #  deploy-staging-job:
-  #    if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
-  #    needs:
-  #      - check-auto-deploy
-  #      - frontend-jobs
-  #      - backend-jobs
-  #      - push-docker-image-job
-  #      - e2e-tests
-  #    permissions:
-  #      id-token: write
-  #    uses: ./.github/workflows/deploy-staging-job.yml
-  #    secrets: inherit
+  deploy-staging-job:
+    if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
+    needs:
+      - check-auto-deploy
+      - frontend-jobs
+      - backend-jobs
+      - push-docker-image-job
+      - e2e-tests
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/deploy-staging-job.yml
+    secrets: inherit
 
   # ######################
   # # Deploy new versions to uat
