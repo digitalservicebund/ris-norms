@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
-import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
@@ -58,9 +57,6 @@ class NormExpressionControllerTest {
 
   @MockitoBean
   private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-
-  @MockitoBean
-  private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   @Nested
   class getNorm {
@@ -240,30 +236,6 @@ class NormExpressionControllerTest {
         .transformLegalDocMlToHtml(
           argThat(query -> query.xml().equals(xml) && query.showMetadata())
         );
-    }
-
-    @Test
-    void itCallsNormServiceAndReturnsNormRenderWithAtIsoDate() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String html = "<div></div>";
-
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Fixtures.loadNormFromDisk("SimpleNorm.xml"));
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
-      when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-        .thenReturn(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"));
-
-      // When // Then
-      mockMvc
-        .perform(
-          get("/api/v1/norms/{eli}?atIsoDate=2024-04-03T00:00:00.000Z", eli)
-            .accept(MediaType.TEXT_HTML)
-        )
-        .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-        .andExpect(content().string(html));
-
-      verify(applyPassiveModificationsUseCase, times(1)).applyPassiveModifications(any());
     }
   }
 
