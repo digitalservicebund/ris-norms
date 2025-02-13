@@ -21,21 +21,21 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Configuration
 public class OtcObsConfig {
 
-  @Value("${otc.obs.endpoint:https://obs.eu-de.otc.t-systems.com}")
+  @Value("${otc.obs.endpoint}")
   private String endpoint;
 
   // Private bucket
-  @Value("${otc.obs.private.access-key-id:test}")
+  @Value("${otc.obs.private.access-key-id}")
   private String privateAccessKeyId;
 
-  @Value("${otc.obs.private.secret-access-key:test}")
+  @Value("${otc.obs.private.secret-access-key}")
   private String privateSecretAccessKey;
 
   // Public bucket
-  @Value("${otc.obs.public.access-key-id:test}")
+  @Value("${otc.obs.public.access-key-id}")
   private String publicAccessKeyId;
 
-  @Value("${otc.obs.public.secret-access-key:test}")
+  @Value("${otc.obs.public.secret-access-key}")
   private String publicSecretAccessKey;
 
   /**

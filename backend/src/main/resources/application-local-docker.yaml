@@ -19,3 +19,14 @@ frontend:
     url: http://localhost:8443
     realm: ris
     clientId: ris-norms-local
+
+otc:
+  obs:
+    private:
+      bucket-name: private
+      access-key-id: test
+      secret-access-key: test
+    public:
+      bucket-name: public
+      access-key-id: test
+      secret-access-key: test

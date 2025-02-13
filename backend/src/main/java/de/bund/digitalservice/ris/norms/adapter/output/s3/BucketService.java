@@ -55,10 +55,10 @@ public class BucketService
     DeleteAllPrivateNormsPort,
     PublishChangelogsPort {
 
-  @Value("${otc.obs.private.bucket-name:private}")
+  @Value("${otc.obs.private.bucket-name}")
   private String privateBucketName;
 
-  @Value("${otc.obs.public.bucket-name:public}")
+  @Value("${otc.obs.public.bucket-name}")
   private String publicBucketName;
 
   private final S3Client privateS3Client;

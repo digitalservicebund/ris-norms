@@ -23,7 +23,7 @@ import software.amazon.awssdk.services.s3.model.*;
 public class S3MockClient implements S3Client {
 
   @Setter
-  @Value("${local.file-storage:.local-storage}")
+  @Value("${local.file-storage}")
   private Path relativeLocalStorageDirectory;
 
   private Path localStorageDirectory;
