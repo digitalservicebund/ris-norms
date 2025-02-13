@@ -17,11 +17,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +34,6 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
   private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final NormService normService;
-  private final TimeMachineService timeMachineService;
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final DeleteNormPort deleteNormPort;
   private final SaveReleaseToAnnouncementPort saveReleaseToAnnouncementPort;
@@ -47,7 +44,6 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     NormService normService,
-    TimeMachineService timeMachineService,
     CreateNewVersionOfNormService createNewVersionOfNormService,
     DeleteNormPort deleteNormPort,
     SaveReleaseToAnnouncementPort saveReleaseToAnnouncementPort,
@@ -57,7 +53,6 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.normService = normService;
-    this.timeMachineService = timeMachineService;
     this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.deleteNormPort = deleteNormPort;
     this.saveReleaseToAnnouncementPort = saveReleaseToAnnouncementPort;
@@ -164,21 +159,6 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
         allVersionsOfAllNormsToPublish.add(result.newManifestationOfOldExpression());
 
         latestNormExpression = result.newExpression();
-
-        latestNormExpression.setRegelungstexte(
-          latestNormExpression
-            .getRegelungstexte()
-            .stream()
-            .map(regelungstext ->
-              timeMachineService.applyPassiveModifications(
-                new ApplyPassiveModificationsUseCase.Query(
-                  regelungstext,
-                  date.atStartOfDay(ZoneId.systemDefault()).toInstant()
-                )
-              )
-            )
-            .collect(Collectors.toSet())
-        );
       }
 
       allVersionsOfAllNormsToPublish.add(latestNormExpression);

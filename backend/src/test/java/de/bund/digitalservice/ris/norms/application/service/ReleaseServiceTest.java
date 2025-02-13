@@ -32,7 +32,6 @@ class ReleaseServiceTest {
   );
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
   private final NormService normService = mock(NormService.class);
-  private final TimeMachineService timeMachineService = mock(TimeMachineService.class);
   private final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
     CreateNewVersionOfNormService.class
   );
@@ -48,7 +47,6 @@ class ReleaseServiceTest {
     loadAnnouncementByNormEliUseCase,
     updateOrSaveNormPort,
     normService,
-    timeMachineService,
     createNewVersionOfNormService,
     deleteNormPort,
     saveReleaseToAnnouncementPort,
@@ -57,7 +55,7 @@ class ReleaseServiceTest {
   );
 
   @Test
-  void itShouldReleaseAnAnnouncementWithoutTargetNorms() {
+  void itShouldReleaseAnAnnouncement() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
@@ -117,132 +115,6 @@ class ReleaseServiceTest {
     assertThat(announcement.getReleases().getFirst().getPublishedNorms()).hasSize(1);
     assertThat(announcement.getReleases().getFirst().getPublishedNorms())
       .contains(manifestationOfNormToQueue);
-  }
-
-  @Test
-  void itShouldReleaseAnAnnouncementWithTargetNorm() {
-    // Given
-    var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-    var targetNorm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-    // these are just arbitrary norm files, it's not important what is in them just that they are all different.
-    var targetNormExpressionAtDateOne = Fixtures.loadNormFromDisk(
-      "NormWithAppliedQuotedStructure.xml"
-    );
-    var manifestationOfAmendingNormToQueue = Fixtures.loadNormFromDisk(
-      "NormWithModsSameTarget.xml"
-    );
-    var manifestationOfTargetNormToUseForCreatingExpressions = Fixtures.loadNormFromDisk(
-      "NormWithoutPassiveModificationsNoNextVersion.xml"
-    );
-    var manifestationOfTargetNormToUseInTimeMachine = Fixtures.loadNormFromDisk(
-      "NormWithoutPassiveModificationsSameTarget.xml"
-    );
-    var manifestationOfTargetNormToQueue = Fixtures.loadNormFromDisk(
-      "NormWithoutPassiveModsQuotedStructure.xml"
-    );
-    var newNewestUnpublishedManifestationOfAmendingNorm = Fixtures.loadNormFromDisk(
-      "NormWithMultipleMods.xml"
-    );
-    var newNewestUnpublishedManifestationOfTargetNorm = Fixtures.loadNormFromDisk(
-      "NormWithoutPassiveModsQuotedStructureAndUpTo.xml"
-    );
-
-    var announcement = Announcement.builder().eli(amendingNorm.getExpressionEli()).build();
-
-    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-      .thenReturn(announcement);
-    when(normService.loadNorm(any())).thenReturn(amendingNorm).thenReturn(targetNorm);
-    when(createNewVersionOfNormService.createNewManifestation(amendingNorm))
-      .thenReturn(manifestationOfAmendingNormToQueue);
-    when(createNewVersionOfNormService.createNewManifestation(targetNorm))
-      .thenReturn(manifestationOfTargetNormToUseForCreatingExpressions);
-    when(deleteQueuedReleasesPort.deleteQueuedReleases(any())).thenReturn(List.of());
-    when(
-      createNewVersionOfNormService.createNewExpression(any(), eq(LocalDate.parse("2017-03-23")))
-    )
-      .thenReturn(
-        new CreateNewVersionOfNormService.CreateNewExpressionResult(
-          targetNormExpressionAtDateOne,
-          manifestationOfTargetNormToUseInTimeMachine
-        )
-      );
-    when(timeMachineService.applyPassiveModifications(any()))
-      .thenReturn(manifestationOfTargetNormToQueue.getRegelungstext1());
-    when(
-      createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
-    )
-      .thenReturn(newNewestUnpublishedManifestationOfAmendingNorm)
-      .thenReturn(newNewestUnpublishedManifestationOfTargetNorm);
-
-    // When
-    releaseService.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(amendingNorm.getExpressionEli())
-    );
-
-    // Then
-    // previously queued norms are deleted
-    verify(deleteQueuedReleasesPort, times(1))
-      .deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
-
-    // results are validated
-    verify(ldmlDeValidator, times(1))
-      .parseAndValidateRegelungstext(
-        XmlMapper.toString(manifestationOfAmendingNormToQueue.getRegelungstext1().getDocument())
-      );
-    verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfAmendingNormToQueue);
-
-    // the queue norms are saved
-    verify(updateOrSaveNormPort, times(1))
-      .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfAmendingNormToQueue));
-    assertThat(manifestationOfAmendingNormToQueue.getPublishState())
-      .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
-    verify(updateOrSaveNormPort, times(1))
-      .updateOrSave(
-        argThat(command ->
-          command.norm().getPublishState().equals(NormPublishState.QUEUED_FOR_PUBLISH) &&
-          command.norm().equals(manifestationOfTargetNormToQueue)
-        )
-      );
-    verify(updateOrSaveNormPort, times(1))
-      .updateOrSave(new UpdateOrSaveNormPort.Command(manifestationOfTargetNormToUseInTimeMachine));
-    assertThat(manifestationOfTargetNormToUseInTimeMachine.getPublishState())
-      .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
-
-    // the old manifestations for editing are deleted (as they might no longer be the newest manifestation, that's why new once are created)
-    verify(deleteNormPort, times(1))
-      .deleteNorm(
-        new DeleteNormPort.Command(amendingNorm.getManifestationEli(), NormPublishState.UNPUBLISHED)
-      );
-    verify(deleteNormPort, times(1))
-      .deleteNorm(
-        new DeleteNormPort.Command(targetNorm.getManifestationEli(), NormPublishState.UNPUBLISHED)
-      );
-
-    // new manifestations for further editing are saved
-    verify(updateOrSaveNormPort, times(1))
-      .updateOrSave(
-        new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfAmendingNorm)
-      );
-    assertThat(newNewestUnpublishedManifestationOfAmendingNorm.getPublishState())
-      .isEqualTo(NormPublishState.UNPUBLISHED);
-    verify(updateOrSaveNormPort, times(1))
-      .updateOrSave(
-        new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfTargetNorm)
-      );
-    assertThat(newNewestUnpublishedManifestationOfTargetNorm.getPublishState())
-      .isEqualTo(NormPublishState.UNPUBLISHED);
-
-    // the announcement is updated
-    verify(saveReleaseToAnnouncementPort, times(1)).saveReleaseToAnnouncement(any());
-
-    assertThat(announcement.getReleases()).hasSize(1);
-    assertThat(announcement.getReleases().getFirst().getPublishedNorms()).hasSize(3);
-    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
-      .contains(manifestationOfAmendingNormToQueue);
-    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
-      .contains(manifestationOfTargetNormToQueue);
-    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
-      .contains(manifestationOfTargetNormToUseInTimeMachine);
   }
 
   @Test
