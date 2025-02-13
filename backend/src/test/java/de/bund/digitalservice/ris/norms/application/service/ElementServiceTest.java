@@ -14,7 +14,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -24,12 +23,10 @@ class ElementServiceTest {
 
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
-  final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final ElementService service = new ElementService(
     loadRegelungstextPort,
-    xsltTransformationService,
-    timeMachineService
+    xsltTransformationService
   );
 
   @Nested
@@ -256,141 +253,6 @@ class ElementServiceTest {
         .isInstanceOf(ElementNotFoundException.class);
 
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
-    }
-  }
-
-  @Nested
-  class loadElementHtmlAtDateFromNorm {
-
-    @Test
-    void itLoadsTheElementHtmlAtTheDateFromTheNorm() {
-      // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-      );
-      var eid = "meta-1";
-      var date = Instant.parse("2099-12-31T00:00:00.00Z");
-
-      var normXml =
-        """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-        <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-          <akn:act name="regelungstext">
-            <!-- Metadaten -->
-            <akn:meta eId="meta-1" GUID="000">
-              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                  <akn:FRBRthis
-                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                    GUID="000"
-                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                  />
-                </akn:FRBRExpression>
-              </akn:identification>
-            </akn:meta>
-          </akn:act>
-        </akn:akomaNtoso>
-        """;
-
-      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
-      when(
-        timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(regelungstext, date)
-        )
-      )
-        .thenReturn(regelungstext);
-      when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
-
-      // When
-      var html = service.loadElementHtmlAtDate(
-        new LoadElementHtmlAtDateUseCase.Query(eli, eid, date)
-      );
-
-      // Then
-      assertThat(html).contains("<div></div>");
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
-      verify(timeMachineService)
-        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(regelungstext, date));
-      verify(xsltTransformationService, times(1)).transformLegalDocMlToHtml(any());
-    }
-
-    @Test
-    void itThrowsIfDokumentIsNotFound() {
-      // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
-      );
-      var eid = "meta-1";
-      var date = Instant.parse("2099-12-31T00:00:00.00Z");
-      var query = new LoadElementHtmlAtDateUseCase.Query(eli, eid, date);
-
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.empty());
-
-      // When / Then
-      assertThatThrownBy(() -> service.loadElementHtmlAtDate(query))
-        .isInstanceOf(RegelungstextNotFoundException.class);
-
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
-    }
-
-    @Test
-    void itThrowsIfElementIsNotFound() {
-      // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-      );
-      var eid = "meta-1000";
-      var date = Instant.parse("2099-12-31T00:00:00.00Z");
-      var query = new LoadElementHtmlAtDateUseCase.Query(eli, eid, date);
-
-      var normXml =
-        """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-        <akn:akomaNtoso
-              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-          <akn:act name="regelungstext">
-            <!-- Metadaten -->
-            <akn:meta eId="meta-1" GUID="000">
-              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                  <akn:FRBRthis
-                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                    GUID="000"
-                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                  />
-                </akn:FRBRExpression>
-              </akn:identification>
-            </akn:meta>
-          </akn:act>
-        </akn:akomaNtoso>
-        """;
-
-      var regelungstext = new Regelungstext(XmlMapper.toDocument(normXml));
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
-      when(
-        timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(regelungstext, date)
-        )
-      )
-        .thenReturn(regelungstext);
-      when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
-
-      // When / Then
-      assertThatThrownBy(() -> service.loadElementHtmlAtDate(query))
-        .isInstanceOf(ElementNotFoundException.class);
-
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
-      verify(timeMachineService)
-        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(regelungstext, date));
     }
   }
 

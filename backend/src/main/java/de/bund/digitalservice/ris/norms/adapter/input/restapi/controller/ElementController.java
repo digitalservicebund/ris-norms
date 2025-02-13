@@ -21,18 +21,15 @@ public class ElementController {
 
   private final LoadElementUseCase loadElementUseCase;
   private final LoadElementHtmlUseCase loadElementHtmlUseCase;
-  private final LoadElementHtmlAtDateUseCase loadElementHtmlAtDateUseCase;
   private final LoadElementsByTypeUseCase loadElementsByTypeUseCase;
 
   public ElementController(
     LoadElementUseCase loadElementUseCase,
     LoadElementHtmlUseCase loadElementHtmlUseCase,
-    LoadElementHtmlAtDateUseCase loadElementHtmlAtDateUseCase,
     LoadElementsByTypeUseCase loadElementsByTypeUseCase
   ) {
     this.loadElementUseCase = loadElementUseCase;
     this.loadElementHtmlUseCase = loadElementHtmlUseCase;
-    this.loadElementHtmlAtDateUseCase = loadElementHtmlAtDateUseCase;
     this.loadElementsByTypeUseCase = loadElementsByTypeUseCase;
   }
 
@@ -52,15 +49,9 @@ public class ElementController {
     @PathVariable final String eid,
     @RequestParam Optional<Instant> atIsoDate
   ) {
-    var elementHtml = atIsoDate
-      .map(date ->
-        loadElementHtmlAtDateUseCase.loadElementHtmlAtDate(
-          new LoadElementHtmlAtDateUseCase.Query(eli, eid, date)
-        )
-      )
-      .orElseGet(() ->
-        loadElementHtmlUseCase.loadElementHtml(new LoadElementHtmlUseCase.Query(eli, eid))
-      );
+    var elementHtml = loadElementHtmlUseCase.loadElementHtml(
+      new LoadElementHtmlUseCase.Query(eli, eid)
+    );
 
     return ResponseEntity.ok(elementHtml);
   }
