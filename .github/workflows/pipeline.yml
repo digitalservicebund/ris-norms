@@ -128,27 +128,27 @@ jobs:
   # # Deploy new versions to uat
   # ######################
 
-  #  deploy-uat-job:
-  #    if: ${{ github.ref == 'refs/heads/main' }}
-  #    needs:
-  #      - deploy-staging-job
-  #    permissions:
-  #      id-token: write
-  #    uses: ./.github/workflows/deploy-uat-job.yml
-  #    secrets: inherit
+  deploy-uat-job:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - deploy-staging-job
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/deploy-uat-job.yml
+    secrets: inherit
 
   # ######################
   # # Deploy new versions to production
   # ######################
 
-  #  deploy-production-job:
-  #    if: ${{ github.ref == 'refs/heads/main' }}
-  #    needs:
-  #      - deploy-uat-job
-  #    permissions:
-  #      id-token: write
-  #    uses: ./.github/workflows/deploy-production-job.yml
-  #    secrets: inherit
+  deploy-production-job:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - deploy-uat-job
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/deploy-production-job.yml
+    secrets: inherit
 
   # ########################
   # # e2e test jobs
