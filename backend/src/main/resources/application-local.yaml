@@ -33,3 +33,6 @@ otc:
       bucket-name: public
       access-key-id: test
       secret-access-key: test
+
+sentry:
+  environment: local

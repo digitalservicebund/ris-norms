@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/environment")
 public class EnvironmentController {
 
-  @Value("${sentry.environment:local}")
+  @Value("${sentry.environment}")
   private String environmentName;
 
   @Value("${frontend.auth.clientId}")
