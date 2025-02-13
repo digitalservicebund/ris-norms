@@ -1,4 +1,4 @@
 spring:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:postgresql://${database.host}:${database.port}/${database.database}?currentSchema=${database.schema}
+    url: jdbc:p6spy:postgresql://${database.host}:${database.port:5432}/${database.database}?currentSchema=${database.schema}
