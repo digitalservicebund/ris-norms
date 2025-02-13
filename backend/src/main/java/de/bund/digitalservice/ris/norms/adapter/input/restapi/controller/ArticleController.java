@@ -161,7 +161,7 @@ public class ArticleController {
     @PathVariable final String eid,
     @RequestParam Optional<Instant> atIsoDate
   ) {
-    var query = new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate.orElse(null));
+    var query = new LoadArticleHtmlUseCase.Query(eli, eid);
     var articleHtml = loadArticleHtmlUseCase.loadArticleHtml(query);
     return ResponseEntity.ok(articleHtml);
   }
