@@ -34,7 +34,6 @@ public class AnnouncementService
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
-  private final CreateZf0Service createZf0Service;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
   private final BillToActService billToActService;
   private final LdmlDeValidator ldmlDeValidator;
@@ -42,26 +41,26 @@ public class AnnouncementService
   private final DeleteNormPort deleteNormPort;
   private final ReferenceService referenceService;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
+  private final CreateNewVersionOfNormService createNewVersionOfNormService;
 
   public AnnouncementService(
     LoadAllAnnouncementsPort loadAllAnnouncementsPort,
     LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
     LoadNormPort loadNormPort,
     LoadNormByGuidPort loadNormByGuidPort,
-    CreateZf0Service createZf0Service,
     UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
     BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
     DeleteNormPort deleteNormPort,
     ReferenceService referenceService,
-    UpdateOrSaveNormPort updateOrSaveNormPort
+    UpdateOrSaveNormPort updateOrSaveNormPort,
+    CreateNewVersionOfNormService createNewVersionOfNormService
   ) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
-    this.createZf0Service = createZf0Service;
     this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
     this.billToActService = billToActService;
     this.ldmlDeValidator = ldmlDeValidator;
@@ -69,6 +68,7 @@ public class AnnouncementService
     this.deleteNormPort = deleteNormPort;
     this.referenceService = referenceService;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
+    this.createNewVersionOfNormService = createNewVersionOfNormService;
   }
 
   @Override
@@ -246,9 +246,10 @@ public class AnnouncementService
     activeModDestinationElis.forEach(eli ->
       loadNormPort
         .loadNorm(new LoadNormPort.Command(eli.asNormEli()))
-        .ifPresent(targetNorm ->
-          createZf0Service.createZf0(new CreateZf0UseCase.Query(norm, targetNorm, true))
-        )
+        .ifPresent(targetNorm -> {
+          var newManifestation = createNewVersionOfNormService.createNewManifestation(targetNorm);
+          updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(newManifestation));
+        })
     );
     // 3. Reference recognition
     referenceService.findAndCreateReferences(norm);

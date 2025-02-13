@@ -31,7 +31,6 @@ class AnnouncementServiceTest {
   );
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
-  final CreateZf0Service loadZf0Service = mock(CreateZf0Service.class);
   final BillToActService billToActService = mock(BillToActService.class);
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
   final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort = mock(
@@ -43,20 +42,23 @@ class AnnouncementServiceTest {
   final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
   final ReferenceService referenceService = mock(ReferenceService.class);
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
+    CreateNewVersionOfNormService.class
+  );
 
   final AnnouncementService announcementService = new AnnouncementService(
     loadAllAnnouncementsPort,
     loadAnnouncementByNormEliPort,
     loadNormPort,
     loadNormByGuidPort,
-    loadZf0Service,
     updateOrSaveAnnouncementPort,
     billToActService,
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
     deleteNormPort,
     referenceService,
-    updateOrSaveNormPort
+    updateOrSaveNormPort,
+    createNewVersionOfNormService
   );
 
   @Nested

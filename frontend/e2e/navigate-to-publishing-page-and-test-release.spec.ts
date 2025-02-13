@@ -49,11 +49,6 @@ test.describe(
       // Verify Links
       await expect(
         page.getByRole("link", {
-          name: `eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
-        }),
-      ).toBeVisible()
-      await expect(
-        page.getByRole("link", {
           name: `eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         }),
       ).toBeVisible()
@@ -62,25 +57,14 @@ test.describe(
           name: `eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         }),
       ).toBeVisible()
+
       const manifestationOfPreviouslyPublishedExpression = await request.get(
         `/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
       )
       expect(
         await manifestationOfPreviouslyPublishedExpression.text(),
       ).toContain(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml",
-      )
-      expect(
-        await manifestationOfPreviouslyPublishedExpression.text(),
-      ).toContain(
         "Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet",
-      )
-
-      const expressionAtFirstTimeBoundary = await request.get(
-        `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
-      )
-      expect(await expressionAtFirstTimeBoundary.text()).toContain(
-        "Absatz 2 oder 3 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet",
       )
     })
 

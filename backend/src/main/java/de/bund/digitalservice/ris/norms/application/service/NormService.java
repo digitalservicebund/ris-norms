@@ -8,13 +8,10 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,18 +29,15 @@ public class NormService
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
-  private final UpdateNormService updateNormService;
   private final LoadRegelungstextPort loadRegelungstextPort;
 
   public NormService(
     LoadNormPort loadNormPort,
     UpdateNormPort updateNormPort,
-    UpdateNormService updateNormService,
     LoadRegelungstextPort loadRegelungstextPort
   ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
-    this.updateNormService = updateNormService;
     this.loadRegelungstextPort = loadRegelungstextPort;
   }
 
@@ -103,66 +97,25 @@ public class NormService
   }
 
   /**
-   * It not only saves a {@link Norm} but makes sure that all Eids are consistent and if it is an amending norm makes sure
-   * that all target norms have a passive modification for every active modification in the amending norm.
+   * It not only saves a {@link Norm} but makes sure that all Eids are consistent.
    *
    * @param normToBeUpdated the norm which shall be saved
    * @return An {@link Map} containing the updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
   public Map<NormExpressionEli, Norm> updateNorm(Norm normToBeUpdated) {
-    // Collect all target norms' ELI without duplications
-    Set<NormExpressionEli> allTargetLawsEli = normToBeUpdated
-      .getRegelungstext1()
-      .getMeta()
-      .getAnalysis()
-      .map(analysis -> analysis.getActiveModifications().stream())
-      .orElse(Stream.empty())
-      .map(TextualMod::getDestinationHref)
-      .flatMap(Optional::stream)
-      .map(Href::getExpressionEli)
-      .flatMap(Optional::stream)
-      .map(DokumentExpressionEli::asNormEli)
-      .collect(Collectors.toSet());
+    normToBeUpdated
+      .getDokumente()
+      .forEach(dokument -> {
+        EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
+        EidConsistencyGuardian.correctEids(dokument.getDocument());
+      });
 
-    // Load all target norms
-    Map<NormExpressionEli, Norm> zf0s = allTargetLawsEli
-      .stream()
-      .map(expressionEli -> {
-        Norm zf0 = loadNorm(new LoadNormUseCase.Query(expressionEli));
-        return new AbstractMap.SimpleImmutableEntry<>(expressionEli, zf0);
-      })
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    Norm savedNorm = updateNormPort
+      .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
+      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli().toString())
+      );
 
-    // Update passive modifications for each target norm
-    zf0s.forEach((eli, zf0) ->
-      updateNormService.updateOnePassiveModification(
-        new UpdatePassiveModificationsUseCase.Query(zf0, normToBeUpdated, eli)
-      )
-    );
-
-    // Add the norm to be updated to the map of updated norms
-    Map<NormExpressionEli, Norm> updatedNorms = new HashMap<>(zf0s);
-    updatedNorms.put(normToBeUpdated.getExpressionEli(), normToBeUpdated);
-
-    return updatedNorms
-      .entrySet()
-      .stream()
-      .map(entry -> {
-        Norm norm = entry.getValue();
-        norm
-          .getRegelungstexte()
-          .forEach(regelungstext -> {
-            EidConsistencyGuardian.eliminateDeadReferences(regelungstext.getDocument());
-            EidConsistencyGuardian.correctEids(regelungstext.getDocument());
-          });
-
-        Norm savedNorm = updateNormPort
-          .updateNorm(new UpdateNormPort.Command(norm))
-          .orElseThrow(() -> new NormNotFoundException(norm.getManifestationEli().toString()));
-
-        return new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), savedNorm);
-      })
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    return Map.of(normToBeUpdated.getExpressionEli(), savedNorm);
   }
 }

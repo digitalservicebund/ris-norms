@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Represents a Norm containing {@link Dokument}s (which can be either {@link Regelungstext} or {@link OffeneStruktur}) and {@link BinaryFile}s.
@@ -143,17 +141,6 @@ public class Norm {
    * Returns the expression Eli of the {@link Norm}.
    *
    * @return The expression Eli
-   * @deprecated use {@link #getExpressionEli()} instead
-   */
-  @Deprecated(forRemoval = true)
-  public DokumentExpressionEli getRegelungstext1ExpressionEli() {
-    return getRegelungstext1().getExpressionEli();
-  }
-
-  /**
-   * Returns the expression Eli of the {@link Norm}.
-   *
-   * @return The expression Eli
    */
   public NormExpressionEli getExpressionEli() {
     return getRegelungstext1().getExpressionEli().asNormEli();
@@ -193,78 +180,6 @@ public class Norm {
    */
   public Optional<String> getShortTitle() {
     return getRegelungstext1().getShortTitle();
-  }
-
-  /**
-   * Returns a {@link Meta} instance from a {@link Document} in a {@link Norm}.
-   *
-   * @return the meta node as {@link Meta}
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Meta getMeta() {
-    return getRegelungstext1().getMeta();
-  }
-
-  /**
-   * @param temporalGroupEid EId of a temporal group
-   * @return Start date of the temporal group
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
-    return getRegelungstext1().getStartDateForTemporalGroup(temporalGroupEid);
-  }
-
-  /**
-   * Adds one time boundary (Zeitgrenze) to the document. New eventRef node as child of lifecycle.
-   * The temporalData node will get a new temporalGroup node as child, which will have a new
-   * timeInterval node as child.
-   *
-   * @param date         the {@link LocalDate} for the new time boundary.
-   * @param eventRefType the {@link EventRefType} for the new time boundary.
-   * @return the newly created {@link TemporalGroup}
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
-    return getRegelungstext1().addTimeBoundary(date, eventRefType);
-  }
-
-  /**
-   * Deletes the element of the norm identified by the given eId.
-   *
-   * @param eId the eId of the element to delete
-   * @return the deleted element or empty if nothing to delete was found
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<Element> deleteByEId(String eId) {
-    return getRegelungstext1().deleteByEId(eId);
-  }
-
-  /**
-   * Deletes the temporal group if it is not referenced anymore in the norm.
-   *
-   * @param eId the eId of the temporal group to delete
-   * @return the deleted temporal group or empty if nothing was deleted
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
-    return getRegelungstext1().deleteTemporalGroupIfUnused(eId);
-  }
-
-  /**
-   * Deletes the event ref if it is not referenced anymore in the norm.
-   *
-   * @param eId the eId of the event ref to delete
-   * @return the deleted temporal ref node or empty if nothing was deleted
-   * @deprecated
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<Element> deleteEventRefIfUnused(String eId) {
-    return getRegelungstext1().deleteEventRefIfUnused(eId);
   }
 
   @Override
