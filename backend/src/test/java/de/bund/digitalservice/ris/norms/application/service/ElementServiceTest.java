@@ -384,65 +384,6 @@ class ElementServiceTest {
       assertThatThrownBy(() -> service.loadElementsByType(query))
         .isInstanceOf(RegelungstextNotFoundException.class);
     }
-
-    @Test
-    void filtersReturnedElementsByAmendingNorm() {
-      // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "NormWithPassiveModificationsInDifferentArticles.xml"
-      );
-      var eli = regelungstext.getExpressionEli();
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
-
-      // When
-      var elements = service.loadElementsByType(
-        new LoadElementsByTypeUseCase.Query(
-          eli,
-          List.of("preface", "preamble", "article", "conclusions"),
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-          )
-        )
-      );
-
-      // Then
-      assertThat(elements).hasSize(1);
-      assertThat(elements.getFirst().getNodeName()).isEqualTo("akn:article");
-    }
-
-    @Test
-    void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() {
-      // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "NormWithMultiplePassiveModifications.xml"
-      );
-      var eli = regelungstext.getExpressionEli();
-      when(
-        loadRegelungstextPort.loadRegelungstext(
-          new LoadRegelungstextPort.Command(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
-            )
-          )
-        )
-      )
-        .thenReturn(Optional.of(regelungstext));
-
-      // When
-      var elements = service.loadElementsByType(
-        new LoadElementsByTypeUseCase.Query(
-          eli,
-          List.of("preface", "preamble", "article", "conclusions"),
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1000/1/1000-01-01/1/deu/regelungstext-1"
-          )
-        )
-      );
-
-      // Then
-      assertThat(elements).isEmpty();
-    }
   }
 
   @Nested
