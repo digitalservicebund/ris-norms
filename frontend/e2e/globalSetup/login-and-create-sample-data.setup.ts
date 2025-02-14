@@ -15,8 +15,7 @@ setup("login", async ({ page }) => {
 
   await page.getByRole("button", { name: "Sign In" }).click()
 
-  await page.waitForURL("/")
-  await page.unrouteAll({ behavior: "wait" })
+  await page.context().storageState({ path: `e2e/storage/state.json` })
 })
 
 setup("create sample data", async ({ authenticatedRequest: request }) => {
