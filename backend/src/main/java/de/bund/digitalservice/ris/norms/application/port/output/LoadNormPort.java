@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
 import java.util.Optional;
 
@@ -25,16 +24,5 @@ public interface LoadNormPort {
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the norm in the command.
    */
-  record Command(NormEli eli) {
-    /**
-     * Old way to call the load norm port with using a dokument eli. As a norm is loaded and not just
-     * a Dokument a NormEli should be used instead
-     * @param eli the eli of a dokument of the norm
-     * @deprecated
-     */
-    @Deprecated(forRemoval = true)
-    public Command(DokumentEli eli) {
-      this(eli.asNormEli());
-    }
-  }
+  record Command(NormEli eli) {}
 }
