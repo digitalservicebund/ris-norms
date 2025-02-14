@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       proxy: {
-        "^/(api|oauth2|login|logout|environment)": {
+        "^/(api|environment)": {
           target: "http://localhost:8080",
           changeOrigin: true,
           secure: false,
