@@ -4,18 +4,10 @@ import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import javax.annotation.Nullable;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
@@ -120,52 +112,13 @@ public class ElementService
       .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
-    // Source EIDs from passive mods
-    final var passiveModsDestinationEids = getDestinationEidsFromPassiveMods(
-      regelungstext
-        .getMeta()
-        .getAnalysis()
-        .map(Analysis::getPassiveModifications)
-        .orElse(Collections.emptyList()),
-      query.amendedBy()
-    );
-
     return NodeParser
       .getNodesFromExpression(combinedXPaths, regelungstext.getDocument())
       .stream()
-      .filter(element -> { // filter by "amendedBy")
-        // no amending law -> all elements are fine
-        if (query.amendedBy() == null) return true;
-
-        var eId = EId.fromMandatoryNode(element).value();
-        return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
-      })
       .toList();
   }
 
   private String getXPathForEid(String eid) {
     return String.format("//*[@eId='%s']", eid);
-  }
-
-  private List<String> getDestinationEidsFromPassiveMods(
-    List<TextualMod> mods,
-    @Nullable DokumentExpressionEli amendedBy
-  ) {
-    return mods
-      .stream()
-      .filter(passiveMod -> {
-        if (amendedBy == null) return true;
-
-        return passiveMod
-          .getSourceHref()
-          .flatMap(Href::getExpressionEli)
-          .orElseThrow()
-          .equals(amendedBy);
-      })
-      .map(TextualMod::getDestinationHref)
-      .flatMap(Optional::stream)
-      .map(Href::getEId)
-      .flatMap(Optional::stream)
-      .toList();
   }
 }

@@ -94,9 +94,7 @@ public class ElementController {
     @RequestParam final Optional<DokumentExpressionEli> amendedBy
   ) {
     List<ElementResponseSchema> elements = loadElementsByTypeUseCase
-      .loadElementsByType(
-        new LoadElementsByTypeUseCase.Query(eli, Arrays.asList(type), amendedBy.orElse(null))
-      )
+      .loadElementsByType(new LoadElementsByTypeUseCase.Query(eli, Arrays.asList(type)))
       .stream()
       .map(ElementResponseMapper::fromElementNode)
       .toList();
