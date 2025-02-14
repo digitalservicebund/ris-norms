@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.integration;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -24,10 +23,10 @@ class OidcIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void userShouldBeRedirectedOnLogout() throws Exception {
+  void userShouldBeRedirectedToLogin() throws Exception {
     // when
     mvc
-      .perform(get("/logout").with(user("user")).accept(MediaType.TEXT_HTML))
+      .perform(get("/amending-laws").accept(MediaType.TEXT_HTML))
       // then
       .andExpect(status().is3xxRedirection());
   }
