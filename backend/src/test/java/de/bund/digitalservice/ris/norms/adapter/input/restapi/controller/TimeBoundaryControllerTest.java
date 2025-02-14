@@ -55,9 +55,6 @@ class TimeBoundaryControllerTest {
   private LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
 
   @MockitoBean
-  private LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase;
-
-  @MockitoBean
   private UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase;
 
   @Nested
@@ -139,7 +136,7 @@ class TimeBoundaryControllerTest {
         )
       );
 
-      when(loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(any()))
+      when(loadTimeBoundariesUseCase.loadTimeBoundariesFromRegelungstext(any()))
         .thenReturn(timeBoundaries);
 
       // When // Then
@@ -154,15 +151,12 @@ class TimeBoundaryControllerTest {
         .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
         .andExpect(jsonPath("$[0].temporalGroupEid", is("meta-1_geltzeiten-1_geltungszeitgr-1")));
 
-      verify(loadTimeBoundariesAmendedByUseCase, times(1))
-        .loadTimeBoundariesAmendedBy(any(LoadTimeBoundariesAmendedByUseCase.Query.class));
+      verify(loadTimeBoundariesUseCase, times(1))
+        .loadTimeBoundariesFromRegelungstext(any(LoadTimeBoundariesUseCase.Query.class));
 
-      verify(loadTimeBoundariesAmendedByUseCase, times(1))
-        .loadTimeBoundariesAmendedBy(
-          argThat(query ->
-            Objects.equals(query.eli(), DokumentExpressionEli.fromString(eli)) &&
-            Objects.equals(query.amendingLawEli(), DokumentExpressionEli.fromString(amendedBy))
-          )
+      verify(loadTimeBoundariesUseCase, times(1))
+        .loadTimeBoundariesFromRegelungstext(
+          argThat(query -> Objects.equals(query.eli(), DokumentExpressionEli.fromString(eli)))
         );
     }
   }

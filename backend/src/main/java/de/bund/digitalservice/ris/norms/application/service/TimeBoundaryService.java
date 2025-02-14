@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class TimeBoundaryService
-  implements
-    LoadTimeBoundariesUseCase, LoadTimeBoundariesAmendedByUseCase, UpdateTimeBoundariesUseCase {
+public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTimeBoundariesUseCase {
 
   private final LoadNormPort loadNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
@@ -49,42 +47,6 @@ public class TimeBoundaryService
       .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()))
       .getTimeBoundaries();
-  }
-
-  @Override
-  public List<TimeBoundary> loadTimeBoundariesAmendedBy(
-    LoadTimeBoundariesAmendedByUseCase.Query query
-  ) {
-    final Regelungstext regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
-
-    final List<String> temporalGroupEidAmendedBy = regelungstext
-      .getMeta()
-      .getOrCreateAnalysis()
-      .getPassiveModifications()
-      .stream()
-      .filter(f ->
-        f
-          .getSourceHref()
-          .map(href ->
-            href.getExpressionEli().isPresent() &&
-            href.getExpressionEli().get().equals(query.amendingLawEli())
-          )
-          .orElse(false)
-      )
-      .map(m -> m.getForcePeriodEid().orElse(null))
-      .filter(Objects::nonNull)
-      .toList();
-
-    final List<TemporalGroup> temporalGroups = regelungstext
-      .getMeta()
-      .getTemporalData()
-      .getTemporalGroups()
-      .stream()
-      .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid()))
-      .toList();
-    return regelungstext.getTimeBoundaries(temporalGroups);
   }
 
   /**

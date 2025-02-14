@@ -23,16 +23,13 @@ import org.springframework.web.bind.annotation.*;
 public class TimeBoundaryController {
 
   private final LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
-  private final LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase;
   private final UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase;
 
   public TimeBoundaryController(
     LoadTimeBoundariesUseCase loadTimeBoundariesUseCase,
-    LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase,
     UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase
   ) {
     this.loadTimeBoundariesUseCase = loadTimeBoundariesUseCase;
-    this.loadTimeBoundariesAmendedByUseCase = loadTimeBoundariesAmendedByUseCase;
     this.updateTimeBoundariesUseCase = updateTimeBoundariesUseCase;
   }
 
@@ -55,17 +52,8 @@ public class TimeBoundaryController {
     @RequestParam final Optional<DokumentExpressionEli> amendedBy
   ) {
     return ResponseEntity.ok(
-      amendedBy
-        .map(amendingBy ->
-          loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(
-            new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendingBy)
-          )
-        )
-        .orElseGet(() ->
-          loadTimeBoundariesUseCase.loadTimeBoundariesFromRegelungstext(
-            new LoadTimeBoundariesUseCase.Query(eli)
-          )
-        )
+      loadTimeBoundariesUseCase
+        .loadTimeBoundariesFromRegelungstext(new LoadTimeBoundariesUseCase.Query(eli))
         .stream()
         .map(TimeBoundaryMapper::fromUseCaseData)
         .toList()
