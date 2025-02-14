@@ -41,7 +41,7 @@ export const test = base.extend<{
     async ({ page }, use) => {
       await page.route(/token$/, async (route) => {
         const response = await page.request.fetch(route.request())
-        if (response.ok()) await saveToken(await response.json())
+        if (response.ok()) saveToken(await response.json())
         await route.fulfill({ response })
       })
 
@@ -73,7 +73,6 @@ const storagePath = fileURLToPath(
  * @param token Token to save
  */
 export function saveToken(token: Token): Promise<void> {
-  console.log("Writing token to file.")
   return writeFile(storagePath, JSON.stringify(token, undefined, 2), {
     encoding: "utf-8",
   })
