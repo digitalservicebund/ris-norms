@@ -175,64 +175,6 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /norms/{expressionEli}/elements:
-    get:
-      tags:
-        - Norm expression
-      summary: Get a norm's elements, filtered by the elements' types
-      parameters:
-        - name: expressionEli
-          in: path
-          required: true
-          description: Expression ELI of the norm
-          example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-          schema:
-            type: string
-        - name: type
-          in: query
-          required: true
-          description: Type(s) of elements to include in the result
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                [
-                  article,
-                  chapter,
-                  book,
-                  part,
-                  conclusions,
-                  preface,
-                  preamble,
-                  subsection,
-                  section,
-                  title,
-                  subtitle,
-                ]
-        - name: amendedBy
-          in: query
-          required: false
-          description: Expression ELI of an amending law. The result is restricted to elements that are affected by that law. <br>Note that the validity of that ELI is not checked by this endpoint.
-          schema:
-            type: string
-          example: "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-      responses:
-        "200":
-          description: Successful response returning list of elements. If none matched, the list is empty.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ElementResponse"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
   /norms/{expressionEli}/elements/{eid}:
     get:
       tags:
