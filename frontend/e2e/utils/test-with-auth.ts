@@ -41,7 +41,7 @@ export const test = base.extend<{
     async ({ page }, use) => {
       await page.route(/token$/, async (route) => {
         const response = await page.request.fetch(route.request())
-        if (response.ok()) saveToken(await response.json())
+        if (response.ok()) await saveToken(await response.json())
         await route.fulfill({ response })
       })
 
