@@ -123,11 +123,6 @@ public class Norm {
       .findFirst();
   }
 
-  @Deprecated(forRemoval = true)
-  public Document getDocument() {
-    return getRegelungstext1().getDocument();
-  }
-
   /**
    * Returns the work Eli of the {@link Norm}.
    *
