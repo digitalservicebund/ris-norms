@@ -2,7 +2,7 @@ import {
   APIRequestContext,
   test as base /* eslint-disable-line no-restricted-imports -- We need this here to extend it */,
 } from "@playwright/test"
-import { readFile, writeFile } from "node:fs/promises"
+import { readFileSync, writeFileSync } from "node:fs"
 import { fileURLToPath, URL } from "node:url"
 
 /**
@@ -41,7 +41,7 @@ export const test = base.extend<{
     async ({ page }, use) => {
       await page.route(/token$/, async (route) => {
         const response = await page.request.fetch(route.request())
-        if (response.ok()) await saveToken(await response.json())
+        if (response.ok()) saveToken(await response.json())
         await route.fulfill({ response })
       })
 
@@ -51,7 +51,7 @@ export const test = base.extend<{
   ],
 
   authenticatedRequest: async ({ playwright }, use) => {
-    const token = await restoreToken()
+    const token = restoreToken()
 
     const request = await playwright.request.newContext({
       extraHTTPHeaders: {
@@ -72,8 +72,8 @@ const storagePath = fileURLToPath(
  *
  * @param token Token to save
  */
-export function saveToken(token: Token): Promise<void> {
-  return writeFile(storagePath, JSON.stringify(token, undefined, 2), {
+function saveToken(token: Token): void {
+  writeFileSync(storagePath, JSON.stringify(token, undefined, 2), {
     encoding: "utf-8",
   })
 }
@@ -84,7 +84,7 @@ export function saveToken(token: Token): Promise<void> {
  *
  * @returns Saved token
  */
-export async function restoreToken(): Promise<Token> {
-  const raw = await readFile(storagePath, { encoding: "utf-8" })
+function restoreToken(): Token {
+  const raw = readFileSync(storagePath, { encoding: "utf-8" })
   return JSON.parse(raw)
 }
