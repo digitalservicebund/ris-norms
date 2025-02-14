@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -126,31 +125,6 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("Änderung des Vereinsgesetzes")));
-    }
-
-    @Test
-    void returnsElementAtGivenIsoDateRenderedAsHtml() throws Exception {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
-        )
-      );
-
-      // When / Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_art-1?atIsoDate=2017-03-01T00:00:00.000Z"
-          )
-            .accept(MediaType.TEXT_HTML)
-        )
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")))
-        .andExpect(content().string(not(containsString("§ 9 Abs. 1 Satz 2, Abs. 2"))));
     }
 
     @Test

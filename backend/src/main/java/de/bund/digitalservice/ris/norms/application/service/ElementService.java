@@ -27,15 +27,10 @@ import org.w3c.dom.Node;
  */
 @Service
 public class ElementService
-  implements
-    LoadElementUseCase,
-    LoadElementHtmlUseCase,
-    LoadElementHtmlAtDateUseCase,
-    LoadElementsByTypeUseCase {
+  implements LoadElementUseCase, LoadElementHtmlUseCase, LoadElementsByTypeUseCase {
 
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final XsltTransformationService xsltTransformationService;
-  private final TimeMachineService timeMachineService;
 
   /** The types of elements that can be retrieved from a norm. */
   public enum ElementType {
@@ -81,12 +76,10 @@ public class ElementService
 
   public ElementService(
     LoadRegelungstextPort loadRegelungstextPort,
-    XsltTransformationService xsltTransformationService,
-    TimeMachineService timeMachineService
+    XsltTransformationService xsltTransformationService
   ) {
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.xsltTransformationService = xsltTransformationService;
-    this.timeMachineService = timeMachineService;
   }
 
   @Override
@@ -110,26 +103,6 @@ public class ElementService
 
     return xsltTransformationService.transformLegalDocMlToHtml(
       new TransformLegalDocMlToHtmlUseCase.Query(elementXml, false, false)
-    );
-  }
-
-  @Override
-  public String loadElementHtmlAtDate(final LoadElementHtmlAtDateUseCase.Query query) {
-    var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
-
-    regelungstext =
-    timeMachineService.applyPassiveModifications(
-      new ApplyPassiveModificationsUseCase.Query(regelungstext, query.atDate())
-    );
-
-    final var element = NodeParser
-      .getElementFromExpression(getXPathForEid(query.eid()), regelungstext.getDocument())
-      .orElseThrow(() -> new ElementNotFoundException(query.eli().toString(), query.eid()));
-
-    return xsltTransformationService.transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false, false)
     );
   }
 

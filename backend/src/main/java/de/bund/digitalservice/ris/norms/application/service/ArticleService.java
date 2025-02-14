@@ -43,13 +43,6 @@ public class ArticleService
       .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
       .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
 
-    if (query.atIsoDate() != null) {
-      regelungstext =
-      timeMachineService.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(regelungstext, query.atIsoDate())
-      );
-    }
-
     return regelungstext
       .getArticles()
       .stream()

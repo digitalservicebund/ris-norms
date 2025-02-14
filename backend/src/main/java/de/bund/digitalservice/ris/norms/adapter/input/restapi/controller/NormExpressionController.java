@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsR
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.time.Instant;
@@ -35,26 +34,20 @@ import org.springframework.web.bind.annotation.*;
 public class NormExpressionController {
 
   private final LoadNormUseCase loadNormUseCase;
-  private final LoadRegelungstextUseCase loadRegelungstextUseCase;
   private final LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase;
   private final UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   public NormExpressionController(
     LoadNormUseCase loadNormUseCase,
-    LoadRegelungstextUseCase loadRegelungstextUseCase,
     LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase,
-    TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-    ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase
+    TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase
   ) {
     this.loadNormUseCase = loadNormUseCase;
-    this.loadRegelungstextUseCase = loadRegelungstextUseCase;
     this.loadRegelungstextXmlUseCase = loadRegelungstextXmlUseCase;
     this.updateRegelungstextXmlUseCase = updateRegelungstextXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
-    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
 
   /**
@@ -103,26 +96,6 @@ public class NormExpressionController {
     @RequestParam(defaultValue = "false") boolean showMetadata,
     @RequestParam Optional<Instant> atIsoDate
   ) {
-    if (atIsoDate.isPresent()) {
-      var regelungstext = loadRegelungstextUseCase.loadRegelungstext(
-        new LoadRegelungstextUseCase.Query(eli)
-      );
-      regelungstext =
-      applyPassiveModificationsUseCase.applyPassiveModifications(
-        new ApplyPassiveModificationsUseCase.Query(regelungstext, atIsoDate.get())
-      );
-
-      return ResponseEntity.ok(
-        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(
-              XmlMapper.toString(regelungstext.getDocument()),
-              showMetadata,
-              false
-            )
-          )
-      );
-    }
-
     var normXml = loadRegelungstextXmlUseCase.loadRegelungstextXml(
       new LoadRegelungstextXmlUseCase.Query(eli)
     );
