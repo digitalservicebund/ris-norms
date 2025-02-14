@@ -63,14 +63,8 @@ public class ArticleController {
     @RequestParam final Optional<DokumentExpressionEli> amendedBy,
     @RequestParam final Optional<String> amendedAt
   ) {
-    final var query = new LoadArticlesFromDokumentUseCase.Query(
-      eli,
-      amendedBy.orElse(null),
-      amendedAt.orElse(null)
-    );
-
     final var articlesWithZf0 = loadArticlesFromDokumentUseCase
-      .loadArticlesFromDokument(query)
+      .loadArticlesFromDokument(new LoadArticlesFromDokumentUseCase.Query(eli))
       .stream()
       .map(ArticleResponseMapper::fromNormArticle)
       .toList();

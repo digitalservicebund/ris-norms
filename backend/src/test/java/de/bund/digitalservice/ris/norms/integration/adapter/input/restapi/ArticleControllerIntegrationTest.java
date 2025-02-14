@@ -78,52 +78,6 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsArticlesFilteredByAmendedAt() throws Exception {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
-        )
-      );
-
-      // When // Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles?amendedAt=meta-1_lebzykl-1_ereignis-4"
-          )
-            .accept(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
-        .andExpect(jsonPath("$[1]").doesNotExist());
-    }
-
-    @Test
-    void itReturnsArticlesFilteredByAmendedBy() throws Exception {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModificationsInDifferentArticles.xml")
-        )
-      );
-
-      // When // Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-          )
-            .accept(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-2"))
-        .andExpect(jsonPath("$[1]").doesNotExist());
-    }
-
-    @Test
     void itReturnsEmptyListWhenTheNormHasNoArticles() throws Exception {
       // Given
       dokumentRepository.save(
@@ -134,48 +88,6 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles")
-            .accept(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0]").doesNotExist());
-    }
-
-    @Test
-    void itReturnsEmptyListIfAmendedByIsNotFound() throws Exception {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
-        )
-      );
-
-      // When / Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles?amendedBy=eli/bund/DOES-NOT-EXIST/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-4"
-          )
-            .accept(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0]").doesNotExist());
-    }
-
-    @Test
-    void itReturnsEmptyListIfAmendedAtIsNotFound() throws Exception {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
-        )
-      );
-
-      // When / Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=DOES-NOT-EXIST"
-          )
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
