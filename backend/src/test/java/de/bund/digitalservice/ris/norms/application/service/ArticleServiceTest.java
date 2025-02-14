@@ -28,11 +28,9 @@ class ArticleServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
-  final TimeMachineService timeMachineService = mock(TimeMachineService.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
   final ArticleService articleService = new ArticleService(
     loadRegelungstextPort,
-    timeMachineService,
     xsltTransformationService
   );
 
@@ -49,7 +47,6 @@ class ArticleServiceTest {
       var eid = "hauptteil-1_art-1";
       when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
         .thenReturn(Optional.of(regelungstext));
-      when(timeMachineService.applyPassiveModifications(any())).thenReturn(regelungstext);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // when

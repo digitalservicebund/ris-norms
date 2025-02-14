@@ -24,16 +24,13 @@ public class ArticleService
     LoadSpecificArticlesXmlFromDokumentUseCase {
 
   LoadRegelungstextPort loadRegelungstextPort;
-  TimeMachineService timeMachineService;
   XsltTransformationService xsltTransformationService;
 
   public ArticleService(
     LoadRegelungstextPort loadRegelungstextPort,
-    TimeMachineService timeMachineService,
     XsltTransformationService xsltTransformationService
   ) {
     this.loadRegelungstextPort = loadRegelungstextPort;
-    this.timeMachineService = timeMachineService;
     this.xsltTransformationService = xsltTransformationService;
   }
 
