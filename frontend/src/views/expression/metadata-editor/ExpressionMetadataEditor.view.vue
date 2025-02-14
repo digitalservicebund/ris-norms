@@ -3,7 +3,7 @@ import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { ComputedRef, computed, ref, watch, nextTick } from "vue"
+import { ComputedRef, computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
 import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
@@ -61,16 +61,6 @@ const mapElement = (el: TabelOfContentsItem): TreeNode => ({
 })
 
 const treeNodes: ComputedRef<TreeNode[]> = elementLinks
-
-const collapseAllNodes = async () => {
-  expandedKeys.value = { ...{} }
-  await nextTick()
-}
-
-const handleRahmenClick = async () => {
-  await collapseAllNodes()
-  selectionKeys.value = {}
-}
 
 const toggleNode = (node: TreeNode) => {
   if (expandedKeys.value[node.key]) {
@@ -136,9 +126,8 @@ const handleNodeSelect = (node: TreeNode) => {
           <!-- Frame link -->
           <router-link
             :to="{ name: 'ExpressionMetadataEditorRahmen' }"
-            class="px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-            exact-active-class="font-bold underline bg-blue-200"
-            @click="handleRahmenClick"
+            class="flex w-full justify-start border-l-4 border-transparent px-20 py-10 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-blue-800"
+            exact-active-class="font-bold underline bg-blue-200 border-l-blue-800"
           >
             Rahmen
           </router-link>
@@ -182,8 +171,9 @@ const handleNodeSelect = (node: TreeNode) => {
               >
                 {{ node.data.primaryLabel }}
               </router-link>
-
-              <button
+              <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+              <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
+              <span
                 v-else
                 class="w-full overflow-hidden truncate text-ellipsis"
                 :title="node.data.primaryLabel"
@@ -191,7 +181,7 @@ const handleNodeSelect = (node: TreeNode) => {
                 @click="toggleNode(node)"
               >
                 {{ node.data.primaryLabel }}
-              </button>
+              </span>
 
               <router-link
                 v-if="node.data.secondaryLabel"
