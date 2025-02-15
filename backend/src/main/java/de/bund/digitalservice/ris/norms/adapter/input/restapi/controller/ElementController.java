@@ -21,16 +21,13 @@ public class ElementController {
 
   private final LoadElementUseCase loadElementUseCase;
   private final LoadElementHtmlUseCase loadElementHtmlUseCase;
-  private final LoadElementsByTypeUseCase loadElementsByTypeUseCase;
 
   public ElementController(
     LoadElementUseCase loadElementUseCase,
-    LoadElementHtmlUseCase loadElementHtmlUseCase,
-    LoadElementsByTypeUseCase loadElementsByTypeUseCase
+    LoadElementHtmlUseCase loadElementHtmlUseCase
   ) {
     this.loadElementUseCase = loadElementUseCase;
     this.loadElementHtmlUseCase = loadElementHtmlUseCase;
-    this.loadElementsByTypeUseCase = loadElementsByTypeUseCase;
   }
 
   /**
@@ -72,33 +69,5 @@ public class ElementController {
     var element = loadElementUseCase.loadElement(new LoadElementUseCase.Query(eli, eid));
 
     return ResponseEntity.ok(ElementResponseMapper.fromElementNode(element));
-  }
-
-  /**
-   * Retrieves a list of elements inside a norm based on the ELI of the norm and the types of the
-   * elements.
-   *
-   * @param eli Eli of the request
-   * @param type The type(s) of the elements that should be returned. Elements are returned in the
-   *     order of the types, and then in the order of elements in the norm.
-   * @param amendedBy Only the elements modified by the norm of the given ELI will be returned.
-   * @return A {@link ResponseEntity} containing the list of elements.
-   *     <p>Returns HTTP 200 (OK) if the norm is found. The list might be empty.
-   *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
-   *     <p>Returns HTTP 500 (Server error) if an unsupported type is provided.
-   */
-  @GetMapping(produces = { APPLICATION_JSON_VALUE })
-  public ResponseEntity<List<ElementResponseSchema>> getElementList(
-    final DokumentExpressionEli eli,
-    @RequestParam final String[] type,
-    @RequestParam final Optional<DokumentExpressionEli> amendedBy
-  ) {
-    List<ElementResponseSchema> elements = loadElementsByTypeUseCase
-      .loadElementsByType(new LoadElementsByTypeUseCase.Query(eli, Arrays.asList(type)))
-      .stream()
-      .map(ElementResponseMapper::fromElementNode)
-      .toList();
-
-    return ResponseEntity.ok(elements);
   }
 }

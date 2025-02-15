@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstex
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
@@ -18,8 +17,7 @@ import org.w3c.dom.Node;
  * related to articles), you should use a more specific service.
  */
 @Service
-public class ElementService
-  implements LoadElementUseCase, LoadElementHtmlUseCase, LoadElementsByTypeUseCase {
+public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCase {
 
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final XsltTransformationService xsltTransformationService;
@@ -47,22 +45,6 @@ public class ElementService
     ElementType(String label, String xPath) {
       this.label = label;
       this.xPath = xPath;
-    }
-
-    /**
-     * Infers the enum value based on the provided label.
-     *
-     * @param label Label to infer the enum value from.
-     * @return Enum value for that label
-     */
-    public static ElementType fromLabel(String label) {
-      for (ElementType type : values()) {
-        if (type.label.equals(label)) {
-          return type;
-        }
-      }
-
-      throw new UnsupportedElementTypeException(label + " is not supported");
     }
   }
 
@@ -96,26 +78,6 @@ public class ElementService
     return xsltTransformationService.transformLegalDocMlToHtml(
       new TransformLegalDocMlToHtmlUseCase.Query(elementXml, false, false)
     );
-  }
-
-  @Override
-  public List<Node> loadElementsByType(LoadElementsByTypeUseCase.Query query) {
-    // No need to do anything if no types are requested
-    if (query.elementType().isEmpty()) return List.of();
-
-    final var combinedXPaths = String.join(
-      "|",
-      query.elementType().stream().map(label -> ElementType.fromLabel(label).xPath).toList()
-    );
-
-    final var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
-
-    return NodeParser
-      .getNodesFromExpression(combinedXPaths, regelungstext.getDocument())
-      .stream()
-      .toList();
   }
 
   private String getXPathForEid(String eid) {

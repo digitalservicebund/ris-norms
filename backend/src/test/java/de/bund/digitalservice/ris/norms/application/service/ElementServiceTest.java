@@ -9,12 +9,10 @@ import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -253,156 +251,6 @@ class ElementServiceTest {
         .isInstanceOf(ElementNotFoundException.class);
 
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
-    }
-  }
-
-  @Nested
-  class loadElementsByType {
-
-    @Test
-    void returnsAllSupportedTypes() {
-      // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "NormWithPrefacePreambleAndConclusions.xml"
-      );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
-
-      // When
-      var elements = service.loadElementsByType(
-        new LoadElementsByTypeUseCase.Query(
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-          ),
-          List.of("preface", "preamble", "article", "conclusions")
-        )
-      );
-
-      // Then
-      assertThat(elements).hasSize(5);
-      assertThat(elements.getFirst().getNodeName()).isEqualTo("akn:preface");
-      assertThat(elements.get(1).getNodeName()).isEqualTo("akn:preamble");
-      assertThat(elements.get(2).getNodeName()).isEqualTo("akn:article");
-      assertThat(elements.get(3).getNodeName()).isEqualTo("akn:article");
-      assertThat(elements.get(4).getNodeName()).isEqualTo("akn:conclusions");
-
-      verify(loadRegelungstextPort)
-        .loadRegelungstext(
-          argThat(command ->
-            command
-              .eli()
-              .equals(
-                DokumentExpressionEli.fromString(
-                  "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-                )
-              )
-          )
-        );
-    }
-
-    @Test
-    void returnsASubsetOfTypes() {
-      // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "NormWithPrefacePreambleAndConclusions.xml"
-      );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
-
-      // When
-      var elements = service.loadElementsByType(
-        new LoadElementsByTypeUseCase.Query(new DokumentExpressionEli(), List.of("article"))
-      );
-
-      // Then
-      assertThat(elements).hasSize(2);
-      assertThat(elements.getFirst().getNodeName()).isEqualTo("akn:article");
-      assertThat(elements.get(1).getNodeName()).isEqualTo("akn:article");
-    }
-
-    @Test
-    void returnsEmptyListIfTypeIsNotInNorm() {
-      // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml");
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
-
-      // When
-      var elements = service.loadElementsByType(
-        new LoadElementsByTypeUseCase.Query(new DokumentExpressionEli(), List.of("preface"))
-      );
-
-      // Then
-      assertThat(elements).isEmpty();
-    }
-
-    @Test
-    void returnsEmptyListIfTypesAreEmpty() {
-      // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml");
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
-
-      // When
-      var elements = service.loadElementsByType(
-        new LoadElementsByTypeUseCase.Query(new DokumentExpressionEli(), List.of())
-      );
-
-      // Then
-      assertThat(elements).isEmpty();
-    }
-
-    @Test
-    void throwsWhenAttemptingToLoadUnsupportedType() {
-      // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml");
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
-
-      // When / Then
-      assertThatThrownBy(() ->
-          service.loadElementsByType(
-            new LoadElementsByTypeUseCase.Query(
-              DokumentExpressionEli.fromString(
-                "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-              ),
-              List.of("invalid_type")
-            )
-          )
-        )
-        .isInstanceOf(LoadElementsByTypeUseCase.UnsupportedElementTypeException.class);
-    }
-
-    @Test
-    void throwsWhenNormDoesNotExist() {
-      // Given
-      // Nothing given -> Loading should fail
-
-      LoadElementsByTypeUseCase.Query query = new LoadElementsByTypeUseCase.Query(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-        ),
-        List.of("article")
-      );
-
-      // When / Then
-      assertThatThrownBy(() -> service.loadElementsByType(query))
-        .isInstanceOf(RegelungstextNotFoundException.class);
-    }
-  }
-
-  @Nested
-  class elementType {
-
-    @Test
-    void returnsTheEnumValueForSupportedTypes() {
-      // When
-      var type = ElementService.ElementType.fromLabel("article");
-
-      // Then
-      assertThat(type).isEqualTo(ElementService.ElementType.ARTICLE);
-    }
-
-    @Test
-    void throwsWhenAttemptingToGetTheValueForAnUnsupportedType() {
-      // When / Then
-      assertThatThrownBy(() -> ElementService.ElementType.fromLabel("invalid_type"))
-        .isInstanceOf(LoadElementsByTypeUseCase.UnsupportedElementTypeException.class);
     }
   }
 }

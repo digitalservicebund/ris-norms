@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
-import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +39,6 @@ class ElementControllerTest {
 
   @MockitoBean
   private LoadElementHtmlUseCase loadElementHtmlUseCase;
-
-  @MockitoBean
-  private LoadElementsByTypeUseCase loadElementsByTypeUseCase;
 
   @Nested
   class getElementHtmlPreview {
@@ -147,68 +143,6 @@ class ElementControllerTest {
         .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("type").value("article"))
         .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
-    }
-  }
-
-  @Nested
-  class getELementList {
-
-    @Test
-    void itReturnsListOfElements() throws Exception {
-      // given
-      when(
-        loadElementsByTypeUseCase.loadElementsByType(
-          new LoadElementsByTypeUseCase.Query(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-            ),
-            eq(List.of("preface", "preamble", "article", "conclusions"))
-          )
-        )
-      )
-        .thenReturn(List.of());
-
-      var url =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
-        "?type=preface" +
-        "&type=preamble" +
-        "&type=article" +
-        "&type=conclusions";
-
-      // when
-      mockMvc
-        .perform(get(url))
-        // then
-        .andExpect(status().isOk());
-    }
-
-    @Test
-    void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
-      when(
-        loadElementsByTypeUseCase.loadElementsByType(
-          new LoadElementsByTypeUseCase.Query(
-            DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
-            ),
-            eq(List.of("preface", "preamble", "article", "conclusions"))
-          )
-        )
-      )
-        .thenReturn(List.of());
-
-      var url =
-        "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements" +
-        "?type=preface" +
-        "&type=preamble" +
-        "&type=article" +
-        "&type=conclusions" +
-        "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
-
-      // when
-      mockMvc
-        .perform(get(url))
-        // then
-        .andExpect(status().isOk());
     }
   }
 }
