@@ -719,6 +719,32 @@ paths:
                   authUrl:
                     type: string
 
+  /norms/{dokumentExpressionEli}/toc:
+    get:
+      tags:
+        - Dokument expression
+      summary: Retrieve the table of contents of a Regelungstext
+      parameters:
+        - name: dokumentExpressionEli
+          in: path
+          required: true
+          description: Expression ELI of the Dokument
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Table of contents successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TableOfContentsResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
 components:
   schemas:
     Norm:
@@ -921,6 +947,27 @@ components:
           type: object
           additionalProperties: true
           description: "Optional additional fields to convey extra information."
+
+    TableOfContentsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The eId of the XML node
+        marker:
+          type: string
+          description: The marker of the item (e.g. § 1)
+        heading:
+          type: string
+          description: The heading of the item, if present
+        type:
+          type: string
+          description: The type of the item (e.g. section or chapter)
+        children:
+          type: array
+          description: Nested children elements of the table of contents
+          items:
+            $ref: "#/components/schemas/TableOfContentsResponse"
 
   responses:
     NotFound:
