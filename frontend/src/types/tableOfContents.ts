@@ -1,7 +1,7 @@
 /**
  * Represents an item in the Table of Contents (ToC).
  */
-export interface TabelOfContentsItem {
+export interface TableOfContentsItem {
   /** Unique identifier (EID) of the element */
   id: string
   /** Section marker (e.g., "§ 1") */
@@ -11,5 +11,5 @@ export interface TabelOfContentsItem {
   /** Type of the element (e.g., article, chapter, etc.) */
   type: string
   /** Nested child elements */
-  children?: TabelOfContentsItem[]
+  children?: TableOfContentsItem[]
 }

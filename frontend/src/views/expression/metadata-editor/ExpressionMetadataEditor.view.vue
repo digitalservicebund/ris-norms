@@ -6,10 +6,11 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { ComputedRef, computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
+import { TreeNode } from "primevue/treenode"
 import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
 import ChevronDownIcon from "~icons/ic/baseline-keyboard-arrow-down"
-import { useGetNormTableOfContents } from "@/services/normService"
-import { TabelOfContentsItem } from "@/types/tableOfContents"
+import { useGetNormTableOfContents } from "@/services/tocService"
+import { TableOfContentsItem } from "@/types/tableOfContents"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useRouter } from "vue-router"
 
@@ -23,28 +24,12 @@ const {
   error: tocError,
 } = useGetNormTableOfContents(expressionEli)
 
-interface TreeNode {
-  key: string
-  label?: string
-  data?: {
-    primaryLabel: string
-    secondaryLabel: string | null
-    route: {
-      name: string
-      params: { eid: string }
-    }
-  }
-  children?: TreeNode[]
-}
-
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
 
-const elementLinks = computed<TreeNode[]>(
-  () => tocItems.value?.map(mapElement) ?? [],
-)
+const elementLinks = computed(() => tocItems.value?.map(mapElement) ?? [])
 
-const mapElement = (el: TabelOfContentsItem): TreeNode => ({
+const mapElement = (el: TableOfContentsItem): TreeNode => ({
   key: el.id,
   label: el.marker || "",
   data: {
