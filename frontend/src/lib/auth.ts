@@ -21,6 +21,10 @@ function createAuthentication() {
   async function configure(config: AuthenticationConfig): Promise<void> {
     keycloak = new Keycloak(config)
 
+    console.log("[auth debug] created Keycloak with config")
+    console.log(config)
+    console.log("[auth debug] location: ", window.location.href)
+
     try {
       await keycloak.init({
         onLoad: "login-required",
@@ -28,6 +32,8 @@ function createAuthentication() {
         pkceMethod: "S256",
         scope: "profile email",
       })
+
+      console.log("[auth debug] initialized Keycloak", keycloak)
     } catch (e) {
       keycloak = undefined
       throw new Error("Failed to initialize authentication", { cause: e })
