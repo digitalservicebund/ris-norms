@@ -34,7 +34,7 @@ class XsltTransformationServiceTest {
   );
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     Locale.setDefault(Locale.ENGLISH);
   }
 

@@ -18,7 +18,7 @@ class DokumentDtoTest {
   private static Validator validator;
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     Locale.setDefault(Locale.ENGLISH);
     final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     validator = factory.getValidator();
