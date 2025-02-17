@@ -116,7 +116,7 @@ public class PublishService implements PublishNormUseCase {
         }
       });
 
-    publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(true));
+    publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(false));
     log.info("Publish job successfully completed.");
   }
 
@@ -177,7 +177,7 @@ public class PublishService implements PublishNormUseCase {
     try {
       deletePrivateNormPort.deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
       log.info(
-        "Deleted privated norm on rollback strategy: {}",
+        "Deleted private norm on rollback strategy: {}",
         norm.getManifestationEli().toString()
       );
     } catch (StorageException e) {

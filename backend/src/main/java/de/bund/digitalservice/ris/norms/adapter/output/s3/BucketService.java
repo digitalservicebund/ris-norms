@@ -278,7 +278,10 @@ public class BucketService
 
         for (S3Object s3Object : listResponse.contents()) {
           final String key = s3Object.key();
-          if (s3Object.lastModified().isBefore(lastChangeBefore)) {
+          if (
+            !key.startsWith(Changelog.FOLDER + "/") &&
+            s3Object.lastModified().isBefore(lastChangeBefore)
+          ) {
             objectsToDelete.add(ObjectIdentifier.builder().key(key).build());
           }
         }

@@ -18,6 +18,7 @@ import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -214,6 +215,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm1));
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm2));
+    bucketService.publishChangelogs(new PublishChangelogsPort.Command(false));
     Instant afterTwoPublishes = Instant.now();
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm3));
 
@@ -221,9 +223,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.deleteAllPrivateDokumente(
       new DeleteAllPrivateDokumentePort.Command(afterTwoPublishes)
     );
-    final PublishChangelogsPort.Command commandPublishChangelogs =
-      new PublishChangelogsPort.Command(false);
-    bucketService.publishChangelogs(commandPublishChangelogs);
+    bucketService.publishChangelogs(new PublishChangelogsPort.Command(false));
 
     // Then
     final Path filePath1 = getPrivatePath(norm1.getRegelungstext1());
@@ -249,11 +249,11 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
       Path changeLogPath;
       if (Objects.equals(location, PUBLIC_BUCKET)) {
         try (Stream<Path> files = Files.list(getPublicPath().resolve(Changelog.FOLDER))) {
-          changeLogPath = files.findFirst().orElseThrow();
+          changeLogPath = files.max(Comparator.naturalOrder()).orElseThrow();
         }
       } else {
         try (Stream<Path> files = Files.list(getPrivatePath().resolve(Changelog.FOLDER))) {
-          changeLogPath = files.findFirst().orElseThrow();
+          changeLogPath = files.max(Comparator.naturalOrder()).orElseThrow();
         }
       }
 
