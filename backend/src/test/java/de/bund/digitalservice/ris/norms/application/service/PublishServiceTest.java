@@ -220,27 +220,12 @@ class PublishServiceTest {
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
 
       // Then When
-
       assertThatThrownBy(publishService::processQueuedFilesForPublish)
         .isInstanceOf(MigrationJobException.class);
 
-      // Then
-      verify(loadNormManifestationElisByPublishStatePort, times(0))
-        .loadNormManifestationElisByPublishState(
-          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
-        );
-
-      // Check that deletion was called
+      // Check that deletion was not called
       verify(deleteAllPublicDokumentePort, times(0)).deleteAllPublicDokumente(any());
       verify(deleteAllPrivateDokumentePort, times(0)).deleteAllPrivateDokumente(any());
-
-      // Verify norm publishing actions
-      verify(publishPublicNormPort, times(0))
-        .publishPublicNorm(new PublishPublicNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(0))
-        .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(0)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      verify(publishChangelogsPort, times(0)).publishChangelogs(any());
     }
 
     @Test

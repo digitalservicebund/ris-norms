@@ -69,35 +69,6 @@ public class PublishService implements PublishNormUseCase {
     final Instant startOfProcessing = Instant.now();
     final LocalDate today = startOfProcessing.atZone(ZoneId.systemDefault()).toLocalDate();
 
-    loadLastMigrationLogPort
-      .loadLastMigrationLog()
-      .ifPresent(migrationLog -> {
-        final LocalDate createdAtDate = migrationLog
-          .getCreatedAt()
-          .atZone(ZoneId.systemDefault())
-          .toLocalDate();
-        final LocalDate yesterday = today.minusDays(1);
-        if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
-          log.info(
-            "Migration log found with timestamp {} (UTC). Deleting all norms in both buckets",
-            migrationLog
-              .getCreatedAt()
-              .atOffset(ZoneOffset.UTC)
-              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-          );
-          if (migrationLog.getSize() <= 0) {
-            throw new MigrationJobException();
-          }
-          deleteAllPublicDokumentePort.deleteAllPublicDokumente(
-            new DeleteAllPublicDokumentePort.Command(startOfProcessing)
-          );
-          deleteAllPrivateDokumentePort.deleteAllPrivateDokumente(
-            new DeleteAllPrivateDokumentePort.Command(startOfProcessing)
-          );
-          log.info("Deleted all norms in both buckets");
-        }
-      });
-
     List<NormManifestationEli> manifestationElis =
       loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(
         new LoadNormManifestationElisByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
@@ -113,6 +84,38 @@ public class PublishService implements PublishNormUseCase {
         log.error("Norm with manifestation eli {} not found", manifestationEli);
       }
     });
+
+    loadLastMigrationLogPort
+      .loadLastMigrationLog()
+      .ifPresent(migrationLog -> {
+        final LocalDate createdAtDate = migrationLog
+          .getCreatedAt()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDate();
+        final LocalDate yesterday = today.minusDays(1);
+        if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
+          log.info(
+            "Migration log found with timestamp {} (UTC) and {} dokumente.",
+            migrationLog
+              .getCreatedAt()
+              .atOffset(ZoneOffset.UTC)
+              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+            migrationLog.getSize()
+          );
+          if (migrationLog.getSize() <= 0) {
+            throw new MigrationJobException();
+          }
+          log.info("Deleting all old dokumente in both buckets");
+          deleteAllPublicDokumentePort.deleteAllPublicDokumente(
+            new DeleteAllPublicDokumentePort.Command(startOfProcessing)
+          );
+          deleteAllPrivateDokumentePort.deleteAllPrivateDokumente(
+            new DeleteAllPrivateDokumentePort.Command(startOfProcessing)
+          );
+          log.info("Deleted all dokumente in both buckets");
+        }
+      });
+
     publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(true));
     log.info("Publish job successfully completed.");
   }
