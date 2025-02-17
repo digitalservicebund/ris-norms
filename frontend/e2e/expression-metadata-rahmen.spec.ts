@@ -64,8 +64,11 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
 })
 
 test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
-  test.afterAll(async ({ request }) => {
-    await uploadAmendingLaw(request, "bgbl-1_2023_413/aenderungsgesetz.xml")
+  test.afterAll(async ({ authenticatedRequest }) => {
+    await uploadAmendingLaw(
+      authenticatedRequest,
+      "bgbl-1_2023_413/aenderungsgesetz.xml",
+    )
   })
 
   test.beforeEach(async ({ authenticatedRequest }) => {
