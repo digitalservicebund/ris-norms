@@ -86,8 +86,8 @@ jobs:
 
   # ######################
   # # Check time for automatic deployments
-  # # Should only deploy automatically outside the hours when publication job is running (starts 4:00AM UTC and finishes in less than 1 hour),
-  # # meaning not between 03:45 AM UTC and 4:00AM UTC
+  # # Should only deploy automatically outside the hours when publication job is running (starts 23:00 UTC and finishes in around 3,5 hours),
+  # # meaning not between 22:30 UTC and 3:00 UTC
   # ######################
 
   check-auto-deploy:
@@ -99,7 +99,7 @@ jobs:
       - id: check-time
         run: |
           current_time=$(TZ=UTC date "+%H:%M")
-          if [[ "$current_time" > "03:45" && "$current_time" < "05:00" ]]; then
+          if [[ "$current_time" > "22:30" && "$current_time" < "03:00" ]]; then
             echo "Should not deploy automatically. Current time is $current_time"
             echo "should-auto-deploy=false" >> "$GITHUB_OUTPUT"
           else
