@@ -33,8 +33,8 @@ public class PublishService implements PublishNormUseCase {
   private final DeletePublicNormPort deletePublicNormPort;
   private final DeletePrivateNormPort deletePrivateNormPort;
   private final LoadLastMigrationLogPort loadLastMigrationLogPort;
-  private final DeleteAllPublicNormsPort deleteAllPublicNormsPort;
-  private final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort;
+  private final DeleteAllPublicDokumentePort deleteAllPublicDokumentePort;
+  private final DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort;
   private final PublishChangelogsPort publishChangelogsPort;
 
   public PublishService(
@@ -46,8 +46,8 @@ public class PublishService implements PublishNormUseCase {
     DeletePublicNormPort deletePublicNormPort,
     DeletePrivateNormPort deletePrivateNormPort,
     LoadLastMigrationLogPort loadLastMigrationLogPort,
-    DeleteAllPublicNormsPort deleteAllPublicNormsPort,
-    DeleteAllPrivateNormsPort deleteAllPrivateNormsPort,
+    DeleteAllPublicDokumentePort deleteAllPublicDokumentePort,
+    DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort,
     PublishChangelogsPort publishChangelogsPort
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
@@ -58,8 +58,8 @@ public class PublishService implements PublishNormUseCase {
     this.deletePublicNormPort = deletePublicNormPort;
     this.deletePrivateNormPort = deletePrivateNormPort;
     this.loadLastMigrationLogPort = loadLastMigrationLogPort;
-    this.deleteAllPublicNormsPort = deleteAllPublicNormsPort;
-    this.deleteAllPrivateNormsPort = deleteAllPrivateNormsPort;
+    this.deleteAllPublicDokumentePort = deleteAllPublicDokumentePort;
+    this.deleteAllPrivateDokumentePort = deleteAllPrivateDokumentePort;
     this.publishChangelogsPort = publishChangelogsPort;
   }
 
@@ -85,8 +85,8 @@ public class PublishService implements PublishNormUseCase {
           if (migrationLog.getSize() <= 0) {
             throw new MigrationJobException();
           }
-          deleteAllPublicNormsPort.deleteAllPublicNorms();
-          deleteAllPrivateNormsPort.deleteAllPrivateNorms();
+          deleteAllPublicDokumentePort.deleteAllPublicDokumente();
+          deleteAllPrivateDokumentePort.deleteAllPrivateDokumente();
           log.info("Deleted all norms in both buckets");
         }
       });

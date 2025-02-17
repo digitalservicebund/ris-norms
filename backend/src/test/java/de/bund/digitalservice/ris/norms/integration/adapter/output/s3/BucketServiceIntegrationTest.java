@@ -190,7 +190,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishPublicNorm(commandPublish2);
 
     // When
-    bucketService.deleteAllPublicNorms();
+    bucketService.deleteAllPublicDokumente();
     final PublishChangelogsPort.Command commandPublishChangelogs =
       new PublishChangelogsPort.Command(false);
     bucketService.publishChangelogs(commandPublishChangelogs);
@@ -219,7 +219,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishPrivateNorm(commandPublish2);
 
     // When
-    bucketService.deleteAllPrivateNorms();
+    bucketService.deleteAllPrivateDokumente();
     final PublishChangelogsPort.Command commandPublishChangelogs =
       new PublishChangelogsPort.Command(false);
     bucketService.publishChangelogs(commandPublishChangelogs);

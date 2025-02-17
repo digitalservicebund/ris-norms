@@ -32,9 +32,13 @@ class PublishServiceTest {
 
   final DeletePrivateNormPort deletePrivateNormPort = mock(DeletePrivateNormPort.class);
 
-  final DeleteAllPublicNormsPort deleteAllPublicNormsPort = mock(DeleteAllPublicNormsPort.class);
+  final DeleteAllPublicDokumentePort deleteAllPublicDokumentePort = mock(
+    DeleteAllPublicDokumentePort.class
+  );
 
-  final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort = mock(DeleteAllPrivateNormsPort.class);
+  final DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort = mock(
+    DeleteAllPrivateDokumentePort.class
+  );
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
 
   final LoadLastMigrationLogPort loadLastMigrationLogPort = mock(LoadLastMigrationLogPort.class);
@@ -50,8 +54,8 @@ class PublishServiceTest {
     deletePublicNormPort,
     deletePrivateNormPort,
     loadLastMigrationLogPort,
-    deleteAllPublicNormsPort,
-    deleteAllPrivateNormsPort,
+    deleteAllPublicDokumentePort,
+    deleteAllPrivateDokumentePort,
     publishChangelogsPort
   );
 
@@ -185,8 +189,8 @@ class PublishServiceTest {
         );
 
       // Check that deletion was called
-      verify(deleteAllPublicNormsPort, times(1)).deleteAllPublicNorms();
-      verify(deleteAllPrivateNormsPort, times(1)).deleteAllPrivateNorms();
+      verify(deleteAllPublicDokumentePort, times(1)).deleteAllPublicDokumente();
+      verify(deleteAllPrivateDokumentePort, times(1)).deleteAllPrivateDokumente();
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(1))
@@ -227,8 +231,8 @@ class PublishServiceTest {
         );
 
       // Check that deletion was called
-      verify(deleteAllPublicNormsPort, times(0)).deleteAllPublicNorms();
-      verify(deleteAllPrivateNormsPort, times(0)).deleteAllPrivateNorms();
+      verify(deleteAllPublicDokumentePort, times(0)).deleteAllPublicDokumente();
+      verify(deleteAllPrivateDokumentePort, times(0)).deleteAllPrivateDokumente();
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(0))
@@ -262,8 +266,8 @@ class PublishServiceTest {
         );
 
       // Verify that deletion was NOT called
-      verify(deleteAllPublicNormsPort, never()).deleteAllPublicNorms();
-      verify(deleteAllPrivateNormsPort, never()).deleteAllPrivateNorms();
+      verify(deleteAllPublicDokumentePort, never()).deleteAllPublicDokumente();
+      verify(deleteAllPrivateDokumentePort, never()).deleteAllPrivateDokumente();
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(1))

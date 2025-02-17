@@ -51,8 +51,8 @@ public class BucketService
     PublishPrivateNormPort,
     DeletePublicNormPort,
     DeletePrivateNormPort,
-    DeleteAllPublicNormsPort,
-    DeleteAllPrivateNormsPort,
+    DeleteAllPublicDokumentePort,
+    DeleteAllPrivateDokumentePort,
     PublishChangelogsPort {
 
   @Value("${otc.obs.private.bucket-name}")
@@ -103,12 +103,12 @@ public class BucketService
   }
 
   @Override
-  public void deleteAllPublicNorms() {
+  public void deleteAllPublicDokumente() {
     deleteAllExceptChangelog(publicS3Client, publicBucketName);
   }
 
   @Override
-  public void deleteAllPrivateNorms() {
+  public void deleteAllPrivateDokumente() {
     deleteAllExceptChangelog(privateS3Client, privateBucketName);
   }
 
