@@ -108,6 +108,7 @@ public class BucketService
     deleteAllDokumenteLastModifiedBefore(
       publicS3Client,
       publicBucketName,
+      publicChangelog,
       command.lastChangeBefore()
     );
   }
@@ -117,6 +118,7 @@ public class BucketService
     deleteAllDokumenteLastModifiedBefore(
       privateS3Client,
       privateBucketName,
+      privateChangelog,
       command.lastChangeBefore()
     );
   }
@@ -259,6 +261,7 @@ public class BucketService
   private void deleteAllDokumenteLastModifiedBefore(
     final S3Client s3Client,
     final String bucketName,
+    Changelog changelog,
     Instant lastChangeBefore
   ) {
     try {
@@ -287,6 +290,9 @@ public class BucketService
             .build();
           s3Client.deleteObjects(deleteRequest);
           objectsDeleted += objectsToDelete.size();
+          objectsToDelete.forEach(objectIdentifier ->
+            changelog.addContent(Changelog.DELETED, objectIdentifier.key())
+          );
         }
 
         listRequest =
