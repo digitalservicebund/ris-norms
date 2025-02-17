@@ -40,8 +40,8 @@ function handleDelete(ref: Node) {
   selectedRef.value = undefined
 }
 
-function replace(ref: Node, newXml: string) {
-  if (!isChildNode(ref)) {
+function replace(ref: Node, newXml?: string) {
+  if (!newXml || !isChildNode(ref)) {
     return
   }
 
@@ -99,7 +99,9 @@ function selectNextRef(relativeTo: number) {
         <RefEditor
           :xml-snippet="xmlNodeToString(ref)"
           :grab-focus="selectedRef === getEId(ref)"
-          @update:xml-snippet="(value: string) => replace(ref, value)"
+          @update:xml-snippet="
+            (value: string | undefined) => replace(ref, value)
+          "
           @delete="handleDelete(ref)"
           @select-previous="selectPreviousRef(i)"
           @select-next="selectNextRef(i)"

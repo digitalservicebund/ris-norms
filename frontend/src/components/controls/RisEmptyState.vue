@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useSlots, type Component } from "vue"
+import { computed, useSlots, type Component, Slots } from "vue"
 
 const props = defineProps<{
   /** Text message to be displayed */
@@ -9,7 +9,7 @@ const props = defineProps<{
   icon?: Component
 }>()
 
-const slots = useSlots()
+const slots = useSlots() as Slots
 
 const variant = computed<"simple" | "extended">(() =>
   props.icon || slots["recommended-action"] ? "extended" : "simple",

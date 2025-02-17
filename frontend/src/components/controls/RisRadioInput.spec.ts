@@ -15,8 +15,7 @@ function renderComponent(
   const effectiveProps: RadioInputProps = {
     modelValue,
     "onUpdate:modelValue":
-      props?.["onUpdate:modelValue"] ??
-      ((value) => (modelValue = value ?? false)),
+      props?.["onUpdate:modelValue"] ?? ((value) => (modelValue = value ?? "")),
     id: props?.id ?? "test",
     disabled: props?.disabled,
     label: props?.label ?? "Radio",
