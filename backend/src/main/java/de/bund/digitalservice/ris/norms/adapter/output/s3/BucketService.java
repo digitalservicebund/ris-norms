@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -103,13 +104,21 @@ public class BucketService
   }
 
   @Override
-  public void deleteAllPublicDokumente() {
-    deleteAllExceptChangelog(publicS3Client, publicBucketName);
+  public void deleteAllPublicDokumente(DeleteAllPublicDokumentePort.Command command) {
+    deleteAllDokumenteLastModifiedBefore(
+      publicS3Client,
+      publicBucketName,
+      command.lastChangeBefore()
+    );
   }
 
   @Override
-  public void deleteAllPrivateDokumente() {
-    deleteAllExceptChangelog(privateS3Client, privateBucketName);
+  public void deleteAllPrivateDokumente(DeleteAllPrivateDokumentePort.Command command) {
+    deleteAllDokumenteLastModifiedBefore(
+      privateS3Client,
+      privateBucketName,
+      command.lastChangeBefore()
+    );
   }
 
   @Override
@@ -235,7 +244,8 @@ public class BucketService
   }
 
   /**
-   * Deletes all objects in the specified S3 bucket, except for the changelog files, which are contained within the "changelogs" folder
+   * Deletes all Dokumente in the specified S3 bucket, (not the changelog files) which have not been changed since the
+   * given date.
    * The deletion process handles pagination automatically if there are more than 1,000 objects in the bucket.
    * <p>
    * AWS S3 allows a maximum of 1,000 keys to be processed per delete request. This method retrieves and deletes objects
@@ -244,10 +254,19 @@ public class BucketService
    *
    * @param s3Client the S3 client used to interact with the S3 service
    * @param bucketName the name of the S3 bucket where the objects are located
+   * @param lastChangeBefore Dokumente that have been changed since this date are ignored
    */
-  private void deleteAllExceptChangelog(final S3Client s3Client, final String bucketName) {
+  private void deleteAllDokumenteLastModifiedBefore(
+    final S3Client s3Client,
+    final String bucketName,
+    Instant lastChangeBefore
+  ) {
     try {
-      ListObjectsV2Request listRequest = ListObjectsV2Request.builder().bucket(bucketName).build();
+      ListObjectsV2Request listRequest = ListObjectsV2Request
+        .builder()
+        .bucket(bucketName)
+        .prefix("eli")
+        .build();
       ListObjectsV2Response listResponse;
       int objectsDeleted = 0;
       do {
@@ -256,7 +275,7 @@ public class BucketService
 
         for (S3Object s3Object : listResponse.contents()) {
           final String key = s3Object.key();
-          if (!key.startsWith(Changelog.FOLDER + "/")) {
+          if (s3Object.lastModified().isBefore(lastChangeBefore)) {
             objectsToDelete.add(ObjectIdentifier.builder().key(key).build());
           }
         }
@@ -278,7 +297,7 @@ public class BucketService
       throw new BucketException(
         BucketException.Operation.DELETE,
         bucketName,
-        "All norms could not be deleted",
+        "All dokumente could not be deleted",
         e
       );
     }

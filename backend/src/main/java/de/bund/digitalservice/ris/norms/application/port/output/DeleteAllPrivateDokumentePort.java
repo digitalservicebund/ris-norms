@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import java.time.Instant;
 
 /**
  * Interface representing the output port for deleting multiple {@link Dokument} entities from a storage location designated
@@ -8,8 +9,17 @@ import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
  */
 public interface DeleteAllPrivateDokumentePort {
   /**
-   * Deletes the specified {@link Dokument} entities from a designated private storage location.
+   * Deletes all {@link Dokument} entities that have not been edited since the given date from a designated private
+   * storage location.
    *
+   * @param command command for deleting Dokumente
    */
-  void deleteAllPrivateDokumente();
+  void deleteAllPrivateDokumente(DeleteAllPrivateDokumentePort.Command command);
+
+  /**
+   * Command for deleting dokumente
+   *
+   * @param lastChangeBefore Dokumente last edited after the given date are not deleted.
+   */
+  record Command(Instant lastChangeBefore) {}
 }

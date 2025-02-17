@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -65,6 +66,9 @@ public class PublishService implements PublishNormUseCase {
 
   @Override
   public void processQueuedFilesForPublish() {
+    final Instant startOfProcessing = Instant.now();
+    final LocalDate today = startOfProcessing.atZone(ZoneId.systemDefault()).toLocalDate();
+
     loadLastMigrationLogPort
       .loadLastMigrationLog()
       .ifPresent(migrationLog -> {
@@ -72,7 +76,6 @@ public class PublishService implements PublishNormUseCase {
           .getCreatedAt()
           .atZone(ZoneId.systemDefault())
           .toLocalDate();
-        final LocalDate today = LocalDate.now();
         final LocalDate yesterday = today.minusDays(1);
         if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
           log.info(
@@ -85,8 +88,12 @@ public class PublishService implements PublishNormUseCase {
           if (migrationLog.getSize() <= 0) {
             throw new MigrationJobException();
           }
-          deleteAllPublicDokumentePort.deleteAllPublicDokumente();
-          deleteAllPrivateDokumentePort.deleteAllPrivateDokumente();
+          deleteAllPublicDokumentePort.deleteAllPublicDokumente(
+            new DeleteAllPublicDokumentePort.Command(startOfProcessing)
+          );
+          deleteAllPrivateDokumentePort.deleteAllPrivateDokumente(
+            new DeleteAllPrivateDokumentePort.Command(startOfProcessing)
+          );
           log.info("Deleted all norms in both buckets");
         }
       });

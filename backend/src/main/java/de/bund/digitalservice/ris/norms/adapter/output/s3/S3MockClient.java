@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.s3;
 import jakarta.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.*;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -73,7 +74,11 @@ public class S3MockClient implements S3Client {
             // If the file is not under 'eli', return only the file name
             key = path.getFileName().toString();
           }
-          return S3Object.builder().key(key).build();
+          return S3Object
+            .builder()
+            .key(key)
+            .lastModified(Instant.ofEpochMilli(path.toFile().lastModified()))
+            .build();
         })
         .toList();
 

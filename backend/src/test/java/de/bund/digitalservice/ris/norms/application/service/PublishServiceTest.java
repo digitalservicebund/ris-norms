@@ -189,8 +189,8 @@ class PublishServiceTest {
         );
 
       // Check that deletion was called
-      verify(deleteAllPublicDokumentePort, times(1)).deleteAllPublicDokumente();
-      verify(deleteAllPrivateDokumentePort, times(1)).deleteAllPrivateDokumente();
+      verify(deleteAllPublicDokumentePort, times(1)).deleteAllPublicDokumente(any());
+      verify(deleteAllPrivateDokumentePort, times(1)).deleteAllPrivateDokumente(any());
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(1))
@@ -231,8 +231,8 @@ class PublishServiceTest {
         );
 
       // Check that deletion was called
-      verify(deleteAllPublicDokumentePort, times(0)).deleteAllPublicDokumente();
-      verify(deleteAllPrivateDokumentePort, times(0)).deleteAllPrivateDokumente();
+      verify(deleteAllPublicDokumentePort, times(0)).deleteAllPublicDokumente(any());
+      verify(deleteAllPrivateDokumentePort, times(0)).deleteAllPrivateDokumente(any());
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(0))
@@ -266,8 +266,8 @@ class PublishServiceTest {
         );
 
       // Verify that deletion was NOT called
-      verify(deleteAllPublicDokumentePort, never()).deleteAllPublicDokumente();
-      verify(deleteAllPrivateDokumentePort, never()).deleteAllPrivateDokumente();
+      verify(deleteAllPublicDokumentePort, never()).deleteAllPublicDokumente(any());
+      verify(deleteAllPrivateDokumentePort, never()).deleteAllPrivateDokumente(any());
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(1))
