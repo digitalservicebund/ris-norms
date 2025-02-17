@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test"
 import { test } from "@e2e/utils/test-with-auth"
 
-test.describe("navigate to page", () => {
+test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
   // Opening the page is tested in expression-metadata-editor-rahmen.spec.ts as that's
   // the page that is effectively being opened. This file only tests behavior that is
   // shared between all metadata editor pages.
@@ -17,15 +17,14 @@ test.describe("navigate to page", () => {
   })
 })
 
-test.describe("table of contents", () => {
-  test("shows the elements affected by this amending law", async ({ page }) => {
+test.describe("table of contents", { tag: ["@RISDEV-6266"] }, () => {
+  test("shows the elements affected by this expression", async ({ page }) => {
     await page.goto(
       "/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/metadata",
     )
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
 
-    // Ensure the TOC is loaded before running checks
     await expect(nav.getByRole("link")).not.toHaveCount(0)
 
     const expectedLinks = [
@@ -42,7 +41,6 @@ test.describe("table of contents", () => {
       "Übergangsregelungen und Geltungszeiten",
     ]
 
-    // Check that each expected link is visible individually
     for (const linkText of expectedLinks) {
       await expect(nav.getByRole("link", { name: linkText })).toBeVisible()
     }

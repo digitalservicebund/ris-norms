@@ -13,7 +13,7 @@ async function restoreInitialState(page: Page) {
   )
 }
 
-test.describe("navigate to page", () => {
+test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
   test("shows an error when an element page could not be loaded", async ({
     page,
   }) => {
@@ -67,7 +67,7 @@ test.describe("navigate to page", () => {
   })
 })
 
-test.describe("preview", () => {
+test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   test("displays the title and preview", async ({ page }) => {
     // Given
     await page.goto(
@@ -124,7 +124,7 @@ test.describe("preview", () => {
   })
 })
 
-test.describe("metadata view", () => {
+test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   let sharedPage: Page
 
   async function saveMetadata() {

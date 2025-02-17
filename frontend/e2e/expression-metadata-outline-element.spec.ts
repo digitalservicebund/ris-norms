@@ -1,7 +1,7 @@
 import { test } from "@e2e/utils/test-with-auth"
 import { expect } from "@playwright/test"
 
-test.describe("navigate to page", () => {
+test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
   test("display the preview when an outline element is selected", async ({
     page,
   }) => {

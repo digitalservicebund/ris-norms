@@ -4,7 +4,7 @@ import { test } from "@e2e/utils/test-with-auth"
 import { MetadataEditorRahmenPage } from "@e2e/pages/MetadataEditorRahmenPage"
 import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
 
-test.describe("preview", () => {
+test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   test("displays the title and preview", async ({ page }) => {
     // Given
     await page.goto(
@@ -63,7 +63,7 @@ test.describe("preview", () => {
   })
 })
 
-test.describe("metadata view", () => {
+test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   test.afterAll(async ({ request }) => {
     await uploadAmendingLaw(request, "bgbl-1_2023_413/aenderungsgesetz.xml")
   })
