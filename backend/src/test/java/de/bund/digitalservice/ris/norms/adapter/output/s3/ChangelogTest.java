@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
-import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 class ChangelogTest {
@@ -14,7 +13,7 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     assertThat(changelog.getFileName()).isNotEmpty();
     assertThat(changelog.getFileName())
-      .isEqualTo("changelogs/changelog-%s.json".formatted(LocalDate.now().toString()));
+      .matches("changelogs/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z-norms\\.json");
   }
 
   @Test

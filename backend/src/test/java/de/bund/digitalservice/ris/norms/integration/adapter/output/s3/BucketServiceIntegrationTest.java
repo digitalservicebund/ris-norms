@@ -18,10 +18,10 @@ import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -237,49 +237,26 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     assertChangelogContains(true, PRIVATE_BUCKET, CHANGED, norm3);
   }
 
-  @Test
-  void itAddsToExistingChangelog() {
-    // Given
-    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
-    final Norm anotherNorm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
-    final PublishPublicNormPort.Command commandAnotherNorm = new PublishPublicNormPort.Command(
-      anotherNorm
-    );
-    final PublishChangelogsPort.Command commandPublishChangelogs =
-      new PublishChangelogsPort.Command(false);
-    // When
-    bucketService.publishPublicNorm(command);
-    bucketService.publishChangelogs(commandPublishChangelogs);
-    bucketService.publishPublicNorm(commandAnotherNorm);
-    bucketService.publishChangelogs(commandPublishChangelogs);
-
-    // Then
-    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
-    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, anotherNorm);
-  }
-
   private void assertChangelogContains(
     final boolean contains,
     final String location,
     final String operation,
     final Norm norm
   ) {
-    Path changeLogPath;
-    if (Objects.equals(location, PUBLIC_BUCKET)) {
-      changeLogPath =
-      getPublicPath()
-        .resolve(Changelog.FOLDER)
-        .resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
-    } else {
-      changeLogPath =
-      getPrivatePath()
-        .resolve(Changelog.FOLDER)
-        .resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
-    }
-
     final Map<String, Set<String>> changelogEntries;
+
     try {
+      Path changeLogPath;
+      if (Objects.equals(location, PUBLIC_BUCKET)) {
+        try (Stream<Path> files = Files.list(getPublicPath().resolve(Changelog.FOLDER))) {
+          changeLogPath = files.findFirst().orElseThrow();
+        }
+      } else {
+        try (Stream<Path> files = Files.list(getPrivatePath().resolve(Changelog.FOLDER))) {
+          changeLogPath = files.findFirst().orElseThrow();
+        }
+      }
+
       final String json = Files.readString(changeLogPath);
       changelogEntries = OBJECT_MAPPER.readValue(json, new TypeReference<>() {});
     } catch (Exception e) {
