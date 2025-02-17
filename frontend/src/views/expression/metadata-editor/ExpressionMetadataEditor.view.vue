@@ -117,6 +117,7 @@ const resetSelectionKeys = () => {
       <RisHeader class="col-span-2">
         <aside
           class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white px-8 pt-16"
+          aria-labelledby="sidebarNavigation"
         >
           <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
 

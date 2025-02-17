@@ -54,9 +54,9 @@ export class MetadataEditorRahmenPage {
     this.saveButton = page.getByRole("button", { name: "Speichern" })
   }
 
-  async gotoTimeBoundary(date: string) {
+  async goto() {
     await this.page.goto(
-      `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/edit/${date}`,
+      "/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata",
     )
   }
 
@@ -66,7 +66,7 @@ export class MetadataEditorRahmenPage {
   }
 
   async mockPutResponse(data: RahmenProprietary) {
-    await this.page.route(/\/proprietary\/2023-12-30/, async (route) => {
+    await this.page.route(/\/proprietary/, async (route) => {
       if (route.request().method() === "PUT") {
         const response = await route.fetch()
         const body = await response.json()
