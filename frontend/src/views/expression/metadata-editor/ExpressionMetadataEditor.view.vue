@@ -3,7 +3,7 @@ import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { ComputedRef, computed, ref, watch } from "vue"
+import { ComputedRef, computed, ref, watch, nextTick } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
 import { TreeNode } from "primevue/treenode"
@@ -91,9 +91,21 @@ watch(
 )
 
 const handleNodeSelect = (node: TreeNode) => {
+  selectionKeys.value = { [node.key]: true }
   if (node.data?.route) {
     router.push(node.data.route)
   }
+}
+
+const handleNodeUnselect = (node: TreeNode) => {
+  selectionKeys.value = {}
+  nextTick(() => {
+    selectionKeys.value = { [node.key]: true }
+  })
+}
+
+const resetSelectionKeys = () => {
+  selectionKeys.value = {}
 }
 </script>
 
@@ -113,6 +125,7 @@ const handleNodeSelect = (node: TreeNode) => {
             :to="{ name: 'ExpressionMetadataEditorRahmen' }"
             class="flex w-full justify-start border-l-4 border-transparent px-20 py-10 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-blue-800"
             exact-active-class="font-bold underline bg-blue-200 border-l-blue-800"
+            @click="resetSelectionKeys"
           >
             Rahmen
           </router-link>
@@ -144,6 +157,7 @@ const handleNodeSelect = (node: TreeNode) => {
             :value="treeNodes"
             selection-mode="single"
             @node-select="handleNodeSelect"
+            @node-unselect="handleNodeUnselect"
           >
             <template #default="{ node }">
               <router-link
