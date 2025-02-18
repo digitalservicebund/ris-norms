@@ -17,6 +17,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationE
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.Map;
@@ -207,7 +208,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   }
 
   @Test
-  void itDeletesAllNormsFromPrivateBucket() {
+  void itDeletesAllNormsFromPrivateBucket() throws InterruptedException {
     // Given
     final Norm norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     final Norm norm2 = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
@@ -216,6 +217,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm1));
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm2));
     Instant afterTwoPublishes = Instant.now();
+    // ensure the time of afterTwoPublishes is always before the time publishPrivateNorm is called with norm3. If the
+    // difference is too small norm3 is also deleted later on which leads to a flaky test.
+    Thread.sleep(Duration.ofMillis(100));
     bucketService.publishChangelogs(new PublishChangelogsPort.Command(false));
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm3));
 
