@@ -68,7 +68,6 @@
     "@vue/eslint-config-prettier": "~10.2.0",
     "@vue/eslint-config-typescript": "~14.4.0",
     "autoprefixer": "~10.4.19",
-    "axe-playwright": "~2.1.0",
     "dotenv": "~16.4.5",
     "eslint": "~9.20.0",
     "eslint-import-resolver-typescript": "^3.6.3",
