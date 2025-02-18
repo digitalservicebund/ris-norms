@@ -11,7 +11,7 @@ import {
   useNormRenderXml,
 } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
-import { computed, watch } from "vue"
+import { computed } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const xml = defineModel<string>("xml", {
@@ -32,7 +32,6 @@ const {
 const {
   timeBoundary,
   update: {
-    data: updateData,
     execute: update,
     error: saveError,
     isFetching: isUpdating,
@@ -54,12 +53,6 @@ const {
   isFetching: isFetchingPreviewXml,
   error: loadPreviewXmlError,
 } = useNormRenderXml(xml)
-
-watch(updateData, () => {
-  if (!updateData.value) return
-
-  xml.value = updateData.value.amendingNormXml
-})
 </script>
 
 <template>
