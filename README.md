@@ -1,8 +1,8 @@
-| Module           | Status                                                                                                                                                                                                                                                         |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| All modules      | [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml)                                                                        |
-| frontend         | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-frontend)                                  |
-| backend          | [![Quality Gate Status Backend](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-backend)                            |                  |
+| Module      | Status                                                                                                                                                                                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| All modules | [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml)                                             |
+| frontend    | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-frontend)       |
+| backend     | [![Quality Gate Status Backend](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-backend) |     |
 
 # RIS Norms
 
@@ -16,6 +16,7 @@ The name "RIS Norms" refers to
 # Top Level Structure of the Repository
 
 ## Code
+
 This is a mono-repository containing
 
 - [`./backend`](./backend) - The backend service
@@ -32,10 +33,12 @@ Each of the above has its own `README.md` with more.
   the [LegalDocML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) format for testing and reference purposes
 
 ## Documentation
+
 - [`./doc`](./doc) contains information on
-  -  the domain model
-  -  the API specification and
-  -  our Architecture Decision Records (ADR)
+
+  - the domain model
+  - the API specification and
+  - our Architecture Decision Records (ADR)
 
 - Additionally, there is the general [RIS Documentation](https://digitalservicebund.github.io/ris-reports/), which shows the RIS Norms
   - [architecture diagrams](https://digitalservicebund.github.io/ris-reports/docs/architecture/diagrams_list.html)

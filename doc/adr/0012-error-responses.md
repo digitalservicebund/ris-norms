@@ -136,7 +136,7 @@ Examples for translating of the validation errors into german:
 
 ## Consequences
 
-* We need to define error types and messages for all errors in the backend
-* We need to add a translation file and a i18n-library to our frontend code that maps error codes to translated strings.
-* We need to adapt the backend API code to return the correct response.
-* We need to adapt the frontend to deal with the new API response.
+- We need to define error types and messages for all errors in the backend
+- We need to add a translation file and a i18n-library to our frontend code that maps error codes to translated strings.
+- We need to adapt the backend API code to return the correct response.
+- We need to adapt the frontend to deal with the new API response.

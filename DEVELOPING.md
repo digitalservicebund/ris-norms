@@ -58,21 +58,26 @@ with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](http
 # How to run locally
 
 Run dependencies from the root of the project:
+
 ```bash
 docker compose -f docker-compose-services.yaml up -d
 ```
 
 Run from `./backend`:
+
 ```bash
 ./gradlew bootRun
 ```
+
 More info on the backend part [here](./backend/README.md).
 
 Run from `./frontend`:
+
 ```bash
 npm i
 npm run dev
 ```
+
 More info on the frontend part [here](./frontend/README.md).
 
 Visit [http://localhost:5173](http://localhost:5173) and login with the username `jane.doe` and password `test`
@@ -80,6 +85,7 @@ Visit [http://localhost:5173](http://localhost:5173) and login with the username
 ## Run using Docker
 
 With Docker being installed (Compose Plugin needed) run following to start all containers:
+
 ```bash
 docker compose up -d
 ```
@@ -87,12 +93,14 @@ docker compose up -d
 Visit [http://localhost:8080](http://localhost:8080) and login with the username `jane.doe` and password `test`
 
 Watch the state by either of:
+
 ```bash
 docker container ls
 docker compose ls
 ```
 
 To stop them:
+
 ```bash
 docker compose down
 ```
@@ -104,15 +112,18 @@ docker compose down
 Checkout the Frontend section [here](./frontend/README.md#quick-start) and for backend [here](./backend/README.md#tests).
 
 ## Run E2E Tests with Playwright inside Docker
+
 Be aware: All the following wipes your local database.
 
 This is executing e2e tests for all browsers:
+
 ```bash
 chmod u+x e2e.sh
 ./e2e.sh
 ```
 
 If you want to run only chromium:
+
 ```bash
 docker compose stop
 
@@ -135,4 +146,5 @@ docker run --name ris-norms-playwright-chromium -it --rm \
     -v $(pwd)/test-results:/usr/src/app/test-results \
     ris-norms-playwright--chromium
 ```
+
 Screenshots for failed tests are stored in `./frontend/test-results/`.

@@ -558,10 +558,9 @@ src
 
 And some reading that inspired this approach:
 
-* https://dannorth.net/cupid-for-joyful-coding/#domain-based-structure
-* https://povio.com/blog/maintainability-with-colocation/
-* https://feature-sliced.design/
-* https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md
+- https://dannorth.net/cupid-for-joyful-coding/#domain-based-structure
+- https://povio.com/blog/maintainability-with-colocation/
+- https://feature-sliced.design/
+- https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md
 
-[^1]: Or sometimes multiple routes when a nested router is used. But in those cases the sub-routes all are their own
-features (as part of the bigger feature) as well.
+[^1]: Or sometimes multiple routes when a nested router is used. But in those cases the sub-routes all are their own features (as part of the bigger feature) as well.
