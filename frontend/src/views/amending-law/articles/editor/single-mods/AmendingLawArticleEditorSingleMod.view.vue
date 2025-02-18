@@ -11,7 +11,7 @@ import {
   useNormRenderXml,
 } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
-import { computed, ref, watch } from "vue"
+import { computed, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const xml = defineModel<string>("xml", {
@@ -24,8 +24,6 @@ const props = defineProps<{
 
 const eli = useEliPathParameter()
 
-const targetNormZf0Xml = ref<string>("")
-
 const {
   data: timeBoundaries,
   isFetching: isFetchingTimeBoundaries,
@@ -33,13 +31,6 @@ const {
 } = useTemporalData(eli)
 const {
   timeBoundary,
-  quotedStructureContent,
-  preview: {
-    data: previewData,
-    execute: preview,
-    error: previewError,
-    isFetching: isFetchingPreviewData,
-  },
   update: {
     data: updateData,
     execute: update,
@@ -53,76 +44,22 @@ const {
   xml,
 )
 
-const previewCustomNorms = computed(() =>
-  previewData.value ? [previewData.value.amendingNormXml] : [],
-)
 const {
   data: previewHtml,
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
-} = useNormRenderHtml(targetNormZf0Xml, {
-  at: computed(() =>
-    timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
-  ),
-  customNorms: previewCustomNorms,
-})
+} = useNormRenderHtml(xml)
 const {
   data: previewXml,
   isFetching: isFetchingPreviewXml,
   error: loadPreviewXmlError,
-} = useNormRenderXml(
-  targetNormZf0Xml,
-  computed(() =>
-    timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
-  ),
-  previewCustomNorms,
-)
-
-const quotedStructureHtmlContent = ref<string | undefined>(undefined)
-const { data: quotedStructureHtml } = useNormRenderHtml(
-  quotedStructureContent,
-  { snippet: true },
-)
-
-watch(
-  () => quotedStructureHtml.value,
-  (newValue) => {
-    quotedStructureHtmlContent.value = newValue ?? undefined
-  },
-  { immediate: true },
-)
-
-watch(
-  xml,
-  (newXml, oldXml) => {
-    if (newXml !== oldXml) {
-      preview()
-    }
-  },
-  { immediate: true },
-)
-
-watch(previewData, () => {
-  if (!previewData.value) return
-
-  targetNormZf0Xml.value = previewData.value.targetNormZf0Xml
-})
+} = useNormRenderXml(xml)
 
 watch(updateData, () => {
   if (!updateData.value) return
 
   xml.value = updateData.value.amendingNormXml
-  targetNormZf0Xml.value = updateData.value.targetNormZf0Xml
 })
-
-watch(
-  () => props.selectedMods[0],
-  () => {
-    if (props.selectedMods.length === 1) {
-      preview()
-    }
-  },
-)
 </script>
 
 <template>
@@ -170,16 +107,13 @@ watch(
     >
       <template #text>
         <div
-          v-if="isFetchingPreviewData || isFetchingPreviewHtml"
+          v-if="isFetchingPreviewHtml"
           class="flex items-center justify-center"
         >
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewHtmlError">
           <RisErrorCallout :error="loadPreviewHtmlError" />
-        </div>
-        <div v-else-if="previewError">
-          <RisErrorCallout :error="previewError" />
         </div>
         <RisLawPreview
           v-else
@@ -190,7 +124,7 @@ watch(
 
       <template #xml>
         <div
-          v-if="isFetchingPreviewData || isFetchingPreviewXml"
+          v-if="isFetchingPreviewXml"
           class="flex items-center justify-center"
         >
           <RisLoadingSpinner></RisLoadingSpinner>
@@ -198,14 +132,11 @@ watch(
         <div v-else-if="loadPreviewXmlError">
           <RisErrorCallout :error="loadPreviewXmlError" />
         </div>
-        <div v-else-if="previewError">
-          <RisErrorCallout :error="previewError" />
-        </div>
         <RisCodeEditor
           v-else
           class="flex-grow"
           :readonly="true"
-          :model-value="previewXml ?? targetNormZf0Xml"
+          :model-value="previewXml ?? ''"
         ></RisCodeEditor>
       </template>
     </RisTabs>
