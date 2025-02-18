@@ -215,8 +215,8 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm1));
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm2));
-    bucketService.publishChangelogs(new PublishChangelogsPort.Command(false));
     Instant afterTwoPublishes = Instant.now();
+    bucketService.publishChangelogs(new PublishChangelogsPort.Command(false));
     bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm3));
 
     // When
