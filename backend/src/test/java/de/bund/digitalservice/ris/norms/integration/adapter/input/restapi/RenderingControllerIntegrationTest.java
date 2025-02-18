@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.google.gson.JsonObject;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -35,20 +34,12 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itReturnsRender() throws Exception {
-      // Given
-      var jsonPayload = new JsonObject();
-      jsonPayload.addProperty(
-        "regelungstext",
-        Fixtures.loadTextFromDisk("NormWithPassiveModifications.xml")
-      );
-
-      // When // Then
       mockMvc
         .perform(
           post("/api/v1/renderings?atIsoDate=2024-01-01T00:00:00.0Z")
             .accept(MediaType.TEXT_HTML)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(jsonPayload.toString())
+            .contentType(MediaType.APPLICATION_XML)
+            .content(Fixtures.loadTextFromDisk("NormWithPassiveModifications.xml"))
         )
         .andExpect(status().isOk())
         .andExpect(
