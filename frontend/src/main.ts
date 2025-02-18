@@ -28,9 +28,6 @@ try {
     .use(router)
     .use(Sentry, { environment: env.name, router })
 
-  console.log("[auth debug] location when creating app: ", window.location.href)
-  console.log("[auth debug] created app")
-
   // Configure authentication
   const auth = useAuthentication()
   await auth.configure({
@@ -39,11 +36,8 @@ try {
     realm: env.authRealm,
   })
 
-  console.log("[auth debug] configured authentication")
-
   // If all initialization succeeds, mount app
   app.mount("#app")
-  console.log("[auth debug] mounted app")
 } catch (e: unknown) {
   // If an error occurs above, catch it here
 
