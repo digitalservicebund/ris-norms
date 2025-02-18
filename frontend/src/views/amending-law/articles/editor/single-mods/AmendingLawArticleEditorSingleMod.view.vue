@@ -13,9 +13,6 @@ import {
 import { useTemporalData } from "@/composables/useTemporalData"
 import { computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import dayjs from "dayjs"
-import { useNormXml } from "@/composables/useNormXml"
-import Message from "primevue/message"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -35,13 +32,8 @@ const {
   error: loadTimeBoundariesError,
 } = useTemporalData(eli)
 const {
-  textualModType,
-  destinationHref,
-  quotedTextFirst,
-  quotedTextSecond,
   timeBoundary,
   quotedStructureContent,
-  destinationUpToHref,
   preview: {
     data: previewData,
     execute: preview,
@@ -123,45 +115,6 @@ watch(updateData, () => {
   targetNormZf0Xml.value = updateData.value.targetNormZf0Xml
 })
 
-const destinationHrefEli = computed(() => {
-  const parts = destinationHref.value?.split("regelungstext-1")
-  return parts ? parts[0] + "regelungstext-1" : ""
-})
-
-const {
-  data: originalTargetNormZf0Xml,
-  error: targetNormZf0Error,
-  isFetching: targetNormZf0IsFetching,
-} = useNormXml(destinationHrefEli)
-
-const dayBeforeTimeBoundary = computed(() => {
-  if (!timeBoundary.value?.date) {
-    return new Date(0)
-  }
-  const dateOfTimeBoundary = new Date(timeBoundary.value?.date)
-  return dayjs(dateOfTimeBoundary).subtract(1, "day").toDate()
-})
-
-// We need the norms with the changes of mods that come into affect before this mod so the character ranges or elements can be selected correctly.
-const {
-  data: targetNormXmlBeforeCurrentMod,
-  isFetching: targetNormXmlBeforeCurrentModIsFetching,
-  error: targetNormXmlBeforeCurrentModError,
-} = useNormRenderXml(
-  computed(() => originalTargetNormZf0Xml.value ?? xml.value),
-  dayBeforeTimeBoundary,
-)
-const {
-  data: targetNormHtmlBeforeCurrentMod,
-  isFetching: targetNormHtmlBeforeCurrentModIsFetching,
-  error: targetNormHtmlBeforeCurrentModError,
-} = useNormRenderHtml(
-  computed(() => originalTargetNormZf0Xml.value ?? xml.value),
-  {
-    at: dayBeforeTimeBoundary,
-  },
-)
-
 watch(
   () => props.selectedMods[0],
   () => {
@@ -188,12 +141,6 @@ watch(
       <RisLoadingSpinner></RisLoadingSpinner>
     </div>
 
-    <div v-else-if="textualModType !== 'aenderungsbefehl-ersetzen'">
-      <Message severity="warn">
-        Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.
-      </Message>
-    </div>
-
     <div v-else-if="loadTimeBoundariesError">
       <RisErrorCallout :error="loadTimeBoundariesError" />
     </div>
@@ -201,32 +148,11 @@ watch(
     <RisModForm
       v-else
       id="risModForm"
-      v-model:textual-mod-type="textualModType"
-      v-model:destination-href="destinationHref"
-      v-model:quoted-text-second="quotedTextSecond"
       v-model:selected-time-boundary="timeBoundary"
-      v-model:destination-up-to="destinationUpToHref"
-      :quoted-structure-content="quotedStructureHtmlContent"
-      :quoted-text-first="quotedTextFirst"
       :time-boundaries="timeBoundaries ?? []"
       :is-updating="isUpdating"
       :is-updating-finished="isUpdatingFinished"
       :update-error="saveError"
-      :target-law="targetNormXmlBeforeCurrentMod ?? undefined"
-      :target-law-is-fetching="
-        targetNormXmlBeforeCurrentModIsFetching || targetNormZf0IsFetching
-      "
-      :target-law-error="
-        targetNormXmlBeforeCurrentModError || targetNormZf0Error
-      "
-      :target-law-html="targetNormHtmlBeforeCurrentMod ?? undefined"
-      :target-law-html-is-fetching="
-        targetNormHtmlBeforeCurrentModIsFetching || targetNormZf0IsFetching
-      "
-      :target-law-html-error="
-        targetNormHtmlBeforeCurrentModError || targetNormZf0Error
-      "
-      @generate-preview="preview"
       @update-mod="update"
     />
   </section>
