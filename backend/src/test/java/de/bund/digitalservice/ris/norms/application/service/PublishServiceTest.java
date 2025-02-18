@@ -32,9 +32,13 @@ class PublishServiceTest {
 
   final DeletePrivateNormPort deletePrivateNormPort = mock(DeletePrivateNormPort.class);
 
-  final DeleteAllPublicNormsPort deleteAllPublicNormsPort = mock(DeleteAllPublicNormsPort.class);
+  final DeleteAllPublicDokumentePort deleteAllPublicDokumentePort = mock(
+    DeleteAllPublicDokumentePort.class
+  );
 
-  final DeleteAllPrivateNormsPort deleteAllPrivateNormsPort = mock(DeleteAllPrivateNormsPort.class);
+  final DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort = mock(
+    DeleteAllPrivateDokumentePort.class
+  );
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
 
   final LoadLastMigrationLogPort loadLastMigrationLogPort = mock(LoadLastMigrationLogPort.class);
@@ -50,8 +54,8 @@ class PublishServiceTest {
     deletePublicNormPort,
     deletePrivateNormPort,
     loadLastMigrationLogPort,
-    deleteAllPublicNormsPort,
-    deleteAllPrivateNormsPort,
+    deleteAllPublicDokumentePort,
+    deleteAllPrivateDokumentePort,
     publishChangelogsPort
   );
 
@@ -185,8 +189,8 @@ class PublishServiceTest {
         );
 
       // Check that deletion was called
-      verify(deleteAllPublicNormsPort, times(1)).deleteAllPublicNorms();
-      verify(deleteAllPrivateNormsPort, times(1)).deleteAllPrivateNorms();
+      verify(deleteAllPublicDokumentePort, times(1)).deleteAllPublicDokumente(any());
+      verify(deleteAllPrivateDokumentePort, times(1)).deleteAllPrivateDokumente(any());
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(1))
@@ -216,27 +220,12 @@ class PublishServiceTest {
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
 
       // Then When
-
       assertThatThrownBy(publishService::processQueuedFilesForPublish)
         .isInstanceOf(MigrationJobException.class);
 
-      // Then
-      verify(loadNormManifestationElisByPublishStatePort, times(0))
-        .loadNormManifestationElisByPublishState(
-          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
-        );
-
-      // Check that deletion was called
-      verify(deleteAllPublicNormsPort, times(0)).deleteAllPublicNorms();
-      verify(deleteAllPrivateNormsPort, times(0)).deleteAllPrivateNorms();
-
-      // Verify norm publishing actions
-      verify(publishPublicNormPort, times(0))
-        .publishPublicNorm(new PublishPublicNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(0))
-        .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(0)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-      verify(publishChangelogsPort, times(0)).publishChangelogs(any());
+      // Check that deletion was not called
+      verify(deleteAllPublicDokumentePort, times(0)).deleteAllPublicDokumente(any());
+      verify(deleteAllPrivateDokumentePort, times(0)).deleteAllPrivateDokumente(any());
     }
 
     @Test
@@ -262,8 +251,8 @@ class PublishServiceTest {
         );
 
       // Verify that deletion was NOT called
-      verify(deleteAllPublicNormsPort, never()).deleteAllPublicNorms();
-      verify(deleteAllPrivateNormsPort, never()).deleteAllPrivateNorms();
+      verify(deleteAllPublicDokumentePort, never()).deleteAllPublicDokumente(any());
+      verify(deleteAllPrivateDokumentePort, never()).deleteAllPrivateDokumente(any());
 
       // Verify norm publishing actions
       verify(publishPublicNormPort, times(1))

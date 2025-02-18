@@ -17,10 +17,12 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationE
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -190,7 +192,7 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishPublicNorm(commandPublish2);
 
     // When
-    bucketService.deleteAllPublicNorms();
+    bucketService.deleteAllPublicDokumente(new DeleteAllPublicDokumentePort.Command(Instant.now()));
     final PublishChangelogsPort.Command commandPublishChangelogs =
       new PublishChangelogsPort.Command(false);
     bucketService.publishChangelogs(commandPublishChangelogs);
@@ -209,50 +211,30 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     // Given
     final Norm norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
     final Norm norm2 = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
-    final PublishPrivateNormPort.Command commandPublish1 = new PublishPrivateNormPort.Command(
-      norm1
-    );
-    final PublishPrivateNormPort.Command commandPublish2 = new PublishPrivateNormPort.Command(
-      norm2
-    );
-    bucketService.publishPrivateNorm(commandPublish1);
-    bucketService.publishPrivateNorm(commandPublish2);
+    final Norm norm3 = Fixtures.loadNormFromDisk("NormWithMods.xml");
+
+    bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm1));
+    bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm2));
+    Instant afterTwoPublishes = Instant.now();
+    bucketService.publishChangelogs(new PublishChangelogsPort.Command(false));
+    bucketService.publishPrivateNorm(new PublishPrivateNormPort.Command(norm3));
 
     // When
-    bucketService.deleteAllPrivateNorms();
-    final PublishChangelogsPort.Command commandPublishChangelogs =
-      new PublishChangelogsPort.Command(false);
-    bucketService.publishChangelogs(commandPublishChangelogs);
+    bucketService.deleteAllPrivateDokumente(
+      new DeleteAllPrivateDokumentePort.Command(afterTwoPublishes)
+    );
+    bucketService.publishChangelogs(new PublishChangelogsPort.Command(false));
 
     // Then
     final Path filePath1 = getPrivatePath(norm1.getRegelungstext1());
     final Path filePath2 = getPrivatePath(norm2.getRegelungstext1());
+    final Path filePath3 = getPrivatePath(norm3.getRegelungstext1());
     assertThat(Files.exists(filePath1)).isFalse();
     assertThat(Files.exists(filePath2)).isFalse();
+    assertThat(Files.exists(filePath3)).isTrue();
     assertChangelogContains(false, PRIVATE_BUCKET, DELETED, norm1);
     assertChangelogContains(false, PRIVATE_BUCKET, DELETED, norm2);
-  }
-
-  @Test
-  void itAddsToExistingChangelog() {
-    // Given
-    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    final PublishPublicNormPort.Command command = new PublishPublicNormPort.Command(norm);
-    final Norm anotherNorm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
-    final PublishPublicNormPort.Command commandAnotherNorm = new PublishPublicNormPort.Command(
-      anotherNorm
-    );
-    final PublishChangelogsPort.Command commandPublishChangelogs =
-      new PublishChangelogsPort.Command(false);
-    // When
-    bucketService.publishPublicNorm(command);
-    bucketService.publishChangelogs(commandPublishChangelogs);
-    bucketService.publishPublicNorm(commandAnotherNorm);
-    bucketService.publishChangelogs(commandPublishChangelogs);
-
-    // Then
-    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
-    assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, anotherNorm);
+    assertChangelogContains(true, PRIVATE_BUCKET, CHANGED, norm3);
   }
 
   private void assertChangelogContains(
@@ -261,21 +243,20 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     final String operation,
     final Norm norm
   ) {
-    Path changeLogPath;
-    if (Objects.equals(location, PUBLIC_BUCKET)) {
-      changeLogPath =
-      getPublicPath()
-        .resolve(Changelog.FOLDER)
-        .resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
-    } else {
-      changeLogPath =
-      getPrivatePath()
-        .resolve(Changelog.FOLDER)
-        .resolve("changelog-%s.json".formatted(LocalDate.now().toString()));
-    }
-
     final Map<String, Set<String>> changelogEntries;
+
     try {
+      Path changeLogPath;
+      if (Objects.equals(location, PUBLIC_BUCKET)) {
+        try (Stream<Path> files = Files.list(getPublicPath().resolve(Changelog.FOLDER))) {
+          changeLogPath = files.max(Comparator.naturalOrder()).orElseThrow();
+        }
+      } else {
+        try (Stream<Path> files = Files.list(getPrivatePath().resolve(Changelog.FOLDER))) {
+          changeLogPath = files.max(Comparator.naturalOrder()).orElseThrow();
+        }
+      }
+
       final String json = Files.readString(changeLogPath);
       changelogEntries = OBJECT_MAPPER.readValue(json, new TypeReference<>() {});
     } catch (Exception e) {

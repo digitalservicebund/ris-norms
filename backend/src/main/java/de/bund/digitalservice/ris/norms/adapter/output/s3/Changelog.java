@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.*;
 import lombok.Getter;
 
@@ -15,7 +15,7 @@ import lombok.Getter;
 public class Changelog {
 
   public static final String FOLDER = "changelogs";
-  public static final String FILE_NAME_FORMAT = "changelog-%s.json";
+  public static final String FILE_NAME_FORMAT = "%s-norms.json";
 
   public static final String CHANGED = "changed";
   public static final String DELETED = "deleted";
@@ -27,7 +27,8 @@ public class Changelog {
   private final String fileName;
 
   public Changelog() {
-    this.fileName = Paths.get(FOLDER, FILE_NAME_FORMAT.formatted(LocalDate.now())).toString();
+    this.fileName =
+    Paths.get(FOLDER, FILE_NAME_FORMAT.formatted(Instant.now().toString())).toString();
   }
 
   /**
