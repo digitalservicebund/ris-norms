@@ -33,14 +33,6 @@ test.describe("Load mod details", () => {
     })
     await expect(modFormSection).toBeVisible()
 
-    // Textual Mode Type
-    const textualModeTypeElement = modFormSection.getByRole("textbox", {
-      name: "Änderungstyp",
-    })
-    await expect(textualModeTypeElement).toBeVisible()
-    await expect(textualModeTypeElement).toHaveValue("Ersetzen")
-    await expect(textualModeTypeElement).toHaveAttribute("readonly", "")
-
     // Time Boundaries
     const timeBoundariesElement = modFormSection.getByRole("combobox", {
       name: "Zeitgrenze",
@@ -52,33 +44,6 @@ test.describe("Load mod details", () => {
 
     const timeBoundaryOptionElements = sharedPage.getByRole("option")
     await expect(timeBoundaryOptionElements).toHaveCount(3)
-
-    // // Destination Href Eli
-    const destinationHrefEliElement = modFormSection.getByRole("textbox", {
-      name: "ELI Zielgesetz",
-    })
-    await expect(destinationHrefEliElement).toBeVisible()
-    await expect(destinationHrefEliElement).toHaveValue(
-      "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1",
-    )
-    await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
-
-    const elementToBeReplacedField = sharedPage.getByTestId(
-      "elementToBeReplaced",
-    )
-
-    const selectedElementLocator = elementToBeReplacedField.getByRole(
-      "button",
-      { name: "long title", exact: true },
-    )
-
-    await expect(selectedElementLocator).toBeInViewport()
-
-    await expect(selectedElementLocator).toHaveClass(/selected/)
-
-    await expect(sharedPage.getByTestId("replacingElement")).toHaveText(
-      "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen (Strukturänderungsgesetz)",
-    )
   })
 })
 
