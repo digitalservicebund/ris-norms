@@ -67,6 +67,16 @@ const config: PlaywrightTestConfig = {
       dependencies: ["setup-msedge"],
     },
 
+    // Accessibility Test Project
+    {
+      name: "a11y",
+      testDir: "./a11y",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "e2e/storage/state.json",
+      },
+    },
+
     // Login-logout test projects
     {
       name: "login-logout-test-chromium",
