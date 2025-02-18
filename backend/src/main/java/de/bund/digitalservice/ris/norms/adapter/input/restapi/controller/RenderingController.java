@@ -52,24 +52,4 @@ public class RenderingController {
         )
     );
   }
-
-  /**
-   * Retrieves the XML preview of a regelungstext.
-   *
-   * @param previewRequestSchema The Request schema for rendering a regelungstext. It includes the regelungstext xml
-   *     and any additional regelungstexts that should be used instead of the saved once for rendering the
-   *     regelungstext.
-   * @param atIsoDate ISO date string indicating which modifications should be applied before the
-   *     HTML gets rendered and returned. If no date is provided the current date is used.
-   * @return A {@link ResponseEntity} containing the HTML rendering of the law document.
-   * @deprecated
-   */
-  @PostMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_XML_VALUE })
-  @Deprecated(forRemoval = true)
-  public ResponseEntity<String> getXMLPreview(
-    @RequestBody final PreviewRequestSchema previewRequestSchema,
-    @RequestParam Optional<Instant> atIsoDate
-  ) {
-    return ResponseEntity.ok(previewRequestSchema.getRegelungstext());
-  }
 }

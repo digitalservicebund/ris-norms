@@ -6,10 +6,7 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useMod } from "@/views/amending-law/articles/editor/single-mods/useMod"
-import {
-  useNormRenderHtml,
-  useNormRenderXml,
-} from "@/composables/useNormRender"
+import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { computed } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
@@ -48,11 +45,6 @@ const {
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
 } = useNormRenderHtml(xml)
-const {
-  data: previewXml,
-  isFetching: isFetchingPreviewXml,
-  error: loadPreviewXmlError,
-} = useNormRenderXml(xml)
 </script>
 
 <template>
@@ -116,20 +108,10 @@ const {
       </template>
 
       <template #xml>
-        <div
-          v-if="isFetchingPreviewXml"
-          class="flex items-center justify-center"
-        >
-          <RisLoadingSpinner></RisLoadingSpinner>
-        </div>
-        <div v-else-if="loadPreviewXmlError">
-          <RisErrorCallout :error="loadPreviewXmlError" />
-        </div>
         <RisCodeEditor
-          v-else
           class="flex-grow"
           :readonly="true"
-          :model-value="previewXml ?? ''"
+          :model-value="xml"
         ></RisCodeEditor>
       </template>
     </RisTabs>
