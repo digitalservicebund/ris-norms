@@ -204,6 +204,7 @@ jobs:
             login-logout-test-chromium,
             login-logout-test-firefox,
             login-logout-test-msedge,
+            a11y,
           ]
     uses: ./.github/workflows/end-to-end-tests.yml
     with:
