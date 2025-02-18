@@ -21,8 +21,6 @@ describe("useMods", () => {
         }
         throw new Error("Called with wrong eid")
       }),
-      getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
-      useUpdateMods: vi.fn(),
     }))
     const { useMods } = await import("./useMods")
 
@@ -32,9 +30,7 @@ describe("useMods", () => {
 
     expect(mods.value).toHaveLength(2)
     expect(mods.value[0].timeBoundary?.date).toBe("2020-01-01")
-    expect(mods.value[0].textualModType).toBe("aenderungsbefehl-ersetzen")
     expect(mods.value[1].timeBoundary?.date).toBe("2022-02-02")
-    expect(mods.value[1].textualModType).toBe("aenderungsbefehl-ersetzen")
   })
 
   it("should react if the eids change", async () => {
@@ -53,8 +49,6 @@ describe("useMods", () => {
         }
         throw new Error("Called with wrong eid")
       }),
-      getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
-      useUpdateMods: vi.fn(),
     }))
     const { useMods } = await import("./useMods")
 
@@ -82,7 +76,6 @@ describe("useMods", () => {
         }
         throw new Error("Called with wrong eid")
       }),
-      useUpdateMods: vi.fn(),
     }))
     const { useMods } = await import("./useMods")
 
@@ -116,7 +109,6 @@ describe("useMods", () => {
         }
         throw new Error("Called with wrong eid")
       }),
-      useUpdateMods: vi.fn(),
     }))
 
     const { useMods } = await import("./useMods")
@@ -134,7 +126,6 @@ describe("useMods", () => {
           date: "2022-03-03",
           temporalGroupEid: "temporal-eid-1",
         },
-        textualModType: "aenderungsbefehl-ersetzen",
       },
     ]
     expect(mods.value[0].timeBoundary?.date).toBe("2022-03-03")
@@ -142,20 +133,5 @@ describe("useMods", () => {
     eids.value = ["eid-2"]
     await nextTick()
     expect(mods.value[0].timeBoundary?.date).toBe("2022-02-02")
-  })
-
-  it("should create preview and update using useUpdateMods", async () => {
-    const useUpdateMods = vi.fn()
-
-    vi.doMock("@/services/ldmldeModService", () => ({
-      getTimeBoundaryDate: vi.fn(),
-      useUpdateMods,
-    }))
-
-    const { useMods } = await import("./useMods")
-    useMods("eli", ["eid-1", "eid-2"], `<xml></xml>`)
-
-    expect(useUpdateMods).toHaveBeenCalledWith("eli", expect.anything(), true)
-    expect(useUpdateMods).toHaveBeenCalledWith("eli", expect.anything(), false)
   })
 })

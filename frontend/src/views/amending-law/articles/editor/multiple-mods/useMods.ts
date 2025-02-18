@@ -1,14 +1,9 @@
 import { computed, MaybeRefOrGetter, ref, Ref, toValue, watch } from "vue"
-import {
-  getTextualModType,
-  getTimeBoundaryDate,
-  useUpdateMods,
-} from "@/services/ldmldeModService"
+import { getTimeBoundaryDate } from "@/services/ldmldeModService"
 import { xmlStringToDocument } from "@/services/xmlService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { ModData, ModType } from "@/types/ModType"
 import { UseFetchReturn } from "@vueuse/core"
-import { getNodeByEid } from "@/services/ldmldeService"
+import { useApiFetch } from "@/services/apiService"
 
 /**
  * Get data about multiple akn:mod elements. The data can be overwritten and updates whenever either the eid or xml change.
@@ -27,17 +22,9 @@ export function useMods(
     {
       eid: string
       timeBoundary: TemporalDataResponse | undefined
-      textualModType: ModType | ""
     }[]
   >
-  preview: UseFetchReturn<{
-    amendingNormXml: string
-    targetNormZf0Xml: string
-  }>
-  update: UseFetchReturn<{
-    amendingNormXml: string
-    targetNormZf0Xml: string
-  }>
+  update: UseFetchReturn<unknown>
 } {
   const normDocument = computed(() => {
     const xmlValue = toValue(xml)
@@ -48,7 +35,6 @@ export function useMods(
     {
       eid: string
       timeBoundary: { date: string; temporalGroupEid: string } | undefined
-      textualModType: ModType | ""
     }[]
   > = ref([])
 
@@ -62,35 +48,23 @@ export function useMods(
       }
 
       mods.value = toValue(eids).map((eid: string) => {
-        const modNode = getNodeByEid(doc, eid)
-
         return {
           eid,
           timeBoundary: getTimeBoundaryDate(doc, eid) ?? undefined,
-          textualModType: modNode ? (getTextualModType(modNode) ?? "") : "",
         }
       })
     },
     { immediate: true },
   )
 
-  const modsData = computed(() => {
-    const entries: [string, Partial<ModData>][] = mods.value.map((mod) => [
-      mod.eid,
-      {
-        textualModType: mod.textualModType,
-        timeBoundaryEid: mod.timeBoundary?.temporalGroupEid,
-      },
-    ])
-    return Object.fromEntries(entries)
+  const update = useApiFetch("/non-existing-endpoint", {
+    immediate: false,
   })
-
-  const preview = useUpdateMods(eli, modsData, true)
-  const update = useUpdateMods(eli, modsData, false)
+    .json()
+    .put()
 
   return {
     data: mods,
-    preview,
     update,
   }
 }

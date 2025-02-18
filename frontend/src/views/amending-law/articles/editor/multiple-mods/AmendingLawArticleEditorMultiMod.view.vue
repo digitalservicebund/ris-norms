@@ -13,7 +13,7 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import { useErrorToast } from "@/lib/errorToast"
 import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
-import { computed, ref, watch } from "vue"
+import { computed, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import Select from "primevue/select"
 
@@ -26,18 +26,9 @@ const props = defineProps<{
 
 const eli = useEliPathParameter()
 
-const previewXml = ref<string>("")
-
 const {
   data: mods,
-  preview: {
-    data: previewData,
-    execute: preview,
-    error: previewError,
-    isFetching: isFetchingPreviewData,
-  },
   update: {
-    data: updateData,
     execute: update,
     error: saveError,
     isFetching: isUpdating,
@@ -91,50 +82,11 @@ const timeBoundaryItems = computed(() => {
   ]
 })
 
-const previewCustomNorms = computed(() =>
-  previewData.value ? [previewData.value.amendingNormXml] : [],
-)
-
 const {
   data: previewHtml,
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
-} = useNormRenderHtml(previewXml, {
-  at: computed(() => {
-    if (
-      timeBoundary.value === "no_choice" ||
-      timeBoundary.value === "multiple"
-    ) {
-      return undefined
-    }
-
-    return new Date(timeBoundary.value)
-  }),
-  customNorms: previewCustomNorms,
-})
-
-watch(previewData, () => {
-  if (!previewData.value) return
-
-  previewXml.value = previewData.value.targetNormZf0Xml
-})
-
-watch(updateData, () => {
-  if (!updateData.value) return
-
-  xml.value = updateData.value.amendingNormXml
-  previewXml.value = updateData.value.targetNormZf0Xml
-})
-
-watch(
-  () => props.selectedMods,
-  () => {
-    if (props.selectedMods.length > 1) {
-      preview()
-    }
-  },
-  { deep: true, immediate: true },
-)
+} = useNormRenderHtml(xml)
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
@@ -156,11 +108,6 @@ watch(isUpdatingFinished, (finished) => {
     showToast()
   }
 })
-
-function handlePreview(event: MouseEvent) {
-  event.preventDefault()
-  preview()
-}
 
 function handleUpdate(event: MouseEvent) {
   event.preventDefault()
@@ -202,42 +149,22 @@ function handleUpdate(event: MouseEvent) {
       <RisErrorCallout :error="loadTimeBoundariesError" />
     </div>
 
-    <div
-      v-else-if="
-        mods.some((mod) => mod.textualModType !== 'aenderungsbefehl-ersetzen')
-      "
-    >
-      <Message severity="warn">
-        Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.
-      </Message>
-    </div>
-
     <form v-else class="grid grid-cols-1 gap-y-12">
-      <div class="grid grid-cols-2 gap-x-40">
-        <div class="flex flex-col gap-6">
-          <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-          <label id="timeBoundariesLabel" class="ris-label2-regular"
-            >Zeitgrenze</label
-          >
-          <Select
-            v-model="timeBoundary"
-            :options="timeBoundaryItems"
-            option-label="label"
-            option-value="value"
-            aria-labelledby="timeBoundariesLabel"
-            @change="() => preview"
-          />
-        </div>
+      <div class="flex flex-col gap-6">
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label id="timeBoundariesLabel" class="ris-label2-regular"
+          >Zeitgrenze</label
+        >
+        <Select
+          v-model="timeBoundary"
+          :options="timeBoundaryItems"
+          option-label="label"
+          option-value="value"
+          aria-labelledby="timeBoundariesLabel"
+        />
       </div>
 
       <div class="flex">
-        <Button
-          label="Vorschau"
-          severity="secondary"
-          :disabled="timeBoundary === 'multiple'"
-          @click="handlePreview"
-        />
-
         <div class="relative ml-auto">
           <Button
             label="Speichern"
@@ -277,16 +204,13 @@ function handleUpdate(event: MouseEvent) {
     >
       <template #text>
         <div
-          v-if="isFetchingPreviewData || isFetchingPreviewHtml"
+          v-if="isFetchingPreviewHtml"
           class="flex items-center justify-center"
         >
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewHtmlError">
           <RisErrorCallout :error="loadPreviewHtmlError" />
-        </div>
-        <div v-else-if="previewError">
-          <RisErrorCallout :error="previewError" />
         </div>
         <RisLawPreview
           v-else
@@ -296,20 +220,10 @@ function handleUpdate(event: MouseEvent) {
       </template>
 
       <template #xml>
-        <div
-          v-if="isFetchingPreviewData"
-          class="flex items-center justify-center"
-        >
-          <RisLoadingSpinner></RisLoadingSpinner>
-        </div>
-        <div v-else-if="previewError">
-          <RisErrorCallout :error="previewError" />
-        </div>
         <RisCodeEditor
-          v-else
           class="flex-grow"
           :readonly="true"
-          :model-value="previewXml"
+          :model-value="xml"
         ></RisCodeEditor>
       </template>
     </RisTabs>

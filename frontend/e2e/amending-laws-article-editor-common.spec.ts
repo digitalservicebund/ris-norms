@@ -48,10 +48,10 @@ test.describe("Navigation", () => {
     )
 
     await expect(
-      page.getByRole("textbox", {
-        name: "Neuer Text Inhalt",
+      page.getByRole("combobox", {
+        name: "Zeitgrenze",
       }),
-    ).toHaveValue("1. Beispiel")
+    ).toHaveText("01.02.1001")
   })
 })
 
