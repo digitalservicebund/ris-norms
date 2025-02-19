@@ -10,7 +10,7 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import { useArticle } from "@/views/amending-law/articles/editor/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useModEidSelection } from "@/views/amending-law/articles/editor/useModEidSelection"
+import { useAknElementEidSelection } from "@/views/amending-law/articles/editor/useAknElementEidSelection"
 import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useNormXml } from "@/composables/useNormXml"
@@ -24,6 +24,7 @@ import { useDebounce } from "@vueuse/core"
 import { computed, Ref, ref, toValue, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useRouter } from "vue-router"
+import { useModEidPathParameter } from "@/views/amending-law/articles/editor/useModEidPathParameter"
 
 const router = useRouter()
 const eid = useEidPathParameter()
@@ -79,8 +80,29 @@ const {
   values: selectedMods,
   deselectAll: deselectAllSelectedMods,
   selectAll: selectAllMods,
-  handleAknModClick,
-} = useModEidSelection(modEIds)
+  select: selectMod,
+  handleAknElementClick,
+} = useAknElementEidSelection(modEIds)
+
+const modEidPathParameter = useModEidPathParameter()
+
+watch(
+  modEidPathParameter,
+  () => {
+    if (modEidPathParameter.value !== "") {
+      selectMod(modEidPathParameter.value)
+    }
+  },
+  { immediate: true },
+)
+
+watch(selectedMods, () => {
+  if (selectedMods.value.length === 1) {
+    modEidPathParameter.value = selectedMods.value[0]
+  } else {
+    modEidPathParameter.value = ""
+  }
+})
 
 const {
   data: articleHtml,
@@ -207,7 +229,7 @@ watch(loadXmlError, (err) => {
                   :content="articleHtml ?? ''"
                   :selected="selectedMods"
                   :e-id-classes="classesForPreview"
-                  @click:akn:mod="handleAknModClick"
+                  @click:akn:mod="handleAknElementClick"
                   @click="handlePreviewClick"
                   @keydown="handlePreviewKeyDown"
                 />
