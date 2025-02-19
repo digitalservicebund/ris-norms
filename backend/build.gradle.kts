@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
     implementation(libs.netty.handler)
+    implementation(libs.netty.common)
 
     compileOnly(libs.lombok)
 
