@@ -48,15 +48,8 @@ class RenderingControllerTest {
           post("/api/v1/renderings")
             .accept(MediaType.TEXT_HTML)
             .with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              """
-
-                                    {
-                "regelungstext": "<law>original-law</law>"
-              }
-              """
-            )
+            .contentType(MediaType.APPLICATION_XML)
+            .content("<law>original-law</law>")
         )
         .andExpect(status().isInternalServerError())
         .andExpect(jsonPath("type").value("/errors/xml-processing-error"))
@@ -77,15 +70,8 @@ class RenderingControllerTest {
             .queryParam("showMetadata", "true")
             .accept(MediaType.TEXT_HTML)
             .with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              """
-
-                                    {
-                "regelungstext": "<law>original-law</law>"
-              }
-              """
-            )
+            .contentType(MediaType.APPLICATION_XML)
+            .content("<law>original-law</law>")
         )
         .andExpect(status().isOk())
         .andExpect(content().string("<html></html>"));
@@ -107,14 +93,8 @@ class RenderingControllerTest {
             .queryParam("showMetadata", "false")
             .accept(MediaType.TEXT_HTML)
             .with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              """
-              {
-                "regelungstext": "<law>original-law</law>"
-              }
-              """
-            )
+            .contentType(MediaType.APPLICATION_XML)
+            .content("<law>original-law</law>")
         )
         .andExpect(status().isOk())
         .andExpect(content().string("<html></html>"));
@@ -135,14 +115,8 @@ class RenderingControllerTest {
             .queryParam("snippet", "true")
             .accept(MediaType.TEXT_HTML)
             .with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              """
-              {
-                 "regelungstext": "<law>original-law</law>"
-               }
-               """
-            )
+            .contentType(MediaType.APPLICATION_XML)
+            .content("<law>original-law</law>")
         )
         .andExpect(status().isOk())
         .andExpect(content().string("<html></html>"));
