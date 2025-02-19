@@ -6,14 +6,13 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useMods } from "@/views/amending-law/articles/editor/multiple-mods/useMods"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useErrorToast } from "@/lib/errorToast"
 import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
-import { computed, watch } from "vue"
+import { computed, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import Select from "primevue/select"
 
@@ -26,19 +25,19 @@ const props = defineProps<{
 
 const eli = useEliPathParameter()
 
-const {
-  data: mods,
-  update: {
-    execute: update,
-    error: saveError,
-    isFetching: isUpdating,
-    isFinished: isUpdatingFinished,
-  },
-} = useMods(
-  eli,
-  computed(() => props.selectedMods),
-  xml,
-)
+const mods = computed({
+  get: () =>
+    props.selectedMods.map((eid) => ({
+      eid,
+      timeBoundary: timeBoundaries.value?.[0],
+    })),
+  set: () => {},
+})
+
+const update = () => console.log("Update")
+const saveError = ref(null)
+const isUpdating = ref(false)
+const isUpdatingFinished = ref(false)
 
 const timeBoundary = computed({
   get: () => {
