@@ -5,17 +5,16 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useMod } from "@/views/amending-law/articles/editor/single-mods/useMod"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
-import { computed } from "vue"
+import { computed, ref } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const xml = defineModel<string>("xml", {
   required: true,
 })
 
-const props = defineProps<{
+defineProps<{
   selectedMods: string[]
 }>()
 
@@ -26,19 +25,15 @@ const {
   isFetching: isFetchingTimeBoundaries,
   error: loadTimeBoundariesError,
 } = useTemporalData(eli)
-const {
-  timeBoundary,
-  update: {
-    execute: update,
-    error: saveError,
-    isFetching: isUpdating,
-    isFinished: isUpdatingFinished,
-  },
-} = useMod(
-  eli,
-  computed(() => props.selectedMods[0]),
-  xml,
-)
+
+const timeBoundary = computed(() => timeBoundaries?.value?.[0])
+
+const isUpdating = ref(false)
+const isUpdatingFinished = ref(false)
+const saveError = ref(null)
+const update = () => {
+  console.log("Update")
+}
 
 const {
   data: previewHtml,
