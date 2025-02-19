@@ -75,6 +75,7 @@ const config: PlaywrightTestConfig = {
         ...devices["Desktop Chrome"],
         storageState: "e2e/storage/state.json",
       },
+      dependencies: ["setup-chromium"],
     },
 
     // Login-logout test projects
