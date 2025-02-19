@@ -2,7 +2,7 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
+import { useModHighlightClasses } from "@/composables/useTimeBoundaryHighlightClasses"
 import { useNormXml } from "@/composables/useNormXml"
 import { useGetNormHtml } from "@/services/normService"
 import { xmlStringToDocument } from "@/services/xmlService"
