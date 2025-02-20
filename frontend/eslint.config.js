@@ -1,8 +1,11 @@
+import {
+  defineConfigWithVueTs,
+  vueTsConfigs,
+} from "@vue/eslint-config-typescript"
 import { includeIgnoreFile } from "@eslint/compat"
 import js from "@eslint/js"
 import vitest from "@vitest/eslint-plugin"
 import prettierConfig from "@vue/eslint-config-prettier"
-import vueTsEslintConfig from "@vue/eslint-config-typescript"
 import importPlugin from "eslint-plugin-import"
 import playwrightPlugin from "eslint-plugin-playwright"
 import testingLibraryPlugin from "eslint-plugin-testing-library"
@@ -10,25 +13,20 @@ import vuePlugin from "eslint-plugin-vue"
 import vueA11yPlugin from "eslint-plugin-vuejs-accessibility"
 import globals from "globals"
 import { fileURLToPath, URL } from "node:url"
-import {
-  config as defineConfig,
-  configs as tsEslintConfigs,
-} from "typescript-eslint"
 import vueEslintParser from "vue-eslint-parser"
 
-export default defineConfig(
+export default defineConfigWithVueTs([
   // Files
   includeIgnoreFile(fileURLToPath(new URL(".gitignore", import.meta.url))),
   { files: ["**/*.ts", "**/*.js", "**/*.vue"] },
 
   // Basic rules
   js.configs.recommended,
-  ...tsEslintConfigs.recommended,
   importPlugin.flatConfigs.recommended,
   importPlugin.flatConfigs.typescript,
   ...vuePlugin.configs["flat/recommended"],
   ...vueA11yPlugin.configs["flat/recommended"],
-  ...vueTsEslintConfig(),
+  vueTsConfigs.recommended,
 
   // Additional rules for E2E tests
   {
@@ -152,4 +150,4 @@ export default defineConfig(
   },
 
   prettierConfig,
-)
+])
