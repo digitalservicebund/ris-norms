@@ -265,13 +265,3 @@ watch(loadXmlError, (err) => {
     </RisHeader>
   </div>
 </template>
-
-<style scoped>
-.amendingLawPreview :deep(.akn-affectedDocument) {
-  @apply bg-highlight-affectedDocument-default px-2 outline outline-dotted outline-1 outline-blue-800;
-}
-
-.amendingLawPreview :deep(.akn-affectedDocument):hover {
-  @apply bg-highlight-affectedDocument-hover px-2 outline outline-dotted outline-2 outline-blue-800;
-}
-</style>
