@@ -1,9 +1,11 @@
-import { devices, PlaywrightTestConfig } from "@playwright/test"
+import { defineConfig, devices } from "@playwright/test"
 import dotenv from "dotenv"
 
 dotenv.config({ path: [".env.local", ".env"] })
 
-const config: PlaywrightTestConfig = {
+const config = defineConfig<{
+  appCredentials: { username: string; password: string }
+}>({
   testDir: "./e2e",
   timeout: 10000,
   retries: process.env.CI === "true" ? 1 : 0,
@@ -85,6 +87,6 @@ const config: PlaywrightTestConfig = {
       testMatch: "e2e/login-and-logout.spec.ts",
     },
   ],
-}
+})
 
 export default config
