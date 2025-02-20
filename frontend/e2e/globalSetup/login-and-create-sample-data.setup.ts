@@ -17,8 +17,7 @@ setup("login", async ({ page }) => {
 
   await page.context().storageState({ path: `e2e/storage/state.json` })
 
-  await page.waitForURL("/")
-  await page.unrouteAll({ behavior: "wait" })
+  await page.waitForURL(/\/amending-laws/)
 })
 
 setup("create sample data", async ({ authenticatedRequest: request }) => {
