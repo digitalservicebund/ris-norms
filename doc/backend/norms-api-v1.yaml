@@ -120,12 +120,6 @@ paths:
             type: boolean
             default: false
           description: "Should the metadata table be included? (only for Content-Type: text/html)"
-        - name: atIsoDate
-          in: query
-          schema:
-            type: string
-            format: date-time
-          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         "200":
           description: Expression of the requested norm
@@ -305,111 +299,6 @@ paths:
                 type: string
         "400":
           $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /norms/{expressionEli}/mods:
-    patch:
-      tags:
-        - Norm expression
-      summary: Save changes to multiple akn:mod elements and update ZF0
-      parameters:
-        - name: expressionEli
-          in: path
-          required: true
-          description: Expression ELI of the norm
-          schema:
-            type: string
-        - name: dryRun
-          in: query
-          schema:
-            type: boolean
-            default: false
-          description: "Should the update not be saved?"
-      requestBody:
-        description: The updated amending commands
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              description: object mapping between eids and the change mods
-              additionalProperties:
-                $ref: "#/components/schemas/TimeBoundaryMod"
-      responses:
-        "200":
-          description: Updated norm
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  amendingNormXml:
-                    type: string
-                    format: LegalDocML.de XML
-                  targetNormXml:
-                    type: array
-                    items:
-                      type: string
-                      format: LegalDocML.de XML
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "422":
-          $ref: "#/components/responses/ValidationError"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /norms/{expressionEli}/mods/{eid}:
-    put:
-      tags:
-        - Norm expression
-      summary: Save an amending command and update ZF0
-      parameters:
-        - name: expressionEli
-          in: path
-          required: true
-          description: Expression ELI of the norm
-          schema:
-            type: string
-        - name: eid
-          in: path
-          required: true
-          description: The eId of the akn:mod
-          schema:
-            type: string
-        - name: dryRun
-          in: query
-          schema:
-            type: boolean
-            default: false
-          description: "Should the update not be saved?"
-      requestBody:
-        description: The updated amending command
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Mod"
-      responses:
-        "200":
-          description: Updated norm
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  amendingNormXml:
-                    type: string
-                  targetNormXml:
-                    type: string
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "422":
-          $ref: "#/components/responses/ValidationError"
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
@@ -671,27 +560,19 @@ paths:
             type: boolean
             default: false
           description: Should the metadata table be included?
-        - name: atIsoDate
-          in: query
-          schema:
-            type: string
-            format: date-time
-            default: "the current date"
-          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (Only when providing application/json)"
       requestBody:
         required: true
         content:
-          application/json:
+          application/xml:
             schema:
-              $ref: "#/components/schemas/RenderRequest"
+              description: The xml of the norm which should be rendered
+              type: string
+              format: LegalDocML.de XML
       responses:
         "200":
           description: HTML rendering the provided LDML.de XML
           content:
             text/html:
-              schema:
-                type: string
-            application/xml:
               schema:
                 type: string
         "400":
@@ -828,20 +709,6 @@ components:
           items:
             type: string
             description: A manifestation eli
-
-    RenderRequest:
-      type: object
-      properties:
-        regelungstext:
-          description: The xml of the norm which should be rendered
-          type: string
-          format: LegalDocML.de XML
-        customRegelungtext:
-          type: object
-          additionalProperties:
-            description: The xmls of norms which are referenced by the norm (e.g. in passiveModifications) and should not be loaded from the database.
-            type: string
-            format: LegalDocML.de XML
 
     LegalDocML.de:
       type: object
