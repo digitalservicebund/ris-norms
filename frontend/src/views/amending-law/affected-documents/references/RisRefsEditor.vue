@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import RisRefEditorTable from "@/views/amending-law/affected-documents/references/RisRefEditorTable.vue"
-import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import Button from "primevue/button"
 import RisRefSelectionPanel from "@/views/amending-law/affected-documents/references/RisRefSelectionPanel.vue"
 import { computed, ref, triggerRef, watch } from "vue"
-import {
-  evaluateXPathOnce,
-  xmlNodeToString,
-  xmlStringToDocument,
-} from "@/services/xmlService"
+import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import { useRoute, useRouter } from "vue-router"
 import { useToast } from "primevue/usetoast"
 
 const props = defineProps<{
+  /**
+   * Xml of the norm in which references should be documented
+   */
   normXml: string
-  selectedModEId: string
+  /**
+   * eId of the element of the norm in which references should be documented
+   */
+  eId: string
   isSaving: boolean
   hasSaved: boolean
   saveError: unknown
@@ -25,44 +26,38 @@ const emit = defineEmits<{
   save: [string]
 }>()
 
-const amendingNormDocument = ref<Document>()
+const normDocument = ref<Document>()
 
 watch(
-  [() => props.selectedModEId, () => props.normXml],
+  [() => props.eId, () => props.normXml],
   () => {
     if (!props.normXml) {
       return
     }
 
-    amendingNormDocument.value = xmlStringToDocument(props.normXml ?? "")
+    normDocument.value = xmlStringToDocument(props.normXml ?? "")
   },
   { immediate: true },
 )
 
-const selectedModQuotedContent = computed(() => {
-  if (!props.selectedModEId || !amendingNormDocument.value) {
+const nodeContent = computed(() => {
+  if (!props.eId || !normDocument.value) {
     return null
   }
 
-  const node = getNodeByEid(amendingNormDocument.value, props.selectedModEId)
-
-  if (!node) {
-    return null
-  }
-
-  return evaluateXPathOnce("./akn:quotedStructure | ./akn:quotedText[2]", node)
+  return getNodeByEid(normDocument.value, props.eId)
 })
 
-const selectedModQuotedContentXmlString = computed({
+const nodeContentXmlString = computed({
   get() {
-    if (selectedModQuotedContent.value) {
-      return xmlNodeToString(selectedModQuotedContent.value)
+    if (nodeContent.value) {
+      return xmlNodeToString(nodeContent.value)
     }
 
     return ""
   },
   set(newValue) {
-    const parentNode = selectedModQuotedContent.value?.parentNode
+    const parentNode = nodeContent.value?.parentNode
     if (!parentNode) {
       return
     }
@@ -72,9 +67,9 @@ const selectedModQuotedContentXmlString = computed({
       return
     }
 
-    parentNode.replaceChild(newNode, selectedModQuotedContent.value)
+    parentNode.replaceChild(newNode, nodeContent.value)
     // we mutate the norm Document (as a side effect), so we need to trigger a recompute of all things that use it
-    triggerRef(amendingNormDocument)
+    triggerRef(normDocument)
   },
 })
 
@@ -95,11 +90,11 @@ const selectedRefEId = computed({
 })
 
 function handleSave() {
-  if (!amendingNormDocument.value) {
+  if (!normDocument.value) {
     return
   }
 
-  emit("save", xmlNodeToString(amendingNormDocument.value))
+  emit("save", xmlNodeToString(normDocument.value))
 }
 
 const { add: addToast } = useToast()
@@ -137,28 +132,19 @@ watch(
         Textbasierte Metadaten
       </h3>
       <RisRefSelectionPanel
-        v-if="selectedModQuotedContentXmlString"
         v-model:selected-ref="selectedRefEId"
-        v-model:xml-snippet="selectedModQuotedContentXmlString"
+        v-model:xml-snippet="nodeContentXmlString"
         class="overflow-hidden"
       />
-      <RisEmptyState
-        v-else
-        text-content="Wählen Sie links einen Änderungsbefehl zur Dokumentation von textbasierten Metadaten aus."
-      />
     </section>
-    <section
-      v-if="selectedModQuotedContentXmlString"
-      aria-labelledby="referencesHeading"
-      class="flex flex-col"
-    >
+    <section aria-labelledby="referencesHeading" class="flex flex-col">
       <h3 id="referencesHeading" class="ris-label2-bold mb-12 block">
         Verweise
       </h3>
       <RisRefEditorTable
-        v-if="selectedModQuotedContentXmlString"
+        v-if="nodeContentXmlString"
         v-model:selected-ref="selectedRefEId"
-        v-model:xml-snippet="selectedModQuotedContentXmlString"
+        v-model:xml-snippet="nodeContentXmlString"
         class="overflow-hidden"
       />
     </section>

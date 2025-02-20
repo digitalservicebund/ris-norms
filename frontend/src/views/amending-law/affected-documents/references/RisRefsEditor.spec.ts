@@ -24,7 +24,7 @@ vi.mock("primevue/usetoast", () => {
   }
 })
 
-describe("risModRefsEditor", () => {
+describe("risRefsEditor", () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
@@ -33,38 +33,6 @@ describe("risModRefsEditor", () => {
       "<div class='akn-quotedText' data-eId='mod-1_quot-2'>Render of <div class='akn-ref' data-eId='mod-1_quot-2_ref-1'>a ref</div> and <div class='akn-ref' data-eId='mod-1_quot-2_ref-2'>a second ref</div> and <p class='akn-p' data-eId='mod-1_quot-2_p-1'>place for a third ref</p></div>"
     renderIsFetching.value = false
     renderError.value = undefined
-  })
-
-  it("should not render component if no mod was selected", async () => {
-    vi.doMock("vue-router", () => ({
-      useRoute: vi.fn().mockReturnValue({
-        params: {
-          refEid: undefined,
-        },
-      }),
-      useRouter: vi.fn(),
-    }))
-
-    const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisModRefsEditor.vue"
-    )
-
-    render(RisModRefsEditor, {
-      props: {
-        normXml: "",
-        selectedModEId: "",
-        isSaving: false,
-        hasSaved: false,
-        saveError: null,
-      },
-    })
-
-    await nextTick()
-
-    const emptyState = screen.getByText(
-      "Wählen Sie links einen Änderungsbefehl zur Dokumentation von textbasierten Metadaten aus.",
-    )
-    expect(emptyState).toBeInTheDocument()
   })
 
   it("should render the html of the second quotedText of the selected mod", async () => {
@@ -78,7 +46,7 @@ describe("risModRefsEditor", () => {
     }))
 
     const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisModRefsEditor.vue"
+      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
     )
 
     render(RisModRefsEditor, {
@@ -95,7 +63,7 @@ describe("risModRefsEditor", () => {
             </akn:mod>
           </akn:act>
         `,
-        selectedModEId: "mod-1",
+        eId: "mod-1",
         isSaving: false,
         hasSaved: false,
         saveError: null,
@@ -119,7 +87,7 @@ describe("risModRefsEditor", () => {
     }))
 
     const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisModRefsEditor.vue"
+      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
     )
     const user = userEvent.setup()
 
@@ -137,7 +105,7 @@ describe("risModRefsEditor", () => {
             </akn:mod>
           </akn:act>
         `,
-        selectedModEId: "mod-1",
+        eId: "mod-1_quot-2",
         isSaving: false,
         hasSaved: false,
         saveError: null,
@@ -190,7 +158,7 @@ describe("risModRefsEditor", () => {
     }))
 
     const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisModRefsEditor.vue"
+      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
     )
     const user = userEvent.setup()
 
@@ -208,7 +176,7 @@ describe("risModRefsEditor", () => {
             </akn:mod>
           </akn:act>
         `,
-        selectedModEId: "mod-1",
+        eId: "mod-1_quot-2",
         isSaving: false,
         hasSaved: false,
         saveError: null,
@@ -266,7 +234,7 @@ describe("risModRefsEditor", () => {
     }))
 
     const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisModRefsEditor.vue"
+      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
     )
     render(RisModRefsEditor, {
       props: {
@@ -282,7 +250,7 @@ describe("risModRefsEditor", () => {
             </akn:mod>
           </akn:act>
         `,
-        selectedModEId: "mod-1",
+        eId: "mod-1",
         isSaving: false,
         hasSaved: false,
         saveError: null,

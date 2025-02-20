@@ -17,7 +17,7 @@ import RisEmptyState from "@/components/controls/RisEmptyState.vue"
  */
 const selectedRef = defineModel<string>("selectedRef")
 /**
- * The XML-String (LDML.de) of the akn:quotedText or akn:quotedStructure element whose akn:ref's should be displayed.
+ * The XML-String (LDML.de) of the element whose akn:ref's should be displayed.
  */
 const xmlSnippet = defineModel<string>("xmlSnippet")
 

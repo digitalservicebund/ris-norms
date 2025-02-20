@@ -14,33 +14,7 @@ test("navigate to amending law references page without selected mods", async ({
     "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
-  await expect(
-    page.getByText(
-      "Wählen Sie links einen Änderungsbefehl zur Dokumentation von textbasierten Metadaten aus.",
-    ),
-  ).toBeVisible()
-})
-
-test("selects a mod but not references present so it shows the empty state for the ref table", async ({
-  page,
-}) => {
-  await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
-  )
-
-  await page
-    .getByRole("button", { name: /Absatz 2 bis Absatz 3 wird ersetzt durch/ })
-    .click()
-
-  await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
-  )
-
-  await expect(
-    page.getByText(
-      "Für die ausgewählte Textpassage sind noch keine Verweise dokumentiert. Markieren Sie links Text, um neue Verweise hinzuzufügen.",
-    ),
-  ).toBeVisible()
+  await expect(page.getByText("Verweise")).toBeVisible()
 })
 
 test("see breadcrumb", async ({ page }) => {
@@ -53,29 +27,11 @@ test("see breadcrumb", async ({ page }) => {
   ).toBeVisible()
 })
 
-test("see rendered law text", async ({ page }) => {
-  await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
-  )
-
-  const article = page.getByRole("article")
-  await expect(article).toBeVisible()
-  await expect(article).toContainText("vom 1. Januar 1002")
-})
-
-test("should be able to select a mod, add a new ref and edit it's refersTo and href and delete it using the delete icon in the table", async ({
+test("should be able to add a new ref and edit it's refersTo and href and delete it using the delete icon in the table", async ({
   page,
 }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
-  )
-
-  await page
-    .getByRole("button", { name: /Absatz 2 bis Absatz 3 wird ersetzt durch/ })
-    .click()
-
-  await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
   )
 
   const container = page
@@ -93,7 +49,7 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
     exact: true,
   })
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1_text-1_ref-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1_text-1_ref-1",
   )
 
   const combobox = newRefRegion.getByRole("combobox", { name: "Typ" })
@@ -132,22 +88,18 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
 
   await expect(newRefRegion).toBeHidden()
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
 
   await page.getByRole("button", { name: "Speichern" }).click()
 })
 
-test("should be able to select a mod, add two new ref's and delete one using the delete icon in the preview", async ({
+test("should be able to add two new ref's and delete one using the delete icon in the preview", async ({
   page,
 }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/references",
   )
-
-  await page
-    .getByRole("button", { name: /Absatz 2 bis Absatz 3 wird ersetzt durch/ })
-    .click()
 
   const container = page
     .getByRole("region", { name: "Textbasierte Metadaten" })
