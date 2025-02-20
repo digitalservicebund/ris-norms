@@ -2,8 +2,6 @@ import {
   APIRequestContext,
   test as base /* eslint-disable-line no-restricted-imports -- We need this here to extend it */,
 } from "@playwright/test"
-import { readFile, writeFile } from "node:fs/promises"
-import { fileURLToPath, URL } from "node:url"
 
 /**
  * Authentication token returned by the OAuth flow.
@@ -15,6 +13,35 @@ export type Token = {
 
 export type AuthorizationHeader = { Authorization: string }
 
+let savedToken: Token
+
+async function getToken(request: APIRequestContext): Promise<Token> {
+  if (!savedToken) {
+    const tokenRequest = await request.post(
+      "http://localhost:8443/realms/ris/protocol/openid-connect/token",
+      {
+        form: {
+          grant_type: "password",
+          client_id: "ris-norms-local",
+          client_secret: "ris-norms-local",
+          username: "jane.doe",
+          password: "test",
+        },
+      },
+    )
+
+    if (!tokenRequest.ok) {
+      throw new Error("Failed to fetch a token for the E2E tests", {
+        cause: tokenRequest,
+      })
+    }
+
+    savedToken = await tokenRequest.json()
+  }
+
+  return savedToken
+}
+
 /**
  * Drop-in replacement for Playwright's regular test method that also handles
  * the authorization token. This should be used for all tests in order to
@@ -22,69 +49,20 @@ export type AuthorizationHeader = { Authorization: string }
  */
 export const test = base.extend<{
   /**
-   * Hooks into the requests made by the page. If one of them contains a new token,
-   * the token will automatically be saved to a shared location, so it can be used
-   * by other tests.
-   *
-   * This behavior is managed by Playwright automatically. The method should not be
-   * called manually.
-   */
-  updateToken: void
-
-  /**
    * Provides an API context that can be used to make requests just like `page.request`,
    * except that those requests will be authenticated with a previously saved token.
    */
   authenticatedRequest: APIRequestContext
 }>({
-  updateToken: [
-    async ({ page }, use) => {
-      await page.route(/token$/, async (route) => {
-        const response = await page.request.fetch(route.request())
-        if (response.ok()) await saveToken(await response.json())
-        await route.fulfill({ response })
-      })
+  authenticatedRequest: async ({ playwright, request }, use) => {
+    const token = await getToken(request)
 
-      await use()
-    },
-    { auto: true },
-  ],
-
-  authenticatedRequest: async ({ playwright }, use) => {
-    const token = await restoreToken()
-
-    const request = await playwright.request.newContext({
+    const authenticatedRequest = await playwright.request.newContext({
       extraHTTPHeaders: {
         Authorization: `Bearer ${token.access_token}`,
       },
     })
 
-    await use(request)
+    await use(authenticatedRequest)
   },
 })
-
-const storagePath = fileURLToPath(
-  new URL("../storage/token.json", import.meta.url),
-)
-
-/**
- * Takes a token and saves it to a shared location that can be used across tests.
- *
- * @param token Token to save
- */
-export function saveToken(token: Token): Promise<void> {
-  return writeFile(storagePath, JSON.stringify(token, undefined, 2), {
-    encoding: "utf-8",
-  })
-}
-
-/**
- * Loads a previously saved token from the shared location. This will throw if
- * no token has been saved.
- *
- * @returns Saved token
- */
-export async function restoreToken(): Promise<Token> {
-  const raw = await readFile(storagePath, { encoding: "utf-8" })
-  return JSON.parse(raw)
-}
