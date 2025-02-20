@@ -19,11 +19,6 @@ export function useNormService(
      * if you get the HTML preview, and will fail on other requests.
      */
     showMetadata?: boolean
-    /**
-     * Render the HTML preview at a specific date. Note that this is only
-     * applicable if you get the HTML preview, and will fail on other requests.
-     */
-    at?: MaybeRefOrGetter<Date | undefined>
   },
   fetchOptions: UseFetchOptions = {},
 ): UseFetchReturn<Norm> {
@@ -35,13 +30,6 @@ export function useNormService(
 
     if (options?.showMetadata) {
       queryParams.append("showMetadata", "true")
-    }
-
-    if (options?.at) {
-      const atVal = toValue(options?.at)
-      if (atVal instanceof Date) {
-        queryParams.append("atIsoDate", atVal.toISOString())
-      }
     }
 
     return `/norms/${eliVal}?${queryParams.toString()}`
