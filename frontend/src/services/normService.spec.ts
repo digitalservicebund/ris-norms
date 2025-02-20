@@ -119,61 +119,6 @@ describe("useNormService", () => {
     )
   })
 
-  it("appends the date parameter", async () => {
-    const fetchSpy = vi
-      .spyOn(window, "fetch")
-      .mockResolvedValue(new Response("{}"))
-
-    const { useNormService } = await import("./normService")
-
-    const eli = ref("fake/eli/1")
-    useNormService(eli, { at: new Date(2024, 5, 13) })
-
-    await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/fake/eli/1?atIsoDate=2024-06-13T00%3A00%3A00.000Z",
-        expect.any(Object),
-      ),
-    )
-  })
-
-  it("does not append the date parameter", async () => {
-    const fetchSpy = vi
-      .spyOn(window, "fetch")
-      .mockResolvedValue(new Response("{}"))
-
-    const { useNormService } = await import("./normService")
-
-    const eli = ref("fake/eli/1")
-    useNormService(eli, { at: undefined })
-
-    await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/fake/eli/1?",
-        expect.any(Object),
-      ),
-    )
-  })
-
-  it("reloads with a new date value", async () => {
-    const fetchSpy = vi
-      .spyOn(window, "fetch")
-      .mockResolvedValue(new Response("{}"))
-
-    const { useNormService } = await import("./normService")
-
-    const date = ref<Date | undefined>(new Date(2024, 5, 13))
-    useNormService(
-      "fake/eli/1",
-      { at: date },
-      { immediate: true, refetch: true },
-    )
-    await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
-
-    date.value = undefined
-    await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
-  })
-
   describe("useGetNorm", () => {
     beforeEach(() => {
       vi.resetAllMocks()
@@ -249,12 +194,11 @@ describe("useNormService", () => {
 
       useGetNormHtml("fake/eli/1", {
         showMetadata: true,
-        at: new Date("2024-05-13"),
       })
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1?showMetadata=true&atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          "/api/v1/norms/fake/eli/1?showMetadata=true",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "text/html",
@@ -274,12 +218,11 @@ describe("useNormService", () => {
       const eli = ref("fake/eli/1")
       useGetNormHtml(eli, {
         showMetadata: true,
-        at: new Date("2024-05-13"),
       })
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1?showMetadata=true&atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          "/api/v1/norms/fake/eli/1?showMetadata=true",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "text/html",
@@ -291,7 +234,7 @@ describe("useNormService", () => {
       eli.value = "fake/eli/2"
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/2?showMetadata=true&atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          "/api/v1/norms/fake/eli/2?showMetadata=true",
           expect.any(Object),
         )
       })
@@ -311,13 +254,11 @@ describe("useNormService", () => {
 
       const { useGetNormXml } = await import("./normService")
 
-      useGetNormXml("fake/eli/1", {
-        at: new Date("2024-05-13"),
-      })
+      useGetNormXml("fake/eli/1")
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1?atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          "/api/v1/norms/fake/eli/1?",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/xml",
@@ -335,11 +276,11 @@ describe("useNormService", () => {
       const { useGetNormXml } = await import("./normService")
 
       const eli = ref("fake/eli/1")
-      useGetNormXml(eli, { at: new Date("2024-05-13") })
+      useGetNormXml(eli)
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1?atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          "/api/v1/norms/fake/eli/1?",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/xml",
@@ -351,7 +292,7 @@ describe("useNormService", () => {
       eli.value = "fake/eli/2"
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/2?atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          "/api/v1/norms/fake/eli/2?",
           expect.any(Object),
         )
       })

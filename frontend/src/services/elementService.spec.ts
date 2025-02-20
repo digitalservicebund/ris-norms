@@ -61,7 +61,7 @@ describe("useElementService", () => {
     const { useElementService } = await import("./elementService")
 
     const eli = ref("fake/eli/1")
-    useElementService(eli, "fake_eid", undefined, {
+    useElementService(eli, "fake_eid", {
       immediate: true,
       refetch: true,
     })
@@ -93,7 +93,7 @@ describe("useElementService", () => {
     const { useElementService } = await import("./elementService")
 
     const eid = ref("fake_eid")
-    useElementService("fake/eli/1", eid, undefined, {
+    useElementService("fake/eli/1", eid, {
       immediate: true,
       refetch: true,
     })
@@ -112,53 +112,13 @@ describe("useElementService", () => {
     const { useElementService } = await import("./elementService")
 
     const eli = ref("fake/eli/1")
-    useElementService(eli, "fake_eid", undefined, {
+    useElementService(eli, "fake_eid", {
       immediate: true,
       refetch: true,
     })
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
     eli.value = "fake/eli/2"
-    await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
-  })
-
-  it("loads with the date filter", async () => {
-    const fetchSpy = vi
-      .spyOn(window, "fetch")
-      .mockResolvedValue(new Response("{}"))
-
-    const { useElementService } = await import("./elementService")
-
-    const eli = ref("fake/eli/1")
-    const at = ref(new Date(2024, 5, 13))
-    useElementService(eli, "fake_eid", { at })
-
-    await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/fake/eli/1/elements/fake_eid?atIsoDate=2024-06-13T00%3A00%3A00.000Z",
-        expect.any(Object),
-      ),
-    )
-  })
-
-  it("reloads when the date filter changes", async () => {
-    const fetchSpy = vi
-      .spyOn(window, "fetch")
-      .mockResolvedValue(new Response("{}"))
-
-    const { useElementService } = await import("./elementService")
-
-    const eli = ref("fake/eli/1")
-    const at = ref(new Date(2024, 5, 13))
-    useElementService(
-      eli,
-      "fake_eid",
-      { at },
-      { immediate: true, refetch: true },
-    )
-    await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
-
-    at.value = new Date(2024, 4, 13)
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
 
@@ -179,7 +139,7 @@ describe("useElementService", () => {
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          "/api/v1/norms/fake/eli/1/elements/fake_eid",
           expect.objectContaining({
             headers: {
               Accept: "application/json",
@@ -202,7 +162,7 @@ describe("useElementService", () => {
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          "/api/v1/norms/fake/eli/1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/json",
@@ -214,7 +174,7 @@ describe("useElementService", () => {
       eli.value = "fake/eli/2"
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/2/elements/fake_eid?",
+          "/api/v1/norms/fake/eli/2/elements/fake_eid",
           expect.any(Object),
         )
       })
@@ -238,7 +198,7 @@ describe("useElementService", () => {
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          "/api/v1/norms/fake/eli/1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "text/html" }),
           }),
@@ -258,7 +218,7 @@ describe("useElementService", () => {
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          "/api/v1/norms/fake/eli/1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "text/html",
@@ -270,7 +230,7 @@ describe("useElementService", () => {
       eli.value = "fake/eli/2"
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/2/elements/fake_eid?",
+          "/api/v1/norms/fake/eli/2/elements/fake_eid",
           expect.any(Object),
         )
       })
