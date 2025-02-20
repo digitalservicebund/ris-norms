@@ -3,6 +3,7 @@
   "realm": "ris",
   "revokeRefreshToken": true,
   "refreshTokenMaxReuse": 0,
+  "accessTokenLifespan": 1800,
   "sslRequired": "none",
   "ssoSessionIdleTimeout": 432000,
   "ssoSessionMaxLifespan": 7776000,
