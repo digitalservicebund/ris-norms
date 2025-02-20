@@ -12,13 +12,13 @@ const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100 p-24">
-    <div class="mb-24 flex items-center justify-between">
+    <header class="mb-24 flex items-center justify-between">
       <h1 class="ris-heading2-regular">Verkündungen</h1>
       <RouterLink :to="{ name: 'UploadAnnouncement' }">
         <Button severity="primary" label="Verkündung manuell hinzufügen" />
       </RouterLink>
-    </div>
-    <div>
+    </header>
+    <main>
       <div v-if="error" class="w-1/2">
         <RisErrorCallout :error />
       </div>
@@ -42,6 +42,6 @@ const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
           />
         </RouterLink>
       </div>
-    </div>
+    </main>
   </div>
 </template>

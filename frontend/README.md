@@ -66,6 +66,18 @@ npm run test:e2e -- --project msedge --repeat-each 1
 
 Alternatively the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also explains how to run the e2e-tests inside a docker container.
 
+## Accessibility Testing (a11y)
+
+The project includes automated accessibility (a11y) testing using [axe-core](https://github.com/dequelabs/axe-core).
+
+### **Running Accessibility Tests**
+
+Make sure the frontend is running locally before executing the tests.
+
+```bash
+npm run test:a11y
+```
+
 ## Icons
 
 All icons in the [Google Material](https://icon-sets.iconify.design/ic) sets can be used.
