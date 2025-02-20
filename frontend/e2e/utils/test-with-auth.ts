@@ -11,11 +11,13 @@ export type Token = {
   // Omitted additional properties that are not needed for tests
 }
 
-export type AuthorizationHeader = { Authorization: string }
-
 let savedToken: Token
 
-async function getToken(request: APIRequestContext): Promise<Token> {
+async function getToken(
+  username: string,
+  password: string,
+  request: APIRequestContext,
+): Promise<Token> {
   if (!savedToken) {
     const tokenRequest = await request.post(
       "http://localhost:8443/realms/ris/protocol/openid-connect/token",
@@ -24,8 +26,8 @@ async function getToken(request: APIRequestContext): Promise<Token> {
           grant_type: "password",
           client_id: "ris-norms-local",
           client_secret: "ris-norms-local",
-          username: "jane.doe",
-          password: "test",
+          username,
+          password,
         },
       },
     )
@@ -53,9 +55,26 @@ export const test = base.extend<{
    * except that those requests will be authenticated with a previously saved token.
    */
   authenticatedRequest: APIRequestContext
+
+  /**
+   * Username and password of the example user that should be used in E2E tests.
+   */
+  appCredentials: { username: string; password: string }
 }>({
-  authenticatedRequest: async ({ playwright, request }, use) => {
-    const token = await getToken(request)
+  appCredentials: [
+    { username: "jane.doe", password: "test" },
+    { option: true },
+  ],
+
+  authenticatedRequest: async (
+    { playwright, request, appCredentials },
+    use,
+  ) => {
+    const token = await getToken(
+      appCredentials.username,
+      appCredentials.password,
+      request,
+    )
 
     const authenticatedRequest = await playwright.request.newContext({
       extraHTTPHeaders: {

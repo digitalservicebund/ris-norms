@@ -3,15 +3,17 @@ import { test as setup } from "@e2e/utils/test-with-auth"
 import fs from "fs"
 import path from "node:path"
 
-setup("login", async ({ page }) => {
+setup("login", async ({ page, appCredentials }) => {
   await page.goto("/")
   await page.waitForURL(/localhost:8443/)
 
   await page
     .getByRole("textbox", { name: "Username or email" })
-    .fill("jane.doe")
+    .fill(appCredentials.username)
 
-  await page.getByRole("textbox", { name: "Password" }).fill("test")
+  await page
+    .getByRole("textbox", { name: "Password" })
+    .fill(appCredentials.password)
 
   await page.getByRole("button", { name: "Sign In" }).click()
 
