@@ -10,7 +10,7 @@ export default defineConfig((context) =>
         setupFiles: ["src/vitest-setup.ts"],
         globals: true,
         environment: "jsdom",
-        exclude: [...configDefaults.exclude, "e2e/**/*.spec.ts"],
+        exclude: [...configDefaults.exclude, "e2e/**/*.spec.ts", "a11y/**/*"],
         css: {
           // Needed so we can reliably test for class names for CSS modules.
           // Otherwise scoped CSS classes would have an unreliable hash
@@ -35,6 +35,7 @@ export default defineConfig((context) =>
             // Tests
             "test/**/*",
             "e2e/**/*",
+            "a11y/**/*",
 
             // App content we're not interested in covering with unit tests. If you
             // add something here, please also add a comment explaining why the

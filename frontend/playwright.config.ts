@@ -69,6 +69,17 @@ const config = defineConfig<{
       dependencies: ["setup-msedge"],
     },
 
+    // Accessibility Test Project
+    {
+      name: "a11y",
+      testDir: "./a11y",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "e2e/storage/state.json",
+      },
+      dependencies: ["setup-chromium"],
+    },
+
     // Login-logout test projects
     {
       name: "login-logout-test-chromium",
