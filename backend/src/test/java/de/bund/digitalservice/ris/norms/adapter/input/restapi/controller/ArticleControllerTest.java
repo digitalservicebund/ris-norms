@@ -76,14 +76,8 @@ class ArticleControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
-        .andExpect(
-          jsonPath("$[0].affectedDocumentEli")
-            .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        )
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
-        .andExpect(jsonPath("$[1].affectedDocumentEli").doesNotExist())
-        .andExpect(jsonPath("$[1].affectedDocumentZf0Eli").doesNotExist())
         .andExpect(jsonPath("$[2]").doesNotExist());
 
       verify(loadArticlesFromDokumentUseCase, times(1))
@@ -176,11 +170,7 @@ class ArticleControllerTest {
         )
         // Then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
-        .andExpect(
-          jsonPath("affectedDocumentEli")
-            .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-        );
+        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"));
 
       verify(loadRegelungstextUseCase, times(1))
         .loadRegelungstext(

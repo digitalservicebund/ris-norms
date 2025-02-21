@@ -18,6 +18,4 @@ public class ArticleResponseSchema {
   private String eid;
 
   private String title;
-
-  private String affectedDocumentEli;
 }

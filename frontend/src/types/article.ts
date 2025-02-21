@@ -9,6 +9,4 @@ export interface Article {
   title: string
   /** List position of the article */
   enumeration: string
-  /** The ELI of the law that is changed by this article */
-  affectedDocumentEli?: string
 }
