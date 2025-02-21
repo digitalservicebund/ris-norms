@@ -36,23 +36,11 @@ export function useGetEntryIntoForceHtml(
  */
 export function useGetTemporalDataTimeBoundaries(
   eli: MaybeRefOrGetter<string | undefined>,
-  options?: {
-    /**
-     * If set, only returns elements if they are changed by the specified
-     * amending law. Should be the ELI of an amending law.
-     */
-    amendedBy?: MaybeRefOrGetter<string>
-  },
 ): UseFetchReturn<TemporalDataResponse[]> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
-    const amendedByVal = toValue(options?.amendedBy)
-    const query = new URLSearchParams()
-    if (amendedByVal) query.append("amendedBy", amendedByVal)
-    const queryString = query.toString()
-    const baseUrl = `/norms/${eliVal}/timeBoundaries`
-    return queryString ? `${baseUrl}?${queryString}` : baseUrl
+    return `/norms/${eliVal}/timeBoundaries`
   })
   return useApiFetch(url, {
     refetch: true,
