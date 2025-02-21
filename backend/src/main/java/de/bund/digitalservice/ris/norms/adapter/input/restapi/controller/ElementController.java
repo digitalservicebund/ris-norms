@@ -7,8 +7,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import java.time.Instant;
-import java.util.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,16 +33,13 @@ public class ElementController {
    *
    * @param eli Eli of the request
    * @param eid EID of the element to return
-   * @param atIsoDate Render the version of the law valid at the given date (with passive changes
-   *     applied up to that date)
    * @return A {@link ResponseEntity} containing the HTML.
    *     <p>Returns HTTP 400 (Bad Request) if ELI or EID can not be found
    */
   @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getElementHtmlPreview(
     final DokumentExpressionEli eli,
-    @PathVariable final String eid,
-    @RequestParam Optional<Instant> atIsoDate
+    @PathVariable final String eid
   ) {
     var elementHtml = loadElementHtmlUseCase.loadElementHtml(
       new LoadElementHtmlUseCase.Query(eli, eid)

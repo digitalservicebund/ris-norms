@@ -348,22 +348,5 @@ class ArticleControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().string("<div></div>"));
     }
-
-    @Test
-    void itReturnsArticleRenderAtIsoDate() throws Exception {
-      // Given
-      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn("<div></div>");
-      // when
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=2017-03-01T00:00:00.000Z"
-          )
-            .accept(MediaType.TEXT_HTML)
-        )
-        // Then
-        .andExpect(status().isOk())
-        .andExpect(content().string("<div></div>"));
-    }
   }
 }

@@ -41,11 +41,11 @@ describe("announcementService", () => {
         }),
       }))
 
-      const { useGetAmendingLaws } = await import(
+      const { useAnnouncementsService } = await import(
         "@/services/announcementService"
       )
 
-      const result = useGetAmendingLaws()
+      const result = useAnnouncementsService()
 
       const data = result.data.value!
 

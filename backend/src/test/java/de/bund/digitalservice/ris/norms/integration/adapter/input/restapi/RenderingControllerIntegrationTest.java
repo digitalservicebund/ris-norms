@@ -36,7 +36,7 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsRender() throws Exception {
       mockMvc
         .perform(
-          post("/api/v1/renderings?atIsoDate=2024-01-01T00:00:00.0Z")
+          post("/api/v1/renderings")
             .accept(MediaType.TEXT_HTML)
             .contentType(MediaType.APPLICATION_XML)
             .content(Fixtures.loadTextFromDisk("NormWithPassiveModifications.xml"))

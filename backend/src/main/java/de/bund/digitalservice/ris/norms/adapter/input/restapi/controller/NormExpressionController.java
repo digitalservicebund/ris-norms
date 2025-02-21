@@ -6,8 +6,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormRespons
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import java.time.Instant;
-import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,8 +74,6 @@ public class NormExpressionController {
    *
    * @param eli Eli of the request
    * @param showMetadata Boolean indicating whether to include metadata in the HTML response.
-   * @param atIsoDate ISO date string indicating which modifications should be applied before the
-   *     HTML gets rendered and returned.
    * @return A {@link ResponseEntity} containing the retrieved regelungstext as rendered html.
    *     <p>Returns HTTP 200 (OK) and the regelungstext as rendered html.
    *     <p>Returns HTTP 404 (Not Found) if the regelungstext is not found.
@@ -85,8 +81,7 @@ public class NormExpressionController {
   @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getNormRender(
     final DokumentExpressionEli eli,
-    @RequestParam(defaultValue = "false") boolean showMetadata,
-    @RequestParam Optional<Instant> atIsoDate
+    @RequestParam(defaultValue = "false") boolean showMetadata
   ) {
     var normXml = loadRegelungstextXmlUseCase.loadRegelungstextXml(
       new LoadRegelungstextXmlUseCase.Query(eli)
@@ -100,23 +95,23 @@ public class NormExpressionController {
   }
 
   /**
-   * Updates the XML representation of an amending law based on its expression ELI.
+   * Updates the XML representation of a Regelungstext based on its expression ELI.
    *
    * @param eli Eli of the request
-   * @param xml - the XML representation of the amending law
+   * @param xml - the XML representation of the Regelungstext
    * @return A {@link ResponseEntity} without any content if 204 or error response if 404.
    *     <p>Returns HTTP 200 (OK) with the saved XML as response payload.
-   *     <p>Returns HTTP 404 (Not Found) if the amending law is not found.
+   *     <p>Returns HTTP 404 (Not Found) if the Regelungstext is not found.
    */
   @PutMapping(consumes = { APPLICATION_XML_VALUE }, produces = { APPLICATION_XML_VALUE })
-  public ResponseEntity<String> updateAmendingLaw(
+  public ResponseEntity<String> updateRegelungstext(
     final DokumentExpressionEli eli,
     @RequestBody String xml
   ) {
-    var updatedAmendingLaw = updateRegelungstextXmlUseCase.updateRegelungstextXml(
+    var updatedRegelungstext = updateRegelungstextXmlUseCase.updateRegelungstextXml(
       new UpdateRegelungstextXmlUseCase.Query(eli, xml)
     );
 
-    return ResponseEntity.ok(updatedAmendingLaw);
+    return ResponseEntity.ok(updatedRegelungstext);
   }
 }

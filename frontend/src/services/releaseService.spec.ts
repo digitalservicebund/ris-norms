@@ -10,7 +10,7 @@ vi.mock("@/lib/auth", () => {
   }
 })
 
-describe("announcementReleaseService", () => {
+describe("releaseService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -32,7 +32,7 @@ describe("announcementReleaseService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify(expectedReleases)))
 
-      const { useGetReleases } = await import("./announcementReleaseService")
+      const { useGetReleases } = await import("./releaseService")
 
       const { isFinished, data } = useGetReleases(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -68,7 +68,7 @@ describe("announcementReleaseService", () => {
         .mockResolvedValueOnce(new Response(JSON.stringify(expectedReleases)))
         .mockResolvedValueOnce(new Response(JSON.stringify([])))
 
-      const { useGetReleases } = await import("./announcementReleaseService")
+      const { useGetReleases } = await import("./releaseService")
 
       const eli = ref(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -110,7 +110,7 @@ describe("announcementReleaseService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify(mockReleaseResponse)))
 
-      const { usePostRelease } = await import("./announcementReleaseService")
+      const { usePostRelease } = await import("./releaseService")
 
       const { data, execute } = usePostRelease(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -145,7 +145,7 @@ describe("announcementReleaseService", () => {
           new Response(JSON.stringify(mockReleaseResponse)),
         )
 
-      const { usePostRelease } = await import("./announcementReleaseService")
+      const { usePostRelease } = await import("./releaseService")
 
       const eli = ref(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",

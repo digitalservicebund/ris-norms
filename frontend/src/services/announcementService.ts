@@ -5,6 +5,6 @@ import { Norm } from "@/types/norm"
 /**
  * Load all announcements from the API.
  */
-export function useGetAmendingLaws(): UseFetchReturn<Norm[]> {
+export function useAnnouncementsService(): UseFetchReturn<Norm[]> {
   return useApiFetch("/announcements").json()
 }

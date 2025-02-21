@@ -4,10 +4,10 @@ import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
 
 /**
- * Fetches the HTML content of an amending law's entry into force section by ELI.
+ * Fetches the HTML content of a norm's entry into force section by ELI.
  * This function constructs a query to retrieve documents where the HTML content refers specifically to the "geltungszeitregel"
  *
- * @param eli ELI of the amending law
+ * @param eli ELI of the norm
  * @returns HTML string
  */
 export function useGetEntryIntoForceHtml(
@@ -30,29 +30,17 @@ export function useGetEntryIntoForceHtml(
 }
 
 /**
- * Fetches the temporal data time boundaries related to an amending law.
+ * Fetches the temporal data time boundaries related to a norm.
  *
  * @returns An Array of TimeBoundary objects each with a date, eventRefEid and temporalGroupEid strings
  */
 export function useGetTemporalDataTimeBoundaries(
   eli: MaybeRefOrGetter<string | undefined>,
-  options?: {
-    /**
-     * If set, only returns elements if they are changed by the specified
-     * amending law. Should be the ELI of an amending law.
-     */
-    amendedBy?: MaybeRefOrGetter<string>
-  },
 ): UseFetchReturn<TemporalDataResponse[]> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
-    const amendedByVal = toValue(options?.amendedBy)
-    const query = new URLSearchParams()
-    if (amendedByVal) query.append("amendedBy", amendedByVal)
-    const queryString = query.toString()
-    const baseUrl = `/norms/${eliVal}/timeBoundaries`
-    return queryString ? `${baseUrl}?${queryString}` : baseUrl
+    return `/norms/${eliVal}/timeBoundaries`
   })
   return useApiFetch(url, {
     refetch: true,
@@ -62,9 +50,9 @@ export function useGetTemporalDataTimeBoundaries(
 }
 
 /**
- * Updates the temporal data time boundaries related to an amending law by ELI. Will only fetch on execute.
+ * Updates the temporal data time boundaries related to a norm by ELI. Will only fetch on execute.
  *
- * @param eli ELI of the amending law
+ * @param eli ELI of the norm
  * @param dates Array of TimeBoundary objects
  * @returns An updated Array of TimeBoundary objects each with a date, eventRefEid, and temporalgroupEid strings
  */
