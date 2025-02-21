@@ -131,6 +131,7 @@ jobs:
   deploy-uat-job:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
+      - smoketest
       - deploy-staging-job
     permissions:
       id-token: write
@@ -144,6 +145,7 @@ jobs:
   deploy-production-job:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
+      - smoketest
       - deploy-uat-job
     permissions:
       id-token: write
