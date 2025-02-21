@@ -57,7 +57,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     key: "amendingNorm",
     title: () =>
       norm.value ? (getFrbrDisplayText(norm.value) ?? "...") : "...",
-    to: `/amending-laws/${normEli.value}/affected-documents`,
+    to: `/amending-laws/${normEli.value}`,
   },
   { key: "textMetadataEditor", title: "Textbasierte Metadaten" },
 ])
