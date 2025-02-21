@@ -86,14 +86,6 @@ const routes: readonly RouteRecordRaw[] = [
               ),
           },
           {
-            path: "affected-documents",
-            name: "AmendingLawAffectedDocuments",
-            component: () =>
-              import(
-                "@/views/amending-law/affected-documents/AffectedDocuments.view.vue"
-              ),
-          },
-          {
             path: "articles",
             name: "AmendingLawArticles",
             component: () =>
