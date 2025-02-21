@@ -2,12 +2,12 @@
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useArticles } from "@/services/articleService"
 import { onUnmounted } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 const { data: articles, isFetching, error } = useArticles(eli)
 
 const { pushBreadcrumb } = useHeaderContext()

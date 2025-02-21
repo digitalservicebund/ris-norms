@@ -6,7 +6,7 @@ import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useElementId } from "@/composables/useElementId"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useErrorToast } from "@/lib/errorToast"
 import {
@@ -33,7 +33,7 @@ import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
 import Select from "primevue/select"
 
-const dokumentExpressionEli = useEliPathParameter()
+const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
 const { actionTeleportTarget } = useHeaderContext()
 
 /* -------------------------------------------------- *

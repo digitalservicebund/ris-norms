@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useModHighlightClasses } from "@/composables/useTimeBoundaryHighlightClasses"
 import { useNormXml } from "@/composables/useNormXml"
 import { useGetNormHtml } from "@/services/normService"
@@ -11,7 +11,7 @@ import { useRouter } from "vue-router"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const router = useRouter()
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 
 const { isFetching, error, data: amendingLawHtml } = useGetNormHtml(eli)
 

@@ -3,11 +3,11 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
 import Message from "primevue/message"
 
-const dokumentExpressionEli = useEliPathParameter()
+const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
 const elementEid = useEidPathParameter()
 
 const {

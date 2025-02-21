@@ -3,16 +3,18 @@ import { useRoute } from "vue-router"
 
 /**
  * Returns a string containing a set of named path params that can be used
- * for creating a part of a route that specifies an ELI.
+ * for creating a part of a route that specifies a Dokument Expression ELI.
  *
- * Use in combination with `useEliPathParameter` to get the ELI from the
+ * Use in combination with `useDokumentExpressionEliPathParameter` to get the ELI from the
  * current route.
  *
  * @param prefix If provided, prefixes each named path param with the value.
  *  This allows you to have multiple ELIs in a single route.
  */
-export function createEliPathParameter(prefix?: string) {
-  const name = prefix ? `${prefix}Eli` : "eli"
+export function createDokumentExpressionEliPathParameter(prefix?: string) {
+  const name = prefix
+    ? `${prefix}DokumentExpressionEli`
+    : "dokumentExpressionEli"
 
   // The regular expressions for the parts of the ELI are based on the definitions
   // from LDML.de 1.7.2 for ELIs for "Verkündungsfassungen und Neufassungen". It was
@@ -34,15 +36,19 @@ export function createEliPathParameter(prefix?: string) {
 
 /**
  * Provides a reference to the ELI of the current route. This is reconstructed
- * from the named path params created by `createEliPathParameter`.
+ * from the named path params created by `createDokumentExpressionEliPathParameter`.
  *
  * @param prefix If provided, only returns the path parameters that use the
  *  specified prefix. This allows you to get multiple ELIs from a single route.
  * @returns A reference to the ELI of the current route
  */
-export function useEliPathParameter(prefix?: string): ComputedRef<string> {
+export function useDokumentExpressionEliPathParameter(
+  prefix?: string,
+): ComputedRef<string> {
   const { params } = useRoute()
-  const name = prefix ? `${prefix}Eli` : "eli"
+  const name = prefix
+    ? `${prefix}DokumentExpressionEli`
+    : "dokumentExpressionEli"
 
   const parameterNames = [
     `${name}Jurisdiction`,
@@ -60,7 +66,7 @@ export function useEliPathParameter(prefix?: string): ComputedRef<string> {
 
     if (parameterValues.some((value) => value === undefined)) {
       throw new Error(
-        `useEliPathParameter: You can only use this composable on pages which have an ELI${prefix ? " prefixed with " + prefix : ""} in their route`,
+        `useDokumentExpressionEliPathParameter: You can only use this composable on pages which have a DokumentExpressionELI${prefix ? " prefixed with " + prefix : ""} in their route`,
       )
     }
 

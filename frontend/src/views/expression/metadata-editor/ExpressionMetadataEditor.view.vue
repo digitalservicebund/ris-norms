@@ -2,7 +2,7 @@
 import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { ComputedRef, computed, ref, watch, nextTick } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
@@ -15,7 +15,7 @@ import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useRouter } from "vue-router"
 
 const router = useRouter()
-const expressionEli = useEliPathParameter()
+const expressionEli = useDokumentExpressionEliPathParameter()
 const selectedEid = useEidPathParameter()
 
 const {

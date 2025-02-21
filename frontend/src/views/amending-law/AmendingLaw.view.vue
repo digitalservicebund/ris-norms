@@ -6,7 +6,7 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 import { ref, watch } from "vue"
@@ -44,7 +44,7 @@ const menuItems: LevelOneMenuItem[] = [
   },
 ]
 
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 const { data: amendingLaw, isFetching, error } = useGetNorm(eli)
 watch(
   () => error.value,

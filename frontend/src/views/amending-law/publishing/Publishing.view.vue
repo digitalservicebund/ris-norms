@@ -3,7 +3,7 @@ import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useReleases } from "@/views/amending-law/publishing/useReleases"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import Button from "primevue/button"
 import Message from "primevue/message"
 import { computed, onUnmounted } from "vue"
@@ -12,7 +12,7 @@ const { pushBreadcrumb } = useHeaderContext()
 const cleanupBreadcrumbs = pushBreadcrumb({ title: "Abgabe" })
 onUnmounted(() => cleanupBreadcrumbs())
 
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 const {
   data: releases,
   release: {

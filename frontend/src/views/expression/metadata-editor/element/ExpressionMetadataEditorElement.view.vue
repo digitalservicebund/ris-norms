@@ -6,7 +6,7 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisRadioInput from "@/components/controls/RisRadioInput.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useElementId } from "@/composables/useElementId"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useErrorToast } from "@/lib/errorToast"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
@@ -20,7 +20,7 @@ import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
 
-const dokumentExpressionEli = useEliPathParameter()
+const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
 const elementEid = useEidPathParameter()
 const { actionTeleportTarget } = useHeaderContext()
 

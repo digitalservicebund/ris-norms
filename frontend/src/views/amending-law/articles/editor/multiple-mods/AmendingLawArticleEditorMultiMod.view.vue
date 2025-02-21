@@ -5,7 +5,7 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useTemporalData } from "@/composables/useTemporalData"
@@ -23,7 +23,7 @@ const props = defineProps<{
   selectedMods: string[]
 }>()
 
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 
 const mods = computed({
   get: () =>

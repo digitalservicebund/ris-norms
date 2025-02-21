@@ -4,7 +4,7 @@ import RisModForm from "@/views/amending-law/articles/editor/single-mods/RisModF
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { computed, ref } from "vue"
@@ -18,7 +18,7 @@ defineProps<{
   selectedMods: string[]
 }>()
 
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 
 const {
   data: timeBoundaries,

@@ -4,7 +4,7 @@ import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisTemporalDataIntervals from "@/views/amending-law/temporal-data/RisTemporalDataIntervals.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useErrorToast } from "@/lib/errorToast"
@@ -16,7 +16,7 @@ import { onUnmounted, ref, watch } from "vue"
 import { useRouter } from "vue-router"
 
 const router = useRouter()
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 const dates = ref<TemporalDataResponse[]>([])
 const {
   data: timeBoundaries,

@@ -1,4 +1,4 @@
-import { createEliPathParameter } from "@/composables/useEliPathParameter"
+import { createDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
 /**
@@ -18,7 +18,7 @@ const routes: readonly RouteRecordRaw[] = [
     redirect: { name: "AmendingLaws" },
   },
   {
-    path: `/${createEliPathParameter()}/metadata`,
+    path: `/${createDokumentExpressionEliPathParameter()}/metadata`,
     name: "ExpressionMetadataEditor",
     component: () =>
       import(
@@ -66,7 +66,7 @@ const routes: readonly RouteRecordRaw[] = [
           import("@/views/amending-law/upload/UploadAnnouncement.view.vue"),
       },
       {
-        path: createEliPathParameter(),
+        path: createDokumentExpressionEliPathParameter(),
         component: () => import("@/views/amending-law/AmendingLaw.view.vue"),
         children: [
           {
@@ -102,7 +102,7 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
+    path: `/amending-laws/${createDokumentExpressionEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
     name: "AmendingLawArticleEditor",
     component: () =>
       import(
@@ -128,7 +128,7 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/references/:refEid?`,
+    path: `/amending-laws/${createDokumentExpressionEliPathParameter()}/references/:refEid?`,
     name: "References",
     component: () =>
       import(

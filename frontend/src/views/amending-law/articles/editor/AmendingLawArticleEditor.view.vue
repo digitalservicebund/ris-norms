@@ -9,7 +9,7 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useArticle } from "@/views/amending-law/articles/editor/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useAknElementEidSelection } from "@/views/amending-law/articles/editor/useAknElementEidSelection"
 import { useModHighlightClasses } from "@/composables/useTimeBoundaryHighlightClasses"
 import { useNormRenderHtml } from "@/composables/useNormRender"
@@ -28,7 +28,7 @@ import { useModEidPathParameter } from "@/views/amending-law/articles/editor/use
 
 const router = useRouter()
 const eid = useEidPathParameter()
-const eli = useEliPathParameter()
+const eli = useDokumentExpressionEliPathParameter()
 const {
   data: amendingLaw,
   isFetching: isFetchingAmendingLaw,

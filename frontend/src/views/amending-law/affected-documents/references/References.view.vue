@@ -5,7 +5,7 @@ import RisHeader, {
 } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisRefsEditor from "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
@@ -16,7 +16,7 @@ import { useRouter } from "vue-router"
  * Previews                                           *
  * -------------------------------------------------- */
 
-const normEli = useEliPathParameter()
+const normEli = useDokumentExpressionEliPathParameter()
 const {
   data: norm,
   isFetching: normIsLoading,
