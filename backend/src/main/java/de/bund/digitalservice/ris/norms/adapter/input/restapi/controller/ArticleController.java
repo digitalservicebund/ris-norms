@@ -7,9 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResp
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,24 +43,15 @@ public class ArticleController {
   }
 
   /**
-   * Retrieves all articles of a norm based on its expression ELI. The ELI's components are
-   * interpreted as query parameters.
+   * Retrieves all articles of a norm based on its expression ELI.
    *
    * @param eli Eli of the request
-   * @param amendedBy Filter the articles to articles amended by the given norm. Must be the eli of
-   *     the amending norm.
-   * @param amendedAt Filter the articles to articles amended at the given livecycle event. Must be
-   *     the eid of the livecycle event.
    * @return A {@link ResponseEntity} containing the retrieved norm.
    *     <p>Returns HTTP 200 (OK) and the norm if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
-  public ResponseEntity<List<ArticleResponseSchema>> getArticles(
-    final DokumentExpressionEli eli,
-    @RequestParam final Optional<DokumentExpressionEli> amendedBy,
-    @RequestParam final Optional<String> amendedAt
-  ) {
+  public ResponseEntity<List<ArticleResponseSchema>> getArticles(final DokumentExpressionEli eli) {
     final var articlesWithZf0 = loadArticlesFromDokumentUseCase
       .loadArticlesFromDokument(new LoadArticlesFromDokumentUseCase.Query(eli))
       .stream()
@@ -138,13 +127,10 @@ public class ArticleController {
   }
 
   /**
-   * Retrieves an article of a norm based on the norms expression ELI and the articles eid. The
-   * ELI's components are interpreted as query parameters.
+   * Retrieves an article of a norm based on the norms expression ELI and the articles eid.
    *
    * @param eli Eli of the request
    * @param eid eid of the article
-   * @param atIsoDate ISO date string indicating which modifications should be applied before the
-   *     HTML gets rendered and returned.
    * @return A {@link ResponseEntity} containing the retrieved article as rendered HTML.
    *     <p>Returns HTTP 200 (OK) and the rendered HTML if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -152,8 +138,7 @@ public class ArticleController {
   @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getArticleRender(
     final DokumentExpressionEli eli,
-    @PathVariable final String eid,
-    @RequestParam Optional<Instant> atIsoDate
+    @PathVariable final String eid
   ) {
     var query = new LoadArticleHtmlUseCase.Query(eli, eid);
     var articleHtml = loadArticleHtmlUseCase.loadArticleHtml(query);

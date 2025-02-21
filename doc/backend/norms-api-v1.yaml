@@ -189,14 +189,6 @@ paths:
           example: "hauptteil-1_art-3"
           schema:
             type: string
-        - name: atIsoDate
-          in: query
-          required: false
-          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
-          example: "2017-03-01T00:00:00.000Z"
-          schema:
-            type: string
-            format: date-time
       responses:
         "200":
           description: "The element inside the norm"
@@ -281,12 +273,6 @@ paths:
           description: eId of the article
           schema:
             type: string
-        - name: atIsoDate
-          in: query
-          schema:
-            type: string
-            format: date-time
-          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         "200":
           description: The article with the requested eId

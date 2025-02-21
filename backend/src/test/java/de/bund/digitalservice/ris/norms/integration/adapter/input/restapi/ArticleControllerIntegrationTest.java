@@ -460,65 +460,6 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsServerErrorForInvalidIsoDate() throws Exception {
-      // Given
-
-      // When / Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=thisIsNotADate"
-          )
-            .accept(MediaType.TEXT_HTML)
-        )
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("type").value("/errors/parameter-binding-error"))
-        .andExpect(jsonPath("title").value("Parameter Binding Error"))
-        .andExpect(jsonPath("status").value(400))
-        .andExpect(jsonPath("detail").value("Invalid request parameter: thisIsNotADate"))
-        .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20"
-            )
-        );
-    }
-
-    @Test
-    void itReturnsNotFoundIfNormDoesntExist() throws Exception {
-      // Given
-      // Nothing
-
-      // When / Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20?atIsoDate=2017-03-01T00:00:00.000Z"
-          )
-            .accept(MediaType.TEXT_HTML)
-        )
-        .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
-        .andExpect(jsonPath("title").value("Norm not found"))
-        .andExpect(jsonPath("status").value(404))
-        .andExpect(
-          jsonPath("detail")
-            .value(
-              "Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1 does not exist"
-            )
-        )
-        .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-20"
-            )
-        )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
-        );
-    }
-
-    @Test
     void itReturnsNotFoundIfArticleDoesntExist() throws Exception {
       // Given
       dokumentRepository.save(
@@ -534,7 +475,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-9999?atIsoDate=2017-03-01T00:00:00.000Z"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
           )
             .accept(MediaType.TEXT_HTML)
         )

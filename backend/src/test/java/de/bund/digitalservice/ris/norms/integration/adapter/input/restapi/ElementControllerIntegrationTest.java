@@ -126,32 +126,6 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("Änderung des Vereinsgesetzes")));
     }
-
-    @Test
-    void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
-      // Given
-      // Nothing
-
-      // When / Then
-      mockMvc
-        .perform(
-          get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_art-20?atIsoDate=INVALID"
-          )
-            .accept(MediaType.TEXT_HTML)
-        )
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("type").value("/errors/parameter-binding-error"))
-        .andExpect(jsonPath("title").value("Parameter Binding Error"))
-        .andExpect(jsonPath("status").value(400))
-        .andExpect(jsonPath("detail").value("Invalid request parameter: INVALID"))
-        .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_art-20"
-            )
-        );
-    }
   }
 
   @Nested
