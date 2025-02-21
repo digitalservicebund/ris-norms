@@ -24,7 +24,6 @@ describe("useArticle", () => {
           eid: "article eid 1",
           title: "article eid 1",
           enumeration: "Artikel 1",
-          affectedDocumentEli: "example/eli",
         }),
       ),
     )

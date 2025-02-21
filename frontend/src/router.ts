@@ -86,14 +86,6 @@ const routes: readonly RouteRecordRaw[] = [
               ),
           },
           {
-            path: "affected-documents",
-            name: "AmendingLawAffectedDocuments",
-            component: () =>
-              import(
-                "@/views/amending-law/affected-documents/AffectedDocuments.view.vue"
-              ),
-          },
-          {
             path: "articles",
             name: "AmendingLawArticles",
             component: () =>
@@ -136,7 +128,7 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/references/:refEid?`,
+    path: `/amending-laws/${createEliPathParameter()}/references/:refEid?`,
     name: "References",
     component: () =>
       import(
