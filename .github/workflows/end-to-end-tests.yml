@@ -49,12 +49,12 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-      - name: Run e2e tests in ${{ inputs.project }} against localhost
+      - name: Run E2E tests in ${{ inputs.project }} against localhost
         env:
           E2E_BASE_URL: "http://localhost:5173"
           TZ: "Europe/Berlin"
         run: |
-          echo "Running e2e tests for ${{ inputs.project }}"
+          echo "Running E2E tests for ${{ inputs.project }}"
           npm run build
           npm run preview -- --port 5173 &
           DEV_PID=$!

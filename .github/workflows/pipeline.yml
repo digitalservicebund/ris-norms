@@ -18,7 +18,7 @@ jobs:
 
   backend-jobs:
     permissions:
-      security-events: write # upload-sarif
+      security-events: write
       packages: write
       id-token: write
       contents: read
@@ -27,11 +27,11 @@ jobs:
       container-registry: ghcr.io
       container-image-name: ${{ github.repository }}
       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
-    secrets: inherit # e.g. sonar token
+    secrets: inherit
 
   frontend-jobs:
     permissions:
-      security-events: write # upload-sarif
+      security-events: write
       packages: write
       id-token: write
       contents: read
@@ -45,16 +45,16 @@ jobs:
       container-registry: ghcr.io
       container-image-name: ${{ github.repository }}
       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
-    secrets: inherit # e.g. sonar token
+    secrets: inherit
 
   ldml-extension-jobs:
     uses: ./.github/workflows/ldml-extension-jobs.yml
-    secrets: inherit # e.g. sonar token
+    secrets: inherit
 
   create-docker-image-job:
     if: ${{ github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'dev-env') || contains(github.event.labeled.labels.*.name, 'dev-env') }}
     permissions:
-      security-events: write # upload-sarif
+      security-events: write
       packages: write
       id-token: write
       contents: read
@@ -63,7 +63,7 @@ jobs:
       container-registry: ghcr.io
       container-image-name: ${{ github.repository }}
       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
-    secrets: inherit # e.g. sonar token
+    secrets: inherit
 
   push-docker-image-job:
     if: ${{ github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'dev-env') || contains(github.event.labeled.labels.*.name, 'dev-env') }}
@@ -73,7 +73,7 @@ jobs:
       - create-docker-image-job
       - e2e-tests
     permissions:
-      security-events: write # upload-sarif
+      security-events: write
       packages: write
       id-token: write
       contents: read
@@ -82,12 +82,12 @@ jobs:
       container-registry: ghcr.io
       container-image-name: ${{ github.repository }}
       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
-    secrets: inherit # e.g. sonar token
+    secrets: inherit
 
   # ######################
-  # # Check time for automatic deployments
-  # # Should only deploy automatically outside the hours when publication job is running (starts 23:00 UTC and finishes in around 3,5 hours),
-  # # meaning not between 22:30 UTC and 3:00 UTC
+  # Check time for automatic deployments
+  # Should only deploy automatically outside the hours when publication job is running (starts 23:00 UTC and finishes in around 3,5 hours),
+  # meaning not between 22:30 UTC and 3:00 UTC
   # ######################
 
   check-auto-deploy:
@@ -108,7 +108,7 @@ jobs:
           fi
 
   # ######################
-  # # Deploy new versions to staging
+  # Deploy new versions to staging
   # ######################
 
   deploy-staging-job:
@@ -125,7 +125,7 @@ jobs:
     secrets: inherit
 
   # ######################
-  # # Deploy new versions to uat
+  # Deploy new versions to uat
   # ######################
 
   deploy-uat-job:
@@ -138,7 +138,7 @@ jobs:
     secrets: inherit
 
   # ######################
-  # # Deploy new versions to production
+  # Deploy new versions to production
   # ######################
 
   deploy-production-job:
@@ -151,7 +151,7 @@ jobs:
     secrets: inherit
 
   # ########################
-  # # e2e test jobs
+  # e2e test jobs
   # ########################
 
   setup-e2e-tests:
@@ -209,7 +209,7 @@ jobs:
   trivy-scan:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write # upload-sarif
+      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -345,7 +345,7 @@ jobs:
           filePath: tmp/backend-code-documentation
           destinationDir: norms-code-documentation/java
           reportIsDirectory: true
-      # e2e test report
+      # E2E test report
       - name: E2E test reports - Download
         uses: actions/download-artifact@v4
         with:
