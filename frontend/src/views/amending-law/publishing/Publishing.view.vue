@@ -2,7 +2,7 @@
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import { useAmendingLawReleases } from "@/views/amending-law/publishing/useAmendingLawReleases"
+import { useReleases } from "@/views/amending-law/publishing/useReleases"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import Button from "primevue/button"
 import Message from "primevue/message"
@@ -23,7 +23,7 @@ const {
   isFetching,
   error: fetchError,
   statusCode: fetchStatusCode,
-} = useAmendingLawReleases(eli)
+} = useReleases(eli)
 
 async function onRelease() {
   await releaseAmendingLaw()

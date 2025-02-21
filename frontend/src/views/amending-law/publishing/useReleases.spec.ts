@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { nextTick, ref } from "vue"
-import * as announcementReleaseService from "@/services/announcementReleaseService"
-import { AmendingLawRelease } from "@/types/amendingLawRelease"
+import * as announcementReleaseService from "@/services/releaseService"
+import { Release } from "@/types/release"
 import { UseFetchReturn } from "@vueuse/core"
 
-describe("useAmendingLawReleases", () => {
+describe("useReleases", () => {
   beforeEach(() => {
     vi.resetAllMocks()
   })
@@ -17,22 +17,22 @@ describe("useAmendingLawReleases", () => {
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/2024-01-01/regelungstext-1.xml",
       ],
     }
-    const dataRef = ref<AmendingLawRelease[]>([])
+    const dataRef = ref<Release[]>([])
 
     vi.spyOn(announcementReleaseService, "useGetReleases").mockReturnValue({
       data: dataRef,
-    } as UseFetchReturn<AmendingLawRelease[]>)
+    } as UseFetchReturn<Release[]>)
 
     vi.spyOn(announcementReleaseService, "usePostRelease").mockReturnValue({
       data: ref(),
-    } as UseFetchReturn<AmendingLawRelease>)
+    } as UseFetchReturn<Release>)
 
-    const { useAmendingLawReleases } = await import(
-      "@/views/amending-law/publishing/useAmendingLawReleases"
+    const { useReleases } = await import(
+      "@/views/amending-law/publishing/useReleases"
     )
 
     const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
-    const { data } = useAmendingLawReleases(eli)
+    const { data } = useReleases(eli)
     dataRef.value = [mockReleaseStatus]
     await nextTick()
 
@@ -47,31 +47,31 @@ describe("useAmendingLawReleases", () => {
       ],
     }
 
-    const getDataRef = ref<AmendingLawRelease[]>([])
+    const getDataRef = ref<Release[]>([])
     vi.spyOn(announcementReleaseService, "useGetReleases").mockReturnValue({
       data: getDataRef,
       execute: vi.fn().mockImplementation(() => {
         getDataRef.value = [newRelease]
       }),
-    } as unknown as UseFetchReturn<AmendingLawRelease[]>)
+    } as unknown as UseFetchReturn<Release[]>)
 
-    const dataRef = ref<AmendingLawRelease | null>(null)
+    const dataRef = ref<Release | null>(null)
     vi.spyOn(announcementReleaseService, "usePostRelease").mockReturnValue({
       data: dataRef,
       execute: vi.fn().mockImplementation(() => {
         dataRef.value = newRelease
       }),
-    } as unknown as UseFetchReturn<AmendingLawRelease>)
+    } as unknown as UseFetchReturn<Release>)
 
-    const { useAmendingLawReleases } = await import(
-      "@/views/amending-law/publishing/useAmendingLawReleases"
+    const { useReleases } = await import(
+      "@/views/amending-law/publishing/useReleases"
     )
 
     const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
     const {
       data,
       release: { execute },
-    } = useAmendingLawReleases(eli)
+    } = useReleases(eli)
 
     await execute()
     expect(data.value).toEqual([newRelease])

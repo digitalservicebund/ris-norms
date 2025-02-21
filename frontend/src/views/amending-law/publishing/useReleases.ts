@@ -1,8 +1,5 @@
-import {
-  useGetReleases,
-  usePostRelease,
-} from "@/services/announcementReleaseService"
-import { AmendingLawRelease } from "@/types/amendingLawRelease"
+import { useGetReleases, usePostRelease } from "@/services/releaseService"
+import { Release } from "@/types/release"
 import { Ref, ref, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
 
@@ -11,12 +8,10 @@ import { UseFetchReturn } from "@vueuse/core"
  *
  * @param eli Law from which the information should be taken
  */
-export function useAmendingLawReleases(eli: Ref<string>): UseFetchReturn<
-  AmendingLawRelease[]
-> & {
-  release: UseFetchReturn<AmendingLawRelease>
+export function useReleases(eli: Ref<string>): UseFetchReturn<Release[]> & {
+  release: UseFetchReturn<Release>
 } {
-  const data: Ref<AmendingLawRelease[]> = ref([])
+  const data: Ref<Release[]> = ref([])
 
   const getReleases = useGetReleases(eli)
   watch(getReleases.data, () => {

@@ -1,5 +1,5 @@
 import { useApiFetch } from "@/services/apiService"
-import { AmendingLawRelease } from "@/types/amendingLawRelease"
+import { Release } from "@/types/release"
 import { computed, MaybeRefOrGetter, toValue } from "vue"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 
@@ -20,8 +20,8 @@ function useReleaseService<T>(
  */
 export function useGetReleases(
   eli: MaybeRefOrGetter<string>,
-): UseFetchReturn<AmendingLawRelease[]> {
-  return useReleaseService<AmendingLawRelease[]>(eli, {
+): UseFetchReturn<Release[]> {
+  return useReleaseService<Release[]>(eli, {
     refetch: true,
   }).get()
 }
@@ -33,8 +33,8 @@ export function useGetReleases(
  */
 export function usePostRelease(
   eli: MaybeRefOrGetter<string>,
-): UseFetchReturn<AmendingLawRelease> {
-  return useReleaseService<AmendingLawRelease>(eli, {
+): UseFetchReturn<Release> {
+  return useReleaseService<Release>(eli, {
     immediate: false,
   }).post()
 }
