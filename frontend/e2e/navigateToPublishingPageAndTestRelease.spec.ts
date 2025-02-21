@@ -1,4 +1,4 @@
-import { test } from "@e2e/utils/test-with-auth"
+import { test } from "@e2e/utils/testWithAuth"
 import { expect, Page } from "@playwright/test"
 
 test.describe(

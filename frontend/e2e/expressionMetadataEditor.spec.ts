@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test"
-import { test } from "@e2e/utils/test-with-auth"
+import { test } from "@e2e/utils/testWithAuth"
 
 test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
   // Opening the page is tested in expression-metadata-editor-rahmen.spec.ts as that's

@@ -1,5 +1,5 @@
 import { APIRequestContext, Page, expect } from "@playwright/test"
-import { test } from "@e2e/utils/test-with-auth"
+import { test } from "@e2e/utils/testWithAuth"
 
 test.describe("navigate to temporal data page", () => {
   test("navigate to temporal data page for an amending law using side navigation", async ({

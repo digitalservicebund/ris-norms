@@ -1,4 +1,4 @@
-import { test } from "@e2e/utils/test-with-auth"
+import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
 test.describe("404 Page", () => {

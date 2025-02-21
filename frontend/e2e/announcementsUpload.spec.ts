@@ -1,7 +1,7 @@
 /* eslint-disable playwright/no-raw-locators */
-import { samplesDirectory } from "@e2e/utils/samples-directory"
-import { test } from "@e2e/utils/test-with-auth"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
+import { samplesDirectory } from "@e2e/utils/samplesDirectory"
+import { test } from "@e2e/utils/testWithAuth"
+import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
 import { expect } from "@playwright/test"
 import fs from "fs"
 import path from "node:path"

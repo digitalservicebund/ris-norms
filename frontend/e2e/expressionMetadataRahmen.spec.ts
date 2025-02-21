@@ -1,8 +1,8 @@
 import { RahmenProprietary } from "@/types/proprietary"
 import { expect } from "@playwright/test"
-import { test } from "@e2e/utils/test-with-auth"
-import { MetadataEditorRahmenPage } from "@e2e/pages/MetadataEditorRahmenPage"
-import { uploadAmendingLaw } from "@e2e/utils/upload-with-force"
+import { test } from "@e2e/utils/testWithAuth"
+import { MetadataEditorRahmenPage } from "@e2e/pages/metadataEditorRahmen"
+import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
 
 test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   test("displays the title and preview", async ({ page }) => {

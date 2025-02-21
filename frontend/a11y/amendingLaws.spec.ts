@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test"
-import { useAxeBuilder, logAccessibilityViolations } from "./a11y-utils"
+import { useAxeBuilder, logAccessibilityViolations } from "./a11yUtils"
 
 test.describe(
   "Accessibility check for Announcements Page",

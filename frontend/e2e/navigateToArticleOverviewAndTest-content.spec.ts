@@ -1,5 +1,5 @@
 import { amendingLaws } from "@e2e/testData/testData"
-import { test } from "@e2e/utils/test-with-auth"
+import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
 test.describe("Articles page", () => {

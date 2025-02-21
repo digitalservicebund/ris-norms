@@ -1,6 +1,6 @@
 import { ElementProprietary } from "@/types/proprietary"
 import { Locator, Page, expect } from "@playwright/test"
-import { test } from "@e2e/utils/test-with-auth"
+import { test } from "@e2e/utils/testWithAuth"
 
 async function restoreInitialState(page: Page) {
   const dataIn2023: ElementProprietary = {
