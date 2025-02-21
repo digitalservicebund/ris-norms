@@ -37,6 +37,7 @@ const config = defineConfig<{
       use: { ...devices["Desktop Edge"], channel: "msedge" },
       testMatch: /.*.setup.ts$/,
     },
+
     {
       name: "chromium",
       use: {
@@ -44,7 +45,6 @@ const config = defineConfig<{
         storageState: "e2e/storage/state.json",
       },
       timeout: 30000,
-      testIgnore: "e2e/loginAndLogout.spec.ts",
       dependencies: ["setup-chromium"],
     },
     {
@@ -54,7 +54,6 @@ const config = defineConfig<{
         storageState: "e2e/storage/state.json",
       },
       timeout: 30000,
-      testIgnore: "e2e/loginAndLogout.spec.ts",
       dependencies: ["setup-firefox"],
     },
     {
@@ -65,7 +64,6 @@ const config = defineConfig<{
         storageState: "e2e/storage/state.json",
       },
       timeout: 30000,
-      testIgnore: "e2e/loginAndLogout.spec.ts",
       dependencies: ["setup-msedge"],
     },
 
@@ -78,24 +76,6 @@ const config = defineConfig<{
         storageState: "e2e/storage/state.json",
       },
       dependencies: ["setup-chromium"],
-    },
-
-    // Login-logout test projects
-    {
-      name: "login-logout-test-chromium",
-      use: { ...devices["Desktop Chrome"] },
-      testMatch: "e2e/loginAndLogout.spec.ts",
-    },
-    {
-      name: "login-logout-test-firefox",
-      use: { ...devices["Desktop Firefox"] },
-      testMatch: "e2e/loginAndLogout.spec.ts",
-    },
-    {
-      name: "login-logout-test-msedge",
-      use: { ...devices["Desktop Edge"], channel: "msedge" },
-      timeout: 30000,
-      testMatch: "e2e/loginAndLogout.spec.ts",
     },
   ],
 })
