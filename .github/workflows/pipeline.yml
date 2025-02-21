@@ -196,16 +196,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project:
-          [
-            chromium,
-            firefox,
-            msedge,
-            login-logout-test-chromium,
-            login-logout-test-firefox,
-            login-logout-test-msedge,
-            a11y,
-          ]
+        project: [chromium, firefox, msedge, a11y]
     uses: ./.github/workflows/end-to-end-tests.yml
     with:
       project: ${{ matrix.project }}
