@@ -33,6 +33,14 @@ const menuItems: LevelOneMenuItem[] = [
         route: { name: "AmendingLawAffectedDocuments" },
       },
       {
+        label: "Verweise",
+        route: { name: "References" },
+      },
+      {
+        label: "Metadaten",
+        route: { name: "ExpressionMetadataEditorRahmen" },
+      },
+      {
         label: "Abgabe",
         route: { name: "AmendingLawPublishing" },
       },

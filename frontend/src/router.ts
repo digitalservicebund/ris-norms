@@ -136,7 +136,7 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/references/:refEid?`,
+    path: `/amending-laws/${createEliPathParameter()}/references/:refEid?`,
     name: "References",
     component: () =>
       import(
