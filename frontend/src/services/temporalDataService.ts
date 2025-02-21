@@ -4,10 +4,10 @@ import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
 
 /**
- * Fetches the HTML content of an amending law's entry into force section by ELI.
+ * Fetches the HTML content of a norm's entry into force section by ELI.
  * This function constructs a query to retrieve documents where the HTML content refers specifically to the "geltungszeitregel"
  *
- * @param eli ELI of the amending law
+ * @param eli ELI of the norm
  * @returns HTML string
  */
 export function useGetEntryIntoForceHtml(
@@ -30,7 +30,7 @@ export function useGetEntryIntoForceHtml(
 }
 
 /**
- * Fetches the temporal data time boundaries related to an amending law.
+ * Fetches the temporal data time boundaries related to a norm.
  *
  * @returns An Array of TimeBoundary objects each with a date, eventRefEid and temporalGroupEid strings
  */
@@ -50,9 +50,9 @@ export function useGetTemporalDataTimeBoundaries(
 }
 
 /**
- * Updates the temporal data time boundaries related to an amending law by ELI. Will only fetch on execute.
+ * Updates the temporal data time boundaries related to a norm by ELI. Will only fetch on execute.
  *
- * @param eli ELI of the amending law
+ * @param eli ELI of the norm
  * @param dates Array of TimeBoundary objects
  * @returns An updated Array of TimeBoundary objects each with a date, eventRefEid, and temporalgroupEid strings
  */

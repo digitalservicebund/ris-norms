@@ -33,8 +33,7 @@ public class TimeBoundaryController {
   }
 
   /**
-   * Retrieves time boundaries for a regelungstext based on its ELI with an optional filtering by the eli of
-   * an amending law.
+   * Retrieves time boundaries for a regelungstext based on its ELI.
    *
    * <p>The method constructs an ELI from the provided path variables, queries the use case to
    * retrieve time boundaries, and maps the resulting data to {@link TimeBoundarySchema}. If no data
