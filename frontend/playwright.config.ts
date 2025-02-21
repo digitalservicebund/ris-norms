@@ -87,6 +87,16 @@ const config = defineConfig<{
       dependencies: ["setup-chromium"],
       testDir: "./e2e/a11y",
     },
+
+    // Smoke tests
+    {
+      name: "smoketest",
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: process.env.E2E_SMOKETEST_BASE_URL,
+      },
+      testDir: "./e2e/smoketest",
+    },
   ],
 })
 
