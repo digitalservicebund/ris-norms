@@ -38,10 +38,9 @@ setup("create sample data", async ({ authenticatedRequest: request }) => {
     formData.append("file", new Blob([fileContent], { type: "text/xml" }), file)
     formData.append("force", String(true))
 
-    const response = await request.post(
-      `${process.env.E2E_BASE_URL}/api/v1/announcements`,
-      { multipart: formData },
-    )
+    const response = await request.post(`/api/v1/announcements`, {
+      multipart: formData,
+    })
 
     if (!response.ok()) {
       throw new Error(`Failed to set up test data: ${response.statusText()}`)
