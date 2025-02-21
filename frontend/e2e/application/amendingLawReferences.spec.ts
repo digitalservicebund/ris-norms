@@ -1,6 +1,6 @@
+import { selectText } from "@e2e/utils/selectText"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
-import { selectText } from "./utils/selectText"
 
 test("navigate to amending law references page without selected mods", async ({
   page,

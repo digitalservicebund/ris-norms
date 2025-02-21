@@ -6,7 +6,6 @@ dotenv.config({ path: [".env.local", ".env"] })
 const config = defineConfig<{
   appCredentials: { username: string; password: string }
 }>({
-  testDir: "./e2e",
   timeout: 10000,
   retries: process.env.CI === "true" ? 1 : 0,
   workers: 1,
@@ -26,16 +25,19 @@ const config = defineConfig<{
       name: "setup-chromium",
       use: { ...devices["Desktop Chrome"] },
       testMatch: /.*.setup.ts$/,
+      testDir: "./e2e/globalSetup",
     },
     {
       name: "setup-firefox",
       use: { ...devices["Desktop Firefox"] },
       testMatch: /.*.setup.ts$/,
+      testDir: "./e2e/globalSetup",
     },
     {
       name: "setup-msedge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
       testMatch: /.*.setup.ts$/,
+      testDir: "./e2e/globalSetup",
     },
 
     {
@@ -46,6 +48,7 @@ const config = defineConfig<{
       },
       timeout: 30000,
       dependencies: ["setup-chromium"],
+      testDir: "./e2e/application",
     },
     {
       name: "firefox",
@@ -55,6 +58,7 @@ const config = defineConfig<{
       },
       timeout: 30000,
       dependencies: ["setup-firefox"],
+      testDir: "./e2e/application",
     },
     {
       name: "msedge",
@@ -65,17 +69,18 @@ const config = defineConfig<{
       },
       timeout: 30000,
       dependencies: ["setup-msedge"],
+      testDir: "./e2e/application",
     },
 
     // Accessibility Test Project
     {
       name: "a11y",
-      testDir: "./a11y",
       use: {
         ...devices["Desktop Chrome"],
         storageState: "e2e/storage/state.json",
       },
       dependencies: ["setup-chromium"],
+      testDir: "./e2e/a11y",
     },
   ],
 })
