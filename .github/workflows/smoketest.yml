@@ -1,0 +1,50 @@
+on:
+  workflow_call:
+
+jobs:
+  test-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        id: restore-node-modules
+        with:
+          path: ./frontend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/package-lock.json') }}
+      - name: Get Playwright version
+        working-directory: ./frontend
+        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
+      - name: Restore Playwright browser binaries
+        uses: actions/cache@v4
+        id: restore-browser-binaries
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Run smoke tests
+        working-directory: ./frontend
+        env:
+          E2E_SMOKETEST_BASE_URL: ${{ secrets.STAGING_URL }}
+          TZ: "Europe/Berlin"
+        run: |
+          echo "Running smoke tests"
+          npm run test:smoke
+      - name: Upload screenshots and traces of failed tests
+        uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with:
+          name: failed-smoketests
+          path: ./frontend/test-results/**/*.png
+            ./frontend/test-results/**/trace.zip
+      - name: Upload test result blobs reports
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results-blob-e2e-${{ inputs.project }}
+          path: ./frontend/blob-report/test-report.zip
+          retention-days: 1
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
