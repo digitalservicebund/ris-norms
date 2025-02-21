@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test"
-import { useAxeBuilder, logAccessibilityViolations } from "./a11y.utils"
+import { useAxeBuilder, logAccessibilityViolations } from "./a11y-utils"
 
 test.describe("Accessibility check for Announcements Page", () => {
   test("Should have no detectable accessibility violations", async ({

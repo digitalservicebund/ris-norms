@@ -58,11 +58,7 @@ jobs:
           npm run build
           npm run preview -- --port 5173 &
           DEV_PID=$!
-          if [[ "${{ inputs.project }}" == "a11y" ]]; then
-            npm run test:a11y
-          else
-            npm run test:e2e -- --project ${{ inputs.project }} --repeat-each 1
-          fi
+          npm run test:e2e -- --project ${{ inputs.project }} --repeat-each 1
           pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests

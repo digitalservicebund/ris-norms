@@ -70,7 +70,7 @@ Alternatively the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also expl
 
 The project includes automated accessibility (a11y) testing using [axe-core](https://github.com/dequelabs/axe-core).
 
-### **Running Accessibility Tests**
+### Running Accessibility Tests
 
 Make sure the frontend is running locally before executing the tests.
 
