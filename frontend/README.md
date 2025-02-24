@@ -66,16 +66,26 @@ npm run test:e2e -- --project msedge --repeat-each 1
 
 Alternatively the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also explains how to run the e2e-tests inside a docker container.
 
-## Accessibility Testing (a11y)
+## Accessibility Tests (a11y)
 
-The project includes automated accessibility (a11y) testing using [axe-core](https://github.com/dequelabs/axe-core).
+The project includes automated accessibility (a11y) testing using [axe-core](https://github.com/dequelabs/axe-core). Accessibility tests also use Playwright, so everything about E2E tests also applies.
 
-### Running Accessibility Tests
-
-Make sure the frontend is running locally before executing the tests.
+Make sure the frontend is running locally before executing the tests. To run the accessibility tests:
 
 ```bash
 npm run test:a11y
+```
+
+## Smoke Tests
+
+We use smoke testing for superficially checking certain functionality on a deployed version of our system, usually staging. Smoke tests focus on areas where the live system significantly differs from the local or E2E setup such as how the frontend is served (served by Vite locally, but served by Spring in production).
+
+If you need to run smoke tests locally, first set `E2E_SMOKETEST_BASE_URL`, `E2E_SMOKETEST_USERNAME`, and `E2E_SMOKETEST_PASSWORD` in your environment. It will be picked up automatically if you add it to your `.env.local` (also see `.env.local.example`).
+
+Then run:
+
+```
+node run test:smoke
 ```
 
 ## Icons

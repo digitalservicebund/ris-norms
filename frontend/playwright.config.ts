@@ -9,10 +9,12 @@ const config = defineConfig<{
   timeout: 10000,
   retries: process.env.CI === "true" ? 1 : 0,
   workers: 1,
+
   reporter:
     process.env.CI === "true"
       ? [["dot"], ["blob", { outputFile: "./blob-report/test-report.zip" }]]
       : "list",
+
   use: {
     viewport: { width: 1440, height: 1080 },
     baseURL: process.env.E2E_BASE_URL,
@@ -20,7 +22,9 @@ const config = defineConfig<{
     timezoneId: "Europe/Berlin",
     trace: "retain-on-first-failure",
   },
+
   projects: [
+    // Setup (e.g. login and test data preparation)
     {
       name: "setup-chromium",
       use: { ...devices["Desktop Chrome"] },
@@ -40,6 +44,7 @@ const config = defineConfig<{
       testDir: "./e2e/globalSetup",
     },
 
+    // Regular E2E tests
     {
       name: "chromium",
       use: {
@@ -72,7 +77,7 @@ const config = defineConfig<{
       testDir: "./e2e/application",
     },
 
-    // Accessibility Test Project
+    // Accessibility tests
     {
       name: "a11y",
       use: {
@@ -81,6 +86,20 @@ const config = defineConfig<{
       },
       dependencies: ["setup-chromium"],
       testDir: "./e2e/a11y",
+    },
+
+    // Smoke tests
+    {
+      name: "smoketest",
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: process.env.E2E_SMOKETEST_BASE_URL,
+        appCredentials: {
+          username: process.env.E2E_SMOKETEST_USERNAME,
+          password: process.env.E2E_SMOKETEST_PASSWORD,
+        },
+      },
+      testDir: "./e2e/smoketest",
     },
   ],
 })

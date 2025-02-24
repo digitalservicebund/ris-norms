@@ -1,39 +1,11 @@
 on:
   workflow_call:
-    inputs:
-      project:
-        required: false
-        type: string
-        default: chromium
 
 jobs:
-  e2e-tests:
+  smoketest-staging:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: "21.0"
-          distribution: "temurin"
-          cache: gradle
-      - name: Start PostgreSQL
-        run: docker compose -f docker-compose-services.yaml up --detach
-      - name: Start backend # GitHub actions automatically keep the process running and output is streamed to pipeline logs
-        run: ./gradlew bootRun &
-        working-directory: ./backend
-      - name: Wait for backend to be fully up
-        timeout-minutes: 5
-        run: |
-          until curl --output /dev/null --silent --head --fail http://localhost:8080/actuator/health; do
-            echo "Waiting for backend to be fully up..."
-            sleep 1
-          done
-        working-directory: ./backend
       - name: Restore node_modules
         uses: actions/cache@v4
         id: restore-node-modules
@@ -49,25 +21,22 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-      - name: Run E2E tests in ${{ inputs.project }} against localhost
+      - name: Run smoke tests
+        working-directory: ./frontend
         env:
-          E2E_BASE_URL: "http://localhost:5173"
+          E2E_SMOKETEST_BASE_URL: ${{ secrets.STAGING_URL }}
+          E2E_SMOKETEST_USERNAME: ${{ secrets.E2E_SMOKETEST_USERNAME }}
+          E2E_SMOKETEST_PASSWORD: ${{ secrets.E2E_SMOKETEST_PASSWORD }}
           TZ: "Europe/Berlin"
         run: |
-          echo "Running E2E tests for ${{ inputs.project }}"
-          npm run build
-          npm run preview -- --port 5173 &
-          DEV_PID=$!
-          npm run test:e2e -- --project ${{ inputs.project }} --repeat-each 1
-          pkill -P $DEV_PID
-        working-directory: ./frontend
+          echo "Running smoke tests"
+          npm run test:smoke
       - name: Upload screenshots and traces of failed tests
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
-          name: failed-e2e-tests-${{ inputs.project }}
-          path: |
-            ./frontend/test-results/**/*.png
+          name: failed-smoketests
+          path: ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
       - name: Upload test result blobs reports
         uses: actions/upload-artifact@v4
