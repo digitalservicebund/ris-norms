@@ -94,6 +94,10 @@ const config = defineConfig<{
       use: {
         ...devices["Desktop Chrome"],
         baseURL: process.env.E2E_SMOKETEST_BASE_URL,
+        appCredentials: {
+          username: process.env.E2E_SMOKETEST_USERNAME,
+          password: process.env.E2E_SMOKETEST_PASSWORD,
+        },
       },
       testDir: "./e2e/smoketest",
     },

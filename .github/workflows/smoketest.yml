@@ -25,6 +25,8 @@ jobs:
         working-directory: ./frontend
         env:
           E2E_SMOKETEST_BASE_URL: ${{ secrets.STAGING_URL }}
+          E2E_SMOKETEST_USERNAME: ${{ secrets.E2E_SMOKETEST_USERNAME }}
+          E2E_SMOKETEST_PASSWORD: ${{ secrets.E2E_SMOKETEST_PASSWORD }}
           TZ: "Europe/Berlin"
         run: |
           echo "Running smoke tests"
