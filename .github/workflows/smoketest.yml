@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: test-results-blob-e2e-${{ inputs.project }}
+          name: test-results-blob-e2e-smoketest
           path: ./frontend/blob-report/test-report.zip
           retention-days: 1
       - name: Send status to Slack
