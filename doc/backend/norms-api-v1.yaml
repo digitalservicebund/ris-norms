@@ -656,34 +656,6 @@ components:
         temporalGroupEid:
           type: string
 
-    Mod:
-      type: object
-      required:
-        - refersTo
-        - timeBoundaryEid
-        - destinationHref
-        - newContent
-      properties:
-        refersTo:
-          type: string
-        timeBoundaryEid:
-          type: string
-        destinationHref:
-          type: string
-        destinationUpTo:
-          type: string
-        newContent:
-          type: string
-          description: In case of a quotedText a String with the new text or in case of quotedStructure the new content within a quotedStructure
-
-    TimeBoundaryMod:
-      type: object
-      required:
-        - timeBoundaryEid
-      properties:
-        timeBoundaryEid:
-          type: string
-
     ReleaseResponse:
       type: object
       properties:
