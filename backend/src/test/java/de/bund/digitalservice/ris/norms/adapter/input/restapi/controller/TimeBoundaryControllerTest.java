@@ -15,7 +15,6 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.exception.FrameWorkExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
 import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
@@ -37,10 +36,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-/**
- * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
- * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
- */
 @WithMockUser
 @WebMvcTest(
   controllers = TimeBoundaryController.class,
