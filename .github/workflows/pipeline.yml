@@ -207,7 +207,7 @@ jobs:
   smoketest:
     needs:
       - setup-e2e-tests
-      # - deploy-staging-job # temporarily disabled for testing purposes
+      - deploy-staging-job
     uses: ./.github/workflows/smoketest.yml
     secrets: inherit
 
