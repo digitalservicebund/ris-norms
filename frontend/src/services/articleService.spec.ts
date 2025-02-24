@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 import { useArticles } from "@/services/articleService"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -30,8 +31,10 @@ describe("articleService", () => {
         ),
       )
 
-      const eli = ref<string>(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+      const eli = ref<DokumentExpressionEli>(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        ),
       )
       const { data: articles, isFinished } = useArticles(eli)
       await vi.waitUntil(() => isFinished.value)
@@ -61,16 +64,24 @@ describe("articleService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValueOnce(new Response())
 
-      const eli = ref<string>("0")
+      const eli = ref<DokumentExpressionEli>(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
       const { isFinished } = useArticles(eli)
       await nextTick()
       await vi.waitFor(() => isFinished.value)
 
-      eli.value = "1"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      )
       await nextTick()
       await vi.waitFor(() => isFinished.value)
 
-      eli.value = "1"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      )
       await nextTick()
       await vi.waitFor(() => isFinished.value)
 

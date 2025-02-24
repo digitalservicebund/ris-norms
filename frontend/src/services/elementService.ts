@@ -2,6 +2,7 @@ import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Element } from "@/types/element"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /* -------------------------------------------------- *
  * Individual elements                                *
@@ -17,7 +18,7 @@ import { MaybeRefOrGetter, computed, toValue } from "vue"
  * @returns Reactive fetch wrapper
  */
 export function useElementService(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   eid: MaybeRefOrGetter<string | undefined>,
   fetchOptions: UseFetchOptions = {},
 ): UseFetchReturn<Element> {

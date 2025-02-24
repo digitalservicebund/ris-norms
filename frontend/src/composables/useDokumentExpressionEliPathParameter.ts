@@ -1,5 +1,6 @@
 import { ComputedRef, computed } from "vue"
 import { useRoute } from "vue-router"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Returns a string containing a set of named path params that can be used
@@ -44,32 +45,43 @@ export function createDokumentExpressionEliPathParameter(prefix?: string) {
  */
 export function useDokumentExpressionEliPathParameter(
   prefix?: string,
-): ComputedRef<string> {
+): ComputedRef<DokumentExpressionEli> {
   const { params } = useRoute()
   const name = prefix
     ? `${prefix}DokumentExpressionEli`
     : "dokumentExpressionEli"
 
-  const parameterNames = [
-    `${name}Jurisdiction`,
-    `${name}Agent`,
-    `${name}Year`,
-    `${name}NaturalIdentifier`,
-    `${name}PointInTime`,
-    `${name}Version`,
-    `${name}Language`,
-    `${name}Subtype`,
-  ]
-
   return computed(() => {
-    const parameterValues = parameterNames.map((name) => params[name])
+    const agent = params[`${name}Agent`]
+    const year = params[`${name}Year`]
+    const naturalIdentifier = params[`${name}NaturalIdentifier`]
+    const pointInTime = params[`${name}PointInTime`]
+    const version = params[`${name}Version`]
+    const language = params[`${name}Language`]
+    const subtype = params[`${name}Subtype`]
 
-    if (parameterValues.some((value) => value === undefined)) {
+    if (
+      typeof agent != "string" ||
+      typeof year != "string" ||
+      typeof naturalIdentifier != "string" ||
+      typeof pointInTime != "string" ||
+      typeof version != "string" ||
+      typeof language != "string" ||
+      typeof subtype != "string"
+    ) {
       throw new Error(
         `useDokumentExpressionEliPathParameter: You can only use this composable on pages which have a DokumentExpressionELI${prefix ? " prefixed with " + prefix : ""} in their route`,
       )
     }
 
-    return ["eli", ...parameterValues].join("/")
+    return new DokumentExpressionEli(
+      agent,
+      year,
+      naturalIdentifier,
+      pointInTime,
+      parseInt(version, 10),
+      language,
+      subtype,
+    )
   })
 }

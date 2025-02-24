@@ -2,6 +2,7 @@ import { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -33,9 +34,14 @@ describe("proprietaryService", () => {
 
       const { useProprietaryService } = await import("./proprietaryService")
 
-      const result = useProprietaryService("fake/eli", {
-        eid: null,
-      })
+      const result = useProprietaryService(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+        {
+          eid: null,
+        },
+      )
       expect(result.data.value).toBeTruthy()
 
       vi.doUnmock("@/services/apiService")
@@ -48,7 +54,7 @@ describe("proprietaryService", () => {
 
       const { useProprietaryService } = await import("./proprietaryService")
 
-      const eli = ref("")
+      const eli = ref(undefined)
       useProprietaryService(eli, { eid: null })
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
@@ -61,7 +67,11 @@ describe("proprietaryService", () => {
 
       const { useProprietaryService } = await import("./proprietaryService")
 
-      const eli = ref("fake/eli/1")
+      const eli = ref<DokumentExpressionEli | undefined>(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
       useProprietaryService(
         eli,
         { eid: null },
@@ -69,7 +79,7 @@ describe("proprietaryService", () => {
       )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
-      eli.value = ""
+      eli.value = undefined
       await flushPromises()
       expect(fetchSpy).toHaveBeenCalledTimes(1)
     })
@@ -81,7 +91,11 @@ describe("proprietaryService", () => {
 
       const { useProprietaryService } = await import("./proprietaryService")
 
-      const eli = ref("fake/eli/1")
+      const eli = ref(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
       useProprietaryService(
         eli,
         { eid: null },
@@ -89,7 +103,9 @@ describe("proprietaryService", () => {
       )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
-      eli.value = "fake/eli/2"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
     })
 
@@ -101,11 +117,16 @@ describe("proprietaryService", () => {
       const { useProprietaryService } = await import("./proprietaryService")
 
       const eid = ref("fake_eid")
-      useProprietaryService("fake/eli/1", { eid })
+      useProprietaryService(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+        { eid },
+      )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary/fake_eid",
           expect.any(Object),
         ),
       )
@@ -120,7 +141,9 @@ describe("proprietaryService", () => {
 
       const eid = ref("fake_eid_1")
       useProprietaryService(
-        "fake/eli/1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
         { eid },
         { immediate: true, refetch: true },
       )
@@ -139,7 +162,9 @@ describe("proprietaryService", () => {
 
       const eid = ref()
       useProprietaryService(
-        "fake/eli/1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
         { eid },
         { immediate: true, refetch: true },
       )
@@ -156,7 +181,9 @@ describe("proprietaryService", () => {
       const { useProprietaryService } = await import("./proprietaryService")
 
       useProprietaryService(
-        "fake/eli/1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
         { eid: null },
         { immediate: true, refetch: true },
       )
@@ -179,11 +206,15 @@ describe("proprietaryService", () => {
 
       const { useGetRahmenProprietary } = await import("./proprietaryService")
 
-      useGetRahmenProprietary("fake/eli/1")
+      useGetRahmenProprietary(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/json",
@@ -200,12 +231,16 @@ describe("proprietaryService", () => {
 
       const { useGetRahmenProprietary } = await import("./proprietaryService")
 
-      const eli = ref("fake/eli/1")
+      const eli = ref(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
       useGetRahmenProprietary(eli)
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/json",
@@ -214,10 +249,12 @@ describe("proprietaryService", () => {
         )
       })
 
-      eli.value = "fake/eli/2"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/2/proprietary",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1/proprietary",
           expect.any(Object),
         )
       })
@@ -238,7 +275,12 @@ describe("proprietaryService", () => {
       const { usePutRahmenProprietary } = await import("./proprietaryService")
 
       const data = ref<RahmenProprietary>({ fna: "4711" })
-      const { execute } = usePutRahmenProprietary(data, "fake/eli/1")
+      const { execute } = usePutRahmenProprietary(
+        data,
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
 
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
@@ -248,7 +290,7 @@ describe("proprietaryService", () => {
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "application/json" }),
             method: "PUT",
@@ -272,11 +314,16 @@ describe("proprietaryService", () => {
 
       const { useGetElementProprietary } = await import("./proprietaryService")
 
-      useGetElementProprietary("fake/eli/1", "fake_eid")
+      useGetElementProprietary(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+        "fake_eid",
+      )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/json",
@@ -294,11 +341,16 @@ describe("proprietaryService", () => {
       const { useGetElementProprietary } = await import("./proprietaryService")
 
       const eid = ref("fake_eid_1")
-      useGetElementProprietary("fake/eli/1", eid)
+      useGetElementProprietary(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+        eid,
+      )
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary/fake_eid_1",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary/fake_eid_1",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/json",
@@ -310,7 +362,7 @@ describe("proprietaryService", () => {
       eid.value = "fake_eid_2"
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary/fake_eid_2",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary/fake_eid_2",
           expect.any(Object),
         )
       })
@@ -333,7 +385,9 @@ describe("proprietaryService", () => {
       const data = ref<ElementProprietary>({ artDerNorm: "SN" })
       const { execute } = usePutElementProprietary(
         data,
-        "fake/eli/1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
         "fake_eid",
       )
 
@@ -345,7 +399,7 @@ describe("proprietaryService", () => {
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/proprietary/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "application/json" }),
             method: "PUT",

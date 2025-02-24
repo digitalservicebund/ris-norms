@@ -5,6 +5,7 @@ import {
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { MaybeRefOrGetter, ref, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Get the temporal data from the API.
@@ -12,7 +13,7 @@ import { UseFetchReturn } from "@vueuse/core"
  * @param eli ELI of the norm that we want to get the temporal data from
  */
 export function useTemporalData(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
 ): UseFetchReturn<TemporalDataResponse[]>
 /**
  * Get the temporal data from the API. This also supports updating the temporal data.
@@ -22,13 +23,13 @@ export function useTemporalData(
  * @param newTemporalData a reference to the data that should be saved on an update.
  */
 export function useTemporalData(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   newTemporalData: MaybeRefOrGetter<TemporalDataResponse[]>,
 ): UseFetchReturn<TemporalDataResponse[]> & {
   update: UseFetchReturn<TemporalDataResponse[]>
 }
 export function useTemporalData(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   newTemporalData?: MaybeRefOrGetter<TemporalDataResponse[]>,
 ): UseFetchReturn<TemporalDataResponse[]> & {
   update?: UseFetchReturn<TemporalDataResponse[]>

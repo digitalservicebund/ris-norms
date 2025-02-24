@@ -2,6 +2,7 @@ import { useApiFetch } from "@/services/apiService"
 import { Article } from "@/types/article"
 import { computed, MaybeRefOrGetter, toValue } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Get the data of all articles inside a norm.
@@ -10,7 +11,7 @@ import { UseFetchReturn } from "@vueuse/core"
  *  new ELI.
  */
 export function useArticles(
-  eli: MaybeRefOrGetter<string>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli>,
 ): UseFetchReturn<Article[]> {
   return useApiFetch(
     computed(() => {

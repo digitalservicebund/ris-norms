@@ -1,6 +1,7 @@
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -31,7 +32,9 @@ describe("useArticle", () => {
     const { useArticle } = await import("./useArticle")
 
     const identifier = ref<LawElementIdentifier>({
-      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      eli: DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
       eid: "art_1",
     })
     const { data: article, isFinished } = useArticle(identifier)
@@ -49,13 +52,23 @@ describe("useArticle", () => {
 
     const { useArticle } = await import("./useArticle")
 
-    const identifier = ref<LawElementIdentifier>({ eli: "", eid: "" })
+    const identifier = ref<LawElementIdentifier>({ eli: undefined, eid: "" })
     useArticle(identifier)
 
-    identifier.value = { eli: "1", eid: "1" }
+    identifier.value = {
+      eli: DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+      eid: "1",
+    }
     await nextTick()
 
-    identifier.value = { eli: "1", eid: "1" }
+    identifier.value = {
+      eli: DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+      eid: "1",
+    }
     await nextTick()
 
     expect(fetchSpy).toBeCalledTimes(2)

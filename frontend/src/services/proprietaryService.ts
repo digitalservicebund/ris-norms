@@ -2,6 +2,7 @@ import { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
 import { INVALID_URL, useApiFetch } from "./apiService"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Returns the proprietary metadata of a norm from the API. Reloads when the
@@ -13,7 +14,7 @@ import { INVALID_URL, useApiFetch } from "./apiService"
  * @returns Reactive fetch wrapper
  */
 export function useProprietaryService(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   options: {
     /**
      * If set, returns the metadata specifically for the element with that

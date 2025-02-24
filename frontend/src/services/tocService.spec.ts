@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { TableOfContentsItem } from "@/types/tableOfContents"
 import { ref } from "vue"
 import { flushPromises } from "@vue/test-utils"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -63,7 +64,11 @@ describe("useGetNormTableOfContents", () => {
 
     const { useGetNormTableOfContents } = await import("./tocService")
 
-    const result = useGetNormTableOfContents("fake/eli")
+    const result = useGetNormTableOfContents(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+    )
     expect(result.data.value).toEqual(fixture)
 
     vi.doUnmock("@/services/apiService")
@@ -76,7 +81,7 @@ describe("useGetNormTableOfContents", () => {
 
     const { useGetNormTableOfContents } = await import("./tocService")
 
-    const eli = ref("")
+    const eli = ref(undefined)
     useGetNormTableOfContents(eli)
     await flushPromises()
     expect(fetchSpy).not.toHaveBeenCalled()
@@ -89,11 +94,17 @@ describe("useGetNormTableOfContents", () => {
 
     const { useGetNormTableOfContents } = await import("./tocService")
 
-    const eli = ref("fake/eli/1")
+    const eli = ref(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+    )
     useGetNormTableOfContents(eli, { immediate: true, refetch: true })
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
-    eli.value = "fake/eli/2"
+    eli.value = DokumentExpressionEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+    )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
 })

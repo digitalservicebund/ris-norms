@@ -2,6 +2,7 @@ import { Element } from "@/types/element"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -34,7 +35,12 @@ describe("useElementService", () => {
 
     const { useElementService } = await import("./elementService")
 
-    const result = useElementService("fake/eli", "fake_eid")
+    const result = useElementService(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+      "fake_eid",
+    )
     expect(result.data.value).toBeTruthy()
 
     vi.doUnmock("@/services/apiService")
@@ -47,7 +53,7 @@ describe("useElementService", () => {
 
     const { useElementService } = await import("./elementService")
 
-    const eli = ref("")
+    const eli = ref(undefined)
     useElementService(eli, "fake_eid")
     await flushPromises()
     expect(fetchSpy).not.toHaveBeenCalled()
@@ -60,14 +66,18 @@ describe("useElementService", () => {
 
     const { useElementService } = await import("./elementService")
 
-    const eli = ref("fake/eli/1")
+    const eli = ref<DokumentExpressionEli | undefined>(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+    )
     useElementService(eli, "fake_eid", {
       immediate: true,
       refetch: true,
     })
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
-    eli.value = ""
+    eli.value = undefined
     await flushPromises()
     expect(fetchSpy).toHaveBeenCalledTimes(1)
   })
@@ -80,7 +90,12 @@ describe("useElementService", () => {
     const { useElementService } = await import("./elementService")
 
     const eid = ref("")
-    useElementService("fake/eli", eid)
+    useElementService(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+      eid,
+    )
     await flushPromises()
     expect(fetchSpy).not.toHaveBeenCalled()
   })
@@ -93,10 +108,16 @@ describe("useElementService", () => {
     const { useElementService } = await import("./elementService")
 
     const eid = ref("fake_eid")
-    useElementService("fake/eli/1", eid, {
-      immediate: true,
-      refetch: true,
-    })
+    useElementService(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+      eid,
+      {
+        immediate: true,
+        refetch: true,
+      },
+    )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
     eid.value = ""
@@ -111,14 +132,20 @@ describe("useElementService", () => {
 
     const { useElementService } = await import("./elementService")
 
-    const eli = ref("fake/eli/1")
+    const eli = ref(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+    )
     useElementService(eli, "fake_eid", {
       immediate: true,
       refetch: true,
     })
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
-    eli.value = "fake/eli/2"
+    eli.value = DokumentExpressionEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+    )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
 
@@ -135,11 +162,16 @@ describe("useElementService", () => {
 
       const { useGetElement } = await import("./elementService")
 
-      useGetElement("fake/eli/1", "fake_eid")
+      useGetElement(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+        "fake_eid",
+      )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
           expect.objectContaining({
             headers: {
               Accept: "application/json",
@@ -157,12 +189,16 @@ describe("useElementService", () => {
 
       const { useGetElement } = await import("./elementService")
 
-      const eli = ref("fake/eli/1")
+      const eli = ref(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
       useGetElement(eli, "fake_eid")
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/json",
@@ -171,10 +207,12 @@ describe("useElementService", () => {
         )
       })
 
-      eli.value = "fake/eli/2"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/2/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1/elements/fake_eid",
           expect.any(Object),
         )
       })
@@ -194,11 +232,16 @@ describe("useElementService", () => {
 
       const { useGetElementHtml } = await import("./elementService")
 
-      useGetElementHtml("fake/eli/1", "fake_eid")
+      useGetElementHtml(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+        "fake_eid",
+      )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "text/html" }),
           }),
@@ -213,12 +256,16 @@ describe("useElementService", () => {
 
       const { useGetElementHtml } = await import("./elementService")
 
-      const eli = ref("fake/eli/1")
+      const eli = ref(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
       useGetElementHtml(eli, "fake_eid")
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "text/html",
@@ -227,10 +274,12 @@ describe("useElementService", () => {
         )
       })
 
-      eli.value = "fake/eli/2"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/2/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1/elements/fake_eid",
           expect.any(Object),
         )
       })

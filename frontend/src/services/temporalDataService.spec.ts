@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { nextTick, ref } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -27,7 +28,9 @@ describe("temporalDataService", () => {
       )
 
       const { data, isFinished } = useGetEntryIntoForceHtml(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
 
       await vi.waitUntil(() => isFinished.value)
@@ -55,7 +58,9 @@ describe("temporalDataService", () => {
       )
 
       const eli = ref(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       const { data, isFinished } = useGetEntryIntoForceHtml(eli)
 
@@ -63,7 +68,9 @@ describe("temporalDataService", () => {
 
       expect(data.value).toBe("<div>1</div>")
 
-      eli.value = "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+      )
       await nextTick()
       await vi.waitUntil(() => isFinished.value)
 
@@ -96,7 +103,9 @@ describe("temporalDataService", () => {
       )
 
       const { isFinished, data } = useGetTemporalDataTimeBoundaries(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       await vi.waitUntil(() => isFinished.value)
 
@@ -124,14 +133,18 @@ describe("temporalDataService", () => {
       )
 
       const eli = ref(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       const { isFinished, data } = useGetTemporalDataTimeBoundaries(eli)
       await vi.waitUntil(() => isFinished.value)
 
       expect(data.value).toEqual(expectedDates)
 
-      eli.value = "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+      )
       await nextTick()
       await vi.waitUntil(() => isFinished.value)
 
@@ -165,7 +178,9 @@ describe("temporalDataService", () => {
       )
 
       const { data, execute } = useUpdateTemporalDataTimeBoundaries(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
         dates,
       )
       await execute()
@@ -195,10 +210,14 @@ describe("temporalDataService", () => {
         "@/services/temporalDataService"
       )
       const eli = ref(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       const { data, execute } = useUpdateTemporalDataTimeBoundaries(eli, dates)
-      eli.value = "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+      )
       dates.value = []
       await nextTick()
       await execute()
@@ -226,7 +245,9 @@ describe("temporalDataService", () => {
         { date: "2024-04-01T00:00:00Z", eventRefEid: "event-3" },
       ])
       const { execute, isFinished } = useUpdateTemporalDataTimeBoundaries(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
         dates,
       )
       expect(isFinished.value).toBe(false)
