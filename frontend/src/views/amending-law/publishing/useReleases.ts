@@ -2,14 +2,14 @@ import { useGetReleases, usePostRelease } from "@/services/releaseService"
 import { Release } from "@/types/release"
 import { Ref, ref, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 /**
  * Read and update release information about the law with the specified ELI.
  *
  * @param eli Law from which the information should be taken
  */
-export function useReleases(eli: Ref<DokumentExpressionEli>): UseFetchReturn<
+export function useReleases(eli: Ref<NormExpressionEli>): UseFetchReturn<
   Release[]
 > & {
   release: UseFetchReturn<Release>

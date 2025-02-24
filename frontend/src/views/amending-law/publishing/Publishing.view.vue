@@ -23,7 +23,7 @@ const {
   isFetching,
   error: fetchError,
   statusCode: fetchStatusCode,
-} = useReleases(eli)
+} = useReleases(computed(() => eli.value.asNormEli()))
 
 async function onRelease() {
   await releaseAmendingLaw()

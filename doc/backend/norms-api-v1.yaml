@@ -63,9 +63,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the amending law
           schema:
-            $ref: "#/components/schemas/DokumentExpressionEli"
+            $ref: "#/components/schemas/NormExpressionEli"
       responses:
         "200":
           description: Information about releases
@@ -87,9 +86,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the amending law
           schema:
-            $ref: "#/components/schemas/DokumentExpressionEli"
+            $ref: "#/components/schemas/NormExpressionEli"
       responses:
         "200":
           description: Successfully released an announcement
@@ -611,6 +609,12 @@ components:
       format: DokumentManifestationEli
       example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2024-02-01/regelungstext-1.xml
       description: ELI identifying a specific Dokument of a specific manifestation of a norm
+
+    NormExpressionEli:
+      type: string
+      format: NormExpressionEli
+      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu
+      description: ELI identifying a specific expression of a norm
 
     Norm:
       type: object

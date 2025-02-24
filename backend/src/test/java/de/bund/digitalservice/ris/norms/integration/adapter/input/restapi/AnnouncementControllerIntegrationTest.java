@@ -113,9 +113,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
-          )
+          get("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         // then
@@ -131,9 +129,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance")
-            .value(
-              "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
-            )
+            .value("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
         )
         .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"));
     }
@@ -154,9 +150,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get(
-            "/api/v1/announcements/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/releases"
-          )
+          get("/api/v1/announcements/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -208,9 +202,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When
       mockMvc
         .perform(
-          get(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-          )
+          get("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -242,9 +234,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         // then
@@ -260,9 +250,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance")
-            .value(
-              "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
-            )
+            .value("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
         )
         .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"));
     }
@@ -282,9 +270,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
@@ -297,9 +283,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance")
-            .value(
-              "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-            )
+            .value("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
         )
         .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"));
     }
@@ -330,9 +314,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -436,9 +418,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk());
@@ -446,9 +426,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // release norm a second time
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk());
@@ -533,9 +511,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isUnprocessableEntity())
@@ -595,9 +571,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isUnprocessableEntity())

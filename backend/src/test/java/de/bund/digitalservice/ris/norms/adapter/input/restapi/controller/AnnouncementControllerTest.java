@@ -213,9 +213,7 @@ class AnnouncementControllerTest {
       // When // Then
       mockMvc
         .perform(
-          get(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
-          )
+          get("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -264,9 +262,7 @@ class AnnouncementControllerTest {
       // When // Then
       mockMvc
         .perform(
-          post(
-            "/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases"
-          )
+          post("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
         )
