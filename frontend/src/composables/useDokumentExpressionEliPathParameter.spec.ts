@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { reactive } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useDokumentExpressionEliPathParameter", () => {
   beforeEach(() => {
@@ -30,8 +31,10 @@ describe("useDokumentExpressionEliPathParameter", () => {
     )
     const eli = useDokumentExpressionEliPathParameter()
 
-    expect(eli.value).toBe(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    expect(eli.value).toEqual(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      ),
     )
   })
 
@@ -58,8 +61,10 @@ describe("useDokumentExpressionEliPathParameter", () => {
     )
     const eli = useDokumentExpressionEliPathParameter("test")
 
-    expect(eli.value).toBe(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    expect(eli.value).toEqual(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      ),
     )
   })
 
@@ -86,16 +91,20 @@ describe("useDokumentExpressionEliPathParameter", () => {
     )
     const eli = useDokumentExpressionEliPathParameter()
 
-    expect(eli.value).toBe(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    expect(eli.value).toEqual(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      ),
     )
 
     route.params.dokumentExpressionEliYear = "2023"
     route.params.dokumentExpressionEliNaturalIdentifier = "413"
     route.params.dokumentExpressionEliPointInTime = "2023-12-29"
 
-    expect(eli.value).toBe(
-      "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    expect(eli.value).toEqual(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
     )
   })
 
@@ -122,16 +131,20 @@ describe("useDokumentExpressionEliPathParameter", () => {
     )
     const eli = useDokumentExpressionEliPathParameter("test")
 
-    expect(eli.value).toBe(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    expect(eli.value).toEqual(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      ),
     )
 
     route.params.testDokumentExpressionEliYear = "2023"
     route.params.testDokumentExpressionEliNaturalIdentifier = "413"
     route.params.testDokumentExpressionEliPointInTime = "2023-12-29"
 
-    expect(eli.value).toBe(
-      "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    expect(eli.value).toEqual(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
     )
   })
 
@@ -249,6 +262,6 @@ describe("createEliPathParameter", () => {
       "/:testDokumentExpressionEliLanguage(deu)" +
       "/:testDokumentExpressionEliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)"
 
-    expect(path).toBe(expectedPath)
+    expect(path).toEqual(expectedPath)
   })
 })

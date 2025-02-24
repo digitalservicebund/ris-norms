@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useNormXml", () => {
   beforeEach(() => {
@@ -22,7 +23,9 @@ describe("useNormXml", () => {
     const { useNormXml } = await import("./useNormXml")
 
     const { data } = useNormXml(
-      "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
       undefined,
     )
     dataRef.value = "<xml></xml>"
@@ -51,7 +54,9 @@ describe("useNormXml", () => {
       data,
       update: { execute },
     } = useNormXml(
-      "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
       newXml,
     )
 

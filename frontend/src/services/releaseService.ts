@@ -2,9 +2,10 @@ import { useApiFetch } from "@/services/apiService"
 import { Release } from "@/types/release"
 import { computed, MaybeRefOrGetter, toValue } from "vue"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 function useReleaseService<T>(
-  eli: MaybeRefOrGetter<string>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli>,
   fetchOptions: UseFetchOptions = {},
 ): UseFetchReturn<T> {
   return useApiFetch(
@@ -19,7 +20,7 @@ function useReleaseService<T>(
  * @param eli Eli of the norm associated with the announcement
  */
 export function useGetReleases(
-  eli: MaybeRefOrGetter<string>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli>,
 ): UseFetchReturn<Release[]> {
   return useReleaseService<Release[]>(eli, {
     refetch: true,
@@ -32,7 +33,7 @@ export function useGetReleases(
  * @param eli Eli of the norm associated with the announcement
  */
 export function usePostRelease(
-  eli: MaybeRefOrGetter<string>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli>,
 ): UseFetchReturn<Release> {
   return useReleaseService<Release>(eli, {
     immediate: false,

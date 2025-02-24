@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from "vitest"
 import * as temporalDataService from "@/services/temporalDataService"
 import { UseFetchReturn } from "@vueuse/core"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useTemporalData", () => {
   it("should load the time boundaries", async () => {
@@ -12,7 +13,11 @@ describe("useTemporalData", () => {
       { date: "2023-06-20T00:00:00Z", eventRefEid: "event-3" },
       { date: "2023-07-25T00:00:00Z", eventRefEid: "event-4" },
     ]
-    const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+    const eli = ref(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
+    )
 
     const dataRef = ref<TemporalDataResponse[]>()
     vi.spyOn(
@@ -39,7 +44,11 @@ describe("useTemporalData", () => {
   })
 
   it("updates dates", async () => {
-    const eli = ref("some-eli")
+    const eli = ref(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+      ),
+    )
     const newDates = [
       { date: "2024-04-01T00:00:00Z", eventRefEid: "new-event-1" },
       { date: "2024-05-15T00:00:00Z", eventRefEid: "new-event-2" },

@@ -2,6 +2,7 @@ import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { computed, MaybeRefOrGetter, toValue } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Returns the norm from the API. Reloads when the parameters change.
@@ -12,7 +13,7 @@ import { computed, MaybeRefOrGetter, toValue } from "vue"
  * @returns Reactive fetch wrapper
  */
 export function useNormService(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   options?: {
     /**
      * Render metadata in the HTML preview. Note that this is only applicable

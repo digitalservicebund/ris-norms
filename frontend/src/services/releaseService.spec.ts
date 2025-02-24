@@ -1,5 +1,6 @@
 import { describe, it, vi, beforeEach, expect } from "vitest"
 import { nextTick, ref } from "vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -35,7 +36,9 @@ describe("releaseService", () => {
       const { useGetReleases } = await import("./releaseService")
 
       const { isFinished, data } = useGetReleases(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       await vi.waitUntil(() => isFinished.value)
 
@@ -71,14 +74,18 @@ describe("releaseService", () => {
       const { useGetReleases } = await import("./releaseService")
 
       const eli = ref(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       const { isFinished, data } = useGetReleases(eli)
       await vi.waitUntil(() => isFinished.value)
 
       expect(data.value).toEqual(expectedReleases)
 
-      eli.value = "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+      )
       await nextTick()
       await vi.waitUntil(() => isFinished.value)
 
@@ -113,7 +120,9 @@ describe("releaseService", () => {
       const { usePostRelease } = await import("./releaseService")
 
       const { data, execute } = usePostRelease(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       await execute()
 
@@ -148,10 +157,14 @@ describe("releaseService", () => {
       const { usePostRelease } = await import("./releaseService")
 
       const eli = ref(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
       )
       const { data, execute } = usePostRelease(eli)
-      eli.value = "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1"
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+      )
       await nextTick()
       await execute()
 

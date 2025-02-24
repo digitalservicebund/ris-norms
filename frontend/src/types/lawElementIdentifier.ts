@@ -1,3 +1,5 @@
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+
 /**
  * Encapsulates all required information for adressing a specific element
  * within a law: The ELI for identifying the law, and the eId for elements
@@ -9,7 +11,7 @@
  */
 export type LawElementIdentifier = {
   /** ELI of the law. */
-  eli: string
+  eli?: DokumentExpressionEli
   /** eID of some element inside the law. */
   eid: string
 }

@@ -3,6 +3,7 @@ import { nextTick, ref } from "vue"
 import * as announcementReleaseService from "@/services/releaseService"
 import { Release } from "@/types/release"
 import { UseFetchReturn } from "@vueuse/core"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useReleases", () => {
   beforeEach(() => {
@@ -31,7 +32,11 @@ describe("useReleases", () => {
       "@/views/amending-law/publishing/useReleases"
     )
 
-    const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+    const eli = ref(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
+    )
     const { data } = useReleases(eli)
     dataRef.value = [mockReleaseStatus]
     await nextTick()
@@ -67,7 +72,11 @@ describe("useReleases", () => {
       "@/views/amending-law/publishing/useReleases"
     )
 
-    const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+    const eli = ref(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      ),
+    )
     const {
       data,
       release: { execute },

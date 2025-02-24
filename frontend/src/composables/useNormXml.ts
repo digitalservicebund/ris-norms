@@ -1,6 +1,7 @@
 import { MaybeRefOrGetter, ref, watch } from "vue"
 import { useGetNormXml, usePutNormXml } from "@/services/normService"
 import { UseFetchReturn } from "@vueuse/core"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Get the XML of a norm.
@@ -9,7 +10,7 @@ import { UseFetchReturn } from "@vueuse/core"
  *  Changing the value of the reference will load the data for the new eli.
  */
 export function useNormXml(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
 ): UseFetchReturn<string>
 /**
  * Get the XML of a norm. This also supports updating the xml.
@@ -20,13 +21,13 @@ export function useNormXml(
  * @param newXml a reference to the data that should be saved on an update.
  */
 export function useNormXml(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   newXml: MaybeRefOrGetter<string | undefined | null>,
 ): UseFetchReturn<string> & {
   update: UseFetchReturn<string>
 }
 export function useNormXml(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   newXml?: MaybeRefOrGetter<string | undefined | null>,
 ): UseFetchReturn<string> & {
   update?: UseFetchReturn<string>

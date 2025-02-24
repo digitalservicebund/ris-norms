@@ -2,6 +2,7 @@ import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Fetches the HTML content of a norm's entry into force section by ELI.
@@ -11,7 +12,7 @@ import { UseFetchReturn } from "@vueuse/core"
  * @returns HTML string
  */
 export function useGetEntryIntoForceHtml(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
 ): UseFetchReturn<string> {
   const url = computed(
     () => `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel`,
@@ -35,7 +36,7 @@ export function useGetEntryIntoForceHtml(
  * @returns An Array of TimeBoundary objects each with a date, eventRefEid and temporalGroupEid strings
  */
 export function useGetTemporalDataTimeBoundaries(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
 ): UseFetchReturn<TemporalDataResponse[]> {
   const url = computed(() => {
     const eliVal = toValue(eli)
@@ -57,7 +58,7 @@ export function useGetTemporalDataTimeBoundaries(
  * @returns An updated Array of TimeBoundary objects each with a date, eventRefEid, and temporalgroupEid strings
  */
 export function useUpdateTemporalDataTimeBoundaries(
-  eli: MaybeRefOrGetter<string | undefined>,
+  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   dates: MaybeRefOrGetter<TemporalDataResponse[]>,
 ): UseFetchReturn<TemporalDataResponse[]> {
   const apiFetch: UseFetchReturn<TemporalDataResponse[]> = useApiFetch(
