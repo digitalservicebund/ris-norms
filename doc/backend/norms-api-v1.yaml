@@ -65,7 +65,7 @@ paths:
           required: true
           description: Expression ELI of the amending law
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       responses:
         "200":
           description: Information about releases
@@ -89,7 +89,7 @@ paths:
           required: true
           description: Expression ELI of the amending law
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       responses:
         "200":
           description: Successfully released an announcement
@@ -113,7 +113,7 @@ paths:
           required: true
           description: Expression ELI of the norm
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
         - name: showMetadata
           in: query
           schema:
@@ -149,7 +149,7 @@ paths:
           required: true
           description: Expression ELI of the norm
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       requestBody:
         description: The XML of the norm (which may be updated and saved on DB)
         required: true
@@ -178,10 +178,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the norm
-          example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
         - name: eid
           in: path
           required: true
@@ -215,9 +213,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the norm
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
         - name: refersTo
           in: query
           required: false
@@ -264,9 +261,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the norm
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
         - name: eid
           in: path
           required: true
@@ -299,9 +295,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the norm
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       responses:
         "200":
           description: List of time boundaries
@@ -323,9 +318,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the norm
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       requestBody:
         description: List of new time boundaries of a norm
         required: true
@@ -360,9 +354,8 @@ paths:
         - name: dokumentExpressionEli
           in: path
           required: true
-          description: Expression ELI of the Dokument
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       responses:
         "200":
           description: List of proprietary metadata
@@ -384,9 +377,8 @@ paths:
         - name: dokumentExpressionEli
           in: path
           required: false
-          description: Expression ELI of the Dokument
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       requestBody:
         description: The proprietary request schema containing several metadata.
         required: true
@@ -417,9 +409,8 @@ paths:
         - name: dokumentExpressionEli
           in: path
           required: true
-          description: Expression ELI of the Dokument
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
         - name: eid
           in: path
           required: true
@@ -447,9 +438,8 @@ paths:
         - name: dokumentExpressionEli
           in: path
           required: false
-          description: Expression ELI of the Dokument
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
         - name: eid
           in: path
           required: true
@@ -486,10 +476,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the norm
           schema:
-            type: string
-            example: eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1
+            $ref: "#/components/schemas/DokumentExpressionEli"
         - name: eid
           in: path
           required: true
@@ -519,9 +507,8 @@ paths:
           in: path
           required: true
           description: Manifestation ELI of the norm. Currently only `xml` is supported as the format.
-          example: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2023-12-30/regelungstext-1.xml"
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentManifestationEli"
       responses:
         "200":
           description: The requested norm. The response format depends on the format as specified in the manifestation ELI.
@@ -595,9 +582,8 @@ paths:
         - name: dokumentExpressionEli
           in: path
           required: true
-          description: Expression ELI of the Dokument
           schema:
-            type: string
+            $ref: "#/components/schemas/DokumentExpressionEli"
       responses:
         "200":
           description: Table of contents successfully retrieved
@@ -614,11 +600,23 @@ paths:
 
 components:
   schemas:
+    DokumentExpressionEli:
+      type: string
+      format: DokumentExpressionEli
+      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1
+      description: ELI identifying a specific Dokument of a specific expression of a norm
+
+    DokumentManifestationEli:
+      type: string
+      format: DokumentManifestationEli
+      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2024-02-01/regelungstext-1.xml
+      description: ELI identifying a specific Dokument of a specific manifestation of a norm
+
     Norm:
       type: object
       properties:
         eli:
-          type: string
+          $ref: "#/components/schemas/DokumentExpressionEli"
         title:
           type: string
         shortTitle:
@@ -636,13 +634,11 @@ components:
     Article:
       type: object
       properties:
-        eli:
+        eid:
           type: string
         enumeration:
           type: string
         title:
-          type: string
-        affectedDocumentEli:
           type: string
 
     TimeBoundary:
@@ -693,8 +689,7 @@ components:
         norms:
           type: array
           items:
-            type: string
-            description: A manifestation eli
+            $ref: "#/components/schemas/DokumentManifestationEli"
 
     LegalDocML.de:
       type: object
