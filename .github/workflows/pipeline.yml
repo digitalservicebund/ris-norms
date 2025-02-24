@@ -280,6 +280,7 @@ jobs:
     if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
     needs:
       - e2e-tests
+      - smoketest
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
