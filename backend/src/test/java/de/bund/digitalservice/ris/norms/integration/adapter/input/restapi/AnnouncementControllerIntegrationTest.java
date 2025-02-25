@@ -107,7 +107,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   class getReleases {
 
     @Test
-    void itDoesNotReturnReleaseBecauseAmendingLawNotFound() throws Exception {
+    void itDoesNotReturnReleaseBecauseAnnouncementNotFound() throws Exception {
       // given no announcement is stored in the database
 
       // when
@@ -228,7 +228,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   class postReleases {
 
     @Test
-    void itDoesNotReleaseBecauseAmendingLawNotFound() throws Exception {
+    void itDoesNotReleaseBecauseAnnouncementNotFound() throws Exception {
       // given no announcement is stored in the database
 
       // when
