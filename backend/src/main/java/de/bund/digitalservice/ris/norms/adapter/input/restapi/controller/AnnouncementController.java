@@ -125,7 +125,7 @@ public class AnnouncementController {
    * Creates a new {@link Announcement} using the norm-file provided.
    *
    * @param file a file containing an amending norm as an XML file that contains LDML.de
-   * @param force in case a norm already exists, if set to true, the amending norm will be overriden and the corresponding ZF0 deleted
+   * @param force in case a norm already exists, if set to true, the norm will be overwritten
    * @return information about the newly created announcement
    */
   @PostMapping(produces = { APPLICATION_JSON_VALUE })

@@ -191,17 +191,17 @@ class AnnouncementControllerTest {
     @Test
     void itReturnsRelease() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement
         .builder()
-        .eli(amendingNorm.getExpressionEli())
+        .eli(norm1.getExpressionEli())
         .releases(
           List.of(
             Release
               .builder()
               .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-              .publishedNorms(List.of(amendingNorm, affectedNormZf0))
+              .publishedNorms(List.of(norm1, norm2))
               .build()
           )
         )
@@ -241,17 +241,17 @@ class AnnouncementControllerTest {
     @Test
     void itReleaseAnAnnouncement() throws Exception {
       // Given
-      var amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNormZf0 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var announcement = Announcement
         .builder()
-        .eli(amendingNorm.getExpressionEli())
+        .eli(norm1.getExpressionEli())
         .releases(
           List.of(
             Release
               .builder()
               .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-              .publishedNorms(List.of(amendingNorm, affectedNormZf0))
+              .publishedNorms(List.of(norm1, norm2))
               .build()
           )
         )

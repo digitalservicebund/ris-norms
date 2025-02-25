@@ -55,9 +55,7 @@ class ArticleControllerTest {
     void itReturnsArticles() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
-      var zf0Regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml");
 
-      when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(zf0Regelungstext);
       when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
         .thenReturn(regelungstext.getArticles());
 
@@ -149,11 +147,8 @@ class ArticleControllerTest {
     void itReturnsArticle() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
-      var regelungstextZf0 = Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml");
 
-      when(loadRegelungstextUseCase.loadRegelungstext(any()))
-        .thenReturn(regelungstext)
-        .thenReturn(regelungstextZf0);
+      when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
 
       // When
       mockMvc
