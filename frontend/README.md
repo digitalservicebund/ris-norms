@@ -8,13 +8,14 @@ The frontend is the main entry point for users of _RIS norms_.
 
 - Node.js (with a `.node-version` file) for simplified setup using [`nodenv`](https://github.com/nodenv/nodenv)
 
-## Quick-Start
+## Quick Start
 
 - `npm i` fetches all dependencies
 - `npm run dev` starts the application. By default on [local port 5173](http://localhost:5173). You will also need a running [backend](../backend/README.md).
 - `npm run test` runs the tests once
 - `npm run test:watch` runs the tests and automatically re-runs if something changes
-- `npm run test:e2e` runs the E2E tests (requires a running frontend and backend)
+- `npm run test:e2e` runs all browser-based tests (E2E tests, accessibility tests and smoke tests, requires a running frontend and backend)
+- `npm run test:e2e -- --ui` opens the Playwright UI
 - `npm run coverage` compiles a coverage report via `v8`
 - `npm run typecheck` runs type checking through TypeScript
 - `npm run style:check` does linting and formatting
@@ -24,39 +25,39 @@ The frontend is the main entry point for users of _RIS norms_.
 
 ## E2E Tests
 
-Make sure the backend and frontend run [here](../DEVELOPING.md#how-to-run-locally).
+Make sure the backend and frontend are [running locally](../DEVELOPING.md#how-to-run-locally).
 
-Install Browsers
+Then, install the browsers:
 
 ```bash
 npx --yes playwright install --with-deps chromium firefox msedge
 ```
 
-Let Playwright know where to connect to by using the .env file:
+Let Playwright know where to connect to by using the `.env` file:
 
 ```bash
 cp .env.local.example .env.local
 ```
 
-Run the E2E Test
+Run E2E tests:
 
 ```bash
-npm run test:e2e
+npm run test:browsers
 ```
 
 Run just 1 specific test:
 
 ```bash
-npm run test:e2e -- [testfile]
+npm run test:browsers -- [testfile]
 ```
 
-Debug an e2e test:
+Debug a test:
 
 ```bash
-npm run test:e2e -- [testfile] --debug
+npm run test:browsers -- [testfile] --debug
 ```
 
-Run a specific browser e2e test:
+Run E2E tests in a specific browser:
 
 ```bash
 npm run test:e2e -- --project chromium --repeat-each 1
@@ -64,7 +65,7 @@ npm run test:e2e -- --project firefox --repeat-each 1
 npm run test:e2e -- --project msedge --repeat-each 1
 ```
 
-Alternatively the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also explains how to run the e2e-tests inside a docker container.
+Alternatively, the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also explains how to run the E2E tests inside a docker container.
 
 ## Accessibility Tests (a11y)
 
