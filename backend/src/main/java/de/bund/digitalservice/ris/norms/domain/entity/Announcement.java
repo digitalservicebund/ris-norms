@@ -21,12 +21,4 @@ public class Announcement {
 
   @Builder.Default
   private List<Release> releases = new ArrayList<>();
-
-  /**
-   * Add a new release to the announcement.
-   * @param release the new release
-   */
-  public void addRelease(Release release) {
-    releases.add(release);
-  }
 }

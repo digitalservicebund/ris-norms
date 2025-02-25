@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -107,34 +106,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   class getReleases {
 
     @Test
-    void itDoesNotReturnReleaseBecauseAnnouncementNotFound() throws Exception {
-      // given no announcement is stored in the database
-
-      // when
-      mockMvc
-        .perform(
-          get("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
-        )
-        // then
-        .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/announcement-not-found"))
-        .andExpect(jsonPath("title").value("Announcement not found"))
-        .andExpect(jsonPath("status").value(404))
-        .andExpect(
-          jsonPath("detail")
-            .value(
-              "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu does not exist"
-            )
-        )
-        .andExpect(
-          jsonPath("instance")
-            .value("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
-        )
-        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"));
-    }
-
-    @Test
     void itDoesReturnNoReleasesIfNoneFound() throws Exception {
       // Given
       dokumentRepository.save(
@@ -184,18 +155,11 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
         .orElseThrow();
 
-      var releaseDto = releaseRepository.save(
+      releaseRepository.save(
         ReleaseDto
           .builder()
           .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
           .norms(List.of(amendingNorm, affectedNorm, affectedNormZf0))
-          .build()
-      );
-      announcementRepository.save(
-        AnnouncementDto
-          .builder()
-          .eliNormExpression("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
-          .releases(List.of(releaseDto))
           .build()
       );
 
@@ -228,8 +192,8 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   class postReleases {
 
     @Test
-    void itDoesNotReleaseBecauseAnnouncementNotFound() throws Exception {
-      // given no announcement is stored in the database
+    void itDoesNotReleaseBecauseNormNotFound() throws Exception {
+      // given no norm is stored in the database
 
       // when
       mockMvc
@@ -239,14 +203,12 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
         // then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/announcement-not-found"))
-        .andExpect(jsonPath("title").value("Announcement not found"))
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail")
-            .value(
-              "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu does not exist"
-            )
+            .value("Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu does not exist")
         )
         .andExpect(
           jsonPath("instance")
@@ -317,12 +279,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-
-      var announcement = Announcement
-        .builder()
-        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
-        .build();
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
       // When // Then
       mockMvc

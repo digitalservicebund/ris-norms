@@ -8,15 +8,13 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormRespons
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,21 +30,21 @@ import org.springframework.web.multipart.MultipartFile;
 public class AnnouncementController {
 
   private final LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
-  private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
-  private final ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
+  private final LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
+  private final ReleaseNormExpressionUseCase releaseNormExpressionUseCase;
   private final CreateAnnouncementUseCase createAnnouncementUseCase;
   private final LoadNormUseCase loadNormUseCase;
 
   public AnnouncementController(
     LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
-    LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
-    ReleaseAnnouncementUseCase releaseAnnouncementUseCase,
+    LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase,
+    ReleaseNormExpressionUseCase releaseNormExpressionUseCase,
     CreateAnnouncementUseCase createAnnouncementUseCase,
     LoadNormUseCase loadNormUseCase
   ) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
-    this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
-    this.releaseAnnouncementUseCase = releaseAnnouncementUseCase;
+    this.loadReleasesByNormExpressionEliUseCase = loadReleasesByNormExpressionEliUseCase;
+    this.releaseNormExpressionUseCase = releaseNormExpressionUseCase;
     this.createAnnouncementUseCase = createAnnouncementUseCase;
     this.loadNormUseCase = loadNormUseCase;
   }
@@ -86,13 +84,11 @@ public class AnnouncementController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final NormExpressionEli eli) {
-    var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
-      new LoadAnnouncementByNormEliUseCase.Query(eli)
+    var releases = loadReleasesByNormExpressionEliUseCase.loadReleasesByNormExpressionEli(
+      new LoadReleasesByNormExpressionEliUseCase.Query(eli)
     );
 
-    return ResponseEntity.ok(
-      announcement.getReleases().stream().map(ReleaseResponseMapper::fromRelease).toList()
-    );
+    return ResponseEntity.ok(releases.stream().map(ReleaseResponseMapper::fromRelease).toList());
   }
 
   /**
@@ -109,16 +105,10 @@ public class AnnouncementController {
     produces = { APPLICATION_JSON_VALUE }
   )
   public ResponseEntity<ReleaseResponseSchema> postReleases(final NormExpressionEli eli) {
-    var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(eli)
+    var release = releaseNormExpressionUseCase.releaseNormExpression(
+      new ReleaseNormExpressionUseCase.Query(eli)
     );
-    var latestRelease = announcement
-      .getReleases()
-      .stream()
-      .max(Comparator.comparing(Release::getReleasedAt))
-      .orElseThrow();
-
-    return ResponseEntity.ok(ReleaseResponseMapper.fromRelease(latestRelease));
+    return ResponseEntity.ok(ReleaseResponseMapper.fromRelease(release));
   }
 
   /**

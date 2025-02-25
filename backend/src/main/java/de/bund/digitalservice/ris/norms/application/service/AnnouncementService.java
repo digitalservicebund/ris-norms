@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -186,20 +185,7 @@ public class AnnouncementService
       deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
         new DeleteAnnouncementByNormEliPort.Command(expressionEli)
       );
-      announcement
-        .get()
-        .getReleases()
-        .stream()
-        .map(Release::getPublishedNorms)
-        .flatMap(Collection::stream)
-        .forEach(norm ->
-          deleteNormPort.deleteNorm(
-            new DeleteNormPort.Command(
-              norm.getManifestationEli(),
-              NormPublishState.QUEUED_FOR_PUBLISH
-            )
-          )
-        );
+      // TODO: (Malte Laukötter, 2025-02-25) we originally deleted all releases and published norms from the announcement here as well should we do this again?
     }
 
     Optional<Norm> normToDelete = loadNormPort.loadNorm(new LoadNormPort.Command(expressionEli));

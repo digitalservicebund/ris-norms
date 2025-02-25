@@ -9,9 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
@@ -43,13 +43,13 @@ class AnnouncementControllerTest {
   private LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
 
   @MockitoBean
-  private LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
+  private LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
 
   @MockitoBean
   private LoadNormUseCase loadNormUseCase;
 
   @MockitoBean
-  private ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
+  private ReleaseNormExpressionUseCase releaseNormExpressionUseCase;
 
   @MockitoBean
   private CreateAnnouncementUseCase createAnnouncementUseCase;
@@ -193,22 +193,16 @@ class AnnouncementControllerTest {
       // Given
       var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(norm1.getExpressionEli())
-        .releases(
-          List.of(
-            Release
-              .builder()
-              .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-              .publishedNorms(List.of(norm1, norm2))
-              .build()
-          )
-        )
-        .build();
+      List<Release> releases = List.of(
+        Release
+          .builder()
+          .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+          .publishedNorms(List.of(norm1, norm2))
+          .build()
+      );
 
-      when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-        .thenReturn(announcement);
+      when(loadReleasesByNormExpressionEliUseCase.loadReleasesByNormExpressionEli(any()))
+        .thenReturn(releases);
 
       // When // Then
       mockMvc
@@ -243,21 +237,13 @@ class AnnouncementControllerTest {
       // Given
       var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
       var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement
+      var release = Release
         .builder()
-        .eli(norm1.getExpressionEli())
-        .releases(
-          List.of(
-            Release
-              .builder()
-              .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-              .publishedNorms(List.of(norm1, norm2))
-              .build()
-          )
-        )
+        .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
+        .publishedNorms(List.of(norm1, norm2))
         .build();
 
-      when(releaseAnnouncementUseCase.releaseAnnouncement(any())).thenReturn(announcement);
+      when(releaseNormExpressionUseCase.releaseNormExpression(any())).thenReturn(release);
 
       // When // Then
       mockMvc

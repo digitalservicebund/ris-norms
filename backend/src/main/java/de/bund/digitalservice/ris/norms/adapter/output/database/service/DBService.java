@@ -47,13 +47,14 @@ public class DBService
     UpdateOrSaveAnnouncementPort,
     DeleteAnnouncementByNormEliPort,
     DeleteNormPort,
-    SaveReleaseToAnnouncementPort,
+    SaveReleasePort,
     DeleteQueuedReleasesPort,
     LoadNormManifestationElisByPublishStatePort,
     LoadLastMigrationLogPort,
     LoadRegelungstextPort,
     LoadDokumentPort,
-    UpdateDokumentPort {
+    UpdateDokumentPort,
+    LoadReleasesByNormExpressionEliPort {
 
   private final AnnouncementRepository announcementRepository;
   private final DokumentRepository dokumentRepository;
@@ -222,9 +223,7 @@ public class DBService
   @Override
   @Transactional
   public void deleteAnnouncementByNormEli(DeleteAnnouncementByNormEliPort.Command command) {
-    var announcementDto = announcementRepository.findByEliNormExpression(command.eli().toString());
     announcementRepository.deleteByEliNormExpression(command.eli().toString());
-    announcementDto.ifPresent(dto -> releaseRepository.deleteAll(dto.getReleases()));
   }
 
   @Override
@@ -245,7 +244,7 @@ public class DBService
   }
 
   @Override
-  public Release saveReleaseToAnnouncement(SaveReleaseToAnnouncementPort.Command command) {
+  public Release saveRelease(SaveReleasePort.Command command) {
     final ReleaseDto releaseDto = ReleaseMapper.mapToDto(command.release());
 
     command
@@ -258,28 +257,14 @@ public class DBService
       );
 
     var release = releaseRepository.save(releaseDto);
-
-    announcementRepository
-      .findByEliNormExpression(command.announcement().getEli().toString())
-      .ifPresent(announcementDto -> {
-        announcementDto.getReleases().add(release);
-        announcementRepository.save(announcementDto);
-      });
-
     return ReleaseMapper.mapToDomain(release);
   }
 
   @Override
   public List<Release> deleteQueuedReleases(DeleteQueuedReleasesPort.Command command) {
-    var announcementDto = announcementRepository.findByEliNormExpression(command.eli().toString());
+    var releases = releaseRepository.findAllByNormExpressionEli(command.eli().toString());
 
-    if (announcementDto.isEmpty()) {
-      return List.of();
-    }
-
-    var queuedReleaseDtos = announcementDto
-      .get()
-      .getReleases()
+    var queuedReleaseDtos = releases
       .stream()
       .filter(releaseDto ->
         releaseDto
@@ -289,9 +274,6 @@ public class DBService
           .allMatch(norm -> norm.getPublishState() == NormPublishState.QUEUED_FOR_PUBLISH)
       )
       .toList();
-
-    queuedReleaseDtos.forEach(releaseDto -> announcementDto.get().getReleases().remove(releaseDto));
-    announcementRepository.save(announcementDto.get());
 
     releaseRepository.deleteAll(queuedReleaseDtos);
 
@@ -356,5 +338,16 @@ public class DBService
       dokumentDto.setXml(XmlMapper.toString(command.dokument().getDocument()));
       return Optional.of(DokumentMapper.mapToDomain(dokumentRepository.saveAndFlush(dokumentDto)));
     }
+  }
+
+  @Override
+  public List<Release> loadReleasesByNormExpressionEli(
+    LoadReleasesByNormExpressionEliPort.Command command
+  ) {
+    return releaseRepository
+      .findAllByNormExpressionEli(command.eli().toString())
+      .stream()
+      .map(ReleaseMapper::mapToDomain)
+      .toList();
   }
 }
