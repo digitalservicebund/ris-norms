@@ -5,21 +5,14 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedReleasesPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.application.service.CreateNewVersionOfNormService.CreateNewExpressionResult;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,18 +54,12 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
   }
 
   /**
-   * Queue all norms that are affected by the given announcement for publishing.
-   * This includes generating a new manifestation of the amending norm, and new expressions for each time boundary of
-   * every target norm. It also creates a new manifestation for the current expression of the target norm so it contains
-   * the information about the future changes and the correct "nachfolgende-version-id".
+   * Queue the expression of the given norm for publishing.
    * <p></p>
-   * Previous releases of the same announcement of the current date are replaced by this release. Also, new
-   * unpublished manifestations are created for the amending norm and the current expression of the target norms to
-   * enable further work on the announcement.
+   * Previous releases of the same norm of the current date are replaced by this release. Also, new
+   * unpublished manifestations are created for the norm to enable further work on the expression.
    * <p></p>
-   * NOTE: This is currently always creating new expressions for every time boundary (so what is necessary for the
-   * prätext-abgabe). When only metadata has changed to the previous abgabe no new expressions should be generated. This
-   * is not handled by this method yet.
+   * NOTE: This is currently not taking care of updating the "nachfolgende-version-id".
    *
    * @param query The query specifying the {@link Announcement} to be loaded.
    * @return The information about the announcement published.
@@ -83,31 +70,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
       new LoadAnnouncementByNormEliUseCase.Query(query.eli())
     );
-
-    // find all norms to publish
-    Set<Norm> normsToPublish = new HashSet<>();
-    normsToPublish.add(normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli())));
-
-    for (Norm norm : normsToPublish) {
-      for (Regelungstext regelungstext : norm.getRegelungstexte()) {
-        var analysis = regelungstext.getMeta().getAnalysis();
-        if (analysis.isEmpty()) {
-          break;
-        }
-
-        analysis
-          .get()
-          .getActiveModifications()
-          .stream()
-          .map(TextualMod::getDestinationHref)
-          .flatMap(Optional::stream)
-          .map(Href::getExpressionEli)
-          .flatMap(Optional::stream)
-          .map(DokumentExpressionEli::asNormEli)
-          .map(eli -> normService.loadNorm(new LoadNormUseCase.Query(eli)))
-          .forEach(normsToPublish::add);
-      }
-    }
+    var normToPublish = normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli()));
 
     // Delete the files from a previous release of the same announcement if they are still queued for publishing.
     // This is to prevent residual files from remaining if some time boundaries changed and this release will create
@@ -127,81 +90,41 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
         )
       );
 
-    // generate all future versions for all norms that will be published
-    Set<Norm> allVersionsOfAllNormsToPublish = new HashSet<>();
-    for (Norm norm : normsToPublish) {
-      // We need to publish the manifestation of the norm with the correct "nachfolgende-version-id", therefore we
-      // use the manifestation created from createNewExpression of the next time boundary if it exists
-      Norm latestNormExpression = createNewVersionOfNormService.createNewManifestation(norm);
-
-      var dates = norm
-        .getRegelungstexte()
-        .stream()
-        .flatMap(regelungstext ->
-          regelungstext
-            .getMeta()
-            .getAnalysis()
-            .stream()
-            .flatMap(analysis -> analysis.getPassiveModifications().stream())
-            .flatMap(textualMod -> textualMod.getForcePeriodEid().stream())
-            .map(regelungstext::getStartDateForTemporalGroup)
-            .flatMap(Optional::stream)
-        )
-        .map(LocalDate::parse)
-        .distinct()
-        .sorted();
-
-      for (LocalDate date : dates.toList()) {
-        CreateNewExpressionResult result = createNewVersionOfNormService.createNewExpression(
-          latestNormExpression,
-          date
-        );
-        allVersionsOfAllNormsToPublish.add(result.newManifestationOfOldExpression());
-
-        latestNormExpression = result.newExpression();
-      }
-
-      allVersionsOfAllNormsToPublish.add(latestNormExpression);
-    }
+    // We need to publish the manifestation of the norm with the correct "nachfolgende-version-id", therefore we
+    // use the manifestation created from createNewExpression of the next time boundary if it exists
+    Norm manifestationToPublish = createNewVersionOfNormService.createNewManifestation(
+      normToPublish
+    );
 
     // Validate all resulting versions
-    allVersionsOfAllNormsToPublish.forEach(norm -> {
-      norm
-        .getRegelungstexte()
-        .forEach(regelungstext ->
-          ldmlDeValidator.parseAndValidateRegelungstext(
-            XmlMapper.toString(regelungstext.getDocument())
-          )
-        );
-      ldmlDeValidator.validateSchematron(norm);
-    });
-
-    allVersionsOfAllNormsToPublish.forEach(norm -> {
-      norm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-    });
-
-    // Create new manifestations for the expressions that are directly targeted by this announcement (so not the once
-    // only created by the time-machine, but all the other once) so the newest manifestation is still unpublished and
-    // can be edited further
-    normsToPublish.forEach(norm -> {
-      // We need the new manifestations to use tomorrow's date so they do have a different eli to the once just
-      // published. When they are published the manifestation eli will be updated again anyway so the date is not really
-      // important as long as it is the newest date of any manifestation of the same expression.
-      var nextManifestationOfNorm = createNewVersionOfNormService.createNewManifestation(
-        norm,
-        LocalDate.now().plusDays(1)
+    manifestationToPublish
+      .getRegelungstexte()
+      .forEach(regelungstext ->
+        ldmlDeValidator.parseAndValidateRegelungstext(
+          XmlMapper.toString(regelungstext.getDocument())
+        )
       );
-      // delete the old unpublished manifestation so no residual data remains in the database
-      deleteNormPort.deleteNorm(
-        new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
-      );
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(nextManifestationOfNorm));
-    });
+    ldmlDeValidator.validateSchematron(manifestationToPublish);
+
+    manifestationToPublish.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(manifestationToPublish));
+
+    // We need the new manifestations to use tomorrow's date so they do have a different eli to the once just
+    // published. When they are published the manifestation eli will be updated again anyway so the date is not really
+    // important as long as it is the newest date of any manifestation of the same expression.
+    var nextManifestationOfNorm = createNewVersionOfNormService.createNewManifestation(
+      normToPublish,
+      LocalDate.now().plusDays(1)
+    );
+    // delete the old unpublished manifestation so no residual data remains in the database
+    deleteNormPort.deleteNorm(
+      new DeleteNormPort.Command(normToPublish.getManifestationEli(), NormPublishState.UNPUBLISHED)
+    );
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(nextManifestationOfNorm));
 
     var release = Release
       .builder()
-      .publishedNorms(allVersionsOfAllNormsToPublish.stream().toList())
+      .publishedNorms(List.of(manifestationToPublish))
       .releasedAt(Instant.now())
       .build();
     announcement.addRelease(release);

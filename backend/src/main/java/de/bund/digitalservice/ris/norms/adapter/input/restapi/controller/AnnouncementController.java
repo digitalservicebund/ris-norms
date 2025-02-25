@@ -14,7 +14,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnounceme
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
@@ -82,12 +82,12 @@ public class AnnouncementController {
    *     <p>Returns HTTP 404 (Not Found) if no release is found.
    */
   @GetMapping(
-    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/releases",
+    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/releases",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final DokumentExpressionEli eli) {
+  public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final NormExpressionEli eli) {
     var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
-      new LoadAnnouncementByNormEliUseCase.Query(eli.asNormEli())
+      new LoadAnnouncementByNormEliUseCase.Query(eli)
     );
 
     return ResponseEntity.ok(
@@ -105,12 +105,12 @@ public class AnnouncementController {
    *     <p>Returns HTTP 404 (Not Found) if no {@link Announcement} is found.
    */
   @PostMapping(
-    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/releases",
+    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/releases",
     produces = { APPLICATION_JSON_VALUE }
   )
-  public ResponseEntity<ReleaseResponseSchema> postReleases(final DokumentExpressionEli eli) {
+  public ResponseEntity<ReleaseResponseSchema> postReleases(final NormExpressionEli eli) {
     var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(eli.asNormEli())
+      new ReleaseAnnouncementUseCase.Query(eli)
     );
     var latestRelease = announcement
       .getReleases()

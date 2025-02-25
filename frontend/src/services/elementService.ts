@@ -57,7 +57,7 @@ export const useGetElement: typeof useElementService = (
 
 /**
  * Convenience shorthand for `useElementService` that sets the correct
- * configuration for getting JSON data.
+ * configuration for getting HTML data.
  *
  * @param eli ELI of the law containing the element
  * @param eid eId of the element

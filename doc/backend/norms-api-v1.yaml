@@ -63,9 +63,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the amending law
           schema:
-            $ref: "#/components/schemas/DokumentExpressionEli"
+            $ref: "#/components/schemas/NormExpressionEli"
       responses:
         "200":
           description: Information about releases
@@ -87,9 +86,8 @@ paths:
         - name: expressionEli
           in: path
           required: true
-          description: Expression ELI of the amending law
           schema:
-            $ref: "#/components/schemas/DokumentExpressionEli"
+            $ref: "#/components/schemas/NormExpressionEli"
       responses:
         "200":
           description: Successfully released an announcement
@@ -219,18 +217,6 @@ paths:
           in: query
           required: false
           description: "Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification). Only for `Content-Type: text/html`"
-          schema:
-            type: string
-        - name: amendedBy
-          in: query
-          required: false
-          description: "Filter the articles to articles amended by the given norm. Must be the expression ELI of the amending norm. Requires amendedAt. Only for `Content-Type: application/json`"
-          schema:
-            type: string
-        - name: amendedAt
-          in: query
-          required: false
-          description: "Filter the articles to articles amended at the given livecycle event. Must be the eid of the livecycle event. Requires amendedBy. Only for `Content-Type: application/json`"
           schema:
             type: string
       responses:
@@ -612,6 +598,12 @@ components:
       example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2024-02-01/regelungstext-1.xml
       description: ELI identifying a specific Dokument of a specific manifestation of a norm
 
+    NormExpressionEli:
+      type: string
+      format: NormExpressionEli
+      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu
+      description: ELI identifying a specific expression of a norm
+
     Norm:
       type: object
       properties:
@@ -650,34 +642,6 @@ components:
           type: string
           format: date
         temporalGroupEid:
-          type: string
-
-    Mod:
-      type: object
-      required:
-        - refersTo
-        - timeBoundaryEid
-        - destinationHref
-        - newContent
-      properties:
-        refersTo:
-          type: string
-        timeBoundaryEid:
-          type: string
-        destinationHref:
-          type: string
-        destinationUpTo:
-          type: string
-        newContent:
-          type: string
-          description: In case of a quotedText a String with the new text or in case of quotedStructure the new content within a quotedStructure
-
-    TimeBoundaryMod:
-      type: object
-      required:
-        - timeBoundaryEid
-      properties:
-        timeBoundaryEid:
           type: string
 
     ReleaseResponse:

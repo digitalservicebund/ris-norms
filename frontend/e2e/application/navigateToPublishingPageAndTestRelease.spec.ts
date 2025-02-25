@@ -24,10 +24,7 @@ test.describe(
       ).toBeVisible()
     })
 
-    test("publishing a norm", async ({
-      page,
-      authenticatedRequest: request,
-    }) => {
+    test("publishing a norm", async ({ page }) => {
       await page.goto(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
@@ -49,23 +46,9 @@ test.describe(
       // Verify Links
       await expect(
         page.getByRole("link", {
-          name: `eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
-        }),
-      ).toBeVisible()
-      await expect(
-        page.getByRole("link", {
           name: `eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
         }),
       ).toBeVisible()
-
-      const manifestationOfPreviouslyPublishedExpression = await request.get(
-        `/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
-      )
-      expect(
-        await manifestationOfPreviouslyPublishedExpression.text(),
-      ).toContain(
-        "Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet",
-      )
     })
 
     test.skip("editing of a published announcement doesn't change the published norms contents", async ({

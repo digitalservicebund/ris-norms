@@ -1,18 +1,18 @@
 import { ComputedRef, computed } from "vue"
 import { useRoute } from "vue-router"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 /**
  * Returns a string containing a set of named path params that can be used
- * for creating a part of a route that specifies a Dokument Expression ELI.
+ * for creating a part of a route that specifies a Norm Expression ELI.
  *
- * Use in combination with `useDokumentExpressionEliPathParameter` to get the ELI from the
+ * Use in combination with `useNormExpressionEliPathParameter` to get the ELI from the
  * current route.
  *
  * @param prefix If provided, prefixes each named path param with the value.
  *  This allows you to have multiple ELIs in a single route.
  */
-export function createDokumentExpressionEliPathParameter(prefix?: string) {
+export function createNormExpressionEliPathParameter(prefix?: string) {
   const name = prefix ? `${prefix}Eli` : "eli"
 
   // The regular expressions for the parts of the ELI are based on the definitions
@@ -29,21 +29,20 @@ export function createDokumentExpressionEliPathParameter(prefix?: string) {
     `:${name}PointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})`,
     `:${name}Version([0-9]+)`,
     `:${name}Language(deu)`,
-    `:${name}Subtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)`,
   ].join("/")
 }
 
 /**
  * Provides a reference to the ELI of the current route. This is reconstructed
- * from the named path params created by `createDokumentExpressionEliPathParameter`.
+ * from the named path params created by `createNormExpressionEliPathParameter`.
  *
  * @param prefix If provided, only returns the path parameters that use the
  *  specified prefix. This allows you to get multiple ELIs from a single route.
  * @returns A reference to the ELI of the current route
  */
-export function useDokumentExpressionEliPathParameter(
+export function useNormExpressionEliPathParameter(
   prefix?: string,
-): ComputedRef<DokumentExpressionEli> {
+): ComputedRef<NormExpressionEli> {
   const { params } = useRoute()
   const name = prefix ? `${prefix}Eli` : "eli"
 
@@ -54,7 +53,6 @@ export function useDokumentExpressionEliPathParameter(
     const pointInTime = params[`${name}PointInTime`]
     const version = params[`${name}Version`]
     const language = params[`${name}Language`]
-    const subtype = params[`${name}Subtype`]
 
     if (
       typeof agent != "string" ||
@@ -62,22 +60,20 @@ export function useDokumentExpressionEliPathParameter(
       typeof naturalIdentifier != "string" ||
       typeof pointInTime != "string" ||
       typeof version != "string" ||
-      typeof language != "string" ||
-      typeof subtype != "string"
+      typeof language != "string"
     ) {
       throw new Error(
-        `useDokumentExpressionEliPathParameter: You can only use this composable on pages which have a DokumentExpressionELI${prefix ? " prefixed with " + prefix : ""} in their route`,
+        `useNormExpressionEliPathParameter: You can only use this composable on pages which have a NormExpressionELI${prefix ? " prefixed with " + prefix : ""} in their route`,
       )
     }
 
-    return new DokumentExpressionEli(
+    return new NormExpressionEli(
       agent,
       year,
       naturalIdentifier,
       pointInTime,
       parseInt(version, 10),
       language,
-      subtype,
     )
   })
 }

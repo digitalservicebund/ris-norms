@@ -3,16 +3,16 @@ import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useReleases } from "@/views/amending-law/publishing/useReleases"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import Button from "primevue/button"
 import Message from "primevue/message"
 import { computed, onUnmounted } from "vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
 const { pushBreadcrumb } = useHeaderContext()
 const cleanupBreadcrumbs = pushBreadcrumb({ title: "Abgabe" })
 onUnmounted(() => cleanupBreadcrumbs())
 
-const eli = useDokumentExpressionEliPathParameter()
+const eli = useNormExpressionEliPathParameter()
 const {
   data: releases,
   release: {
@@ -23,7 +23,7 @@ const {
   isFetching,
   error: fetchError,
   statusCode: fetchStatusCode,
-} = useReleases(eli)
+} = useReleases(computed(() => eli.value))
 
 async function onRelease() {
   await releaseAmendingLaw()
