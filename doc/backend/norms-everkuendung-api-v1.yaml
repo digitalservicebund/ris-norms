@@ -42,6 +42,7 @@ paths:
         - Das Verfahren zum manuellen Übertragen der Daten, wenn die Verkündung wiederholt nicht angenommen wurde, muss noch definiert werden.
         - Sollte die Antwort auf eine erfolgreiche Anfrage weitere Informationen enthalten oder reicht der Statuscode?
         - Das Vorgehen und ggf. die Schnittstelle für die Übergangsphase, d.h. bevor die E-Gesetzgebung Daten aus dem LEA-Editor liefert, muss noch definiert werden.
+        - Eventuell wird es in Zukunft notwendig sein, statt einer synchronen Anfrage eine asynchrone Anfrage zu verwenden, damit das Backend größere Datenmengen besser verarbeiten kann. Es ist zu klären, ob wir die Schnittstelle direkt so gestalten wollen, oder ob das eine künftige Ausbaustufe sein wird.
       security:
         - ClientCredentials: [upload_verkuendung]
       requestBody:
