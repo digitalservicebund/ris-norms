@@ -569,18 +569,18 @@ class NormServiceTest {
     @Test
     void itSavesANorm() {
       // given
-      Norm amendingNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
 
-      when(updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm)))
-        .thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(norm)))
+        .thenReturn(Optional.of(norm));
 
       // when
-      service.updateNorm(amendingNorm);
+      service.updateNorm(norm);
 
       // then
       verify(updateNormPort, times(1))
         .updateNorm(
-          argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(amendingNorm)))
+          argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(norm)))
         );
     }
   }

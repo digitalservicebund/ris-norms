@@ -14,8 +14,7 @@ import org.springframework.http.ProblemDetail;
  * Factory class responsible for creating {@link ProblemDetail} instances for various exceptions.
  * This class provides a static method to create standardized {@link ProblemDetail} objects that
  * conform to RFC 9457 - Problem Details for HTTP APIs. Each exception type is mapped to a specific
- * type in form of a {@link URI} and a title. Handling {@link ValidationException} varies a bit
- * because that exception has many different types.
+ * type in form of a {@link URI} and a title.
  */
 public class ProblemDetailFactory {
 
@@ -35,11 +34,7 @@ public class ProblemDetailFactory {
   ) {
     final ProblemMapping problemMapping = ProblemMapping.getInstance(e.getClass());
     final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
-    if (e instanceof ValidationException validationException) {
-      problemDetail.setType(URI.create(validationException.getErrorType().getType()));
-    } else {
-      problemDetail.setType(problemMapping.getType());
-    }
+    problemDetail.setType(problemMapping.getType());
     problemDetail.setTitle(problemMapping.getTitle());
     return problemDetail;
   }
@@ -130,8 +125,7 @@ public class ProblemDetailFactory {
       LdmlDeSchematronException.class,
       URI.create("/errors/ldml-de-not-schematron-valid"),
       "The provided xml is not a schematron-valid LDML.de 1.7.2 document"
-    ),
-    VALIDATION_ERROR(ValidationException.class, null, "Validation error");
+    );
 
     /**
      * Creates the Enum

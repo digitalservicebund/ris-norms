@@ -52,13 +52,13 @@ public class ArticleController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ArticleResponseSchema>> getArticles(final DokumentExpressionEli eli) {
-    final var articlesWithZf0 = loadArticlesFromDokumentUseCase
+    final var articles = loadArticlesFromDokumentUseCase
       .loadArticlesFromDokument(new LoadArticlesFromDokumentUseCase.Query(eli))
       .stream()
       .map(ArticleResponseMapper::fromNormArticle)
       .toList();
 
-    return ResponseEntity.ok(articlesWithZf0);
+    return ResponseEntity.ok(articles);
   }
 
   /**

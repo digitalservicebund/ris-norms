@@ -4,7 +4,6 @@ import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
-import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -53,26 +52,6 @@ public class NormsAppExceptionHandler {
       HttpStatus.NOT_FOUND
     );
     problemDetail.setProperty("eli", e.getEli());
-    return problemDetail;
-  }
-
-  /**
-   * Exception handler method for handling {@link ValidationException}.
-   *
-   * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 422 status and the exception message.
-   */
-  @ExceptionHandler(ValidationException.class)
-  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ProblemDetail handleException(final ValidationException e) {
-    log.error("ValidationException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    Arrays
-      .stream(e.getFields())
-      .forEach(field -> problemDetail.setProperty(field.getKey().getName(), field.getValue()));
     return problemDetail;
   }
 
