@@ -189,8 +189,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"beschliessendesOrgan\": \"Bundestag\"," +
               "\"qualifizierteMehrheit\": true," +
               "\"ressort\": \"Bundesministerium der Justiz\"," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
-              "\"ressort\": \"new ressort\"}"
+              "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
             )
         )
         .andExpect(status().isNotFound())
@@ -240,7 +239,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               "\"staat\": \"DDR\"," +
               "\"beschliessendesOrgan\": \"LT\"," +
               "\"qualifizierteMehrheit\": false," +
-              "\"ressort\": \"Bundesministerium der Magie\"," +
               "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
               "\"ressort\": \"new ressort\"}"
             )
