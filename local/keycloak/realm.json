@@ -62,7 +62,7 @@
       "name": "Norms",
       "subGroups": [],
       "attributes": {},
-      "realmRoles": [],
+      "realmRoles": ["norms_user"],
       "clientRoles": {}
     }
   ],

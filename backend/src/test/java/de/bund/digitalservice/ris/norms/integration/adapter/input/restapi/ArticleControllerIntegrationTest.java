@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentM
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WithMockUser
+@WithMockUser(roles = { Roles.NORMS_USER })
 class ArticleControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired

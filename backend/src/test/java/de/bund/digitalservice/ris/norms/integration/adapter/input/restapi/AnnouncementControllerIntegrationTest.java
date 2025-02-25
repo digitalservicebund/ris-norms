@@ -31,7 +31,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WithMockUser
+@WithMockUser(roles = { Roles.NORMS_USER })
 class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
