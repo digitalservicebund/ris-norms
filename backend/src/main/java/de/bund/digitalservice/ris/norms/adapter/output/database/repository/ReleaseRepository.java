@@ -15,9 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ReleaseRepository extends JpaRepository<ReleaseDto, UUID> {
-  @Query(
-    "SELECT r from ReleaseDto r WHERE elements(r.norms) = ANY (SELECT n from NormManifestationDto n where n.expressionEli = :normExpressionEli)"
-  )
+  @Query("SELECT r FROM ReleaseDto r JOIN r.norms n WHERE n.expressionEli = :normExpressionEli")
   List<ReleaseDto> findAllByNormExpressionEli(
     @Param("normExpressionEli") final String normExpressionEli
   );
