@@ -21,6 +21,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationE
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -370,39 +371,26 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class saveReleaseToAnnouncement {
+  class saveRelease {
 
     @Test
-    void itUpdatesAnnouncementAndSavesRelease() {
+    void itSavesRelease() {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
       );
 
-      var announcement = Announcement
-        .builder()
-        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
-        .build();
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
-
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
       // When
-      dbService.saveReleaseToAnnouncement(
-        new SaveReleaseToAnnouncementPort.Command(release, announcement)
-      );
+      dbService.saveRelease(new SaveReleasePort.Command(release));
 
-      var savedAnnouncement = announcementRepository.findByEliNormExpression(
-        norm.getExpressionEli().toString()
-      );
+      var releases = releaseRepository.findAll();
 
-      assertThat(savedAnnouncement).isPresent();
-      assertThat(savedAnnouncement.get().getReleases()).hasSize(1);
-      assertThat(savedAnnouncement.get().getReleases().getFirst().getNorms()).hasSize(1);
-      assertThat(
-        savedAnnouncement.get().getReleases().getFirst().getNorms().getFirst().getManifestationEli()
-      )
+      assertThat(releases).hasSize(1);
+      assertThat(releases.getFirst().getNorms()).hasSize(1);
+      assertThat(releases.getFirst().getNorms().getFirst().getManifestationEli())
         .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     }
   }
@@ -422,10 +410,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
       normDto = normManifestationRepository.save(normDto);
 
-      var announcement = Announcement
-        .builder()
-        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
-        .build();
       var release = Release
         .builder()
         .publishedNorms(List.of(Fixtures.loadNormFromDisk("SimpleNorm.xml")))
@@ -435,19 +419,18 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       releaseDto.setNorms(List.of(normDto));
       releaseRepository.save(releaseDto);
 
-      var announcementDto = AnnouncementMapper.mapToDto(announcement);
-      announcementDto.setReleases(List.of(releaseDto));
-      announcementRepository.save(announcementDto);
-
       // When
-      dbService.deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
+      dbService.deleteQueuedReleases(
+        new DeleteQueuedReleasesPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        )
+      );
 
       // Then
-      var savedAnnouncement = announcementRepository.findByEliNormExpression(
+      var savedReleases = releaseRepository.findAllByNormExpressionEli(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
       );
-      assertThat(savedAnnouncement).isPresent();
-      assertThat(savedAnnouncement.get().getReleases()).isEmpty();
+      assertThat(savedReleases).isEmpty();
 
       var savedNorm = dokumentRepository.findByEliDokumentManifestation(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
@@ -536,6 +519,108 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       assertThat(migrationLogOptional)
         .isPresent()
         .satisfies(log -> assertThat(log).contains(migrationLog2));
+    }
+  }
+
+  @Nested
+  class loadReleasesByNormExpressionEli {
+
+    @Test
+    void itLoadsRelease() {
+      // Given
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
+      var normDto = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        .orElseThrow();
+      normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      normDto = normManifestationRepository.save(normDto);
+
+      var release = Release
+        .builder()
+        .publishedNorms(List.of(Fixtures.loadNormFromDisk("SimpleNorm.xml")))
+        .build();
+
+      var releaseDto = ReleaseMapper.mapToDto(release);
+      releaseDto.setNorms(List.of(normDto));
+      releaseRepository.save(releaseDto);
+      releaseRepository.save(
+        ReleaseMapper.mapToDto(Release.builder().releasedAt(Instant.now()).build())
+      );
+
+      // When
+      var releases = dbService.loadReleasesByNormExpressionEli(
+        new LoadReleasesByNormExpressionEliPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        )
+      );
+
+      assertThat(releases).hasSize(1);
+      assertThat(releases.getFirst().getPublishedNorms()).hasSize(1);
+      assertThat(releases.getFirst().getPublishedNorms().getFirst().getManifestationEli())
+        .isEqualTo(
+          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        );
+    }
+
+    @Test
+    void itLoadsReleases() {
+      // Given
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+      );
+      var normDto = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        .orElseThrow();
+      normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      normDto = normManifestationRepository.save(normDto);
+      var release = Release
+        .builder()
+        .publishedNorms(List.of(Fixtures.loadNormFromDisk("SimpleNorm.xml")))
+        .build();
+      var releaseDto = ReleaseMapper.mapToDto(release);
+      releaseDto.setNorms(List.of(normDto));
+      releaseRepository.save(releaseDto);
+
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+        )
+      );
+      var normDto2 = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
+        .orElseThrow();
+      var release2 = Release
+        .builder()
+        .publishedNorms(List.of(Fixtures.loadNormFromDisk("SimpleNorm.xml")))
+        .build();
+      var releaseDto2 = ReleaseMapper.mapToDto(release2);
+      releaseDto2.setNorms(List.of(normDto2));
+      releaseRepository.save(releaseDto2);
+
+      releaseRepository.save(
+        ReleaseMapper.mapToDto(Release.builder().releasedAt(Instant.now()).build())
+      );
+
+      // When
+      var releases = dbService.loadReleasesByNormExpressionEli(
+        new LoadReleasesByNormExpressionEliPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        )
+      );
+
+      assertThat(releases).hasSize(2);
+      assertThat(releases.getFirst().getPublishedNorms()).hasSize(1);
+      assertThat(releases.getFirst().getPublishedNorms().getFirst().getManifestationEli())
+        .isEqualTo(
+          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        );
+      assertThat(releases.get(1).getPublishedNorms()).hasSize(1);
+      assertThat(releases.get(1).getPublishedNorms().getFirst().getManifestationEli())
+        .isEqualTo(
+          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
+        );
     }
   }
 }

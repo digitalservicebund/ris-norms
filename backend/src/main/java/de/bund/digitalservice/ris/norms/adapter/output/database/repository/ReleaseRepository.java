@@ -1,8 +1,11 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,4 +14,9 @@ import org.springframework.stereotype.Repository;
  * ReleaseDto}.
  */
 @Repository
-public interface ReleaseRepository extends JpaRepository<ReleaseDto, UUID> {}
+public interface ReleaseRepository extends JpaRepository<ReleaseDto, UUID> {
+  @Query("SELECT r FROM ReleaseDto r JOIN r.norms n WHERE n.expressionEli = :normExpressionEli")
+  List<ReleaseDto> findAllByNormExpressionEli(
+    @Param("normExpressionEli") final String normExpressionEli
+  );
+}

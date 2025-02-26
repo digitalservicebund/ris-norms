@@ -3,7 +3,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedReleasesPort;
-import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadReleasesByNormExpressionEliPort;
+import de.bund.digitalservice.ris.norms.application.port.output.SaveReleasePort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -22,35 +23,36 @@ import org.springframework.transaction.annotation.Transactional;
  * component in the Spring context.
  */
 @Service
-public class ReleaseService implements ReleaseAnnouncementUseCase {
+public class ReleaseService
+  implements ReleaseNormExpressionUseCase, LoadReleasesByNormExpressionEliUseCase {
 
-  private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final NormService normService;
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final DeleteNormPort deleteNormPort;
-  private final SaveReleaseToAnnouncementPort saveReleaseToAnnouncementPort;
+  private final SaveReleasePort saveReleasePort;
   private final DeleteQueuedReleasesPort deleteQueuedReleasesPort;
   private final LdmlDeValidator ldmlDeValidator;
+  private final LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort;
 
   public ReleaseService(
-    LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     NormService normService,
     CreateNewVersionOfNormService createNewVersionOfNormService,
     DeleteNormPort deleteNormPort,
-    SaveReleaseToAnnouncementPort saveReleaseToAnnouncementPort,
+    SaveReleasePort saveReleasePort,
     DeleteQueuedReleasesPort deleteQueuedReleasesPort,
-    LdmlDeValidator ldmlDeValidator
+    LdmlDeValidator ldmlDeValidator,
+    LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort
   ) {
-    this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.normService = normService;
     this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.deleteNormPort = deleteNormPort;
-    this.saveReleaseToAnnouncementPort = saveReleaseToAnnouncementPort;
+    this.saveReleasePort = saveReleasePort;
     this.deleteQueuedReleasesPort = deleteQueuedReleasesPort;
     this.ldmlDeValidator = ldmlDeValidator;
+    this.loadReleasesByNormExpressionEliPort = loadReleasesByNormExpressionEliPort;
   }
 
   /**
@@ -66,17 +68,12 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
    */
   @Override
   @Transactional
-  public Announcement releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
-    var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
-      new LoadAnnouncementByNormEliUseCase.Query(query.eli())
-    );
-    var normToPublish = normService.loadNorm(new LoadNormUseCase.Query(announcement.getEli()));
+  public Release releaseNormExpression(ReleaseNormExpressionUseCase.Query query) {
+    var normToPublish = normService.loadNorm(new LoadNormUseCase.Query(query.eli()));
 
-    // Delete the files from a previous release of the same announcement if they are still queued for publishing.
-    // This is to prevent residual files from remaining if some time boundaries changed and this release will create
-    // different expressions.
+    // Delete the files from a previous release of the same norm if they are still queued for publishing.
     var deletedReleases = deleteQueuedReleasesPort.deleteQueuedReleases(
-      new DeleteQueuedReleasesPort.Command(announcement.getEli())
+      new DeleteQueuedReleasesPort.Command(query.eli())
     );
     deletedReleases
       .stream()
@@ -127,12 +124,16 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
       .publishedNorms(List.of(manifestationToPublish))
       .releasedAt(Instant.now())
       .build();
-    announcement.addRelease(release);
 
-    saveReleaseToAnnouncementPort.saveReleaseToAnnouncement(
-      new SaveReleaseToAnnouncementPort.Command(release, announcement)
+    return saveReleasePort.saveRelease(new SaveReleasePort.Command(release));
+  }
+
+  @Override
+  public List<Release> loadReleasesByNormExpressionEli(
+    LoadReleasesByNormExpressionEliUseCase.Query query
+  ) {
+    return loadReleasesByNormExpressionEliPort.loadReleasesByNormExpressionEli(
+      new LoadReleasesByNormExpressionEliPort.Command(query.eli())
     );
-
-    return announcement;
   }
 }

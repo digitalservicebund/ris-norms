@@ -3,10 +3,6 @@
 ```mermaid
 classDiagram
 direction BT
-class announcement_releases {
-   uuid announcement_id
-   uuid release_id
-}
 class announcements {
    text eli
    uuid id
@@ -51,8 +47,6 @@ class releases {
    uuid id
 }
 
-announcement_releases  -->  announcements : announcement_id/id
-announcement_releases  -->  releases : release_id/id
 announcements  -->  norm_expression : eli_norm_expression
 binary_files  -->  norm_manifestation : eli_norm_manifestation
 dokumente  -->  norm_manifestation : eli_norm_manifestation

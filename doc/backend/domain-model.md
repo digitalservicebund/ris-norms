@@ -8,7 +8,6 @@ class Analysis {
   }
   class Announcement {
 - NormExpressionEli eli
-- List~Release~ releases
   }
   class Article {
 - String AFFECTED_DOCUMENT_XPATH
@@ -234,7 +233,6 @@ Norm "1" *-- "many" BinaryFile
 Norm "1" *-- "1" NormManifestationEli
 
 Announcement "1" -- "1" NormExpressionEli
-Announcement "1" *-- "many" Release
 
 Dokument "1" *-- "1" DokumentWorkEli
 Dokument "1" *-- "1" DokumentExpressionEli

@@ -8,50 +8,50 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedReleasesPort;
-import de.bund.digitalservice.ris.norms.application.port.output.SaveReleaseToAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadReleasesByNormExpressionEliPort;
+import de.bund.digitalservice.ris.norms.application.port.output.SaveReleasePort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ReleaseServiceTest {
 
-  private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase = mock(
-    LoadAnnouncementByNormEliUseCase.class
-  );
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
   private final NormService normService = mock(NormService.class);
   private final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
     CreateNewVersionOfNormService.class
   );
   private final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
-  private final SaveReleaseToAnnouncementPort saveReleaseToAnnouncementPort = mock(
-    SaveReleaseToAnnouncementPort.class
-  );
+  private final SaveReleasePort saveReleasePort = mock(SaveReleasePort.class);
   private final DeleteQueuedReleasesPort deleteQueuedReleasesPort = mock(
     DeleteQueuedReleasesPort.class
   );
   private final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
+  private final LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort = mock(
+    LoadReleasesByNormExpressionEliPort.class
+  );
   private final ReleaseService releaseService = new ReleaseService(
-    loadAnnouncementByNormEliUseCase,
     updateOrSaveNormPort,
     normService,
     createNewVersionOfNormService,
     deleteNormPort,
-    saveReleaseToAnnouncementPort,
+    saveReleasePort,
     deleteQueuedReleasesPort,
-    ldmlDeValidator
+    ldmlDeValidator,
+    loadReleasesByNormExpressionEliPort
   );
 
   @Test
@@ -65,11 +65,8 @@ class ReleaseServiceTest {
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
+    var savedRelease = new Release(Instant.now(), List.of(manifestationOfNormToQueue));
 
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
-
-    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-      .thenReturn(announcement);
     when(deleteQueuedReleasesPort.deleteQueuedReleases(any())).thenReturn(List.of());
     when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
       .thenReturn(norm);
@@ -79,10 +76,11 @@ class ReleaseServiceTest {
       createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
     )
       .thenReturn(newNewestUnpublishedManifestationOfNorm);
+    when(saveReleasePort.saveRelease(any())).thenReturn(savedRelease);
 
     // When
-    releaseService.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli())
+    var returnedRelease = releaseService.releaseNormExpression(
+      new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli())
     );
 
     // Then
@@ -90,7 +88,7 @@ class ReleaseServiceTest {
     verify(createNewVersionOfNormService, times(1))
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
     verify(deleteQueuedReleasesPort, times(1))
-      .deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(announcement.getEli()));
+      .deleteQueuedReleases(new DeleteQueuedReleasesPort.Command(norm.getExpressionEli()));
     verify(ldmlDeValidator, times(1))
       .parseAndValidateRegelungstext(
         XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
@@ -104,47 +102,45 @@ class ReleaseServiceTest {
       .deleteNorm(
         new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
       );
-    verify(saveReleaseToAnnouncementPort, times(1)).saveReleaseToAnnouncement(any());
+    verify(saveReleasePort, times(1))
+      .saveRelease(
+        assertArg(command -> {
+          assertThat(command.release().getPublishedNorms()).hasSize(1);
+          assertThat(command.release().getPublishedNorms()).contains(manifestationOfNormToQueue);
+        })
+      );
 
     assertThat(manifestationOfNormToQueue.getPublishState())
       .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
     assertThat(newNewestUnpublishedManifestationOfNorm.getPublishState())
       .isEqualTo(NormPublishState.UNPUBLISHED);
 
-    assertThat(announcement.getReleases()).hasSize(1);
-    assertThat(announcement.getReleases().getFirst().getPublishedNorms()).hasSize(1);
-    assertThat(announcement.getReleases().getFirst().getPublishedNorms())
-      .contains(manifestationOfNormToQueue);
+    assertThat(returnedRelease).isEqualTo(savedRelease);
   }
 
   @Test
   void itShouldUpdateTheReleasedByDocumentalistAtDate() {
     // Given
     var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
-    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-      .thenReturn(announcement);
     when(normService.loadNorm(any())).thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(norm);
 
     // When
     var instantBeforeRelease = Instant.now();
-    releaseService.releaseAnnouncement(
-      new ReleaseAnnouncementUseCase.Query(
+    releaseService.releaseNormExpression(
+      new ReleaseNormExpressionUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       )
     );
 
     // Then
-    verify(loadAnnouncementByNormEliUseCase, times(1))
-      .loadAnnouncementByNormEli(
-        new LoadAnnouncementByNormEliUseCase.Query(norm.getExpressionEli())
+    verify(saveReleasePort, times(1))
+      .saveRelease(
+        assertArg(command -> {
+          assertThat(command.release().getReleasedAt()).isAfter(instantBeforeRelease);
+        })
       );
-
-    verify(saveReleaseToAnnouncementPort, times(1)).saveReleaseToAnnouncement(any());
-    assertThat(announcement.getReleases()).hasSize(1);
-    assertThat(announcement.getReleases().getFirst().getReleasedAt()).isAfter(instantBeforeRelease);
   }
 
   @Test
@@ -160,10 +156,6 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
-
-    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-      .thenReturn(announcement);
     when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
@@ -175,10 +167,10 @@ class ReleaseServiceTest {
     when(ldmlDeValidator.parseAndValidateRegelungstext(any()))
       .thenThrow(new LdmlDeNotValidException(List.of()));
 
-    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli());
 
     // When
-    assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
+    assertThatThrownBy(() -> releaseService.releaseNormExpression(query))
       .isInstanceOf(LdmlDeNotValidException.class);
 
     // Then
@@ -192,7 +184,7 @@ class ReleaseServiceTest {
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
-    verify(saveReleaseToAnnouncementPort, times(0)).saveReleaseToAnnouncement(any());
+    verify(saveReleasePort, times(0)).saveRelease(any());
 
     assertThat(manifestationOfNormToQueue.getPublishState())
       .isEqualTo(NormPublishState.UNPUBLISHED);
@@ -211,10 +203,6 @@ class ReleaseServiceTest {
       "NormWithoutPassiveModificationsNoNextVersion.xml"
     );
 
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
-
-    when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-      .thenReturn(announcement);
     when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
       .thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any()))
@@ -227,10 +215,10 @@ class ReleaseServiceTest {
       .when(ldmlDeValidator)
       .validateSchematron(any(Norm.class));
 
-    var query = new ReleaseAnnouncementUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli());
 
     // When
-    assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
+    assertThatThrownBy(() -> releaseService.releaseNormExpression(query))
       .isInstanceOf(LdmlDeSchematronException.class);
 
     // Then
@@ -244,9 +232,43 @@ class ReleaseServiceTest {
       .createNewManifestation(norm, LocalDate.now().plusDays(1));
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
-    verify(saveReleaseToAnnouncementPort, times(0)).saveReleaseToAnnouncement(any());
+    verify(saveReleasePort, times(0)).saveRelease(any());
 
     assertThat(manifestationOfNormToQueue.getPublishState())
       .isEqualTo(NormPublishState.UNPUBLISHED);
+  }
+
+  @Nested
+  class loadReleasesByNormExpressionEli {
+
+    @Test
+    void itLoadsReleases() {
+      // Given
+      var release1 = new Release(Instant.now(), List.of());
+      var release2 = new Release(Instant.now(), List.of());
+
+      when(loadReleasesByNormExpressionEliPort.loadReleasesByNormExpressionEli(any()))
+        .thenReturn(List.of(release1, release2));
+
+      // When
+      var releases = releaseService.loadReleasesByNormExpressionEli(
+        new LoadReleasesByNormExpressionEliUseCase.Query(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        )
+      );
+
+      // Then
+      assertThat(releases).containsExactlyInAnyOrder(release1, release2);
+
+      verify(loadReleasesByNormExpressionEliPort, times(1))
+        .loadReleasesByNormExpressionEli(
+          assertArg(command -> {
+            assertThat(command.eli())
+              .isEqualTo(
+                NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+              );
+          })
+        );
+    }
   }
 }

@@ -9,13 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
-import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
@@ -43,13 +40,7 @@ class AnnouncementControllerTest {
   private LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
 
   @MockitoBean
-  private LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
-
-  @MockitoBean
   private LoadNormUseCase loadNormUseCase;
-
-  @MockitoBean
-  private ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
 
   @MockitoBean
   private CreateAnnouncementUseCase createAnnouncementUseCase;
@@ -181,105 +172,6 @@ class AnnouncementControllerTest {
         )
         .andExpect(
           jsonPath("$[1].eli", equalTo("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
-        );
-    }
-  }
-
-  @Nested
-  class getRelease {
-
-    @Test
-    void itReturnsRelease() throws Exception {
-      // Given
-      var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(norm1.getExpressionEli())
-        .releases(
-          List.of(
-            Release
-              .builder()
-              .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-              .publishedNorms(List.of(norm1, norm2))
-              .build()
-          )
-        )
-        .build();
-
-      when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-        .thenReturn(announcement);
-
-      // When // Then
-      mockMvc
-        .perform(
-          get("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("[0].releaseAt", equalTo("2024-01-02T10:20:30Z")))
-        .andExpect(jsonPath("[0].norms[0]").exists())
-        .andExpect(jsonPath("[0].norms[2]").doesNotExist())
-        .andExpect(
-          jsonPath(
-            "[0].norms[0]",
-            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml")
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "[0].norms[1]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
-          )
-        );
-    }
-  }
-
-  @Nested
-  class putRelease {
-
-    @Test
-    void itReleaseAnAnnouncement() throws Exception {
-      // Given
-      var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
-      var announcement = Announcement
-        .builder()
-        .eli(norm1.getExpressionEli())
-        .releases(
-          List.of(
-            Release
-              .builder()
-              .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-              .publishedNorms(List.of(norm1, norm2))
-              .build()
-          )
-        )
-        .build();
-
-      when(releaseAnnouncementUseCase.releaseAnnouncement(any())).thenReturn(announcement);
-
-      // When // Then
-      mockMvc
-        .perform(
-          post("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
-            .with(csrf())
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
-        .andExpect(jsonPath("norms[2]").doesNotExist())
-        .andExpect(
-          jsonPath(
-            "norms[0]",
-            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml")
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "norms[1]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
-          )
         );
     }
   }
