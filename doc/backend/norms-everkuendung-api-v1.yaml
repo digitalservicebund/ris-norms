@@ -1,0 +1,180 @@
+openapi: 3.0.0
+info:
+  title: RIS Norms API für die E-Verkündung
+  version: 1.0.0
+  description: |
+    API für die Datenübertragung von der E-Verkündung zu NeuRIS.
+
+    Über die Schnittstelle zwischen E-Verkündung und NeuRIS werden die Daten aus dem Bundesgesetzblatt I und II ausgetauscht.
+
+    ## Authentifizierung
+
+    Für die Nutzung aller Endpunkte muss ein gültiger Access Token als `Authorization: Bearer <token>` übermittelt werden. Der Token kann über einen [OAuth2 Client Credentials Grant](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4) abgerufen werden. Die notwendigen Informationen werden vom DigitalService bereitgestellt.
+
+servers:
+  - url: /api/v1
+    description: Backend
+
+security:
+  - ClientCredentials: [upload_verkuendung]
+
+paths:
+  /verkuendungen:
+    post:
+      summary: Annahme von Verkündungen.
+      description: |
+        Die Schnittstelle erlaubt das Hochladen eines Normendokumentationspakets.
+
+        Es kann immer nur eine Anfrage gleichzeitig verarbeitet werden.
+
+        Das Archiv wird während der Anfrage innerhalb von 120 Sekunden validiert. Eine erfolgreiche Übermittelung wird mit dem Status-Code `200 OK` bestätigt.
+
+        Wenn die Validierung fehlschlägt oder nicht innerhalb dieser Zeit abgeschlossen werden kann, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum ernet versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
+
+        ## Offene Fragen
+
+        - Die erlaubten Dateiformate (MIME-Types) für nicht-strukturierte Anlagen sind noch nicht abschließend geklärt.
+        - Das Verfahren zum manuellen Übertragen der Daten, wenn die Verkündung wiederholt nicht angenommen wurde, muss noch definiert werden.
+        - Das Vorgehen und ggf. die Schnittstelle für die Übergangsphase, d.h. bevor die E-Gesetzgebung Daten aus dem LEA-Editor liefert, muss noch definiert werden.
+        - Signierung:
+          - Art und Format der Signatur müssen noch definiert werden.
+          - Es muss entschieden werden, ob nur das ZIP-Archiv und/oder die Dateien im Archiv signiert werden.
+          - Das Verfahren zum Austausch des öffentlichen Schlüssels für die Verifizierung der Signatur muss noch definiert werden.
+        - Eventuell wird es in Zukunft notwendig sein, statt einer synchronen Anfrage eine asynchrone Anfrage zu verwenden, damit das Backend größere Datenmengen besser verarbeiten kann.
+      requestBody:
+        required: true
+        description: |
+          Das Normendokumentationspaket liegt in Form eines ZIP-Archivs vor (`bgbl{1|2}_{jahr}_{nr}.zip`). Das Paket darf bis zu 200mb groß sein. Es enthält folgende Daten:
+
+          | Dokument | Dateiformat | Benennung | Anmerkungen |
+          | --- | --- | --- | --- |
+          | Rechtsetzungsdokument | XML | `rechtsetzungsdokument.xml` | soweit vorhanden |
+          | Regelungstext(e) | XML | `regelungstext-{n}.xml` | |
+          | Strukturierte Anlage(n) | XML | `offenestruktur-{n}.xml` | soweit vorhanden |
+          | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, ... | entsprechend Referenzierung im Dokument | soweit vorhanden |
+          | konsolidierte Fassung(en) aus der E-Gesetzgebung | PDF | `konsolidierte-fassungen/{name}.pdf` | |
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: ZIP-Archiv mit den Dokumenten
+                signature:
+                  type: string
+                  format: binary
+                  description: "Digitale Signatur für das Archiv. Hinweis: Bis Art und Format der Signatur definiert sind (siehe offene Fragen) ist die Übersendung der Signatur möglich, die Korrektheit wird aber nicht überprüft."
+      responses:
+        "201":
+          description: Die Verkündung wurde erfolgreich an NeuRIS übermittelt.
+        "400":
+          description: |
+            Die Eingangsdaten sind fehlerhaft. Es kann sich um verschiedene Fehler handeln:
+
+            - Das ZIP-Archiv ist ungültig
+            - Die Signatur des Archivs fehlt oder ist ungültig
+            - Die XML-Dokumente weisen entweder XSD- oder Schematron-Fehler auf. Schematron-Warnungen führen nicht zu einem Fehler.
+            - Die XML-Dokumente liegen in einer nicht unterstützten Version von LegalDocML.de vor
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "401":
+          description: Fehlende Berechtigung, z.B. kann die Authentifizierung der Anfrage fehlen oder ungültig sein.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "403":
+          description: Die Anfrage hat eine gültige Authentifizierung, jedoch fehlt die erforderliche Berechtigung.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "409":
+          description: Duplikat erkannt. Eine Verkündung mit dieser ELI wurde bereits übermittelt.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "413":
+          description: Die Eingangsdaten überschreiten die maximale Dateigröße von 200mb.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "429":
+          description: Die Anfrage kann gerade nicht verarbeitet werden, da zu viele parallele Anfragen laufen.
+          headers:
+            Retry-After:
+              $ref: "#/components/headers/Retry-After"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "500":
+          description: Interner Server-Fehler.
+          headers:
+            Retry-After:
+              $ref: "#/components/headers/Retry-After"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+
+components:
+  securitySchemes:
+    ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          # Die URL wird separat mitgeteilt.
+          tokenUrl: https://example.com
+          scopes:
+            upload_verkuendung: Erlaubt das Übertragen von Verkündungen an NeuRIS.
+  headers:
+    Retry-After:
+      description: Gibt an, wie lange der Client warten sollte, bevor eine neue Anfrage gestellt wird.
+      schema:
+        oneOf:
+          - type: integer
+            description: Wartezeit in Sekunden
+          - type: string
+            format: date-time
+            description: HTTP-Datum für den Zeitpunkt der erneuten Anfrage
+      example: 120
+  schemas:
+    ProblemDetail:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          format: uri
+          description: Eine URI, die die Art des Fehlers ausweist.
+          example: /errors/input-file-too-large
+        title:
+          type: string
+          description: Eine kurze, menschenlesbare Beschreibung des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
+          example: Die Eingangsdaten sind größer als die maximal erlaubte Dateigröße.
+        status:
+          type: integer
+          format: int32
+          description: Der HTTP-Status-Code, dem dieser Fehler zugeordnet ist.
+          example: 413
+        detail:
+          type: string
+          description: Menschenlesbare Details zur Ursache des Problems.  Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
+          example: Die Eingangsdaten haben eine Größe von 220mb, maximal erlaubt sind 200mb.
+        instance:
+          type: string
+          format: uri
+          description: Der API-Aufruf, der den Fehler ausgelöst hat.
+          example: /api/v1/verkuendungen
+        extensions:
+          type: object
+          additionalProperties: true
+          description: Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
