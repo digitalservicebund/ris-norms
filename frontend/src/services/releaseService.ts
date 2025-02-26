@@ -9,7 +9,7 @@ function useReleaseService<T>(
   fetchOptions: UseFetchOptions = {},
 ): UseFetchReturn<T> {
   return useApiFetch(
-    computed(() => `/announcements/${toValue(eli)}/releases`),
+    computed(() => `/${toValue(eli)}/releases`),
     fetchOptions,
   ).json()
 }

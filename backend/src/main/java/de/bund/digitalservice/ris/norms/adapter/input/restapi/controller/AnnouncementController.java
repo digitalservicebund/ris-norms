@@ -3,17 +3,11 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -30,21 +24,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class AnnouncementController {
 
   private final LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
-  private final LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
-  private final ReleaseNormExpressionUseCase releaseNormExpressionUseCase;
   private final CreateAnnouncementUseCase createAnnouncementUseCase;
   private final LoadNormUseCase loadNormUseCase;
 
   public AnnouncementController(
     LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
-    LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase,
-    ReleaseNormExpressionUseCase releaseNormExpressionUseCase,
     CreateAnnouncementUseCase createAnnouncementUseCase,
     LoadNormUseCase loadNormUseCase
   ) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
-    this.loadReleasesByNormExpressionEliUseCase = loadReleasesByNormExpressionEliUseCase;
-    this.releaseNormExpressionUseCase = releaseNormExpressionUseCase;
     this.createAnnouncementUseCase = createAnnouncementUseCase;
     this.loadNormUseCase = loadNormUseCase;
   }
@@ -68,47 +56,6 @@ public class AnnouncementController {
       .map(NormResponseMapper::fromUseCaseData)
       .toList();
     return ResponseEntity.ok(responseSchemas);
-  }
-
-  /**
-   * Retrieves the latest release of an {@link Announcement} based on its {@link Norm}'s expression ELI. The
-   * ELI's components are interpreted as query parameters.
-   *
-   * @param eli Eli of the request
-   * @return A {@link ResponseEntity} containing the retrieved release.
-   *     <p>Returns HTTP 200 (OK) and the release if found.
-   *     <p>Returns HTTP 404 (Not Found) if no release is found.
-   */
-  @GetMapping(
-    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/releases",
-    produces = { APPLICATION_JSON_VALUE }
-  )
-  public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final NormExpressionEli eli) {
-    var releases = loadReleasesByNormExpressionEliUseCase.loadReleasesByNormExpressionEli(
-      new LoadReleasesByNormExpressionEliUseCase.Query(eli)
-    );
-
-    return ResponseEntity.ok(releases.stream().map(ReleaseResponseMapper::fromRelease).toList());
-  }
-
-  /**
-   * Releases an {@link Announcement} (and all related {@link Norm}'s) based on its {@link Norm}'s
-   * expression ELI. The ELI's components are interpreted as query parameters.
-   *
-   * @param eli Eli of the request
-   * @return A {@link ResponseEntity} containing the created release.
-   *     <p>Returns HTTP 200 (OK) and the release was successful.
-   *     <p>Returns HTTP 404 (Not Found) if no {@link Announcement} is found.
-   */
-  @PostMapping(
-    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/releases",
-    produces = { APPLICATION_JSON_VALUE }
-  )
-  public ResponseEntity<ReleaseResponseSchema> postReleases(final NormExpressionEli eli) {
-    var release = releaseNormExpressionUseCase.releaseNormExpression(
-      new ReleaseNormExpressionUseCase.Query(eli)
-    );
-    return ResponseEntity.ok(ReleaseResponseMapper.fromRelease(release));
   }
 
   /**

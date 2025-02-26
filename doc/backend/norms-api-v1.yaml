@@ -54,11 +54,9 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /announcements/{expressionEli}/releases:
+  /{expressionEli}/releases:
     get:
-      tags:
-        - Announcements
-      summary: Get the releases of a specific announcement by the expression ELI of the amending law
+      summary: Get the releases of a specific norm expression
       parameters:
         - name: expressionEli
           in: path
@@ -79,9 +77,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
     post:
-      tags:
-        - Announcements
-      summary: Release the norms affected by a specific announcement
+      summary: Release the norm expression
       parameters:
         - name: expressionEli
           in: path
@@ -90,7 +86,7 @@ paths:
             $ref: "#/components/schemas/NormExpressionEli"
       responses:
         "200":
-          description: Successfully released an announcement
+          description: Successfully released the norm
           content:
             application/json:
               schema:
