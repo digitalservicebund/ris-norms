@@ -15,7 +15,10 @@ The frontend is the main entry point for users of _RIS norms_.
 - `npm run test` runs the tests once
 - `npm run test:watch` runs the tests and automatically re-runs if something changes
 - `npm run test:e2e` runs all browser-based tests (E2E tests, accessibility tests and smoke tests, requires a running frontend and backend)
-- `npm run test:e2e -- --ui` opens the Playwright UI
+  - `npm run test:e2e -- --ui` opens the Playwright UI
+  - `npm run test:browsers` runs E2E tests in Chrome, Firefox, and Edge (excluding smoke and a11y tests)
+  - `npm run test:a11y` runs [accessibility tests](#accessibility-tests-a11y)
+  - `npm run test:smoke` runs [smoketests](#smoke-tests)
 - `npm run coverage` compiles a coverage report via `v8`
 - `npm run typecheck` runs type checking through TypeScript
 - `npm run style:check` does linting and formatting
