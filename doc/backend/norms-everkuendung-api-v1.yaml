@@ -27,7 +27,7 @@ paths:
 
         Es kann immer nur eine Anfrage gleichzeitig verarbeitet werden.
 
-        Das Archiv wird während der Anfrage innerhalb von 120 Sekunden validiert. Eine erfolgreiche Übermittelung wird mit dem Status-Code `200 OK` bestätigt.
+        Das Archiv wird während der Anfrage innerhalb von 120 Sekunden validiert. Eine erfolgreiche Übermittelung wird mit dem Status-Code `201 CREATED` bestätigt.
 
         Wenn die Validierung fehlschlägt oder nicht innerhalb dieser Zeit abgeschlossen werden kann, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum ernet versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
 
@@ -35,7 +35,6 @@ paths:
 
         - Die erlaubten Dateiformate (MIME-Types) für nicht-strukturierte Anlagen sind noch nicht abschließend geklärt.
         - Das Verfahren zum manuellen Übertragen der Daten, wenn die Verkündung wiederholt nicht angenommen wurde, muss noch definiert werden.
-        - Das Vorgehen und ggf. die Schnittstelle für die Übergangsphase, d.h. bevor die E-Gesetzgebung Daten aus dem LEA-Editor liefert, muss noch definiert werden.
         - Signierung:
           - Art und Format der Signatur müssen noch definiert werden.
           - Es muss entschieden werden, ob nur das ZIP-Archiv und/oder die Dateien im Archiv signiert werden.
@@ -44,15 +43,15 @@ paths:
       requestBody:
         required: true
         description: |
-          Das Normendokumentationspaket liegt in Form eines ZIP-Archivs vor (`bgbl{1|2}_{jahr}_{nr}.zip`). Das Paket darf bis zu 200mb groß sein. Es enthält folgende Daten:
+          Das Normendokumentationspaket liegt in Form eines ZIP-Archivs vor (`bgbl{1|2}_{jahr}_{nr}.zip`). Das Paket darf bis zu 200 MB groß sein. Es enthält folgende Daten:
 
-          | Dokument | Dateiformat | Benennung | Anmerkungen |
-          | --- | --- | --- | --- |
-          | Rechtsetzungsdokument | XML | `rechtsetzungsdokument.xml` | soweit vorhanden |
-          | Regelungstext(e) | XML | `regelungstext-{n}.xml` | |
-          | Strukturierte Anlage(n) | XML | `offenestruktur-{n}.xml` | soweit vorhanden |
+          | Dokument                                                | Dateiformat        | Benennung                               | Anmerkungen      |
+          | ------------------------------------------------------- | ------------------ | --------------------------------------- | ---------------- |
+          | Rechtsetzungsdokument                                   | XML                | `rechtsetzungsdokument.xml`             |                  |
+          | Regelungstext(e)                                        | XML                | `regelungstext-{n}.xml`                 |                  |
+          | Strukturierte Anlage(n)                                 | XML                | `offenestruktur-{n}.xml`                | soweit vorhanden |
           | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, ... | entsprechend Referenzierung im Dokument | soweit vorhanden |
-          | konsolidierte Fassung(en) aus der E-Gesetzgebung | PDF | `konsolidierte-fassungen/{name}.pdf` | |
+          | konsolidierte Fassung(en) aus der E-Gesetzgebung        | PDF                | `konsolidierte-fassungen/{name}.pdf`    |                  |
         content:
           multipart/form-data:
             schema:
@@ -100,7 +99,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ProblemDetail"
         "413":
-          description: Die Eingangsdaten überschreiten die maximale Dateigröße von 200mb.
+          description: Die Eingangsdaten überschreiten die maximale Dateigröße von 200 MB.
           content:
             application/problem+json:
               schema:
@@ -155,25 +154,24 @@ components:
           type: string
           format: uri
           description: Eine URI, die die Art des Fehlers ausweist.
-          example: /errors/input-file-too-large
+          example: /errors/exmple-error
         title:
           type: string
           description: Eine kurze, menschenlesbare Beschreibung des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
-          example: Die Eingangsdaten sind größer als die maximal erlaubte Dateigröße.
+          example: Ein Beispielfehler ist aufgetreten.
         status:
           type: integer
           format: int32
           description: Der HTTP-Status-Code, dem dieser Fehler zugeordnet ist.
-          example: 413
+          example: 500
         detail:
           type: string
-          description: Menschenlesbare Details zur Ursache des Problems.  Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
-          example: Die Eingangsdaten haben eine Größe von 220mb, maximal erlaubt sind 200mb.
+          description: Menschenlesbare Details zur Ursache des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
         instance:
           type: string
           format: uri
           description: Der API-Aufruf, der den Fehler ausgelöst hat.
-          example: /api/v1/verkuendungen
+          example: /api/v1/beispiel-endpunkt
         extensions:
           type: object
           additionalProperties: true
