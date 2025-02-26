@@ -9,44 +9,50 @@ info:
 
     ## Authentifizierung
 
-    Für die Nutzung aller Endpunkte muss ein gültiger Access Token als `Authorization: Bearer <token>` übermittelt werden. Der Token kann über einen [OAuth2 Client Credentials Grant](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4) abgerufen werden. Die notwendigen Informationen (URL, Client Secret) werden vom DigitalService bereitgestellt.
+    Für die Nutzung aller Endpunkte muss ein gültiger Access Token als `Authorization: Bearer <token>` übermittelt werden. Der Token kann über einen [OAuth2 Client Credentials Grant](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4) abgerufen werden. Die notwendigen Informationen werden vom DigitalService bereitgestellt.
 
 servers:
   - url: /api/v1
     description: Backend
+
+security:
+  - ClientCredentials: [upload_verkuendung]
 
 paths:
   /verkuendungen:
     post:
       summary: Annahme von Verkündungen.
       description: |
-        Die Schnittstelle erlaubt das Hochladen eines Normendokumentationspaketes bis zu einer Größe von 200mb. Das Dokumentationspaket liegt in Form eines ZIP-Archivs vor (`bgbl{1|2}_{jahr}_{nr}.zip`). Es enthält folgende Daten:
+        Die Schnittstelle erlaubt das Hochladen eines Normendokumentationspakets.
 
-        - Rechtsetzungsdokument (XML, PDF)
-        - Regelungstext (XML)
-        - soweit vorhanden: Strukturierte Anlage(n) (XML)
-        - soweit vorhanden: Nicht-strukturierte Anlagen, z.B. eingebundene Bilder, PDF-Formulare (etwa: PDF, JPG, PNG)
-        - optional: konsolidierte Fassung aus der E-Gesetzgebung (PDF)
+        Es kann immer nur eine Anfrage gleichzeitig verarbeitet werden.
 
         Das Archiv wird während der Anfrage innerhalb von 120 Sekunden validiert. Eine erfolgreiche Übermittelung wird mit dem Status-Code `200 OK` bestätigt.
 
-        Wenn die Validierung fehlschlägt oder nicht innerhalb dieser Zeit abgeschlossen werden kann, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum ernet versucht werden. Dieser Zeitraum kann dem `Retry-After`-Header der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
+        Wenn die Validierung fehlschlägt oder nicht innerhalb dieser Zeit abgeschlossen werden kann, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum ernet versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
 
         ## Offene Fragen
 
-        - Die Dateiformate für nicht-strukturierte Anlagen sind noch nicht abschließend geklärt.
-        - Es ist noch offen, welchen Mehrwert die konsolidierte Fassung bringt und ob sich die Übermittelung lohnt.
-        - Art und Format der Signatur müssen noch definiert werden.
-        - Es muss entschieden werden, ob nur das ZIP-Archiv und/oder die Dateien im Archiv signiert werden.
-        - Das Verfahren zum Austausch des öffentlichen Schlüssels für die Verifizierung der Signatur muss noch definiert werden.
+        - Die erlaubten Dateiformate (MIME-Types) für nicht-strukturierte Anlagen sind noch nicht abschließend geklärt.
         - Das Verfahren zum manuellen Übertragen der Daten, wenn die Verkündung wiederholt nicht angenommen wurde, muss noch definiert werden.
-        - Sollte die Antwort auf eine erfolgreiche Anfrage weitere Informationen enthalten oder reicht der Statuscode?
         - Das Vorgehen und ggf. die Schnittstelle für die Übergangsphase, d.h. bevor die E-Gesetzgebung Daten aus dem LEA-Editor liefert, muss noch definiert werden.
-        - Eventuell wird es in Zukunft notwendig sein, statt einer synchronen Anfrage eine asynchrone Anfrage zu verwenden, damit das Backend größere Datenmengen besser verarbeiten kann. Es ist zu klären, ob wir die Schnittstelle direkt so gestalten wollen, oder ob das eine künftige Ausbaustufe sein wird.
-      security:
-        - ClientCredentials: [upload_verkuendung]
+        - Signierung:
+          - Art und Format der Signatur müssen noch definiert werden.
+          - Es muss entschieden werden, ob nur das ZIP-Archiv und/oder die Dateien im Archiv signiert werden.
+          - Das Verfahren zum Austausch des öffentlichen Schlüssels für die Verifizierung der Signatur muss noch definiert werden.
+        - Eventuell wird es in Zukunft notwendig sein, statt einer synchronen Anfrage eine asynchrone Anfrage zu verwenden, damit das Backend größere Datenmengen besser verarbeiten kann.
       requestBody:
         required: true
+        description: |
+          Das Normendokumentationspaket liegt in Form eines ZIP-Archivs vor (`bgbl{1|2}_{jahr}_{nr}.zip`). Das Paket darf bis zu 200mb groß sein. Es enthält folgende Daten:
+
+          | Dokument | Dateiformat | Benennung | Anmerkungen |
+          | --- | --- | --- | --- |
+          | Rechtsetzungsdokument | XML | `rechtsetzungsdokument.xml` | soweit vorhanden |
+          | Regelungstext(e) | XML | `regelungstext-{n}.xml` | |
+          | Strukturierte Anlage(n) | XML | `offenestruktur-{n}.xml` | soweit vorhanden |
+          | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, ... | entsprechend Referenzierung im Dokument | soweit vorhanden |
+          | konsolidierte Fassung(en) aus der E-Gesetzgebung | PDF | `konsolidierte-fassungen/{name}.pdf` | |
         content:
           multipart/form-data:
             schema:
@@ -59,9 +65,9 @@ paths:
                 signature:
                   type: string
                   format: binary
-                  description: Digitale Signatur für das Archiv im PKCS#7-Format (.p7s)
+                  description: "Digitale Signatur für das Archiv. Hinweis: Bis Art und Format der Signatur definiert sind (siehe offene Fragen) ist die Übersendung der Signatur möglich, die Korrektheit wird aber nicht überprüft."
       responses:
-        "200":
+        "201":
           description: Die Verkündung wurde erfolgreich an NeuRIS übermittelt.
         "400":
           description: |
@@ -69,9 +75,20 @@ paths:
 
             - Das ZIP-Archiv ist ungültig
             - Die Signatur des Archivs fehlt oder ist ungültig
-            - Die Signatur der Dateien im Archiv fehlt oder ist ungültig
+            - Die XML-Dokumente weisen entweder XSD- oder Schematron-Fehler auf. Schematron-Warnungen führen nicht zu einem Fehler.
+            - Die XML-Dokumente liegen in einer nicht unterstützten Version von LegalDocML.de vor
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
         "401":
           description: Fehlende Berechtigung, z.B. kann die Authentifizierung der Anfrage fehlen oder ungültig sein.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "403":
+          description: Die Anfrage hat eine gültige Authentifizierung, jedoch fehlt die erforderliche Berechtigung.
           content:
             application/problem+json:
               schema:
@@ -88,18 +105,20 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ProblemDetail"
-        "422":
-          description: |
-            Ungültige Eingangsdaten:
-
-            - Die XML-Dokumente weisen entweder XSD- oder Schematron-Fehler auf. Schematron-Warnungen führen nicht zu einem Fehler.
-            - Die XML-Dokumente liegen in einer nicht unterstützten Version von LegalDocML.de vor.
+        "429":
+          description: Die Anfrage kann gerade nicht verarbeitet werden, da zu viele parallele Anfragen laufen.
+          headers:
+            Retry-After:
+              $ref: "#/components/headers/Retry-After"
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ProblemDetail"
         "500":
           description: Interner Server-Fehler.
+          headers:
+            Retry-After:
+              $ref: "#/components/headers/Retry-After"
           content:
             application/problem+json:
               schema:
@@ -107,9 +126,6 @@ paths:
 
 components:
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
     ClientCredentials:
       type: oauth2
       flows:
@@ -118,6 +134,17 @@ components:
           tokenUrl: https://example.com
           scopes:
             upload_verkuendung: Erlaubt das Übertragen von Verkündungen an NeuRIS.
+  headers:
+    Retry-After:
+      description: Gibt an, wie lange der Client warten sollte, bevor eine neue Anfrage gestellt wird.
+      schema:
+        oneOf:
+          - type: integer
+            description: Wartezeit in Sekunden
+          - type: string
+            format: date-time
+            description: HTTP-Datum für den Zeitpunkt der erneuten Anfrage
+      example: 120
   schemas:
     ProblemDetail:
       type: object
@@ -146,7 +173,7 @@ components:
           type: string
           format: uri
           description: Der API-Aufruf, der den Fehler ausgelöst hat.
-          example: /api/v1/announcements
+          example: /api/v1/verkuendungen
         extensions:
           type: object
           additionalProperties: true
