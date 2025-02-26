@@ -22,9 +22,9 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.36"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.15.2"
 # CVE-2025-25193
-netty-common = "io.netty:netty-common:4.1.118.Final"
+netty-common = "io.netty:netty-common:4.1.119.Final"
 # CVE-2025-24970
-netty-handler = "io.netty:netty-handler:4.1.118.Final"
+netty-handler = "io.netty:netty-handler:4.1.119.Final"
 postgresql = "org.postgresql:postgresql:42.7.5"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.14.4"
 saxon-he = "net.sf.saxon:Saxon-HE:12.5"
