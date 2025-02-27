@@ -1195,26 +1195,6 @@ class RegelungstextTest {
   }
 
   @Nested
-  class getOrCreateAnalysisNode {
-
-    @Test
-    void itShouldCreatesTheAnalysisNodeIfItDoesNotExist() {
-      // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
-
-      // when
-      final var analysis = regelungstext.getMeta().getOrCreateAnalysis();
-
-      // then
-      assertThat(analysis).isNotNull();
-      assertThat(
-        NodeParser.getNodeFromExpression("//act/meta/analysis", regelungstext.getDocument())
-      )
-        .contains(analysis.getElement());
-    }
-  }
-
-  @Nested
   class getOrCreateTemporalDataNode {
 
     @Test
