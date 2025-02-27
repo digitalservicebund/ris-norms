@@ -27,3 +27,13 @@ Element.prototype.scrollIntoView ??= vi.fn()
 
 // Enable PrimeVue plugin because we need that in many tests
 config.global.plugins = [PrimeVue]
+
+// window.matchMedia API not available in vitest but needed by PrimeVue Components (select)
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }
+  }
