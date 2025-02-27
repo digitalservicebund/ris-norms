@@ -36,7 +36,7 @@ We have decided to implement OAuth2 for authentication instead of continuing wit
 
 ## Consequences
 
-- The frontend is more actively involced in the authentication, including managing redirects, tokens, adding request headers for authorization.
+- The frontend is more actively involved in the authentication, including managing redirects, tokens, adding request headers for authorization.
 
 - The frontend needs to be publicly accessible. Previously, all application routes, including the frontend, have been secured by the backend.
 
