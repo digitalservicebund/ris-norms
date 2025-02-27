@@ -9,7 +9,7 @@ describe("useNormXml", () => {
     vi.resetAllMocks()
   })
 
-  it("should provide the target law xml", async () => {
+  it("should provide the norm xml", async () => {
     const dataRef = ref<string>()
     vi.doMock("@/services/normService", () => ({
       useGetNormXml: vi.fn().mockReturnValue({

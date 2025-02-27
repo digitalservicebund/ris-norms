@@ -101,11 +101,6 @@ public class ProblemDetailFactory {
       URI.create("/errors/norm-with-guid-exists-already"),
       "Norm with GUID exists already"
     ),
-    ACTIVE_MOD_DESTINATION_NORM_NOT_FOUND(
-      ActiveModDestinationNormNotFoundException.class,
-      URI.create("/errors/active-mod/destination/norm-not-found"),
-      "Destination norm not found"
-    ),
     NOT_A_XML_FILE(
       NotAXmlFileException.class,
       URI.create("/errors/not-a-xml-file"),

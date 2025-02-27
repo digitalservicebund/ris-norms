@@ -4,7 +4,7 @@ import { MaybeRefOrGetter, toValue, computed } from "vue"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 
 /**
- * Get the data of an article inside an amending law.
+ * Get the data of an article
  *
  * @param identifier A reference to the ELI/eId combination for which the article data
  *  will be returned. Changing the value of the reference will load the data for the

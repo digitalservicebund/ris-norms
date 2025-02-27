@@ -15,7 +15,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
-import java.time.LocalDate;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
@@ -25,6 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
 @WithMockUser(roles = { Roles.NORMS_USER })
 class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
@@ -100,12 +102,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCreatesANewAnnouncement() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
-        )
-      );
-
       var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
       var file = new MockMultipartFile(
         "file",
@@ -122,12 +118,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
         );
 
-      // Assert ZF0 was created
+      // Assert norms was created
       assertThat(
         dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-              LocalDate.now().toString()
-            )
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
         )
       )
         .isPresent();
@@ -174,31 +168,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/not-a-ldml-de-xml-file")))
         .andExpect(jsonPath("fileName", equalTo("norm.xml")));
-    }
-
-    @Test
-    void itFailsIfTheAffectedNormDoesNotExist() throws Exception {
-      // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
-      var file = new MockMultipartFile(
-        "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
-      );
-
-      // When // Then
-      mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isUnprocessableEntity())
-        .andExpect(jsonPath("type", equalTo("/errors/active-mod/destination/norm-not-found")))
-        .andExpect(jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")))
-        .andExpect(
-          jsonPath(
-            "destinationEli",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-          )
-        );
     }
 
     @Test
@@ -370,16 +339,6 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
-        )
-      ); // eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
-        )
-      ); // the one for the existing amending norm; eli/bund/bgbl-1/1964/s593/2022-08-23/1/deu/regelungstext-1"
 
       var announcement = Announcement
         .builder()
@@ -387,7 +346,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml");
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -407,23 +366,23 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
         );
 
-      // Assert ZF0 was created
-      assertThat(
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(
-              LocalDate.now().toString()
-            )
+      assertThat(dokumentRepository.findAll()).hasSize(1);
+      var dokumentDto = dokumentRepository.findByEliDokumentManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+      assertThat(dokumentDto).isPresent();
+      final Diff diff = DiffBuilder
+        .compare(Input.from(dokumentDto.get().getXml()))
+        .withTest(
+          Input.from(
+            Fixtures
+              .loadRegelungstextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")
+              .getDocument()
+          )
         )
-      )
-        .isPresent();
-
-      // Assert old ZF0 was deleted
-      assertThat(
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
-        )
-      )
-        .isEmpty();
+        .ignoreWhitespace()
+        .build();
+      assertThat(diff.hasDifferences()).isFalse();
     }
   }
 }

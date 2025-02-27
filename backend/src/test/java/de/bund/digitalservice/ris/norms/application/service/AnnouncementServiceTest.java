@@ -39,12 +39,7 @@ class AnnouncementServiceTest {
   final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort = mock(
     DeleteAnnouncementByNormEliPort.class
   );
-  final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
-  final ReferenceService referenceService = mock(ReferenceService.class);
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
-  final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
-    CreateNewVersionOfNormService.class
-  );
 
   final AnnouncementService announcementService = new AnnouncementService(
     loadAllAnnouncementsPort,
@@ -55,10 +50,7 @@ class AnnouncementServiceTest {
     billToActService,
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
-    deleteNormPort,
-    referenceService,
-    updateOrSaveNormPort,
-    createNewVersionOfNormService
+    updateOrSaveNormPort
   );
 
   @Nested
@@ -217,25 +209,6 @@ class AnnouncementServiceTest {
       var query = new CreateAnnouncementUseCase.Query(file, false);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
         .isInstanceOf(NotLdmlDeXmlFileException.class);
-    }
-
-    @Test
-    void itThrowsWhenADestinationEliDoesNotExist() throws IOException {
-      // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
-      final MultipartFile file = new MockMultipartFile(
-        "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
-      );
-
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-
-      // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file, false);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
-        .isInstanceOf(ActiveModDestinationNormNotFoundException.class);
     }
 
     @Test

@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 /**
- * Class representing the eli of a target law as used by the controller producing json. This class
- * is annotated with Lombok annotations for generating getters, setters, constructors, and builder
- * methods.
+ * Information about the release of a norm.
  */
 @AllArgsConstructor
 @Data

@@ -240,25 +240,6 @@ public class NormsAppExceptionHandler {
   }
 
   /**
-   * Exception handler method for handling {@link ActiveModDestinationNormNotFoundException}.
-   *
-   * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
-   */
-  @ExceptionHandler(ActiveModDestinationNormNotFoundException.class)
-  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ProblemDetail handleException(final ActiveModDestinationNormNotFoundException e) {
-    log.error("ActiveModDestinationNormNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    problemDetail.setProperty("destinationEli", e.getDestinationEli());
-    return problemDetail;
-  }
-
-  /**
    * Exception handler method for handling {@link NotAXmlFileException}.
    *
    * @param e The exception that occurred.
