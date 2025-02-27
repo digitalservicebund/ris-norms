@@ -18,7 +18,7 @@ describe("temporalDataService", () => {
   })
 
   describe("useGetEntryIntoForceHtml", () => {
-    it("fetches the HTML content of an amending law's entry into force section", async () => {
+    it("fetches the HTML content of a norm's entry into force section", async () => {
       const fetchSpy = vi
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response("<div></div>"))

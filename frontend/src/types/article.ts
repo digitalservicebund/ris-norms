@@ -1,6 +1,5 @@
 /**
- * Describes a specific type of article that is found in amending laws
- * and used for changing ("amending") other laws.
+ * Describes an article that is found in a norm
  */
 export interface Article {
   /** Eid of the article within the law */
