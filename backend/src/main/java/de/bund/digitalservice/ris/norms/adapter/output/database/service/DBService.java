@@ -54,7 +54,8 @@ public class DBService
     LoadRegelungstextPort,
     LoadDokumentPort,
     UpdateDokumentPort,
-    LoadReleasesByNormExpressionEliPort {
+    LoadReleasesByNormExpressionEliPort,
+    UpdateMigrationLogCompletedPort {
 
   private final AnnouncementRepository announcementRepository;
   private final DokumentRepository dokumentRepository;
@@ -349,5 +350,12 @@ public class DBService
       .stream()
       .map(ReleaseMapper::mapToDomain)
       .toList();
+  }
+
+  @Override
+  public MigrationLog updateMigrationLogCompleted(UpdateMigrationLogCompletedPort.Command command) {
+    return MigrationLogMapper.mapToDomain(
+      migrationLogRepository.updateCompletedById(command.id(), command.completed())
+    );
   }
 }
