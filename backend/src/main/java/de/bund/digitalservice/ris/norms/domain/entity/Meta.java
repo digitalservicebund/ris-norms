@@ -106,35 +106,6 @@ public class Meta {
   }
 
   /**
-   * Returns a {@link Analysis} instance from the {@link Meta}.
-   *
-   * @return the Analysis node as {@link Analysis}
-   */
-  public Optional<Analysis> getAnalysis() {
-    return NodeParser.getElementFromExpression("./analysis", element).map(Analysis::new);
-  }
-
-  /**
-   * Gets the akn:analysis element of the norm, or creates it if it does not yet exist.
-   *
-   * @return the akn:analysis element of the norm
-   */
-  public Analysis getOrCreateAnalysis() {
-    return getAnalysis()
-      .orElseGet(() -> {
-        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:analysis", element);
-        newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-
-        // Metadata needs to be in the correct order, so we're inserting it before temporal data, which is the
-        // element that has to follow the analysis in a valid document.
-        final var insertInOrderSiblibg = getOrCreateTemporalData().getElement();
-        element.insertBefore(newElement, insertInOrderSiblibg);
-
-        return new Analysis(newElement);
-      });
-  }
-
-  /**
    * Gets the akn:proprietary element of the norm, or creates it if it does not yet exist.
    *
    * @return {@link Proprietary} metadata of the norm.

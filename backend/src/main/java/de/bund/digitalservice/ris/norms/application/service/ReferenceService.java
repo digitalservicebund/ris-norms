@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
@@ -33,16 +32,7 @@ public class ReferenceService {
    * @param regelungstext - the regelungstext to be analyzed
    */
   public void findAndCreateReferences(final Regelungstext regelungstext) {
-    if (regelungstext.getMods().stream().anyMatch(Mod::containsRef)) {
-      return;
-    }
-
-    regelungstext
-      .getMods()
-      .forEach(mod -> {
-        mod.getSecondQuotedText().ifPresent(this::findAndCreateReferencesInNode);
-        mod.getQuotedStructure().ifPresent(this::findAndCreateReferencesInNode);
-      });
+    findAndCreateReferencesInNode(regelungstext.getDocument());
   }
 
   private void findAndCreateReferencesInNode(final Node node) {

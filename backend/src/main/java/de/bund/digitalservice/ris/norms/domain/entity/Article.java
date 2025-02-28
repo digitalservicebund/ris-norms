@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -103,19 +102,6 @@ public class Article {
    */
   public Optional<String> getRefersTo() {
     return NodeParser.getValueFromExpression("./@refersTo", this.element);
-  }
-
-  /**
-   * Extracts the {@link Mod} for this article.
-   *
-   * @return the {@link Mod}
-   */
-  public List<Mod> getMods() {
-    return NodeParser
-      .getElementsFromExpression("./*//mod", this.element)
-      .stream()
-      .map(Mod::new)
-      .toList();
   }
 
   /**

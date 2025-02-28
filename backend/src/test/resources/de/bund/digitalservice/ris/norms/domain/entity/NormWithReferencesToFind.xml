@@ -288,47 +288,8 @@
                          eId="hauptteil-1_art-1_überschrift-1">Artikel
                     1
                 </akn:heading>
-            <akn:paragraph GUID="c80e5e74-a3b1-4c98-a668-95ab790c6b07"
-                           eId="hauptteil-1_art-1_abs-1">
-               <akn:num GUID="e7fd99c2-3965-482b-a8ce-1eec51983bca"
-                        eId="hauptteil-1_art-1_abs-1_bezeichnung-1">
-                    </akn:num>
-               <akn:list GUID="1f152276-7132-44a7-8835-381fcb042827"
-                         eId="hauptteil-1_art-1_abs-1_untergl-1">
-                  <akn:intro GUID="2ec2c333-f252-4b1f-b9ce-61371e8b4337"
-                             eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1">
-                     <akn:p GUID="d4ce4527-3d4d-4f86-b911-ec20b54dcd23"
-                            eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1">Die
-                                Seefischerei-Bußgeldverordnung vom 16. Juni 1998 (BGBl. I S. 1355), die zuletzt durch
-                                Artikel 1 der Verordnung vom 7. Februar 2018 (BGBl. I S. 196) geändert worden ist, wird
-                                wie folgt geändert:
-                            </akn:p>
-                  </akn:intro>
-                  <akn:point GUID="07514672-034e-4d17-bfe1-d7fdc6b1b52a"
-                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1">
-                     <akn:num GUID="92bc9cfc-fef7-4599-aaa7-c391085b3ec0"
-                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_bezeichnung-1">
-                                1.
-                            </akn:num>
-                     <akn:content GUID="05bedf71-934f-4925-9046-c7c44be11778"
-                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1">
-                        <akn:p GUID="64c3a0f5-b7b9-43c3-8c76-02753ca6a84c"
-                               eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1">
-                           <akn:mod GUID="90d43fa8-59db-41da-a4bb-06df093f5323"
-                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
-                                    refersTo="aenderungsbefehl-ersetzen">
-                                        Die <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3"
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"
-                                                     href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml">
-                                        §§ 5 bis 41
-                                    </akn:ref> werden durch die folgenden §§ 5 bis 39 ersetzt:
-
-                                        <akn:quotedStructure GUID="b2fbc227-6aa8-49bc-8d07-e1004f2cd25e"
-                                                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1"
-                                                             endQuote="“"
-                                                             startQuote="„">
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1">
+            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1">
                                     <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1">
                                        <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
@@ -348,865 +309,832 @@
                                                     </akn:p>
                                     </akn:content>
                                  </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_überschrift-1">
-                                                        § 6 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
-                                                        2056/2001
-                                                    </akn:heading>
-                                       <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1">
-                                                        Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
-                                                        des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
-                                                        Nr. 2056/2001 der Kommission vom 19. Oktober 2001 mit
-                                                        zusätzlichen technischen Maßnahmen zur Wiederauffüllung der
-                                                        Kabeljaubestände in der Nordsee und westlich von Schottland
-                                                        (ABl. L 277 vom 20.10.2001, S. 13), die durch die
-                                                        Durchführungsverordnung (EU) 2015/1897 (ABl. L 277 vom
-                                                        22.10.2015, S. 11) geändert worden ist, verstößt, indem er
-                                                        vorsätzlich oder fahrlässig
-                                                        <akn:point
-                                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-1_text-1">
-                                                                entgegen Artikel 4 Nummer 5 ein dort genanntes Netz
-                                                                mitführt oder ausbringt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-2_text-1">
-                                                                entgegen Artikel 5 Absatz 1 oder 2 Satz 1 oder Artikel 8
-                                                                Absatz 1 Satz 1 ein dort genanntes Netz einsetzt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-3">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-3_text-1">
-                                                                entgegen Artikel 5 Absatz 3 Satz 1 eine dort genannte
-                                                                Baumkurre mitführt oder einsetzt oder
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-4">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-4_text-1">
-                                                                entgegen Artikel 6 Absatz 1 eine dort genannte Baumkurre
-                                                                einsetzt.
-                                                            </akn:p>
-                                          </akn:point>
-                                       </akn:p>
-                                    </akn:content>
-                                 </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_überschrift-1">
-                                                        § 7 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
-                                                        494/2002
-                                                    </akn:heading>
-                                       <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1">
-                                                        Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
-                                                        des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
-                                                        Nr. 494/2002 der Kommission vom 19. März 2002 mit zusätzlichen
-                                                        technischen Maßnahmen zur Wiederauffüllung des Seehechtsbestands
-                                                        in den ICES-Gebieten III, IV, V, VI und VII sowie VIII a, b, d,
-                                                        e (ABl. L 77 vom 20.3.2002, S. 8), die durch die
-                                                        Durchführungsverordnung (EU) 2015/1867 (ABl. L 275 vom
-                                                        20.10.2015, S. 20) geändert worden ist, verstößt, indem er
-                                                        vorsätzlich oder fahrlässig
-                                                        <akn:point
-                                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-1_text-1">
-                                                                entgegen Artikel 3 ein dort genanntes Netz oder ein dort
-                                                                genanntes Netzteil verwendet,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-2_text-1">
-                                                                entgegen Artikel 4 Satz 1 eine dort genannte Baumkurre
-                                                                mitführt oder ausbringt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-3">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-3_text-1">
-                                                                entgegen Artikel 5 Absatz 2 Satz 1 erster oder zweiter
-                                                                Gedankenstrich oder Artikel 6 Absatz 1 oder 2 ein dort
-                                                                genanntes Netz oder eine dort genannte Baumkurre
-                                                                einsetzt oder zu Wasser lässt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-4">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-4_text-1">
-                                                                entgegen Artikel 5 Absatz 2 Satz 2 erster Gedankenstrich
-                                                                oder Satz 3 erster Gedankenstrich Fischfang betreibt
-                                                                oder
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-5">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-5_text-1">
-                                                                entgegen Artikel 5 Absatz 2 Satz 2 zweiter
-                                                                Gedankenstrich oder Satz 3 zweiter Gedankenstrich ein
-                                                                dort genanntes Fanggerät zu Wasser lässt oder ausbringt.
-                                                            </akn:p>
-                                          </akn:point>
-                                       </akn:p>
-                                    </akn:content>
-                                 </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_überschrift-1">
-                                                        § 8 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
-                                                        1185/2003
-                                                    </akn:heading>
-                                       <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1">
-                                                        Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
-                                                        des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
-                                                        Nr. 1185/2003 des Rates vom 26. Juni 2003 über das Abtrennen von
-                                                        Haifischflossen an Bord von Schiffen (ABl. L 167 vom 4.7.2003,
-                                                        S. 1), die durch die Verordnung (EU) Nr. 605/2013 (ABl. L 181
-                                                        vom 29.6.2013, S. 1) geändert worden ist, verstößt, indem er
-                                                        vorsätzlich oder fahrlässig
-                                                        <akn:point
-                                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-1_text-1">
-                                                                entgegen Artikel 3 Absatz 1 eine Haifischflosse
-                                                                abtrennt, mitführt, umlädt oder anlandet oder
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-2_text-1">
-                                                                entgegen Artikel 3 Absatz 2 eine Haifischflosse kauft
-                                                                oder zum Verkauf anbietet.
-                                                            </akn:p>
-                                          </akn:point>
-                                       </akn:p>
-                                    </akn:content>
-                                 </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_überschrift-1">
-                                                        § 9 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
-                                                        1984/2003
-                                                    </akn:heading>
-                                       <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1">
-                                                        Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
-                                                        des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
-                                                        Nr. 1984/2003 des Rates vom 8. April 2003 über eine Regelung zur
-                                                        statistischen Erfassung von Schwertfisch und Großaugenthun in
-                                                        der Gemeinschaft (ABl. L 295 vom 13.11.2003, S. 1), die zuletzt
-                                                        durch die Verordnung (EU) 2022/2343 (ABl. L 311 vom 2.12.2022,
-                                                        S. 1) geändert worden ist, verstößt, indem er vorsätzlich oder
-                                                        fahrlässig
-                                                        <akn:point
-                                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-1_text-1">
-                                                                entgegen Artikel 4 Absatz 5 Fisch einer dort genannten
-                                                                Art einführt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-2_text-1">
-                                                                entgegen Artikel 5 Absatz 5 Fisch einer dort genannten
-                                                                Art ausführt oder
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-3">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-3_text-1">
-                                                                entgegen Artikel 6 Absatz 6 Fisch einer dort genannten
-                                                                Art wieder ausführt oder einführt.
-                                                            </akn:p>
-                                          </akn:point>
-                                       </akn:p>
-                                    </akn:content>
-                                 </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_überschrift-1">
-                                                        § 10 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
-                                                        Nr. 600/2004
-                                                    </akn:heading>
-                                       <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1">
-                                                        Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
-                                                        des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
-                                                        Nr. 600/2004 des Rates vom 22. März 2004 mit technischen
-                                                        Maßnahmen für die Fischerei im Bereich des Übereinkommens über
-                                                        die Erhaltung der lebenden Meeresschätze der Antarktis (ABl. L
-                                                        97 vom 1.4.2004, S. 1) verstößt, indem er vorsätzlich oder
-                                                        fahrlässig
-                                                        <akn:point
-                                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-1_text-1">
-                                                                als Kapitän entgegen Artikel 3 Absatz 1, 2, 3 Satz 1,
-                                                                Absatz 4 oder 6 eine Fischerei ausübt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-2_text-1">
-                                                                als Kapitän entgegen Artikel 4 Absatz 1 ein dort
-                                                                genanntes Netz oder eine Snurrewade einsetzt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-3">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-3_text-1">
-                                                                entgegen Artikel 4 Absatz 2 eine Vorrichtung verwendet,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-4">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-4_text-1">
-                                                                als Kapitän entgegen Artikel 6 Absatz 1 Satz 1 zweiter
-                                                                Halbsatz einen Krebs nicht unverzüglich freilässt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-5">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-5_text-1">
-                                                                entgegen Artikel 7 Absatz 1 Unterabsatz 1 oder 2 einen
-                                                                Verpackungsgurt verwendet,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-6">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-6_bezeichnung-1">6.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-6_text-1">
-                                                                als Kapitän entgegen Artikel 7 Absatz 3 erster Halbsatz
-                                                                Plastikrückstände nicht an Bord aufbewahrt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-7">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-7_bezeichnung-1">7.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-7_text-1">
-                                                                als Kapitän entgegen Artikel 8 Absatz 1 Satz 3 einen
-                                                                Köder verwendet,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-8">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-8_bezeichnung-1">8.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-8_text-1">
-                                                                entgegen Artikel 8 Absatz 2 Satz 1 eine Langleine
-                                                                ausbringt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-9">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-9_bezeichnung-1">9.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-9_text-1">
-                                                                als Kapitän entgegen Artikel 8 Absatz 3 Satz 1 oder
-                                                                Artikel 9 Absatz 3 Fischabfälle über Bord wirft,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-10">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-10_bezeichnung-1">10.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-10_text-1">
-                                                                entgegen Artikel 9 Absatz 1 ein Netzsteuerkabel
-                                                                verwendet,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-11">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-11_bezeichnung-1">11.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-11_text-1">
-                                                                als Kapitän entgegen Artikel 10 Absatz 1 oder 2 ein
-                                                                Fischereifahrzeug nicht, nicht richtig oder nicht
-                                                                unverzüglich nach Erreichen des Beifangvolumens an einen
-                                                                anderen Fangplatz begibt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-12">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-12_bezeichnung-1">12.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-12_text-1">
-                                                                als Kapitän entgegen Artikel 11 Absatz 3 Satz 2 erster
-                                                                Halbsatz den Fischfang nicht einstellt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-13">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-13_bezeichnung-1">13.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-13_text-1">
-                                                                entgegen Artikel 12 Absatz 1 Fischerei ausübt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-14">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-14_bezeichnung-1">14.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-14_text-1">
-                                                                als Kapitän entgegen Artikel 12 Absatz 2 Satz 1 ein
-                                                                Fischereifahrzeug nicht, nicht richtig oder nicht
-                                                                unverzüglich nach Erreichen der dort genannten Fangmenge
-                                                                an einen dort genannten Fangplatz begibt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-15">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-15_bezeichnung-1">15.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-15_text-1">
-                                                                als Kapitän entgegen Artikel 12 Absatz 3 die
-                                                                Fangtätigkeit nicht, nicht richtig, nicht vollständig
-                                                                oder nicht rechtzeitig einstellt,
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-16">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-16_bezeichnung-1">16.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-16_text-1">
-                                                                als Kapitän entgegen Artikel 12 Absatz 4 Hols zu
-                                                                Forschungszwecken nicht, nicht richtig, nicht
-                                                                vollständig, nicht in der vorgeschriebenen Weise oder
-                                                                nicht rechtzeitig ausführt oder
-                                                            </akn:p>
-                                          </akn:point>
-                                          <akn:point
-                                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-17">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-17_bezeichnung-1">17.</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-17_text-1">
-                                                                entgegen Artikel 14 Absatz 1, 2 oder 3 eine dort
-                                                                genannte Person nicht an Bord nimmt.
-                                                            </akn:p>
-                                          </akn:point>
-                                       </akn:p>
-                                    </akn:content>
-                                 </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_überschrift-1">
-                                                        § 11 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
-                                                        Nr. 601/2004
-                                                    </akn:heading>
-                                       <akn:list
-                                               eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1">
-                                          <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_bezeichnung-1">(1)</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1">
-                                                                Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
-                                                                Buchstabe a des Seefischereigesetzes handelt, wer gegen
-                                                                die Verordnung (EG) Nr. 601/2004 des Rates vom 22. März
-                                                                2004 zur Festlegung von Kontrollmaßnahmen für die
-                                                                Fischerei im Regelungsbereich des Übereinkommens über
-                                                                die Erhaltung der lebenden Meeresschätze der Antarktis
-                                                                und zur Aufhebung der Verordnungen (EWG) Nr. 3943/90,
-                                                                (EG) Nr. 66/98 und (EG) Nr. 1721/1999 (ABl. L 97 vom
-                                                                1.4.2004, S. 16), die zuletzt durch die Verordnung (EG)
-                                                                Nr. 1005/2008 (ABl. L 286 vom 29.10.2008, S. 1) geändert
-                                                                worden ist, verstößt, indem er vorsätzlich oder
-                                                                fahrlässig
-                                                                <akn:point
-                                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-1">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-1_text-1">
-                                                                        als Kapitän entgegen Artikel 3 Absatz 1 fischt
-                                                                        oder einen Fang an Bord behält, umlädt oder
-                                                                        anlandet,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-2">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-2_text-1">
-                                                                        entgegen Artikel 6 Absatz 1 oder Artikel 7
-                                                                        Absatz 1 eine Fischerei oder eine
-                                                                        Versuchsfischerei ausübt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-3">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-3_text-1">
-                                                                        als Kapitän entgegen Artikel 7a Buchstabe a
-                                                                        einen dort genannten Stoff ins Meer einbringt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-4">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-4_text-1">
-                                                                        entgegen Artikel 7a Buchstabe b lebendes
-                                                                        Geflügel oder einen lebenden Vogel verbringt
-                                                                        oder dort genanntes Geflügel nicht, nicht
-                                                                        richtig oder nicht vollständig entfernt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-5">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-5_text-1">
-                                                                        entgegen Artikel 7a Buchstabe c Dissostichus
-                                                                        spp. fischt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-6">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-6_bezeichnung-1">6.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-6_text-1">
-                                                                        als Kapitän entgegen Artikel 7b Absatz 1
-                                                                        Buchstabe a Satz 1 ein dort genanntes Exemplar
-                                                                        nicht markiert oder nicht wieder freilässt oder
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-7">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-7_bezeichnung-1">7.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-7_text-1">
-                                                                        als Kapitän entgegen Artikel 7b Absatz 1
-                                                                        Buchstabe d einen Fisch freilässt.(2)
-                                                                        Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer
-                                                                        11 Buchstabe b des Seefischereigesetzes handelt,
-                                                                        wer gegen die Verordnung (EG) Nr. 601/2004
-                                                                        verstößt, indem er vorsätzlich oder fahrlässig
-                                                                    </akn:p>
-                                                </akn:point>
-                                             </akn:p>
-                                          </akn:p>
-                                          <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_bezeichnung-1">(2)</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1">
-                                                                Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
-                                                                Buchstabe b des Seefischereigesetzes handelt, wer gegen
-                                                                die Verordnung (EG) Nr. 601/2004 verstößt, indem er
-                                                                vorsätzlich oder fahrlässig
-                                                                <akn:point
-                                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-1">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-1_text-1">
-                                                                        als Kapitän entgegen Artikel 4 Absatz 1 eine
-                                                                        Fangerlaubnis und eine beglaubigte Kopie nicht
-                                                                        mitführt oder nicht, nicht richtig oder nicht
-                                                                        rechtzeitig vorlegt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-2">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-2_text-1">
-                                                                        als Kapitän entgegen Artikel 9 Absatz 1 eine
-                                                                        Angabe nicht, nicht richtig, nicht vollständig
-                                                                        oder nicht rechtzeitig macht,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-3">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-3_text-1">
-                                                                        als Kapitän entgegen Artikel 13 Absatz 1 erster
-                                                                        Halbsatz, Artikel 14 Absatz 1, Artikel 17 Absatz
-                                                                        1, Artikel 18 Absatz 1 oder Artikel 19 Absatz 1
-                                                                        Satz 1 die dort genannten Daten oder eine dort
-                                                                        genannte Angabe nicht, nicht richtig, nicht
-                                                                        vollständig, nicht in der vorgeschriebenen Weise
-                                                                        oder nicht rechtzeitig übermittelt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-4">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-4_text-1">
-                                                                        als Kapitän entgegen Artikel 24 Absatz 2 Satz 1
-                                                                        einer dort genannten Person das Übersetzen nicht
-                                                                        oder nicht richtig gestattet oder
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-5">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-5_text-1">
-                                                                        als Kapitän entgegen Artikel 27 Absatz 2 Satz 1
-                                                                        eine Anmeldung nicht oder nicht rechtzeitig
-                                                                        macht oder eine Erklärung nicht, nicht richtig,
-                                                                        nicht vollständig oder nicht rechtzeitig abgibt.
-                                                                    </akn:p>
-                                                </akn:point>
-                                             </akn:p>
-                                          </akn:p>
-                                       </akn:list>
-                                    </akn:content>
-                                 </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_überschrift-1">
-                                                        § 12 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
-                                                        Nr. 734/2008
-                                                    </akn:heading>
-                                       <akn:list
-                                               eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1">
-                                          <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_bezeichnung-1">(1)</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1">
-                                                                Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
-                                                                Buchstabe a des Seefischereigesetzes handelt, wer gegen
-                                                                die Verordnung (EG) Nr. 734/2008 des Rates vom 15. Juli
-                                                                2008 zum Schutz empfindlicher Tiefseeökosysteme vor den
-                                                                schädlichen Auswirkungen von Grundfanggeräten (ABl. L
-                                                                201 vom 30.7.2008, S. 8) verstößt, indem er vorsätzlich
-                                                                oder fahrlässig
-                                                                <akn:point
-                                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-1">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-1_text-1">
-                                                                        ohne Fangerlaubnis nach Artikel 3 Absatz 1 eine
-                                                                        Fischereitätigkeit ausführt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-2">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-2_text-1">
-                                                                        als Kapitän entgegen Artikel 7 Absatz 1 Satz 1
-                                                                        eine Fischereitätigkeit nicht, nicht richtig,
-                                                                        nicht vollständig oder nicht rechtzeitig
-                                                                        einstellt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-3">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-3_text-1">
-                                                                        entgegen Artikel 7 Absatz 1 Satz 2 eine
-                                                                        Fischereitätigkeit wieder aufnimmt oder
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-4">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-4_text-1">
-                                                                        als Kapitän entgegen Artikel 9 Absatz 2 den
-                                                                        Hafen wieder verlässt.
-                                                                    </akn:p>
-                                                </akn:point>
-                                             </akn:p>
-                                          </akn:p>
-                                          <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-2_bezeichnung-1">(2)</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-2_text-1">
-                                                                Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
-                                                                Buchstabe b des Seefischereigesetzes handelt, wer
-                                                                vorsätzlich oder fahrlässig als Kapitän entgegen Artikel
-                                                                5 Absatz 2 Satz 1, Artikel 7 Absatz 3 oder Artikel 9
-                                                                Absatz 1 der Verordnung (EG) Nr. 734/2008 eine
-                                                                Mitteilung nicht, nicht richtig, nicht vollständig oder
-                                                                nicht rechtzeitig macht.
-                                                            </akn:p>
-                                          </akn:p>
-                                       </akn:list>
-                                    </akn:content>
-                                 </akn:paragraph>
-                                 <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9">
-                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
-                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1">
-                                       <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
-                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_überschrift-1">
-                                                        § 13 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
-                                                        Nr. 1005/2008
-                                                    </akn:heading>
-                                       <akn:list
-                                               eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1">
-                                          <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_bezeichnung-1">(1)</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1">
-                                                                Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
-                                                                Buchstabe a des Seefischereigesetzes handelt, wer gegen
-                                                                die Verordnung (EG) Nr. 1005/2008 des Rates vom 29.
-                                                                September 2008 über ein Gemeinschaftssystem zur
-                                                                Verhinderung, Bekämpfung und Unterbindung der illegalen,
-                                                                nicht gemeldeten und unregulierten Fischerei, zur
-                                                                Änderung der Verordnungen (EWG) Nr. 2847/93, (EG) Nr.
-                                                                1936/2001 und (EG) Nr. 601/2004 und zur Aufhebung der
-                                                                Verordnungen (EG) Nr. 1093/94 und (EG) Nr. 1447/1999
-                                                                (ABl. L 286 vom 29.10.2008, S. 1; L 22 vom 26.1.2011, S.
-                                                                8), die zuletzt durch die Verordnung (EU) 2023/2842
-                                                                (ABl. L, 2023/2842, 20.12.2023) geändert worden ist,
-                                                                verstößt, indem er vorsätzlich oder fahrlässig
-                                                                <akn:point
-                                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-1">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-1_text-1">
-                                                                        entgegen Artikel 4 Absatz 3 in
-                                                                        Gemeinschaftsgewässern umlädt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-2">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-2_text-1">
-                                                                        als Kapitän entgegen Artikel 4 Absatz 4 einen
-                                                                        Fang umlädt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-3">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-3_text-1">
-                                                                        entgegen Artikel 12 Absatz 1 oder 2 ein
-                                                                        Fischereierzeugnis einführt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-4">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-4_text-1">
-                                                                        entgegen Artikel 37 Nummer 3 ein dort genanntes
-                                                                        Fischereifahrzeug chartert,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-5">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-5_text-1">
-                                                                        als Kapitän entgegen Artikel 37 Nummer 4 eine
-                                                                        Fischverarbeitungstätigkeit übernimmt oder sich
-                                                                        an einer Umladung oder einem Fangeinsatz
-                                                                        beteiligt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-6">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-6_bezeichnung-1">6.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-6_text-1">
-                                                                        entgegen Artikel 37 Nummer 5 Satz 2 in einen
-                                                                        Hafen einläuft,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-7">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-7_bezeichnung-1">7.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-7_text-1">
-                                                                        entgegen Artikel 38 Nummer 2 ein dort genanntes
-                                                                        Fischereierfahrzeug erwirbt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-8">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-8_bezeichnung-1">8.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-8_text-1">
-                                                                        entgegen Artikel 38 Nummer 3 ein dort genanntes
-                                                                        Fischereifahrzeug umflaggt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-9">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-9_bezeichnung-1">9.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-9_text-1">
-                                                                        entgegen Artikel 38 Nummer 5 ein dort genanntes
-                                                                        Fischereifahrzeug ausführt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-10">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-10_bezeichnung-1">10.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-10_text-1">
-                                                                        entgegen Artikel 38 Nummer 10 ein
-                                                                        Fischereifahrzeug betreibt, besitzt oder managt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-11">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-11_bezeichnung-1">11.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-11_text-1">
-                                                                        entgegen Artikel 38 Nummer 11 anlandet oder
-                                                                        umlädt oder
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-12">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-12_bezeichnung-1">12.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-12_text-1">
-                                                                        entgegen Artikel 40 Absatz 2 ein
-                                                                        Fischereifahrzeug verkauft oder exportiert.
-                                                                    </akn:p>
-                                                </akn:point>
-                                             </akn:p>
-                                          </akn:p>
-                                          <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2">
-                                             <akn:num
-                                                     eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_bezeichnung-1">(2)</akn:num>
-                                             <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1">
-                                                                Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
-                                                                Buchstabe b des Seefischereigesetzes handelt, wer gegen
-                                                                die Verordnung (EG) Nr. 1005/2008 verstößt, indem er
-                                                                vorsätzlich oder fahrlässig
-                                                                <akn:point
-                                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-1">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-1_text-1">
-                                                                        entgegen Artikel 14 Absatz 1 Unterabsatz 1 Satz
-                                                                        1 Buchstabe a oder b eine dort genannte
-                                                                        Unterlage nicht, nicht richtig, nicht
-                                                                        vollständig, nicht in der vorgeschriebenen Weise
-                                                                        oder nicht rechtzeitig vorlegt,
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-2">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-2_text-1">
-                                                                        entgegen Artikel 14 Absatz 2 Satz 1 eine dort
-                                                                        genannte Erklärung nicht, nicht richtig, nicht
-                                                                        vollständig oder nicht rechtzeitig vorlegt oder
-                                                                    </akn:p>
-                                                </akn:point>
-                                                <akn:point
-                                                        eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-3">
-                                                   <akn:num
-                                                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-3_text-1">
-                                                                        entgegen Artikel 16 Absatz 1 Satz 1 eine
-                                                                        validierte Fangbescheinigung nicht, nicht
-                                                                        richtig oder nicht rechtzeitig vorlegt.
-                                                                    </akn:p>
-                                                </akn:point>
-                                             </akn:p>
-                                          </akn:p>
-                                       </akn:list>
-                                    </akn:content>
-                                 </akn:paragraph>
-                              </akn:quotedStructure>
-                           </akn:mod>
-                        </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
-                             GUID="b5fa1383-f26a-4904-a638-f48711fbcf2d">
-                     <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1"
-                              GUID="6f0f92b3-1a51-440c-9137-b44ab9d990ac">
-                                2.</akn:num>
-                     <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1"
-                                  GUID="6cb14ab5-3a7f-45f4-9e85-00ac2fb0fe5e">
-                        <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                               GUID="db3fbe0f-b758-4cc4-b528-a723cacad94a">
-                           <akn:mod eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
-                                    GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
-                                    refersTo="aenderungsbefehl-ersetzen">In <akn:ref
-                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
-                                   GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-                                   href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-0.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird die Angabe <akn:quotedText
-                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
-                                   GUID="694459c4-ef66-4f87-bb78-a332054a2216"
-                                   startQuote="„"
-                                   endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die Wörter <akn:quotedText
-                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
-                                   GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
-                                   startQuote="„"
-                                   endQuote="“">§ 9 Absatz 1 Satz 2</akn:quotedText> ersetzt.</akn:mod>
-                        </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
-            </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_überschrift-1">
+                                    § 6 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
+                                    2056/2001
+                                </akn:heading>
+                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1">
+                                    Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
+                                    des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
+                                    Nr. 2056/2001 der Kommission vom 19. Oktober 2001 mit
+                                    zusätzlichen technischen Maßnahmen zur Wiederauffüllung der
+                                    Kabeljaubestände in der Nordsee und westlich von Schottland
+                                    (ABl. L 277 vom 20.10.2001, S. 13), die durch die
+                                    Durchführungsverordnung (EU) 2015/1897 (ABl. L 277 vom
+                                    22.10.2015, S. 11) geändert worden ist, verstößt, indem er
+                                    vorsätzlich oder fahrlässig
+                                    <akn:point
+                                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-1_text-1">
+                                            entgegen Artikel 4 Nummer 5 ein dort genanntes Netz
+                                            mitführt oder ausbringt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-2_text-1">
+                                            entgegen Artikel 5 Absatz 1 oder 2 Satz 1 oder Artikel 8
+                                            Absatz 1 Satz 1 ein dort genanntes Netz einsetzt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-3">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-3_text-1">
+                                            entgegen Artikel 5 Absatz 3 Satz 1 eine dort genannte
+                                            Baumkurre mitführt oder einsetzt oder
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-4">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-2_inhalt-1_text-1_listenelem-4_text-1">
+                                            entgegen Artikel 6 Absatz 1 eine dort genannte Baumkurre
+                                            einsetzt.
+                                        </akn:p>
+                      </akn:point>
+                   </akn:p>
+                </akn:content>
+             </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_überschrift-1">
+                                    § 7 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
+                                    494/2002
+                                </akn:heading>
+                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1">
+                                    Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
+                                    des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
+                                    Nr. 494/2002 der Kommission vom 19. März 2002 mit zusätzlichen
+                                    technischen Maßnahmen zur Wiederauffüllung des Seehechtsbestands
+                                    in den ICES-Gebieten III, IV, V, VI und VII sowie VIII a, b, d,
+                                    e (ABl. L 77 vom 20.3.2002, S. 8), die durch die
+                                    Durchführungsverordnung (EU) 2015/1867 (ABl. L 275 vom
+                                    20.10.2015, S. 20) geändert worden ist, verstößt, indem er
+                                    vorsätzlich oder fahrlässig
+                                    <akn:point
+                                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-1_text-1">
+                                            entgegen Artikel 3 ein dort genanntes Netz oder ein dort
+                                            genanntes Netzteil verwendet,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-2_text-1">
+                                            entgegen Artikel 4 Satz 1 eine dort genannte Baumkurre
+                                            mitführt oder ausbringt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-3">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-3_text-1">
+                                            entgegen Artikel 5 Absatz 2 Satz 1 erster oder zweiter
+                                            Gedankenstrich oder Artikel 6 Absatz 1 oder 2 ein dort
+                                            genanntes Netz oder eine dort genannte Baumkurre
+                                            einsetzt oder zu Wasser lässt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-4">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-4_text-1">
+                                            entgegen Artikel 5 Absatz 2 Satz 2 erster Gedankenstrich
+                                            oder Satz 3 erster Gedankenstrich Fischfang betreibt
+                                            oder
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-5">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-3_inhalt-1_text-1_listenelem-5_text-1">
+                                            entgegen Artikel 5 Absatz 2 Satz 2 zweiter
+                                            Gedankenstrich oder Satz 3 zweiter Gedankenstrich ein
+                                            dort genanntes Fanggerät zu Wasser lässt oder ausbringt.
+                                        </akn:p>
+                      </akn:point>
+                   </akn:p>
+                </akn:content>
+             </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_überschrift-1">
+                                    § 8 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
+                                    1185/2003
+                                </akn:heading>
+                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1">
+                                    Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
+                                    des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
+                                    Nr. 1185/2003 des Rates vom 26. Juni 2003 über das Abtrennen von
+                                    Haifischflossen an Bord von Schiffen (ABl. L 167 vom 4.7.2003,
+                                    S. 1), die durch die Verordnung (EU) Nr. 605/2013 (ABl. L 181
+                                    vom 29.6.2013, S. 1) geändert worden ist, verstößt, indem er
+                                    vorsätzlich oder fahrlässig
+                                    <akn:point
+                                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-1_text-1">
+                                            entgegen Artikel 3 Absatz 1 eine Haifischflosse
+                                            abtrennt, mitführt, umlädt oder anlandet oder
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-4_inhalt-1_text-1_listenelem-2_text-1">
+                                            entgegen Artikel 3 Absatz 2 eine Haifischflosse kauft
+                                            oder zum Verkauf anbietet.
+                                        </akn:p>
+                      </akn:point>
+                   </akn:p>
+                </akn:content>
+             </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_überschrift-1">
+                                    § 9 Durchsetzung bestimmter Vorschriften der Verordnung (EG) Nr.
+                                    1984/2003
+                                </akn:heading>
+                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1">
+                                    Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
+                                    des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
+                                    Nr. 1984/2003 des Rates vom 8. April 2003 über eine Regelung zur
+                                    statistischen Erfassung von Schwertfisch und Großaugenthun in
+                                    der Gemeinschaft (ABl. L 295 vom 13.11.2003, S. 1), die zuletzt
+                                    durch die Verordnung (EU) 2022/2343 (ABl. L 311 vom 2.12.2022,
+                                    S. 1) geändert worden ist, verstößt, indem er vorsätzlich oder
+                                    fahrlässig
+                                    <akn:point
+                                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-1_text-1">
+                                            entgegen Artikel 4 Absatz 5 Fisch einer dort genannten
+                                            Art einführt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-2_text-1">
+                                            entgegen Artikel 5 Absatz 5 Fisch einer dort genannten
+                                            Art ausführt oder
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-3">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-5_inhalt-1_text-1_listenelem-3_text-1">
+                                            entgegen Artikel 6 Absatz 6 Fisch einer dort genannten
+                                            Art wieder ausführt oder einführt.
+                                        </akn:p>
+                      </akn:point>
+                   </akn:p>
+                </akn:content>
+             </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_überschrift-1">
+                                    § 10 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
+                                    Nr. 600/2004
+                                </akn:heading>
+                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1">
+                                    Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11 Buchstabe a
+                                    des Seefischereigesetzes handelt, wer gegen die Verordnung (EG)
+                                    Nr. 600/2004 des Rates vom 22. März 2004 mit technischen
+                                    Maßnahmen für die Fischerei im Bereich des Übereinkommens über
+                                    die Erhaltung der lebenden Meeresschätze der Antarktis (ABl. L
+                                    97 vom 1.4.2004, S. 1) verstößt, indem er vorsätzlich oder
+                                    fahrlässig
+                                    <akn:point
+                                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-1_text-1">
+                                            als Kapitän entgegen Artikel 3 Absatz 1, 2, 3 Satz 1,
+                                            Absatz 4 oder 6 eine Fischerei ausübt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-2_text-1">
+                                            als Kapitän entgegen Artikel 4 Absatz 1 ein dort
+                                            genanntes Netz oder eine Snurrewade einsetzt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-3">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-3_text-1">
+                                            entgegen Artikel 4 Absatz 2 eine Vorrichtung verwendet,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-4">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-4_text-1">
+                                            als Kapitän entgegen Artikel 6 Absatz 1 Satz 1 zweiter
+                                            Halbsatz einen Krebs nicht unverzüglich freilässt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-5">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-5_text-1">
+                                            entgegen Artikel 7 Absatz 1 Unterabsatz 1 oder 2 einen
+                                            Verpackungsgurt verwendet,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-6">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-6_bezeichnung-1">6.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-6_text-1">
+                                            als Kapitän entgegen Artikel 7 Absatz 3 erster Halbsatz
+                                            Plastikrückstände nicht an Bord aufbewahrt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-7">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-7_bezeichnung-1">7.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-7_text-1">
+                                            als Kapitän entgegen Artikel 8 Absatz 1 Satz 3 einen
+                                            Köder verwendet,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-8">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-8_bezeichnung-1">8.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-8_text-1">
+                                            entgegen Artikel 8 Absatz 2 Satz 1 eine Langleine
+                                            ausbringt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-9">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-9_bezeichnung-1">9.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-9_text-1">
+                                            als Kapitän entgegen Artikel 8 Absatz 3 Satz 1 oder
+                                            Artikel 9 Absatz 3 Fischabfälle über Bord wirft,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-10">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-10_bezeichnung-1">10.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-10_text-1">
+                                            entgegen Artikel 9 Absatz 1 ein Netzsteuerkabel
+                                            verwendet,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-11">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-11_bezeichnung-1">11.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-11_text-1">
+                                            als Kapitän entgegen Artikel 10 Absatz 1 oder 2 ein
+                                            Fischereifahrzeug nicht, nicht richtig oder nicht
+                                            unverzüglich nach Erreichen des Beifangvolumens an einen
+                                            anderen Fangplatz begibt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-12">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-12_bezeichnung-1">12.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-12_text-1">
+                                            als Kapitän entgegen Artikel 11 Absatz 3 Satz 2 erster
+                                            Halbsatz den Fischfang nicht einstellt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-13">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-13_bezeichnung-1">13.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-13_text-1">
+                                            entgegen Artikel 12 Absatz 1 Fischerei ausübt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-14">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-14_bezeichnung-1">14.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-14_text-1">
+                                            als Kapitän entgegen Artikel 12 Absatz 2 Satz 1 ein
+                                            Fischereifahrzeug nicht, nicht richtig oder nicht
+                                            unverzüglich nach Erreichen der dort genannten Fangmenge
+                                            an einen dort genannten Fangplatz begibt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-15">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-15_bezeichnung-1">15.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-15_text-1">
+                                            als Kapitän entgegen Artikel 12 Absatz 3 die
+                                            Fangtätigkeit nicht, nicht richtig, nicht vollständig
+                                            oder nicht rechtzeitig einstellt,
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-16">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-16_bezeichnung-1">16.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-16_text-1">
+                                            als Kapitän entgegen Artikel 12 Absatz 4 Hols zu
+                                            Forschungszwecken nicht, nicht richtig, nicht
+                                            vollständig, nicht in der vorgeschriebenen Weise oder
+                                            nicht rechtzeitig ausführt oder
+                                        </akn:p>
+                      </akn:point>
+                      <akn:point
+                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-17">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-17_bezeichnung-1">17.</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-6_inhalt-1_text-1_listenelem-17_text-1">
+                                            entgegen Artikel 14 Absatz 1, 2 oder 3 eine dort
+                                            genannte Person nicht an Bord nimmt.
+                                        </akn:p>
+                      </akn:point>
+                   </akn:p>
+                </akn:content>
+             </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_überschrift-1">
+                                    § 11 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
+                                    Nr. 601/2004
+                                </akn:heading>
+                   <akn:list
+                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1">
+                      <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_bezeichnung-1">(1)</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1">
+                                            Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
+                                            Buchstabe a des Seefischereigesetzes handelt, wer gegen
+                                            die Verordnung (EG) Nr. 601/2004 des Rates vom 22. März
+                                            2004 zur Festlegung von Kontrollmaßnahmen für die
+                                            Fischerei im Regelungsbereich des Übereinkommens über
+                                            die Erhaltung der lebenden Meeresschätze der Antarktis
+                                            und zur Aufhebung der Verordnungen (EWG) Nr. 3943/90,
+                                            (EG) Nr. 66/98 und (EG) Nr. 1721/1999 (ABl. L 97 vom
+                                            1.4.2004, S. 16), die zuletzt durch die Verordnung (EG)
+                                            Nr. 1005/2008 (ABl. L 286 vom 29.10.2008, S. 1) geändert
+                                            worden ist, verstößt, indem er vorsätzlich oder
+                                            fahrlässig
+                                            <akn:point
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-1">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-1_text-1">
+                                                    als Kapitän entgegen Artikel 3 Absatz 1 fischt
+                                                    oder einen Fang an Bord behält, umlädt oder
+                                                    anlandet,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-2">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-2_text-1">
+                                                    entgegen Artikel 6 Absatz 1 oder Artikel 7
+                                                    Absatz 1 eine Fischerei oder eine
+                                                    Versuchsfischerei ausübt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-3">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-3_text-1">
+                                                    als Kapitän entgegen Artikel 7a Buchstabe a
+                                                    einen dort genannten Stoff ins Meer einbringt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-4">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-4_text-1">
+                                                    entgegen Artikel 7a Buchstabe b lebendes
+                                                    Geflügel oder einen lebenden Vogel verbringt
+                                                    oder dort genanntes Geflügel nicht, nicht
+                                                    richtig oder nicht vollständig entfernt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-5">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-5_text-1">
+                                                    entgegen Artikel 7a Buchstabe c Dissostichus
+                                                    spp. fischt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-6">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-6_bezeichnung-1">6.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-6_text-1">
+                                                    als Kapitän entgegen Artikel 7b Absatz 1
+                                                    Buchstabe a Satz 1 ein dort genanntes Exemplar
+                                                    nicht markiert oder nicht wieder freilässt oder
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-7">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-7_bezeichnung-1">7.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-1_text-1_listenelem-7_text-1">
+                                                    als Kapitän entgegen Artikel 7b Absatz 1
+                                                    Buchstabe d einen Fisch freilässt.(2)
+                                                    Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer
+                                                    11 Buchstabe b des Seefischereigesetzes handelt,
+                                                    wer gegen die Verordnung (EG) Nr. 601/2004
+                                                    verstößt, indem er vorsätzlich oder fahrlässig
+                                                </akn:p>
+                            </akn:point>
+                         </akn:p>
+                      </akn:p>
+                      <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_bezeichnung-1">(2)</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1">
+                                            Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
+                                            Buchstabe b des Seefischereigesetzes handelt, wer gegen
+                                            die Verordnung (EG) Nr. 601/2004 verstößt, indem er
+                                            vorsätzlich oder fahrlässig
+                                            <akn:point
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-1">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-1_text-1">
+                                                    als Kapitän entgegen Artikel 4 Absatz 1 eine
+                                                    Fangerlaubnis und eine beglaubigte Kopie nicht
+                                                    mitführt oder nicht, nicht richtig oder nicht
+                                                    rechtzeitig vorlegt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-2">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-2_text-1">
+                                                    als Kapitän entgegen Artikel 9 Absatz 1 eine
+                                                    Angabe nicht, nicht richtig, nicht vollständig
+                                                    oder nicht rechtzeitig macht,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-3">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-3_text-1">
+                                                    als Kapitän entgegen Artikel 13 Absatz 1 erster
+                                                    Halbsatz, Artikel 14 Absatz 1, Artikel 17 Absatz
+                                                    1, Artikel 18 Absatz 1 oder Artikel 19 Absatz 1
+                                                    Satz 1 die dort genannten Daten oder eine dort
+                                                    genannte Angabe nicht, nicht richtig, nicht
+                                                    vollständig, nicht in der vorgeschriebenen Weise
+                                                    oder nicht rechtzeitig übermittelt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-4">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-4_text-1">
+                                                    als Kapitän entgegen Artikel 24 Absatz 2 Satz 1
+                                                    einer dort genannten Person das Übersetzen nicht
+                                                    oder nicht richtig gestattet oder
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-5">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-7_inhalt-1_untergl-1_text-2_text-1_listenelem-5_text-1">
+                                                    als Kapitän entgegen Artikel 27 Absatz 2 Satz 1
+                                                    eine Anmeldung nicht oder nicht rechtzeitig
+                                                    macht oder eine Erklärung nicht, nicht richtig,
+                                                    nicht vollständig oder nicht rechtzeitig abgibt.
+                                                </akn:p>
+                            </akn:point>
+                         </akn:p>
+                      </akn:p>
+                   </akn:list>
+                </akn:content>
+             </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_überschrift-1">
+                                    § 12 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
+                                    Nr. 734/2008
+                                </akn:heading>
+                   <akn:list
+                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1">
+                      <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_bezeichnung-1">(1)</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1">
+                                            Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
+                                            Buchstabe a des Seefischereigesetzes handelt, wer gegen
+                                            die Verordnung (EG) Nr. 734/2008 des Rates vom 15. Juli
+                                            2008 zum Schutz empfindlicher Tiefseeökosysteme vor den
+                                            schädlichen Auswirkungen von Grundfanggeräten (ABl. L
+                                            201 vom 30.7.2008, S. 8) verstößt, indem er vorsätzlich
+                                            oder fahrlässig
+                                            <akn:point
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-1">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-1_text-1">
+                                                    ohne Fangerlaubnis nach Artikel 3 Absatz 1 eine
+                                                    Fischereitätigkeit ausführt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-2">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-2_text-1">
+                                                    als Kapitän entgegen Artikel 7 Absatz 1 Satz 1
+                                                    eine Fischereitätigkeit nicht, nicht richtig,
+                                                    nicht vollständig oder nicht rechtzeitig
+                                                    einstellt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-3">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-3_text-1">
+                                                    entgegen Artikel 7 Absatz 1 Satz 2 eine
+                                                    Fischereitätigkeit wieder aufnimmt oder
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-4">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-1_text-1_listenelem-4_text-1">
+                                                    als Kapitän entgegen Artikel 9 Absatz 2 den
+                                                    Hafen wieder verlässt.
+                                                </akn:p>
+                            </akn:point>
+                         </akn:p>
+                      </akn:p>
+                      <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-2_bezeichnung-1">(2)</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-8_inhalt-1_untergl-1_text-2_text-1">
+                                            Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
+                                            Buchstabe b des Seefischereigesetzes handelt, wer
+                                            vorsätzlich oder fahrlässig als Kapitän entgegen Artikel
+                                            5 Absatz 2 Satz 1, Artikel 7 Absatz 3 oder Artikel 9
+                                            Absatz 1 der Verordnung (EG) Nr. 734/2008 eine
+                                            Mitteilung nicht, nicht richtig, nicht vollständig oder
+                                            nicht rechtzeitig macht.
+                                        </akn:p>
+                      </akn:p>
+                   </akn:list>
+                </akn:content>
+             </akn:paragraph>
+             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9">
+                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1">
+                   <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_überschrift-1">
+                                    § 13 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
+                                    Nr. 1005/2008
+                                </akn:heading>
+                   <akn:list
+                           eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1">
+                      <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_bezeichnung-1">(1)</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1">
+                                            Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
+                                            Buchstabe a des Seefischereigesetzes handelt, wer gegen
+                                            die Verordnung (EG) Nr. 1005/2008 des Rates vom 29.
+                                            September 2008 über ein Gemeinschaftssystem zur
+                                            Verhinderung, Bekämpfung und Unterbindung der illegalen,
+                                            nicht gemeldeten und unregulierten Fischerei, zur
+                                            Änderung der Verordnungen (EWG) Nr. 2847/93, (EG) Nr.
+                                            1936/2001 und (EG) Nr. 601/2004 und zur Aufhebung der
+                                            Verordnungen (EG) Nr. 1093/94 und (EG) Nr. 1447/1999
+                                            (ABl. L 286 vom 29.10.2008, S. 1; L 22 vom 26.1.2011, S.
+                                            8), die zuletzt durch die Verordnung (EU) 2023/2842
+                                            (ABl. L, 2023/2842, 20.12.2023) geändert worden ist,
+                                            verstößt, indem er vorsätzlich oder fahrlässig
+                                            <akn:point
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-1">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-1_text-1">
+                                                    entgegen Artikel 4 Absatz 3 in
+                                                    Gemeinschaftsgewässern umlädt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-2">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-2_text-1">
+                                                    als Kapitän entgegen Artikel 4 Absatz 4 einen
+                                                    Fang umlädt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-3">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-3_text-1">
+                                                    entgegen Artikel 12 Absatz 1 oder 2 ein
+                                                    Fischereierzeugnis einführt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-4">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-4_bezeichnung-1">4.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-4_text-1">
+                                                    entgegen Artikel 37 Nummer 3 ein dort genanntes
+                                                    Fischereifahrzeug chartert,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-5">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-5_bezeichnung-1">5.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-5_text-1">
+                                                    als Kapitän entgegen Artikel 37 Nummer 4 eine
+                                                    Fischverarbeitungstätigkeit übernimmt oder sich
+                                                    an einer Umladung oder einem Fangeinsatz
+                                                    beteiligt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-6">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-6_bezeichnung-1">6.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-6_text-1">
+                                                    entgegen Artikel 37 Nummer 5 Satz 2 in einen
+                                                    Hafen einläuft,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-7">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-7_bezeichnung-1">7.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-7_text-1">
+                                                    entgegen Artikel 38 Nummer 2 ein dort genanntes
+                                                    Fischereierfahrzeug erwirbt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-8">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-8_bezeichnung-1">8.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-8_text-1">
+                                                    entgegen Artikel 38 Nummer 3 ein dort genanntes
+                                                    Fischereifahrzeug umflaggt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-9">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-9_bezeichnung-1">9.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-9_text-1">
+                                                    entgegen Artikel 38 Nummer 5 ein dort genanntes
+                                                    Fischereifahrzeug ausführt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-10">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-10_bezeichnung-1">10.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-10_text-1">
+                                                    entgegen Artikel 38 Nummer 10 ein
+                                                    Fischereifahrzeug betreibt, besitzt oder managt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-11">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-11_bezeichnung-1">11.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-11_text-1">
+                                                    entgegen Artikel 38 Nummer 11 anlandet oder
+                                                    umlädt oder
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-12">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-12_bezeichnung-1">12.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-1_text-1_listenelem-12_text-1">
+                                                    entgegen Artikel 40 Absatz 2 ein
+                                                    Fischereifahrzeug verkauft oder exportiert.
+                                                </akn:p>
+                            </akn:point>
+                         </akn:p>
+                      </akn:p>
+                      <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2">
+                         <akn:num
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_bezeichnung-1">(2)</akn:num>
+                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1">
+                                            Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
+                                            Buchstabe b des Seefischereigesetzes handelt, wer gegen
+                                            die Verordnung (EG) Nr. 1005/2008 verstößt, indem er
+                                            vorsätzlich oder fahrlässig
+                                            <akn:point
+                                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-1">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-1_text-1">
+                                                    entgegen Artikel 14 Absatz 1 Unterabsatz 1 Satz
+                                                    1 Buchstabe a oder b eine dort genannte
+                                                    Unterlage nicht, nicht richtig, nicht
+                                                    vollständig, nicht in der vorgeschriebenen Weise
+                                                    oder nicht rechtzeitig vorlegt,
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-2">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-2_text-1">
+                                                    entgegen Artikel 14 Absatz 2 Satz 1 eine dort
+                                                    genannte Erklärung nicht, nicht richtig, nicht
+                                                    vollständig oder nicht rechtzeitig vorlegt oder
+                                                </akn:p>
+                            </akn:point>
+                            <akn:point
+                                    eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-3">
+                               <akn:num
+                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                               <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-9_inhalt-1_untergl-1_text-2_text-1_listenelem-3_text-1">
+                                                    entgegen Artikel 16 Absatz 1 Satz 1 eine
+                                                    validierte Fangbescheinigung nicht, nicht
+                                                    richtig oder nicht rechtzeitig vorlegt.
+                                                </akn:p>
+                            </akn:point>
+                         </akn:p>
+                      </akn:p>
+                   </akn:list>
+                </akn:content>
+             </akn:paragraph>
          </akn:article>
          <akn:article GUID="db1c822f-5626-41ae-afc0-6b3249915504"
                       eId="hauptteil-1_art-2"

@@ -62,13 +62,4 @@ public class Regelungstext extends Dokument {
       .map(Article::new)
       .toList();
   }
-
-  /**
-   * Extracts a list of {@link Mod}s from the getDocument().
-   *
-   * @return a list of {@link Mod}s
-   */
-  public List<Mod> getMods() {
-    return getElementsFromExpression("//body//mod", getDocument()).stream().map(Mod::new).toList();
-  }
 }
