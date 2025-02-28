@@ -45,6 +45,10 @@ class PublishServiceTest {
 
   final PublishChangelogsPort publishChangelogsPort = mock(PublishChangelogsPort.class);
 
+  final UpdateMigrationLogCompletedPort updateMigrationLogPort = mock(
+    UpdateMigrationLogCompletedPort.class
+  );
+
   final PublishService publishService = new PublishService(
     loadNormManifestationElisByPublishStatePort,
     loadNormPort,
@@ -56,7 +60,8 @@ class PublishServiceTest {
     loadLastMigrationLogPort,
     deleteAllPublicDokumentePort,
     deleteAllPrivateDokumentePort,
-    publishChangelogsPort
+    publishChangelogsPort,
+    updateMigrationLogPort
   );
 
   @Nested
@@ -95,6 +100,52 @@ class PublishServiceTest {
         .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
       verify(publishChangelogsPort, times(1)).publishChangelogs(any());
+    }
+
+    @Test
+    void publishNormToPublicAndPrivateStorageWhenMigrationLogExists() {
+      // Given
+      final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
+        "SimpleOffenestruktur.xml"
+      );
+      final Norm norm = new Norm(
+        NormPublishState.QUEUED_FOR_PUBLISH,
+        Set.of(regelungstext1, offenestruktur1),
+        Set.of()
+      );
+      final MigrationLog migrationLog = MigrationLog
+        .builder()
+        .size(5)
+        .createdAt(Instant.now())
+        .completed(false)
+        .build();
+      when(
+        loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+      )
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
+        .thenReturn(Optional.of(norm));
+      when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog));
+
+      // When
+      publishService.processQueuedFilesForPublish();
+
+      // Then
+      verify(loadNormManifestationElisByPublishStatePort, times(1))
+        .loadNormManifestationElisByPublishState(
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
+        );
+      verify(publishPublicNormPort, times(1))
+        .publishPublicNorm(new PublishPublicNormPort.Command(norm));
+      verify(publishPrivateNormPort, times(1))
+        .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogsPort, times(1)).publishChangelogs(any());
+      verify(updateMigrationLogPort)
+        .updateMigrationLogCompleted(
+          new UpdateMigrationLogCompletedPort.Command(migrationLog.getId(), true)
+        );
     }
 
     @Test
@@ -162,7 +213,7 @@ class PublishServiceTest {
     }
 
     @Test
-    void deleteAllNormsIfMigrationLogExists() {
+    void deleteAllNormsIfUnpublishedMigrationLogExists() {
       // Given
       final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
       final MigrationLog migrationLog = MigrationLog
@@ -252,6 +303,47 @@ class PublishServiceTest {
         );
 
       // Verify that deletion was NOT called
+      verify(deleteAllPublicDokumentePort, never()).deleteAllPublicDokumente(any());
+      verify(deleteAllPrivateDokumentePort, never()).deleteAllPrivateDokumente(any());
+
+      // Verify norm publishing actions
+      verify(publishPublicNormPort, times(1))
+        .publishPublicNorm(new PublishPublicNormPort.Command(norm));
+      verify(publishPrivateNormPort, times(1))
+        .publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogsPort, times(1)).publishChangelogs(any());
+    }
+
+    @Test
+    void doNotDeleteNormsIfMigrationLogIsAlreadyPublished() {
+      // Given
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final MigrationLog migrationLog = MigrationLog
+        .builder()
+        .size(5)
+        .createdAt(Instant.now())
+        .completed(true)
+        .build();
+
+      when(
+        loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+      )
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
+        .thenReturn(Optional.of(norm));
+      when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
+
+      // When
+      publishService.processQueuedFilesForPublish();
+
+      // Then
+      verify(loadNormManifestationElisByPublishStatePort, times(1))
+        .loadNormManifestationElisByPublishState(
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
+        );
+
+      // Check that deletion was not called
       verify(deleteAllPublicDokumentePort, never()).deleteAllPublicDokumente(any());
       verify(deleteAllPrivateDokumentePort, never()).deleteAllPrivateDokumente(any());
 

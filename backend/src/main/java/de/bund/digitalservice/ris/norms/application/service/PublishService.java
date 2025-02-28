@@ -37,6 +37,7 @@ public class PublishService implements PublishNormUseCase {
   private final DeleteAllPublicDokumentePort deleteAllPublicDokumentePort;
   private final DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort;
   private final PublishChangelogsPort publishChangelogsPort;
+  private final UpdateMigrationLogCompletedPort updateMigrationLogPort;
 
   public PublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
@@ -49,7 +50,8 @@ public class PublishService implements PublishNormUseCase {
     LoadLastMigrationLogPort loadLastMigrationLogPort,
     DeleteAllPublicDokumentePort deleteAllPublicDokumentePort,
     DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort,
-    PublishChangelogsPort publishChangelogsPort
+    PublishChangelogsPort publishChangelogsPort,
+    UpdateMigrationLogCompletedPort updateMigrationLogPort
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.loadNormPort = loadNormPort;
@@ -62,6 +64,7 @@ public class PublishService implements PublishNormUseCase {
     this.deleteAllPublicDokumentePort = deleteAllPublicDokumentePort;
     this.deleteAllPrivateDokumentePort = deleteAllPrivateDokumentePort;
     this.publishChangelogsPort = publishChangelogsPort;
+    this.updateMigrationLogPort = updateMigrationLogPort;
   }
 
   @Override
@@ -85,38 +88,68 @@ public class PublishService implements PublishNormUseCase {
       }
     });
 
-    loadLastMigrationLogPort
+    var lastMigrationLog = loadLastMigrationLogPort
       .loadLastMigrationLog()
-      .ifPresent(migrationLog -> {
-        final LocalDate createdAtDate = migrationLog
-          .getCreatedAt()
-          .atZone(ZoneId.systemDefault())
-          .toLocalDate();
-        final LocalDate yesterday = today.minusDays(1);
-        if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
+      .filter(migrationLog -> {
+        if (migrationLog.isCompleted()) {
           log.info(
-            "Migration log found with timestamp {} (UTC) and {} dokumente.",
+            "Skipping migration log with timestamp {} (UTC) because it was marked as completed.",
             migrationLog
               .getCreatedAt()
               .atOffset(ZoneOffset.UTC)
-              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-            migrationLog.getSize()
+              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
           );
-          if (migrationLog.getSize() <= 0) {
-            throw new MigrationJobException();
-          }
-          log.info("Deleting all old dokumente in both buckets");
-          deleteAllPublicDokumentePort.deleteAllPublicDokumente(
-            new DeleteAllPublicDokumentePort.Command(startOfProcessing)
-          );
-          deleteAllPrivateDokumentePort.deleteAllPrivateDokumente(
-            new DeleteAllPrivateDokumentePort.Command(startOfProcessing)
-          );
-          log.info("Deleted all dokumente in both buckets");
+
+          return false;
         }
+
+        return true;
       });
 
+    lastMigrationLog.ifPresent(migrationLog -> {
+      final LocalDate createdAtDate = migrationLog
+        .getCreatedAt()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate();
+      final LocalDate yesterday = today.minusDays(1);
+      if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
+        log.info(
+          "Migration log found with timestamp {} (UTC) and {} dokumente.",
+          migrationLog
+            .getCreatedAt()
+            .atOffset(ZoneOffset.UTC)
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+          migrationLog.getSize()
+        );
+        if (migrationLog.getSize() <= 0) {
+          throw new MigrationJobException();
+        }
+        log.info("Deleting all old dokumente in both buckets");
+        deleteAllPublicDokumentePort.deleteAllPublicDokumente(
+          new DeleteAllPublicDokumentePort.Command(startOfProcessing)
+        );
+        deleteAllPrivateDokumentePort.deleteAllPrivateDokumente(
+          new DeleteAllPrivateDokumentePort.Command(startOfProcessing)
+        );
+        log.info("Deleted all dokumente in both buckets");
+      }
+    });
+
     publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(false));
+
+    lastMigrationLog.ifPresent(migrationLog -> {
+      updateMigrationLogPort.updateMigrationLogCompleted(
+        new UpdateMigrationLogCompletedPort.Command(migrationLog.getId(), true)
+      );
+      log.info(
+        "Marked migration log with timestamp {} (UTC) as completed.",
+        migrationLog
+          .getCreatedAt()
+          .atOffset(ZoneOffset.UTC)
+          .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+      );
+    });
+
     log.info("Publish job successfully completed.");
   }
 
