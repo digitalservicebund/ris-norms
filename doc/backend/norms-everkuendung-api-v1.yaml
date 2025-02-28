@@ -27,9 +27,9 @@ paths:
 
         Es kann immer nur eine Anfrage gleichzeitig verarbeitet werden.
 
-        Das Archiv wird während der Anfrage innerhalb von 120 Sekunden validiert. Eine erfolgreiche Übermittelung wird mit dem Status-Code `201 CREATED` bestätigt.
+        Das Archiv wird während der Anfrage innerhalb von 120 Sekunden validiert. Eine erfolgreiche Übermittlung wird mit dem Status-Code `201 CREATED` bestätigt.
 
-        Wenn die Validierung fehlschlägt oder nicht innerhalb dieser Zeit abgeschlossen werden kann, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum ernet versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
+        Wenn die Validierung fehlschlägt oder nicht innerhalb dieser Zeit abgeschlossen werden kann, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum erneut versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
 
         ## Offene Fragen
 
