@@ -169,6 +169,7 @@ class PublishServiceTest {
         .builder()
         .size(5)
         .createdAt(Instant.now())
+        .completed(false)
         .build();
 
       when(
