@@ -507,7 +507,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(migrationLogOptional)
-        .isPresent()
         .get()
         .usingRecursiveComparison()
         .ignoringFields("id")
@@ -540,7 +539,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(migrationLogOptional)
-        .isPresent()
         .get()
         .usingRecursiveComparison()
         .ignoringFields("id")
