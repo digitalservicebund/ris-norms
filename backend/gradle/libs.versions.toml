@@ -20,7 +20,7 @@ google-protobuf-java = "com.google.protobuf:protobuf-java:4.29.3"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.36"
-mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.15.2"
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.16.0"
 # CVE-2025-25193
 netty-common = "io.netty:netty-common:4.1.119.Final"
 # CVE-2025-24970
