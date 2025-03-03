@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.MigrationLogDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -543,6 +544,58 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         .usingRecursiveComparison()
         .ignoringFields("id")
         .isEqualTo(migrationLog2);
+    }
+  }
+
+  @Nested
+  class updateMigrationLogCompleted {
+
+    @Test
+    void itUpdatesCompletedOfAnExistingMigrationLog() {
+      // Given
+      var savedMigrationLog = migrationLogRepository.save(
+        MigrationLogDto
+          .builder()
+          .size(5)
+          .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
+          .completed(false)
+          .build()
+      );
+
+      // When
+      var affectedRows = dbService.updateMigrationLogCompleted(
+        new UpdateMigrationLogCompletedPort.Command(savedMigrationLog.getId(), true)
+      );
+      var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
+
+      // Then
+      assertThat(migrationLogRepository.findAll()).hasSize(1);
+      assertThat(affectedRows).isEqualTo(1);
+      assertThat(updatedMigrationLog.isCompleted()).isTrue();
+    }
+
+    @Test
+    void itReturns0WhenAttemptingUpdateOfAnInvalidId() {
+      // Given
+      migrationLogRepository.save(
+        MigrationLogDto
+          .builder()
+          .size(5)
+          .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
+          .completed(false)
+          .build()
+      );
+
+      // When
+      var affectedRows = dbService.updateMigrationLogCompleted(
+        new UpdateMigrationLogCompletedPort.Command(UUID.randomUUID(), true)
+      );
+      var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
+
+      // Then
+      assertThat(migrationLogRepository.findAll()).hasSize(1);
+      assertThat(affectedRows).isEqualTo(0);
+      assertThat(updatedMigrationLog.isCompleted()).isFalse();
     }
   }
 
