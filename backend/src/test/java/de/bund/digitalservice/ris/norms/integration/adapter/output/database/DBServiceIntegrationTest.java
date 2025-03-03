@@ -594,7 +594,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(migrationLogRepository.findAll()).hasSize(1);
-      assertThat(affectedRows).isEqualTo(0);
+      assertThat(affectedRows).isZero();
       assertThat(updatedMigrationLog.isCompleted()).isFalse();
     }
   }

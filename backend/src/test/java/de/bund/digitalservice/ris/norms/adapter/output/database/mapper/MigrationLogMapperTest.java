@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-public class MigrationLogMapperTest {
+class MigrationLogMapperTest {
 
   @Test
   void itShouldMapToDomain() {

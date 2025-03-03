@@ -94,10 +94,7 @@ public class PublishService implements PublishNormUseCase {
         if (migrationLog.isCompleted()) {
           log.info(
             "Skipping migration log with timestamp {} (UTC) because it was marked as completed.",
-            migrationLog
-              .getCreatedAt()
-              .atOffset(ZoneOffset.UTC)
-              .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            formatMigrationLogTimestamp(migrationLog.getCreatedAt())
           );
 
           return false;
@@ -115,10 +112,7 @@ public class PublishService implements PublishNormUseCase {
       if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
         log.info(
           "Migration log found with timestamp {} (UTC) and {} dokumente.",
-          migrationLog
-            .getCreatedAt()
-            .atOffset(ZoneOffset.UTC)
-            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+          formatMigrationLogTimestamp(migrationLog.getCreatedAt()),
           migrationLog.getSize()
         );
         if (migrationLog.getSize() <= 0) {
@@ -143,10 +137,7 @@ public class PublishService implements PublishNormUseCase {
       );
       log.info(
         "Marked migration log with timestamp {} (UTC) as completed.",
-        migrationLog
-          .getCreatedAt()
-          .atOffset(ZoneOffset.UTC)
-          .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        formatMigrationLogTimestamp(migrationLog.getCreatedAt())
       );
     });
 
@@ -226,5 +217,11 @@ public class PublishService implements PublishNormUseCase {
     );
 
     matches.forEach(match -> match.getParentNode().removeChild(match));
+  }
+
+  private String formatMigrationLogTimestamp(Instant timestamp) {
+    return timestamp
+      .atOffset(ZoneOffset.UTC)
+      .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
   }
 }
