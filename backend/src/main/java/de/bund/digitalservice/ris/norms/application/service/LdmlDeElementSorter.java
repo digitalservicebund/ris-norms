@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
@@ -26,10 +28,17 @@ import org.w3c.dom.Node;
 public class LdmlDeElementSorter {
 
   private final List<Document> schemas;
+  private final Logger logger = LoggerFactory.getLogger(LdmlDeElementSorter.class);
 
-  // All sequences (without mixed content) are simple. As in, they only consist of xs:element and max. one xs:group
-  // which is also the last part of the sequence. Therefore, we can represent these sequences as a simple lists of
-  // elements.
+  // General idea:
+  // 1. search for the element-name in the schema and try to figure out which schema-type it is
+  // 2. lookup the definition of that schema-type and figure out the sequence the elements should have
+  // 3. reorder the child elements based on this sequence
+  // 4. do the same for all child elements
+
+  // Within the LegalDocMl.de schemas all sequences (that do not allow mixed content) are simple. As in, they only
+  // consist of xs:element and max. one xs:group which is also the last part of the sequence. Therefore, we can model
+  // these sequences as a simple lists that shown in which order the elements must appear.
 
   public LdmlDeElementSorter(
     @Value(
@@ -44,9 +53,9 @@ public class LdmlDeElementSorter {
   ) {
     this.schemas =
     List.of(
-      getSchemaFor(baukastenXsdSchema),
-      getSchemaFor(metadatenXsdSchema),
-      getSchemaFor(regelungstextverkuendungsfassungXsdSchema)
+      loadDocumentForResource(baukastenXsdSchema),
+      loadDocumentForResource(metadatenXsdSchema),
+      loadDocumentForResource(regelungstextverkuendungsfassungXsdSchema)
     );
   }
 
@@ -66,129 +75,8 @@ public class LdmlDeElementSorter {
       });
   }
 
-  private final Map<String, Set<String>> typesByTag = new HashMap<>();
-
-  private Set<String> findTypesInAllSchemas(String tagName) {
-    if (typesByTag.containsKey(tagName)) {
-      return typesByTag.get(tagName);
-    }
-
-    for (Document schema : schemas) {
-      var types = NodeParser
-        .getNodesFromExpression("//element[@name = \"%s\"]/@type".formatted(tagName), schema)
-        .stream()
-        .map(Node::getNodeValue)
-        .collect(Collectors.toSet());
-      if (!types.isEmpty()) {
-        typesByTag.put(tagName, types);
-        return types;
-      }
-    }
-
-    typesByTag.put(tagName, Set.of());
-    return Set.of();
-  }
-
-  private Optional<Element> findDefinitionInAllSchemas(String typeName) {
-    for (Document schema : schemas) {
-      var typeDefinition = NodeParser.getElementFromExpression(
-        "/schema/(complexType | group | element)[@name = \"%s\"]".formatted(typeName),
-        schema
-      );
-
-      if (typeDefinition.isPresent()) {
-        return typeDefinition;
-      }
-    }
-
-    return Optional.empty();
-  }
-
-  private Optional<String> findTypeForElement(Element element) {
-    var tagName = element.getLocalName();
-    var types = findTypesInAllSchemas(tagName);
-
-    if (types.size() > 1) {
-      // the FRBR elements are the only once that use different complex types for the same akn element. But as all of them have an empty sequence as only child we can ignore them.
-      if (tagName.startsWith("FRBR")) {
-        return Optional.empty();
-      }
-
-      switch (tagName) {
-        // There are two types for p elements (p and ortUndDatum) but as both allow mixed content there is nothing to sort for us.
-        case "p" -> {
-          return Optional.empty();
-        }
-        // There are two types for block elements (block and datumContainer) but as both allow mixed content there is nothing to sort for us.
-        case "block" -> {
-          return Optional.empty();
-        }
-        // There are two types for formula elements (schlussformel and eingangsformel) but both allow the exact same content.
-        case "formula" -> {
-          return Optional.of("schlussformel");
-        }
-        // There are two types for signature elements but as both allow mixed content there is nothing to sort for us
-        case "signature" -> {
-          return Optional.empty();
-        }
-        // There are two types for blockContainer elements. Both can have different sequences.
-        case "blockContainer" -> {
-          if (
-            element.getParentNode().getLocalName().equals("quotedStructure") ||
-            element.getParentNode().getLocalName().equals("preamble")
-          ) {
-            return Optional.of("verzeichniscontainer");
-          }
-
-          if (element.getParentNode().getLocalName().equals("conclusions")) {
-            return Optional.of("signaturblock");
-          }
-        }
-        // There are two types for intro elements. Both can have different sequences.
-        case "intro" -> {
-          if (element.getParentNode().getLocalName().equals("citations")) {
-            return Optional.of("ermaechtigungsnormEingangssatz");
-          }
-
-          if (element.getParentNode().getLocalName().equals("list")) {
-            return Optional.of("textVorUntergliederung");
-          }
-        }
-        // There are two types for wrapUp elements. Both can have different sequences.
-        case "wrapUp" -> {
-          if (element.getParentNode().getLocalName().equals("citations")) {
-            return Optional.of("ermaechtigungsnormSchlusssatz");
-          }
-
-          if (element.getParentNode().getLocalName().equals("list")) {
-            return Optional.of("textNachUntergliederung");
-          }
-        }
-      }
-
-      throw new RuntimeException(
-        "Too many possible types for %s (%s)".formatted(tagName, String.join(", ", types))
-      );
-    }
-
-    if (types.isEmpty()) {
-      // If we can find no nested xs:element with the tagName as a name that have a @type there should be no
-      // xs:complexType for this element. For some elements a global xs:element definition exists. This does not have a
-      // @type attribute but can specify a sequence. To handle this case we return the tag name as type.
-      return Optional.of(tagName);
-    }
-
-    return Optional.of(types.iterator().next());
-  }
-
   private void sortChildElements(Element element) {
-    var type = findTypeForElement(element);
-
-    if (type.isEmpty()) {
-      return;
-    }
-
-    var elementOrder = getElementOrderForType(type.get());
+    var elementOrder = findChildElementOrder(element);
 
     if (elementOrder.isEmpty()) {
       return;
@@ -221,14 +109,134 @@ public class LdmlDeElementSorter {
       .forEach(element::appendChild);
   }
 
+  private List<String> findChildElementOrder(Element element) {
+    var type = findTypeForElement(element);
+
+    if (type.isEmpty()) {
+      return List.of();
+    }
+
+    return findElementOrderForType(type.get());
+  }
+
+  private Optional<String> findTypeForElement(Element element) {
+    var tagName = element.getLocalName();
+    var types = findPossibleTypesForTagName(tagName);
+
+    if (types.isEmpty()) {
+      // If we can find no nested xs:element with the tagName as a name that have a @type there should be no
+      // xs:complexType for this element. For some elements a global xs:element definition exists. This does not have a
+      // @type attribute but can specify a sequence. To handle this case we return the tag name as the schema-type.
+      return Optional.of(tagName);
+    }
+
+    if (types.size() == 1) {
+      return Optional.of(types.iterator().next());
+    }
+
+    // There are a bunch of cases where more than one schema-type exists for a tag-name. This tries to figure out which
+    // one is the correct one for the given element.
+
+    // the FRBR elements all do not have any child elements. Therefore, we can ignore them.
+    if (tagName.startsWith("FRBR")) {
+      return Optional.empty();
+    }
+
+    return switch (tagName) {
+      // There are two types for p, block and signature elements but as all allow mixed content there is nothing to sort
+      // for us.
+      case "p", "block", "signature" -> Optional.empty();
+      // There are two types for formula elements but both allow the exact same content, so just default to one.
+      case "formula" -> Optional.of("schlussformel");
+      // There are two types for blockContainer elements. Both can have different sequences.
+      case "blockContainer" -> {
+        if (
+          element.getParentNode().getLocalName().equals("quotedStructure") ||
+          element.getParentNode().getLocalName().equals("preamble")
+        ) {
+          yield Optional.of("verzeichniscontainer");
+        }
+
+        if (element.getParentNode().getLocalName().equals("conclusions")) {
+          yield Optional.of("signaturblock");
+        }
+
+        logger.debug(
+          "Skip ordering elements: Unable to determine which type of blockContainer element is used."
+        );
+        yield Optional.empty();
+      }
+      // There are two types for intro elements. Both can have different sequences.
+      case "intro" -> {
+        if (element.getParentNode().getLocalName().equals("citations")) {
+          yield Optional.of("ermaechtigungsnormEingangssatz");
+        }
+
+        if (element.getParentNode().getLocalName().equals("list")) {
+          yield Optional.of("textVorUntergliederung");
+        }
+
+        logger.debug(
+          "Skip ordering elements: Unable to determine which type of intro element is used."
+        );
+        yield Optional.empty();
+      }
+      // There are two types for wrapUp elements. Both can have different sequences.
+      case "wrapUp" -> {
+        if (element.getParentNode().getLocalName().equals("citations")) {
+          yield Optional.of("ermaechtigungsnormSchlusssatz");
+        }
+
+        if (element.getParentNode().getLocalName().equals("list")) {
+          yield Optional.of("textNachUntergliederung");
+        }
+
+        logger.debug(
+          "Skip ordering elements: Unable to determine which type of wrapUp element is used."
+        );
+        yield Optional.empty();
+      }
+      default -> throw new RuntimeException(
+        "Too many possible types for %s (%s)".formatted(tagName, String.join(", ", types))
+      );
+    };
+  }
+
+  // Cache of possible types for every tag name. Helps a lot with the performance.
+  private final Map<String, Set<String>> typesByTag = new HashMap<>();
+
+  /**
+   * Finds the possible schema-types that an element tag name could represent.
+   */
+  private Set<String> findPossibleTypesForTagName(String tagName) {
+    if (typesByTag.containsKey(tagName)) {
+      return typesByTag.get(tagName);
+    }
+
+    for (Document schema : schemas) {
+      var types = NodeParser
+        .getNodesFromExpression("//element[@name = \"%s\"]/@type".formatted(tagName), schema)
+        .stream()
+        .map(Node::getNodeValue)
+        .collect(Collectors.toSet());
+      if (!types.isEmpty()) {
+        typesByTag.put(tagName, types);
+        return types;
+      }
+    }
+
+    typesByTag.put(tagName, Set.of());
+    return Set.of();
+  }
+
   private final Map<String, List<String>> elementOrderByType = new HashMap<>();
 
-  private List<String> getElementOrderForType(String typeName) {
+  private List<String> findElementOrderForType(String typeName) {
     if (elementOrderByType.containsKey(typeName)) {
       return elementOrderByType.get(typeName);
     }
 
-    var complexType = findDefinitionInAllSchemas(typeName);
+    var complexType = findDefinitionForSchemaType(typeName);
 
     if (complexType.isEmpty()) {
       elementOrderByType.put(typeName, List.of());
@@ -251,7 +259,7 @@ public class LdmlDeElementSorter {
           return Stream.of(element.getAttribute("name"));
         }
         if (Objects.equals(element.getTagName(), "xs:group")) {
-          return getElementOrderForType(element.getAttribute("ref")).stream();
+          return findElementOrderForType(element.getAttribute("ref")).stream();
         }
         if (Objects.equals(element.getTagName(), "xs:choice")) {
           return Stream.empty();
@@ -263,8 +271,26 @@ public class LdmlDeElementSorter {
     return elementOrder;
   }
 
+  /**
+   * Finds the element that holds the definition of a schema-type.
+   */
+  private Optional<Element> findDefinitionForSchemaType(String typeName) {
+    for (Document schema : schemas) {
+      var typeDefinition = NodeParser.getElementFromExpression(
+        "/schema/(complexType | group | element)[@name = \"%s\"]".formatted(typeName),
+        schema
+      );
+
+      if (typeDefinition.isPresent()) {
+        return typeDefinition;
+      }
+    }
+
+    return Optional.empty();
+  }
+
   // Helper method to load a Schema from a Resource.
-  private Document getSchemaFor(Resource schemaResource) {
+  private Document loadDocumentForResource(Resource schemaResource) {
     try {
       return XmlMapper.toDocument(schemaResource.getContentAsString(StandardCharsets.UTF_8));
     } catch (IOException e) {
