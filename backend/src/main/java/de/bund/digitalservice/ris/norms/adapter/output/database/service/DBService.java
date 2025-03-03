@@ -353,9 +353,7 @@ public class DBService
   }
 
   @Override
-  public MigrationLog updateMigrationLogCompleted(UpdateMigrationLogCompletedPort.Command command) {
-    return MigrationLogMapper.mapToDomain(
-      migrationLogRepository.updateCompletedById(command.id(), command.completed())
-    );
+  public int updateMigrationLogCompleted(UpdateMigrationLogCompletedPort.Command command) {
+    return migrationLogRepository.updateCompletedById(command.id(), command.completed());
   }
 }

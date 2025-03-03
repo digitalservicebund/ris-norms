@@ -21,8 +21,5 @@ public interface MigrationLogRepository extends JpaRepository<MigrationLogDto, U
   @Modifying
   @Transactional
   @Query("UPDATE MigrationLogDto m SET m.completed = :completed WHERE m.id = :id")
-  MigrationLogDto updateCompletedById(
-    @Param("id") final UUID id,
-    @Param("completed") final boolean completed
-  );
+  int updateCompletedById(@Param("id") final UUID id, @Param("completed") final boolean completed);
 }

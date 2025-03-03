@@ -11,9 +11,9 @@ public interface UpdateMigrationLogCompletedPort {
    * Updates the completion state of an existing {@link MigrationLog} entry.
    *
    * @param command Specifies the entry to update and the new value
-   * @return The updated {@link MigrationLog} entry
+   * @return Number of affected entries
    */
-  MigrationLog updateMigrationLogCompleted(final Command command);
+  int updateMigrationLogCompleted(final Command command);
 
   /**
    * Command for updating the completion state of a migration log entry.
