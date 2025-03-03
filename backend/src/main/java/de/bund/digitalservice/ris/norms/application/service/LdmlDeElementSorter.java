@@ -6,7 +6,9 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -64,7 +66,13 @@ public class LdmlDeElementSorter {
       });
   }
 
+  private final Map<String, Set<String>> typesByTag = new HashMap<>();
+
   private Set<String> findTypesInAllSchemas(String tagName) {
+    if (typesByTag.containsKey(tagName)) {
+      return typesByTag.get(tagName);
+    }
+
     for (Document schema : schemas) {
       var types = NodeParser
         .getNodesFromExpression("//element[@name = \"%s\"]/@type".formatted(tagName), schema)
@@ -72,10 +80,12 @@ public class LdmlDeElementSorter {
         .map(Node::getNodeValue)
         .collect(Collectors.toSet());
       if (!types.isEmpty()) {
+        typesByTag.put(tagName, types);
         return types;
       }
     }
 
+    typesByTag.put(tagName, Set.of());
     return Set.of();
   }
 
@@ -104,59 +114,56 @@ public class LdmlDeElementSorter {
         return Optional.empty();
       }
 
-      // There are two types for p elements (p and ortUndDatum) but as both allow mixed content there is nothing to sort for us.
-      if (tagName.equals("p")) {
-        return Optional.empty();
-      }
-
-      // There are two types for block elements (block and datumContainer) but as both allow mixed content there is nothing to sort for us.
-      if (tagName.equals("block")) {
-        return Optional.empty();
-      }
-
-      // There are two types for formula elements (schlussformel and eingangsformel) but both allow the exact same content.
-      if (tagName.equals("formula")) {
-        return Optional.of("schlussformel");
-      }
-
-      // There are two types for blockContainer elements. Both can have different sequences.
-      if (tagName.equals("blockContainer")) {
-        if (
-          element.getParentNode().getLocalName().equals("quotedStructure") ||
-          element.getParentNode().getLocalName().equals("preamble")
-        ) {
-          return Optional.of("verzeichniscontainer");
+      switch (tagName) {
+        // There are two types for p elements (p and ortUndDatum) but as both allow mixed content there is nothing to sort for us.
+        case "p" -> {
+          return Optional.empty();
         }
-
-        if (element.getParentNode().getLocalName().equals("conclusions")) {
-          return Optional.of("signaturblock");
+        // There are two types for block elements (block and datumContainer) but as both allow mixed content there is nothing to sort for us.
+        case "block" -> {
+          return Optional.empty();
         }
-      }
-
-      // There are two types for intro elements. Both can have different sequences.
-      if (tagName.equals("intro")) {
-        if (element.getParentNode().getLocalName().equals("citations")) {
-          return Optional.of("ermaechtigungsnormEingangssatz");
+        // There are two types for formula elements (schlussformel and eingangsformel) but both allow the exact same content.
+        case "formula" -> {
+          return Optional.of("schlussformel");
         }
-
-        if (element.getParentNode().getLocalName().equals("list")) {
-          return Optional.of("textVorUntergliederung");
+        // There are two types for signature elements but as both allow mixed content there is nothing to sort for us
+        case "signature" -> {
+          return Optional.empty();
         }
-      }
+        // There are two types for blockContainer elements. Both can have different sequences.
+        case "blockContainer" -> {
+          if (
+            element.getParentNode().getLocalName().equals("quotedStructure") ||
+            element.getParentNode().getLocalName().equals("preamble")
+          ) {
+            return Optional.of("verzeichniscontainer");
+          }
 
-      // There are two types for wrapUp elements. Both can have different sequences.
-      if (tagName.equals("wrapUp")) {
-        if (element.getParentNode().getLocalName().equals("citations")) {
-          return Optional.of("ermaechtigungsnormSchlusssatz");
+          if (element.getParentNode().getLocalName().equals("conclusions")) {
+            return Optional.of("signaturblock");
+          }
         }
+        // There are two types for intro elements. Both can have different sequences.
+        case "intro" -> {
+          if (element.getParentNode().getLocalName().equals("citations")) {
+            return Optional.of("ermaechtigungsnormEingangssatz");
+          }
 
-        if (element.getParentNode().getLocalName().equals("list")) {
-          return Optional.of("textNachUntergliederung");
+          if (element.getParentNode().getLocalName().equals("list")) {
+            return Optional.of("textVorUntergliederung");
+          }
         }
-      }
-      // There are two types for signature elements but as both allow mixed content there is nothing to sort for us
-      if (tagName.equals("signature")) {
-        return Optional.empty();
+        // There are two types for wrapUp elements. Both can have different sequences.
+        case "wrapUp" -> {
+          if (element.getParentNode().getLocalName().equals("citations")) {
+            return Optional.of("ermaechtigungsnormSchlusssatz");
+          }
+
+          if (element.getParentNode().getLocalName().equals("list")) {
+            return Optional.of("textNachUntergliederung");
+          }
+        }
       }
 
       throw new RuntimeException(
@@ -214,22 +221,30 @@ public class LdmlDeElementSorter {
       .forEach(element::appendChild);
   }
 
+  private final Map<String, List<String>> elementOrderByType = new HashMap<>();
+
   private List<String> getElementOrderForType(String typeName) {
+    if (elementOrderByType.containsKey(typeName)) {
+      return elementOrderByType.get(typeName);
+    }
+
     var complexType = findDefinitionInAllSchemas(typeName);
 
     if (complexType.isEmpty()) {
+      elementOrderByType.put(typeName, List.of());
       return List.of();
     }
 
     // Skip sorting for mixed content as there can be text nodes in between the sequence which we therefore cannot
     // reliably reorder
     if (complexType.get().getAttribute("mixed").equals("true")) {
+      elementOrderByType.put(typeName, List.of());
       return List.of();
     }
 
     var elements = NodeParser.getElementsFromExpression("./sequence/*", complexType.get());
 
-    return elements
+    var elementOrder = elements
       .stream()
       .flatMap(element -> {
         if (Objects.equals(element.getTagName(), "xs:element")) {
@@ -244,6 +259,8 @@ public class LdmlDeElementSorter {
         throw new RuntimeException("Unknown tag: " + element.getTagName());
       })
       .toList();
+    elementOrderByType.put(typeName, elementOrder);
+    return elementOrder;
   }
 
   // Helper method to load a Schema from a Resource.
