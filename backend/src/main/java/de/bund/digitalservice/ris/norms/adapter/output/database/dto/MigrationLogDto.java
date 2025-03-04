@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -34,4 +35,8 @@ public class MigrationLogDto {
 
   @Column(name = "created_at", nullable = false)
   private Instant createdAt;
+
+  @Column
+  @NotNull
+  private boolean completed;
 }

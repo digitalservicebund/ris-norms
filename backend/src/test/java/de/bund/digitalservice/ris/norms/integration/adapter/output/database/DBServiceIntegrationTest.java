@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.MigrationLogDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -484,10 +485,20 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     void itLoadLastMigrationLogWithTwoDates() {
       // Given
       var date1 = LocalDate.parse("2024-11-06");
-      var migrationLog1 = new MigrationLog(5, date1.atStartOfDay().toInstant(ZoneOffset.UTC));
+      var migrationLog1 = MigrationLog
+        .builder()
+        .createdAt(date1.atStartOfDay().toInstant(ZoneOffset.UTC))
+        .size(5)
+        .completed(false)
+        .build();
 
       var date2 = LocalDate.parse("2024-11-05");
-      var migrationLog2 = new MigrationLog(12, date2.atStartOfDay().toInstant(ZoneOffset.UTC));
+      var migrationLog2 = MigrationLog
+        .builder()
+        .createdAt(date2.atStartOfDay().toInstant(ZoneOffset.UTC))
+        .size(5)
+        .completed(false)
+        .build();
 
       migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog1));
       migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog2));
@@ -497,17 +508,29 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(migrationLogOptional)
-        .isPresent()
-        .satisfies(log -> assertThat(log).contains(migrationLog1));
+        .get()
+        .usingRecursiveComparison()
+        .ignoringFields("id")
+        .isEqualTo(migrationLog1);
     }
 
     @Test
     void itLoadLastMigrationLogWithSameDate() {
       // Given
       var date1 = LocalDate.parse("2024-11-06");
-      var migrationLog1 = new MigrationLog(5, date1.atTime(9, 30).toInstant(ZoneOffset.UTC));
+      var migrationLog1 = MigrationLog
+        .builder()
+        .createdAt(date1.atTime(9, 30).toInstant(ZoneOffset.UTC))
+        .size(5)
+        .completed(false)
+        .build();
 
-      var migrationLog2 = new MigrationLog(12, date1.atTime(11, 45).toInstant(ZoneOffset.UTC));
+      var migrationLog2 = MigrationLog
+        .builder()
+        .createdAt(date1.atTime(11, 45).toInstant(ZoneOffset.UTC))
+        .size(12)
+        .completed(false)
+        .build();
 
       migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog1));
       migrationLogRepository.save(MigrationLogMapper.mapToDto(migrationLog2));
@@ -517,8 +540,37 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(migrationLogOptional)
-        .isPresent()
-        .satisfies(log -> assertThat(log).contains(migrationLog2));
+        .get()
+        .usingRecursiveComparison()
+        .ignoringFields("id")
+        .isEqualTo(migrationLog2);
+    }
+  }
+
+  @Nested
+  class updateMigrationLogCompleted {
+
+    @Test
+    void itSetsAnExistingMigrationLogToCompleted() {
+      // Given
+      var savedMigrationLog = migrationLogRepository.save(
+        MigrationLogDto
+          .builder()
+          .size(5)
+          .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
+          .completed(false)
+          .build()
+      );
+
+      // When
+      dbService.completeMigrationLog(
+        new CompleteMigrationLogPort.Command(savedMigrationLog.getId())
+      );
+      var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
+
+      // Then
+      assertThat(migrationLogRepository.findAll()).hasSize(1);
+      assertThat(updatedMigrationLog.isCompleted()).isTrue();
     }
   }
 
