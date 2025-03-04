@@ -28,7 +28,7 @@ The frontend is the main entry point for users of _RIS norms_.
 
 ## E2E Tests
 
-Make sure the backend and frontend are [running locally](../DEVELOPING.md#how-to-run-locally).
+Make sure the backend and frontend are [running locally](../README.md#quickstart).
 
 Then, install the browsers:
 
@@ -68,7 +68,7 @@ npm run test:e2e -- --project firefox --repeat-each 1
 npm run test:e2e -- --project msedge --repeat-each 1
 ```
 
-Alternatively, the [DEVELOPING.md](../DEVELOPING.md#how-to-run-locally) also explains how to run the E2E tests inside a docker container.
+Alternatively, the [README.md](../README.md/#quickstart) also explains how to run the E2E tests inside a docker container.
 
 ## Accessibility Tests (a11y)
 
