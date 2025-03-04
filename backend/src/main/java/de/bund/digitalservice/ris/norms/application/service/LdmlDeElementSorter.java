@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeElementSortingException;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -196,8 +197,8 @@ public class LdmlDeElementSorter {
         );
         yield Optional.empty();
       }
-      default -> throw new RuntimeException(
-        "Too many possible types for %s (%s)".formatted(tagName, String.join(", ", types))
+      default -> throw new LdmlDeElementSortingException(
+        "Too many possible types for %s (%s) in schema".formatted(tagName, String.join(", ", types))
       );
     };
   }
@@ -264,7 +265,9 @@ public class LdmlDeElementSorter {
         if (Objects.equals(element.getTagName(), "xs:choice")) {
           return Stream.empty();
         }
-        throw new RuntimeException("Unknown tag: " + element.getTagName());
+        throw new LdmlDeElementSortingException(
+          "Unexpected element in schema sequence: %s".formatted(element.getTagName())
+        );
       })
       .toList();
     elementOrderByType.put(typeName, elementOrder);
