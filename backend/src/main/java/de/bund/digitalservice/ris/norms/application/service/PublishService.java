@@ -90,18 +90,7 @@ public class PublishService implements PublishNormUseCase {
 
     var lastMigrationLog = loadLastMigrationLogPort
       .loadLastMigrationLog()
-      .filter(migrationLog -> {
-        if (migrationLog.isCompleted()) {
-          log.info(
-            "Skipping migration log with timestamp {} (UTC) because it was marked as completed.",
-            formatMigrationLogTimestamp(migrationLog.getCreatedAt())
-          );
-
-          return false;
-        }
-
-        return true;
-      });
+      .filter(migrationLog -> !migrationLog.isCompleted());
 
     lastMigrationLog.ifPresent(migrationLog -> {
       final LocalDate createdAtDate = migrationLog
