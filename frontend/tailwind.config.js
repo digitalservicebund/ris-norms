@@ -123,20 +123,4 @@ export default {
       },
     },
   },
-
-  safelist: [
-    // classes used dynamically by useModHighlightClasses
-    {
-      pattern: /bg-highlight-(\d+|default)-(default|hover|selected)/,
-      variants: ["hover", "focus"],
-    },
-    {
-      pattern: /border-highlight-(\d+|default)-selected/,
-    },
-    "border",
-    "px-2",
-    "border-dotted",
-    "border-gray-900",
-    "border-solid",
-  ],
 }

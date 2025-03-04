@@ -54,6 +54,103 @@ export function useTimeBoundaryHighlightClasses(
       : "default"
   }
 
+  // Color specific classes, we need to list them all as tailwind is otherwise unable to detect them
+  const highlightClassesMap: {
+    [key: string]: {
+      selected: string[]
+      default: string[]
+    }
+  } = {
+    1: {
+      selected: ["bg-highlight-1-selected"],
+      default: [
+        "bg-highlight-1-default",
+        "hover:bg-highlight-1-hover",
+        "focus:bg-highlight-1-hover",
+      ],
+    },
+    2: {
+      selected: ["bg-highlight-2-selected"],
+      default: [
+        "bg-highlight-2-default",
+        "hover:bg-highlight-2-hover",
+        "focus:bg-highlight-2-hover",
+      ],
+    },
+    3: {
+      selected: ["bg-highlight-3-selected"],
+      default: [
+        "bg-highlight-3-default",
+        "hover:bg-highlight-3-hover",
+        "focus:bg-highlight-3-hover",
+      ],
+    },
+    4: {
+      selected: ["bg-highlight-4-selected"],
+      default: [
+        "bg-highlight-4-default",
+        "hover:bg-highlight-4-hover",
+        "focus:bg-highlight-4-hover",
+      ],
+    },
+    5: {
+      selected: ["bg-highlight-5-selected"],
+      default: [
+        "bg-highlight-5-default",
+        "hover:bg-highlight-5-hover",
+        "focus:bg-highlight-5-hover",
+      ],
+    },
+    6: {
+      selected: ["bg-highlight-6-selected"],
+      default: [
+        "bg-highlight-6-default",
+        "hover:bg-highlight-6-hover",
+        "focus:bg-highlight-6-hover",
+      ],
+    },
+    7: {
+      selected: ["bg-highlight-7-selected"],
+      default: [
+        "bg-highlight-7-default",
+        "hover:bg-highlight-7-hover",
+        "focus:bg-highlight-7-hover",
+      ],
+    },
+    8: {
+      selected: ["bg-highlight-8-selected"],
+      default: [
+        "bg-highlight-8-default",
+        "hover:bg-highlight-8-hover",
+        "focus:bg-highlight-8-hover",
+      ],
+    },
+    9: {
+      selected: ["bg-highlight-9-selected"],
+      default: [
+        "bg-highlight-9-default",
+        "hover:bg-highlight-9-hover",
+        "focus:bg-highlight-9-hover",
+      ],
+    },
+    10: {
+      selected: ["bg-highlight-10-selected"],
+      default: [
+        "bg-highlight-10-default",
+        "hover:bg-highlight-10-hover",
+        "focus:bg-highlight-10-hover",
+      ],
+    },
+    default: {
+      selected: ["bg-highlight-default-selected"],
+      default: [
+        "bg-highlight-default-default",
+        "hover:bg-highlight-default-hover",
+        "focus:bg-highlight-default-hover",
+      ],
+    },
+  }
+
   return computed(() =>
     Object.fromEntries(
       toValue(highlightElements).map(({ eId, temporalGroupEid }) => {
@@ -62,15 +159,13 @@ export function useTimeBoundaryHighlightClasses(
         const classes = ["px-2", "outline-blue-800"]
         if (isSelected(eId)) {
           classes.push(
-            `bg-highlight-${colorId}-selected`,
+            ...highlightClassesMap[colorId].selected,
             "outline-2",
             "outline",
           )
         } else {
           classes.push(
-            `bg-highlight-${colorId}-default`,
-            `hover:bg-highlight-${colorId}-hover`,
-            `focus:bg-highlight-${colorId}-hover`,
+            ...highlightClassesMap[colorId].default,
             "outline-dotted",
             "outline",
             "outline-1",
