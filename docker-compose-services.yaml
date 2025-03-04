@@ -33,7 +33,6 @@ services:
       - "8443:8443"
     volumes:
       - ./local/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
-        # health endpoint läuft unter 9000
     healthcheck:
       test:
         [
