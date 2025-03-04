@@ -25,7 +25,8 @@ We will use a custom metadata structure under the `akn:proprietary` node with th
   - `<affected-document>`, the Work-ELI of the target norm
 
 Example:
-```
+
+```xml
 <mods:legalDocML.de_metadaten xmlns:mods="http://MetadatenMods.LegalDocML.de/1.7.2/">
     <mods:mod>
         <mods:time-boundary>2020-01-01</mods:time-boundary>
@@ -37,7 +38,7 @@ Example:
         <mods:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2</mods:eid>
         <mods:affected-document>eli/bund/bgbl-1/2019/789</mods:affected-document>
     </mods:mod>
-        <mods:mod>
+    <mods:mod>
         <mods:time-boundary>2020-01-01</mods:time-boundary>
         <mods:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-3</mods:eid>
         <mods:affected-document>eli/bund/bgbl-1/1990/456</mods:affected-document>
