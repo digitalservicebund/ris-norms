@@ -37,7 +37,7 @@ public class PublishService implements PublishNormUseCase {
   private final DeleteAllPublicDokumentePort deleteAllPublicDokumentePort;
   private final DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort;
   private final PublishChangelogsPort publishChangelogsPort;
-  private final UpdateMigrationLogCompletedPort updateMigrationLogPort;
+  private final CompleteMigrationLogPort updateMigrationLogPort;
 
   public PublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
@@ -51,7 +51,7 @@ public class PublishService implements PublishNormUseCase {
     DeleteAllPublicDokumentePort deleteAllPublicDokumentePort,
     DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort,
     PublishChangelogsPort publishChangelogsPort,
-    UpdateMigrationLogCompletedPort updateMigrationLogPort
+    CompleteMigrationLogPort updateMigrationLogPort
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.loadNormPort = loadNormPort;
@@ -132,8 +132,8 @@ public class PublishService implements PublishNormUseCase {
     publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(false));
 
     lastMigrationLog.ifPresent(migrationLog -> {
-      updateMigrationLogPort.updateMigrationLogCompleted(
-        new UpdateMigrationLogCompletedPort.Command(migrationLog.getId(), true)
+      updateMigrationLogPort.completeMigrationLog(
+        new CompleteMigrationLogPort.Command(migrationLog.getId())
       );
       log.info(
         "Marked migration log with timestamp {} (UTC) as completed.",

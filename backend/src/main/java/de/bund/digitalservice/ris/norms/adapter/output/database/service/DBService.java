@@ -55,7 +55,7 @@ public class DBService
     LoadDokumentPort,
     UpdateDokumentPort,
     LoadReleasesByNormExpressionEliPort,
-    UpdateMigrationLogCompletedPort {
+    CompleteMigrationLogPort {
 
   private final AnnouncementRepository announcementRepository;
   private final DokumentRepository dokumentRepository;
@@ -353,7 +353,7 @@ public class DBService
   }
 
   @Override
-  public int updateMigrationLogCompleted(UpdateMigrationLogCompletedPort.Command command) {
-    return migrationLogRepository.updateCompletedById(command.id(), command.completed());
+  public int completeMigrationLog(CompleteMigrationLogPort.Command command) {
+    return migrationLogRepository.updateCompletedById(command.id(), true);
   }
 }

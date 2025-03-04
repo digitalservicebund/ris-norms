@@ -563,8 +563,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // When
-      var affectedRows = dbService.updateMigrationLogCompleted(
-        new UpdateMigrationLogCompletedPort.Command(savedMigrationLog.getId(), true)
+      var affectedRows = dbService.completeMigrationLog(
+        new CompleteMigrationLogPort.Command(savedMigrationLog.getId())
       );
       var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
 
@@ -587,8 +587,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // When
-      var affectedRows = dbService.updateMigrationLogCompleted(
-        new UpdateMigrationLogCompletedPort.Command(UUID.randomUUID(), true)
+      var affectedRows = dbService.completeMigrationLog(
+        new CompleteMigrationLogPort.Command(UUID.randomUUID())
       );
       var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
 

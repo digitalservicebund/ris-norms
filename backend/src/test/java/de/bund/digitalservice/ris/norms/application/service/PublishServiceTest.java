@@ -45,9 +45,7 @@ class PublishServiceTest {
 
   final PublishChangelogsPort publishChangelogsPort = mock(PublishChangelogsPort.class);
 
-  final UpdateMigrationLogCompletedPort updateMigrationLogPort = mock(
-    UpdateMigrationLogCompletedPort.class
-  );
+  final CompleteMigrationLogPort updateMigrationLogPort = mock(CompleteMigrationLogPort.class);
 
   final PublishService publishService = new PublishService(
     loadNormManifestationElisByPublishStatePort,
@@ -143,9 +141,7 @@ class PublishServiceTest {
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
       verify(publishChangelogsPort, times(1)).publishChangelogs(any());
       verify(updateMigrationLogPort)
-        .updateMigrationLogCompleted(
-          new UpdateMigrationLogCompletedPort.Command(migrationLog.getId(), true)
-        );
+        .completeMigrationLog(new CompleteMigrationLogPort.Command(migrationLog.getId()));
     }
 
     @Test
