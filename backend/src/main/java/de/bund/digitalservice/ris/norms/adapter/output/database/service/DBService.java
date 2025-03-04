@@ -353,7 +353,7 @@ public class DBService
   }
 
   @Override
-  public int completeMigrationLog(CompleteMigrationLogPort.Command command) {
-    return migrationLogRepository.updateCompletedById(command.id(), true);
+  public void completeMigrationLog(CompleteMigrationLogPort.Command command) {
+    migrationLogRepository.updateCompletedById(command.id(), true);
   }
 }

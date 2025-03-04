@@ -551,7 +551,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   class updateMigrationLogCompleted {
 
     @Test
-    void itUpdatesCompletedOfAnExistingMigrationLog() {
+    void itSetsAnExistingMigrationLogToCompleted() {
       // Given
       var savedMigrationLog = migrationLogRepository.save(
         MigrationLogDto
@@ -563,39 +563,14 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // When
-      var affectedRows = dbService.completeMigrationLog(
+      dbService.completeMigrationLog(
         new CompleteMigrationLogPort.Command(savedMigrationLog.getId())
       );
       var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
 
       // Then
       assertThat(migrationLogRepository.findAll()).hasSize(1);
-      assertThat(affectedRows).isEqualTo(1);
       assertThat(updatedMigrationLog.isCompleted()).isTrue();
-    }
-
-    @Test
-    void itReturns0WhenAttemptingUpdateOfAnInvalidId() {
-      // Given
-      migrationLogRepository.save(
-        MigrationLogDto
-          .builder()
-          .size(5)
-          .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
-          .completed(false)
-          .build()
-      );
-
-      // When
-      var affectedRows = dbService.completeMigrationLog(
-        new CompleteMigrationLogPort.Command(UUID.randomUUID())
-      );
-      var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
-
-      // Then
-      assertThat(migrationLogRepository.findAll()).hasSize(1);
-      assertThat(affectedRows).isZero();
-      assertThat(updatedMigrationLog.isCompleted()).isFalse();
     }
   }
 

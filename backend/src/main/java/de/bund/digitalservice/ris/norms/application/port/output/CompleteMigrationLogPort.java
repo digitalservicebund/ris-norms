@@ -11,9 +11,8 @@ public interface CompleteMigrationLogPort {
    * Sets an existing {@link MigrationLog} entry to "completed".
    *
    * @param command Specifies the entry to update
-   * @return Number of affected entries
    */
-  int completeMigrationLog(final Command command);
+  void completeMigrationLog(final Command command);
 
   /**
    * Command for setting a {@link MigrationLog} entry to "completed".
