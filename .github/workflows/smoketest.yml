@@ -1,3 +1,5 @@
+name: Smoketest
+
 on:
   workflow_call:
 

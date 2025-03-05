@@ -1,3 +1,5 @@
+name: Deploy UAT
+
 on:
   workflow_call:
 

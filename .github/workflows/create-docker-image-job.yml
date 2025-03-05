@@ -1,3 +1,5 @@
+name: Create Docker image
+
 on:
   workflow_call:
     inputs:
