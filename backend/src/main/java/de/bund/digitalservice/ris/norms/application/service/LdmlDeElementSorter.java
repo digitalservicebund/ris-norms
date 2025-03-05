@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
@@ -111,13 +112,7 @@ public class LdmlDeElementSorter {
   }
 
   private List<String> findChildElementOrder(Element element) {
-    var type = findTypeForElement(element);
-
-    if (type.isEmpty()) {
-      return List.of();
-    }
-
-    return findElementOrderForType(type.get());
+    return findTypeForElement(element).map(this::findElementOrderForType).orElse(List.of());
   }
 
   private Optional<String> findTypeForElement(Element element) {
@@ -214,20 +209,21 @@ public class LdmlDeElementSorter {
       return typesByTag.get(tagName);
     }
 
-    for (Document schema : schemas) {
-      var types = NodeParser
-        .getNodesFromExpression("//element[@name = \"%s\"]/@type".formatted(tagName), schema)
-        .stream()
-        .map(Node::getNodeValue)
-        .collect(Collectors.toSet());
-      if (!types.isEmpty()) {
-        typesByTag.put(tagName, types);
-        return types;
-      }
-    }
+    var types = schemas
+      .stream()
+      .map(schema ->
+        NodeParser
+          .getNodesFromExpression("//element[@name = \"%s\"]/@type".formatted(tagName), schema)
+          .stream()
+          .map(Node::getNodeValue)
+          .collect(Collectors.toSet())
+      )
+      .filter(Predicate.not(Set::isEmpty))
+      .findFirst()
+      .orElse(Set.of());
 
-    typesByTag.put(tagName, Set.of());
-    return Set.of();
+    typesByTag.put(tagName, types);
+    return types;
   }
 
   private final Map<String, List<String>> elementOrderByType = new HashMap<>();
@@ -274,18 +270,17 @@ public class LdmlDeElementSorter {
    * Finds the element that holds the definition of a schema-type.
    */
   private Optional<Element> findDefinitionForSchemaType(String typeName) {
-    for (Document schema : schemas) {
-      var typeDefinition = NodeParser.getElementFromExpression(
-        "/schema/(complexType | group | element)[@name = \"%s\"]".formatted(typeName),
-        schema
-      );
-
-      if (typeDefinition.isPresent()) {
-        return typeDefinition;
-      }
-    }
-
-    return Optional.empty();
+    return schemas
+      .stream()
+      .map(schema ->
+        NodeParser.getElementFromExpression(
+          "/schema/(complexType | group | element)[@name = \"%s\"]".formatted(typeName),
+          schema
+        )
+      )
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .findFirst();
   }
 
   // Helper method to load a Schema from a Resource.
