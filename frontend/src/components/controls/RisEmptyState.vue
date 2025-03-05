@@ -20,7 +20,7 @@ const variant = computed<"simple" | "extended">(() =>
   <div
     data-testid="empty-state"
     :data-variant="variant"
-    class="rounded border-2 border-dashed border-blue-500 bg-gray-100 px-48 py-24 text-center text-xl text-gray-900 data-[variant=extended]:bg-white"
+    class="rounded-sm border-2 border-dashed border-blue-500 bg-gray-100 px-48 py-24 text-center text-xl text-gray-900 data-[variant=extended]:bg-white"
   >
     <component
       :is="icon"

@@ -85,7 +85,7 @@ watch(
 <template>
   <form
     data-testid="mod-form"
-    class="grid h-full max-h-full grid-cols-1 grid-rows-[min-content,min-content,1fr,min-content] gap-y-12 overflow-auto"
+    class="grid h-full max-h-full grid-cols-1 grid-rows-[min-content_min-content_1fr_min-content] gap-y-12 overflow-auto"
   >
     <div class="flex flex-col gap-6">
       <label :id="timeBoundariesId" class="ris-label2-regular"

@@ -1,7 +1,6 @@
 import { Sentry } from "@/plugins/sentry"
 import "@digitalservicebund/ris-ui/fonts.css"
 import { RisUiLocale, RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
-import "@digitalservicebund/ris-ui/primevue/style.css"
 import PrimeVue from "primevue/config"
 import ConfirmationService from "primevue/confirmationservice"
 import ToastService from "primevue/toastservice"
