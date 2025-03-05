@@ -97,14 +97,14 @@ const {
         </div>
         <RisLawPreview
           v-else
-          class="ds-textarea flex-grow p-2"
+          class="ds-textarea grow p-2"
           :content="previewHtml ?? ''"
         />
       </template>
 
       <template #xml>
         <RisCodeEditor
-          class="flex-grow"
+          class="grow"
           :readonly="true"
           :model-value="xml"
         ></RisCodeEditor>

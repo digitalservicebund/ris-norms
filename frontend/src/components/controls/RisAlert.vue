@@ -39,9 +39,9 @@ defineEmits<{
       height="24"
       class="text-red-900"
     />
-    <span class="flex-grow font-bold"><slot /></span>
+    <span class="grow font-bold"><slot /></span>
     <button
-      class="h-24 w-24 rounded-full bg-white bg-opacity-50"
+      class="bg-opacity-50 h-24 w-24 rounded-full bg-white"
       aria-label="Schließen"
       @click="$emit('close')"
     >

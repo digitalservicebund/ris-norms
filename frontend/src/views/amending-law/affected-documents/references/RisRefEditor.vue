@@ -89,7 +89,7 @@ watch(
 
   <Button
     aria-label="Löschen"
-    class="!h-40 !w-40 focus:-outline-offset-4"
+    class="h-40! w-40! focus:-outline-offset-4"
     text
     @click="$emit('delete')"
   >
