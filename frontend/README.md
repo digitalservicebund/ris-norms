@@ -1,104 +1,128 @@
 # Frontend
 
-The frontend is the main entry point for users of _RIS norms_.
+The Norms frontend is a Single Page Application built with [TypeScript](https://www.typescriptlang.org/), [Vue](https://vuejs.org/), and [Tailwind](https://tailwindcss.com/). Most components come from [RIS UI](https://github.com/digitalservicebund/ris-ui), a component library shared with other NeuRIS projects. RIS UI is a theme for [PrimeVue](https://primevue.org/).
 
-# Development
+The frontend also includes our E2E tests.
 
-## Prerequisites
+Before diving into the code, please get familiar with our [code conventions](https://digitalservicebund.atlassian.net/wiki/x/BIC1N).
 
-- Node.js (with a `.node-version` file) for simplified setup using [`nodenv`](https://github.com/nodenv/nodenv)
+For the most part, the organization follows a standard Vue CLI setup. If you've worked with Vue before, it will feel very familiar. The most important differences are how we organize our state and API communication, as well as our views:
 
-## Quick Start
+- API communication: [usage of `useFetch`](https://github.com/digitalservicebund/ris-norms/blob/main/doc/adr/0010-use-fetch.md)
+- Views: [Organize feature specific things by page in frontend](https://github.com/digitalservicebund/ris-norms/blob/main/doc/adr/0013-organize-feature-specific-things-by-page-in-frontend.md)
 
-- `npm i` fetches all dependencies
-- `npm run dev` starts the application. By default on [local port 5173](http://localhost:5173). You will also need a running [backend](../backend/README.md).
-- `npm run test` runs the tests once
-- `npm run test:watch` runs the tests and automatically re-runs if something changes
-- `npm run test:e2e` runs all browser-based tests (E2E tests, accessibility tests and smoke tests, requires a running frontend and backend)
-  - `npm run test:e2e -- --ui` opens the Playwright UI
-  - `npm run test:browsers` runs E2E tests in Chrome, Firefox, and Edge (excluding smoke and a11y tests)
-  - `npm run test:a11y` runs [accessibility tests](#accessibility-tests-a11y)
-  - `npm run test:smoke` runs [smoketests](#smoke-tests)
-- `npm run coverage` compiles a coverage report via `v8`
-- `npm run typecheck` runs type checking through TypeScript
-- `npm run style:check` does linting and formatting
-- `npm run style:fix` will try to fix linting and formatting issues
-- `npm run build` builds the app
-- `npm run preview` previews the app (requires a build first)
+## Running
 
-## E2E Tests
+Make sure your system meets the [prerequisites](../README.md#prerequisites). Then, install the dependencies:
 
-Make sure the backend and frontend are [running locally](../README.md#quickstart).
-
-Then, install the browsers:
-
-```bash
-npx --yes playwright install --with-deps chromium firefox msedge
+```sh
+npm install
 ```
 
-Let Playwright know where to connect to by using the `.env` file:
+You can now start the application:
 
-```bash
+```sh
+node --run dev
+```
+
+The frontend by itself will not be very useful, so make sure the backend and other required services are [running](../README.md#quickstart), too.
+
+## Testing
+
+### Unit tests
+
+We cover all code outside of `views/` with unit tests (views are too complex for unit testing and are covered in E2E tests). We use [Vitest](https://vitest.dev/) and [Vue Testing Library](https://testing-library.com/docs/vue-testing-library/intro/).
+
+To run unit tests once:
+
+```sh
+node --run test
+```
+
+To run unit tests in watch mode (re-runs tests on code changes and gives you additional options like filtering):
+
+```sh
+node --run test:watch
+```
+
+### E2E tests
+
+We write end-to-end (E2E) tests using [Playwright](https://playwright.dev/).
+
+Make sure the backend and other required services are [running](../README.md#quickstart) before executing the tests. Then, install the browsers:
+
+```sh
+npx playwright install
+```
+
+Let Playwright know where to connect to by using the `.env.local` file:
+
+```sh
 cp .env.local.example .env.local
 ```
 
-Run E2E tests:
+You then have various ways of running the E2E tests:
 
-```bash
-npm run test:browsers
+```sh
+node --run test:browsers                       # Runs all tests in all browsers
+node --run test:browsers -- [testfile]         # Runs a specific test
+node --run test:browsers -- [testfile] --debug # Debugs a specific test
+
+# Run tests in a specific browser:
+node --run test:e2e -- --project chromium --repeat-each 1
+node --run test:e2e -- --project firefox --repeat-each 1
+node --run test:e2e -- --project msedge --repeat-each 1
 ```
 
-Run just 1 specific test:
-
-```bash
-npm run test:browsers -- [testfile]
-```
-
-Debug a test:
-
-```bash
-npm run test:browsers -- [testfile] --debug
-```
-
-Run E2E tests in a specific browser:
-
-```bash
-npm run test:e2e -- --project chromium --repeat-each 1
-npm run test:e2e -- --project firefox --repeat-each 1
-npm run test:e2e -- --project msedge --repeat-each 1
-```
-
-Alternatively, the [README.md](../README.md/#quickstart) also explains how to run the E2E tests inside a docker container.
-
-## Accessibility Tests (a11y)
+### Accessibility tests
 
 The project includes automated accessibility (a11y) testing using [axe-core](https://github.com/dequelabs/axe-core). Accessibility tests also use Playwright, so everything about E2E tests also applies.
 
-Make sure the frontend is running locally before executing the tests. To run the accessibility tests:
+Make sure the backend and other required services are [running](../README.md#quickstart) before executing the tests. To run the accessibility tests:
 
-```bash
-npm run test:a11y
+```sh
+node --run test:a11y
 ```
 
-## Smoke Tests
+### Smoke tests
 
-We use smoke testing for superficially checking certain functionality on a deployed version of our system, usually staging. Smoke tests focus on areas where the live system significantly differs from the local or E2E setup such as how the frontend is served (served by Vite locally, but served by Spring in production).
+We use smoke testing for superficially checking certain functionality on a deployed version of our system, usually the staging environment. Smoke tests focus on areas where the live system significantly differs from the local or E2E setup, such as how the frontend is served (served by Vite locally, but served by Spring in production).
 
 If you need to run smoke tests locally, first set `E2E_SMOKETEST_BASE_URL`, `E2E_SMOKETEST_USERNAME`, and `E2E_SMOKETEST_PASSWORD` in your environment. It will be picked up automatically if you add it to your `.env.local` (also see `.env.local.example`).
 
 Then run:
 
+```sh
+node --run test:smoke
 ```
-node run test:smoke
+
+## Code Quality and Documentation
+
+We use TypeScript, ESLint, and Prettier to support code quality and consistent formatting. To run ESLint and Prettier:
+
+```sh
+node --run style:check  # Check if code follows conventions and is formatted
+node --run style:fix    # Check + try to fix violations automatically
 ```
+
+To run type checking:
+
+```sh
+node --run typecheck
+```
+
+If you need more fine-grained control over which checks are performed, you'll find all available scripts in [`package.json`](./package.json).
+
+In addition to local checks, any code in pull requests and on `main` will be checked by SonarQube Cloud. You can find the reports here: [SonarQube Cloud](https://sonarcloud.io/project/overview?id=digitalservicebund_ris-norms-frontend)
 
 ## Icons
 
-All icons in the [Google Material](https://icon-sets.iconify.design/ic) sets can be used.
+All icons in the [Google Material](https://icon-sets.iconify.design/ic) sets can be used. To make the icon available in your code:
 
-To make the icon available in your code:
+- Find and select the icon in the catalog. We usually use the baseline or outline styles, depending on the icon.
+- In the icon detail panel, select "Component" as the format on the left, and "Unplugin Icons" as the framework on the top
+- Copy the resulting code. It should look something like this:
 
-- Find and select the icon
-- Copy the name (e.g. ic/baseline-upload-file)
-- Use the copied icon name in your import statement using the `~icons/ic` prefix followed by the name. Example:
-  `import UploadFileOutlineRounded from "~icons/ic/baseline-upload-file"`
+```js
+import IcBaselineAccessAlarms from "~icons/ic/baseline-access-alarms"
+```

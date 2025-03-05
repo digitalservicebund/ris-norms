@@ -1,115 +1,83 @@
-# Backend module
+# Backend
 
-Backend service built with Spring Boot.
+The Norms backend is a [Spring Boot](https://docs.spring.io/spring-boot/index.html) application build with Java. We use [Postgres](https://www.postgresql.org/) as our database and [Keycloak](https://www.keycloak.org/) as our identity provider. Both run locally using [Docker](https://www.docker.com/). In a live system (staging + production), the backend also serves the [frontend](../frontend/).
 
-## Prerequisites
+The backend is implemented using [hexagonal architecture](https://github.com/digitalservicebund/ris-norms/blob/main/doc/adr/0005-use-hexagonal-architecture-in-backend.md).
 
-Java 21, Docker for building + running the containerized application:
+## Running
 
-```bash
-brew install openjdk@21
-brew install --cask docker # or just `brew install docker` if you don't want the Desktop app
-```
+Make sure your system meets the [prerequisites](../README.md#prerequisites). Note that you need to have Node installed and available on your `PATH`, even if you don't intend to make changes to the frontend, because we use Prettier for formatting our backend codebase.
 
-Install the latest LTS version of node for running Spotless with Prettier.
-
-## Running and developing
-
-Set up and boot and the postgres database (from the project root):
+Then, start the Docker services:
 
 ```sh
+# in the project root
 docker compose -f docker-compose-services.yaml up
 ```
 
-You can then start the backend with two different options:
+And boot the backend:
 
-1. Running the `bootRun` Gradle task.
-2. Creating a Run/Debug config in your IDE with Spring support using the profile `local`
-   - This is important to initialize the bootstrap test data
+```sh
+# in ./backend
+./gradlew bootRun
+```
 
-## Tests
+Alternatively, you can boot the backend by creating a run configuration in an IDE such as IntelliJ. In that case, make sure that you set the profile to `local` in order to seed the database with test data.
 
-The project has distinct unit and integration test sets.
+## Testing
 
-**To run just the unit tests:**
+### Unit tests
 
-```bash
+To run the unit tests:
+
+```sh
 ./gradlew test
 ```
 
-**To run the integration tests:**
+We're using [ArchUnit](https://www.archunit.org/getting-started) for ensuring certain architectural characteristics, for instance making sure that there are no cyclic dependencies. These tests are run as part of the unit tests.
 
-```bash
-./gradlew integrationTest
-```
-
-**Note:** Running integration tests requires passing unit tests (in Gradle terms: integration tests depend on unit
-tests), so unit tests are going to be run first. In case there are failing unit tests we won't attempt to continue
-running any integration tests.
-
-**To run integration tests exclusively, without the unit test dependency:**
-
-```bash
-./gradlew integrationTest --exclude-task test
-```
+### Integration tests
 
 Denoting an integration test is accomplished by using a JUnit 5 tag annotation: `@Tag("integration")`.
 
-Furthermore, there is another type of test worth mentioning. We're
-using [ArchUnit](https://www.archunit.org/getting-started)
-for ensuring certain architectural characteristics, for instance making sure that there are no cyclic dependencies.
+To run the integration tests:
 
-## Formatting
-
-Java source code formatting must conform to the [Google Java Style](https://google.github.io/styleguide/javaguide.html).
-Consistent formatting, for Java as well as various other types of source code, is being enforced
-via [Spotless](https://github.com/diffplug/spotless).
-
-**Check formatting:**
-
-```bash
-./gradlew spotlessCheck
+```sh
+./gradlew integrationTest
 ```
 
-**Autoformat sources:**
+## Code Quality and Documentation
 
-```bash
-./gradlew spotlessApply
+### Formatting
+
+Java source code formatting must conform to the [Prettier Java Plugin](https://github.com/jhipster/prettier-java) style. Consistent formatting, for Java as well as various other types of source code, is enforced via [Spotless](https://github.com/diffplug/spotless):
+
+Check formatting:
+
+```sh
+./gradlew spotlessCheck # Check formatting
+./gradlew spotlessApply # Apply formatting
 ```
 
-## Code quality analysis
+### Code quality
 
-Continuous code quality analysis is performed in the pipeline upon pushing to trunk; it requires a
-token provided as `SONAR_TOKEN` repository secret that needs to be obtained from https://sonarcloud.io.
+Continuous code quality analysis is performed in the pipeline when pushing to `main` or opening a pull request. It requires a token provided as `SONAR_TOKEN` repository secret that needs to be obtained from <https://sonarcloud.io>.
 
-**To run the analysis locally:**
+To run the analysis locally:
 
-```bash
+```sh
 SONAR_TOKEN=[sonar-token] ./gradlew sonarqube
 ```
 
-Go to [https://sonarcloud.io](https://sonarcloud.io/dashboard?id=digitalservicebund_ris-norms-backend)
-for the analysis results.
+Go to [https://sonarcloud.io](https://sonarcloud.io/dashboard?id=digitalservicebund_ris-norms-backend) for the analysis results.
 
-## License Scanning
+### Javadoc comments check
 
-License scanning is performed as part of the pipeline's `build` job. Whenever a production dependency
-is being added with a yet unknown license the build is going to fail.
+We aim to write Javadoc comments to at least all public classes and methods. To fulfill this goal we use checkstyle, which is integrated not only into gradle but into lefthook (pre-commit).
 
-**To run a scan locally:**
+To run a check locally:
 
-```bash
-./gradlew checkLicense
-```
-
-## Javadoc comments check
-
-We aim to write Javadoc comments to at least all public classes and methods. To fulfill this goal we use checkstyle,
-which is integrated not only into gradle but into lefthook (pre-commit)
-
-**To run a check locally:**
-
-```bash
+```sh
 ./gradlew check
 ```
 
@@ -117,7 +85,7 @@ which is integrated not only into gradle but into lefthook (pre-commit)
 
 If the following statement prints a number > 0, then there are outdated libraries:
 
-```bash
+```sh
 ./gradlew versionCatalogUpdate
 jq .outdated.count build/dependencyUpdates/report.json
 ```
