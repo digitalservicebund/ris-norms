@@ -155,10 +155,6 @@ You will find more information about each module in the respective folders. If y
 
 When installing dependencies, make sure they are licensed under one of the [allowed licenses](./allowed-licenses.json). This will be checked in the pipeline for both frontend and backend dependencies. The pipeline will fail if licenses not included in the list are used by any dependency.
 
-## Slack notifications
-
-Opt in to CI posting notifications for failing jobs to a particular Slack channel by setting a repository secret with the name `SLACK_WEBHOOK_URL`, containing a URL for [incoming webhooks](https://api.slack.com/messaging/webhooks).
-
 ## Contributing
 
 If you would like to contribute, check out [`CONTRIBUTING.md`](./CONTRIBUTING.md). Please also consider our [Code of Conduct](./CODE_OF_CONDUCT.md).
