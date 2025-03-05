@@ -2,7 +2,7 @@
 Everyone is welcome to contribute to the development of _RIS Norms_. You can contribute by opening pull requests, providing documentation, answering questions or giving feedback. Please do follow our guidelines and our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 🇩🇪
-Jede:r ist herzlich eingeladen, die Entwicklung von _RIS Norms_ mitzugestalten. Du kannst einen Beitrag leisten, indem du Pull-Requests eröffnest, die Dokumentation erweiterst, Fragen beantwortest oder Feedback gibst. Bitte befolge die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT_DE.md).
+Jede:r ist herzlich eingeladen, die Entwicklung von _RIS Norms_ mitzugestalten. Du kannst einen Beitrag leisten, indem du Pull-Requests eröffnest, die Dokumentation erweiterst, Fragen beantwortest oder Feedback gibst. Bitte befolge die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT.md#-vereinbarung-über-verhaltenskodex-für-mitwirkende).
 
 ## Code Contributions
 

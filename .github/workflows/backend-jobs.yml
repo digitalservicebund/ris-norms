@@ -1,3 +1,5 @@
+name: Backend
+
 on:
   workflow_call:
     inputs:

@@ -7,8 +7,6 @@ version: "1.0"
 scopeconfig:
   - scope: node
 fileignoreconfig:
-  - filename: frontend/Dockerfile
-    checksum: 0db2e063587f46b2150f978f8dd9c5ce3d001fa8b89a1b67904f7a8363a6bd2a
   - filename: frontend/e2e/application/loginAndLogout.spec.ts
     checksum: b5ca854a92ebf2360f028a6c5cde6003afeb65a182c0e84274b72ff38bed3861
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
@@ -17,8 +15,8 @@ fileignoreconfig:
     checksum: d7ef7857d0478c6ccb525b8632b334ab2deb6cb8309e09787e71ca3ad7c5f5bf
   - filename: frontend/src/plugins/sentry.ts
     checksum: dfb628f8d1a02534e102228789abcbbe4e193e5671cc9762febee195f18bb200
-  - filename: DockerfileApp
-    checksum: 79dcfe570176f7ad6b8341bd0b358b2676355b34ba654c29ae267d54a03f7e64
+  - filename: Dockerfile
+    checksum: 8e0dc359fa0262b5307a8877b6a8f59121b2a4d9a6d8264e5649ee0a366428b0
   - filename: docker-compose.yaml
     checksum: 252e8ac97929919d356866e02d9d9a0641d466cbe81e4555af54172b0c0bbdc2
   - filename: ldml-extension/fixtures/*.xml

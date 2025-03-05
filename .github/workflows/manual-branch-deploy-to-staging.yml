@@ -1,4 +1,4 @@
-name: Manual Branch Deploy to Staging
+name: Manual branch deploy to staging
 
 on:
   # only run this workflow manually

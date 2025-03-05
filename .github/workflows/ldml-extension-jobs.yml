@@ -1,3 +1,5 @@
+name: LDML extension
+
 on:
   workflow_call:
 
