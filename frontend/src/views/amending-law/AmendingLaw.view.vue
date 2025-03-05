@@ -81,7 +81,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 
   <div
     v-else
-    class="grid h-[calc(100dvh-5rem)] grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] overflow-hidden bg-gray-100"
+    class="grid h-[calc(100dvh-5rem)] grid-cols-[16rem_1fr] grid-rows-[5rem_1fr] overflow-hidden bg-gray-100"
   >
     <RisHeader
       class="col-span-2"

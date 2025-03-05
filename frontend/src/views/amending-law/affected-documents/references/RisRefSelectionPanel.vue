@@ -136,9 +136,9 @@ function eidToSlotName(eid: string) {
       v-if="!debouncedRenderLoading && renderError"
       :error="renderError"
     />
-    <div v-else ref="preview" class="grid flex-grow grid-cols-1 overflow-auto">
+    <div v-else ref="preview" class="grid grow grid-cols-1 overflow-auto">
       <RisLawPreview
-        class="ds-textarea col-start-1 row-start-1 min-h-[100px] flex-grow p-2"
+        class="ds-textarea col-start-1 row-start-1 min-h-[100px] grow p-2"
         :content="render ?? ''"
         :selected="selectedRef ? [selectedRef] : []"
         :e-id-classes="selectedRef ? { [selectedRef]: ['relative'] } : {}"
@@ -151,7 +151,7 @@ function eidToSlotName(eid: string) {
         <template v-if="selectedRef" #[eidToSlotName(selectedRef)]>
           <button
             :key="selectedRef"
-            class="!absolute -translate-x-6 -translate-y-10 rounded-full bg-blue-700 leading-none outline-offset-2 hover:outline hover:outline-2 hover:outline-gray-600 focus:outline focus:outline-4 focus:outline-blue-800"
+            class="absolute! -translate-x-6 -translate-y-10 rounded-full bg-blue-700 leading-none outline-offset-2 hover:outline hover:outline-2 hover:outline-gray-600 focus:outline focus:outline-4 focus:outline-blue-800"
             @click.stop="handleDelete(selectedRef)"
           >
             <CloseIcon class="h-20 w-20 flex-none text-white" />
@@ -161,7 +161,7 @@ function eidToSlotName(eid: string) {
       </RisLawPreview>
       <div
         v-if="debouncedRenderLoading"
-        class="col-start-1 row-start-1 flex-grow bg-gray-500 bg-opacity-75"
+        class="bg-opacity-75 col-start-1 row-start-1 grow bg-gray-500"
       >
         <div class="mt-20 flex justify-center">
           <RisLoadingSpinner />
@@ -181,14 +181,20 @@ function eidToSlotName(eid: string) {
 }
 
 :deep(.akn-ref) {
-  @apply bg-highlight-1-default px-2 outline outline-dotted outline-1 outline-blue-800;
+  background-color: var(--highlight-1-default);
+  padding-inline: var(--spacing-2);
+  outline: 1px dotted var(--color-blue-800);
 }
 
 :deep(.akn-ref):hover {
-  @apply bg-highlight-1-hover px-2 outline outline-dotted outline-2 outline-blue-800;
+  background-color: var(--highlight-1-hover);
+  padding-inline: var(--spacing-2);
+  outline: 2px dotted var(--color-blue-800);
 }
 
 :deep(.akn-ref.selected) {
-  @apply bg-highlight-1-selected px-2 outline outline-2 outline-blue-800;
+  background-color: var(--highlight-1-selected);
+  padding-inline: var(--spacing-2);
+  outline: 2px dotted var(--color-blue-800);
 }
 </style>

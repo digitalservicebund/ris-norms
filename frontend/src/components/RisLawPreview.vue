@@ -413,23 +413,26 @@ const slots: SetupContext["slots"] = useSlots()
 
 <style scoped>
 .preview-container:focus :deep(.focused) {
-  @apply relative z-10 outline outline-4 -outline-offset-2 outline-blue-800;
+  position: relative;
+  z-index: 10;
+  outline: var(--spacing-4) solid var(--color-blue-800);
+  outline-offset: calc(var(--spacing-2) * -1);
 }
 
 .default-norm-style :deep(:is(table, thead, td)) {
-  @apply border border-blue-400;
+  border: 1px solid var(--color-blue-400);
 }
 
 .default-norm-style :deep(:is(thead, td:first-child)) {
-  @apply font-bold;
+  font-weight: 700;
 }
 
 .default-norm-style :deep(thead) {
-  @apply bg-blue-100;
+  background-color: var(--color-blue-100);
 }
 
 .default-norm-style :deep(td) {
-  @apply p-8;
+  padding: var(--spacing-8);
 }
 
 .default-norm-style :deep(td:empty::before) {
@@ -437,79 +440,95 @@ const slots: SetupContext["slots"] = useSlots()
 }
 
 .default-norm-style :deep(.metadata) {
-  @apply mb-24;
+  margin-bottom: var(--spacing-24);
 }
 
 .default-norm-style :deep(.akn-act) {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 .default-norm-style :deep(.akn-preface) {
-  @apply mb-24;
+  margin-bottom: var(--spacing-24);
 }
 
 .default-norm-style :deep(h1) {
-  @apply text-2xl;
+  font-size: var(--text-2xl); /* 1.5rem (24px) */
+  line-height: var(--text-2xl--line-height); /* calc(1.75 / 1.2) */
 }
 
 .default-norm-style :deep(.akn-body) {
-  @apply my-24 flex flex-col gap-24;
+  margin-top: var(--spacing-24);
+  margin-bottom: var(--spacing-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
 }
 
 .default-norm-style :deep(.akn-section) {
-  @apply flex flex-col gap-24;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
 }
 
 .default-norm-style :deep(.akn-section h2) {
-  @apply text-xl;
+  font-size: var(--text-xl); /* 1.25rem (20px) */
+  line-height: var(--text-xl--line-height); /* calc(1.75 / 1.25) */
 }
 
 .default-norm-style :deep(.akn-article h3) {
-  @apply text-lg;
+  font-size: var(--text-lg); /* 1.125rem (18px) */
+  line-height: var(--text-lg--line-height); /* calc(1.75 / 1.125) */
 }
 
 .default-norm-style :deep(.akn-paragraph) {
-  @apply flex flex-row;
+  display: flex;
+  flex-direction: column;
 }
 
 .default-norm-style :deep(.akn-paragraph .akn-num) {
-  @apply mr-8;
+  margin-right: var(--spacing-8);
 }
 
 .default-norm-style :deep(.akn-point) {
-  @apply mb-4 flex flex-row;
+  margin-bottom: var(--spacing-4);
+  display: flex;
+  flex-direction: row;
 }
 
 .default-norm-style :deep(.akn-point .akn-num) {
-  @apply mr-8;
+  margin-right: var(--spacing-8);
 }
 
 .default-norm-style :deep(.akn-conclusions) {
-  @apply flex flex-col gap-24;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
 }
 
 .default-norm-style :deep(.akn-signature) {
-  @apply block;
+  display: block;
 }
 
 .default-norm-style :deep(.akn-intro) {
-  @apply mb-4 block;
+  margin-bottom: var(--spacing-4);
+  display: block;
 }
 
 .default-norm-style :deep(.akn-a) {
-  @apply underline;
+  text-decoration: underline;
 }
 
 .default-norm-style :deep(.akn-num + .akn-heading) {
-  @apply pl-4;
+  padding-left: var(--spacing-4);
 }
 
 .default-norm-style :deep(.akn-longTitle) {
-  @apply font-bold;
+  font-weight: bold;
 }
 
 .default-norm-style :deep(.akn-quotedStructure .akn-longTitle) {
-  @apply font-normal;
+  font-weight: normal;
 }
 
 .default-norm-style :deep(.akn-quotedText::before) {
@@ -529,10 +548,11 @@ const slots: SetupContext["slots"] = useSlots()
 }
 
 .default-norm-style :deep(.akn-shortTitle) {
-  @apply block font-normal;
+  display: block;
+  font-weight: normal;
 }
 
 :deep([role="button"]) {
-  @apply cursor-pointer;
+  cursor: pointer;
 }
 </style>

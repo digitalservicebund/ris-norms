@@ -146,10 +146,10 @@ watch(inputCompleted, (is) => {
       'flex w-full gap-2',
       {
         'flex-col items-center bg-red-900': props.labelPosition === 'above',
-        'grid grid-cols-[min-content,1fr] items-center':
+        'grid grid-cols-[min-content_1fr] items-center':
           props.labelPosition === 'left',
       },
-      { 'grid-rows-[1fr,min-content]': localValidationError },
+      { 'grid-rows-[1fr_min-content]': localValidationError },
     ]"
   >
     <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->

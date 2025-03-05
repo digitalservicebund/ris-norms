@@ -1,9 +1,77 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "@digitalservicebund/ris-ui/primevue/style.css";
+@source "../node_modules/@digitalservicebund/ris-ui/dist/**/*.{js,vue,ts}";
 
 @layer base {
   body {
     @apply bg-gray-100;
   }
+}
+
+@theme {
+  /* Highlight Colors */
+  --highlight-default-default: #d6f7fe;
+  --highlight-default-hover: #94e8fe;
+  --highlight-default-selected: #94e8fe;
+
+  --highlight-1-default: #d0f1f5;
+  --highlight-1-hover: #88d7e3;
+  --highlight-1-selected: #88d7e3;
+
+  --highlight-2-default: #fef4ca;
+  --highlight-2-hover: #fae17a;
+  --highlight-2-selected: #fae17a;
+
+  --highlight-3-default: #ead9fc;
+  --highlight-3-hover: #c69cf8;
+  --highlight-3-selected: #c69cf8;
+
+  --highlight-4-default: #ddfdd8;
+  --highlight-4-hover: #a7f998;
+  --highlight-4-selected: #a7f998;
+
+  --highlight-5-default: #fee8d2;
+  --highlight-5-hover: #fac08f;
+  --highlight-5-selected: #fac08f;
+
+  --highlight-6-default: #d6f7fe;
+  --highlight-6-hover: #94e8fe;
+  --highlight-6-selected: #94e8fe;
+
+  --highlight-7-default: #fddddd;
+  --highlight-7-hover: #faa6a6;
+  --highlight-7-selected: #faa6a6;
+
+  --highlight-8-default: #e0e0fb;
+  --highlight-8-hover: #adadf3;
+  --highlight-8-selected: #adadf3;
+
+  --highlight-9-default: #d2fbf0;
+  --highlight-9-hover: #8bf2d6;
+  --highlight-9-selected: #8bf2d6;
+
+  --highlight-10-default: #d8e6f2;
+  --highlight-10-hover: #9dbbdc;
+  --highlight-10-selected: #9dbbdc;
+
+  --highlight-affectedDocument-default: #ffebfe;
+  --highlight-affectedDocument-hover: #ffb7fb;
+  --highlight-affectedDocument-selected: #ffb7fb;
+
+  /* Quoted Structure */
+  --highlight-quotedStructure-hover-background: #e5f7ff;
+  --highlight-quotedStructure-hover-border: #4299f7;
+  --highlight-quotedStructure-selected-content: #b9e8ff;
+  --highlight-quotedStructure-selected-border: #004b76;
+
+  /* Element Select */
+  --elementSelect-default-border: #004b76;
+  --elementSelect-selected-background: #b0effe;
+  --elementSelect-selected-border: #000;
+  --elementSelect-hover-background: #d6f7fe;
+  --elementSelect-hover-border: #004b76;
+
+  --font-family-mono:
+    ui-monospace, Cascadia Code, Source Code Pro, Menlo, Consolas,
+    DejaVu Sans Mono, monospace;
 }

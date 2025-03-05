@@ -90,7 +90,7 @@ watch(
 
     <RisHeader v-else :breadcrumbs>
       <div
-        class="grid flex-grow grid-cols-2 grid-rows-1 gap-32 overflow-hidden p-24"
+        class="grid grow grid-cols-2 grid-rows-1 gap-32 overflow-hidden p-24"
       >
         <RisRefsEditor
           v-if="normXml"
