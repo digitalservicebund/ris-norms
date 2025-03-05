@@ -31,7 +31,7 @@ The frontend by itself will not be very useful, so make sure the backend and oth
 
 ### Unit tests
 
-We cover all code outside of `views/` with unit tests (views are too complex for unit testing and are covered in E2E tests). We use [Vitest](https://vitest.dev/) and [Vue Testing Library](https://testing-library.com/docs/vue-testing-library/intro/).
+We cover all code outside of `views/` with unit tests (views are too complex for unit testing and are covered in E2E tests instead). We use [Vitest](https://vitest.dev/) and [Vue Testing Library](https://testing-library.com/docs/vue-testing-library/intro/).
 
 To run unit tests once:
 

@@ -71,9 +71,9 @@ SONAR_TOKEN=[sonar-token] ./gradlew sonarqube
 
 Go to [https://sonarcloud.io](https://sonarcloud.io/dashboard?id=digitalservicebund_ris-norms-backend) for the analysis results.
 
-### Javadoc comments check
+### JavaDoc comments check
 
-We aim to write Javadoc comments to at least all public classes and methods. To fulfill this goal we use checkstyle, which is integrated not only into gradle but into lefthook (pre-commit).
+We aim to write JavaDoc comments to at least all public classes and methods. To fulfill this goal we use checkstyle, which is integrated not only into gradle but into lefthook (pre-commit).
 
 To run a check locally:
 
@@ -81,7 +81,7 @@ To run a check locally:
 ./gradlew check
 ```
 
-## Check for outdated libraries
+## Check for Outdated Libraries
 
 If the following statement prints a number > 0, then there are outdated libraries:
 
