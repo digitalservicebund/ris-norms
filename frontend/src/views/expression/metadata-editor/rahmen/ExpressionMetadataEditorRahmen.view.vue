@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
 import { DropdownItem } from "@/types/dropdownItem"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
@@ -9,6 +8,7 @@ import { useElementId } from "@/composables/useElementId"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useErrorToast } from "@/lib/errorToast"
+import Checkbox from "primevue/checkbox"
 import {
   BeschliessendesOrganValues,
   DocumentTypeValue,
@@ -312,11 +312,11 @@ watch(hasSaved, (finished) => {
   <!-- eslint-disable vuejs-accessibility/label-has-for -->
   <div class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
-      <div class="flex-grow">
+      <div class="grow">
         <h2 class="ris-label2-bold">{{ normData?.shortTitle ?? "Rahmen" }}</h2>
       </div>
     </div>
-    <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-16">
+    <div class="gap grid min-h-0 grow grid-cols-2 grid-rows-1 gap-16">
       <section class="mt-16 flex flex-col gap-8" aria-label="Vorschau">
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
           <RisLoadingSpinner />
@@ -326,7 +326,7 @@ watch(hasSaved, (finished) => {
 
         <RisLawPreview
           v-else
-          class="ds-textarea flex-grow p-2"
+          class="ds-textarea grow p-2"
           :content="render ?? ''"
         />
       </section>
@@ -340,7 +340,7 @@ watch(hasSaved, (finished) => {
 
         <form
           v-else
-          class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
+          class="grid grid-cols-[max-content_1fr] items-center gap-x-16 gap-y-14 overflow-auto"
           @submit.prevent
         >
           <fieldset class="contents">
@@ -366,21 +366,18 @@ watch(hasSaved, (finished) => {
 
             <label :for="artNormSnId" class="self-start"> Art der Norm </label>
             <div class="space-y-10">
-              <RisCheckboxInput
-                :id="artNormSnId"
-                v-model="artNormSN"
-                label="SN - Stammnorm"
-              />
-              <RisCheckboxInput
-                :id="artNormAnId"
-                v-model="artNormAN"
-                label="ÄN - Änderungsnorm"
-              />
-              <RisCheckboxInput
-                :id="artNormUnId"
-                v-model="artNormUN"
-                label="ÜN - Übergangsnorm"
-              />
+              <div class="flex items-center">
+                <Checkbox :id="artNormSnId" v-model="artNormSN" binary />
+                <label :for="artNormSnId">SN - Stammnorm</label>
+              </div>
+              <div class="flex items-center">
+                <Checkbox :id="artNormAnId" v-model="artNormAN" binary />
+                <label :for="artNormAnId">ÄN - Änderungsnorm</label>
+              </div>
+              <div class="flex items-center">
+                <Checkbox :id="artNormUnId" v-model="artNormUN" binary />
+                <label :for="artNormUnId">ÜN - Übergangsnorm</label>
+              </div>
             </div>
 
             <label :for="bezeichnungInVorlageId">
@@ -421,9 +418,10 @@ watch(hasSaved, (finished) => {
             <label :for="qualifizierteMehrheitId">
               Beschlussf. qual. Mehrheit
             </label>
-            <RisCheckboxInput
+            <Checkbox
               :id="qualifizierteMehrheitId"
               v-model="qualifizierteMehrheit"
+              binary
             />
           </fieldset>
 
