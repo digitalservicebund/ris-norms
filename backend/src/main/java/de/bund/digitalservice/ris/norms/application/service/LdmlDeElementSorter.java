@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,7 +23,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Service for fixing the order of nodes within a LegalDocML.de element based on the xsd-Schema.
+ * Service for fixing the order of nodes within a LegalDocML.de element based on the xsd-Schema. Only sorts nodes which
+ * do not allow mixed-content.
  */
 public class LdmlDeElementSorter {
 
@@ -237,38 +237,34 @@ public class LdmlDeElementSorter {
       return elementOrderByType.get(typeName);
     }
 
-    var complexType = findDefinitionForSchemaType(typeName);
+    var schemaType = findDefinitionForSchemaType(typeName);
 
-    if (complexType.isEmpty()) {
+    if (schemaType.isEmpty()) {
       elementOrderByType.put(typeName, List.of());
       return List.of();
     }
 
     // Skip sorting for mixed content as there can be text nodes in between the sequence which we therefore cannot
     // reliably reorder
-    if (complexType.get().getAttribute("mixed").equals("true")) {
+    if (schemaType.get().getAttribute("mixed").equals("true")) {
       elementOrderByType.put(typeName, List.of());
       return List.of();
     }
 
-    var elements = NodeParser.getElementsFromExpression("./sequence/*", complexType.get());
+    var elements = NodeParser.getElementsFromExpression("./sequence/*", schemaType.get());
 
     var elementOrder = elements
       .stream()
-      .flatMap(element -> {
-        if (Objects.equals(element.getTagName(), "xs:element")) {
-          return Stream.of(element.getAttribute("name"));
+      .flatMap(element ->
+        switch (element.getTagName()) {
+          case "xs:element" -> Stream.of(element.getAttribute("name"));
+          case "xs:group" -> findElementOrderForType(element.getAttribute("ref")).stream();
+          case "xs:choice" -> Stream.empty();
+          default -> throw new LdmlDeElementSortingException(
+            "Unexpected element in schema sequence: %s".formatted(element.getTagName())
+          );
         }
-        if (Objects.equals(element.getTagName(), "xs:group")) {
-          return findElementOrderForType(element.getAttribute("ref")).stream();
-        }
-        if (Objects.equals(element.getTagName(), "xs:choice")) {
-          return Stream.empty();
-        }
-        throw new LdmlDeElementSortingException(
-          "Unexpected element in schema sequence: %s".formatted(element.getTagName())
-        );
-      })
+      )
       .toList();
     elementOrderByType.put(typeName, elementOrder);
     return elementOrder;
