@@ -1,6 +1,6 @@
 # Backend
 
-The Norms backend is a [Spring Boot](https://docs.spring.io/spring-boot/index.html) application build with Java. We use [Postgres](https://www.postgresql.org/) as our database and [Keycloak](https://www.keycloak.org/) as our identity provider. Both run locally using [Docker](https://www.docker.com/). In a live system (staging + production), the backend also serves the [frontend](../frontend/).
+The Norms backend is a [Spring Boot](https://docs.spring.io/spring-boot/index.html) application build with Java. We use [Postgres](https://www.postgresql.org/) as our database and [Keycloak](https://www.keycloak.org/) as our identity provider. Both run locally using [Docker](https://www.docker.com/). In a live system (e.g. production), the backend also serves the [frontend](../frontend/).
 
 The backend is implemented using [hexagonal architecture](https://github.com/digitalservicebund/ris-norms/blob/main/doc/adr/0005-use-hexagonal-architecture-in-backend.md).
 
@@ -46,7 +46,7 @@ To run the integration tests:
 ./gradlew integrationTest
 ```
 
-## Code Quality and Documentation
+## Code quality and documentation
 
 ### Formatting
 
@@ -81,7 +81,7 @@ To run a check locally:
 ./gradlew check
 ```
 
-## Check for Outdated Libraries
+## Check for outdated libraries
 
 If the following statement prints a number > 0, then there are outdated libraries:
 

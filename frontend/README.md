@@ -4,7 +4,7 @@ The Norms frontend is a Single Page Application built with [TypeScript](https://
 
 The frontend also includes our E2E tests.
 
-Before diving into the code, please get familiar with our [code conventions](https://digitalservicebund.atlassian.net/wiki/x/BIC1N).
+Before diving into the code, please get familiar with our 🔒 [code conventions](https://digitalservicebund.atlassian.net/wiki/x/BIC1N).
 
 For the most part, the organization follows a standard Vue CLI setup. If you've worked with Vue before, it will feel very familiar. The most important differences are how we organize our state and API communication, as well as our views:
 
@@ -96,7 +96,7 @@ Then run:
 node --run test:smoke
 ```
 
-## Code Quality and Documentation
+## Code quality and documentation
 
 We use TypeScript, ESLint, and Prettier to support code quality and consistent formatting. To run ESLint and Prettier:
 

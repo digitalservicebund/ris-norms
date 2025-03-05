@@ -68,7 +68,7 @@ node --run test:e2e -- --project <chromium|firefox|msedge>  # E2E tests for a sp
 node --run test:e2e -- --ui                                 # Opens the Playwright UI for testing
 ```
 
-### Code Style & Quality
+### Code style & quality
 
 Backend:
 
@@ -100,7 +100,7 @@ node --run build
 node --run preview
 ```
 
-## Navigating the Repository
+## Navigating the repository
 
 This is a mono-repository containing:
 
@@ -147,23 +147,23 @@ lefthook install
 
 Finally, there are some environment variables that need to be set locally. As a starting point, copy the `frontend/.env.local.example` file, and rename it to `.env.local`. Learn more about environment variables [here](./frontend/README.md).
 
-## Learn More
+## Learn more
 
 You will find more information about each module in the respective folders. If you're getting started, the READMEs of the [backend](./backend/README.md) and [frontend](./frontend/README.md) will be the most relevant resources.
 
-## License Checking
+## License checking
 
 When installing dependencies, make sure they are licensed under one of the [allowed licenses](./allowed-licenses.json). This will be checked in the pipeline for both frontend and backend dependencies. The pipeline will fail if licenses not included in the list are used by any dependency.
 
-## Slack Notifications
+## Slack notifications
 
-Opt in to CI posting notifications for failing jobs to a particular Slack channel by setting a repository secret with the name `SLACK_WEBHOOK_URL`, containing a url for [incoming webhooks](https://api.slack.com/messaging/webhooks).
+Opt in to CI posting notifications for failing jobs to a particular Slack channel by setting a repository secret with the name `SLACK_WEBHOOK_URL`, containing a URL for [incoming webhooks](https://api.slack.com/messaging/webhooks).
 
 ## Contributing
 
 If you would like to contribute, check out [`CONTRIBUTING.md`](./CONTRIBUTING.md). Please also consider our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-## Additional Resources
+## Additional resources
 
 - 🔒 [RIS Reports](https://github.com/digitalservicebund/ris-reports) (additional documentation, including architecture diagrams and JavaDocs)
 - 🔒 [Infrastructure](https://github.com/digitalservicebund/ris-norms-infra)
