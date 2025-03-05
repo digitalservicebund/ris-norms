@@ -1,6 +1,6 @@
 # 14. Storage of links between time boundaries, affected documents and amending statements
 
-**Date**: 2025-03-04
+**Date**: 2025-03-05
 
 ## Status
 
