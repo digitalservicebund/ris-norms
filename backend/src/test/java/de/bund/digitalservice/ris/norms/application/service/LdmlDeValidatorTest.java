@@ -22,20 +22,7 @@ class LdmlDeValidatorTest {
         LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de.xsl")
       )
     ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-            "/LegalDocML.de/1.7.2/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
-          )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-            "/LegalDocML.de/1.7.2/legalDocML.de-risnorms-offenestruktur.xsd"
-          )
-      )
-    )
+    Fixtures.getXsdSchemaService()
   );
 
   @Nested

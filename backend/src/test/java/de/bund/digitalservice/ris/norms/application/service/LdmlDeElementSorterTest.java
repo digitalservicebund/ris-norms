@@ -4,11 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.core.io.UrlResource;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
@@ -16,23 +14,7 @@ import org.xmlunit.diff.Diff;
 class LdmlDeElementSorterTest {
 
   private final LdmlDeElementSorter ldmlDeElementSorter = new LdmlDeElementSorter(
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de-baukasten.xsd")
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de-metadaten.xsd")
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-            "/LegalDocML.de/1.7.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
-          )
-      )
-    )
+    Fixtures.getXsdSchemaService()
   );
 
   @Test

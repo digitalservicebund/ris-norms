@@ -2,10 +2,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeElementSortingException;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,6 +22,7 @@ import org.w3c.dom.Node;
  * Service for fixing the order of nodes within a LegalDocML.de element based on the xsd-Schema. Only sorts nodes which
  * do not allow mixed-content.
  */
+@Service
 public class LdmlDeElementSorter {
 
   private final List<Document> schemas;
@@ -42,23 +38,8 @@ public class LdmlDeElementSorter {
   // consist of xs:element and max. one xs:group which is also the last part of the sequence. Therefore, we can model
   // these sequences as a simple lists that shown in which order the elements must appear.
 
-  public LdmlDeElementSorter(
-    @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-baukasten.xsd"
-    ) Resource baukastenXsdSchema,
-    @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-metadaten.xsd"
-    ) Resource metadatenXsdSchema,
-    @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
-    ) Resource regelungstextverkuendungsfassungXsdSchema
-  ) {
-    this.schemas =
-    List.of(
-      loadDocumentForResource(baukastenXsdSchema),
-      loadDocumentForResource(metadatenXsdSchema),
-      loadDocumentForResource(regelungstextverkuendungsfassungXsdSchema)
-    );
+  public LdmlDeElementSorter(XsdSchemaService schemaService) {
+    this.schemas = schemaService.loadLdmlDeSchemaDocuments();
   }
 
   /**
@@ -281,14 +262,5 @@ public class LdmlDeElementSorter {
       .filter(Optional::isPresent)
       .map(Optional::get)
       .findFirst();
-  }
-
-  // Helper method to load a Schema from a Resource.
-  private Document loadDocumentForResource(Resource schemaResource) {
-    try {
-      return XmlMapper.toDocument(schemaResource.getContentAsString(StandardCharsets.UTF_8));
-    } catch (IOException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
   }
 }
