@@ -6,56 +6,9 @@
 
 This repository contains a web app supporting the Federal Documentation of Statutes (DE: ["Normendokumentation"](https://www.bundesjustizamt.de/DE/Themen/Rechtsetzung/Normendokumentation/Normendokumentation_node.html)). It is part of NeuRIS. You can learn more about NeuRIS on our [website](https://digitalservice.bund.de/en/projects/new-legal-information-system).
 
-## Navigating the Repository
-
-This is a mono-repository containing:
-
-| Module                              | Notes                                                                                                                          |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| [`.github`](./github)               | GitHub configuration, including automated pipelines                                                                            |
-| [`backend`](./backend/)             | The backend service (Java + Spring Boot)                                                                                       |
-| [`doc`](./doc/)                     | Additional documentation, including [Architecture Decision Records (ADRs)](./doc/adr/) and [API specifications](./backend/)    |
-| [`frontend`](./frontend/)           | A browser-based interface for users (TypeScript + Vue + Tailwind)                                                              |
-| [`LegalDocML.de`](./LegalDocML.de/) | Schemas, examples, test data, and custom extensions to [LegalDocDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) |
-| [`local`](./local/)                 | Additional setup for local development                                                                                         |
-| [`monitoring`](./monitoring/)       | Monitoring-related setup (Grafana + Prometheus)                                                                                |
-| [`regex`](./regex/)                 | Utilities for creating regex schemas                                                                                           |
-
-## Prerequisites
-
-To build and run the application, you'll need:
-
-- Docker, for infrastructure or running a containerized version of the entire application locally
-- A Java 21-compatible JDK
-- A recent version of Node (you'll find the exact version we're using [here](./frontend/.node-version))
-
-If you would like to make changes to the application, you'll also need:
-
-- [`jq`](https://jqlang.org/), for parsing license data
-- [`talisman`](https://thoughtworks.github.io/talisman/), for preventing accidentially committing sensitive data
-- [`lefthook`](https://lefthook.dev/), for running Git hooks
-- [`gh`](https://cli.github.com/), for checking the pipeline status before pushing
-- (optional) [`adr-tools`](https://github.com/npryce/adr-tools), for scaffolding new ADRs
-- (optional) [`nvm`](https://github.com/nvm-sh/nvm), for managing Node versions
-
-If you use [Homebrew](https://brew.sh/), you can install all of them like this:
-
-```sh
-brew install openjdk@21 jq talisman lefthook gh adr-tools nvm
-brew install --cask docker # or `brew install docker` if you don't want the desktop app
-```
-
-Once you installed the prerequisites, make sure to initialize Git hooks. This will ensure any code you commit follows our coding standards, is properly formatted, and has a commit message adhering to our conventions:
-
-```sh
-lefthook install
-```
-
-Finally, there are some environment variables that need to be set locally. As a starting point, copy the `frontend/.env.local.example` file, and rename it to `.env.local`. Learn more about environment variables [here](./frontend/README.md).
-
 ## Quickstart
 
-If you're already familiar with our stack and the project, here is a list of the most important commands for running frequent tasks. You will find more detailed instructions below.
+If you're already familiar with our stack and the project, here is a list of the most important commands for running frequent tasks. You will find [more detailed instructions below](#prerequisites).
 
 ### Test user credentials
 
@@ -115,9 +68,92 @@ node --run test:e2e -- --project <chromium|firefox|msedge>  # E2E tests for a sp
 node --run test:e2e -- --ui                                 # Opens the Playwright UI for testing
 ```
 
+### Code Style & Quality
+
+Backend:
+
+```sh
+./gradlew spotlessApply   # Format code
+```
+
+Frontend:
+
+```sh
+node --run style:fix    # Check code conventions + formatting, attempt to fix
+node --run typecheck    # Check TypeScript validity
+```
+
+### Building
+
+Backend:
+
+```sh
+./gradlew build
+```
+
+Frontend:
+
+```sh
+node --run build
+
+# Optionally, preview the build output (requires a running backend):
+node --run preview
+```
+
+## Navigating the Repository
+
+This is a mono-repository containing:
+
+| Module                              | Notes                                                                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [`.github`](./github)               | GitHub configuration, including automated pipelines                                                                            |
+| [`backend`](./backend/)             | The backend service (Java + Spring Boot)                                                                                       |
+| [`doc`](./doc/)                     | Additional documentation, including [Architecture Decision Records (ADRs)](./doc/adr/) and [API specifications](./backend/)    |
+| [`frontend`](./frontend/)           | A browser-based interface for users (TypeScript + Vue + Tailwind)                                                              |
+| [`LegalDocML.de`](./LegalDocML.de/) | Schemas, examples, test data, and custom extensions to [LegalDocDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) |
+| [`local`](./local/)                 | Additional setup for local development                                                                                         |
+| [`monitoring`](./monitoring/)       | Monitoring-related setup (Grafana + Prometheus)                                                                                |
+| [`regex`](./regex/)                 | Utilities for creating regex schemas                                                                                           |
+
+## Prerequisites
+
+To build and run the application, you'll need:
+
+- Docker, for infrastructure or running a containerized version of the entire application locally
+- A Java 21-compatible JDK
+- A recent version of Node (you'll find the exact version we're using [here](./frontend/.node-version))
+
+If you would like to make changes to the application, you'll also need:
+
+- [`jq`](https://jqlang.org/), for parsing license data
+- [`talisman`](https://thoughtworks.github.io/talisman/), for preventing accidentially committing sensitive data
+- [`lefthook`](https://lefthook.dev/), for running Git hooks
+- [`gh`](https://cli.github.com/), for checking the pipeline status before pushing
+- (optional) [`adr-tools`](https://github.com/npryce/adr-tools), for scaffolding new ADRs
+- (optional) [`nvm`](https://github.com/nvm-sh/nvm), for managing Node versions
+
+If you use [Homebrew](https://brew.sh/), you can install all of them like this:
+
+```sh
+brew install openjdk@21 jq talisman lefthook gh adr-tools nvm
+brew install --cask docker # or `brew install docker` if you don't want the desktop app
+```
+
+Once you installed the prerequisites, make sure to initialize Git hooks. This will ensure any code you commit follows our coding standards, is properly formatted, and has a commit message adhering to our conventions:
+
+```sh
+lefthook install
+```
+
+Finally, there are some environment variables that need to be set locally. As a starting point, copy the `frontend/.env.local.example` file, and rename it to `.env.local`. Learn more about environment variables [here](./frontend/README.md).
+
 ## Learn More
 
 You will find more information about each module in the respective folders. If you're getting started, the READMEs of the [backend](./backend/README.md) and [frontend](./frontend/README.md) will be the most relevant resources.
+
+## License Checking
+
+When installing dependencies, make sure they are licensed under one of the [allowed licenses](./allowed-licenses.json). This will be checked in the pipeline for both frontend and backend dependencies. The pipeline will fail if licenses not included in the list are used by any dependency.
 
 ## Slack Notifications
 
@@ -125,7 +161,7 @@ Opt in to CI posting notifications for failing jobs to a particular Slack channe
 
 ## Contributing
 
-If you would like to contribute, you'll find more information in [`CONTRIBUTING.md`](./CONTRIBUTING.md). Please also consider our [Code of Conduct](./CODE_OF_CONDUCT.md).
+If you would like to contribute, check out [`CONTRIBUTING.md`](./CONTRIBUTING.md). Please also consider our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## Additional Resources
 
