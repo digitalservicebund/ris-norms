@@ -4,7 +4,7 @@ flyway = "11.3.4"
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.3.0"
 org-bouncycastle = "1.80"
-org-testcontainers = "1.20.5"
+org-testcontainers = "1.20.6"
 spring-boot = "3.4.3"
 
 [libraries]
@@ -16,7 +16,7 @@ bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref 
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
-google-protobuf-java = "com.google.protobuf:protobuf-java:4.29.3"
+google-protobuf-java = "com.google.protobuf:protobuf-java:4.30.0"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.36"
