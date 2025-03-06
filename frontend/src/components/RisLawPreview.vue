@@ -386,7 +386,7 @@ const slots: SetupContext["slots"] = useSlots()
       ref="container"
       :aria-activedescendant="activeDescendant"
       :role="arrowFocus ? 'textbox' : undefined"
-      class="preview-container flex h-full overflow-auto bg-white p-20 -outline-offset-2 focus:outline focus:outline-4 focus:outline-blue-800"
+      class="preview-container flex h-full overflow-auto bg-white p-20 outline outline-4 outline-blue-800 focus:outline focus:outline-4 focus:-outline-offset-2 focus:outline-blue-800"
       :class="{
         'default-norm-style': styled,
       }"
