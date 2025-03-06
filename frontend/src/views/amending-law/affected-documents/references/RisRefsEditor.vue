@@ -126,7 +126,7 @@ watch(
 </script>
 
 <template>
-  <div class="grid grid-rows-[minmax(0,max-content),max-content,max-content]">
+  <div class="grid grid-rows-[minmax(0,max-content)_max-content_max-content]">
     <section aria-labelledby="textBasedMetadataHeading" class="flex flex-col">
       <h3 id="textBasedMetadataHeading" class="ris-label2-bold mb-12 block">
         Textbasierte Metadaten
@@ -149,7 +149,7 @@ watch(
       />
     </section>
 
-    <hr class="col-span-2 mb-16 mt-32 border border-solid border-gray-400" />
+    <hr class="col-span-2 mt-32 mb-16 border border-solid border-gray-400" />
 
     <div class="col-span-2 flex flex-row-reverse">
       <Button

@@ -180,10 +180,7 @@ function handleUpdate(event: MouseEvent) {
     </form>
   </section>
 
-  <div
-    v-if="timeBoundary === 'multiple'"
-    class="col-span-1 mt-[62px] flex-grow"
-  >
+  <div v-if="timeBoundary === 'multiple'" class="col-span-1 mt-[62px] grow">
     <RisEmptyState
       text-content="Eine Vorschau kann nur für Änderungsbefehle mit der selben Zeitgrenze generiert werden."
       class="h-fit"
@@ -213,14 +210,14 @@ function handleUpdate(event: MouseEvent) {
         </div>
         <RisLawPreview
           v-else
-          class="ds-textarea flex-grow p-2"
+          class="ds-textarea grow p-2"
           :content="previewHtml ?? ''"
         />
       </template>
 
       <template #xml>
         <RisCodeEditor
-          class="flex-grow"
+          class="grow"
           :readonly="true"
           :model-value="xml"
         ></RisCodeEditor>

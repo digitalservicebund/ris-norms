@@ -80,7 +80,7 @@ function selectNextRef(relativeTo: number) {
   <div>
     <div
       v-if="refs.length > 0"
-      class="grid max-h-full grid-cols-[3fr,8fr,max-content] items-center overflow-auto"
+      class="grid max-h-full grid-cols-[3fr_8fr_max-content] items-center overflow-auto"
     >
       <div>Typ</div>
       <div>ELI mit Zielstelle</div>
