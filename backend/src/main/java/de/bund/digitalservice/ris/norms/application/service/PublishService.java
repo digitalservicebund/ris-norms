@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,42 +29,45 @@ public class PublishService implements PublishNormUseCase {
 
   private final LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort;
   private final LoadNormPort loadNormPort;
-  private final PublishPublicNormPort publishPublicNormPort;
-  private final PublishPrivateNormPort publishPrivateNormPort;
+  private final PublishNormPort publishNormPort;
+  private final PublishNormPort publishPrivateNormPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
-  private final DeletePublicNormPort deletePublicNormPort;
-  private final DeletePrivateNormPort deletePrivateNormPort;
+  private final DeletePublishedNormPort deletePublishedNormPort;
+  private final DeletePublishedNormPort deletePrivateNormPort;
   private final LoadLastMigrationLogPort loadLastMigrationLogPort;
-  private final DeleteAllPublicDokumentePort deleteAllPublicDokumentePort;
-  private final DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort;
-  private final PublishChangelogsPort publishChangelogsPort;
+  private final DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort;
+  private final DeleteAllPublishedDokumentePort deleteAllPrivateDokumentePort;
+  private final PublishChangelogPort publishPublicChangelogsPort;
+  private final PublishChangelogPort publishPrivateChangelogsPort;
   private final CompleteMigrationLogPort updateMigrationLogPort;
 
   public PublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
     LoadNormPort loadNormPort,
-    PublishPublicNormPort publishPublicNormPort,
-    PublishPrivateNormPort publishPrivateNormPort,
+    @Qualifier("public") PublishNormPort publishNormPort,
+    @Qualifier("private") PublishNormPort publishPrivateNormPort,
     UpdateOrSaveNormPort updateOrSaveNormPort,
-    DeletePublicNormPort deletePublicNormPort,
-    DeletePrivateNormPort deletePrivateNormPort,
+    @Qualifier("public") DeletePublishedNormPort deletePublishedNormPort,
+    @Qualifier("private") DeletePublishedNormPort deletePrivateNormPort,
     LoadLastMigrationLogPort loadLastMigrationLogPort,
-    DeleteAllPublicDokumentePort deleteAllPublicDokumentePort,
-    DeleteAllPrivateDokumentePort deleteAllPrivateDokumentePort,
-    PublishChangelogsPort publishChangelogsPort,
+    @Qualifier("public") DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort,
+    @Qualifier("private") DeleteAllPublishedDokumentePort deleteAllPrivateDokumentePort,
+    @Qualifier("public") PublishChangelogPort publishPublicChangelogsPort,
+    @Qualifier("private") PublishChangelogPort publishPrivateChangelogsPort,
     CompleteMigrationLogPort updateMigrationLogPort
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.loadNormPort = loadNormPort;
-    this.publishPublicNormPort = publishPublicNormPort;
+    this.publishNormPort = publishNormPort;
     this.publishPrivateNormPort = publishPrivateNormPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
-    this.deletePublicNormPort = deletePublicNormPort;
+    this.deletePublishedNormPort = deletePublishedNormPort;
     this.deletePrivateNormPort = deletePrivateNormPort;
     this.loadLastMigrationLogPort = loadLastMigrationLogPort;
-    this.deleteAllPublicDokumentePort = deleteAllPublicDokumentePort;
+    this.deleteAllPublishedDokumentePort = deleteAllPublishedDokumentePort;
     this.deleteAllPrivateDokumentePort = deleteAllPrivateDokumentePort;
-    this.publishChangelogsPort = publishChangelogsPort;
+    this.publishPublicChangelogsPort = publishPublicChangelogsPort;
+    this.publishPrivateChangelogsPort = publishPrivateChangelogsPort;
     this.updateMigrationLogPort = updateMigrationLogPort;
   }
 
@@ -108,17 +112,18 @@ public class PublishService implements PublishNormUseCase {
           throw new MigrationJobException();
         }
         log.info("Deleting all old dokumente in both buckets");
-        deleteAllPublicDokumentePort.deleteAllPublicDokumente(
-          new DeleteAllPublicDokumentePort.Command(startOfProcessing)
+        deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
+          new DeleteAllPublishedDokumentePort.Command(startOfProcessing)
         );
-        deleteAllPrivateDokumentePort.deleteAllPrivateDokumente(
-          new DeleteAllPrivateDokumentePort.Command(startOfProcessing)
+        deleteAllPrivateDokumentePort.deleteAllPublishedDokumente(
+          new DeleteAllPublishedDokumentePort.Command(startOfProcessing)
         );
         log.info("Deleted all dokumente in both buckets");
       }
     });
 
-    publishChangelogsPort.publishChangelogs(new PublishChangelogsPort.Command(false));
+    publishPublicChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
+    publishPrivateChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
 
     lastMigrationLog.ifPresent(migrationLog -> {
       updateMigrationLogPort.completeMigrationLog(
@@ -139,10 +144,10 @@ public class PublishService implements PublishNormUseCase {
     boolean isPrivatePublished = false;
     try {
       // Try to publish publicly
-      publishPublicNormPort.publishPublicNorm(new PublishPublicNormPort.Command(norm));
+      publishNormPort.publishNorm(new PublishNormPort.Command(norm));
       isPublicPublished = true;
       // Only if public publish succeeds, try private publish
-      publishPrivateNormPort.publishPrivateNorm(new PublishPrivateNormPort.Command(norm));
+      publishPrivateNormPort.publishNorm(new PublishNormPort.Command(norm));
       isPrivatePublished = true;
       // If both succeed, update the publish state
       norm.setPublishState(NormPublishState.PUBLISHED);
@@ -176,7 +181,7 @@ public class PublishService implements PublishNormUseCase {
 
   private void rollbackPublicPublish(Norm norm) {
     try {
-      deletePublicNormPort.deletePublicNorm(new DeletePublicNormPort.Command(norm));
+      deletePublishedNormPort.deletePublishedNorm(new DeletePublishedNormPort.Command(norm));
       log.info(
         "Deleted public norm on rollback strategy: {}",
         norm.getManifestationEli().toString()
@@ -188,7 +193,7 @@ public class PublishService implements PublishNormUseCase {
 
   private void rollbackPrivatePublish(Norm norm) {
     try {
-      deletePrivateNormPort.deletePrivateNorm(new DeletePrivateNormPort.Command(norm));
+      deletePrivateNormPort.deletePublishedNorm(new DeletePublishedNormPort.Command(norm));
       log.info(
         "Deleted private norm on rollback strategy: {}",
         norm.getManifestationEli().toString()
