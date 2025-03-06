@@ -112,7 +112,6 @@ This is a mono-repository containing:
 | [`frontend`](./frontend/)           | A browser-based interface for users (TypeScript + Vue + Tailwind)                                                              |
 | [`LegalDocML.de`](./LegalDocML.de/) | Schemas, examples, test data, and custom extensions to [LegalDocDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) |
 | [`local`](./local/)                 | Additional setup for local development                                                                                         |
-| [`monitoring`](./monitoring/)       | Monitoring-related setup (Grafana + Prometheus)                                                                                |
 | [`regex`](./regex/)                 | Utilities for creating regex schemas                                                                                           |
 
 ## Prerequisites
