@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * Scheduler class responsible for executing a scheduled task to process scheduled tasks, for now just one task for publishing queued norms.
+ * Scheduler class responsible for executing the task for publishing queued norms.
  *
  * <p>The {@code @Component} annotation is used here instead of {@code @Service} because this class
  * does not represent a business or application service, but rather a scheduler component for managing
@@ -20,11 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @Profile({ "staging", "uat", "production" })
-public class Scheduler {
+public class PublishingScheduler {
 
   private final PublishNormUseCase publishNormUseCase;
 
-  public Scheduler(PublishNormUseCase publishNormUseCase) {
+  public PublishingScheduler(PublishNormUseCase publishNormUseCase) {
     this.publishNormUseCase = publishNormUseCase;
   }
 
