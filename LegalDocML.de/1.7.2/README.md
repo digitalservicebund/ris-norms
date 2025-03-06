@@ -1,8 +1,8 @@
 # LegalDocML.de 1.7.2
 
-## Folder structure
+This folder includes:
 
-| Folder / File                                                 | description                                                                 |
+| Folder/File                                                 | Description                                                                 |
 | ------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | `schema`                                                      | The official LegalDocML 1.7.2 schema files                                  |
 | `schema-extension`                                            | Our extension of the schema for the `legalDocML.de_metadaten` block         |
@@ -10,14 +10,11 @@
 | `fixtures`                                                    | Test files for our schema-extension                                         |
 | `samples`                                                     | Sample LegalDocML.de 1.7.2 files                                            |
 
-## LDML.de Extension for custom metadata
+## LDML.de Extension for Custom Metadata
 
-Our application uses a custom schema file to extend LDML.de. This is necessary for adding custom metadata outside the
-standard. We use LDML.de's `proprietary` tag for this, which is intended for adding such extensions in a
-standard-compatible way.
+Our application uses a custom schema file to extend LDML.de. This is necessary for adding custom metadata outside the standard. We use LDML.de's `proprietary` tag for this, which is intended for adding such extensions in a standard-compatible way.
 
-The `schema-extension` folder contains this custom schema definition file. The `fixtures` folder contains files used to
-test the schema.
+The `schema-extension` folder contains this custom schema definition file. The `fixtures` folder contains files used to test the schema.
 
 You'll need `xmllint` to test the schema-extension:
 

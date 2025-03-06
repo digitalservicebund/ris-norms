@@ -1,3 +1,5 @@
+name: Push Docker image
+
 on:
   workflow_call:
     inputs:

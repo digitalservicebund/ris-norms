@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.application.service.LdmlDeValidator;
+import de.bund.digitalservice.ris.norms.application.service.XsdSchemaService;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
@@ -12,10 +13,22 @@ import org.springframework.core.io.UrlResource;
 
 public class Fixtures {
 
-  private static final LdmlDeValidator ldmlDeValidator = new LdmlDeValidator(
+  private static final XsdSchemaService xsdSchemaService = new XsdSchemaService(
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de.xsl")
+        LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de-baukasten.xsd")
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de-metadaten.xsd")
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            "/LegalDocML.de/1.7.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
+          )
       )
     ),
     new UrlResource(
@@ -33,6 +46,19 @@ public class Fixtures {
       )
     )
   );
+
+  private static final LdmlDeValidator ldmlDeValidator = new LdmlDeValidator(
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de.xsl")
+      )
+    ),
+    xsdSchemaService
+  );
+
+  public static XsdSchemaService getXsdSchemaService() {
+    return xsdSchemaService;
+  }
 
   public static Norm loadNormFromDisk(final String fileName) {
     return loadNormFromDisk(fileName, false);

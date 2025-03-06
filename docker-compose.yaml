@@ -21,7 +21,7 @@ services:
     container_name: webapp
     build:
       context: .
-      dockerfile: DockerfileApp
+      dockerfile: Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
       - SPRING_PROFILES_ACTIVE=local-docker
