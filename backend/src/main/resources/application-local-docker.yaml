@@ -30,6 +30,10 @@ otc:
       bucket-name: public
       access-key-id: test
       secret-access-key: test
+    portal-prototype:
+      bucket-name: portal-prototype
+      access-key-id: test
+      secret-access-key: test
 
 sentry:
   environment: local
