@@ -4,7 +4,7 @@ import fs from "fs"
 import path from "node:path"
 
 setup("login", async ({ page, appCredentials }) => {
-  await page.goto("/")
+  await page.goto("./")
   await page.waitForURL(/localhost:8443/)
 
   await page

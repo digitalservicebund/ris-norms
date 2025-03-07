@@ -26,7 +26,7 @@ test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
     )
 
     await page.goto(
-      "/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
     )
 
     // Then
@@ -47,7 +47,7 @@ test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
   test("navigates between elements", async ({ page }) => {
     // Given
     await page.goto(
-      "/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-2",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-2",
     )
 
     const heading = page.getByRole("heading", { level: 2 })
@@ -71,7 +71,7 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   test("displays the title and preview", async ({ page }) => {
     // Given
     await page.goto(
-      "/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -105,7 +105,7 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
     )
 
     await page.goto(
-      "/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
     )
 
     // Then
@@ -152,7 +152,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   test.beforeAll(async ({ browser }) => {
     sharedPage = await browser.newPage()
     await sharedPage.goto(
-      "/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/element/hauptteil-1_abschnitt-1_art-6",
     )
     await restoreInitialState(sharedPage)
   })

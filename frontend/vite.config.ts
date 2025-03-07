@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
   )
 
   return {
+    base: "/app/",
     build: {
       sourcemap: true,
       target: ["edge127", "firefox115", "chrome127"],

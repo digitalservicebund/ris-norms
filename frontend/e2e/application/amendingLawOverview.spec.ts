@@ -2,17 +2,17 @@ import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
 test("navigate to amending law overview", async ({ page }) => {
-  await page.goto("/amending-laws")
+  await page.goto("./amending-laws")
   await page.getByRole("link", { name: "BGBl. I 2023 Nr. 413" }).click()
 
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    "/app/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
   )
 })
 
 test("see page title", async ({ page }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    "./amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
   )
 
   await expect(
@@ -22,7 +22,7 @@ test("see page title", async ({ page }) => {
 
 test("see rendered law text", async ({ page }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    "./amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
   )
 
   const article = page.getByRole("article")
@@ -45,7 +45,7 @@ test("should display a loading error message when the API call fails", async ({
   )
 
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    "./amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
   )
 
   await expect(
@@ -78,7 +78,7 @@ test("should redirect to the 404 page when the amending law JSON does not exist"
   )
 
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    "./amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
   )
 
   await expect(
@@ -103,7 +103,7 @@ test("should redirect to the 404 page when the amending law HTML does not exist"
   )
 
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    "./amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
   )
 
   await expect(
