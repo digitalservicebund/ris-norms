@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * A fallback controller for serving the frontend's index.html file.
@@ -29,11 +28,10 @@ public class FrontendFallbackController {
    * Serves index.html for all unmatched routes inside "/app", excluding requests for static
    * resources. This ensures Vue Router can handle client-side routing.
    *
-   * @param path The requested path (will be handled by the frontend).
    * @return Forward to index.html.
    */
   @GetMapping(value = { "/app/", "/app/{path:[^\\.]*}" })
-  public String serveIndexHtml(@PathVariable String path) {
+  public String serveIndexHtml() {
     return "forward:/app/index.html";
   }
 }
