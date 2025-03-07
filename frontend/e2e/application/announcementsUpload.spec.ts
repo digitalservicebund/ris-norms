@@ -10,7 +10,7 @@ test(
   "navigates to the upload page",
   { tag: ["@RISDEV-4771"] },
   async ({ page }) => {
-    await page.goto("/amending-laws")
+    await page.goto("./amending-laws")
 
     await page
       .getByRole("button", { name: "Verkündung manuell hinzufügen" })
@@ -24,7 +24,7 @@ test(
   "uploads a new norm successfully and redirects to the new norm",
   { tag: ["@RISDEV-4771"] },
   async ({ page }) => {
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
@@ -42,7 +42,7 @@ test(
     await page.getByRole("button", { name: "Hochladen" }).click()
 
     await page.waitForURL(
-      "/amending-laws/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-1",
+      "/app/amending-laws/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-1",
     )
 
     await expect(
@@ -60,7 +60,7 @@ test(
       "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
     )
 
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
@@ -90,7 +90,7 @@ test(
       "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
     )
 
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
@@ -128,7 +128,7 @@ test(
       "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
     )
 
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
@@ -157,7 +157,7 @@ test(
   "shows an error if the uploaded norm is not an XML file",
   { tag: ["@RISDEV-4771"] },
   async ({ page }) => {
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
@@ -177,7 +177,7 @@ test(
   "shows an error if the uploaded xml is not a LDML.de file",
   { tag: ["@RISDEV-4771"] },
   async ({ page }) => {
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     const simpleXml = `
     <root>
@@ -205,7 +205,7 @@ test(
   "shows validation errors if the uploaded norm is not an XSD-valid LDML document",
   { tag: ["@RISDEV-4771"] },
   async ({ page }) => {
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
@@ -234,7 +234,7 @@ test(
   "shows validation errors if the uploaded norm is not a Schematron-valid LDML document",
   { tag: ["@RISDEV-4771"] },
   async ({ page }) => {
-    await page.goto("/amending-laws/upload")
+    await page.goto("./amending-laws/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {

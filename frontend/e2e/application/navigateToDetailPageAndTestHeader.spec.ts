@@ -7,7 +7,7 @@ test.describe("Info header", () => {
     test(`navigate and verify header for ${amendingLaw.eli}`, async ({
       page,
     }) => {
-      await page.goto(`/amending-laws/${amendingLaw.eli}`)
+      await page.goto(`./amending-laws/${amendingLaw.eli}`)
 
       await expect(
         page.getByText(getExpectedHeading(amendingLaw)),

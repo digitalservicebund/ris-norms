@@ -6,13 +6,13 @@ test.describe("navigate to temporal data page", () => {
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     )
 
     await page.getByText("Zeitgrenzen anlegen").click()
 
     await expect(page).toHaveURL(
-      `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data`,
+      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
     )
 
     await expect(
@@ -44,7 +44,7 @@ test.describe("manage temporal data for an amending law", () => {
       sharedPage = await browser.newPage()
       await setupInitialData(request)
       await sharedPage.goto(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
       )
     })
 
@@ -134,7 +134,7 @@ test.describe("manage temporal data for an amending law", () => {
     test.slow()
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
     )
     await setupInitialData(request)
 
@@ -168,7 +168,7 @@ test.describe("manage temporal data for an amending law", () => {
 
 test.describe("Error handling for Temporal Data page", () => {
   const BASE_URL =
-    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data"
+    "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data"
 
   test.beforeEach(async ({ page }) => {
     await page.goto(BASE_URL)

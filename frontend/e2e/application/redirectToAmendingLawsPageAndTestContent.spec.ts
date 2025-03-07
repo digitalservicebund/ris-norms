@@ -5,7 +5,7 @@ test.describe("Redirect and start page content", () => {
   test(`redirect to amending laws page and test content for eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`, async ({
     page,
   }) => {
-    await page.goto("/")
+    await page.goto("./")
     // Ignore fragments after the URL, those might be there from the authentication
     await expect(page).toHaveURL(/\/amending-laws(#.*)?/)
 
@@ -17,7 +17,7 @@ test.describe("Redirect and start page content", () => {
   test(`redirect to amending laws page and test content for eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1`, async ({
     page,
   }) => {
-    await page.goto("/")
+    await page.goto("./")
     // Ignore fragments after the URL, those might be there from the authentication
     await expect(page).toHaveURL(/\/amending-laws(#.*)?/)
 
@@ -36,7 +36,7 @@ test.describe("Redirect and start page content", () => {
       })
     })
 
-    await page.goto("/")
+    await page.goto("./")
 
     await expect(
       page.getByText("Ein unbekannter Fehler ist aufgetreten."),
@@ -59,7 +59,7 @@ test.describe("Redirect and start page content", () => {
       })
     })
 
-    await page.goto("/")
+    await page.goto("./")
 
     await expect(page.getByText("Keine Verkündungen gefunden.")).toBeVisible()
   })

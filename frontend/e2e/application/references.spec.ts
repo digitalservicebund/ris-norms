@@ -4,7 +4,7 @@ import { expect } from "@playwright/test"
 
 test("see breadcrumb", async ({ page }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
+    "./amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
   )
 
   await expect(
@@ -16,7 +16,7 @@ test("should be able to add a new ref and edit it's refersTo and href and delete
   page,
 }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
+    "./amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
   )
 
   const container = page
@@ -34,7 +34,7 @@ test("should be able to add a new ref and edit it's refersTo and href and delete
     exact: true,
   })
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1_text-1_ref-1",
+    "/app/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1_inhalt-1_text-1_ref-1",
   )
 
   const combobox = newRefRegion.getByRole("combobox", { name: "Typ" })
@@ -73,7 +73,7 @@ test("should be able to add a new ref and edit it's refersTo and href and delete
 
   await expect(newRefRegion).toBeHidden()
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
+    "/app/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
   )
 
   await page.getByRole("button", { name: "Speichern" }).click()
@@ -83,7 +83,7 @@ test("should be able to add two new ref's and delete one using the delete icon i
   page,
 }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
+    "./amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-1/references",
   )
 
   const container = page
@@ -157,7 +157,7 @@ test.describe("References Page Error Handling", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/references",
+      "./amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/references",
     )
 
     await expect(
