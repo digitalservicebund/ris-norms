@@ -15,6 +15,7 @@ import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
+import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -206,7 +207,10 @@ class ArchitectureFitnessTest {
       .should()
       .resideInAPackage(ADAPTER_LAYER_PACKAGES)
       .andShould()
-      .beAnnotatedWith(Service.class);
+      .beAnnotatedWith(Service.class)
+      // Ignore {@link BucketService} as it is not annotated with @Service as multiple configurations of it exist
+      // that are managed by {@link BucketServiceConfiguration}
+      .orShould(be(BucketService.class));
     rule.check(classes);
   }
 

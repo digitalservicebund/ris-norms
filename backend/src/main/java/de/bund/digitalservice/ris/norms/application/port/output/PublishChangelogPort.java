@@ -1,17 +1,17 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
 /**
- * Interface representing the output port for publishing changelogs to public and private storages
+ * Interface representing the output port for publishing a changelog to storage
  */
-public interface PublishChangelogsPort {
+public interface PublishChangelogPort {
   /**
-   * Publishes the changelogs to designated public and private locations.
+   * Publishes the changelog.
    * @param command the command for the port
    */
   void publishChangelogs(final Command command);
 
   /**
-   * Command for publishing change logs
+   * Command for publishing a changelog
    *
    * @param allChanged if the publish process should just send a reset signal in the changelog
    */

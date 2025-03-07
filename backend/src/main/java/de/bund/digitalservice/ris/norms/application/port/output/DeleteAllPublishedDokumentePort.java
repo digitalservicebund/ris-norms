@@ -4,17 +4,16 @@ import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import java.time.Instant;
 
 /**
- * Interface representing the output port for deleting all {@link Dokument} entities from a storage location designated
- * for public data.
+ * Interface representing the output port for deleting all {@link Dokument} entities from a storage location designated.
  */
-public interface DeleteAllPublicDokumentePort {
+public interface DeleteAllPublishedDokumentePort {
   /**
-   * Deletes all {@link Dokument} entities that have not been edited since the given date from a designated public
+   * Deletes all {@link Dokument} entities that have not been edited since the given date from a designated
    * storage location.
    *
    * @param command command for deleting Dokumente
    */
-  void deleteAllPublicDokumente(DeleteAllPublicDokumentePort.Command command);
+  void deleteAllPublishedDokumente(DeleteAllPublishedDokumentePort.Command command);
 
   /**
    * Command for deleting dokumente
