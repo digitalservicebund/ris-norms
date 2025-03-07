@@ -15,5 +15,5 @@ otc:
       bucket-name: ris-norms-prod-public-ldml-data
     private:
       bucket-name: ris-norms-prod-private-ldml-data
-    portal-prototype:
+    prototype:
       bucket-name: ris-norms-prod-prototype-ldml-data

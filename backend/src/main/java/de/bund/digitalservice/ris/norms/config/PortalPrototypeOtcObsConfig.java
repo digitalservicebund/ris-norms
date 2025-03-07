@@ -26,10 +26,10 @@ public class PortalPrototypeOtcObsConfig {
   private String endpoint;
 
   // Portal prototype bucket
-  @Value("${otc.obs.portal-prototype.access-key-id}")
+  @Value("${otc.obs.prototype.access-key-id}")
   private String portalPrototypeAccessKeyId;
 
-  @Value("${otc.obs.portal-prototype.secret-access-key}")
+  @Value("${otc.obs.prototype.secret-access-key}")
   private String portalPrototypeSecretAccessKey;
 
   /**

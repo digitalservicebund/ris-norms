@@ -15,7 +15,7 @@ import software.amazon.awssdk.services.s3.S3Client;
  * <ul>
  *   <li>The bucket names are configured through application properties:
  *       <ul>
- *         <li>{@code otc.obs.portal-prototype.bucket-name} for the private S3 bucket.</li>
+ *         <li>{@code otc.obs.prototype.bucket-name} for the private S3 bucket.</li>
  *       </ul>
  *   </li>
  *   <li>S3 clients are injected with qualifiers {@code privateS3Client} and {@code publicS3Client}.</li>
@@ -25,7 +25,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Profile({ "production", "local", "local-docker" })
 public class PortalPrototypeBucketServiceConfiguration {
 
-  @Value("${otc.obs.portal-prototype.bucket-name}")
+  @Value("${otc.obs.prototype.bucket-name}")
   private String bucketName;
 
   private final S3Client s3Client;
