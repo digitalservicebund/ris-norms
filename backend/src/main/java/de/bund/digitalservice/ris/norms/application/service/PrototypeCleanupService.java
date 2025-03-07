@@ -19,6 +19,8 @@ class PrototypeCleanupService {
     Set<Dokument> dokumente = norm.getDokumente();
     for (Dokument dokument : dokumente) {
       cleanRisMetadata(dokument);
+      cleanRegularMetaData(dokument);
+      cleanBundesRegierungMetaData(dokument);
     }
 
     return norm;
@@ -36,6 +38,22 @@ class PrototypeCleanupService {
         node.getParentNode().removeChild(node);
       }
     }
+  }
+
+  private void cleanRegularMetaData(Dokument dokument) {
+    deleteMetaData(dokument, Namespace.METADATEN.getNamespaceUri());
+  }
+
+  private void cleanBundesRegierungMetaData(Dokument dokument) {
+    deleteMetaData(dokument, Namespace.METADATEN_BUNDESREGIERUNG.getNamespaceUri());
+  }
+
+  private void deleteMetaData(Dokument dokument, String namespaceUri) {
+    Optional<Element> proprietaryElement = NodeParser.getElementFromExpression(
+      "//Q{" + namespaceUri + "}legalDocML.de_metadaten",
+      dokument.getDocument()
+    );
+    proprietaryElement.ifPresent(element -> element.getParentNode().removeChild(element));
   }
 
   private static String createXpathAllDsProprietaryExceptShouldStay() {

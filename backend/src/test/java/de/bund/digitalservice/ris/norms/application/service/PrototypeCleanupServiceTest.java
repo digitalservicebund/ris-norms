@@ -5,7 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class PrototypeCleanupServiceTest {
 
@@ -106,5 +109,23 @@ class PrototypeCleanupServiceTest {
       .contains(
         "V aufgeh. durch Art. 22 G v. 22.12.2011 I 1111 mWv\n                       1.1.2012"
       );
+  }
+
+  @Test
+  void cleanRegularAndBundesregierungMetadata() {
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+
+    underTest.clean(norm);
+    List<Node> proprietyChildNodes = NodeParser
+      .nodeListToList(
+        norm.getRegelungstext1().getMeta().getProprietary().get().getElement().getChildNodes()
+      )
+      .stream()
+      .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+      .toList();
+
+    assertThat(proprietyChildNodes).hasSize(1);
+    assertThat(proprietyChildNodes.get(0).getNamespaceURI())
+      .isEqualTo("http://MetadatenRIS.LegalDocML.de/1.7.2/");
   }
 }
