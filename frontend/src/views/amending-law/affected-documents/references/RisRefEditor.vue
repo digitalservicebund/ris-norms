@@ -4,8 +4,9 @@ import Select from "primevue/select"
 import { useRef } from "@/views/amending-law/affected-documents/references/useRef"
 import { useDebounceFn } from "@vueuse/core"
 import Button from "primevue/button"
-import { ref, watch } from "vue"
+import { ref, watch, nextTick } from "vue"
 import CloseIcon from "~icons/ic/close"
+import InputText from "primevue/inputtext"
 
 /**
  * The XML-String (LDML.de) of the akn:ref element.
@@ -59,8 +60,11 @@ const inputEl = ref<HTMLInputElement | null>(null)
 
 watch(
   () => props.grabFocus,
-  (val) => {
-    if (val) inputEl.value?.focus()
+  async (val) => {
+    if (val && inputEl.value) {
+      await nextTick()
+      ;(inputEl.value as HTMLInputElement)?.focus()
+    }
   },
   { immediate: true },
 )
@@ -75,14 +79,11 @@ watch(
     aria-label="Typ"
     class="-mr-1"
   />
-
-  <input
+  <InputText
     ref="inputEl"
     v-model="href"
     aria-label="ELI mit Zielstelle"
-    class="ds-input ds-input-small -ml-1"
     placeholder="ELI mit Zielstelle"
-    type="text"
     @keydown.up.prevent="$emit('selectPrevious')"
     @keydown.down.prevent="$emit('selectNext')"
   />
