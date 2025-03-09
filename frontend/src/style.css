@@ -54,24 +54,160 @@
   --highlight-10-hover: #9dbbdc;
   --highlight-10-selected: #9dbbdc;
 
-  --highlight-affectedDocument-default: #ffebfe;
-  --highlight-affectedDocument-hover: #ffb7fb;
-  --highlight-affectedDocument-selected: #ffb7fb;
+  --highlight-affected-document-default: #ffebfe;
+  --highlight-affected-document-hover: #ffb7fb;
+  --highlight-affected-document-selected: #ffb7fb;
 
   /* Quoted Structure */
-  --highlight-quotedStructure-hover-background: #e5f7ff;
-  --highlight-quotedStructure-hover-border: #4299f7;
-  --highlight-quotedStructure-selected-content: #b9e8ff;
-  --highlight-quotedStructure-selected-border: #004b76;
+  --highlight-quoted-structure-hover-background: #e5f7ff;
+  --highlight-quoted-structure-hover-border: #4299f7;
+  --highlight-quoted-structure-selected-content: #b9e8ff;
+  --highlight-quoted-structure-selected-border: #004b76;
 
   /* Element Select */
-  --elementSelect-default-border: #004b76;
-  --elementSelect-selected-background: #b0effe;
-  --elementSelect-selected-border: #000;
-  --elementSelect-hover-background: #d6f7fe;
-  --elementSelect-hover-border: #004b76;
+  --element-select-default-border: #004b76;
+  --element-select-selected-background: #b0effe;
+  --element-select-selected-border: #000;
+  --element-select-hover-background: #d6f7fe;
+  --element-select-hover-border: #004b76;
+}
 
-  --font-family-mono:
-    ui-monospace, Cascadia Code, Source Code Pro, Menlo, Consolas,
-    DejaVu Sans Mono, monospace;
+/* Default state classes */
+.bg-highlight-1-default {
+  background-color: var(--highlight-1-default);
+}
+.bg-highlight-2-default {
+  background-color: var(--highlight-2-default);
+}
+.bg-highlight-3-default {
+  background-color: var(--highlight-3-default);
+}
+.bg-highlight-4-default {
+  background-color: var(--highlight-4-default);
+}
+.bg-highlight-5-default {
+  background-color: var(--highlight-5-default);
+}
+.bg-highlight-6-default {
+  background-color: var(--highlight-6-default);
+}
+.bg-highlight-7-default {
+  background-color: var(--highlight-7-default);
+}
+.bg-highlight-8-default {
+  background-color: var(--highlight-8-default);
+}
+.bg-highlight-9-default {
+  background-color: var(--highlight-9-default);
+}
+.bg-highlight-10-default {
+  background-color: var(--highlight-10-default);
+}
+.bg-highlight-default-default {
+  background-color: var(--highlight-default-default);
+}
+
+/* Selected state classes */
+.bg-highlight-1-selected {
+  background-color: var(--highlight-1-selected);
+}
+.bg-highlight-2-selected {
+  background-color: var(--highlight-2-selected);
+}
+.bg-highlight-3-selected {
+  background-color: var(--highlight-3-selected);
+}
+.bg-highlight-4-selected {
+  background-color: var(--highlight-4-selected);
+}
+.bg-highlight-5-selected {
+  background-color: var(--highlight-5-selected);
+}
+.bg-highlight-6-selected {
+  background-color: var(--highlight-6-selected);
+}
+.bg-highlight-7-selected {
+  background-color: var(--highlight-7-selected);
+}
+.bg-highlight-8-selected {
+  background-color: var(--highlight-8-selected);
+}
+.bg-highlight-9-selected {
+  background-color: var(--highlight-9-selected);
+}
+.bg-highlight-10-selected {
+  background-color: var(--highlight-10-selected);
+}
+.bg-highlight-default-selected {
+  background-color: var(--highlight-default-selected);
+}
+
+/* Hover state classes */
+.hover\:bg-highlight-1-hover:hover {
+  background-color: var(--highlight-1-hover);
+}
+.hover\:bg-highlight-2-hover:hover {
+  background-color: var(--highlight-2-hover);
+}
+.hover\:bg-highlight-3-hover:hover {
+  background-color: var(--highlight-3-hover);
+}
+.hover\:bg-highlight-4-hover:hover {
+  background-color: var(--highlight-4-hover);
+}
+.hover\:bg-highlight-5-hover:hover {
+  background-color: var(--highlight-5-hover);
+}
+.hover\:bg-highlight-6-hover:hover {
+  background-color: var(--highlight-6-hover);
+}
+.hover\:bg-highlight-7-hover:hover {
+  background-color: var(--highlight-7-hover);
+}
+.hover\:bg-highlight-8-hover:hover {
+  background-color: var(--highlight-8-hover);
+}
+.hover\:bg-highlight-9-hover:hover {
+  background-color: var(--highlight-9-hover);
+}
+.hover\:bg-highlight-10-hover:hover {
+  background-color: var(--highlight-10-hover);
+}
+.hover\:bg-highlight-default-hover:hover {
+  background-color: var(--highlight-default-hover);
+}
+
+/* Focus state classes */
+.focus\:bg-highlight-1-hover:focus {
+  background-color: var(--highlight-1-hover);
+}
+.focus\:bg-highlight-2-hover:focus {
+  background-color: var(--highlight-2-hover);
+}
+.focus\:bg-highlight-3-hover:focus {
+  background-color: var(--highlight-3-hover);
+}
+.focus\:bg-highlight-4-hover:focus {
+  background-color: var(--highlight-4-hover);
+}
+.focus\:bg-highlight-5-hover:focus {
+  background-color: var(--highlight-5-hover);
+}
+.focus\:bg-highlight-6-hover:focus {
+  background-color: var(--highlight-6-hover);
+}
+.focus\:bg-highlight-7-hover:focus {
+  background-color: var(--highlight-7-hover);
+}
+.focus\:bg-highlight-8-hover:focus {
+  background-color: var(--highlight-8-hover);
+}
+.focus\:bg-highlight-9-hover:focus {
+  background-color: var(--highlight-9-hover);
+}
+.focus\:bg-highlight-10-hover:focus {
+  background-color: var(--highlight-10-hover);
+}
+.focus\:bg-highlight-default-hover:focus {
+  background-color: var(--highlight-default-hover);
 }
