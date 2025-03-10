@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,9 +14,16 @@ import org.w3c.dom.Node;
 @Service
 class PrototypeCleanupService {
 
-  private static final Set<String> SHOULD_STAY = Set.of("entryIntoForce", "expiry", "standangabe");
+  private static final Set<String> SHOULD_STAY = Set.of(
+    "entryIntoForce",
+    "expiry",
+    "standangabe",
+    "ausserkraft",
+    "vollzitat"
+  );
 
   public Norm clean(Norm norm) {
+    // TODO should use a copy
     Set<Dokument> dokumente = norm.getDokumente();
     for (Dokument dokument : dokumente) {
       cleanRisMetadata(dokument);
@@ -60,8 +68,7 @@ class PrototypeCleanupService {
     String shouldStayConcat = SHOULD_STAY
       .stream()
       .map(s -> "self::" + s) // Prefix each element with "self::"
-      .reduce((a, b) -> a + " or " + b) // Concatenate with " or "
-      .orElse("");
+      .collect(Collectors.joining(" or "));
     return "./*[not(" + shouldStayConcat + ")]";
   }
 }
