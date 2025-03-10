@@ -137,11 +137,7 @@ watch(hasSaved, (finished) => {
 
         <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
-        <RisLawPreview
-          v-else
-          class="ds-textarea grow p-2"
-          :content="render ?? ''"
-        />
+        <RisLawPreview v-else class="grow p-2" :content="render ?? ''" />
       </section>
 
       <section class="flex flex-col gap-8" aria-label="Metadaten dokumentieren">
@@ -165,31 +161,28 @@ watch(hasSaved, (finished) => {
               <div class="space-y-10">
                 <div class="flex items-center">
                   <RadioButton
-                    :id="artNormSnId"
                     v-model="artNorm"
+                    :input-id="artNormSnId"
                     value="SN"
                     name="artNorm"
-                    data-testid="radio-sn"
                   />
                   <label :for="artNormSnId">SN - Stammnorm</label>
                 </div>
                 <div class="flex items-center">
                   <RadioButton
-                    :id="artNormAnId"
                     v-model="artNorm"
+                    :input-id="artNormAnId"
                     value="ÄN"
                     name="artNorm"
-                    data-testid="radio-an"
                   />
                   <label :for="artNormAnId">ÄN - Änderungsnorm</label>
                 </div>
                 <div class="flex items-center">
                   <RadioButton
-                    :id="artNormUnId"
                     v-model="artNorm"
+                    :input-id="artNormUnId"
                     value="ÜN"
                     name="artNorm"
-                    data-testid="radio-un"
                   />
                   <label :for="artNormUnId">ÜN - Übergangsnorm</label>
                 </div>

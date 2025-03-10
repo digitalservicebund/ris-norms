@@ -324,11 +324,7 @@ watch(hasSaved, (finished) => {
 
         <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
-        <RisLawPreview
-          v-else
-          class="ds-textarea grow p-2"
-          :content="render ?? ''"
-        />
+        <RisLawPreview v-else class="grow p-2" :content="render ?? ''" />
       </section>
 
       <section class="flex flex-col gap-8" aria-label="Metadaten dokumentieren">
@@ -367,30 +363,15 @@ watch(hasSaved, (finished) => {
             <label :for="artNormSnId" class="self-start"> Art der Norm </label>
             <div class="space-y-10">
               <div class="flex items-center">
-                <Checkbox
-                  :id="artNormSnId"
-                  v-model="artNormSN"
-                  binary
-                  data-testid="checkbox-sn"
-                />
+                <Checkbox v-model="artNormSN" :input-id="artNormSnId" binary />
                 <label :for="artNormSnId">SN - Stammnorm</label>
               </div>
               <div class="flex items-center">
-                <Checkbox
-                  :id="artNormAnId"
-                  v-model="artNormAN"
-                  binary
-                  data-testid="checkbox-an"
-                />
+                <Checkbox v-model="artNormAN" :input-id="artNormAnId" binary />
                 <label :for="artNormAnId">ÄN - Änderungsnorm</label>
               </div>
               <div class="flex items-center">
-                <Checkbox
-                  :id="artNormUnId"
-                  v-model="artNormUN"
-                  binary
-                  data-testid="checkbox-un"
-                />
+                <Checkbox v-model="artNormUN" :input-id="artNormUnId" binary />
                 <label :for="artNormUnId">ÜN - Übergangsnorm</label>
               </div>
             </div>
@@ -434,10 +415,9 @@ watch(hasSaved, (finished) => {
               Beschlussf. qual. Mehrheit
             </label>
             <Checkbox
-              :id="qualifizierteMehrheitId"
               v-model="qualifizierteMehrheit"
+              :input-id="qualifizierteMehrheitId"
               binary
-              data-testid="checkbox-qualifizierte-mehrheit"
             />
           </fieldset>
 
