@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,7 @@ public class FrontendFallbackController {
    * @return Forward to index.html.
    */
   @GetMapping(value = { "/app/", "/app/{path:[^\\.]*}" })
-  public String serveIndexHtml(@PathVariable String path) {
+  public String serveIndexHtml(@PathVariable Optional<String> path) {
     return "forward:/app/index.html";
   }
 }
