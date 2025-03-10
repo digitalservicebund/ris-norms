@@ -200,7 +200,7 @@ jobs:
           - 5432:5432
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
-      - uses: joshuaavalon/flyway-action@81e2f01520d51d5fb5cb2ef828229adc5820aa2d
+      - uses: joshuaavalon/flyway-action@a0c3f735cf6bcd4efe9b2be6482492a19f4155ab
         with:
           url: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
           user: ${{ env.POSTGRES_USER }}
