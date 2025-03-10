@@ -20,13 +20,13 @@ const variant = computed<"simple" | "extended">(() =>
   <div
     data-testid="empty-state"
     :data-variant="variant"
-    class="rounded border-2 border-dashed border-blue-500 bg-gray-100 px-48 py-24 text-center text-xl text-gray-900 data-[variant=extended]:bg-white"
+    class="rounded-sm border-2 border-dashed border-blue-500 bg-gray-100 px-48 py-24 text-center text-xl text-gray-900 data-[variant=extended]:bg-white"
   >
     <component
       :is="icon"
       v-if="icon"
       data-testid="empty-state-icon"
-      class="ds-button-icon mx-auto mb-16 text-4xl text-blue-700"
+      class="mx-auto mb-16 text-4xl text-blue-700"
     />
 
     <p class="my-4">{{ textContent }}</p>

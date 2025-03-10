@@ -45,7 +45,7 @@ watch(
       <RisErrorCallout :error="error ?? loadXmlError" />
     </div>
     <RisLoadingSpinner v-else-if="isFetching || isFetchingXml" />
-    <div v-else class="rounded-sm bg-white px-24 py-24 shadow-md">
+    <div v-else class="rounded-xs bg-white px-24 py-24 shadow-md">
       <RisLawPreview
         :content="amendingLawHtml ?? ''"
         :e-id-classes="classesForPreview"
@@ -56,10 +56,14 @@ watch(
 
 <style scoped>
 :deep(.akn-affectedDocument) {
-  @apply bg-highlight-affectedDocument-default px-2 outline outline-dotted outline-1 outline-blue-800;
+  background-color: var(--highlight-affected-document-default);
+  padding-inline: var(--spacing-2);
+  outline: 1px dotted var(--color-blue-800);
 }
 
 :deep(.akn-affectedDocument):hover {
-  @apply bg-highlight-affectedDocument-hover px-2 outline outline-dotted outline-2 outline-blue-800;
+  background-color: var(--highlight-affected-document-hover);
+  padding-inline: var(--spacing-2);
+  outline: 2px dotted var(--color-blue-800);
 }
 </style>
