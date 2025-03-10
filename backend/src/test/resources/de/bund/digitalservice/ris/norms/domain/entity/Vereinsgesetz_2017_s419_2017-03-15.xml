@@ -176,6 +176,9 @@
                   <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:entryIntoForce date="2017-03-16" />
+            </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
        <!-- Dokumentenkopf -->

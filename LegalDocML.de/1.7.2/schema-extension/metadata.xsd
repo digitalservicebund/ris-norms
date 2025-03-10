@@ -32,6 +32,8 @@
                             maxOccurs="unbounded"/>
                 <xs:element name="artDerNorm" type="ArtDerNormFrameType" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="einzelelement" type="EinzelelementType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="entryIntoForce" type="EntryIntoForceType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="expiry" type="ExpiryType" minOccurs="0" maxOccurs="1"/>
             </xs:choice>
         </xs:complexType>
     </xs:element>
@@ -122,10 +124,27 @@
         </xs:simpleContent>
     </xs:complexType>
 
+    <xs:complexType name="EntryIntoForceType">
+        <xs:attribute name="date" type="dateLiterals" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="ExpiryType">
+        <xs:attribute name="date" type="dateLiterals" use="required"/>
+    </xs:complexType>
+
     <xs:simpleType name="eId-verweis">
         <xs:restriction base="xs:string">
             <xs:pattern
                     value="#(([a-zäöüß0-9]+-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)_)*((para|art|preambel|einleitung|schluss)-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)"/>
         </xs:restriction>
     </xs:simpleType>
+
+   <xs:simpleType name="dateLiterals">
+      <xs:annotation>
+         <xs:documentation>Ein maschinenlesbares Datum, formatiert als JJJJ-MM-TT. Diese Datumsangabe bezieht sich auf die zum zu referenzierenden Zeitpunkt in der Bundesrepublik Deutschland gültige Zeitzone.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:date">
+         <xs:pattern value="[12][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[0-1])"/>
+      </xs:restriction>
+   </xs:simpleType>
 </xs:schema>

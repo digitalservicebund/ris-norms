@@ -43,7 +43,9 @@ public enum Metadata {
     "qualifizierteMehrheit",
     true
   ),
-  ORGANISATIONS_EINHEIT(Namespace.METADATEN_RIS, "./organisationsEinheit", "organisationsEinheit");
+  ORGANISATIONS_EINHEIT(Namespace.METADATEN_RIS, "./organisationsEinheit", "organisationsEinheit"),
+  EXPIRY(Namespace.METADATEN_RIS, "./expiry/@date", "date", true),
+  ENTRY_INTO_FORCE(Namespace.METADATEN_RIS, "./entryIntoForce/@date", "date", true);
 
   private final Namespace namespace;
   private final String xpath;
