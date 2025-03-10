@@ -8,11 +8,12 @@
 </template>
 
 <style module>
-@reference "tailwindcss"
 /* Managing size and color as a separate class with a 0-specificity selector so
 they can be easily overridden using classes on the RisLoadingSpinner component.
 See RisLoadingSpinner.story.vue for an example. */
 :where(.spinner) {
-  @apply h-32 w-32 border-blue-700;
+  height: var(--spacing-32);
+  width: var(--spacing-32);
+  border-color: var(--color-blue-700);
 }
 </style>
