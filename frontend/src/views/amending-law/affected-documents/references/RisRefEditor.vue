@@ -4,7 +4,7 @@ import Select from "primevue/select"
 import { useRef } from "@/views/amending-law/affected-documents/references/useRef"
 import { useDebounceFn } from "@vueuse/core"
 import Button from "primevue/button"
-import { ref, watch, nextTick } from "vue"
+import { ref, watch, nextTick, ComponentPublicInstance } from "vue"
 import CloseIcon from "~icons/ic/close"
 import InputText from "primevue/inputtext"
 
@@ -56,14 +56,14 @@ const updateXmlSnippet = useDebounceFn((newXmlSnippet) => {
 
 const { refersTo, href } = useRef(xmlSnippet, updateXmlSnippet)
 
-const inputEl = ref<HTMLInputElement | null>(null)
+const inputEl = ref<ComponentPublicInstance | null>(null)
 
 watch(
   () => props.grabFocus,
   async (val) => {
     if (val && inputEl.value) {
       await nextTick()
-      ;(inputEl.value as HTMLInputElement)?.focus()
+      inputEl.value.$el.focus()
     }
   },
   { immediate: true },
