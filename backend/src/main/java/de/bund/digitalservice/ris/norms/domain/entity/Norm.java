@@ -147,7 +147,12 @@ public class Norm {
    * @return The manifestation Eli
    */
   public NormManifestationEli getManifestationEli() {
-    return getRegelungstext1().getManifestationEli().asNormEli();
+    return dokumente
+      .stream()
+      .findFirst()
+      .map(Dokument::getManifestationEli)
+      .orElseThrow()
+      .asNormEli();
   }
 
   /**
