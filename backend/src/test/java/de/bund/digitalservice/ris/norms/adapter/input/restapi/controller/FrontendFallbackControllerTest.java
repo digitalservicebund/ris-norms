@@ -31,6 +31,14 @@ class FrontendFallbackControllerTest {
   }
 
   @Test
+  void itShouldNormalizeSlashesInApp() throws Exception {
+    mockMvc
+      .perform(get("/app"))
+      .andExpect(status().is3xxRedirection())
+      .andExpect(redirectedUrl("/app/"));
+  }
+
+  @Test
   void itShouldServeTheFrontendWhenRequestingApp() throws Exception {
     mockMvc
       .perform(get("/app/"))

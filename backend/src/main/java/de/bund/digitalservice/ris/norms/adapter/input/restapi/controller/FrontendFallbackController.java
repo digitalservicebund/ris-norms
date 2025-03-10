@@ -21,7 +21,7 @@ public class FrontendFallbackController {
    *
    * @return Redirect to the app.
    */
-  @GetMapping(value = { "/" })
+  @GetMapping(value = { "/", "/app" })
   public String redirectToApp() {
     return "redirect:/app/";
   }
