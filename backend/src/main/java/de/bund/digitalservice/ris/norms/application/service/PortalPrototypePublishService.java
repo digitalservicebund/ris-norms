@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -126,14 +127,10 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private boolean isNormAllowedToBePublished(Norm norm) {
     var amtlicheAbkuerzung = norm.getShortTitle();
 
-    if (amtlicheAbkuerzung.isEmpty()) {
-      return false;
-    }
-
-    // TODO: (Malte Laukötter, 2025-03-10) check entry into force
-
-    // TODO: (Malte Laukötter, 2025-03-10) check expiry
-
-    return publishingAllowlist.contains(amtlicheAbkuerzung.get());
+    return (
+      amtlicheAbkuerzung.isPresent() &&
+      publishingAllowlist.contains(amtlicheAbkuerzung.get()) &&
+      norm.isInkraftAt(LocalDate.now())
+    );
   }
 }

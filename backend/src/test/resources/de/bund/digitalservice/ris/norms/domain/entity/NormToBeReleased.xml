@@ -143,6 +143,8 @@
                <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                   <ris:artDerNorm end="unbestimmt" start="1980-01-01">SN</ris:artDerNorm>
                </ris:einzelelement>
+               <ris:entryIntoForce date="2023-12-30" />
+               <ris:expiry date="2030-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
