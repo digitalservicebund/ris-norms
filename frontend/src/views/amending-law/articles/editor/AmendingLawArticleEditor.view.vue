@@ -225,7 +225,7 @@ watch(loadXmlError, (err) => {
                 </div>
                 <RisLawPreview
                   v-else
-                  class="amendingLawPreview ds-textarea grow p-2"
+                  class="amendingLawPreview grow p-2"
                   :content="articleHtml ?? ''"
                   :selected="selectedMods"
                   :e-id-classes="classesForPreview"

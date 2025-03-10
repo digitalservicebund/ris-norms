@@ -143,7 +143,7 @@ function handlePreviewRender(container: HTMLElement) {
 <template>
   <div class="overflow-hidden">
     <RisLawPreview
-      class="ds-textarea col-start-1 row-start-1 h-full min-h-[100px] grow cursor-text p-2"
+      class="col-start-1 row-start-1 h-full min-h-[100px] grow cursor-text p-2"
       :content="render ?? ''"
       @focusin="handleSelectionStart"
       @focusout="handleSelectionEnd"

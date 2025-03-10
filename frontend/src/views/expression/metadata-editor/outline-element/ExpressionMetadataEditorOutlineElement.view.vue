@@ -52,11 +52,7 @@ const {
 
         <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
-        <RisLawPreview
-          v-else
-          class="ds-textarea grow p-2"
-          :content="render ?? ''"
-        />
+        <RisLawPreview v-else class="grow p-2" :content="render ?? ''" />
       </section>
 
       <section

@@ -95,11 +95,7 @@ const {
         <div v-else-if="loadPreviewHtmlError">
           <RisErrorCallout :error="loadPreviewHtmlError" />
         </div>
-        <RisLawPreview
-          v-else
-          class="ds-textarea grow p-2"
-          :content="previewHtml ?? ''"
-        />
+        <RisLawPreview v-else class="grow p-2" :content="previewHtml ?? ''" />
       </template>
 
       <template #xml>

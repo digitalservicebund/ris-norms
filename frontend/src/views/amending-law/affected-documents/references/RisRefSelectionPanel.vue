@@ -138,7 +138,7 @@ function eidToSlotName(eid: string) {
     />
     <div v-else ref="preview" class="grid grow grid-cols-1 overflow-auto">
       <RisLawPreview
-        class="ds-textarea col-start-1 row-start-1 min-h-[100px] grow p-2"
+        class="col-start-1 row-start-1 min-h-[100px] grow p-2"
         :content="render ?? ''"
         :selected="selectedRef ? [selectedRef] : []"
         :e-id-classes="selectedRef ? { [selectedRef]: ['relative'] } : {}"
