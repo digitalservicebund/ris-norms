@@ -367,15 +367,30 @@ watch(hasSaved, (finished) => {
             <label :for="artNormSnId" class="self-start"> Art der Norm </label>
             <div class="space-y-10">
               <div class="flex items-center">
-                <Checkbox :id="artNormSnId" v-model="artNormSN" binary />
+                <Checkbox
+                  :id="artNormSnId"
+                  v-model="artNormSN"
+                  binary
+                  data-testid="checkbox-sn"
+                />
                 <label :for="artNormSnId">SN - Stammnorm</label>
               </div>
               <div class="flex items-center">
-                <Checkbox :id="artNormAnId" v-model="artNormAN" binary />
+                <Checkbox
+                  :id="artNormAnId"
+                  v-model="artNormAN"
+                  binary
+                  data-testid="checkbox-an"
+                />
                 <label :for="artNormAnId">ÄN - Änderungsnorm</label>
               </div>
               <div class="flex items-center">
-                <Checkbox :id="artNormUnId" v-model="artNormUN" binary />
+                <Checkbox
+                  :id="artNormUnId"
+                  v-model="artNormUN"
+                  binary
+                  data-testid="checkbox-un"
+                />
                 <label :for="artNormUnId">ÜN - Übergangsnorm</label>
               </div>
             </div>
@@ -422,6 +437,7 @@ watch(hasSaved, (finished) => {
               :id="qualifizierteMehrheitId"
               v-model="qualifizierteMehrheit"
               binary
+              data-testid="checkbox-qualifizierte-mehrheit"
             />
           </fieldset>
 

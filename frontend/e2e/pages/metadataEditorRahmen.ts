@@ -24,15 +24,9 @@ export class MetadataEditorRahmenPage {
     this.documentTypeDropdown = page.getByRole("combobox", {
       name: "Dokumenttyp",
     })
-    this.artSnCheckbox = page.getByRole("checkbox", {
-      name: "SN - Stammnorm",
-    })
-    this.artAnCheckbox = page.getByRole("checkbox", {
-      name: "ÄN - Änderungsnorm",
-    })
-    this.artUnCheckbox = page.getByRole("checkbox", {
-      name: "ÜN - Übergangsnorm",
-    })
+    this.artSnCheckbox = page.getByTestId("checkbox-sn").getByRole("checkbox")
+    this.artAnCheckbox = page.getByTestId("checkbox-an").getByRole("checkbox")
+    this.artUnCheckbox = page.getByTestId("checkbox-un").getByRole("checkbox")
     this.bezeichnungInput = page.getByRole("textbox", {
       name: "Bezeichnung gemäß Vorlage",
     })
@@ -42,9 +36,9 @@ export class MetadataEditorRahmenPage {
     this.organDropdown = page.getByRole("combobox", {
       name: "beschließendes Organ",
     })
-    this.qualMehrheitCheckbox = page.getByRole("checkbox", {
-      name: "Beschlussf. qual. Mehrheit",
-    })
+    this.qualMehrheitCheckbox = page
+      .getByTestId("checkbox-qualifizierte-mehrheit")
+      .getByRole("checkbox")
     this.ressortDropdown = page.getByRole("combobox", {
       name: "Ressort",
     })

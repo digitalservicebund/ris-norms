@@ -169,6 +169,7 @@ watch(hasSaved, (finished) => {
                     v-model="artNorm"
                     value="SN"
                     name="artNorm"
+                    data-testid="radio-sn"
                   />
                   <label :for="artNormSnId">SN - Stammnorm</label>
                 </div>
@@ -178,6 +179,7 @@ watch(hasSaved, (finished) => {
                     v-model="artNorm"
                     value="ÄN"
                     name="artNorm"
+                    data-testid="radio-an"
                   />
                   <label :for="artNormAnId">ÄN - Änderungsnorm</label>
                 </div>
@@ -187,6 +189,7 @@ watch(hasSaved, (finished) => {
                     v-model="artNorm"
                     value="ÜN"
                     name="artNorm"
+                    data-testid="radio-un"
                   />
                   <label :for="artNormUnId">ÜN - Übergangsnorm</label>
                 </div>

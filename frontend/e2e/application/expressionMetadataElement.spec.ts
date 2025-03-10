@@ -168,15 +168,9 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
 
     test.beforeAll(() => {
       // Given
-      artSnRadio = sharedPage.getByRole("radio", {
-        name: "SN - Stammnorm",
-      })
-      artAnRadio = sharedPage.getByRole("radio", {
-        name: "ÄN - Änderungsnorm",
-      })
-      artUnRadio = sharedPage.getByRole("radio", {
-        name: "ÜN - Übergangsnorm",
-      })
+      artSnRadio = sharedPage.getByTestId("radio-sn").getByRole("radio")
+      artAnRadio = sharedPage.getByTestId("radio-an").getByRole("radio")
+      artUnRadio = sharedPage.getByTestId("radio-un").getByRole("radio")
     })
 
     test("saves changes", async () => {
