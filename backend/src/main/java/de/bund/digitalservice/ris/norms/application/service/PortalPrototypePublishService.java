@@ -8,11 +8,17 @@ import de.bund.digitalservice.ris.norms.application.port.output.PublishChangelog
 import de.bund.digitalservice.ris.norms.application.port.output.PublishNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,18 +35,35 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private final PublishChangelogPort publishChangelogPort;
   private final LoadNormPort loadNormPort;
 
+  private final List<String> publishingAllowlist = new ArrayList<>();
+
   public PortalPrototypePublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
     @Qualifier("portalPrototype") PublishNormPort publishNormPort,
     @Qualifier("portalPrototype") DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort,
     @Qualifier("portalPrototype") PublishChangelogPort publishChangelogsPort,
-    LoadNormPort loadNormPort
+    LoadNormPort loadNormPort,
+    @Value(
+      "classpath:/portal-prototype-publishing-allowlist.txt"
+    ) Resource portalPrototypePublishingAllowlist
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.publishNormPort = publishNormPort;
     this.deleteAllPublishedDokumentePort = deleteAllPublishedDokumentePort;
     this.publishChangelogPort = publishChangelogsPort;
     this.loadNormPort = loadNormPort;
+
+    try {
+      this.publishingAllowlist.addAll(
+          Files.readAllLines(portalPrototypePublishingAllowlist.getFile().toPath())
+        );
+    } catch (IOException e) {
+      log.error(
+        "Could not read portal prototype publishing allowlist. Do not allow publishing of any norms.",
+        e
+      );
+      this.publishingAllowlist.clear();
+    }
   }
 
   @Override
@@ -63,7 +86,13 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
         return;
       }
 
-      // TODO: (Malte Laukötter, 2025-03-07) check if norm is allowed to be published
+      if (!isNormAllowedToBePublished(norm.get())) {
+        log.info(
+          "Norm with manifestation eli {} is not allowed to be published to the prototype",
+          eli
+        );
+        return;
+      }
 
       // TODO: (Malte Laukötter, 2025-03-07) clean up norm
       // TODO: (Malte Laukötter, 2025-03-07) also run the cleanup from the normal PublishService
@@ -92,5 +121,19 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     publishChangelogPort.publishChangelogs(new PublishChangelogPort.Command(false));
 
     log.info("Publish job for portal prototype successfully completed.");
+  }
+
+  private boolean isNormAllowedToBePublished(Norm norm) {
+    var amtlicheAbkuerzung = norm.getShortTitle();
+
+    if (amtlicheAbkuerzung.isEmpty()) {
+      return false;
+    }
+
+    // TODO: (Malte Laukötter, 2025-03-10) check entry into force
+
+    // TODO: (Malte Laukötter, 2025-03-10) check expiry
+
+    return publishingAllowlist.contains(amtlicheAbkuerzung.get());
   }
 }
