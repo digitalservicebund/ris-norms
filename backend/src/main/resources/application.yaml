@@ -18,6 +18,8 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${oauth2.issuer-uri}
+  mvc:
+    static-path-pattern: /app/**
 
 # expose health endpoint
 management:

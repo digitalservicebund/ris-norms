@@ -8,7 +8,7 @@ scopeconfig:
   - scope: node
 fileignoreconfig:
   - filename: frontend/e2e/application/loginAndLogout.spec.ts
-    checksum: b5ca854a92ebf2360f028a6c5cde6003afeb65a182c0e84274b72ff38bed3861
+    checksum: 1cdb8050dbfbaedd08659620e6b6f848ce3255fd8518cdeb1d49b526c5aa8d55
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
     checksum: e252d2546a75459a49ac1c4073dd76a3a48861b64843b11fa8271b675490cfd8
   - filename: frontend/src/main.ts

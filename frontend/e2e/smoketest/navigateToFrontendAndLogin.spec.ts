@@ -5,10 +5,20 @@ test.describe(
   "navigate to frontend and log in",
   { tag: ["@RISDEV-6811"] },
   () => {
-    test("frontend is served", async ({ page }) => {
-      const waitForFrontend = page.waitForResponse("/")
+    test("redirects to frontend from root", async ({ page }) => {
+      const waitForFrontend = page.waitForResponse("/app/")
 
       await page.goto("/")
+
+      const frontend = await waitForFrontend
+
+      expect(frontend.ok()).toBe(true)
+    })
+
+    test("frontend is served from /app/", async ({ page }) => {
+      const waitForFrontend = page.waitForResponse("/app/")
+
+      await page.goto("./")
 
       const frontend = await waitForFrontend
 
@@ -19,7 +29,7 @@ test.describe(
       page,
       appCredentials,
     }) => {
-      await page.goto("/amending-laws/upload")
+      await page.goto("./amending-laws/upload")
       await expect(page.getByText("Anmelden bei NeuRIS Staging")).toBeVisible()
 
       await page
@@ -32,7 +42,7 @@ test.describe(
 
       await page.getByRole("button", { name: "Anmelden" }).click()
 
-      await page.waitForURL("/amending-laws/upload")
+      await page.waitForURL("/app/amending-laws/upload")
       await expect(page.getByRole("heading", { name: "Upload" })).toBeVisible()
     })
   },

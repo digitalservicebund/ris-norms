@@ -5,7 +5,7 @@ test("shows an error message when the environment can't be loaded", async ({
   page,
 }) => {
   await page.route("**/environment", (route) => route.abort())
-  await page.goto("/")
+  await page.goto("./")
   const errorContainer = page.getByRole("alert")
   await expect(errorContainer).toBeVisible()
 

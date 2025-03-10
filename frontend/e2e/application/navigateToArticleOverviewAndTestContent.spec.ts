@@ -5,12 +5,12 @@ import { expect } from "@playwright/test"
 test.describe("Articles page", () => {
   test(`navigate to articles overview`, async ({ page }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     )
     await page.getByRole("link", { name: "Artikelübersicht" }).click()
 
     await expect(page).toHaveURL(
-      `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles`,
+      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles",
     )
     await expect(
       page.getByRole("heading", { name: "Enthaltene Artikel" }),
@@ -22,7 +22,7 @@ test.describe("Articles page", () => {
       page,
     }) => {
       // Navigation
-      await page.goto(`/amending-laws/${amendingLaw.eli}/articles`)
+      await page.goto(`./amending-laws/${amendingLaw.eli}/articles`)
 
       // Menu
       const locator = page.getByRole("link", { name: "Artikelübersicht" })
@@ -47,7 +47,7 @@ test.describe("Articles page", () => {
 
       // Back
       await page.getByRole("link", { name: "Zurück" }).click()
-      await expect(page).toHaveURL("/amending-laws")
+      await expect(page).toHaveURL("/app/amending-laws")
     })
   }
 })
