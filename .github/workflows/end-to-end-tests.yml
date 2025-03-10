@@ -53,7 +53,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
       - name: Run E2E tests in ${{ inputs.project }} against localhost
         env:
-          E2E_BASE_URL: "http://localhost:5173/app"
+          E2E_BASE_URL: "http://localhost:5173/app/"
           TZ: "Europe/Berlin"
         run: |
           echo "Running E2E tests for ${{ inputs.project }}"
