@@ -195,6 +195,22 @@ public class Proprietary {
       );
   }
 
+  /**
+   * Gets the date the expression enters into force
+   * @return the date of the entry into force
+   */
+  public Optional<LocalDate> getInkrafttreteDatum() {
+    return getMetadataValue(Metadata.ENTRY_INTO_FORCE).map(LocalDate::parse);
+  }
+
+  /**
+   * Gets the date the expression is no longer in force
+   * @return the date of the expiry
+   */
+  public Optional<LocalDate> getAusserkrafttreteDatum() {
+    return getMetadataValue(Metadata.EXPIRY).map(LocalDate::parse);
+  }
+
   private Optional<Element> getMetadataParent(final Namespace namespace) {
     return NodeParser.getElementFromExpression(
       "./Q{" + namespace.getNamespaceUri() + "}legalDocML.de_metadaten",

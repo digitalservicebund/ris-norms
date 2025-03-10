@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -180,6 +181,28 @@ public class Norm {
    */
   public Optional<String> getShortTitle() {
     return getRegelungstext1().getShortTitle();
+  }
+
+  /**
+   * Returns if the norm is in force at the given date
+   * @param date the date to check
+   * @return true if the norm is currently in force
+   */
+  public boolean isInkraftAt(LocalDate date) {
+    var inkrafttreteDatum = getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getInkrafttreteDatum);
+    var ausserkrafttreteDatum = getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getAusserkrafttreteDatum);
+
+    return (
+      inkrafttreteDatum.isPresent() &&
+      inkrafttreteDatum.get().isBefore(date) &&
+      (ausserkrafttreteDatum.isEmpty() || ausserkrafttreteDatum.get().isAfter(date))
+    );
   }
 
   @Override
