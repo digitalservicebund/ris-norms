@@ -424,7 +424,7 @@ const slots: SetupContext["slots"] = useSlots()
 }
 
 .default-norm-style :deep(:is(thead, td:first-child)) {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .default-norm-style :deep(thead) {
@@ -524,11 +524,11 @@ const slots: SetupContext["slots"] = useSlots()
 }
 
 .default-norm-style :deep(.akn-longTitle) {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .default-norm-style :deep(.akn-quotedStructure .akn-longTitle) {
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
 }
 
 .default-norm-style :deep(.akn-quotedText::before) {
@@ -549,7 +549,7 @@ const slots: SetupContext["slots"] = useSlots()
 
 .default-norm-style :deep(.akn-shortTitle) {
   display: block;
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
 }
 
 :deep([role="button"]) {

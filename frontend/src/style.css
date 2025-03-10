@@ -70,6 +70,10 @@
   --element-select-selected-border: #000;
   --element-select-hover-background: #d6f7fe;
   --element-select-hover-border: #004b76;
+
+  /* Font weights */
+  --font-weight-normal: normal;
+  --font-weight-bold: bold;
 }
 
 /* Default state classes */
