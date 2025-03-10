@@ -33,7 +33,9 @@ public class FrontendFallbackController {
    * @param path The requested path (will be handled by the frontend).
    * @return Forward to index.html.
    */
-  @GetMapping(value = { "/app/", "/app/{path:[^\\.]*}" })
+  @GetMapping(
+    value = { "/app/", "/app/{path:^(?!assets|.*\\.).*}", "/app/{path:^(?!assets|.*\\.).*}/**" }
+  )
   public String serveIndexHtml(@PathVariable Optional<String> path) {
     return "forward:/app/index.html";
   }
