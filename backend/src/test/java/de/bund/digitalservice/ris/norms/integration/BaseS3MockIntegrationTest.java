@@ -12,6 +12,7 @@ public abstract class BaseS3MockIntegrationTest extends BaseIntegrationTest {
 
   protected static final String PUBLIC_BUCKET = "public";
   protected static final String PRIVATE_BUCKET = "private";
+  protected static final String PORTAL_PROTOTYPE_BUCKET = "portal-prototype";
 
   @AfterEach
   void emptyDir() throws Exception {
@@ -43,6 +44,14 @@ public abstract class BaseS3MockIntegrationTest extends BaseIntegrationTest {
     return Paths.get(
       LOCAL_STORAGE_PATH,
       PRIVATE_BUCKET,
+      regelungstext.getManifestationEli().toString()
+    );
+  }
+
+  protected static Path getPortalPrototypePath(Dokument regelungstext) {
+    return Paths.get(
+      LOCAL_STORAGE_PATH,
+      PORTAL_PROTOTYPE_BUCKET,
       regelungstext.getManifestationEli().toString()
     );
   }
