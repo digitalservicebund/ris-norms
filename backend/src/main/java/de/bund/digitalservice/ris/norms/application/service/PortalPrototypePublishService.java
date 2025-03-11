@@ -28,19 +28,22 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private final DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort;
   private final PublishChangelogPort publishChangelogPort;
   private final LoadNormPort loadNormPort;
+  private final PrototypeCleanupService prototypeCleanupService;
 
   public PortalPrototypePublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
     @Qualifier("portalPrototype") PublishNormPort publishNormPort,
     @Qualifier("portalPrototype") DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort,
     @Qualifier("portalPrototype") PublishChangelogPort publishChangelogsPort,
-    LoadNormPort loadNormPort
+    LoadNormPort loadNormPort,
+    PrototypeCleanupService prototypeCleanupService
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.publishNormPort = publishNormPort;
     this.deleteAllPublishedDokumentePort = deleteAllPublishedDokumentePort;
     this.publishChangelogPort = publishChangelogsPort;
     this.loadNormPort = loadNormPort;
+    this.prototypeCleanupService = prototypeCleanupService;
   }
 
   @Override
@@ -65,7 +68,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
 
       // TODO: (Malte Laukötter, 2025-03-07) check if norm is allowed to be published
 
-      // TODO: (Malte Laukötter, 2025-03-07) clean up norm
+      prototypeCleanupService.clean(norm.get());
       // TODO: (Malte Laukötter, 2025-03-07) also run the cleanup from the normal PublishService
 
       try {
