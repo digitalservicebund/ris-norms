@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+/**
+ * Service responsible for cleaning up all {@link Dokument}s contained in a {@link Norm} since in the prototype
+ * not all available data can be published due to legal obligations
+ */
 @Service
-class PrototypeCleanupService {
+public class PrototypeCleanupService {
 
   private static final Set<String> SHOULD_STAY = Set.of(
     "entryIntoForce",
@@ -20,6 +24,22 @@ class PrototypeCleanupService {
     "vollzitat"
   );
 
+  /**
+   * Cleans the metadata and lifecycle events of all documents associated with the given {@link Norm}.
+   * <p>
+   * This method iterates through each {@link Dokument} in the provided {@link Norm} and applies a series of
+   * metadata-cleaning operations. Specifically, it:
+   * <ul>
+   *   <li>Removes metadata from RIS-specific elements.</li>
+   *   <li>Deletes regular metadata.</li>
+   *   <li>Deletes metadata associated with the German federal government.</li>
+   *   <li>Removes specific notes related to amendments.</li>
+   *   <li>Modifies lifecycle events so the real date of the event is hidden.</li>
+   * </ul>
+   *
+   * @param norm The {@link Norm} containing the documents to be cleaned.
+   * @return The cleaned {@link Norm} with updated metadata and lifecycle events.
+   */
   public Norm clean(Norm norm) {
     Set<Dokument> dokumente = norm.getDokumente();
     for (Dokument dokument : dokumente) {
