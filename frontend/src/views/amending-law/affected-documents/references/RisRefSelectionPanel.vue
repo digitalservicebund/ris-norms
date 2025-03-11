@@ -181,19 +181,19 @@ function eidToSlotName(eid: string) {
 }
 
 :deep(.akn-ref) {
-  background-color: var(--highlight-1-default);
+  background-color: var(--color-highlight-1-default);
   padding-inline: var(--spacing-2);
   outline: 1px dotted var(--color-blue-800);
 }
 
 :deep(.akn-ref):hover {
-  background-color: var(--highlight-1-hover);
+  background-color: var(--color-highlight-1-hover);
   padding-inline: var(--spacing-2);
   outline: 2px dotted var(--color-blue-800);
 }
 
 :deep(.akn-ref.selected) {
-  background-color: var(--highlight-1-selected);
+  background-color: var(--color-highlight-1-selected);
   padding-inline: var(--spacing-2);
   outline: 2px dotted var(--color-blue-800);
 }

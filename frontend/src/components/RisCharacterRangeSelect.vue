@@ -156,6 +156,6 @@ function handlePreviewRender(container: HTMLElement) {
 
 <style scoped>
 ::highlight(current-character-range) {
-  @apply bg-highlight-1-selected;
+  background-color: var(--color-highlight-1-selected);
 }
 </style>
