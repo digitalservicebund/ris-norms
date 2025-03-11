@@ -33,7 +33,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-@ControllerTest(TimeBoundaryController.class)
+@SecurelessControllerTest(TimeBoundaryController.class)
 class TimeBoundaryControllerTest {
 
   @Autowired

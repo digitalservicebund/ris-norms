@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-@ControllerTest(EnvironmentController.class)
+@SecurelessControllerTest(EnvironmentController.class)
 @TestPropertySource(
   properties = {
     "sentry.environment=test",

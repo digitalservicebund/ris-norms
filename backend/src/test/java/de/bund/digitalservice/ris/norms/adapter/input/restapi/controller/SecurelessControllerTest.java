@@ -16,7 +16,7 @@ import org.springframework.core.annotation.AliasFor;
     SecurityAutoConfiguration.class, OAuth2ResourceServerAutoConfiguration.class,
   }
 )
-public @interface ControllerTest {
+public @interface SecurelessControllerTest {
   @AliasFor(annotation = WebMvcTest.class, attribute = "controllers")
   Class<?> value();
 }
