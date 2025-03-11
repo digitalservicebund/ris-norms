@@ -123,18 +123,15 @@ jobs:
           cat backend/build.gradle.kts
 
       - name: Commit and Push Changes (if needed)
+        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
         working-directory: ./backend
         run: |
-          if test $(git diff --cached --quiet --exit-code; echo $?) -gt 0
-          then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git commit -m "Auto-update: Manage pinned dependencies based on CVE results"
-            git pull --rebase
-            git push
-          else
-            echo "Nothing to commit and push this time."
-          fi
+          git add gradle/libs.versions.toml build.gradle.kts  # Ensure the modified files are staged
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Auto-update: Manage pinned dependencies based on CVE results"
+          git pull --rebase
+          git push
 
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
