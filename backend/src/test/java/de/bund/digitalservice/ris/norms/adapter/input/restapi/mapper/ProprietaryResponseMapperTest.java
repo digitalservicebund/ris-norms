@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -168,7 +169,7 @@ class ProprietaryResponseMapperTest {
       // When
       var responseSchema = ProprietaryResponseMapper.fromProprietarySingleElement(
         proprietary,
-        "hauptteil-1_abschnitt-0_art-1"
+        new EId("hauptteil-1_abschnitt-0_art-1")
       );
 
       // Then
@@ -197,7 +198,7 @@ class ProprietaryResponseMapperTest {
       // When
       var responseSchema = ProprietaryResponseMapper.fromProprietarySingleElement(
         proprietary,
-        "hauptteil-1_abschnitt-0_art-1"
+        new EId("hauptteil-1_abschnitt-0_art-1")
       );
 
       // Then
@@ -223,7 +224,7 @@ class ProprietaryResponseMapperTest {
       // When
       var responseSchema = ProprietaryResponseMapper.fromProprietarySingleElement(
         proprietary,
-        "hauptteil-1_abschnitt-0_art-1"
+        new EId("hauptteil-1_abschnitt-0_art-1")
       );
 
       // Then
@@ -247,7 +248,7 @@ class ProprietaryResponseMapperTest {
       // When
       var responseSchema = ProprietaryResponseMapper.fromProprietarySingleElement(
         proprietary,
-        "hauptteil-1_abschnitt-0_art-1"
+        new EId("hauptteil-1_abschnitt-0_art-1")
       );
 
       // Then

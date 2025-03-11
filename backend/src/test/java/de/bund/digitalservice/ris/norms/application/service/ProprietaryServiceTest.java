@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -210,7 +211,7 @@ class ProprietaryServiceTest {
     @Test
     void returnsUpdatedProprietaryNode() {
       // given
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
       );
@@ -233,7 +234,7 @@ class ProprietaryServiceTest {
       var result = proprietaryService.updateProprietarySingleElementFromDokument(
         new UpdateProprietarySingleElementFromDokumentUseCase.Query(
           eli,
-          eid,
+          eid.toString(),
           new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata("SN")
         )
       );

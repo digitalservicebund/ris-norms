@@ -145,7 +145,10 @@ class ProprietaryTest {
         )
       );
       assertThat(
-        proprietary.getMetadataValue(Metadata.ART_DER_NORM, "hauptteil-1_abschnitt-0_art-1")
+        proprietary.getMetadataValue(
+          Metadata.ART_DER_NORM,
+          new EId("hauptteil-1_abschnitt-0_art-1")
+        )
       )
         .contains("SN");
     }
@@ -169,7 +172,10 @@ class ProprietaryTest {
         )
       );
       assertThat(
-        proprietary.getMetadataValue(Metadata.ART_DER_NORM, "hauptteil-1_abschnitt-0_art-1")
+        proprietary.getMetadataValue(
+          Metadata.ART_DER_NORM,
+          new EId("hauptteil-1_abschnitt-0_art-1")
+        )
       )
         .isEmpty();
     }
@@ -190,7 +196,10 @@ class ProprietaryTest {
         )
       );
       assertThat(
-        proprietary.getMetadataValue(Metadata.ART_DER_NORM, "hauptteil-1_abschnitt-0_art-1")
+        proprietary.getMetadataValue(
+          Metadata.ART_DER_NORM,
+          new EId("hauptteil-1_abschnitt-0_art-1")
+        )
       )
         .isEmpty();
     }
@@ -209,7 +218,10 @@ class ProprietaryTest {
         )
       );
       assertThat(
-        proprietary.getMetadataValue(Metadata.ART_DER_NORM, "hauptteil-1_abschnitt-0_art-1")
+        proprietary.getMetadataValue(
+          Metadata.ART_DER_NORM,
+          new EId("hauptteil-1_abschnitt-0_art-1")
+        )
       )
         .isEmpty();
     }
@@ -673,7 +685,7 @@ class ProprietaryTest {
 
     @Test
     void setNewValueMetadataPresent() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
@@ -702,7 +714,7 @@ class ProprietaryTest {
     @Test
     @SuppressWarnings("java:S5976") // so that tests are more readable and parameterization not needed.
     void setNewValueMetadataAbsent() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
@@ -729,7 +741,7 @@ class ProprietaryTest {
 
     @Test
     void setNewValueEinzelElementAbsent() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
@@ -748,7 +760,7 @@ class ProprietaryTest {
 
     @Test
     void setNewValueParentAbsent() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
@@ -771,7 +783,7 @@ class ProprietaryTest {
 
     @Test
     void setValueToEmptyString() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
@@ -799,7 +811,7 @@ class ProprietaryTest {
 
     @Test
     void setValueToNull() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
@@ -827,7 +839,7 @@ class ProprietaryTest {
 
     @Test
     void setValueToEmptyStringAndRemoveEinzelelement() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
@@ -861,7 +873,7 @@ class ProprietaryTest {
 
     @Test
     void setValueToEmptyStringAndNotRemoveEinzelelement() {
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(

@@ -39,10 +39,13 @@ public class Proprietary {
    * @param eId - of the single element
    * @return the value or an optional empty
    */
-  public Optional<String> getMetadataValue(final Metadata metadata, final String eId) {
+  public Optional<String> getMetadataValue(final Metadata metadata, final EId eId) {
     return getMetadataParent(Namespace.METADATEN_RIS)
       .flatMap(parent ->
-        NodeParser.getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eId), parent)
+        NodeParser.getNodeFromExpression(
+          "./einzelelement[@href='#%s']".formatted(eId.toString()),
+          parent
+        )
       )
       .flatMap(einzelElement ->
         NodeParser.getValueFromExpression(metadata.getXpath(), einzelElement)
@@ -93,7 +96,7 @@ public class Proprietary {
    * @param eId - the ID of the single element
    * @param newValue - the new value to be set
    */
-  public void setMetadataValue(final Metadata metadata, final String eId, final String newValue) {
+  public void setMetadataValue(final Metadata metadata, final EId eId, final String newValue) {
     final Element parent = getOrCreateMetadataParent(metadata.getNamespace());
     final Element einzelElement = getOrCreateEinzelElement(parent, eId);
     final Element metadataNode = getOrCreateNode(einzelElement, metadata);
@@ -243,9 +246,9 @@ public class Proprietary {
     return current;
   }
 
-  private Element getOrCreateEinzelElement(final Element parent, final String eId) {
+  private Element getOrCreateEinzelElement(final Element parent, final EId eId) {
     return NodeParser
-      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eId), parent)
+      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eId.toString()), parent)
       .orElseGet(() -> {
         Element einzelElement = NodeCreator.createElement(
           Namespace.METADATEN_RIS,

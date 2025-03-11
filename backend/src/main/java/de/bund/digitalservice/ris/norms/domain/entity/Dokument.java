@@ -195,16 +195,6 @@ public abstract class Dokument {
   }
 
   /**
-   * Searches for a given eId and returns the number of matches.
-   *
-   * @param eId the eId of the element to search for.
-   * @return the number of nodes for a given eId.
-   */
-  public int getNumberOfNodesWithEid(String eId) {
-    return getElementsFromExpression("//*[@eId='%s']".formatted(eId), document).size();
-  }
-
-  /**
    * Returns the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to return

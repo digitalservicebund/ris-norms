@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryFrameSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
@@ -62,7 +63,7 @@ public class ProprietaryResponseMapper {
    */
   public static ProprietarySingleElementSchema fromProprietarySingleElement(
     final Proprietary proprietary,
-    final String eid
+    final EId eid
   ) {
     return ProprietarySingleElementSchema
       .builder()
