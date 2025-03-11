@@ -114,7 +114,7 @@ jobs:
         run: ./gradlew spotlessApply # when running locally with act ad "--no-watch-fs" to disable Gradle's file system watcher, not working because containerized env with act
 
       - name: Print formatted touched files
-        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
+        if: ${{ env.CHANGES_MADE == 'true' }}
         run: |
           echo "######### TOML file: ##########"
           cat backend/gradle/libs.versions.toml
@@ -123,14 +123,22 @@ jobs:
           cat backend/build.gradle.kts
 
       - name: Commit and Push Changes (if needed)
-        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
+        if: ${{ env.CHANGES_MADE == 'true' }}
         working-directory: ./backend
-        run: |
-          git add gradle/libs.versions.toml build.gradle.kts  # Ensure the modified files are staged
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "Auto-update: Manage pinned dependencies based on CVE results"
-          git push
+        run: git add gradle/libs.versions.toml build.gradle.kts
+
+      # Creates commit via GH API using the GITHUB_TOKEN that is generated for every job automatically. Good explanation here:
+      # https://github.com/Nautilus-Cyberneering/pygithub/blob/main/docs/how_to_sign_automatic_commits_in_github_actions.md#solution-01-using-the-temporary-github_token-generated-for-each-workflow-job
+      - name: Create Commit with GPG Signature
+        uses: qoomon/actions--create-commit@dfef4d264de752be6d6195a4d61a2f3d3262d406
+        id: commit
+        with:
+          message: "Auto-update: Manage pinned dependencies based on CVE results"
+          skip-empty: true
+
+      - name: Push Changes
+        if: ${{ steps.commit.outputs.commit }}
+        run: git push
 
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
