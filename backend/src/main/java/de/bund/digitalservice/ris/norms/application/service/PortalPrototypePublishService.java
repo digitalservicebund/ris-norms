@@ -4,22 +4,17 @@ import de.bund.digitalservice.ris.norms.application.port.input.PublishNormsToPor
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteAllPublishedDokumentePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadPortalPublishingAllowListPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishChangelogPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,8 +30,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private final DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort;
   private final PublishChangelogPort publishChangelogPort;
   private final LoadNormPort loadNormPort;
-
-  private final List<String> publishingAllowlist = new ArrayList<>();
+  private final LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort;
 
   public PortalPrototypePublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
@@ -44,27 +38,14 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     @Qualifier("portalPrototype") DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort,
     @Qualifier("portalPrototype") PublishChangelogPort publishChangelogsPort,
     LoadNormPort loadNormPort,
-    @Value(
-      "classpath:/portal-prototype-publishing-allowlist.txt"
-    ) Resource portalPrototypePublishingAllowlist
+    LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.publishNormPort = publishNormPort;
     this.deleteAllPublishedDokumentePort = deleteAllPublishedDokumentePort;
     this.publishChangelogPort = publishChangelogsPort;
     this.loadNormPort = loadNormPort;
-
-    try {
-      this.publishingAllowlist.addAll(
-          Files.readAllLines(portalPrototypePublishingAllowlist.getFile().toPath())
-        );
-    } catch (IOException e) {
-      log.error(
-        "Could not read portal prototype publishing allowlist. Do not allow publishing of any norms.",
-        e
-      );
-      this.publishingAllowlist.clear();
-    }
+    this.loadPortalPublishingAllowListPort = loadPortalPublishingAllowListPort;
   }
 
   @Override
@@ -88,10 +69,6 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
       }
 
       if (!isNormAllowedToBePublished(norm.get())) {
-        log.info(
-          "Norm with manifestation eli {} is not allowed to be published to the prototype",
-          eli
-        );
         return;
       }
 
@@ -127,10 +104,35 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private boolean isNormAllowedToBePublished(Norm norm) {
     var amtlicheAbkuerzung = norm.getShortTitle();
 
-    return (
-      amtlicheAbkuerzung.isPresent() &&
-      publishingAllowlist.contains(amtlicheAbkuerzung.get()) &&
-      norm.isInkraftAt(LocalDate.now())
-    );
+    if (amtlicheAbkuerzung.isEmpty()) {
+      log.info(
+        "Norm {} could not be published to portal-prototype (amtliche-abkuerzung is empty)",
+        norm.getManifestationEli().toString()
+      );
+      return false;
+    }
+
+    if (
+      !loadPortalPublishingAllowListPort
+        .loadPortalPublishingAllowListPort()
+        .contains(amtlicheAbkuerzung.get())
+    ) {
+      log.info(
+        "Norm {} could not be published to portal-prototype (amtliche-abkuerzung {} is not allowed to be published)",
+        norm.getManifestationEli().toString(),
+        amtlicheAbkuerzung.orElse("")
+      );
+      return false;
+    }
+
+    if (!norm.isInkraftAt(LocalDate.now())) {
+      log.info(
+        "Norm {} could not be published to portal-prototype (it is not inkraft)",
+        norm.getManifestationEli().toString()
+      );
+      return false;
+    }
+
+    return true;
   }
 }
