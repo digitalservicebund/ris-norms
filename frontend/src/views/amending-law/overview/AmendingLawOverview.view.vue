@@ -56,13 +56,13 @@ watch(
 
 <style scoped>
 :deep(.akn-affectedDocument) {
-  background-color: var(--highlight-affected-document-default);
+  background-color: var(--color-highlight-affected-document-hover);
   padding-inline: var(--spacing-2);
   outline: 1px dotted var(--color-blue-800);
 }
 
 :deep(.akn-affectedDocument):hover {
-  background-color: var(--highlight-affected-document-hover);
+  background-color: var(--color-highlight-affected-document-hover);
   padding-inline: var(--spacing-2);
   outline: 2px dotted var(--color-blue-800);
 }
