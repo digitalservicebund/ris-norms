@@ -78,12 +78,8 @@ public record Href(@JsonValue String value) {
    *
    * @return The parent's eId of the href or empty if no eid is included.
    */
-  public Optional<String> getParentEId() {
-    Optional<String> wholeEid = getEId().map(EId::toString);
-    if (wholeEid.isPresent()) {
-      int lastUnderscoreIndex = wholeEid.get().lastIndexOf("_");
-      return Optional.of(wholeEid.get().substring(0, lastUnderscoreIndex));
-    } else return Optional.empty();
+  public Optional<EId> getParentEId() {
+    return getEId().flatMap(EId::getParent);
   }
 
   /**

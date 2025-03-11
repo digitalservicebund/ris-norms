@@ -33,6 +33,20 @@ public record EId(String value) {
   }
 
   /**
+   * Gets the parent eId if it exists. This means the EId without the last part.
+   * @return the eId without the last part
+   */
+  public Optional<EId> getParent() {
+    int lastUnderscoreIndex = value.lastIndexOf("_");
+
+    if (lastUnderscoreIndex == -1) {
+      return Optional.empty();
+    }
+
+    return Optional.of(new EId(value.substring(0, lastUnderscoreIndex)));
+  }
+
+  /**
    * Get the EId of a node's @eId property.
    *
    * @param node the node with an @eId property

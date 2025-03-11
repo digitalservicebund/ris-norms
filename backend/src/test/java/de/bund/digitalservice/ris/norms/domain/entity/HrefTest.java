@@ -114,7 +114,7 @@ class HrefTest {
       var eId = href.getParentEId();
 
       // then
-      assertThat(eId).contains("hauptteil-1_art-20");
+      assertThat(eId).contains(new EId("hauptteil-1_art-20"));
     }
   }
 
