@@ -1,8 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
-import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import java.util.Set;
@@ -23,13 +21,13 @@ class PrototypeCleanupService {
   );
 
   public Norm clean(Norm norm) {
-    // TODO should use a copy
     Set<Dokument> dokumente = norm.getDokumente();
     for (Dokument dokument : dokumente) {
       cleanRisMetadata(dokument);
       cleanRegularMetaData(dokument);
       cleanBundesRegierungMetaData(dokument);
       cleanNotes(dokument);
+      cleanLifecycleEvents(dokument);
     }
 
     return norm;
@@ -63,6 +61,16 @@ class PrototypeCleanupService {
     var nodesToDelete = NodeParser.getNodesFromExpression(query, metadataElement);
     for (Node node : nodesToDelete) {
       node.getParentNode().removeChild(node);
+    }
+  }
+
+  private void cleanLifecycleEvents(Dokument dokument) {
+    Element metadataElement = dokument.getMeta().getElement();
+    String query =
+      "//eventRef[not(@type='generation' and @refersTo='ausfertigung') and not(@type='generation' and @refersTo='inkrafttreten')]";
+    var nodesToChange = NodeParser.getElementsFromExpression(query, metadataElement);
+    for (Element element : nodesToChange) {
+      element.setAttribute("date", "1001-01-01");
     }
   }
 

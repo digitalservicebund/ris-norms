@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 class PrototypeCleanupServiceTest {
@@ -145,5 +146,33 @@ class PrototypeCleanupServiceTest {
     assertThat(notes).hasSize(1);
     assertThat(notes.getFirst().getAttributes().getNamedItem("refersTo").getNodeValue())
       .isEqualTo("kommentierende-fussnote");
+  }
+
+  @Test
+  void cleanZeitgrenzenMetadata() {
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+
+    underTest.clean(norm);
+
+    List<Node> eventRefs = NodeParser.nodeListToList(
+      norm.getRegelungstext1().getDocument().getElementsByTagName("akn:eventRef")
+    );
+    assertThat(eventRefs).hasSize(27);
+
+    for (Node eventRef : eventRefs) {
+      Element event = (Element) eventRef;
+      String type = event.getAttribute("type");
+      String refersTo = event.getAttribute("refersTo");
+      String date = event.getAttribute("date");
+
+      if (
+        ("generation".equals(type) && "ausfertigung".equals(refersTo)) ||
+        ("generation".equals(type) && "inkrafttreten".equals(refersTo))
+      ) {
+        assertThat(date).isNotEqualTo("1001-01-01");
+      } else {
+        assertThat(date).isEqualTo("1001-01-01");
+      }
+    }
   }
 }
