@@ -6,7 +6,7 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import { ComputedRef, computed, ref, watch, nextTick } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
-import { TreeNode } from "primevue/treenode"
+import { type TreeNode } from "primevue/treenode"
 import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
 import ChevronDownIcon from "~icons/ic/baseline-keyboard-arrow-down"
 import { useGetNormTableOfContents } from "@/services/tocService"
