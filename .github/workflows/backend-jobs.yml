@@ -174,3 +174,54 @@ jobs:
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  generate-entity-relationship-diagram:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: [backend-build]
+    env:
+      POSTGRES_DB: ris-erd
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_DB: ris-erd
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name postgres
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2
+      - uses: joshuaavalon/flyway-action@a0c3f735cf6bcd4efe9b2be6482492a19f4155ab
+        with:
+          url: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
+          user: ${{ env.POSTGRES_USER }}
+          password: ${{ env.POSTGRES_PASSWORD }}
+          locations: filesystem:./backend/src/main/resources/db/migration
+      - name: Generate mermaid ER-diagram
+        uses: digitalservicebund/export-entity-relationship-diagram@c022c18a7a9e4fce71cece7ff907a952ba5c11c8
+        with:
+          configFile: ./backend/mermerd.config.yaml
+          connectionString: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@localhost:5432/${{ env.POSTGRES_DB }}
+          outputFile: latest.mmd
+          flags: --debug
+          version: 0.12.0
+      - name: Upload mermaid ER-diagram
+        uses: actions/upload-artifact@v4
+        with:
+          name: erdiagram
+          retention-days: 3
+          path: latest.mmd
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
+        if: ${{ failure()}}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

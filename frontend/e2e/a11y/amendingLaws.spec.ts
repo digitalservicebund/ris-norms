@@ -9,7 +9,7 @@ test.describe(
     test("Should have no detectable accessibility violations", async ({
       page,
     }) => {
-      await page.goto("/amending-laws")
+      await page.goto("./amending-laws")
       await expect(
         page.getByRole("button", {
           name: "Verkündung manuell hinzufügen",

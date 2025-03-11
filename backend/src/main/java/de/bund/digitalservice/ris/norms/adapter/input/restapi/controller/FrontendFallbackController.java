@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,19 +15,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class FrontendFallbackController {
 
   /**
-   * Serves index.html for all unmatched routes, excluding requests for static resources.
-   * This ensures Vue Router can handle client-side routing.
+   * When calling "/", redirect to "/app". This allows users to access the frontend by calling
+   * just the domain at which the app is hosted, but still have all frontend-related resources
+   * collected inside "/app".
    *
-   * @param path The requested path.
+   * @return Redirect to the app.
+   */
+  @GetMapping(value = { "/", "/app" })
+  public String redirectToApp() {
+    return "redirect:/app/";
+  }
+
+  /**
+   * Serves index.html for all unmatched routes inside "/app", excluding requests for static
+   * resources. This ensures Vue Router can handle client-side routing.
+   *
+   * @param path The requested path (will be handled by the frontend).
    * @return Forward to index.html.
    */
   @GetMapping(
-    value = {
-      "/{path:^(?!assets|api|environment|.*\\.).*}",
-      "/{path:^(?!assets|api|environment|.*\\.).*}/**",
-    }
+    value = { "/app/", "/app/{path:^(?!assets|.*\\.).*}", "/app/{path:^(?!assets|.*\\.).*}/**" }
   )
-  public String serveIndexHtml(@PathVariable String path) {
-    return "forward:/index.html";
+  public String serveIndexHtml(@PathVariable Optional<String> path) {
+    return "forward:/app/index.html";
   }
 }

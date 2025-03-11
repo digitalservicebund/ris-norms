@@ -45,14 +45,10 @@ public class SecurityConfig {
             "/.well-known/security.txt",
             "/actuator/health/**",
             "/actuator/prometheus",
-            "/favicon.svg",
-            "/index.html",
             "/environment",
-            "/assets/**",
             // Frontend routes
             "/",
-            "/eli/**",
-            "/amending-laws/**"
+            "/app/**"
           )
           .permitAll()
           .requestMatchers("/api/**")

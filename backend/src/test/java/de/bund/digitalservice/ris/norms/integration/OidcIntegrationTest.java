@@ -38,7 +38,7 @@ class OidcIntegrationTest extends BaseIntegrationTest {
   void shouldServeFrontendWhenLoggedOut() throws Exception {
     // when
     mvc
-      .perform(get("/amending-laws").accept(MediaType.TEXT_HTML))
+      .perform(get("/app/amending-laws").accept(MediaType.TEXT_HTML))
       // then
       .andExpect(status().is2xxSuccessful());
   }

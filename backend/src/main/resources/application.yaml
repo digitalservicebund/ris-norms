@@ -18,6 +18,8 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${oauth2.issuer-uri}
+  mvc:
+    static-path-pattern: /app/**
 
 # expose health endpoint
 management:
@@ -52,6 +54,9 @@ otc:
 
 publish:
   cron: "0 0 23 * * 0-4" # Runs at 11:00 PM UTC, which is 12:00 AM Berlin time in CET (Winter) and 1:00 AM in CEST (Summer) Mo-Fr
+  portal-prototype:
+    # TODO: (Malte Laukötter, 2025-03-07) replace this dummy (basically never running) cron expression with something more reasonable.
+    cron: "0 0 0 1 1 1"
 
 frontend:
   auth:

@@ -219,7 +219,7 @@ function resetUploadPage() {
       </div>
 
       <Message v-if="errorMessage" severity="error" class="w-full">
-        <p class="ris-label1-bold mb-6 mt-4">{{ errorMessage.title }}</p>
+        <p class="ris-label1-bold mt-4 mb-6">{{ errorMessage.title }}</p>
         <p v-if="errorMessage.message" class="ris-label1-regular">
           {{ errorMessage.message }}
         </p>
@@ -234,7 +234,7 @@ function resetUploadPage() {
         <label :for="errorListId" class="sr-only">Fehlerliste</label>
         <output
           :id="errorListId"
-          class="block w-full overflow-auto whitespace-pre bg-white p-16 font-mono text-sm"
+          class="block w-full overflow-auto bg-white p-16 font-mono text-sm whitespace-pre"
         >
           {{ errorList }}
         </output>

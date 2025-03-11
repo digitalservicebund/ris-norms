@@ -6,7 +6,7 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import { ComputedRef, computed, ref, watch, nextTick } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Tree from "primevue/tree"
-import { TreeNode } from "primevue/treenode"
+import { type TreeNode } from "primevue/treenode"
 import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
 import ChevronDownIcon from "~icons/ic/baseline-keyboard-arrow-down"
 import { useGetNormTableOfContents } from "@/services/tocService"
@@ -112,7 +112,7 @@ const resetSelectionKeys = () => {
 <template>
   <div class="h-[calc(100dvh-5rem)] bg-gray-100">
     <div
-      class="grid h-full grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] bg-gray-100"
+      class="grid h-full grid-cols-[16rem_1fr] grid-rows-[5rem_1fr] bg-gray-100"
     >
       <RisHeader class="col-span-2">
         <aside
@@ -164,7 +164,7 @@ const resetSelectionKeys = () => {
               <router-link
                 v-if="node.data.route"
                 :to="node.data.route"
-                class="w-full overflow-hidden truncate text-ellipsis"
+                class="w-full truncate overflow-hidden text-ellipsis"
                 :title="node.data.primaryLabel"
                 tabindex="-1"
                 @click="toggleNode(node)"
@@ -175,7 +175,7 @@ const resetSelectionKeys = () => {
               <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
               <span
                 v-else
-                class="w-full overflow-hidden truncate text-ellipsis"
+                class="w-full truncate overflow-hidden text-ellipsis"
                 :title="node.data.primaryLabel"
                 tabindex="-1"
                 @click="toggleNode(node)"
@@ -186,7 +186,7 @@ const resetSelectionKeys = () => {
               <router-link
                 v-if="node.data.secondaryLabel"
                 :to="node.data.route"
-                class="ris-label2-regular w-full overflow-hidden truncate text-ellipsis"
+                class="ris-label2-regular w-full truncate overflow-hidden text-ellipsis"
                 :title="node.data.secondaryLabel"
                 tabindex="-1"
                 @click="toggleNode(node)"

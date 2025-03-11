@@ -51,7 +51,7 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
       );
     final Path publicFilePath = getPublicPath(norm.getRegelungstext1());
     assertThat(Files.exists(publicFilePath)).isTrue();
-    final Path privateFilePath = getPublicPath(norm.getRegelungstext1());
+    final Path privateFilePath = getPrivatePath(norm.getRegelungstext1());
     assertThat(Files.exists(privateFilePath)).isTrue();
   }
 }

@@ -71,7 +71,6 @@ node --run test:browsers -- [testfile] --debug # Debugs a specific test
 # Run tests in a specific browser:
 node --run test:e2e -- --project chromium --repeat-each 1
 node --run test:e2e -- --project firefox --repeat-each 1
-node --run test:e2e -- --project msedge --repeat-each 1
 ```
 
 ### Accessibility tests

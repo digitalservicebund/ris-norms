@@ -11,7 +11,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
 
       await expect(
@@ -26,7 +26,7 @@ test.describe(
 
     test("publishing a norm", async ({ page }) => {
       await page.goto(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
 
       await page.getByRole("button", { name: "Jetzt abgeben" }).click()
@@ -56,7 +56,7 @@ test.describe(
       authenticatedRequest: request,
     }) => {
       await page.goto(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
 
       // We'll use a metadatum to check if something changed; first verify it's not there
@@ -91,7 +91,7 @@ test.describe(
       authenticatedRequest: request,
     }) => {
       await page.goto(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
       )
 
       // We'll use a metadatum to check if something changed; first verify it's not there

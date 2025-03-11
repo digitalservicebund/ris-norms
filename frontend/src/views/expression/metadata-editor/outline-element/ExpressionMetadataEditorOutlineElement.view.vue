@@ -37,14 +37,14 @@ const {
 
   <div v-else class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
-      <div class="flex-grow">
+      <div class="grow">
         <h2 class="ris-label2-bold">
           {{ element?.title }}
         </h2>
       </div>
     </div>
 
-    <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-16">
+    <div class="gap grid min-h-0 grow grid-cols-2 grid-rows-1 gap-16">
       <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
           <RisLoadingSpinner />
@@ -52,11 +52,7 @@ const {
 
         <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
-        <RisLawPreview
-          v-else
-          class="ds-textarea flex-grow p-2"
-          :content="render ?? ''"
-        />
+        <RisLawPreview v-else class="grow p-2" :content="render ?? ''" />
       </section>
 
       <section

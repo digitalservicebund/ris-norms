@@ -57,6 +57,21 @@ class NormTest {
   }
 
   @Test
+  void getManifestationEliNoRegelungsText() {
+    // given
+    Norm norm = Fixtures.loadNormFromDisk("OffeneStruktur.xml");
+    NormManifestationEli expectedEli = NormManifestationEli.fromString(
+      "eli/bund/bgbl-1/2020/s3092/2020-12-23/1/deu/2022-08-23"
+    );
+
+    // when
+    var actualEli = norm.getManifestationEli();
+
+    // then
+    assertThat(actualEli).isEqualTo(expectedEli);
+  }
+
+  @Test
   void getGuid() {
     // given
     String normString =

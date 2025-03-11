@@ -6,7 +6,7 @@ test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
     page,
   }) => {
     await page.goto(
-      "/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/outline/hauptteil-1_abschnitt-1",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata/outline/hauptteil-1_abschnitt-1",
     )
 
     await expect(

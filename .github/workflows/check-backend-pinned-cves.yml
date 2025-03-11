@@ -1,0 +1,139 @@
+# This workflow checks and manages pinned dependencies in the backend project due to CVEs. Here's the process:
+# 1. It comments out pinned dependencies in the build.gradle.kts file.
+# 2. It rebuilds the Docker image.
+# 3. It runs a Trivy vulnerability scan on the newly created image.
+# 4. It checks if the pinned dependencies are still needed:
+#    - If a CVE is not found in the Trivy output, the pinned dependency is removed from both the build.gradle.kts file and the toml file.
+#    - If the CVE is still present, it restores the commented-out dependency in build.gradle.kts.
+# 5. If changes are made, it runs the Spotless formatter and shows the output.
+# 6. It commits and pushes the changes if any are made.
+
+name: "Check and Remove Unnecessary CVE-Pinned Backend Dependencies"
+
+on:
+  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: "0 3 * * 1" # Mondays at 4am (winter) or 5am (summer) Berlin time
+
+jobs:
+  check_backend_pinned_dependencies:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21.0"
+          distribution: "temurin"
+          cache: gradle
+
+      - name: Extract and Comment Out Pinned Dependencies
+        working-directory: ./backend
+        run: |
+          echo "Extracting pinned dependencies..."
+          grep -A1 "# CVE-" gradle/libs.versions.toml | grep -v "^--$" > pinned_deps.txt || true
+
+          while read -r comment; do
+            if [[ "$comment" == "# CVE-"* ]]; then
+              # Extract the CVE ID
+              last_cve=$(echo "$comment" | sed 's/^# //' | xargs)
+            else
+              # Extract dependency name
+              dep_name=$(echo "$comment" | cut -d'=' -f1 | xargs)
+              formatted_dep_name=${dep_name//-/.}  # Replace dashes with dots
+              full_dep="libs.$formatted_dep_name"  # Add "libs."
+              # Comment out the implementation line in build.gradle.kts
+              sed -i "/implementation($full_dep)/s/^/\/\/ /" build.gradle.kts
+
+              echo "Commented out $dep_name ($last_cve)"
+            fi
+          done < pinned_deps.txt
+
+      - name: Build docker image
+        run: docker build -t my-app:test --secret id=SENTRY_DSN,env=SENTRY_DSN --secret id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN .
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+      - name: Run Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@a11da62073708815958ea6d84f5650c78a3ef85b
+        env:
+          ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
+          TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db,public.ecr.aws/aquasecurity/trivy-java-db
+        with:
+          image-ref: my-app:test
+          format: "json"
+          output: "trivy-results.json"
+
+      - name: Extract CVE IDs
+        run: |
+          echo "Checking Trivy results..."
+          jq -r '.Results[].Vulnerabilities?[]?.VulnerabilityID' trivy-results.json > found_cves.txt
+
+          echo "Found CVEs"
+          cat found_cves.txt
+
+      - name: Iterate pinned dependencies and update files
+        working-directory: ./backend
+        run: |
+          echo "Restoring or removing dependencies based on CVE results..."
+
+          while read -r comment; do
+            if [[ "$comment" == "# CVE-"* ]]; then
+              # Extract the CVE ID
+              last_cve=$(echo "$comment" | sed 's/^# //' | xargs)
+            else
+              dep_name=$(echo "$comment" | cut -d'=' -f1 | xargs)
+              formatted_dep_name=${dep_name//-/.}  # Replace dashes with dots
+              full_dep="libs.$formatted_dep_name"  # Add "libs."
+
+              # If CVE is found in found_cves.txt, uncomment the implementation line
+              if grep -q "$last_cve" ../found_cves.txt; then
+                echo "$last_cve still present. Restoring $dep_name."
+                # Uncomment the implementation line in build.gradle.kts
+                sed -i "s#^\s*//\s*implementation($full_dep)#implementation($full_dep)#" build.gradle.kts
+              else
+                echo "$last_cve is gone. Removing $dep_name."
+                # Remove the commented-out dependency lines from build.gradle.kts
+                sed -i "/^\s*\/\/\s*implementation($full_dep)/d" build.gradle.kts
+                # Remove pair of lines with comment with CVE id and dependency
+                sed -i "/# $last_cve/,+1d" gradle/libs.versions.toml
+                echo "CHANGES_MADE=true" >> $GITHUB_ENV
+              fi
+            fi
+          done < pinned_deps.txt
+
+      - name: Run spotless
+        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
+        working-directory: ./backend
+        run: ./gradlew spotlessApply # when running locally with act ad "--no-watch-fs" to disable Gradle's file system watcher, not working because containerized env with act
+
+      - name: Print formatted touched files
+        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
+        run: |
+          echo "######### TOML file: ##########"
+          cat backend/gradle/libs.versions.toml
+
+          echo "######### GRADLE file: ##########"
+          cat backend/build.gradle.kts
+
+      - name: Commit and Push Changes (if needed)
+        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
+        working-directory: ./backend
+        run: |
+          git add gradle/libs.versions.toml build.gradle.kts  # Ensure the modified files are staged
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Auto-update: Manage pinned dependencies based on CVE results"
+          git push
+
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
+        if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

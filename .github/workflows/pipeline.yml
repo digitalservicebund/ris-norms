@@ -188,7 +188,7 @@ jobs:
       - name: Install Playwright browsers
         if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
         run: |
-          npx playwright install chromium firefox msedge
+          npx playwright install chromium firefox
         working-directory: ./frontend
 
   e2e-tests:
@@ -196,7 +196,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [chromium, firefox, msedge, a11y]
+        project: [chromium, firefox, a11y]
     uses: ./.github/workflows/end-to-end-tests.yml
     with:
       project: ${{ matrix.project }}
@@ -382,6 +382,17 @@ jobs:
         with:
           filePath: tmp/licence-reports/backend-licence-report.csv
           destinationDir: licence-reports/backend/ris-norms
+      # ER diagram
+      - name: ER-diagram - Download artifact
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806
+        with:
+          name: erdiagram
+          path: tmp/erdiagram-reports
+      - name: Java - git add report
+        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        with:
+          filePath: tmp/erdiagram-reports/latest.mmd
+          destinationDir: entity-relationship-diagrams/ris-norms
       # Push reports
       - name: Push reports
         run: |

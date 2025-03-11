@@ -30,6 +30,10 @@ otc:
       bucket-name: public
       access-key-id: test
       secret-access-key: test
+    prototype:
+      bucket-name: prototype
+      access-key-id: test
+      secret-access-key: test
 
 sentry:
   environment: local

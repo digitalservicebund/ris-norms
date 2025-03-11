@@ -50,13 +50,13 @@ const localValue = computed({
 
 <template>
   <div class="flex flex-col gap-2">
-    <label v-if="label" :for="id" class="ds-label">
+    <label v-if="label" :for="id">
       {{ label }}
     </label>
     <textarea
       :id="id"
       v-model="localValue"
-      class="h-unset ds-input h-full resize-none py-12"
+      class="h-unset h-full resize-none py-12"
       :placeholder="placeholder"
       :readonly="readOnly"
       :rows="rows"

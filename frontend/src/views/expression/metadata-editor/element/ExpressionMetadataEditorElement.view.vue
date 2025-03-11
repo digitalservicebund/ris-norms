@@ -3,7 +3,6 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisRadioInput from "@/components/controls/RisRadioInput.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
@@ -18,6 +17,7 @@ import { ElementProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
+import RadioButton from "primevue/radiobutton"
 import { computed, ref, watch } from "vue"
 
 const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
@@ -122,14 +122,14 @@ watch(hasSaved, (finished) => {
 
   <div v-else class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
-      <div class="flex-grow">
+      <div class="grow">
         <h2 class="ris-label2-bold">
           {{ element?.title }}
         </h2>
       </div>
     </div>
 
-    <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-16">
+    <div class="gap grid min-h-0 grow grid-cols-2 grid-rows-1 gap-16">
       <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
           <RisLoadingSpinner />
@@ -137,11 +137,7 @@ watch(hasSaved, (finished) => {
 
         <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
-        <RisLawPreview
-          v-else
-          class="ds-textarea flex-grow p-2"
-          :content="render ?? ''"
-        />
+        <RisLawPreview v-else class="grow p-2" :content="render ?? ''" />
       </section>
 
       <section class="flex flex-col gap-8" aria-label="Metadaten dokumentieren">
@@ -153,7 +149,7 @@ watch(hasSaved, (finished) => {
 
         <form
           v-else
-          class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
+          class="grid grid-cols-[max-content_1fr] items-center gap-x-16 gap-y-14 overflow-auto"
           @submit.prevent
         >
           <fieldset class="contents">
@@ -163,27 +159,33 @@ watch(hasSaved, (finished) => {
               <legend class="self-start">Art der Norm</legend>
 
               <div class="space-y-10">
-                <RisRadioInput
-                  :id="artNormSnId"
-                  v-model="artNorm"
-                  value="SN"
-                  name="artNorm"
-                  label="SN - Stammnorm"
-                />
-                <RisRadioInput
-                  :id="artNormAnId"
-                  v-model="artNorm"
-                  value="ÄN"
-                  name="artNorm"
-                  label="ÄN - Änderungsnorm"
-                />
-                <RisRadioInput
-                  :id="artNormUnId"
-                  v-model="artNorm"
-                  value="ÜN"
-                  name="artNorm"
-                  label="ÜN - Übergangsnorm"
-                />
+                <div class="flex items-center">
+                  <RadioButton
+                    v-model="artNorm"
+                    :input-id="artNormSnId"
+                    value="SN"
+                    name="artNorm"
+                  />
+                  <label :for="artNormSnId">SN - Stammnorm</label>
+                </div>
+                <div class="flex items-center">
+                  <RadioButton
+                    v-model="artNorm"
+                    :input-id="artNormAnId"
+                    value="ÄN"
+                    name="artNorm"
+                  />
+                  <label :for="artNormAnId">ÄN - Änderungsnorm</label>
+                </div>
+                <div class="flex items-center">
+                  <RadioButton
+                    v-model="artNorm"
+                    :input-id="artNormUnId"
+                    value="ÜN"
+                    name="artNorm"
+                  />
+                  <label :for="artNormUnId">ÜN - Übergangsnorm</label>
+                </div>
               </div>
             </fieldset>
           </fieldset>
