@@ -90,7 +90,7 @@ class HrefTest {
       var eId = href.getEId();
 
       // then
-      assertThat(eId).contains("art-20_abs-1");
+      assertThat(eId).contains(new EId("art-20_abs-1"));
     }
   }
 

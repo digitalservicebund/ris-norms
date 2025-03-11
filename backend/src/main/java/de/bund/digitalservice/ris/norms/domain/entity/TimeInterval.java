@@ -51,6 +51,7 @@ public class TimeInterval {
     return NodeParser
       .getValueFromExpression("./@start", this.element)
       .map(Href::new)
-      .flatMap(Href::getEId);
+      .flatMap(Href::getEId)
+      .map(EId::toString);
   }
 }

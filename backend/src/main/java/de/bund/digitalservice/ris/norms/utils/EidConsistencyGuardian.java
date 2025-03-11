@@ -128,7 +128,7 @@ public final class EidConsistencyGuardian {
         Node attribute = attributes.item(i);
         if (attribute.getNodeValue().startsWith("#")) {
           Href attributeHref = new Href(attribute.getNodeValue());
-          var currentEId = attributeHref.getEId();
+          var currentEId = attributeHref.getEId().map(EId::toString);
 
           if (currentEId.isPresent() && oldToNewEIdMap.containsKey(currentEId.get())) {
             var newEId = oldToNewEIdMap.get(currentEId.get());
