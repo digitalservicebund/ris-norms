@@ -128,4 +128,22 @@ class PrototypeCleanupServiceTest {
     assertThat(proprietyChildNodes.get(0).getNamespaceURI())
       .isEqualTo("http://MetadatenRIS.LegalDocML.de/1.7.2/");
   }
+
+  @Test
+  void cleanNotesMetadata() {
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+
+    underTest.clean(norm);
+    List<Node> notes = NodeParser
+      .nodeListToList(
+        norm.getRegelungstext1().getMeta().getElement().getElementsByTagName("akn:note")
+      )
+      .stream()
+      .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+      .toList();
+
+    assertThat(notes).hasSize(1);
+    assertThat(notes.getFirst().getAttributes().getNamedItem("refersTo").getNodeValue())
+      .isEqualTo("kommentierende-fussnote");
+  }
 }

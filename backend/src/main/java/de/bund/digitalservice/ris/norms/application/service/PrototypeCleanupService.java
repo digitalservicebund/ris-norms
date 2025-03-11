@@ -29,6 +29,7 @@ class PrototypeCleanupService {
       cleanRisMetadata(dokument);
       cleanRegularMetaData(dokument);
       cleanBundesRegierungMetaData(dokument);
+      cleanNotes(dokument);
     }
 
     return norm;
@@ -54,6 +55,15 @@ class PrototypeCleanupService {
 
   private void cleanBundesRegierungMetaData(Dokument dokument) {
     deleteMetaData(dokument, Namespace.METADATEN_BUNDESREGIERUNG.getNamespaceUri());
+  }
+
+  private void cleanNotes(Dokument dokument) {
+    Element metadataElement = dokument.getMeta().getElement();
+    String query = "./notes/note[@refersTo=\"aenderungsfussnote\"]";
+    var nodesToDelete = NodeParser.getNodesFromExpression(query, metadataElement);
+    for (Node node : nodesToDelete) {
+      node.getParentNode().removeChild(node);
+    }
   }
 
   private void deleteMetaData(Dokument dokument, String namespaceUri) {
