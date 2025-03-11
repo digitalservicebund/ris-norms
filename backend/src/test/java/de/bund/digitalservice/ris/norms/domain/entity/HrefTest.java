@@ -188,7 +188,7 @@ class HrefTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
           )
         )
-        .setEId("art-20_abs-1")
+        .setEId(new EId("art-20_abs-1"))
         .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
         .setFileExtension("xml")
         .buildInternalReference();
@@ -206,7 +206,7 @@ class HrefTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
           )
         )
-        .setEId("art-20_abs-1")
+        .setEId(new EId("art-20_abs-1"))
         .setFileExtension("xml")
         .buildInternalReference();
 
@@ -223,7 +223,7 @@ class HrefTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
           )
         )
-        .setEId("art-20_abs-1")
+        .setEId(new EId("art-20_abs-1"))
         .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
         .setFileExtension("xml")
         .buildAbsolute();
@@ -244,7 +244,7 @@ class HrefTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
           )
         )
-        .setEId("art-20_abs-1")
+        .setEId(new EId("art-20_abs-1"))
         .setFileExtension("xml")
         .buildAbsolute();
 

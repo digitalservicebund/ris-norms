@@ -187,9 +187,7 @@ public abstract class Dokument {
 
     final TemporalGroup temporalGroup = getMeta().getTemporalData().addTemporalGroup();
     final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
-    timeInterval.setStart(
-      new Href.Builder().setEId(eventRef.getEid().value()).buildInternalReference()
-    );
+    timeInterval.setStart(new Href.Builder().setEId(eventRef.getEid()).buildInternalReference());
     timeInterval.setRefersTo("geltungszeit");
 
     return temporalGroup;

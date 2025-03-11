@@ -113,7 +113,7 @@ public record Href(@JsonValue String value) {
   public static class Builder {
 
     private String eli;
-    private String eId;
+    private EId eId;
     private CharacterRange characterRange;
     private String fileExtension;
 
@@ -134,7 +134,7 @@ public record Href(@JsonValue String value) {
      * @param eId the eid
      * @return the builder instance
      */
-    public Builder setEId(String eId) {
+    public Builder setEId(EId eId) {
       this.eId = eId;
       return this;
     }
@@ -190,7 +190,7 @@ public record Href(@JsonValue String value) {
      * @return a new {@link Href} instance
      */
     public Href buildInternalReference() {
-      var href = "#" + eId;
+      var href = "#" + eId.toString();
 
       if (characterRange != null) {
         href += "/" + characterRange;
