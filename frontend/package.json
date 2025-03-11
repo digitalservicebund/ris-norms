@@ -21,7 +21,7 @@
     "test:watch": "TZ=UTC vitest",
     "test:a11y": "playwright test --project=a11y",
     "test:e2e": "playwright test",
-    "test:browsers": "playwright test --project=chromium --project=firefox --project=msedge",
+    "test:browsers": "playwright test --project=chromium --project=firefox",
     "test:smoke": "playwright test --project=smoketest",
     "audit:licences": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },

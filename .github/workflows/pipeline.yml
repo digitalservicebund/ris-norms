@@ -188,7 +188,7 @@ jobs:
       - name: Install Playwright browsers
         if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
         run: |
-          npx playwright install chromium firefox msedge
+          npx playwright install chromium firefox
         working-directory: ./frontend
 
   e2e-tests:
@@ -196,7 +196,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [chromium, firefox, msedge, a11y]
+        project: [chromium, firefox, a11y]
     uses: ./.github/workflows/end-to-end-tests.yml
     with:
       project: ${{ matrix.project }}

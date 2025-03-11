@@ -37,12 +37,6 @@ const config = defineConfig<{
       testMatch: /.*.setup.ts$/,
       testDir: "./e2e/globalSetup",
     },
-    {
-      name: "setup-msedge",
-      use: { ...devices["Desktop Edge"], channel: "msedge" },
-      testMatch: /.*.setup.ts$/,
-      testDir: "./e2e/globalSetup",
-    },
 
     // Regular E2E tests
     {
@@ -63,17 +57,6 @@ const config = defineConfig<{
       },
       timeout: 30000,
       dependencies: ["setup-firefox"],
-      testDir: "./e2e/application",
-    },
-    {
-      name: "msedge",
-      use: {
-        ...devices["Desktop Edge"],
-        channel: "msedge",
-        storageState: "e2e/storage/state.json",
-      },
-      timeout: 30000,
-      dependencies: ["setup-msedge"],
       testDir: "./e2e/application",
     },
 

@@ -63,8 +63,8 @@ node --run test:a11y  # Accessibility tests
 E2E tests (included in the frontend module, backend and frontend must be [running separately](#running-backend--frontend-separately)):
 
 ```sh
-node --run test:browsers                                    # E2E tests in Chrome, Firefox, and Edge
-node --run test:e2e -- --project <chromium|firefox|msedge>  # E2E tests for a specific browser
+node --run test:browsers                                    # E2E tests in Chrome and Firefox
+node --run test:e2e -- --project <chromium|firefox>  # E2E tests for a specific browser
 node --run test:e2e -- --ui                                 # Opens the Playwright UI for testing
 ```
 
