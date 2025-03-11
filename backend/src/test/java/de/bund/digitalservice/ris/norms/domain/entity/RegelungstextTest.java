@@ -1119,7 +1119,7 @@ class RegelungstextTest {
 
     // when
     final var date = regelungstext.getStartDateForTemporalGroup(
-      "meta-1_geltzeiten-1_geltungszeitgr-2"
+      new EId("meta-1_geltzeiten-1_geltungszeitgr-2")
     );
 
     // then
@@ -1135,11 +1135,11 @@ class RegelungstextTest {
 
     // when
     final var eId = regelungstext.getStartEventRefForTemporalGroup(
-      "meta-1_geltzeiten-1_geltungszeitgr-2"
+      new EId("meta-1_geltzeiten-1_geltungszeitgr-2")
     );
 
     // then
-    assertThat(eId).contains("meta-1_lebzykl-1_ereignis-4");
+    assertThat(eId).contains(new EId("meta-1_lebzykl-1_ereignis-4"));
   }
 
   @Test
@@ -1150,7 +1150,7 @@ class RegelungstextTest {
     );
 
     // when
-    final var date = regelungstext.getStartDateForEventRef("meta-1_lebzykl-1_ereignis-3");
+    final var date = regelungstext.getStartDateForEventRef(new EId("meta-1_lebzykl-1_ereignis-3"));
 
     // then
     assertThat(date).contains("2017-03-15");
