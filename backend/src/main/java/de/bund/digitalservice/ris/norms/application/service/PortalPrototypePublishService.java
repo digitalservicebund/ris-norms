@@ -14,15 +14,15 @@ import java.time.LocalDate;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for publishing norms to the portal prototype
  */
-@Profile({ "production", "local", "local-docker" })
 @Service
 @Slf4j
+@ConditionalOnProperty("publish.portal-prototype.enabled")
 public class PortalPrototypePublishService implements PublishNormsToPortalPrototypeUseCase {
 
   private final LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort;

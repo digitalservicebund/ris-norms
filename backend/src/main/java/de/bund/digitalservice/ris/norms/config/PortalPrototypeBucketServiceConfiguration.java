@@ -3,9 +3,9 @@ package de.bund.digitalservice.ris.norms.config;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.services.s3.S3Client;
 
 /**
@@ -22,7 +22,7 @@ import software.amazon.awssdk.services.s3.S3Client;
  * </ul>
  */
 @Configuration
-@Profile({ "production", "local", "local-docker" })
+@ConditionalOnProperty("publish.portal-prototype.enabled")
 public class PortalPrototypeBucketServiceConfiguration {
 
   @Value("${otc.obs.prototype.bucket-name}")

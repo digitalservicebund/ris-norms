@@ -5,7 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.PublishNormsToPor
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.LockAssert;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-@Profile({ "production" })
+@ConditionalOnProperty("publish.portal-prototype.enabled")
 public class PortalPrototypePublishingScheduler {
 
   private final PublishNormsToPortalPrototypeUseCase publishNormsToPortalPrototypeUseCase;
