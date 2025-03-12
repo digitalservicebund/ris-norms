@@ -20,7 +20,7 @@ public class ResourceService implements LoadPortalPublishingAllowListPort {
 
   public ResourceService(
     @Value(
-      "classpath:/portal-prototype-publishing-allowlist.txt"
+      "classpath:portal-prototype-publishing-allowlist.txt"
     ) Resource portalPrototypePublishingAllowlist
   ) throws IOException {
     this.publishingAllowlist =
