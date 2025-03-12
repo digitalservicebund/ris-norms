@@ -31,6 +31,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private final PublishChangelogPort publishChangelogPort;
   private final LoadNormPort loadNormPort;
   private final LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort;
+  private final ConfidentialDataCleanupService confidentialDataCleanupService;
 
   public PortalPrototypePublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
@@ -38,7 +39,8 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     @Qualifier("portalPrototype") DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort,
     @Qualifier("portalPrototype") PublishChangelogPort publishChangelogsPort,
     LoadNormPort loadNormPort,
-    LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort
+    LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort,
+    ConfidentialDataCleanupService confidentialDataCleanupService
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.publishNormPort = publishNormPort;
@@ -46,6 +48,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     this.publishChangelogPort = publishChangelogsPort;
     this.loadNormPort = loadNormPort;
     this.loadPortalPublishingAllowListPort = loadPortalPublishingAllowListPort;
+    this.confidentialDataCleanupService = confidentialDataCleanupService;
   }
 
   @Override
@@ -61,30 +64,30 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
 
     publishedNormElis.forEach(eli -> {
       log.info("Processing norm with manifestation eli {}", eli);
-      Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
+      Optional<Norm> optionalNorm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
 
-      if (norm.isEmpty()) {
+      if (optionalNorm.isEmpty()) {
         log.error("Norm with manifestation eli {} not found", eli);
         return;
       }
 
-      if (!isNormAllowedToBePublished(norm.get())) {
+      var norm = optionalNorm.get();
+
+      if (!isNormAllowedToBePublished(norm)) {
         return;
       }
 
       // TODO: (Malte Laukötter, 2025-03-07) clean up norm
-      // TODO: (Malte Laukötter, 2025-03-07) also run the cleanup from the normal PublishService
+
+      confidentialDataCleanupService.clean(norm);
 
       try {
-        publishNormPort.publishNorm(new PublishNormPort.Command(norm.get()));
-        log.info(
-          "Published norm to portal-prototype: {}",
-          norm.get().getManifestationEli().toString()
-        );
+        publishNormPort.publishNorm(new PublishNormPort.Command(norm));
+        log.info("Published norm to portal-prototype: {}", norm.getManifestationEli().toString());
       } catch (final Exception e) {
         log.error(
           "Norm {} could not be published to portal-prototype",
-          norm.get().getManifestationEli().toString()
+          norm.getManifestationEli().toString()
         );
         log.error(e.getMessage(), e);
       }
