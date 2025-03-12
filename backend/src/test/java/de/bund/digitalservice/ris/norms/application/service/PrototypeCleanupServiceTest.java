@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
+import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
@@ -13,13 +14,13 @@ import org.w3c.dom.Node;
 
 class PrototypeCleanupServiceTest {
 
-  private final PrototypeCleanupService underTest = new PrototypeCleanupService();
+  private final PrototypeCleanupService prototypeCleanupService = new PrototypeCleanupService();
 
   @Test
   void cleanRisMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
 
-    underTest.clean(norm);
+    prototypeCleanupService.clean(norm);
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.SUBTYP)
     )
@@ -89,7 +90,7 @@ class PrototypeCleanupServiceTest {
         .get()
         .getMetadataValue(Metadata.ENTRY_INTO_FORCE_DATE)
     )
-      .contains("2008-07-01");
+      .contains("2025-09-01");
     assertThat(
       norm
         .getRegelungstext1()
@@ -116,7 +117,7 @@ class PrototypeCleanupServiceTest {
   void cleanRegularAndBundesregierungMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
 
-    underTest.clean(norm);
+    prototypeCleanupService.clean(norm);
     List<Node> proprietyChildNodes = NodeParser
       .nodeListToList(
         norm.getRegelungstext1().getMeta().getProprietary().get().getElement().getChildNodes()
@@ -127,14 +128,14 @@ class PrototypeCleanupServiceTest {
 
     assertThat(proprietyChildNodes).hasSize(1);
     assertThat(proprietyChildNodes.get(0).getNamespaceURI())
-      .isEqualTo("http://MetadatenRIS.LegalDocML.de/1.7.2/");
+      .isEqualTo(Namespace.METADATEN_RIS.getNamespaceUri());
   }
 
   @Test
   void cleanNotesMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
 
-    underTest.clean(norm);
+    prototypeCleanupService.clean(norm);
     List<Node> notes = NodeParser
       .nodeListToList(
         norm.getRegelungstext1().getMeta().getElement().getElementsByTagName("akn:note")
@@ -152,12 +153,12 @@ class PrototypeCleanupServiceTest {
   void cleanZeitgrenzenMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
 
-    underTest.clean(norm);
+    prototypeCleanupService.clean(norm);
 
     List<Node> eventRefs = NodeParser.nodeListToList(
       norm.getRegelungstext1().getDocument().getElementsByTagName("akn:eventRef")
     );
-    assertThat(eventRefs).hasSize(27);
+    assertThat(eventRefs).hasSize(28);
 
     for (Node eventRef : eventRefs) {
       Element event = (Element) eventRef;
@@ -167,7 +168,7 @@ class PrototypeCleanupServiceTest {
 
       if (
         ("generation".equals(type) && "ausfertigung".equals(refersTo)) ||
-        ("generation".equals(type) && "inkrafttreten".equals(refersTo))
+        ("generation".equals(type) && "inkrafttreten".equals(refersTo) && "2025-09-01".equals(date))
       ) {
         assertThat(date).isNotEqualTo("1001-01-01");
       } else {

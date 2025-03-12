@@ -191,6 +191,9 @@
                <akn:eventRef GUID="b6e98b9f-d7e7-4784-8e52-20aa662ecd78" date="2008-07-01"
                              eId="meta-1_lebzykl-1_ereignis-27" refersTo="inkrafttreten"
                              source="attributsemantik-noch-undefiniert" type="amendment" />
+               <akn:eventRef GUID="91331eb2-e02b-4047-9011-c27036e26ab0" date="2025-09-01"
+                             eId="meta-1_lebzykl-1_ereignis-28" refersTo="inkrafttreten"
+                             source="attributsemantik-noch-undefiniert" type="generation" />
            </akn:lifecycle>
            <akn:temporalData GUID="ad7645df-00a2-42b1-b54f-d2beb5ecae22" eId="meta-1_geltzeiten-1"
                              source="attributsemantik-noch-undefiniert">
@@ -393,7 +396,7 @@
                    <ris:normgeber>DDR</ris:normgeber>
                    <ris:beschliessendesOrgan qualifizierteMehrheit="false">LT</ris:beschliessendesOrgan>
                    <ris:organisationsEinheit>Andere Organisationseinheit</ris:organisationsEinheit>
-                   <ris:entryIntoForce date="2008-07-01" />
+                   <ris:entryIntoForce date="2025-09-01" />
                    <ris:expiry date="2011-12-31" />
                    <ris:standangabe type="aufh">V aufgeh. durch Art. 22 G v. 22.12.2011 I 1111 mWv
                        1.1.2012</ris:standangabe>
