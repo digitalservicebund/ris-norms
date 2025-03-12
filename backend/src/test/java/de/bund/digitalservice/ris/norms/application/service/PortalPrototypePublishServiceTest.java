@@ -30,6 +30,9 @@ class PortalPrototypePublishServiceTest {
   final LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort = mock(
     LoadPortalPublishingAllowListPort.class
   );
+  final ConfidentialDataCleanupService confidentialDataCleanupService = mock(
+    ConfidentialDataCleanupService.class
+  );
   final PortalPrototypePublishService portalPrototypePublishService =
     new PortalPrototypePublishService(
       loadNormManifestationElisByPublishStatePort,
@@ -37,7 +40,8 @@ class PortalPrototypePublishServiceTest {
       deleteAllPublishedDokumentePort,
       publishChangelogPort,
       loadNormPort,
-      loadPortalPublishingAllowListPort
+      loadPortalPublishingAllowListPort,
+      confidentialDataCleanupService
     );
 
   @Test
@@ -61,6 +65,7 @@ class PortalPrototypePublishServiceTest {
           assertThat(arg.norm().getManifestationEli()).isEqualTo(norm1.getManifestationEli());
         })
       );
+    verify(confidentialDataCleanupService, times(1)).clean(any());
     verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
     verify(publishChangelogPort, times(1)).publishChangelogs(any());
   }

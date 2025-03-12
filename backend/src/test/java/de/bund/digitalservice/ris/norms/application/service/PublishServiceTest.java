@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -46,6 +45,9 @@ class PublishServiceTest {
   final PublishChangelogPort publishPrivateChangelogsPort = mock(PublishChangelogPort.class);
 
   final CompleteMigrationLogPort updateMigrationLogPort = mock(CompleteMigrationLogPort.class);
+  final ConfidentialDataCleanupService confidentialDataCleanupService = mock(
+    ConfidentialDataCleanupService.class
+  );
 
   final PublishService publishService = new PublishService(
     loadNormManifestationElisByPublishStatePort,
@@ -60,7 +62,8 @@ class PublishServiceTest {
     deleteAllPrivateDokumentePort,
     publishChangelogPort,
     publishPrivateChangelogsPort,
-    updateMigrationLogPort
+    updateMigrationLogPort,
+    confidentialDataCleanupService
   );
 
   @Nested
@@ -93,6 +96,7 @@ class PublishServiceTest {
         .loadNormManifestationElisByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
+      verify(confidentialDataCleanupService, times(1)).clean(norm);
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
@@ -133,6 +137,7 @@ class PublishServiceTest {
         .loadNormManifestationElisByPublishState(
           argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
         );
+      verify(confidentialDataCleanupService, times(1)).clean(norm);
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
@@ -337,26 +342,6 @@ class PublishServiceTest {
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
-    }
-  }
-
-  @Nested
-  class prepareForPublish {
-
-    @Test
-    void removesOrganisationsEinheitFromMetadata() {
-      // Given
-      var norm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
-      var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
-
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Aktuelle Organisationseinheit");
-
-      // When
-      publishService.prepareForPublish(norm);
-
-      // Then
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
     }
   }
 }
