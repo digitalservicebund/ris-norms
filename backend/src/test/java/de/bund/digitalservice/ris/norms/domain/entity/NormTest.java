@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -454,6 +455,37 @@ class NormTest {
 
       // Then
       assertThat(loadedRegelungstext).isEmpty();
+    }
+  }
+
+  @Nested
+  class isInkraftAt {
+
+    @Test
+    void itReturnsTrueIfTheDateIsAfterInkrafttreteDatum() {
+      // Given
+      Norm norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+
+      // When // Then
+      assertThat(norm.isInkraftAt(LocalDate.parse("2020-01-01"))).isTrue();
+    }
+
+    @Test
+    void itReturnsTrueIfTheDateIsBeforeInkrafttreteDatum() {
+      // Given
+      Norm norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+
+      // When // Then
+      assertThat(norm.isInkraftAt(LocalDate.parse("1962-01-01"))).isFalse();
+    }
+
+    @Test
+    void itReturnsFalseIfTheDateIsAfterAusserkrafttreteDatum() {
+      // Given
+      Norm norm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
+
+      // When // Then
+      assertThat(norm.isInkraftAt(LocalDate.parse("2030-01-01"))).isFalse();
     }
   }
 }

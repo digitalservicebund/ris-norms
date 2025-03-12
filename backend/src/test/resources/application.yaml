@@ -27,6 +27,15 @@ otc:
       bucket-name: public
       access-key-id: test
       secret-access-key: test
+    prototype:
+      bucket-name: portal-prototype
+      access-key-id: test
+      secret-access-key: test
 
 sentry:
   environment: local
+
+publish:
+  portal-prototype:
+    enabled: true
+    cron: "0 0 0 1 1 *"
