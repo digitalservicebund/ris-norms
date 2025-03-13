@@ -3,9 +3,11 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungResponseSchema;
+import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
@@ -86,8 +88,17 @@ class VerkuendungResponseMapperTest {
       )
       .build();
 
+    var announcement = Announcement
+      .builder()
+      .eli(norm.getExpressionEli())
+      .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
+      .build();
+
     // When
-    final VerkuendungResponseSchema result = VerkuendungResponseMapper.fromUseCaseData(norm);
+    final VerkuendungResponseSchema result = VerkuendungResponseMapper.fromAnnouncedNorm(
+      announcement,
+      norm
+    );
 
     // Then
     assertThat(result.getEli())
@@ -98,6 +109,7 @@ class VerkuendungResponseMapperTest {
     assertThat(result.getFrbrNumber()).isEqualTo("s593");
     assertThat(result.getFrbrDateVerkuendung()).isEqualTo("1964-08-05");
     assertThat(result.getFna()).isEqualTo("754-28-1");
+    assertThat(result.getImportedAt()).isEqualTo(announcement.getImportTimestamp());
   }
 
   @Test
@@ -159,8 +171,17 @@ class VerkuendungResponseMapperTest {
       )
       .build();
 
+    var announcement = Announcement
+      .builder()
+      .eli(norm.getExpressionEli())
+      .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
+      .build();
+
     // When
-    final VerkuendungResponseSchema result = VerkuendungResponseMapper.fromUseCaseData(norm);
+    final VerkuendungResponseSchema result = VerkuendungResponseMapper.fromAnnouncedNorm(
+      announcement,
+      norm
+    );
 
     // Then
     assertThat(result.getEli())

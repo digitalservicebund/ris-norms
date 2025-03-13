@@ -50,10 +50,10 @@ public class AnnouncementController {
     var responseSchemas = loadAllAnnouncementsUseCase
       .loadAllAnnouncements()
       .stream()
-      .map(Announcement::getEli)
-      .map(LoadNormUseCase.Query::new)
-      .map(loadNormUseCase::loadNorm)
-      .map(VerkuendungResponseMapper::fromUseCaseData)
+      .map(announcement -> {
+        var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(announcement.getEli()));
+        return VerkuendungResponseMapper.fromAnnouncedNorm(announcement, norm);
+      })
       .toList();
     return ResponseEntity.ok(responseSchemas);
   }
@@ -74,6 +74,6 @@ public class AnnouncementController {
       new CreateAnnouncementUseCase.Query(file, force)
     );
     var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(announcement.getEli()));
-    return ResponseEntity.ok(VerkuendungResponseMapper.fromUseCaseData(norm));
+    return ResponseEntity.ok(VerkuendungResponseMapper.fromAnnouncedNorm(announcement, norm));
   }
 }

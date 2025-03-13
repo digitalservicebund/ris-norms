@@ -13,6 +13,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
@@ -89,7 +90,11 @@ class AnnouncementControllerTest {
           )
         )
         .build();
-      var announcement1 = Announcement.builder().eli(norm1.getExpressionEli()).build();
+      var announcement1 = Announcement
+        .builder()
+        .eli(norm1.getExpressionEli())
+        .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
+        .build();
 
       var norm2 = Norm
         .builder()
@@ -135,7 +140,11 @@ class AnnouncementControllerTest {
           )
         )
         .build();
-      var announcement2 = Announcement.builder().eli(norm2.getExpressionEli()).build();
+      var announcement2 = Announcement
+        .builder()
+        .eli(norm2.getExpressionEli())
+        .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
+        .build();
 
       // When
       when(loadAllAnnouncementsUseCase.loadAllAnnouncements())
@@ -157,6 +166,7 @@ class AnnouncementControllerTest {
             equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
         )
+        .andExpect(jsonPath("$[0].importedAt", equalTo("2025-03-13T15:00:00Z")))
         .andExpect(
           jsonPath(
             "$[1].title",
@@ -165,7 +175,8 @@ class AnnouncementControllerTest {
         )
         .andExpect(
           jsonPath("$[1].eli", equalTo("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
-        );
+        )
+        .andExpect(jsonPath("$[1].importedAt", equalTo("2025-03-13T16:00:00Z")));
     }
   }
 
@@ -183,7 +194,11 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var announcement = Announcement
+        .builder()
+        .eli(norm.getExpressionEli())
+        .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
+        .build();
 
       when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
@@ -199,7 +214,8 @@ class AnnouncementControllerTest {
         .andExpect(status().isOk())
         .andExpect(
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
-        );
+        )
+        .andExpect(jsonPath("importedAt", equalTo("2025-03-13T16:00:00Z")));
     }
 
     @Test
@@ -213,7 +229,11 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var announcement = Announcement
+        .builder()
+        .eli(norm.getExpressionEli())
+        .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
+        .build();
 
       when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
@@ -229,7 +249,8 @@ class AnnouncementControllerTest {
         .andExpect(status().isOk())
         .andExpect(
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
-        );
+        )
+        .andExpect(jsonPath("importedAt", equalTo("2025-03-13T16:00:00Z")));
     }
 
     @Test
