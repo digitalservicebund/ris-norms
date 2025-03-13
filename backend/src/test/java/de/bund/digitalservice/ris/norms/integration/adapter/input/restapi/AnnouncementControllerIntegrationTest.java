@@ -154,7 +154,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"
       );
       assertThat(announcement.get().getImportTimestamp())
-        .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(1, ChronoUnit.HOURS));
+        .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES));
     }
 
     @Test

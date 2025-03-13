@@ -25,10 +25,12 @@ import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -279,6 +281,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       .usingRecursiveComparison()
       .ignoringFields("importTimestamp")
       .isEqualTo(announcement);
+
+    assertThat(announcementOptional.get().getImportTimestamp())
+      .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES));
   }
 
   @Test
