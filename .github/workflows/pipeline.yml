@@ -393,32 +393,32 @@ jobs:
         with:
           filePath: tmp/erdiagram-reports/latest.mmd
           destinationDir: entity-relationship-diagrams/ris-norms
-      # backend unit test report
-      - name: unit test report - download artifact
-        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
-        with:
-          name: backend-unit-test-report
-          path: tmp/backend-unit-test-report
-      - name: unit test report - git add report
-        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
-        with:
-          filePath: tmp/backend-unit-test-report
-          destinationDir: test-reports/ris-norms/backend/unit-tests
-          keepAllVersions: false
-          reportIsDirectory: true
-      # backend integration test report
-      - name: integration test report - download artifact
-        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
-        with:
-          name: backend-integration-test-report
-          path: tmp/backend-integration-test-report
-      - name: integration test report - git add report
-        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
-        with:
-          filePath: tmp/backend-integration-test-report
-          destinationDir: test-reports/ris-norms/backend/integration-tests
-          keepAllVersions: false
-          reportIsDirectory: true
+      #      # backend unit test report
+      #      - name: unit test report - download artifact
+      #        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+      #        with:
+      #          name: backend-unit-test-report
+      #          path: tmp/backend-unit-test-report
+      #      - name: unit test report - git add report
+      #        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
+      #        with:
+      #          filePath: tmp/backend-unit-test-report
+      #          destinationDir: test-reports/ris-norms/backend/unit-tests
+      #          keepAllVersions: false
+      #          reportIsDirectory: true
+      #      # backend integration test report
+      #      - name: integration test report - download artifact
+      #        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+      #        with:
+      #          name: backend-integration-test-report
+      #          path: tmp/backend-integration-test-report
+      #      - name: integration test report - git add report
+      #        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
+      #        with:
+      #          filePath: tmp/backend-integration-test-report
+      #          destinationDir: test-reports/ris-norms/backend/integration-tests
+      #          keepAllVersions: false
+      #          reportIsDirectory: true
       # Push reports
       - name: Push reports
         run: |
