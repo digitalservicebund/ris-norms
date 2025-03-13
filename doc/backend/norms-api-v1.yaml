@@ -18,7 +18,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Norm"
+                  $ref: "#/components/schemas/Verkuendung"
         "500":
           $ref: "#/components/responses/InternalServerError"
     post:
@@ -616,6 +616,28 @@ components:
         frbrNumber:
           type: string
         frbrDateVerkuendung:
+          type: string
+          format: date
+
+    Verkuendung:
+      type: object
+      properties:
+        eli:
+          $ref: "#/components/schemas/DokumentExpressionEli"
+        title:
+          type: string
+        shortTitle:
+          type: string
+        fna:
+          type: string
+        frbrName:
+          type: string
+        frbrNumber:
+          type: string
+        frbrDateVerkuendung:
+          type: string
+          format: date
+        importTimestamp:
           type: string
           format: date
 
