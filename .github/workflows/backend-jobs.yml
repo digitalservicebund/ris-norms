@@ -65,6 +65,12 @@ jobs:
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Upload unit test report artifact
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: backend-unit-test-report
+          path: build/reports/tests/test
+          if-no-files-found: warn
 
   backend-integration-tests:
     needs: [setup-gradle]
@@ -85,6 +91,12 @@ jobs:
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Upload integration test report artifact
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: backend-integration-test-report
+          path: build/reports/tests/integrationTest
+          if-no-files-found: warn
 
   audit-licenses-backend:
     needs: [setup-gradle]
