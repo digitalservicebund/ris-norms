@@ -33,6 +33,27 @@ class EIdTest {
     assertThat(eid).hasToString("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
   }
 
+  @Nested
+  class getParent {
+
+    @Test
+    void itShouldBeEmptyForEIdOfOnePart() {
+      // given
+      var eid = new EId("hauptteil-1");
+      // when // then
+      assertThat(eid.getParent()).isEmpty();
+    }
+
+    @Test
+    void itShouldReturnTheParentEId() {
+      // given
+      var eid = new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
+      // when // then
+      assertThat(eid.getParent())
+        .contains(new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3"));
+    }
+  }
+
   @Test
   void addPart() {
     // given

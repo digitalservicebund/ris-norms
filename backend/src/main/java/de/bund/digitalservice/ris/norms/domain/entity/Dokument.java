@@ -135,7 +135,7 @@ public abstract class Dokument {
    * @param temporalGroupEid EId of a temporal group
    * @return Start date of the temporal group
    */
-  public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
+  public Optional<String> getStartDateForTemporalGroup(EId temporalGroupEid) {
     return getStartEventRefForTemporalGroup(temporalGroupEid)
       .flatMap(this::getStartDateForEventRef);
   }
@@ -144,26 +144,27 @@ public abstract class Dokument {
    * @param temporalGroupEid EId of a temporal group
    * @return eid of the event ref of the start of the temporal group
    */
-  public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
+  public Optional<EId> getStartEventRefForTemporalGroup(final EId temporalGroupEid) {
     return getMeta()
       .getTemporalData()
       .getTemporalGroups()
       .stream()
-      .filter(temporalGroup -> temporalGroup.getEid().equals(temporalGroupEid))
+      .filter(temporalGroup -> temporalGroup.getEid().equals(temporalGroupEid.value()))
       .findFirst()
-      .flatMap(m -> m.getTimeInterval().getEventRefEId());
+      .flatMap(m -> m.getTimeInterval().getEventRefEId())
+      .map(EId::new);
   }
 
   /**
    * @param eId EId of an event ref
    * @return Start date of the event ref
    */
-  public Optional<String> getStartDateForEventRef(String eId) {
+  public Optional<String> getStartDateForEventRef(EId eId) {
     return getMeta()
       .getLifecycle()
       .getEventRefs()
       .stream()
-      .filter(eventRef -> Objects.equals(eventRef.getEid().value(), eId))
+      .filter(eventRef -> Objects.equals(eventRef.getEid(), eId))
       .findFirst()
       .flatMap(EventRef::getDate)
       .map(LocalDate::toString);
@@ -187,9 +188,7 @@ public abstract class Dokument {
 
     final TemporalGroup temporalGroup = getMeta().getTemporalData().addTemporalGroup();
     final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
-    timeInterval.setStart(
-      new Href.Builder().setEId(eventRef.getEid().value()).buildInternalReference()
-    );
+    timeInterval.setStart(new Href.Builder().setEId(eventRef.getEid()).buildInternalReference());
     timeInterval.setRefersTo("geltungszeit");
 
     return temporalGroup;

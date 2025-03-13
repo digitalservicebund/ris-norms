@@ -4,23 +4,25 @@ import de.bund.digitalservice.ris.norms.application.port.input.PublishNormsToPor
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteAllPublishedDokumentePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadPortalPublishingAllowListPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishChangelogPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for publishing norms to the portal prototype
  */
-@Profile({ "production", "local", "local-docker" })
 @Service
 @Slf4j
+@ConditionalOnProperty("publish.portal-prototype.enabled")
 public class PortalPrototypePublishService implements PublishNormsToPortalPrototypeUseCase {
 
   private final LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort;
@@ -28,6 +30,8 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private final DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort;
   private final PublishChangelogPort publishChangelogPort;
   private final LoadNormPort loadNormPort;
+  private final LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort;
+  private final ConfidentialDataCleanupService confidentialDataCleanupService;
   private final PrototypeCleanupService prototypeCleanupService;
 
   public PortalPrototypePublishService(
@@ -36,6 +40,8 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     @Qualifier("portalPrototype") DeleteAllPublishedDokumentePort deleteAllPublishedDokumentePort,
     @Qualifier("portalPrototype") PublishChangelogPort publishChangelogsPort,
     LoadNormPort loadNormPort,
+    LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort,
+    ConfidentialDataCleanupService confidentialDataCleanupService,
     PrototypeCleanupService prototypeCleanupService
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
@@ -43,6 +49,8 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     this.deleteAllPublishedDokumentePort = deleteAllPublishedDokumentePort;
     this.publishChangelogPort = publishChangelogsPort;
     this.loadNormPort = loadNormPort;
+    this.loadPortalPublishingAllowListPort = loadPortalPublishingAllowListPort;
+    this.confidentialDataCleanupService = confidentialDataCleanupService;
     this.prototypeCleanupService = prototypeCleanupService;
   }
 
@@ -59,28 +67,30 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
 
     publishedNormElis.forEach(eli -> {
       log.info("Processing norm with manifestation eli {}", eli);
-      Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
+      Optional<Norm> optionalNorm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
 
-      if (norm.isEmpty()) {
+      if (optionalNorm.isEmpty()) {
         log.error("Norm with manifestation eli {} not found", eli);
         return;
       }
 
-      // TODO: (Malte Laukötter, 2025-03-07) check if norm is allowed to be published
+      var norm = optionalNorm.get();
 
-      prototypeCleanupService.clean(norm.get());
-      // TODO: (Malte Laukötter, 2025-03-07) also run the cleanup from the normal PublishService
+      if (!isNormAllowedToBePublished(norm)) {
+        return;
+      }
+
+      prototypeCleanupService.clean(norm);
+
+      confidentialDataCleanupService.clean(norm);
 
       try {
-        publishNormPort.publishNorm(new PublishNormPort.Command(norm.get()));
-        log.info(
-          "Published norm to portal-prototype: {}",
-          norm.get().getManifestationEli().toString()
-        );
+        publishNormPort.publishNorm(new PublishNormPort.Command(norm));
+        log.info("Published norm to portal-prototype: {}", norm.getManifestationEli().toString());
       } catch (final Exception e) {
         log.error(
           "Norm {} could not be published to portal-prototype",
-          norm.get().getManifestationEli().toString()
+          norm.getManifestationEli().toString()
         );
         log.error(e.getMessage(), e);
       }
@@ -95,5 +105,40 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     publishChangelogPort.publishChangelogs(new PublishChangelogPort.Command(false));
 
     log.info("Publish job for portal prototype successfully completed.");
+  }
+
+  private boolean isNormAllowedToBePublished(Norm norm) {
+    var amtlicheAbkuerzung = norm.getShortTitle();
+
+    if (amtlicheAbkuerzung.isEmpty()) {
+      log.info(
+        "Norm {} could not be published to portal-prototype (amtliche-abkuerzung is empty)",
+        norm.getManifestationEli().toString()
+      );
+      return false;
+    }
+
+    if (
+      !loadPortalPublishingAllowListPort
+        .loadPortalPublishingAllowListPort()
+        .contains(amtlicheAbkuerzung.get())
+    ) {
+      log.info(
+        "Norm {} could not be published to portal-prototype (amtliche-abkuerzung {} is not allowed to be published)",
+        norm.getManifestationEli().toString(),
+        amtlicheAbkuerzung.orElse("")
+      );
+      return false;
+    }
+
+    if (!norm.isInkraftAt(LocalDate.now())) {
+      log.info(
+        "Norm {} could not be published to portal-prototype (it is not inkraft)",
+        norm.getManifestationEli().toString()
+      );
+      return false;
+    }
+
+    return true;
   }
 }

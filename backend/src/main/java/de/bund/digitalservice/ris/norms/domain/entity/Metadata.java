@@ -44,8 +44,8 @@ public enum Metadata {
     true
   ),
   ORGANISATIONS_EINHEIT(Namespace.METADATEN_RIS, "./organisationsEinheit", "organisationsEinheit"),
-  EXPIRY_DATE(Namespace.METADATEN_RIS, "./expiry/@date", "date", true),
-  ENTRY_INTO_FORCE_DATE(Namespace.METADATEN_RIS, "./entryIntoForce/@date", "date", true),
+  EXPIRY(Namespace.METADATEN_RIS, "./expiry/@date", "date", true),
+  ENTRY_INTO_FORCE(Namespace.METADATEN_RIS, "./entryIntoForce/@date", "date", true),
   STANDANGABE(Namespace.METADATEN_RIS, "./standangabe", "standangabe");
 
   private final Namespace namespace;

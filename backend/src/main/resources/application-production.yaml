@@ -4,6 +4,10 @@ sentry:
   max-request-body-size: always
   send-default-pii: on
 
+publish:
+  portal-prototype:
+    enabled: true
+
 spring:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver # database interceptor needed for Sentry

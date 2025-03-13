@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.s3.S3MockClient;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -18,8 +19,8 @@ import software.amazon.awssdk.services.s3.S3Client;
  *
  * <p>The configuration properties for the S3 clients are loaded from the application properties file.</p>
  */
-@Profile({ "production", "local", "local-docker" })
 @Configuration
+@ConditionalOnProperty("publish.portal-prototype.enabled")
 public class PortalPrototypeOtcObsConfig {
 
   @Value("${otc.obs.endpoint}")

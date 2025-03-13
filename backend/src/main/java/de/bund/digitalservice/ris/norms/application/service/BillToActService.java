@@ -194,7 +194,7 @@ public class BillToActService {
       final TemporalGroup temporalGroup = temporalData.addTemporalGroup();
       final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
       timeInterval.setStart(
-        new Href.Builder().setEId(inkrafttreten.getEid().toString()).buildInternalReference()
+        new Href.Builder().setEId(inkrafttreten.getEid()).buildInternalReference()
       );
       timeInterval.setRefersTo("geltungszeit");
     }

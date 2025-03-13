@@ -50,7 +50,7 @@ class TimeIntervalTest {
     // when
     var timeInterval = TimeInterval.createAndAppend(temporalGroup.getElement());
     timeInterval.setStart(
-      new Href.Builder().setEId("meta-1_lebzykl-1_ereignis-2").buildInternalReference()
+      new Href.Builder().setEId(new EId("meta-1_lebzykl-1_ereignis-2")).buildInternalReference()
     );
     timeInterval.setRefersTo("geltungszeit");
 

@@ -81,7 +81,7 @@
                                    GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
-                             value="eli/bund/bgbl-1/2000/s717/1/deu/regelungstext-1.xml/2021-06-02"/>
+                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="d0491f91-d599-46d4-ba61-c7426b607e4f"
                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-1.xml"/>
@@ -174,13 +174,9 @@
                                       bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
-         </akn:proprietary>
-           <!-- Metadaten vom DS definiert -->
-           <akn:proprietary eId="meta-1_proprietary-2"
-                            GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8"
-                            source="attributsemantik-noch-undefiniert">
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                <ris:subtyp>SN</ris:subtyp>
+               <ris:entryIntoForce date="2023-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

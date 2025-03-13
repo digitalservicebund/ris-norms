@@ -1,12 +1,15 @@
-# This workflow checks and manages pinned dependencies in the backend project due to CVEs. Here's the process:
-# 1. It comments out pinned dependencies in the build.gradle.kts file.
-# 2. It rebuilds the Docker image.
-# 3. It runs a Trivy vulnerability scan on the newly created image.
-# 4. It checks if the pinned dependencies are still needed:
-#    - If a CVE is not found in the Trivy output, the pinned dependency is removed from both the build.gradle.kts file and the toml file.
-#    - If the CVE is still present, it restores the commented-out dependency in build.gradle.kts.
-# 5. If changes are made, it runs the Spotless formatter and shows the output.
-# 6. It commits and pushes the changes if any are made.
+# This workflow checks and manages pinned dependencies in the backend project due to CVEs. The process is as follows:
+# 1. Check for pinned dependencies: It checks if there are any dependencies pinned because of CVEs. If no pinned dependencies are found, the pipeline stops.
+# 2. Comment out pinned dependencies: It comments out the pinned dependencies in the build.gradle.kts file
+# 3. Build Docker image: It builds a Docker image of the application.
+# 4. Run Trivy vulnerability scan: It runs a Trivy vulnerability scan on the newly built Docker image.
+# 5. Evaluate CVE status: Based on the Trivy results:
+#    - If a CVE is not found in the scan, the pinned dependency is removed from both the build.gradle.kts file and the libs.versions.toml file.
+#    - If the CVE is still present, the commented-out dependency is restored in the build.gradle.kts file.
+# 6. If changes were made:
+#    6.1. The Spotless formatter is run to apply code formatting, and the output is displayed.
+#    6.2. The Docker image is rebuilt, and a second Trivy scan is run. The pipeline will fail if any CVE is found.
+#    6.3. Changes are commited to the repo.
 
 name: "Check and Remove Unnecessary CVE-Pinned Backend Dependencies"
 
@@ -37,29 +40,37 @@ jobs:
           echo "Extracting pinned dependencies..."
           grep -A1 "# CVE-" gradle/libs.versions.toml | grep -v "^--$" > pinned_deps.txt || true
 
-          while read -r comment; do
-            if [[ "$comment" == "# CVE-"* ]]; then
-              # Extract the CVE ID
-              last_cve=$(echo "$comment" | sed 's/^# //' | xargs)
-            else
-              # Extract dependency name
-              dep_name=$(echo "$comment" | cut -d'=' -f1 | xargs)
-              formatted_dep_name=${dep_name//-/.}  # Replace dashes with dots
-              full_dep="libs.$formatted_dep_name"  # Add "libs."
-              # Comment out the implementation line in build.gradle.kts
-              sed -i "/implementation($full_dep)/s/^/\/\/ /" build.gradle.kts
+          if [[ -s pinned_deps.txt ]]; then
+            echo "PINNED_DEPS_FOUND=true" >> $GITHUB_ENV
+            while read -r comment; do
+              if [[ "$comment" == "# CVE-"* ]]; then
+                # Extract the CVE ID
+                last_cve=$(echo "$comment" | sed 's/^# //' | xargs)
+              else
+                # Extract dependency name
+                dep_name=$(echo "$comment" | cut -d'=' -f1 | xargs)
+                formatted_dep_name=${dep_name//-/.}  # Replace dashes with dots
+                full_dep="libs.$formatted_dep_name"  # Add "libs."
+                # Comment out the implementation line in build.gradle.kts
+                sed -i "/implementation($full_dep)/s/^/\/\/ /" build.gradle.kts
 
-              echo "Commented out $dep_name ($last_cve)"
-            fi
-          done < pinned_deps.txt
+                echo "Commented out $dep_name ($last_cve)"
+              fi
+            done < pinned_deps.txt
+          else
+            echo "No pinned dependencies found."
+            echo "PINNED_DEPS_FOUND=false" >> $GITHUB_ENV
+          fi
 
       - name: Build docker image
+        if: env.PINNED_DEPS_FOUND == 'true'
         run: docker build -t my-app:test --secret id=SENTRY_DSN,env=SENTRY_DSN --secret id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN .
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: Run Trivy vulnerability scan
+        if: env.PINNED_DEPS_FOUND == 'true'
         uses: aquasecurity/trivy-action@a11da62073708815958ea6d84f5650c78a3ef85b
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -71,18 +82,27 @@ jobs:
           output: "trivy-results.json"
 
       - name: Extract CVE IDs
+        if: env.PINNED_DEPS_FOUND == 'true'
         run: |
           echo "Checking Trivy results..."
+          # Ensure an empty file exists to prevent issues in later steps
+          touch found_cves.txt
           jq -r '.Results[].Vulnerabilities?[]?.VulnerabilityID' trivy-results.json > found_cves.txt
 
-          echo "Found CVEs"
-          cat found_cves.txt
+          # Display found CVEs (if any)
+          if [[ -s found_cves.txt ]]; then
+            echo "Found CVEs:"
+            cat found_cves.txt
+          else
+            echo "No CVEs found."
+          fi
 
       - name: Iterate pinned dependencies and update files
+        if: env.PINNED_DEPS_FOUND == 'true'
         working-directory: ./backend
         run: |
           echo "Restoring or removing dependencies based on CVE results..."
-
+          echo "CHANGES_MADE=false" >> $GITHUB_ENV
           while read -r comment; do
             if [[ "$comment" == "# CVE-"* ]]; then
               # Extract the CVE ID
@@ -109,28 +129,47 @@ jobs:
           done < pinned_deps.txt
 
       - name: Run spotless
-        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
+        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true' # Run only if changes were made
         working-directory: ./backend
         run: ./gradlew spotlessApply # when running locally with act ad "--no-watch-fs" to disable Gradle's file system watcher, not working because containerized env with act
 
-      - name: Print formatted touched files
-        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
-        run: |
-          echo "######### TOML file: ##########"
-          cat backend/gradle/libs.versions.toml
+      - name: Build docker image (again)
+        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
+        run: docker build -t my-app:test --secret id=SENTRY_DSN,env=SENTRY_DSN --secret id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN .
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
-          echo "######### GRADLE file: ##########"
-          cat backend/build.gradle.kts
+      - name: Double-check if no CVEs are found
+        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
+        uses: aquasecurity/trivy-action@a11da62073708815958ea6d84f5650c78a3ef85b
+        env:
+          ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
+          TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db,public.ecr.aws/aquasecurity/trivy-java-db
+        with:
+          image-ref: my-app:test
+          format: table
+          exit-code: 1 # if any level of CVE is found, break the pipeline
 
       - name: Commit and Push Changes (if needed)
-        if: ${{ env.CHANGES_MADE == 'true' }} # Run only if changes were made
+        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
         working-directory: ./backend
-        run: |
-          git add gradle/libs.versions.toml build.gradle.kts  # Ensure the modified files are staged
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "Auto-update: Manage pinned dependencies based on CVE results"
-          git push
+        run: git add gradle/libs.versions.toml build.gradle.kts
+
+      # Creates commit via GH API using the GITHUB_TOKEN that is generated for every job automatically. Good explanation here:
+      # https://github.com/Nautilus-Cyberneering/pygithub/blob/main/docs/how_to_sign_automatic_commits_in_github_actions.md#solution-01-using-the-temporary-github_token-generated-for-each-workflow-job
+      - name: Create Commit with GPG Signature
+        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
+        uses: qoomon/actions--create-commit@f52c52eb49ad768abb2a39a6b42135a09de14820
+        id: commit
+        with:
+          message: "Auto-update: Manage pinned dependencies based on CVE results"
+          skip-empty: true
+
+      - name: Push Changes
+        if: ${{ steps.commit.outputs.commit }}
+        run: git push
 
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba

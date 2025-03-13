@@ -92,7 +92,7 @@ public class PrototypeCleanupService {
       .getMeta()
       .getProprietary()
       .orElseThrow(() -> new MandatoryNodeNotFoundException("./ris:legalDocML.de_metadaten"))
-      .getMetadataValue(Metadata.ENTRY_INTO_FORCE_DATE)
+      .getMetadataValue(Metadata.ENTRY_INTO_FORCE)
       .orElseThrow(() -> new MandatoryNodeNotFoundException("./ris:entryIntoForce"));
     String query =
       "//eventRef[not(@type='generation' and @refersTo='ausfertigung') and not(@type='generation' and @refersTo='inkrafttreten' and @date='" +

@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
-import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.StorageException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -40,6 +39,7 @@ public class PublishService implements PublishNormUseCase {
   private final PublishChangelogPort publishPublicChangelogsPort;
   private final PublishChangelogPort publishPrivateChangelogsPort;
   private final CompleteMigrationLogPort updateMigrationLogPort;
+  private final ConfidentialDataCleanupService confidentialDataCleanupService;
 
   public PublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
@@ -54,7 +54,8 @@ public class PublishService implements PublishNormUseCase {
     @Qualifier("private") DeleteAllPublishedDokumentePort deleteAllPrivateDokumentePort,
     @Qualifier("public") PublishChangelogPort publishPublicChangelogsPort,
     @Qualifier("private") PublishChangelogPort publishPrivateChangelogsPort,
-    CompleteMigrationLogPort updateMigrationLogPort
+    CompleteMigrationLogPort updateMigrationLogPort,
+    ConfidentialDataCleanupService confidentialDataCleanupService
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.loadNormPort = loadNormPort;
@@ -69,6 +70,7 @@ public class PublishService implements PublishNormUseCase {
     this.publishPublicChangelogsPort = publishPublicChangelogsPort;
     this.publishPrivateChangelogsPort = publishPrivateChangelogsPort;
     this.updateMigrationLogPort = updateMigrationLogPort;
+    this.confidentialDataCleanupService = confidentialDataCleanupService;
   }
 
   @Override
@@ -171,12 +173,8 @@ public class PublishService implements PublishNormUseCase {
    *
    * @param normToBeReleased Norm that will be released
    */
-  public void prepareForPublish(final Norm normToBeReleased) {
-    normToBeReleased
-      .getDokumente()
-      .forEach(dokument ->
-        dokument.getMeta().getProprietary().ifPresent(this::removePrivateMetadata)
-      );
+  private void prepareForPublish(final Norm normToBeReleased) {
+    confidentialDataCleanupService.clean(normToBeReleased);
   }
 
   private void rollbackPublicPublish(Norm norm) {
@@ -201,16 +199,6 @@ public class PublishService implements PublishNormUseCase {
     } catch (StorageException e) {
       log.error(e.getMessage(), e);
     }
-  }
-
-  private void removePrivateMetadata(final Proprietary proprietary) {
-    // Organisationseinheit
-    var matches = NodeParser.getNodesFromExpression(
-      "//organisationsEinheit",
-      proprietary.getElement()
-    );
-
-    matches.forEach(match -> match.getParentNode().removeChild(match));
   }
 
   private String formatMigrationLogTimestamp(Instant timestamp) {

@@ -53,7 +53,7 @@ public record Href(@JsonValue String value) {
    *
    * @return The eId of the href or empty if no eid is included.
    */
-  public Optional<String> getEId() {
+  public Optional<EId> getEId() {
     if (isRelative()) {
       var splitHref = value().replaceFirst("^#", "").split("/");
 
@@ -61,7 +61,7 @@ public record Href(@JsonValue String value) {
         return Optional.empty();
       }
 
-      return Optional.of(splitHref[RELATIVE_POSITION_OF_EID]);
+      return Optional.of(new EId(splitHref[RELATIVE_POSITION_OF_EID]));
     }
 
     var splitHref = value().split("/");
@@ -70,7 +70,7 @@ public record Href(@JsonValue String value) {
       return Optional.empty();
     }
 
-    return Optional.of(Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_EID]));
+    return Optional.of(new EId(Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_EID])));
   }
 
   /**
@@ -78,12 +78,8 @@ public record Href(@JsonValue String value) {
    *
    * @return The parent's eId of the href or empty if no eid is included.
    */
-  public Optional<String> getParentEId() {
-    Optional<String> wholeEid = getEId();
-    if (wholeEid.isPresent()) {
-      int lastUnderscoreIndex = wholeEid.get().lastIndexOf("_");
-      return Optional.of(wholeEid.get().substring(0, lastUnderscoreIndex));
-    } else return Optional.empty();
+  public Optional<EId> getParentEId() {
+    return getEId().flatMap(EId::getParent);
   }
 
   /**
@@ -117,7 +113,7 @@ public record Href(@JsonValue String value) {
   public static class Builder {
 
     private String eli;
-    private String eId;
+    private EId eId;
     private CharacterRange characterRange;
     private String fileExtension;
 
@@ -138,7 +134,7 @@ public record Href(@JsonValue String value) {
      * @param eId the eid
      * @return the builder instance
      */
-    public Builder setEId(String eId) {
+    public Builder setEId(EId eId) {
       this.eId = eId;
       return this;
     }
@@ -194,7 +190,7 @@ public record Href(@JsonValue String value) {
      * @return a new {@link Href} instance
      */
     public Href buildInternalReference() {
-      var href = "#" + eId;
+      var href = "#" + eId.toString();
 
       if (characterRange != null) {
         href += "/" + characterRange;
