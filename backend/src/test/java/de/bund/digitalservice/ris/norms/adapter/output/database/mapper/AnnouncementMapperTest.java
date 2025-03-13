@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import java.time.Instant;
 import org.junit.jupiter.api.Test;
 
 class AnnouncementMapperTest {
@@ -15,6 +16,7 @@ class AnnouncementMapperTest {
     var announcementDto = AnnouncementDto
       .builder()
       .eliNormExpression("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+      .importTimestamp(Instant.parse("2025-03-12T12:00:00.0Z"))
       .build();
 
     // When
@@ -23,7 +25,7 @@ class AnnouncementMapperTest {
     // Then
     assertThat(announcement).isNotNull();
     assertThat(announcement.getEli()).hasToString(announcementDto.getEliNormExpression());
-    // TODO: (Malte Laukötter, 2024-10-28) test release mapping
+    assertThat(announcement.getImportTimestamp()).isEqualTo(announcementDto.getImportTimestamp());
   }
 
   @Test
@@ -32,6 +34,7 @@ class AnnouncementMapperTest {
     var announcement = Announcement
       .builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+      .importTimestamp(Instant.parse("2025-03-12T12:00:00.0Z"))
       .build();
 
     // When
@@ -40,6 +43,6 @@ class AnnouncementMapperTest {
     // Then
     assertThat(announcementDto).isNotNull();
     assertThat(announcementDto.getEliNormExpression()).isEqualTo(announcement.getEli().toString());
-    // TODO: (Malte Laukötter, 2024-10-28) test release mapping
+    assertThat(announcementDto.getImportTimestamp()).isEqualTo(announcement.getImportTimestamp());
   }
 }
