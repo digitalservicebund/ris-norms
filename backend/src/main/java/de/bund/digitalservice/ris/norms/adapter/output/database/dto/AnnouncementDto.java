@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,4 +32,7 @@ public class AnnouncementDto {
 
   @Column(name = "eli_norm_expression")
   private String eliNormExpression;
+
+  @Column(name = "import_timestamp", updatable = false, insertable = false)
+  private Instant importTimestamp;
 }

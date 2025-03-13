@@ -20,6 +20,7 @@ public class AnnouncementMapper {
     return Announcement
       .builder()
       .eli(NormExpressionEli.fromString(announcementDto.getEliNormExpression()))
+      .importTimestamp(announcementDto.getImportTimestamp())
       .build();
   }
 
@@ -30,6 +31,10 @@ public class AnnouncementMapper {
    * @return A new {@link AnnouncementDto} mapped from the input {@link Announcement}.
    */
   public static AnnouncementDto mapToDto(final Announcement announcement) {
-    return AnnouncementDto.builder().eliNormExpression(announcement.getEli().toString()).build();
+    return AnnouncementDto
+      .builder()
+      .eliNormExpression(announcement.getEli().toString())
+      .importTimestamp(announcement.getImportTimestamp())
+      .build();
   }
 }

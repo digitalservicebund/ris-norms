@@ -207,7 +207,7 @@ jobs:
           password: ${{ env.POSTGRES_PASSWORD }}
           locations: filesystem:./backend/src/main/resources/db/migration
       - name: Generate mermaid ER-diagram
-        uses: digitalservicebund/export-entity-relationship-diagram@c022c18a7a9e4fce71cece7ff907a952ba5c11c8
+        uses: digitalservicebund/export-entity-relationship-diagram@3bb61526d10138b41f1dc5bf117cf7e4c5b80258
         with:
           configFile: ./backend/mermerd.config.yaml
           connectionString: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@localhost:5432/${{ env.POSTGRES_DB }}

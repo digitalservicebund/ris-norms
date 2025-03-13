@@ -15,7 +15,10 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
+import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -125,6 +128,33 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       )
         .isPresent();
+    }
+
+    @Test
+    void itStoresTheImportTimestamp() throws Exception {
+      // Given
+      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var file = new MockMultipartFile(
+        "file",
+        "norm.xml",
+        "text/xml",
+        new ByteArrayInputStream(xmlContent.getBytes())
+      );
+
+      // When / Then
+      mockMvc
+        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(
+          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+        );
+
+      // Then
+      var announcement = announcementRepository.findByEliNormExpression(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"
+      );
+      assertThat(announcement.get().getImportTimestamp())
+        .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES));
     }
 
     @Test
