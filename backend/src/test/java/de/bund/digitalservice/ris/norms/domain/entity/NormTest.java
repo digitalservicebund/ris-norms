@@ -488,4 +488,24 @@ class NormTest {
       assertThat(norm.isInkraftAt(LocalDate.parse("2030-01-01"))).isFalse();
     }
   }
+
+  @Nested
+  class getOffenestrukturen {
+
+    @Test
+    void itReturnsOffenestrukturen() {
+      // Given
+      Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      OffeneStruktur offeneStruktur1 = Fixtures.loadOffeneStrukturFromDisk(
+        "SimpleOffenestruktur.xml"
+      );
+      Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, offeneStruktur1));
+
+      // When
+      var offenestrukturen = norm.getOffenestrukturen();
+
+      // Then
+      assertThat(offenestrukturen).hasSize(1).contains(offeneStruktur1);
+    }
+  }
 }

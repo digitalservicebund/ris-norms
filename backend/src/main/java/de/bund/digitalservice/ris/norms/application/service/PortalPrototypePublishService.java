@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.port.input.PublishNormsToPortalPrototypeUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteAllPublishedDokumentePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
@@ -33,6 +34,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private final LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort;
   private final ConfidentialDataCleanupService confidentialDataCleanupService;
   private final PrototypeCleanupService prototypeCleanupService;
+  private final LdmlDeValidator ldmlDeValidator;
 
   public PortalPrototypePublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
@@ -42,7 +44,8 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     LoadNormPort loadNormPort,
     LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort,
     ConfidentialDataCleanupService confidentialDataCleanupService,
-    PrototypeCleanupService prototypeCleanupService
+    PrototypeCleanupService prototypeCleanupService,
+    LdmlDeValidator ldmlDeValidator
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.publishNormPort = publishNormPort;
@@ -52,6 +55,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     this.loadPortalPublishingAllowListPort = loadPortalPublishingAllowListPort;
     this.confidentialDataCleanupService = confidentialDataCleanupService;
     this.prototypeCleanupService = prototypeCleanupService;
+    this.ldmlDeValidator = ldmlDeValidator;
   }
 
   @Override
@@ -85,11 +89,22 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
       confidentialDataCleanupService.clean(norm);
 
       try {
+        ldmlDeValidator.validateXSDSchema(norm);
+      } catch (final LdmlDeNotValidException e) {
+        log.error(
+          "Norm {} could not be published to portal-prototype (schema validation failed)",
+          norm.getManifestationEli().toString()
+        );
+        log.error(e.getMessage(), e);
+        return;
+      }
+
+      try {
         publishNormPort.publishNorm(new PublishNormPort.Command(norm));
         log.info("Published norm to portal-prototype: {}", norm.getManifestationEli().toString());
       } catch (final Exception e) {
         log.error(
-          "Norm {} could not be published to portal-prototype",
+          "Norm {} could not be published to portal-prototype (publishing failed)",
           norm.getManifestationEli().toString()
         );
         log.error(e.getMessage(), e);

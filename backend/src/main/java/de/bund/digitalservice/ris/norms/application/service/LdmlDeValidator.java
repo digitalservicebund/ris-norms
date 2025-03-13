@@ -57,6 +57,27 @@ public class LdmlDeValidator {
   }
 
   /**
+   * Validate the xsd schema for a Norm.
+   *
+   * @param norm the Norm to validate.
+   * @throws LdmlDeNotValidException if a part of the norm is not valid according to the XSD.
+   */
+  public void validateXSDSchema(Norm norm) {
+    norm
+      .getRegelungstexte()
+      .stream()
+      .map(Regelungstext::getDocument)
+      .map(XmlMapper::toString)
+      .forEach(this::parseAndValidateRegelungstext);
+    norm
+      .getOffenestrukturen()
+      .stream()
+      .map(OffeneStruktur::getDocument)
+      .map(XmlMapper::toString)
+      .forEach(this::parseAndValidateOffeneStruktur);
+  }
+
+  /**
    * Parses and validates the given LDML.de XML as a Regelungstext.
    *
    * @param ldmlDeString The XML string of the LDML.de document.

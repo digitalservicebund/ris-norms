@@ -71,6 +71,19 @@ public class Norm {
   }
 
   /**
+   * Returns all Regelungstext objects from the dokumente set.
+   *
+   * @return a set of Regelungstext objects, or an empty set if none exist
+   */
+  public Set<OffeneStruktur> getOffenestrukturen() {
+    return dokumente
+      .stream()
+      .filter(OffeneStruktur.class::isInstance)
+      .map(OffeneStruktur.class::cast)
+      .collect(Collectors.toSet());
+  }
+
+  /**
    * Replaces the current {@link Regelungstext} objects in {@link #dokumente} with the provided set.
    * <p>
    * If the underlying {@code dokumente} set is immutable (for example, created via {@code Set.of(...)}),

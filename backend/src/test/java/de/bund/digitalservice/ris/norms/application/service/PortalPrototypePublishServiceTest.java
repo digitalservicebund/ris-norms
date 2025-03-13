@@ -34,6 +34,7 @@ class PortalPrototypePublishServiceTest {
     ConfidentialDataCleanupService.class
   );
   final PrototypeCleanupService prototypeCleanupService = mock(PrototypeCleanupService.class);
+  final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
   final PortalPrototypePublishService portalPrototypePublishService =
     new PortalPrototypePublishService(
       loadNormManifestationElisByPublishStatePort,
@@ -43,7 +44,8 @@ class PortalPrototypePublishServiceTest {
       loadNormPort,
       loadPortalPublishingAllowListPort,
       confidentialDataCleanupService,
-      prototypeCleanupService
+      prototypeCleanupService,
+      ldmlDeValidator
     );
 
   @Test
