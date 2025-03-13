@@ -274,7 +274,11 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     );
 
     // Then
-    assertThat(announcementOptional).isPresent().contains(announcement);
+    assertThat(announcementOptional)
+      .get()
+      .usingRecursiveComparison()
+      .ignoringFields("importTimestamp")
+      .isEqualTo(announcement);
   }
 
   @Test
@@ -302,7 +306,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final List<Announcement> announcements = dbService.loadAllAnnouncements();
 
     // Then
-    assertThat(announcements).containsExactly(announcement2, announcement1);
+    assertThat(announcements)
+      .usingRecursiveFieldByFieldElementComparatorIgnoringFields("importTimestamp")
+      .containsExactly(announcement2, announcement1);
   }
 
   @Nested

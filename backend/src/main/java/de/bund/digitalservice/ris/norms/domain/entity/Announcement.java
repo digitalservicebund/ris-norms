@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -15,4 +16,6 @@ import lombok.experimental.SuperBuilder;
 public class Announcement {
 
   private NormExpressionEli eli;
+
+  private Instant importTimestamp;
 }
