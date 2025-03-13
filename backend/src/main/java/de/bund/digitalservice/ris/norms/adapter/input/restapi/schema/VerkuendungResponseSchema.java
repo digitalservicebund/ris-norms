@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -27,4 +28,6 @@ public class VerkuendungResponseSchema {
   private String frbrNumber;
 
   private String frbrDateVerkuendung;
+
+  private Instant importedAt;
 }
