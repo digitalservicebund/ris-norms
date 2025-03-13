@@ -26,6 +26,29 @@ class LdmlDeValidatorTest {
   );
 
   @Nested
+  class validateXSDSchema {
+
+    @Test
+    void itShouldValidateAValidNorm() {
+      // Given
+      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+
+      // When // Then
+      ldmlDeValidator.validateXSDSchema(norm); // Check that it doesn't throw
+    }
+
+    @Test
+    void itShouldNotValidateAInvalidNorm() {
+      // Given
+      var norm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
+
+      // When // Then
+      assertThatThrownBy(() -> ldmlDeValidator.validateXSDSchema(norm))
+        .isInstanceOf(LdmlDeNotValidException.class);
+    }
+  }
+
+  @Nested
   class parseAndValidateRegelungstext {
 
     @Test
