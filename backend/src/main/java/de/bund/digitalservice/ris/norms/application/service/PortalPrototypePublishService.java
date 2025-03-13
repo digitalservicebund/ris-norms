@@ -32,6 +32,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   private final LoadNormPort loadNormPort;
   private final LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort;
   private final ConfidentialDataCleanupService confidentialDataCleanupService;
+  private final PrototypeCleanupService prototypeCleanupService;
 
   public PortalPrototypePublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
@@ -40,7 +41,8 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     @Qualifier("portalPrototype") PublishChangelogPort publishChangelogsPort,
     LoadNormPort loadNormPort,
     LoadPortalPublishingAllowListPort loadPortalPublishingAllowListPort,
-    ConfidentialDataCleanupService confidentialDataCleanupService
+    ConfidentialDataCleanupService confidentialDataCleanupService,
+    PrototypeCleanupService prototypeCleanupService
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.publishNormPort = publishNormPort;
@@ -49,6 +51,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     this.loadNormPort = loadNormPort;
     this.loadPortalPublishingAllowListPort = loadPortalPublishingAllowListPort;
     this.confidentialDataCleanupService = confidentialDataCleanupService;
+    this.prototypeCleanupService = prototypeCleanupService;
   }
 
   @Override
@@ -77,7 +80,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
         return;
       }
 
-      // TODO: (Malte Laukötter, 2025-03-07) clean up norm
+      prototypeCleanupService.clean(norm);
 
       confidentialDataCleanupService.clean(norm);
 

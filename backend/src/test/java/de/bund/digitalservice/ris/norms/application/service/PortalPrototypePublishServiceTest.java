@@ -33,6 +33,7 @@ class PortalPrototypePublishServiceTest {
   final ConfidentialDataCleanupService confidentialDataCleanupService = mock(
     ConfidentialDataCleanupService.class
   );
+  final PrototypeCleanupService prototypeCleanupService = mock(PrototypeCleanupService.class);
   final PortalPrototypePublishService portalPrototypePublishService =
     new PortalPrototypePublishService(
       loadNormManifestationElisByPublishStatePort,
@@ -41,7 +42,8 @@ class PortalPrototypePublishServiceTest {
       publishChangelogPort,
       loadNormPort,
       loadPortalPublishingAllowListPort,
-      confidentialDataCleanupService
+      confidentialDataCleanupService,
+      prototypeCleanupService
     );
 
   @Test

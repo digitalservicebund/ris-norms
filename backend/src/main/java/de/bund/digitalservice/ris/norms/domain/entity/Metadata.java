@@ -9,7 +9,7 @@ import lombok.Getter;
  * <ul>
  *   <li>A {@link Namespace} that defines its XML namespace.</li>
  *   <li>An XPath expression used to locate the metadata within its parent, bound to the namespace.</li>
- *   <li>A tag name that represents the metadata field.</li>
+ *   <li>A tag name that points to the metadata value. This can be the actual tag name or an attribute depending on where the value is stored</li>
  *   <li>An optional attribute flag indicating whether the metadata is an XML attribute.</li>
  * </ul>
  */
@@ -45,7 +45,8 @@ public enum Metadata {
   ),
   ORGANISATIONS_EINHEIT(Namespace.METADATEN_RIS, "./organisationsEinheit", "organisationsEinheit"),
   EXPIRY(Namespace.METADATEN_RIS, "./expiry/@date", "date", true),
-  ENTRY_INTO_FORCE(Namespace.METADATEN_RIS, "./entryIntoForce/@date", "date", true);
+  ENTRY_INTO_FORCE(Namespace.METADATEN_RIS, "./entryIntoForce/@date", "date", true),
+  STANDANGABE(Namespace.METADATEN_RIS, "./standangabe", "standangabe");
 
   private final Namespace namespace;
   private final String xpath;
