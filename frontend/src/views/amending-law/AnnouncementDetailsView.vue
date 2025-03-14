@@ -13,19 +13,30 @@ import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisEmptyState from "@/components/controls/RisEmptyState.vue"
-import Button from "primevue/button"
-import IconPlus from "~icons/ic/outline-plus"
 import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
-
-const router = useRouter()
+import { useGetAnnouncementService } from "@/services/announcementService"
 
 const eli = useDokumentExpressionEliPathParameter()
-const { data: amendingLaw, isFetching, error } = useGetNorm(eli)
-const { data: amendingLawHtml } = useGetNormHtml(eli)
+const {
+  data: amendingLaw,
+  // isFetching: isFetchingAmendingLaw,
+  // error: loadingErrorAmendingLaw,
+} = useGetNorm(eli)
 
-// TODO CHECK IF THIS IS A 404 TRIGGER OR NOT
+const {
+  data: amendingLawHtml,
+  isFetching: isFetchingAmendingLawHtml,
+  error: loadingErrorAmendingLawHtml,
+} = useGetNormHtml(eli)
+const {
+  data: announcement,
+  isFetching: isFetchingAnnouncement,
+  error: loadingErrorAnnouncement,
+} = useGetAnnouncementService(eli)
+
+const router = useRouter()
 watch(
-  () => error.value,
+  () => loadingErrorAnnouncement.value,
   (err) => {
     if (err && err.status === 404) {
       router.push({ name: "NotFound" })
@@ -33,8 +44,7 @@ watch(
   },
 )
 
-// TODO: THE DATA PUT INTO THE ANOUNCEMENT DETAIL IS A 404 TRIGGER
-
+// TODO: CHECK IF CAN USE THE RETURNED ANNOUNCEMENT TO GET THE BREADCRUMB DETAILS
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "amendingLaw",
@@ -49,14 +59,17 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 
 <template>
   <div
-    v-if="isFetching"
+    v-if="isFetchingAnnouncement"
     class="flex h-[calc(100dvh-5rem)] items-center justify-center"
   >
     <RisLoadingSpinner />
   </div>
 
-  <div v-else-if="error" class="m-24">
-    <RisErrorCallout v-if="error.status !== 404" :error />
+  <div v-else-if="loadingErrorAnnouncement" class="m-24">
+    <RisErrorCallout
+      v-if="loadingErrorAnnouncement.status !== 404"
+      :error="loadingErrorAnnouncement"
+    />
   </div>
 
   <div v-else class="flex h-[calc(100dvh-5rem)] flex-col bg-gray-100">
@@ -69,34 +82,30 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
             class="flex flex-col gap-24 p-24"
           >
             <RisAnnouncementDetails
-              title="Gesetz zur Anpassung des Mutterschutzgesetzes und weiterer Gesetze – Anspruch auf Mutterschutzfristen nach einer Fehlgeburt (Mutterschutzanpassungsgesetz)"
-              :meta-data="[
-                { label: 'Veröffentlichungsdatum', value: '27.02.2025' },
-                { label: 'Ausfertigungsdatum', value: '24.02.2025' },
-                { label: 'Datenlieferungsdatum', value: '24.02.2025, 08:12' },
-                {
-                  label: 'FNA',
-                  value:
-                    '8052-5, 860-5, 2030-2-30-2, 51-1-23, 8052-5, 860-5, 2030-2-30-2, 51-1-23',
-                },
-              ]"
+              :title="announcement?.title"
+              :veroeffentlichungsdatum="announcement?.veroeffentlichungsdatum"
+              :ausfertigungsdatum="announcement?.ausfertigungsdatum"
+              :datenlieferungsdatum="announcement?.datenlieferungsdatum"
+              :fna="announcement?.fna"
             />
+
             <div class="flex flex-col gap-16">
               <h2 class="ris-body1-bold">Zielnormen</h2>
               <RisEmptyState
-                class="text-left"
                 text-content="Es sind noch keine Zielnormen vorhanden"
               />
-              <div>
-                <Button severity="primary" label="Zielnorm hinzufügen">
-                  <template #icon>
-                    <IconPlus />
-                  </template>
-                </Button>
-              </div>
             </div>
           </SplitterPanel>
           <SplitterPanel :size="25" :min-size="10">
+            <div
+              v-if="isFetchingAmendingLawHtml"
+              class="flex items-center justify-center"
+            >
+              <RisLoadingSpinner></RisLoadingSpinner>
+            </div>
+            <div v-else-if="loadingErrorAmendingLawHtml">
+              <RisErrorCallout :error="loadingErrorAmendingLawHtml" />
+            </div>
             <RisLawPreview
               class="h-full w-full"
               :content="amendingLawHtml ?? ''"

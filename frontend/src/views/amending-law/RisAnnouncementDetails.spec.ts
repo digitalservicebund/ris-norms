@@ -12,32 +12,29 @@ describe("risAnnouncementDetails", () => {
     expect(screen.getByText("Test Announcement Title")).toBeInTheDocument()
   })
 
-  it("should render metadata items correctly", () => {
+  it("should render all announcement details correctly", () => {
     render(RisAnnouncementDetails, {
       props: {
         title: "Test Announcement",
-        metaData: [
-          { label: "Veröffentlichungsdatum", value: "01.01.2025" },
-          { label: "FNA", value: "123-456-789" },
-        ],
+        veroeffentlichungsdatum: "27.02.2025",
+        ausfertigungsdatum: "24.02.2025",
+        datenlieferungsdatum: "24.02.2025, 08:12",
+        fna: "8052-5, 860-5, 2030-2-30-2, 51-1-23",
       },
     })
 
     expect(screen.getByText("Veröffentlichungsdatum")).toBeInTheDocument()
-    expect(screen.getByText("01.01.2025")).toBeInTheDocument()
+    expect(screen.getByText("27.02.2025")).toBeInTheDocument()
+
+    expect(screen.getByText("Ausfertigungsdatum")).toBeInTheDocument()
+    expect(screen.getByText("24.02.2025")).toBeInTheDocument()
+
+    expect(screen.getByText("Datenlieferungsdatum")).toBeInTheDocument()
+    expect(screen.getByText("24.02.2025, 08:12")).toBeInTheDocument()
+
     expect(screen.getByText("FNA")).toBeInTheDocument()
-    expect(screen.getByText("123-456-789")).toBeInTheDocument()
-  })
-
-  it("should handle missing metadata gracefully", () => {
-    render(RisAnnouncementDetails, {
-      props: {
-        title: "Test Announcement",
-        metaData: undefined,
-      },
-    })
-
-    // Ensure it doesn't break when metadata is missing
-    expect(screen.getByText("Test Announcement")).toBeInTheDocument()
+    expect(
+      screen.getByText("8052-5, 860-5, 2030-2-30-2, 51-1-23"),
+    ).toBeInTheDocument()
   })
 })
