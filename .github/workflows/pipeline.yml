@@ -360,7 +360,7 @@ jobs:
           name: frontend-unit-test-report
           path: tmp/frontend-unit-test-report
       - name: frontend unit test report - git add report
-        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
+        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/frontend-unit-test-report
           destinationDir: test-reports/ris-norms/frontend/unit-tests
@@ -413,7 +413,7 @@ jobs:
           name: backend-unit-test-report
           path: tmp/backend-unit-test-report
       - name: unit test report - git add report
-        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
+        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/backend-unit-test-report
           destinationDir: test-reports/ris-norms/backend/unit-tests
@@ -426,7 +426,7 @@ jobs:
           name: backend-integration-test-report
           path: tmp/backend-integration-test-report
       - name: integration test report - git add report
-        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
+        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/backend-integration-test-report
           destinationDir: test-reports/ris-norms/backend/integration-tests
