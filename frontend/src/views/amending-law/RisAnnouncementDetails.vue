@@ -1,20 +1,18 @@
 <script setup lang="ts">
-type MetadataItem = {
-  label: string
-  value: string
-}
+import { computed } from "vue"
 
-defineProps<{
-  /**
-   * The title of the announcement.
-   */
-  title: string
-
-  /**
-   * Metadata key-value pairs.
-   */
-  metaData?: MetadataItem[]
+const props = defineProps<{
+  title?: string
+  veroeffentlichungsdatum?: string
+  ausfertigungsdatum?: string
+  datenlieferungsdatum?: string
+  fna?: string
 }>()
+
+const computedVerkuendung = computed(() => props.veroeffentlichungsdatum ?? "")
+const computedAusfertigung = computed(() => props.ausfertigungsdatum ?? "")
+const computedDatenlieferung = computed(() => props.datenlieferungsdatum ?? "")
+const computedFna = computed(() => props.fna ?? "")
 </script>
 
 <template>
@@ -24,22 +22,45 @@ defineProps<{
     <span class="ris-body1-bold w-full">
       {{ title }}
     </span>
+
     <div class="flex flex-wrap gap-x-8 gap-y-4">
-      <div
-        v-for="item in metaData"
-        :key="item.label"
-        class="flex min-w-192 flex-1 flex-col"
-      >
-        <span class="ris-body2-regular text-gray-800">{{ item.label }}</span>
-        <span class="ris-body2-regular break-words">{{ item.value }}</span>
+      <div class="flex min-w-192 flex-1 flex-col">
+        <span class="ris-body2-regular text-gray-800"
+          >Veröffentlichungsdatum</span
+        >
+        <span class="ris-body2-regular break-words">{{
+          computedVerkuendung
+        }}</span>
+      </div>
+
+      <div class="flex min-w-192 flex-1 flex-col">
+        <span class="ris-body2-regular text-gray-800">Ausfertigungsdatum</span>
+        <span class="ris-body2-regular break-words">{{
+          computedAusfertigung
+        }}</span>
+      </div>
+
+      <div class="flex min-w-192 flex-1 flex-col">
+        <span class="ris-body2-regular text-gray-800"
+          >Datenlieferungsdatum</span
+        >
+        <span class="ris-body2-regular break-words">{{
+          computedDatenlieferung
+        }}</span>
+      </div>
+
+      <div class="flex min-w-192 flex-1 flex-col">
+        <span class="ris-body2-regular text-gray-800">FNA</span>
+        <span class="ris-body2-regular break-words">{{ computedFna }}</span>
       </div>
     </div>
+
     <div class="flex flex-col gap-4">
-      <RouterLink :to="{ name: 'TemporalData' }" class="ris-link1-regular">
+      <RouterLink :to="{ name: 'TemporalData' }" class="ris-link1-bold">
         Geltungszeitregeln anlegen
       </RouterLink>
 
-      <span class="ris-link1-regular cursor-not-allowed text-gray-600">
+      <span class="ris-link1-bold cursor-not-allowed text-gray-600">
         Zielnormen verknüpfen
       </span>
     </div>
