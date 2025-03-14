@@ -18,4 +18,5 @@ public class Announcement {
   private NormExpressionEli eli;
 
   private Instant importTimestamp;
+  //  private Norm verkuendungsNorm;
 }

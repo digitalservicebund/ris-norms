@@ -43,6 +43,6 @@ class AnnouncementMapperTest {
     // Then
     assertThat(announcementDto).isNotNull();
     assertThat(announcementDto.getEliNormExpression()).isEqualTo(announcement.getEli().toString());
-    assertThat(announcementDto.getImportTimestamp()).isEqualTo(announcement.getImportTimestamp());
+    assertThat(announcementDto.getImportTimestamp()).isNull();
   }
 }
