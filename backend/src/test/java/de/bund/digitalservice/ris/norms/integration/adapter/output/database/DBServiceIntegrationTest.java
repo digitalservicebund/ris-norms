@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.MigrationLogDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
@@ -379,7 +380,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     );
 
     // Then
-    assertThat(announcementFromDatabase).isEqualTo(announcement);
+    assertThat(announcementFromDatabase)
+      .usingRecursiveComparison()
+      .ignoringFields("importTimestamp")
+      .isEqualTo(announcement);
+    assertThat(announcementFromDatabase.getImportTimestamp())
+      .isNotNull()
+      .isCloseTo(Instant.now(), within(1, ChronoUnit.MINUTES));
   }
 
   @Nested
