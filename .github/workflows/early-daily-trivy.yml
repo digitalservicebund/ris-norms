@@ -25,7 +25,7 @@ jobs:
       - name: Run Trivy vulnerability file scanner
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
-        uses: aquasecurity/trivy-action@a11da62073708815958ea6d84f5650c78a3ef85b
+        uses: aquasecurity/trivy-action@6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
@@ -69,7 +69,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@a11da62073708815958ea6d84f5650c78a3ef85b
+        uses: aquasecurity/trivy-action@6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
@@ -94,7 +94,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@a11da62073708815958ea6d84f5650c78a3ef85b
+        uses: aquasecurity/trivy-action@6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRIVY_USERNAME: ${{ github.actor }}
