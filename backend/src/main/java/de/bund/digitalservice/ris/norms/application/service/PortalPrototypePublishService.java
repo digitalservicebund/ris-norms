@@ -69,47 +69,56 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
 
     log.info("Currently {} norms are in state PUBLISHED", publishedNormElis.size());
 
-    publishedNormElis.forEach(eli -> {
-      log.info("Processing norm with manifestation eli {}", eli);
-      Optional<Norm> optionalNorm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
+    var successfullyPublishedNormCount = publishedNormElis
+      .stream()
+      .map(eli -> {
+        log.info("Processing norm with manifestation eli {}", eli);
+        Optional<Norm> optionalNorm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
 
-      if (optionalNorm.isEmpty()) {
-        log.error("Norm with manifestation eli {} not found", eli);
-        return;
-      }
+        if (optionalNorm.isEmpty()) {
+          log.error("Norm with manifestation eli {} not found", eli);
+          return false;
+        }
 
-      var norm = optionalNorm.get();
+        var norm = optionalNorm.get();
 
-      if (!isNormAllowedToBePublished(norm)) {
-        return;
-      }
+        if (!isNormAllowedToBePublished(norm)) {
+          return false;
+        }
 
-      prototypeCleanupService.clean(norm);
+        prototypeCleanupService.clean(norm);
 
-      confidentialDataCleanupService.clean(norm);
+        confidentialDataCleanupService.clean(norm);
 
-      try {
-        ldmlDeValidator.validateXSDSchema(norm);
-      } catch (final LdmlDeNotValidException e) {
-        log.error(
-          "Norm {} could not be published to portal-prototype (schema validation failed)",
-          norm.getManifestationEli().toString()
-        );
-        log.error(e.getMessage(), e);
-        return;
-      }
+        try {
+          ldmlDeValidator.validateXSDSchema(norm);
+        } catch (final LdmlDeNotValidException e) {
+          log.error(
+            "Norm {} could not be published to portal-prototype (schema validation failed)",
+            norm.getManifestationEli().toString()
+          );
+          log.error(e.getMessage(), e);
+          return false;
+        }
 
-      try {
-        publishNormPort.publishNorm(new PublishNormPort.Command(norm));
+        try {
+          publishNormPort.publishNorm(new PublishNormPort.Command(norm));
+        } catch (final Exception e) {
+          log.error(
+            "Norm {} could not be published to portal-prototype (publishing failed)",
+            norm.getManifestationEli().toString()
+          );
+          log.error(e.getMessage(), e);
+          return false;
+        }
+
         log.info("Published norm to portal-prototype: {}", norm.getManifestationEli().toString());
-      } catch (final Exception e) {
-        log.error(
-          "Norm {} could not be published to portal-prototype (publishing failed)",
-          norm.getManifestationEli().toString()
-        );
-        log.error(e.getMessage(), e);
-      }
-    });
+        return true;
+      })
+      .filter(successfullyPublished -> successfullyPublished)
+      .count();
+
+    log.info("Published {} norms to portal-prototype", successfullyPublishedNormCount);
 
     log.info("Deleting all old dokumente from portal-prototype bucket");
     deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
