@@ -31,10 +31,6 @@ public class AnnouncementMapper {
    * @return A new {@link AnnouncementDto} mapped from the input {@link Announcement}.
    */
   public static AnnouncementDto mapToDto(final Announcement announcement) {
-    return AnnouncementDto
-      .builder()
-      .eliNormExpression(announcement.getEli().toString())
-      .importTimestamp(announcement.getImportTimestamp())
-      .build();
+    return AnnouncementDto.builder().eliNormExpression(announcement.getEli().toString()).build();
   }
 }
