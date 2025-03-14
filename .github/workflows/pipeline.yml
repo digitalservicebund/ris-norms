@@ -353,6 +353,19 @@ jobs:
           filePath: tmp/backend-code-documentation
           destinationDir: norms-code-documentation/java
           reportIsDirectory: true
+      # Frontend unit test report
+      - name: frontend unit test report - download artifact
+        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+        with:
+          name: frontend-unit-test-report
+          path: tmp/frontend-unit-test-report
+      - name: frontend unit test report - git add report
+        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
+        with:
+          filePath: tmp/frontend-unit-test-report
+          destinationDir: test-reports/ris-norms/frontend/unit-tests
+          keepAllVersions: false
+          reportIsDirectory: true
       # E2E test report
       - name: E2E test reports - Download
         uses: actions/download-artifact@v4
