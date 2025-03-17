@@ -162,6 +162,18 @@ class AnnouncementServiceTest {
       )
         .thenReturn(Optional.empty());
 
+      when(
+        updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
+          new UpdateOrSaveAnnouncementPort.Command(any())
+        )
+      )
+        .thenReturn(
+          Announcement
+            .builder()
+            .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+            .build()
+        );
+
       // When
       var announcement = announcementService.createAnnouncement(
         new CreateAnnouncementUseCase.Query(file, false)
@@ -391,6 +403,18 @@ class AnnouncementServiceTest {
         )
       )
         .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithMods.xml")));
+
+      when(
+        updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
+          new UpdateOrSaveAnnouncementPort.Command(any())
+        )
+      )
+        .thenReturn(
+          Announcement
+            .builder()
+            .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+            .build()
+        );
 
       var announcement = announcementService.createAnnouncement(
         new CreateAnnouncementUseCase.Query(file, true)

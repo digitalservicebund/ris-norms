@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 /**
  * Data Transfer Object (DTO) class representing an announcement entity. This class is annotated
@@ -33,6 +35,7 @@ public class AnnouncementDto {
   @Column(name = "eli_norm_expression")
   private String eliNormExpression;
 
+  @Generated(event = EventType.INSERT)
   @Column(name = "import_timestamp", updatable = false, insertable = false)
   private Instant importTimestamp;
 }
