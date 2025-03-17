@@ -3,15 +3,19 @@ import { computed } from "vue"
 
 const props = defineProps<{
   title?: string
-  veroeffentlichungsdatum?: string
-  ausfertigungsdatum?: string
-  datenlieferungsdatum?: string
+  frbrDateVerkuendung?: string
+  frbrDateAusfertigung?: string
+  importTimestamp?: string
   fna?: string
 }>()
 
-const computedVerkuendung = computed(() => props.veroeffentlichungsdatum ?? "")
-const computedAusfertigung = computed(() => props.ausfertigungsdatum ?? "")
-const computedDatenlieferung = computed(() => props.datenlieferungsdatum ?? "")
+const computedfrbrDateVerkuendung = computed(
+  () => props.frbrDateVerkuendung ?? "",
+)
+const computedfrbrDateAusfertigung = computed(
+  () => props.frbrDateAusfertigung ?? "",
+)
+const computedimportTimestamp = computed(() => props.importTimestamp ?? "")
 const computedFna = computed(() => props.fna ?? "")
 </script>
 
@@ -29,14 +33,14 @@ const computedFna = computed(() => props.fna ?? "")
           >Veröffentlichungsdatum</span
         >
         <span class="ris-body2-regular break-words">{{
-          computedVerkuendung
+          computedfrbrDateVerkuendung
         }}</span>
       </div>
 
       <div class="flex min-w-192 flex-1 flex-col">
         <span class="ris-body2-regular text-gray-800">Ausfertigungsdatum</span>
         <span class="ris-body2-regular break-words">{{
-          computedAusfertigung
+          computedfrbrDateAusfertigung
         }}</span>
       </div>
 
@@ -45,7 +49,7 @@ const computedFna = computed(() => props.fna ?? "")
           >Datenlieferungsdatum</span
         >
         <span class="ris-body2-regular break-words">{{
-          computedDatenlieferung
+          computedimportTimestamp
         }}</span>
       </div>
 

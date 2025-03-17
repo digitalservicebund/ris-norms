@@ -20,7 +20,7 @@ export function useAnnouncementsService(): UseFetchReturn<Norm[]> {
 export function useGetAnnouncementService(
   eli: MaybeRefOrGetter<NormExpressionEli>,
 ): UseFetchReturn<Announcement> {
-  const url = computed(() => `/announcements/${toValue(eli)}`)
+  const url = computed(() => `/verkundungen/${toValue(eli)}`)
 
   return useApiFetch(url).json()
 }

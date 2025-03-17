@@ -16,9 +16,9 @@ describe("risAnnouncementDetails", () => {
     render(RisAnnouncementDetails, {
       props: {
         title: "Test Announcement",
-        veroeffentlichungsdatum: "27.02.2025",
-        ausfertigungsdatum: "24.02.2025",
-        datenlieferungsdatum: "24.02.2025, 08:12",
+        frbrDateVerkuendung: "27.02.2025",
+        frbrDateAusfertigung: "24.02.2025",
+        importTimestamp: "24.02.2025, 08:12",
         fna: "8052-5, 860-5, 2030-2-30-2, 51-1-23",
       },
     })

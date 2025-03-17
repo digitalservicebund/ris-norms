@@ -5,7 +5,7 @@ import RisHeader, {
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
-import { useGetNorm, useGetNormHtml } from "@/services/normService"
+import { useGetNormHtml } from "@/services/normService"
 import { ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useRouter } from "vue-router"
@@ -17,11 +17,6 @@ import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
 import { useGetAnnouncementService } from "@/services/announcementService"
 
 const eli = useDokumentExpressionEliPathParameter()
-const {
-  data: amendingLaw,
-  // isFetching: isFetchingAmendingLaw,
-  // error: loadingErrorAmendingLaw,
-} = useGetNorm(eli)
 
 const {
   data: amendingLawHtml,
@@ -43,14 +38,12 @@ watch(
     }
   },
 )
-
-// TODO: CHECK IF CAN USE THE RETURNED ANNOUNCEMENT TO GET THE BREADCRUMB DETAILS
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "amendingLaw",
     title: () =>
-      amendingLaw.value
-        ? (getFrbrDisplayText(amendingLaw.value) ?? "...")
+      announcement.value
+        ? (getFrbrDisplayText(announcement.value) ?? "...")
         : "...",
     to: `/verkuendungen/${eli.value}`,
   },
@@ -83,9 +76,9 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           >
             <RisAnnouncementDetails
               :title="announcement?.title"
-              :veroeffentlichungsdatum="announcement?.veroeffentlichungsdatum"
-              :ausfertigungsdatum="announcement?.ausfertigungsdatum"
-              :datenlieferungsdatum="announcement?.datenlieferungsdatum"
+              :veroeffentlichungsdatum="announcement?.frbrDateVerkuendung"
+              :ausfertigungsdatum="announcement?.frbrDateAusfertigung"
+              :datenlieferungsdatum="announcement?.importTimestamp"
               :fna="announcement?.fna"
             />
 
