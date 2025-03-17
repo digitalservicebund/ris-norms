@@ -157,18 +157,9 @@ class PrototypeCleanupServiceTest {
 
     for (Node eventRef : eventRefs) {
       Element event = (Element) eventRef;
-      String type = event.getAttribute("type");
-      String refersTo = event.getAttribute("refersTo");
       String date = event.getAttribute("date");
 
-      if (
-        ("generation".equals(type) && "ausfertigung".equals(refersTo)) ||
-        ("generation".equals(type) && "inkrafttreten".equals(refersTo) && "2025-09-01".equals(date))
-      ) {
-        assertThat(date).isNotEqualTo("1001-01-01");
-      } else {
-        assertThat(date).isEqualTo("1001-01-01");
-      }
+      assertThat(date).isEqualTo("1001-01-01");
     }
   }
 }

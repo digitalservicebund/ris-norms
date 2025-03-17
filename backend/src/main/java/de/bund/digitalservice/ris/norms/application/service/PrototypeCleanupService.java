@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -88,16 +87,7 @@ public class PrototypeCleanupService {
 
   private void cleanLifecycleEvents(Dokument dokument) {
     Element metadataElement = dokument.getMeta().getElement();
-    String entryIntoForce = dokument
-      .getMeta()
-      .getProprietary()
-      .orElseThrow(() -> new MandatoryNodeNotFoundException("./ris:legalDocML.de_metadaten"))
-      .getMetadataValue(Metadata.ENTRY_INTO_FORCE)
-      .orElseThrow(() -> new MandatoryNodeNotFoundException("./ris:entryIntoForce"));
-    String query =
-      "//eventRef[not(@type='generation' and @refersTo='ausfertigung') and not(@type='generation' and @refersTo='inkrafttreten' and @date='" +
-      entryIntoForce +
-      "')]";
+    String query = "//eventRef";
 
     var nodesToChange = NodeParser.getElementsFromExpression(query, metadataElement);
     for (Element element : nodesToChange) {
