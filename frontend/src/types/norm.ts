@@ -16,8 +16,4 @@ export interface Norm {
   frbrNumber?: string
   /** When the law was published. Conforms to YYYY-MM-DD. */
   frbrDateVerkuendung?: string
-  /** Date of issue (Ausfertigungsdatum) */
-  frbrDateAusfertigung?: string
-  /** Date of first processing (Datenlieferungsdatum) */
-  importTimestamp?: string
 }

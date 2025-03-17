@@ -19,7 +19,7 @@ const routes: readonly RouteRecordRaw[] = [
     redirect: { name: "AmendingLaws" },
   },
   {
-    path: `/verkuendungen/${createDokumentExpressionEliPathParameter()}`,
+    path: `/announcements/${createDokumentExpressionEliPathParameter()}`,
     name: "AnnouncementDetails",
     component: () => import("@/views/amending-law/AnnouncementDetailsView.vue"),
   },

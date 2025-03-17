@@ -45,7 +45,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
       announcement.value
         ? (getFrbrDisplayText(announcement.value) ?? "...")
         : "...",
-    to: `/verkuendungen/${eli.value}`,
+    to: `/announcements/${eli.value}`,
   },
 ])
 </script>
