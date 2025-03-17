@@ -20,7 +20,7 @@ google-protobuf-java = "com.google.protobuf:protobuf-java:4.30.1"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.36"
-mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.16.0"
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.16.1"
 postgresql = "org.postgresql:postgresql:42.7.5"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.14.5"
 saxon-he = "net.sf.saxon:Saxon-HE:12.5"
