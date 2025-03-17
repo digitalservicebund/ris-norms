@@ -343,5 +343,44 @@ class PublishServiceTest {
       verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
+
+    @Test
+    void deleteAllNormsIfMigrationLogExistsAndIsOldButNotCompleted() {
+      // Given
+      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final MigrationLog migrationLog = MigrationLog
+        .builder()
+        .size(5)
+        .createdAt(Instant.parse("2007-12-03T10:15:30.00Z"))
+        .completed(false)
+        .build();
+
+      when(
+        loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+      )
+        .thenReturn(List.of(norm.getManifestationEli()));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
+        .thenReturn(Optional.of(norm));
+      when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
+
+      // When
+      publishService.processQueuedFilesForPublish();
+
+      // Then
+      verify(loadNormManifestationElisByPublishStatePort, times(1))
+        .loadNormManifestationElisByPublishState(
+          argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
+        );
+
+      // Check that deletion was called
+      verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
+      verify(deleteAllPrivateDokumentePort, times(1)).deleteAllPublishedDokumente(any());
+
+      // Verify norm publishing actions
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishChangelogPort, times(1)).publishChangelogs(any());
+    }
   }
 }
