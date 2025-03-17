@@ -53,6 +53,28 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/InternalServerError"
+  /announcements/{expressionEli}:
+    get:
+      tags:
+        - Announcements
+      summary: Get a specific announcement by its expression ELI
+      parameters:
+        - name: expressionEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/DokumentExpressionEli"
+      responses:
+        "200":
+          description: Requested announcement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Verkuendung"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /{expressionEli}/releases:
     get:
