@@ -8,6 +8,7 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
@@ -423,6 +424,39 @@ class AnnouncementServiceTest {
       // Then
       verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
       assertThat(announcement.getEli()).hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
+    }
+  }
+
+  @Nested
+  class loadNormExpressionsAffectedByVerkuendung {
+
+    @Test
+    void itReturnsListOfNorms() {
+      // Given
+      var verkuendungsNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var affectedNorm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+
+      when(loadNormPort.loadNorm(any()))
+        .thenReturn(Optional.of(verkuendungsNorm))
+        .thenReturn(Optional.of(affectedNorm));
+
+      // When
+      var norms = announcementService.loadNormExpressionsAffectedByVerkuendung(
+        new LoadNormExpressionsAffectedByVerkuendungUseCase.Query(
+          verkuendungsNorm.getExpressionEli()
+        )
+      );
+
+      // Then
+      assertThat(norms).hasSize(1).contains(affectedNorm);
+      verify(loadNormPort, times(1))
+        .loadNorm(new LoadNormPort.Command(verkuendungsNorm.getExpressionEli()));
+      verify(loadNormPort, times(1))
+        .loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2023-12-30/1/deu")
+          )
+        );
     }
   }
 }
