@@ -76,7 +76,7 @@ class VerkuendungResponseMapperTest {
                         </akn:p>
                      </akn:longTitle>
                      <akn:block eId="einleitung-1_block-1" GUID="010d9df0-817a-49b6-a121-d0a1d412a3e3" name="attributsemantik-noch-undefiniert">
-                        <akn:date eId="einleitung-1_block-1_datum-1" GUID="28fafbe4-403d-4436-8d0d-7241cbbdade0" refersTo="ausfertigung-datum" date="1964-08-05">Vom 5. August 1964 </akn:date>
+                        <akn:date eId="einleitung-1_block-1_datum-1" GUID="28fafbe4-403d-4436-8d0d-7241cbbdade0" refersTo="ausfertigung-datum" date="1964-08-06">Vom 5. August 1964 </akn:date>
                      </akn:block>
                   </akn:preface>
                  </akn:act>
@@ -108,6 +108,7 @@ class VerkuendungResponseMapperTest {
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("s593");
     assertThat(result.getFrbrDateVerkuendung()).isEqualTo("1964-08-05");
+    assertThat(result.getDateAusfertigung()).isEqualTo("1964-08-06");
     assertThat(result.getFna()).isEqualTo("754-28-1");
     assertThat(result.getImportedAt()).isEqualTo(announcement.getImportTimestamp());
   }
@@ -148,6 +149,11 @@ class VerkuendungResponseMapperTest {
                              <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
                           </akn:FRBRExpression>
                       </akn:identification>
+                        <akn:proprietary eId="meta-1_proprietary-1" GUID="cbeef40f-ddc7-4ea5-9d4d-c0077844b58f" source="attributsemantik-noch-undefiniert">
+                           <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
+                             <meta:fna>123-45-6</meta:fna>
+                       </meta:legalDocML.de_metadaten>
+                       </akn:proprietary>
                     </akn:meta>
 
                     <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">
@@ -158,7 +164,7 @@ class VerkuendungResponseMapperTest {
                           </akn:p>
                        </akn:longTitle>
                        <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
-                          <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="2023-12-29">Vom
+                          <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="2023-12-30">Vom
                              29.12.2023</akn:date>
                        </akn:block>
                     </akn:preface>
@@ -191,5 +197,8 @@ class VerkuendungResponseMapperTest {
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("413");
     assertThat(result.getFrbrDateVerkuendung()).isEqualTo("2023-12-29");
+    assertThat(result.getDateAusfertigung()).isEqualTo("2023-12-30");
+    assertThat(result.getFna()).isEqualTo("123-45-6");
+    assertThat(result.getImportedAt()).isEqualTo(announcement.getImportTimestamp());
   }
 }

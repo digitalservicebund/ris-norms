@@ -29,5 +29,7 @@ public class VerkuendungResponseSchema {
 
   private String frbrDateVerkuendung;
 
+  private String dateAusfertigung;
+
   private Instant importedAt;
 }

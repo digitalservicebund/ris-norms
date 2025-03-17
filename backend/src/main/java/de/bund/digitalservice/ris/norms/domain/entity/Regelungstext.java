@@ -51,6 +51,18 @@ public class Regelungstext extends Dokument {
   }
 
   /**
+   * Returns the "Ausfertigungsdatum" as a {@link String} from the preface (to our current knowledge only logically belonging to Regelungstext)
+   *
+   * @return The date value
+   */
+  public Optional<String> getDateAusfertigung() {
+    return NodeParser.getValueFromExpression(
+      "//preface/block/date[@refersTo='ausfertigung-datum']/@date",
+      getDocument()
+    );
+  }
+
+  /**
    * Returns a list of articles as {@link List} from a {@link Document} in a {@link Regelungstext}. It
    * filters out articles within akn:mod
    *

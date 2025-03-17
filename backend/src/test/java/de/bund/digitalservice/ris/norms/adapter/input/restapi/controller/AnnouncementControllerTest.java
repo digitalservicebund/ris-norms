@@ -81,6 +81,10 @@ class AnnouncementControllerTest {
                                       eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                                 </akn:p>
                              </akn:longTitle>
+                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
+                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="2021-12-21">Vom
+                                   29.12.2023</akn:date>
+                             </akn:block>
                           </akn:preface>
                        </akn:act>
                     </akn:akomaNtoso>
@@ -131,6 +135,10 @@ class AnnouncementControllerTest {
                                    <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts</akn:docTitle>
                                 </akn:p>
                              </akn:longTitle>
+                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
+                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="2023-12-30">Vom
+                                   29.12.2023</akn:date>
+                             </akn:block>
                           </akn:preface>
                        </akn:act>
                     </akn:akomaNtoso>
@@ -166,6 +174,8 @@ class AnnouncementControllerTest {
             equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
         )
+        .andExpect(jsonPath("$[0].frbrDateVerkuendung", equalTo("1964-08-05")))
+        .andExpect(jsonPath("$[0].dateAusfertigung", equalTo("2021-12-21")))
         .andExpect(jsonPath("$[0].importedAt", equalTo("2025-03-13T15:00:00Z")))
         .andExpect(
           jsonPath(
@@ -176,6 +186,8 @@ class AnnouncementControllerTest {
         .andExpect(
           jsonPath("$[1].eli", equalTo("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
         )
+        .andExpect(jsonPath("$[1].frbrDateVerkuendung", equalTo("2023-12-29")))
+        .andExpect(jsonPath("$[1].dateAusfertigung", equalTo("2023-12-30")))
         .andExpect(jsonPath("$[1].importedAt", equalTo("2025-03-13T16:00:00Z")));
     }
   }

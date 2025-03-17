@@ -33,6 +33,7 @@ public class VerkuendungResponseMapper {
       .frbrName(norm.getRegelungstext1().getMeta().getFRBRWork().getFRBRname().orElse(null))
       .frbrNumber(norm.getRegelungstext1().getMeta().getFRBRWork().getFRBRnumber().orElse(null))
       .frbrDateVerkuendung(norm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate())
+      .dateAusfertigung(norm.getRegelungstext1().getDateAusfertigung().orElse(null))
       .shortTitle(norm.getShortTitle().orElse(null))
       .fna(
         norm
