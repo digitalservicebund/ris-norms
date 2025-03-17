@@ -235,8 +235,14 @@ class PublishServiceTest {
         );
 
       // Check that deletion was called
-      verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
-      verify(deleteAllPrivateDokumentePort, times(1)).deleteAllPublishedDokumente(any());
+      verify(deleteAllPublishedDokumentePort, times(1))
+        .deleteAllPublishedDokumente(
+          argThat(command -> command.lastChangeBefore() == migrationLog.getCreatedAt())
+        );
+      verify(deleteAllPrivateDokumentePort, times(1))
+        .deleteAllPublishedDokumente(
+          argThat(command -> command.lastChangeBefore() == migrationLog.getCreatedAt())
+        );
 
       // Verify norm publishing actions
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
@@ -373,8 +379,14 @@ class PublishServiceTest {
         );
 
       // Check that deletion was called
-      verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
-      verify(deleteAllPrivateDokumentePort, times(1)).deleteAllPublishedDokumente(any());
+      verify(deleteAllPublishedDokumentePort, times(1))
+        .deleteAllPublishedDokumente(
+          argThat(command -> command.lastChangeBefore() == migrationLog.getCreatedAt())
+        );
+      verify(deleteAllPrivateDokumentePort, times(1))
+        .deleteAllPublishedDokumente(
+          argThat(command -> command.lastChangeBefore() == migrationLog.getCreatedAt())
+        );
 
       // Verify norm publishing actions
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));

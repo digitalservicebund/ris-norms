@@ -75,9 +75,6 @@ public class PublishService implements PublishNormUseCase {
 
   @Override
   public void processQueuedFilesForPublish() {
-    final Instant startOfProcessing = Instant.now();
-    final LocalDate today = startOfProcessing.atZone(ZoneId.systemDefault()).toLocalDate();
-
     List<NormManifestationEli> manifestationElis =
       loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(
         new LoadNormManifestationElisByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
@@ -103,6 +100,7 @@ public class PublishService implements PublishNormUseCase {
         .getCreatedAt()
         .atZone(ZoneId.systemDefault())
         .toLocalDate();
+      final LocalDate today = Instant.now().atZone(ZoneId.systemDefault()).toLocalDate();
       final LocalDate yesterday = today.minusDays(1);
       if (
         createdAtDate.equals(today) ||
@@ -119,10 +117,10 @@ public class PublishService implements PublishNormUseCase {
         }
         log.info("Deleting all old dokumente in both buckets");
         deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
-          new DeleteAllPublishedDokumentePort.Command(startOfProcessing)
+          new DeleteAllPublishedDokumentePort.Command(migrationLog.getCreatedAt())
         );
         deleteAllPrivateDokumentePort.deleteAllPublishedDokumente(
-          new DeleteAllPublishedDokumentePort.Command(startOfProcessing)
+          new DeleteAllPublishedDokumentePort.Command(migrationLog.getCreatedAt())
         );
         log.info("Deleted all dokumente in both buckets");
       }
