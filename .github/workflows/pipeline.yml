@@ -98,8 +98,8 @@ jobs:
     steps:
       - id: check-time
         run: |
-          current_time=$(TZ=UTC date "+%H:%M")
-          if [[ "$current_time" > "22:30" && "$current_time" < "04:00" ]]; then
+          current_time=$(TZ=UTC date "+%H%M")
+          if (( 2230 <= current_time || current_time < 400 )); then
             echo "Should not deploy automatically. Current time is $current_time"
             echo "should-auto-deploy=false" >> "$GITHUB_OUTPUT"
           else
