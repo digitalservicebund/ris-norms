@@ -16,7 +16,7 @@ To address this, we have decided to introduce a new approach for maintaining thi
 
 ## Decision
 
-We will use a custom metadata structure under the `akn:proprietary` node with the following characteristics:
+We will use a custom metadata structure within the ris metadata node (`<ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/" />`) with the following characteristics:
 
 - A new custom namespace with the URI identifier `http://MetadatenMods.LegalDocML.de/1.7.2/` and the prefix `norms`.
 - Two main sections:

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://MetadatenMods.LegalDocML.de/1.7.2/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://MetadatenMods.LegalDocML.de/1.7.2/"
+           version="LegalDocML.de 1.7.2">
+    <!-- ********************************* Hinweis zur Lizensierung ********************************* -->
+    <xs:annotation>
+        <xs:appinfo>
+            <copyright-hinweis>2024 DigitalService GmbH des Bundes</copyright-hinweis>
+            <lizenz url="https://opensource.org/license/mit/"
+                    kurzbezeichnung="MIT"
+                    langbezeichnung=""/>
+            <autor organisation="DigitalService GmbH des Bundes"
+                   referat=""
+                   organisatorischer-rahmen=""/>
+        </xs:appinfo>
+    </xs:annotation>
+    <xs:element name="legalDocML.de_metadaten">
+      <xs:complexType>
+        <xs:choice>
+          <xs:any processContents="lax"/>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+</xs:schema>

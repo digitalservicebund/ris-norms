@@ -16,6 +16,7 @@
                    organisatorischer-rahmen=""/>
         </xs:appinfo>
     </xs:annotation>
+    <xs:import namespace="http://MetadatenMods.LegalDocML.de/1.7.2/" schemaLocation="./norms-application-only-metadata.xsd"/>
     <xs:element name="legalDocML.de_metadaten">
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
@@ -34,6 +35,7 @@
                 <xs:element name="einzelelement" type="EinzelelementType" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="entryIntoForce" type="EntryIntoForceType" minOccurs="0" maxOccurs="1"/>
                 <xs:element name="expiry" type="ExpiryType" minOccurs="0" maxOccurs="1"/>
+                <xs:any minOccurs="0" namespace="http://MetadatenMods.LegalDocML.de/1.7.2/"/>
             </xs:choice>
         </xs:complexType>
     </xs:element>
