@@ -142,10 +142,9 @@ public class AnnouncementService
   private Announcement saveNewAnnouncement(Norm norm) {
     var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
     updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-    updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
+    return updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
       new UpdateOrSaveAnnouncementPort.Command(announcement)
     );
-    return announcement;
   }
 
   private void runPreProcessing(final Norm norm) {
