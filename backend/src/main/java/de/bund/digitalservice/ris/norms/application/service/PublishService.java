@@ -104,7 +104,11 @@ public class PublishService implements PublishNormUseCase {
         .atZone(ZoneId.systemDefault())
         .toLocalDate();
       final LocalDate yesterday = today.minusDays(1);
-      if (createdAtDate.equals(today) || createdAtDate.equals(yesterday)) {
+      if (
+        createdAtDate.equals(today) ||
+        createdAtDate.equals(yesterday) ||
+        !migrationLog.isCompleted()
+      ) {
         log.info(
           "Migration log found with timestamp {} (UTC) and {} dokumente.",
           formatMigrationLogTimestamp(migrationLog.getCreatedAt()),
