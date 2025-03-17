@@ -95,7 +95,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
             "$[0].eli",
             equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
-        );
+        )
+        .andExpect(jsonPath("$[0].frbrDateVerkuendung", equalTo("1964-08-05")))
+        .andExpect(jsonPath("$[0].dateAusfertigung", equalTo("1964-08-05")))
+        .andExpect(jsonPath("$[0].importedAt").exists());
     }
   }
 
@@ -120,6 +123,14 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
         )
+        .andExpect(
+          jsonPath(
+            "title",
+            equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
+          )
+        )
+        .andExpect(jsonPath("frbrDateVerkuendung", equalTo("2017-03-15")))
+        .andExpect(jsonPath("dateAusfertigung", equalTo("1900-01-01")))
         .andExpect(jsonPath("importedAt").exists());
 
       // Assert norms was created
