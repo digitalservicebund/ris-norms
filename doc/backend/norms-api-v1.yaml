@@ -380,7 +380,7 @@ paths:
       parameters:
         - name: dokumentExpressionEli
           in: path
-          required: false
+          required: true
           schema:
             $ref: "#/components/schemas/DokumentExpressionEli"
       requestBody:
@@ -441,7 +441,7 @@ paths:
       parameters:
         - name: dokumentExpressionEli
           in: path
-          required: false
+          required: true
           schema:
             $ref: "#/components/schemas/DokumentExpressionEli"
         - name: eid
