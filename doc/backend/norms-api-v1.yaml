@@ -659,6 +659,9 @@ components:
         frbrDateVerkuendung:
           type: string
           format: date
+        frbrDateAusfertigung:
+          type: string
+          format: date
         importTimestamp:
           type: string
           format: date
