@@ -175,6 +175,13 @@
                   <meta:federfuehrend ab="2020-01-01" bis="unbestimmt">BMI</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+                   <norms:amended-norm-expressions>
+                       <norms:norm-expression>eli/bund/bgbl-1/1964/s593/2023-12-30/1/deu</norms:norm-expression>
+                   </norms:amended-norm-expressions>
+               </norms:legalDocML.de_metadaten>
+            </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">

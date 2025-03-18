@@ -24,7 +24,10 @@ import org.w3c.dom.Document;
 @Service
 public class AnnouncementService
   implements
-    LoadAllAnnouncementsUseCase, LoadAnnouncementByNormEliUseCase, CreateAnnouncementUseCase {
+    LoadAllAnnouncementsUseCase,
+    LoadAnnouncementByNormEliUseCase,
+    CreateAnnouncementUseCase,
+    LoadNormExpressionsAffectedByVerkuendungUseCase {
 
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
@@ -151,5 +154,31 @@ public class AnnouncementService
     norm
       .getRegelungstexte()
       .forEach(dokument -> EidConsistencyGuardian.correctEids(dokument.getDocument()));
+  }
+
+  @Override
+  public List<Norm> loadNormExpressionsAffectedByVerkuendung(
+    LoadNormExpressionsAffectedByVerkuendungUseCase.Query query
+  ) {
+    var announcementNorm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
+
+    var affectedExpressionElis = announcementNorm
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .map(CustomModsMetadata::getAmendedNormExpressionElis)
+      .orElse(List.of());
+
+    return affectedExpressionElis
+      .stream()
+      .map(eli ->
+        loadNormPort
+          .loadNorm(new LoadNormPort.Command(eli))
+          .orElseThrow(() -> new NormNotFoundException(eli.toString()))
+      )
+      .toList();
   }
 }

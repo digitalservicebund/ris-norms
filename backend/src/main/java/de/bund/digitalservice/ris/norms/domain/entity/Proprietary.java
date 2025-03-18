@@ -214,19 +214,33 @@ public class Proprietary {
     return getMetadataValue(Metadata.EXPIRY).map(LocalDate::parse);
   }
 
+  /**
+   * Gets the custom norms-application-only mods metadata.
+   * @return {@link Optional} with the {@link CustomModsMetadata}
+   */
+  public Optional<CustomModsMetadata> getCustomModsMetadata() {
+    return NodeParser
+      .getElementFromExpression(
+        "./" +
+        getXpathExpression(Namespace.METADATEN_RIS) +
+        "/" +
+        getXpathExpression(Namespace.METADATEN_NORMS_APPLICATION_MODS),
+        element
+      )
+      .map(CustomModsMetadata::new);
+  }
+
+  private String getXpathExpression(final Namespace namespace) {
+    return "Q{" + namespace.getNamespaceUri() + "}legalDocML.de_metadaten";
+  }
+
   private Optional<Element> getMetadataParent(final Namespace namespace) {
-    return NodeParser.getElementFromExpression(
-      "./Q{" + namespace.getNamespaceUri() + "}legalDocML.de_metadaten",
-      element
-    );
+    return NodeParser.getElementFromExpression("./" + getXpathExpression(namespace), element);
   }
 
   private Element getOrCreateMetadataParent(final Namespace namespace) {
     return NodeParser
-      .getElementFromExpression(
-        "./Q{" + namespace.getNamespaceUri() + "}legalDocML.de_metadaten",
-        element
-      )
+      .getElementFromExpression("./" + getXpathExpression(namespace), element)
       .orElseGet(() -> NodeCreator.createElement(namespace, "legalDocML.de_metadaten", element));
   }
 
