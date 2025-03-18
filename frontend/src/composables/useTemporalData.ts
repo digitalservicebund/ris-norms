@@ -2,10 +2,11 @@ import {
   useGetTemporalDataTimeBoundaries,
   useUpdateTemporalDataTimeBoundaries,
 } from "@/services/temporalDataService"
-import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { MaybeRefOrGetter, ref, watch } from "vue"
-import { UseFetchReturn } from "@vueuse/core"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { TemporalDataResponse } from "@/types/temporalDataResponse"
+import type { MaybeRefOrGetter } from "vue"
+import { ref, watch } from "vue"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Get the temporal data from the API.

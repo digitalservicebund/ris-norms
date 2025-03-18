@@ -1,4 +1,4 @@
-import { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
+import type { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"

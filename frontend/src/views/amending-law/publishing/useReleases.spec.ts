@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { nextTick, ref } from "vue"
 import * as announcementReleaseService from "@/services/releaseService"
-import { Release } from "@/types/release"
-import { UseFetchReturn } from "@vueuse/core"
+import type { Release } from "@/types/release"
+import type { UseFetchReturn } from "@vueuse/core"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useReleases", () => {

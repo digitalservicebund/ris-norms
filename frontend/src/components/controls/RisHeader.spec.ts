@@ -2,7 +2,8 @@ import { userEvent } from "@testing-library/user-event"
 import { render, screen, within } from "@testing-library/vue"
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest"
 import { defineComponent, nextTick, onUnmounted, ref } from "vue"
-import { Router, createRouter, createWebHashHistory } from "vue-router"
+import type { Router } from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router"
 import RisHeader, { useHeaderContext } from "./RisHeader.vue"
 
 describe("risHeader", () => {

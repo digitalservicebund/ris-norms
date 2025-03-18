@@ -1,18 +1,14 @@
 <script lang="ts" setup>
 import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
-import RisHeader, {
-  HeaderBreadcrumb,
-} from "@/components/controls/RisHeader.vue"
+import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
+import RisHeader from "@/components/controls/RisHeader.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useErrorMessage } from "@/composables/useErrorMessage"
 import { isErrorResponse } from "@/lib/errorResponseMapper"
-import { ErrorResponse } from "@/types/errorResponse"
-import { Norm } from "@/types/norm"
+import type { ErrorResponse } from "@/types/errorResponse"
+import type { Norm } from "@/types/norm"
 import Button from "primevue/button"
-import FileUpload, {
-  FileUploadErrorEvent,
-  FileUploadUploadEvent,
-} from "primevue/fileupload"
+import FileUpload from "primevue/fileupload"
 import ConfirmDialog from "primevue/confirmdialog"
 import { useConfirm } from "primevue/useconfirm"
 import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"
@@ -22,7 +18,11 @@ import { computed, ref, useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 import { useForceUploadFile } from "@/services/uploadService"
 import { useAuthentication } from "@/lib/auth"
-import type { FileUploadBeforeSendEvent } from "primevue/fileupload"
+import type {
+  FileUploadBeforeSendEvent,
+  FileUploadErrorEvent,
+  FileUploadUploadEvent,
+} from "primevue/fileupload"
 
 const { addAuthorizationHeader } = useAuthentication()
 

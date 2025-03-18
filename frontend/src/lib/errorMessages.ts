@@ -1,4 +1,4 @@
-import { ErrorResponse, ErrorResponseMapping } from "@/types/errorResponse"
+import type { ErrorResponse, ErrorResponseMapping } from "@/types/errorResponse"
 
 export const errorMessages = {
   __fallback__: () => "Ein unbekannter Fehler ist aufgetreten.",

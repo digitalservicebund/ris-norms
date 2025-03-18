@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useElementId } from "@/composables/useElementId"
 import { v4 as uuidV4 } from "uuid"
-import { nextTick, ref, SetupContext, useAttrs, useSlots, watch } from "vue"
+import type { SetupContext } from "vue"
+import { nextTick, ref, useAttrs, useSlots, watch } from "vue"
 
 const props = withDefaults(
   defineProps<{

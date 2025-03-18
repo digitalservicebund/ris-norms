@@ -1,10 +1,5 @@
-import {
-  computed,
-  MaybeRefOrGetter,
-  Ref,
-  toValue,
-  WritableComputedRef,
-} from "vue"
+import type { MaybeRefOrGetter, Ref, WritableComputedRef } from "vue"
+import { computed, toValue } from "vue"
 import {
   isElement,
   xmlNodeToString,

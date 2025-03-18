@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import Button from "primevue/button"
 import { useElementId } from "@/composables/useElementId"
+import type { InjectionKey, MaybeRefOrGetter, Ref } from "vue"
 import {
-  InjectionKey,
-  MaybeRefOrGetter,
-  Ref,
   computed,
   inject,
   onMounted,
@@ -13,7 +11,8 @@ import {
   shallowRef,
   toValue,
 } from "vue"
-import { RouteLocationRaw, RouterLink, useRouter } from "vue-router"
+import type { RouteLocationRaw } from "vue-router"
+import { RouterLink, useRouter } from "vue-router"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
 import { useDebounceFn } from "@vueuse/core"
 import Breadcrumb from "primevue/breadcrumb"

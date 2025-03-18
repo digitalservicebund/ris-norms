@@ -3,8 +3,8 @@ import {
   captureConsoleIntegration,
   init,
 } from "@sentry/vue"
-import { Plugin } from "vue"
-import { Router } from "vue-router"
+import type { Plugin } from "vue"
+import type { Router } from "vue-router"
 
 export const Sentry: Plugin<{ environment: string; router: Router }> = {
   install(app, { environment, router }) {

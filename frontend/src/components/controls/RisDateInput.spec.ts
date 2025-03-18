@@ -1,4 +1,4 @@
-import { ValidationError } from "@/types/validationError"
+import type { ValidationError } from "@/types/validationError"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, it, beforeEach, vi, afterEach } from "vitest"

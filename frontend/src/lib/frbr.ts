@@ -1,4 +1,4 @@
-import { Norm } from "@/types/norm"
+import type { Norm } from "@/types/norm"
 
 /**
  * Formats various FRBR information from a norm for displaying them in the UI.

@@ -1,4 +1,4 @@
-import { ErrorResponse } from "@/types/errorResponse"
+import type { ErrorResponse } from "@/types/errorResponse"
 import { describe, expect, it, vi } from "vitest"
 import { useErrorMessage } from "./useErrorMessage"
 import { ref } from "vue"

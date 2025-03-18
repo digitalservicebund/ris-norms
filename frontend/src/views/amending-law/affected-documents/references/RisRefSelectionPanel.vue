@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisLawPreview, {
-  AknElementClickEvent,
-} from "@/components/RisLawPreview.vue"
+import type { AknElementClickEvent } from "@/components/RisLawPreview.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"

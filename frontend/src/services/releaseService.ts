@@ -1,8 +1,9 @@
 import { useApiFetch } from "@/services/apiService"
-import { Release } from "@/types/release"
-import { computed, MaybeRefOrGetter, toValue } from "vue"
-import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import type { Release } from "@/types/release"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
+import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 function useReleaseService<T>(
   eli: MaybeRefOrGetter<NormExpressionEli>,

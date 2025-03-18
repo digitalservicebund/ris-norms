@@ -1,4 +1,4 @@
-import { Locator } from "playwright/test"
+import type { Locator } from "playwright/test"
 
 /**
  * Makes a text selection inside an element. Note that if the locator includes

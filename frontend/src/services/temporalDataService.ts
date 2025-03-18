@@ -1,8 +1,9 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
-import { UseFetchReturn } from "@vueuse/core"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { TemporalDataResponse } from "@/types/temporalDataResponse"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, ref, toValue, watch } from "vue"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Fetches the HTML content of a norm's entry into force section by ELI.

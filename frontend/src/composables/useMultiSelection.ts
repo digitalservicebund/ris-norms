@@ -1,4 +1,5 @@
-import { computed, ComputedRef, ShallowReactive, shallowReactive } from "vue"
+import type { ComputedRef, ShallowReactive } from "vue"
+import { computed, shallowReactive } from "vue"
 
 /**
  * Selection of multiple elements

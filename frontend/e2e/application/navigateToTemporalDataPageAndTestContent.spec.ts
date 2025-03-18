@@ -1,4 +1,5 @@
-import { APIRequestContext, Page, expect } from "@playwright/test"
+import type { APIRequestContext, Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 import { test } from "@e2e/utils/testWithAuth"
 
 test.describe("navigate to temporal data page", () => {

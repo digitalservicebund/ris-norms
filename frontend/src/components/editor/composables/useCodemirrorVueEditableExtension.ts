@@ -1,6 +1,8 @@
-import { MaybeRefOrGetter, toValue, watch } from "vue"
+import type { MaybeRefOrGetter } from "vue"
+import { toValue, watch } from "vue"
 import { EditorView } from "codemirror"
-import { Compartment, Extension } from "@codemirror/state"
+import type { Extension } from "@codemirror/state"
+import { Compartment } from "@codemirror/state"
 
 /**
  * Provides a codemirror extension that syncs the editable state of the editor with the given reference

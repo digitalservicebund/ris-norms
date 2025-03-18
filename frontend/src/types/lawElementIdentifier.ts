@@ -1,4 +1,4 @@
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Encapsulates all required information for adressing a specific element

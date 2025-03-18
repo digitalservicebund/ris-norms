@@ -1,5 +1,5 @@
-import { Article } from "@/types/article"
-import { Norm } from "@/types/norm"
+import type { Article } from "@/types/article"
+import type { Norm } from "@/types/norm"
 
 export const amendingLaws: (Norm & {
   articles: Article[]

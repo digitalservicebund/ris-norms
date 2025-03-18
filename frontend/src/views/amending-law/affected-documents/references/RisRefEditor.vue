@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { DropdownItem } from "@/types/dropdownItem"
+import type { DropdownItem } from "@/types/dropdownItem"
 import Select from "primevue/select"
 import { useRef } from "@/views/amending-law/affected-documents/references/useRef"
 import { useDebounceFn } from "@vueuse/core"
 import Button from "primevue/button"
-import { ref, watch, nextTick, ComponentPublicInstance } from "vue"
+import type { ComponentPublicInstance } from "vue"
+import { ref, watch, nextTick } from "vue"
 import CloseIcon from "~icons/ic/close"
 import InputText from "primevue/inputtext"
 

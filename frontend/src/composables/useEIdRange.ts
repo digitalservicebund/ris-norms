@@ -1,4 +1,5 @@
-import { Ref, ref, toValue, watch } from "vue"
+import type { Ref } from "vue"
+import { ref, toValue, watch } from "vue"
 
 /**
  * Finds the eIds of all elements between the startEId and the endEId.

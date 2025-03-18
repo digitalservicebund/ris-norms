@@ -1,4 +1,4 @@
-import { ErrorResponse } from "@/types/errorResponse"
+import type { ErrorResponse } from "@/types/errorResponse"
 import { afterAll, describe, expect, it, vi } from "vitest"
 import { useErrorToast } from "./errorToast"
 

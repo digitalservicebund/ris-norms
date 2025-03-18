@@ -1,8 +1,9 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import { Norm } from "@/types/norm"
-import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
-import { computed, MaybeRefOrGetter, toValue } from "vue"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { Norm } from "@/types/norm"
+import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Returns the norm from the API. Reloads when the parameters change.

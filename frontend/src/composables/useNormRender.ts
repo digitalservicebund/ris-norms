@@ -1,6 +1,7 @@
-import { MaybeRefOrGetter, toValue, computed } from "vue"
+import type { MaybeRefOrGetter } from "vue"
+import { toValue, computed } from "vue"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import { UseFetchReturn } from "@vueuse/core"
+import type { UseFetchReturn } from "@vueuse/core"
 
 /**
  * Composable for rendering the XML of a norm as HTML.

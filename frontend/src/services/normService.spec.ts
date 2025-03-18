@@ -1,4 +1,4 @@
-import { Norm } from "@/types/norm"
+import type { Norm } from "@/types/norm"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"

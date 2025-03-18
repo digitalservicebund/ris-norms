@@ -1,7 +1,8 @@
-import { MaybeRefOrGetter, ref, watch } from "vue"
+import type { MaybeRefOrGetter } from "vue"
+import { ref, watch } from "vue"
 import { useGetNormXml, usePutNormXml } from "@/services/normService"
-import { UseFetchReturn } from "@vueuse/core"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Get the XML of a norm.

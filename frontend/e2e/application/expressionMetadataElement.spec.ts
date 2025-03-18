@@ -1,5 +1,6 @@
-import { ElementProprietary } from "@/types/proprietary"
-import { Locator, Page, expect } from "@playwright/test"
+import type { ElementProprietary } from "@/types/proprietary"
+import type { Locator, Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 import { test } from "@e2e/utils/testWithAuth"
 
 async function restoreInitialState(page: Page) {

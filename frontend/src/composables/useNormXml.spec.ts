@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
-import { UseFetchReturn } from "@vueuse/core"
+import type { UseFetchReturn } from "@vueuse/core"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useNormXml", () => {

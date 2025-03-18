@@ -1,5 +1,6 @@
 import { getModEIds } from "@/services/ldmldeModService"
-import { computed, ComputedRef, MaybeRefOrGetter, toValue } from "vue"
+import type { ComputedRef, MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
 
 /**
  * Provides the classes for highlighting elements based on an associated temporal group.

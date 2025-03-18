@@ -5,7 +5,7 @@ import Button from "primevue/button"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
 import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
-import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import type { TemporalDataResponse } from "@/types/temporalDataResponse"
 
 const MAX_DATES = 100
 

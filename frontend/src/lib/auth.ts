@@ -1,4 +1,5 @@
-import Keycloak, { KeycloakConfig } from "keycloak-js"
+import type { KeycloakConfig } from "keycloak-js"
+import Keycloak from "keycloak-js"
 
 export type AuthenticationConfig = KeycloakConfig
 

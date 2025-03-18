@@ -1,5 +1,6 @@
 import { createDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router"
 
 /**
  * The regular expressions for the eId is based on the definitions from LDML.de 1.7.2 (Section 9.2.12.67, eIdLiterals.einzelvorschrift)

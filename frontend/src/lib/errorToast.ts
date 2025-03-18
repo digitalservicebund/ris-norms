@@ -1,9 +1,10 @@
 import { isErrorResponse, mapErrorResponse } from "@/lib/errorResponseMapper"
 import { useToast } from "primevue/usetoast"
-import { MaybeRefOrGetter, toValue } from "vue"
+import type { MaybeRefOrGetter } from "vue"
+import { toValue } from "vue"
 import { errorMessages } from "./errorMessages"
-import { ToastMessageOptions } from "primevue/toast"
-import { MappedErrorResponse } from "@/types/errorResponse"
+import type { ToastMessageOptions } from "primevue/toast"
+import type { MappedErrorResponse } from "@/types/errorResponse"
 
 /**
  * Extends the default toast message options with details specific to displaying

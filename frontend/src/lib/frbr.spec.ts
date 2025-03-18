@@ -1,4 +1,4 @@
-import { Norm } from "@/types/norm"
+import type { Norm } from "@/types/norm"
 import { describe, expect, it } from "vitest"
 import { getFrbrDisplayText } from "./frbr"
 

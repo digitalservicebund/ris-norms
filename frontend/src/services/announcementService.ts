@@ -1,6 +1,6 @@
 import { useApiFetch } from "@/services/apiService"
-import { UseFetchReturn } from "@vueuse/core"
-import { Norm } from "@/types/norm"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { Norm } from "@/types/norm"
 
 /**
  * Load all announcements from the API.

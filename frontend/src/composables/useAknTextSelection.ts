@@ -1,5 +1,6 @@
 import { useEventListener } from "@vueuse/core"
-import { MaybeRefOrGetter, ref, toValue } from "vue"
+import type { MaybeRefOrGetter } from "vue"
+import { ref, toValue } from "vue"
 
 /**
  * Determines if the given node is nested (in any depth) under the given parent element.

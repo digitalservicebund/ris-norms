@@ -1,8 +1,9 @@
-import { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
-import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
-import { MaybeRefOrGetter, computed, toValue } from "vue"
+import type { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
+import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
 import { INVALID_URL, useApiFetch } from "./apiService"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Returns the proprietary metadata of a norm from the API. Reloads when the

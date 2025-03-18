@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DropdownItem } from "@/types/dropdownItem"
+import type { DropdownItem } from "@/types/dropdownItem"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -9,9 +9,9 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useErrorToast } from "@/lib/errorToast"
 import Checkbox from "primevue/checkbox"
+import type { DocumentTypeValue } from "@/lib/proprietary"
 import {
   BeschliessendesOrganValues,
-  DocumentTypeValue,
   DocumentTypeValues,
   getDocumentTypeFromMetadata,
   isArtNormTypePresent,
@@ -25,7 +25,7 @@ import {
   useGetRahmenProprietary,
   usePutRahmenProprietary,
 } from "@/services/proprietaryService"
-import { RahmenProprietary } from "@/types/proprietary"
+import type { RahmenProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import Button from "primevue/button"
 import InputText from "primevue/inputtext"

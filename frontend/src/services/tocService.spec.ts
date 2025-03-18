@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { TableOfContentsItem } from "@/types/tableOfContents"
+import type { TableOfContentsItem } from "@/types/tableOfContents"
 import { ref } from "vue"
 import { flushPromises } from "@vue/test-utils"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"

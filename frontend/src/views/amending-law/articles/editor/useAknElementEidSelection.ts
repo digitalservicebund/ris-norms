@@ -1,5 +1,6 @@
 import { useMultiSelection } from "@/composables/useMultiSelection"
-import { MaybeRefOrGetter, ref, Ref, toValue } from "vue"
+import type { MaybeRefOrGetter, Ref } from "vue"
+import { ref, toValue } from "vue"
 
 /**
  * Provides an array of selected elements (identified by their eIds) and provides an event-handler for events that should impact this selection.

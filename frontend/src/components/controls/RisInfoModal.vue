@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import EditOutlineIcon from "~icons/ic/outline-edit"
 import Button from "primevue/button"
-import { RouteLocationRaw } from "vue-router"
+import type { RouteLocationRaw } from "vue-router"
 
 withDefaults(
   defineProps<{

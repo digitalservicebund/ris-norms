@@ -1,8 +1,9 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import { Element } from "@/types/element"
-import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
-import { MaybeRefOrGetter, computed, toValue } from "vue"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { Element } from "@/types/element"
+import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /* -------------------------------------------------- *
  * Individual elements                                *

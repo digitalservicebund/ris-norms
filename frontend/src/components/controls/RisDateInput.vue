@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ValidationError } from "@/types/validationError"
+import type { ValidationError } from "@/types/validationError"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 import { computed, ref, watch } from "vue"

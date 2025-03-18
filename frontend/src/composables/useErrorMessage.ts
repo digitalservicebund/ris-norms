@@ -1,7 +1,8 @@
 import { errorMessages } from "@/lib/errorMessages"
 import { isErrorResponse, mapErrorResponse } from "@/lib/errorResponseMapper"
-import { MappedErrorResponse } from "@/types/errorResponse"
-import { computed, ComputedRef, MaybeRefOrGetter, toValue } from "vue"
+import type { MappedErrorResponse } from "@/types/errorResponse"
+import type { ComputedRef, MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
 
 /**
  * For a potential error response received from the API, attempts to map the

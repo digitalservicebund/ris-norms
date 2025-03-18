@@ -14,7 +14,7 @@ fileignoreconfig:
   - filename: frontend/src/main.ts
     checksum: d7ef7857d0478c6ccb525b8632b334ab2deb6cb8309e09787e71ca3ad7c5f5bf
   - filename: frontend/src/plugins/sentry.ts
-    checksum: dfb628f8d1a02534e102228789abcbbe4e193e5671cc9762febee195f18bb200
+    checksum: 4878c43ab81701bb51365b2ed2db956cf7e6246d1196a7ae4f769479b7fac488
   - filename: Dockerfile
     checksum: 8e0dc359fa0262b5307a8877b6a8f59121b2a4d9a6d8264e5649ee0a366428b0
   - filename: docker-compose.yaml

@@ -1,4 +1,4 @@
-import { LawElementIdentifier } from "@/types/lawElementIdentifier"
+import type { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick, ref } from "vue"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"

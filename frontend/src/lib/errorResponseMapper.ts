@@ -1,5 +1,5 @@
 import { errorMessages } from "@/lib/errorMessages"
-import {
+import type {
   ErrorResponse,
   ErrorResponseMapping,
   MappedErrorResponse,

@@ -1,4 +1,4 @@
-import { Element } from "@/types/element"
+import type { Element } from "@/types/element"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"

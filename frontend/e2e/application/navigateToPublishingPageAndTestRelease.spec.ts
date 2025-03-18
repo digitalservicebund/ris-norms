@@ -1,5 +1,6 @@
 import { test } from "@e2e/utils/testWithAuth"
-import { expect, Page } from "@playwright/test"
+import type { Page } from "@playwright/test"
+import { expect } from "@playwright/test"
 
 test.describe(
   "Publishing flow for an announcement",

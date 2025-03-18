@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useErrorToast } from "@/lib/errorToast"
-import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import type { TemporalDataResponse } from "@/types/temporalDataResponse"
 import Button from "primevue/button"
 import InputText from "primevue/inputtext"
 import Select from "primevue/select"

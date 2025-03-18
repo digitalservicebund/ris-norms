@@ -1,8 +1,9 @@
 import { useApiFetch } from "@/services/apiService"
-import { Article } from "@/types/article"
-import { computed, MaybeRefOrGetter, toValue } from "vue"
-import { UseFetchReturn } from "@vueuse/core"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { Article } from "@/types/article"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Get the data of all articles inside a norm.

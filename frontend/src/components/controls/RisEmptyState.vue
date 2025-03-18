@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, useSlots, type Component, Slots } from "vue"
+import { computed, useSlots } from "vue"
+import type { Slots, Component } from "vue"
 
 const props = defineProps<{
   /** Text message to be displayed */

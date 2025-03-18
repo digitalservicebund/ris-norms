@@ -1,8 +1,9 @@
 import { useGetReleases, usePostRelease } from "@/services/releaseService"
-import { Release } from "@/types/release"
-import { Ref, ref, watch } from "vue"
-import { UseFetchReturn } from "@vueuse/core"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import type { Release } from "@/types/release"
+import type { Ref } from "vue"
+import { ref, watch } from "vue"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 /**
  * Read and update release information about the law with the specified ELI.

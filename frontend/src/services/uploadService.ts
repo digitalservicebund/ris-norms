@@ -1,7 +1,7 @@
-import { UseFetchReturn } from "@vueuse/core"
+import type { UseFetchReturn } from "@vueuse/core"
 import { computed } from "vue"
 import { useApiFetch } from "@/services/apiService"
-import { Norm } from "@/types/norm"
+import type { Norm } from "@/types/norm"
 
 /**
  * Base service to upload a file (normal or force).

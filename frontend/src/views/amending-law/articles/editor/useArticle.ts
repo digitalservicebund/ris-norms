@@ -1,6 +1,7 @@
-import { Article } from "@/types/article"
-import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { MaybeRefOrGetter, toValue, computed } from "vue"
+import type { Article } from "@/types/article"
+import type { LawElementIdentifier } from "@/types/lawElementIdentifier"
+import type { MaybeRefOrGetter } from "vue"
+import { toValue, computed } from "vue"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 
 /**

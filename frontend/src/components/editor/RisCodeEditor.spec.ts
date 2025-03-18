@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/vue"
 import { beforeAll, describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 import RisCodeEditor from "./RisCodeEditor.vue"
-import { EditorView } from "codemirror"
+import type { EditorView } from "codemirror"
 
 describe("risCodeEditor", () => {
   // We can't reliably test user interactions with the component in a unit test as parts of codemirror that get

@@ -1,6 +1,6 @@
 import { AxeBuilder } from "@axe-core/playwright"
-import { Page } from "@playwright/test"
-import { Result as AxeViolation } from "axe-core"
+import type { Page } from "@playwright/test"
+import type { Result as AxeViolation } from "axe-core"
 
 export const useAxeBuilder = (page: Page) =>
   new AxeBuilder({ page }).exclude(".vue-devtools__panel")

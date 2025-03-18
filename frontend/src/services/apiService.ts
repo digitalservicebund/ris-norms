@@ -1,6 +1,7 @@
 import { useAuthentication } from "@/lib/auth"
 import { getFallbackError } from "@/lib/errorResponseMapper"
-import { createFetch, UseFetchReturn } from "@vueuse/core"
+import type { UseFetchReturn } from "@vueuse/core"
+import { createFetch } from "@vueuse/core"
 
 /**
  * The same as UseFetchReturn, but without the methods to get more specific useFetch instances.

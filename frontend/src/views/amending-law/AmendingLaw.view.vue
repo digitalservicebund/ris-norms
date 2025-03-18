@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import RisHeader, {
-  HeaderBreadcrumb,
-} from "@/components/controls/RisHeader.vue"
+import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
+import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisNavbarSide, {
-  LevelOneMenuItem,
-} from "@/components/controls/RisNavbarSide.vue"
+import type { LevelOneMenuItem } from "@/components/controls/RisNavbarSide.vue"
+import RisNavbarSide from "@/components/controls/RisNavbarSide.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"

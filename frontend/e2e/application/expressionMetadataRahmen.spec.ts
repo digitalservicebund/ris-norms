@@ -1,4 +1,4 @@
-import { RahmenProprietary } from "@/types/proprietary"
+import type { RahmenProprietary } from "@/types/proprietary"
 import { expect } from "@playwright/test"
 import { test } from "@e2e/utils/testWithAuth"
 import { MetadataEditorRahmenPage } from "@e2e/pages/metadataEditorRahmen"

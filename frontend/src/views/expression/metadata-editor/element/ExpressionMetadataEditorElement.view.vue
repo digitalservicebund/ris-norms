@@ -13,7 +13,7 @@ import {
   useGetElementProprietary,
   usePutElementProprietary,
 } from "@/services/proprietaryService"
-import { ElementProprietary } from "@/types/proprietary"
+import type { ElementProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"

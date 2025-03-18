@@ -1,4 +1,4 @@
-import { Env } from "@/types/env"
+import type { Env } from "@/types/env"
 
 /**
  * Fetches configuration for the current environment from the API. Unlike the

@@ -1,8 +1,8 @@
 import { nextTick, ref } from "vue"
 import { describe, it, expect, vi } from "vitest"
 import * as temporalDataService from "@/services/temporalDataService"
-import { UseFetchReturn } from "@vueuse/core"
-import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useTemporalData", () => {

@@ -1,4 +1,4 @@
-import { ErrorToastPayload } from "@/lib/errorToast"
+import type { ErrorToastPayload } from "@/lib/errorToast"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, it, vi } from "vitest"

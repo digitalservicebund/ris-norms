@@ -1,5 +1,5 @@
 import { samplesDirectory } from "@e2e/utils/samplesDirectory"
-import { APIRequestContext } from "@playwright/test"
+import type { APIRequestContext } from "@playwright/test"
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
 

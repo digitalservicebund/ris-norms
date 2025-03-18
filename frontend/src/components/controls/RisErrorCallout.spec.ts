@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest"
 import { defineComponent, ref } from "vue"
 import RisErrorCallout from "./RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { ErrorResponse } from "@/types/errorResponse"
+import type { ErrorResponse } from "@/types/errorResponse"
 
 vi.mock("@/lib/errorMessages", () => ({
   errorMessages: {

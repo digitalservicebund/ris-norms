@@ -1,5 +1,5 @@
+import type { APIRequestContext } from "@playwright/test"
 import {
-  APIRequestContext,
   test as base /* eslint-disable-line no-restricted-imports -- We need this here to extend it */,
 } from "@playwright/test"
 

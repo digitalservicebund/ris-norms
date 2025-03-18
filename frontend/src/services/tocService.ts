@@ -1,8 +1,9 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import { TableOfContentsItem } from "@/types/tableOfContents"
-import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
-import { computed, MaybeRefOrGetter, toValue } from "vue"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { TableOfContentsItem } from "@/types/tableOfContents"
+import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Fetches the table of contents (TOC) from the API.

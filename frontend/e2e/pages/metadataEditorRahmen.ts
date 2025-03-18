@@ -1,5 +1,5 @@
-import { Locator, Page } from "@playwright/test"
-import { RahmenProprietary } from "@/types/proprietary"
+import type { Locator, Page } from "@playwright/test"
+import type { RahmenProprietary } from "@/types/proprietary"
 
 export class MetadataEditorRahmenPage {
   readonly page: Page
