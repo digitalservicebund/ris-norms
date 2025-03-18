@@ -25,9 +25,9 @@ import org.w3c.dom.Document;
 public class AnnouncementService
   implements
     LoadAllAnnouncementsUseCase,
-    LoadAnnouncementByNormEliUseCase,
     CreateAnnouncementUseCase,
-    LoadNormExpressionsAffectedByVerkuendungUseCase {
+    LoadNormExpressionsAffectedByVerkuendungUseCase,
+    LoadAnnouncementUseCase {
 
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
@@ -67,7 +67,7 @@ public class AnnouncementService
   }
 
   @Override
-  public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
+  public Announcement loadAnnouncement(LoadAnnouncementUseCase.Query query) {
     return loadAnnouncementByNormEliPort
       .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
       .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));

@@ -103,6 +103,55 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
+  class getAnnouncement {
+
+    @Test
+    void itReturnsAnnouncement() throws Exception {
+      // Given
+      var regelungstext = Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml");
+      var normEli = regelungstext.getExpressionEli().asNormEli();
+      var announcement = Announcement
+        .builder()
+        .eli(normEli)
+        .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
+        .build();
+
+      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+
+      // When
+      mockMvc
+        .perform(
+          get("/api/v1/announcements/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().isOk())
+        .andExpect(
+          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
+        .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
+        .andExpect(jsonPath("fna").value("754-28-1"))
+        .andExpect(jsonPath("frbrName").value("BGBl. I"))
+        .andExpect(jsonPath("frbrNumber").value("s593"))
+        .andExpect(jsonPath("frbrDateVerkuendung").value("1964-08-05"))
+        .andExpect(jsonPath("dateAusfertigung").value("1964-08-05"))
+        .andExpect(jsonPath("importedAt").exists());
+    }
+
+    @Test
+    void itReturns404() throws Exception {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu";
+      // When
+      mockMvc
+        .perform(get("/api/v1/announcements/{eli}", eli).accept(MediaType.APPLICATION_JSON))
+        // Then
+        .andExpect(status().isNotFound());
+    }
+  }
+
+  @Nested
   class postAnnouncement {
 
     @Test

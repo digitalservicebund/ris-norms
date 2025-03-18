@@ -7,14 +7,17 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,6 +35,9 @@ class AnnouncementControllerTest {
 
   @MockitoBean
   private LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
+
+  @MockitoBean
+  private LoadAnnouncementUseCase loadAnnouncementUseCase;
 
   @MockitoBean
   private LoadNormUseCase loadNormUseCase;
@@ -189,6 +195,76 @@ class AnnouncementControllerTest {
         .andExpect(jsonPath("$[1].frbrDateVerkuendung", equalTo("2023-12-29")))
         .andExpect(jsonPath("$[1].dateAusfertigung", equalTo("2023-12-30")))
         .andExpect(jsonPath("$[1].importedAt", equalTo("2025-03-13T16:00:00Z")));
+    }
+  }
+
+  @Nested
+  class getAnnouncement {
+
+    @Test
+    void itReturnsAnnouncement() throws Exception {
+      // Given
+      var norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+      var normEli = norm.getExpressionEli();
+      var announcement = Announcement
+        .builder()
+        .eli(normEli)
+        .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
+        .build();
+      // When
+      when(
+        loadAnnouncementUseCase.loadAnnouncement(
+          new LoadAnnouncementUseCase.Query(norm.getExpressionEli())
+        )
+      )
+        .thenReturn(announcement);
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
+
+      // When
+      mockMvc
+        .perform(
+          get("/api/v1/announcements/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().isOk())
+        .andExpect(
+          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
+        .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
+        .andExpect(jsonPath("fna").value("754-28-1"))
+        .andExpect(jsonPath("frbrName").value("BGBl. I"))
+        .andExpect(jsonPath("frbrNumber").value("s593"))
+        .andExpect(jsonPath("frbrDateVerkuendung").value("1964-08-05"))
+        .andExpect(jsonPath("dateAusfertigung").value("1964-08-05"))
+        .andExpect(jsonPath("importedAt").value("2025-03-13T15:00:00Z"));
+
+      verify(loadAnnouncementUseCase, times(1))
+        .loadAnnouncement(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+      verify(loadNormUseCase, times(1))
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+    }
+
+    @Test
+    void itReturns404() throws Exception {
+      // Given
+      var norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+      var normEli = norm.getExpressionEli();
+      // When
+      when(loadAnnouncementUseCase.loadAnnouncement(new LoadAnnouncementUseCase.Query(normEli)))
+        .thenThrow(new AnnouncementNotFoundException(normEli.toString()));
+
+      // When
+      mockMvc
+        .perform(
+          get("/api/v1/announcements/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().isNotFound());
+
+      verify(loadAnnouncementUseCase, times(1))
+        .loadAnnouncement(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+      verify(loadNormUseCase, times(0)).loadNorm(any());
     }
   }
 

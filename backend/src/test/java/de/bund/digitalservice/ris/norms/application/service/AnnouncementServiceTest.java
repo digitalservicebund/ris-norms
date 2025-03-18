@@ -7,7 +7,7 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
@@ -80,7 +80,7 @@ class AnnouncementServiceTest {
     void itThrowsAnnouncementNotFoundException() {
       // given
       var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
-      final var query = new LoadAnnouncementByNormEliUseCase.Query(
+      final var query = new LoadAnnouncementUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
@@ -89,7 +89,7 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.empty());
 
       // when
-      assertThatThrownBy(() -> announcementService.loadAnnouncementByNormEli(query))
+      assertThatThrownBy(() -> announcementService.loadAnnouncement(query))
         // then
         .isInstanceOf(AnnouncementNotFoundException.class);
     }
@@ -97,14 +97,14 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsAnnouncementNotFoundExceptionIfNormDoesNotExist() {
       // given
-      final var query = new LoadAnnouncementByNormEliUseCase.Query(
+      final var query = new LoadAnnouncementUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // when
-      assertThatThrownBy(() -> announcementService.loadAnnouncementByNormEli(query))
+      assertThatThrownBy(() -> announcementService.loadAnnouncement(query))
         // then
         .isInstanceOf(AnnouncementNotFoundException.class);
     }
@@ -120,8 +120,8 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.of(announcement));
 
       // When
-      var loadedAnnouncement = announcementService.loadAnnouncementByNormEli(
-        new LoadAnnouncementByNormEliUseCase.Query(
+      var loadedAnnouncement = announcementService.loadAnnouncement(
+        new LoadAnnouncementUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
