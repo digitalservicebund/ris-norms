@@ -88,13 +88,31 @@ class PrototypeCleanupServiceTest {
         .getMeta()
         .getProprietary()
         .get()
-        .getMetadataValue(Metadata.ENTRY_INTO_FORCE)
+        .getMetadataValue(Metadata.ENTRY_INTO_FORCE_ENG)
     )
       .contains("2025-09-01");
     assertThat(
-      norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.EXPIRY)
+      norm
+        .getRegelungstext1()
+        .getMeta()
+        .getProprietary()
+        .get()
+        .getMetadataValue(Metadata.EXPIRY_ENG)
     )
       .contains("2011-12-31");
+    assertThat(
+      norm
+        .getRegelungstext1()
+        .getMeta()
+        .getProprietary()
+        .get()
+        .getMetadataValue(Metadata.ENTRY_INTO_FORCE_DE)
+    )
+      .contains("2000-01-01");
+    assertThat(
+      norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.EXPIRY_DE)
+    )
+      .contains("2002-02-02");
     assertThat(
       norm
         .getRegelungstext1()

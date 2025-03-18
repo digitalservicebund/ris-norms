@@ -398,6 +398,8 @@
                    <ris:organisationsEinheit>Andere Organisationseinheit</ris:organisationsEinheit>
                    <ris:entryIntoForce date="2025-09-01" />
                    <ris:expiry date="2011-12-31" />
+                   <ris:inkraft date="2000-01-01" />
+                   <ris:ausserkraft date="2002-02-02" />
                    <ris:standangabe type="aufh">V aufgeh. durch Art. 22 G v. 22.12.2011 I 1111 mWv
                        1.1.2012</ris:standangabe>
                </ris:legalDocML.de_metadaten>

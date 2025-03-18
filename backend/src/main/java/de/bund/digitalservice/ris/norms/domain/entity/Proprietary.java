@@ -203,7 +203,9 @@ public class Proprietary {
    * @return the date of the entry into force
    */
   public Optional<LocalDate> getInkrafttreteDatum() {
-    return getMetadataValue(Metadata.ENTRY_INTO_FORCE).map(LocalDate::parse);
+    return getMetadataValue(Metadata.ENTRY_INTO_FORCE_DE)
+      .map(LocalDate::parse)
+      .or(() -> getMetadataValue(Metadata.ENTRY_INTO_FORCE_ENG).map(LocalDate::parse));
   }
 
   /**
@@ -211,7 +213,9 @@ public class Proprietary {
    * @return the date of the expiry
    */
   public Optional<LocalDate> getAusserkrafttreteDatum() {
-    return getMetadataValue(Metadata.EXPIRY).map(LocalDate::parse);
+    return getMetadataValue(Metadata.EXPIRY_DE)
+      .map(LocalDate::parse)
+      .or(() -> getMetadataValue(Metadata.EXPIRY_ENG).map(LocalDate::parse));
   }
 
   /**

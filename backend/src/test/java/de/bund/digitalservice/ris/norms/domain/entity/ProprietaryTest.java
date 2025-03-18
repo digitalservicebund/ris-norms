@@ -998,7 +998,7 @@ class ProprietaryTest {
   }
 
   @Test
-  void getInkrafttreteDatum() {
+  void getInkrafttreteDatumEng() {
     final Proprietary proprietary = new Proprietary(
       XmlMapper.toElement(
         """
@@ -1009,6 +1009,26 @@ class ProprietaryTest {
            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
              <ris:entryIntoForce date="1985-12-25" />
              <ris:expiry date="1985-12-31" />
+           </ris:legalDocML.de_metadaten>
+         </akn:proprietary>
+        """
+      )
+    );
+    assertThat(proprietary.getInkrafttreteDatum()).contains(LocalDate.parse("1985-12-25"));
+  }
+
+  @Test
+  void getInkrafttreteDatumDe() {
+    final Proprietary proprietary = new Proprietary(
+      XmlMapper.toElement(
+        """
+         <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+          eId="meta-1_proprietary-1"
+          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+          source="attributsemantik-noch-undefiniert">
+           <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+             <ris:inkraft date="1985-12-25" />
+             <ris:ausserkraft date="1985-12-31" />
            </ris:legalDocML.de_metadaten>
          </akn:proprietary>
         """
