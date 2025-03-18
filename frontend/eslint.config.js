@@ -86,6 +86,14 @@ export default defineConfigWithVueTs([
       // Component names in template should be the same as the name they're
       // imported as.
       "vue/component-name-in-template-casing": "error",
+
+      // Make it clear which imports are actual JavaScript imports and which are "only" types.
+      // This makes code more readable, but also prevents issues where Vite occasionally gets
+      // confused when types and exports have the same name.
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports" },
+      ],
     },
   },
 
