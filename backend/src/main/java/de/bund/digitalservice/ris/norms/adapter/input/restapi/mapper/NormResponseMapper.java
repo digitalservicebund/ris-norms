@@ -33,6 +33,7 @@ public class NormResponseMapper {
           .getMetadataValue(Metadata.FNA)
           .orElse(null)
       )
+      .status("status-not-yet-implemented")
       .build();
   }
 }

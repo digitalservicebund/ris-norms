@@ -76,6 +76,31 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /announcements/{expressionEli}/zielnormen:
+    get:
+      tags:
+        - Announcements
+      summary: Get the zielnormen of a specific announcement
+      parameters:
+        - name: expressionEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/DokumentExpressionEli"
+      responses:
+        "200":
+          description: List of Zielnormen
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Norm"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /{expressionEli}/releases:
     get:
       summary: Get the releases of a specific norm expression
@@ -640,6 +665,8 @@ components:
         frbrDateVerkuendung:
           type: string
           format: date
+        status:
+          type: string
 
     Verkuendung:
       type: object

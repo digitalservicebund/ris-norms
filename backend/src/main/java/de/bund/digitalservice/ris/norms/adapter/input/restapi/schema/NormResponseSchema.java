@@ -27,4 +27,6 @@ public class NormResponseSchema {
   private String frbrNumber;
 
   private String frbrDateVerkuendung;
+
+  private String status;
 }

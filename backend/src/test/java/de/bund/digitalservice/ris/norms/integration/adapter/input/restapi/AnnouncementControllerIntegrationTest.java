@@ -152,6 +152,52 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
+  class getVerkuendungsZielnormen {
+
+    @Test
+    void itReturnsAllZielnormen() throws Exception {
+      // Given
+
+      var announcement = Announcement
+        .builder()
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
+        .build();
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")
+        )
+      );
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz_2017-03-15.xml"))
+      );
+      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+
+      // When
+      mockMvc
+        .perform(
+          get("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen")
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").exists())
+        .andExpect(jsonPath("$[1]").doesNotExist())
+        .andExpect(
+          jsonPath("$[0].title", equalTo("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        )
+        .andExpect(
+          jsonPath(
+            "$[0].eli",
+            equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+          )
+        )
+        .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
+        .andExpect(jsonPath("$[0].fna").value("754-28-1"))
+        .andExpect(jsonPath("$[0].status").value("status-not-yet-implemented"));
+    }
+  }
+
+  @Nested
   class postAnnouncement {
 
     @Test

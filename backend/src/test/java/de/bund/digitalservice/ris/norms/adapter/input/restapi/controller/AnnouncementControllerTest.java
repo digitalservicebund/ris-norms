@@ -11,8 +11,10 @@ import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFou
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
@@ -44,6 +46,9 @@ class AnnouncementControllerTest {
 
   @MockitoBean
   private CreateAnnouncementUseCase createAnnouncementUseCase;
+
+  @MockitoBean
+  private LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
 
   @Nested
   class getAllAnnouncements {
@@ -265,6 +270,50 @@ class AnnouncementControllerTest {
       verify(loadAnnouncementUseCase, times(1))
         .loadAnnouncement(argThat(argument -> Objects.equals(argument.eli(), normEli)));
       verify(loadNormUseCase, times(0)).loadNorm(any());
+    }
+  }
+
+  @Nested
+  class getVerkuendungsZielnormen {
+
+    @Test
+    void itReturnsZielnormen() throws Exception {
+      // Given
+      var zielnorm1 = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+      when(
+        loadNormExpressionsAffectedByVerkuendungUseCase.loadNormExpressionsAffectedByVerkuendung(
+          any()
+        )
+      )
+        .thenReturn(List.of(zielnorm1));
+
+      // When
+      mockMvc
+        .perform(
+          get("/api/v1/announcements/eli/bund/bgbl-1/2025/2/2025-01-05/1/deu/zielnormen")
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().isOk())
+        .andExpect(
+          jsonPath("$[0].eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        )
+        .andExpect(
+          jsonPath("$[0].title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts")
+        )
+        .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
+        .andExpect(jsonPath("$[0].fna").value("754-28-1"))
+        .andExpect(jsonPath("$[0].status").value("status-not-yet-implemented"));
+
+      verify(loadNormExpressionsAffectedByVerkuendungUseCase, times(1))
+        .loadNormExpressionsAffectedByVerkuendung(
+          argThat(argument ->
+            Objects.equals(
+              argument.eli(),
+              NormExpressionEli.fromString("eli/bund/bgbl-1/2025/2/2025-01-05/1/deu")
+            )
+          )
+        );
     }
   }
 
