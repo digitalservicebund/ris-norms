@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -36,7 +37,7 @@ class ElementServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "meta-1";
+      var eid = new EId("meta-1");
 
       var normXml =
         """
@@ -70,7 +71,7 @@ class ElementServiceTest {
       var element = service.loadElement(new LoadElementUseCase.Query(eli, eid));
 
       // Then
-      assertThat(NodeParser.getValueFromExpression("./@eId", element)).contains(eid);
+      assertThat(NodeParser.getValueFromExpression("./@eId", element)).contains(eid.toString());
 
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
@@ -81,7 +82,7 @@ class ElementServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "meta-1";
+      var eid = new EId("meta-1");
       var query = new LoadElementUseCase.Query(eli, eid);
 
       when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
@@ -100,7 +101,7 @@ class ElementServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "meta-1000";
+      var eid = new EId("meta-1000");
       var query = new LoadElementUseCase.Query(eli, eid);
 
       var normXml =
@@ -148,7 +149,7 @@ class ElementServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "meta-1";
+      var eid = new EId("meta-1");
 
       var normXml =
         """
@@ -195,7 +196,7 @@ class ElementServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "meta-1";
+      var eid = new EId("meta-1");
       var query = new LoadElementHtmlUseCase.Query(eli, eid);
 
       when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
@@ -214,7 +215,7 @@ class ElementServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "meta-1000";
+      var eid = new EId("meta-1000");
       var query = new LoadElementHtmlUseCase.Query(eli, eid);
 
       var normXml =

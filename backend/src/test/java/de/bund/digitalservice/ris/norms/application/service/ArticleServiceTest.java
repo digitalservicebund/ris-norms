@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromD
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -44,7 +45,7 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
-      var eid = "hauptteil-1_art-1";
+      var eid = new EId("hauptteil-1_art-1");
       when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
         .thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
@@ -62,7 +63,7 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "meta-1";
+      var eid = new EId("meta-1");
       var query = new LoadArticleHtmlUseCase.Query(eli, eid);
       when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
         .thenReturn(Optional.empty());
@@ -80,7 +81,7 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
-      var eid = "NOT_IN_NORM";
+      var eid = new EId("eid-1_not-1_in-1_norm-1");
       var query = new LoadArticleHtmlUseCase.Query(eli, eid);
       when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
         .thenReturn(Optional.of(regelungstext));

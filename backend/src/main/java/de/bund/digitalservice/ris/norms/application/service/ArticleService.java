@@ -39,7 +39,7 @@ public class ArticleService
     return regelungstext
       .getArticles()
       .stream()
-      .filter(article -> article.getEid().toString().equals(query.eid()))
+      .filter(article -> article.getEid().equals(query.eid()))
       .findFirst()
       .map(article -> XmlMapper.toString(article.getElement()))
       .map(xml ->
@@ -47,7 +47,9 @@ public class ArticleService
           new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
         )
       )
-      .orElseThrow(() -> new ArticleNotFoundException(query.eli().toString(), query.eid()));
+      .orElseThrow(() ->
+        new ArticleNotFoundException(query.eli().toString(), query.eid().toString())
+      );
   }
 
   @Override

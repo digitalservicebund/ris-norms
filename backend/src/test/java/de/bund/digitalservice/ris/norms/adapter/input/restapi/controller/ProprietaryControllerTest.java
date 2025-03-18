@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundEx
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -430,7 +431,7 @@ class ProprietaryControllerTest {
     void updatesProprietarySuccess() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(

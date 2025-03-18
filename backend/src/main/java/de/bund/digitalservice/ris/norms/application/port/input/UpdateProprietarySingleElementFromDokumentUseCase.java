@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
@@ -24,11 +25,7 @@ public interface UpdateProprietarySingleElementFromDokumentUseCase {
    * @param eid the eId of the single element within the {@link Dokument}
    * @param inputMetadata object containing the metadata to update
    */
-  record Query(
-    DokumentExpressionEli dokumentExpressionEli,
-    String eid,
-    InputMetadata inputMetadata
-  ) {}
+  record Query(DokumentExpressionEli dokumentExpressionEli, EId eid, InputMetadata inputMetadata) {}
 
   /**
    * Record representing the list of metadata to update.

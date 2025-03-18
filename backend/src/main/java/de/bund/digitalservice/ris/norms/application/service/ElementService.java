@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -66,7 +67,9 @@ public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCas
 
     return NodeParser
       .getNodeFromExpression(xPath, regelungstext.getDocument())
-      .orElseThrow(() -> new ElementNotFoundException(query.eli().toString(), query.eid()));
+      .orElseThrow(() ->
+        new ElementNotFoundException(query.eli().toString(), query.eid().toString())
+      );
   }
 
   @Override
@@ -80,7 +83,7 @@ public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCas
     );
   }
 
-  private String getXPathForEid(String eid) {
-    return String.format("//*[@eId='%s']", eid);
+  private String getXPathForEid(EId eid) {
+    return String.format("//*[@eId='%s']", eid.toString());
   }
 }

@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class ElementController {
   @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getElementHtmlPreview(
     final DokumentExpressionEli eli,
-    @PathVariable final String eid
+    @PathVariable final EId eid
   ) {
     var elementHtml = loadElementHtmlUseCase.loadElementHtml(
       new LoadElementHtmlUseCase.Query(eli, eid)
@@ -59,7 +60,7 @@ public class ElementController {
   @GetMapping(path = "/{eid}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ElementResponseSchema> getElementInfo(
     final DokumentExpressionEli eli,
-    @PathVariable final String eid
+    @PathVariable final EId eid
   ) {
     var element = loadElementUseCase.loadElement(new LoadElementUseCase.Query(eli, eid));
 

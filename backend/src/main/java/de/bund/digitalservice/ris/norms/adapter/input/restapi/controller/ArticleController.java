@@ -139,7 +139,7 @@ public class ArticleController {
   @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getArticleRender(
     final DokumentExpressionEli eli,
-    @PathVariable final String eid
+    @PathVariable final EId eid
   ) {
     var query = new LoadArticleHtmlUseCase.Query(eli, eid);
     var articleHtml = loadArticleHtmlUseCase.loadArticleHtml(query);

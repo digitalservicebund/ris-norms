@@ -145,7 +145,7 @@ public class ProprietaryController {
       updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(
         new UpdateProprietarySingleElementFromDokumentUseCase.Query(
           dokumentExpressionEli,
-          eid.toString(),
+          eid,
           new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata(
             proprietarySchema.getArtDerNorm()
           )

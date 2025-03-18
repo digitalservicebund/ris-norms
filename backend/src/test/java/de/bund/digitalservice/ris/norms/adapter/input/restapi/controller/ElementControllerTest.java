@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -66,7 +67,7 @@ class ElementControllerTest {
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             ),
-            "hauptteil-1_art-1"
+            new EId("hauptteil-1_art-1")
           )
         )
       )
@@ -112,7 +113,7 @@ class ElementControllerTest {
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             ),
-            "hauptteil-1_art-1"
+            new EId("hauptteil-1_art-1")
           )
         )
       )

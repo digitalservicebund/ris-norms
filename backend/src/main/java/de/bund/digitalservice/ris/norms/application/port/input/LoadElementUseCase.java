@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import org.w3c.dom.Node;
 
@@ -19,5 +20,5 @@ public interface LoadElementUseCase {
    * @param eli The ELI used to identify the dokument
    * @param eid The eId of the element inside the dokument
    */
-  record Query(DokumentExpressionEli eli, String eid) {}
+  record Query(DokumentExpressionEli eli, EId eid) {}
 }

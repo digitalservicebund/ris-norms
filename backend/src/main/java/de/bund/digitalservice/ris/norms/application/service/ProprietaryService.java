@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
@@ -87,7 +86,7 @@ public class ProprietaryService
     final Proprietary proprietary = dokument.getMeta().getOrCreateProprietary();
     proprietary.setMetadataValue(
       Metadata.ART_DER_NORM,
-      new EId(query.eid()),
+      query.eid(),
       query.inputMetadata().artDerNorm()
     );
     return updateDokument(dokument);

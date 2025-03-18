@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
 /** Use case for loading a norm's article */
@@ -18,5 +19,5 @@ public interface LoadArticleHtmlUseCase {
    * @param eli ELI of the norm to load the article from
    * @param eid EID of the article to load from the norm
    */
-  record Query(DokumentExpressionEli eli, String eid) {}
+  record Query(DokumentExpressionEli eli, EId eid) {}
 }
