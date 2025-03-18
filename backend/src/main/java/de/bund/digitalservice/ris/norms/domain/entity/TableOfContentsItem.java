@@ -11,7 +11,7 @@ import java.util.List;
  * @param children - containing, if any, further {@link TableOfContentsItem}
  */
 public record TableOfContentsItem(
-  String id,
+  EId id,
   String marker,
   String heading,
   String type,

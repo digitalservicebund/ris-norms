@@ -30,7 +30,7 @@ public class TableOfContentsResponseMapper {
     }
     final TableOfContentsResponseSchema schema = TableOfContentsResponseSchema
       .builder()
-      .id(item.id())
+      .id(item.id().toString())
       .marker(item.marker())
       .heading(item.heading())
       .type(item.type())

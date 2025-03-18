@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTocFromRegelungstextUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.TableOfContentsItem;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -72,7 +73,7 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
 
   private TableOfContentsItem getTableOfContentsItem(final Element element) {
     // eId
-    final String eId = element.getAttribute("eId").trim();
+    final EId eId = new EId(element.getAttribute("eId").trim());
 
     // marker
     final String marker = cleanText(

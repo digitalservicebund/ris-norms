@@ -34,14 +34,14 @@ class TableOfContentsControllerTest {
       "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
     );
     final TableOfContentsItem childItem = new TableOfContentsItem(
-      "child-id",
+      new EId("child-1"),
       "child-marker",
       "child-heading",
       "child-type",
       Collections.emptyList()
     );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
-      "parent-id",
+      new EId("parent-1"),
       "parent-marker",
       "parent-heading",
       "parent-type",
@@ -54,11 +54,11 @@ class TableOfContentsControllerTest {
     mockMvc
       .perform(get("/api/v1/norms/" + eli + "/toc").accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$[0].id").value("parent-id"))
+      .andExpect(jsonPath("$[0].id").value("parent-1"))
       .andExpect(jsonPath("$[0].marker").value("parent-marker"))
       .andExpect(jsonPath("$[0].heading").value("parent-heading"))
       .andExpect(jsonPath("$[0].type").value("parent-type"))
-      .andExpect(jsonPath("$[0].children[0].id").value("child-id"))
+      .andExpect(jsonPath("$[0].children[0].id").value("child-1"))
       .andExpect(jsonPath("$[0].children[0].marker").value("child-marker"))
       .andExpect(jsonPath("$[0].children[0].heading").value("child-heading"))
       .andExpect(jsonPath("$[0].children[0].type").value("child-type"));
