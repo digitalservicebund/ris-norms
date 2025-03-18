@@ -658,7 +658,7 @@ class RegelungstextTest {
     assertThat(actualArticles).hasSize(expectedNumberOfArticles);
     assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
-    assertThat(actualArticles.get(0).getEid()).isEqualTo(firstArticleEid);
+    assertThat(actualArticles.get(0).getEid()).hasToString(firstArticleEid);
     assertThat(actualArticles.get(0).getAffectedDocumentEli())
       .contains(
         DokumentExpressionEli.fromString(
@@ -668,7 +668,7 @@ class RegelungstextTest {
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
     assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
-    assertThat(actualArticles.get(1).getEid()).isEqualTo(secondArticleEid);
+    assertThat(actualArticles.get(1).getEid()).hasToString(secondArticleEid);
     assertThat(actualArticles.get(1).getAffectedDocumentEli()).isNotPresent();
   }
 

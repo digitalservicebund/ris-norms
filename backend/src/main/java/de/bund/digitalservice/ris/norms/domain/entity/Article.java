@@ -44,8 +44,8 @@ public class Article {
    *
    * @return The eId of the article
    */
-  public String getEid() {
-    return EId.fromMandatoryNode(getElement()).value();
+  public EId getEid() {
+    return EId.fromMandatoryNode(getElement());
   }
 
   /**

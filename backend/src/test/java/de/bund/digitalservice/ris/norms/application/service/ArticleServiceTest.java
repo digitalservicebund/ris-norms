@@ -115,8 +115,8 @@ class ArticleServiceTest {
 
       // Then
       assertThat(articles).hasSize(2);
-      assertThat(articles.get(0).getEid()).isEqualTo("hauptteil-1_art-1");
-      assertThat(articles.get(1).getEid()).isEqualTo("hauptteil-1_art-2");
+      assertThat(articles.get(0).getEid()).hasToString("hauptteil-1_art-1");
+      assertThat(articles.get(1).getEid()).hasToString("hauptteil-1_art-2");
     }
 
     @Test

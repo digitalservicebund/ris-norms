@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -109,7 +110,7 @@ public class ArticleController {
   @GetMapping(path = "/{eid}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ArticleResponseSchema> getArticle(
     final DokumentExpressionEli eli,
-    @PathVariable final String eid
+    @PathVariable final EId eid
   ) {
     final var regelungstext = loadRegelungstextUseCase.loadRegelungstext(
       new LoadRegelungstextUseCase.Query(eli)
@@ -123,7 +124,7 @@ public class ArticleController {
       .findFirst()
       .map(ArticleResponseMapper::fromNormArticle)
       .map(ResponseEntity::ok)
-      .orElseThrow(() -> new ArticleNotFoundException(eli.toString(), eid));
+      .orElseThrow(() -> new ArticleNotFoundException(eli.toString(), eid.toString()));
   }
 
   /**

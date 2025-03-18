@@ -56,7 +56,7 @@ class ArticleTest {
       """;
 
     var article = new Article(toElement(articleString));
-    var expectedEid = "hauptteil-1_art-1";
+    var expectedEid = new EId("hauptteil-1_art-1");
 
     // when
     var eid = article.getEid();
@@ -75,7 +75,7 @@ class ArticleTest {
           """;
 
     var article = new Article(toElement(articleString));
-    var expectedEid = "hauptteil-1_art-1";
+    var expectedEid = new EId("hauptteil-1_art-1");
 
     // when
     var eid = article.getEid();

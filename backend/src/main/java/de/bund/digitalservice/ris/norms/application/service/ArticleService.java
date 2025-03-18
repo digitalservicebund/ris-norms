@@ -39,7 +39,7 @@ public class ArticleService
     return regelungstext
       .getArticles()
       .stream()
-      .filter(article -> article.getEid().equals(query.eid()))
+      .filter(article -> article.getEid().toString().equals(query.eid()))
       .findFirst()
       .map(article -> XmlMapper.toString(article.getElement()))
       .map(xml ->
