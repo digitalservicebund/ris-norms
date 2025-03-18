@@ -16,11 +16,13 @@ import org.w3c.dom.Node;
 @Service
 public class PrototypeCleanupService {
 
+  // TODO 2025-03-18 Victor: "entryIntoForce" and "expiry" to be removed next week
   private static final Set<String> ALLOWED_METADATA = Set.of(
     "entryIntoForce",
+    "inkraft",
     "expiry",
-    "standangabe",
     "ausserkraft",
+    "standangabe",
     "vollzitat"
   );
 
