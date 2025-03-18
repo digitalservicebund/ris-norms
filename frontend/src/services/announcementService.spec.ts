@@ -66,9 +66,9 @@ describe("announcementService", () => {
       const mockAnnouncement = {
         eli: "eli/bund/bgbl-1/2025/s65/2025-02-27/1/deu/regelungstext-1",
         title: "Gesetz zur Anpassung des Mutterschutzgesetzes",
-        frbrDateVerkuendung: "27.02.2025",
-        frbrDateAusfertigung: "24.02.2025",
-        importTimestamp: "24.02.2025, 08:12",
+        frbrDateVerkuendung: "2025-02-27",
+        dateAusfertigung: "2025-02-24",
+        importedAt: "2025-02-24T08:12:00Z",
         fna: "8052-5, 860-5, 2030-2-30-2, 51-1-23",
       }
 
@@ -100,9 +100,9 @@ describe("announcementService", () => {
       expect(data.value?.title).toBe(
         "Gesetz zur Anpassung des Mutterschutzgesetzes",
       )
-      expect(data.value?.frbrDateVerkuendung).toBe("27.02.2025")
-      expect(data.value?.frbrDateAusfertigung).toBe("24.02.2025")
-      expect(data.value?.importTimestamp).toBe("24.02.2025, 08:12")
+      expect(data.value?.frbrDateVerkuendung).toBe("2025-02-27")
+      expect(data.value?.dateAusfertigung).toBe("2025-02-24")
+      expect(data.value?.importedAt).toBe("2025-02-24T08:12:00Z")
       expect(data.value?.fna).toBe("8052-5, 860-5, 2030-2-30-2, 51-1-23")
       expect(useApiFetch).toHaveBeenCalledTimes(1)
     })

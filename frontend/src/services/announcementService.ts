@@ -1,9 +1,10 @@
 import { useApiFetch } from "@/services/apiService"
-import { UseFetchReturn } from "@vueuse/core"
-import { Norm } from "@/types/norm"
-import { Announcement } from "@/types/announcement"
-import { computed, MaybeRefOrGetter, toValue } from "vue"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import type { UseFetchReturn } from "@vueuse/core"
+import type { Norm } from "@/types/norm"
+import type { Announcement } from "@/types/announcement"
+import type { MaybeRefOrGetter } from "vue"
+import { computed, toValue } from "vue"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 /**
  * Load all announcements from the API.
@@ -20,7 +21,7 @@ export function useAnnouncementsService(): UseFetchReturn<Norm[]> {
 export function useGetAnnouncementService(
   eli: MaybeRefOrGetter<NormExpressionEli>,
 ): UseFetchReturn<Announcement> {
-  const url = computed(() => `/verkundungen/${toValue(eli)}`)
+  const url = computed(() => `/announcements/${toValue(eli)}`)
 
   return useApiFetch(url).json()
 }

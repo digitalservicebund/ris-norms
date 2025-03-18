@@ -30,7 +30,7 @@ const { isFetching, error, data: amendingLaws } = useAnnouncementsService()
         <RouterLink
           v-for="amendingLaw in amendingLaws"
           :key="amendingLaw.eli"
-          :to="`/verkuendungen/${amendingLaw.eli}`"
+          :to="`/announcements/${amendingLaw.eli}`"
           class="block"
         >
           <RisAmendingLawCard

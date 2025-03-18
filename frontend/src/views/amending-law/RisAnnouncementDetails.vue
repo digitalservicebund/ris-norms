@@ -3,19 +3,53 @@ import { computed } from "vue"
 
 const props = defineProps<{
   title?: string
-  frbrDateVerkuendung?: string
-  frbrDateAusfertigung?: string
-  importTimestamp?: string
+  veroeffentlichungsdatum?: string
+  ausfertigungsdatum?: string
+  datenlieferungsdatum?: string
   fna?: string
 }>()
 
-const computedfrbrDateVerkuendung = computed(
-  () => props.frbrDateVerkuendung ?? "",
-)
-const computedfrbrDateAusfertigung = computed(
-  () => props.frbrDateAusfertigung ?? "",
-)
-const computedimportTimestamp = computed(() => props.importTimestamp ?? "")
+const computedfrbrDateVerkuendung = computed(() => {
+  if (!props.veroeffentlichungsdatum) return ""
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }
+  return new Date(props.veroeffentlichungsdatum).toLocaleDateString(
+    "de-DE",
+    options,
+  )
+})
+
+const computedfrbrDateAusfertigung = computed(() => {
+  if (!props.ausfertigungsdatum) return ""
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }
+  return new Date(props.ausfertigungsdatum).toLocaleDateString("de-DE", options)
+})
+
+const computedimportTimestamp = computed(() => {
+  if (!props.datenlieferungsdatum) return ""
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }
+  return new Date(props.datenlieferungsdatum).toLocaleDateString(
+    "de-DE",
+    options,
+  )
+})
+console.log(props.datenlieferungsdatum)
 const computedFna = computed(() => props.fna ?? "")
 </script>
 
@@ -59,7 +93,7 @@ const computedFna = computed(() => props.fna ?? "")
       </div>
     </div>
 
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col items-start gap-4">
       <RouterLink :to="{ name: 'TemporalData' }" class="ris-link1-bold">
         Geltungszeitregeln anlegen
       </RouterLink>

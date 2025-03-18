@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import RisHeader, {
-  HeaderBreadcrumb,
-} from "@/components/controls/RisHeader.vue"
+import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
+import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNormHtml } from "@/services/normService"
-import { ref, watch } from "vue"
+import { ref, watch, computed } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useRouter } from "vue-router"
 import Splitter from "primevue/splitter"
@@ -17,6 +16,7 @@ import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
 import { useGetAnnouncementService } from "@/services/announcementService"
 
 const eli = useDokumentExpressionEliPathParameter()
+const normExpressionEli = computed(() => eli.value.asNormEli())
 
 const {
   data: amendingLawHtml,
@@ -27,7 +27,7 @@ const {
   data: announcement,
   isFetching: isFetchingAnnouncement,
   error: loadingErrorAnnouncement,
-} = useGetAnnouncementService(eli)
+} = useGetAnnouncementService(normExpressionEli)
 
 const router = useRouter()
 watch(
@@ -69,26 +69,28 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     <RisHeader :back-destination="{ name: 'Home' }" :breadcrumbs>
       <div class="flex-grow overflow-hidden">
         <Splitter class="h-full" layout="horizontal">
-          <SplitterPanel
-            :size="75"
-            :min-size="10"
-            class="flex flex-col gap-24 p-24"
-          >
-            <RisAnnouncementDetails
-              :title="announcement?.title"
-              :veroeffentlichungsdatum="announcement?.frbrDateVerkuendung"
-              :ausfertigungsdatum="announcement?.frbrDateAusfertigung"
-              :datenlieferungsdatum="announcement?.importTimestamp"
-              :fna="announcement?.fna"
-            />
-
-            <div class="flex flex-col gap-16">
-              <h2 class="ris-body1-bold">Zielnormen</h2>
-              <RisEmptyState
-                text-content="Es sind noch keine Zielnormen vorhanden"
+          <section aria-label="Announcement Details">
+            <SplitterPanel
+              :size="75"
+              :min-size="10"
+              class="flex flex-col gap-24 p-24"
+            >
+              <RisAnnouncementDetails
+                :title="announcement?.title"
+                :veroeffentlichungsdatum="announcement?.frbrDateVerkuendung"
+                :ausfertigungsdatum="announcement?.dateAusfertigung"
+                :datenlieferungsdatum="announcement?.importedAt"
+                :fna="announcement?.fna"
               />
-            </div>
-          </SplitterPanel>
+
+              <div class="flex flex-col gap-16">
+                <h2 class="ris-body1-bold">Zielnormen</h2>
+                <RisEmptyState
+                  text-content="Es sind noch keine Zielnormen vorhanden"
+                />
+              </div>
+            </SplitterPanel>
+          </section>
           <SplitterPanel :size="25" :min-size="10">
             <div
               v-if="isFetchingAmendingLawHtml"

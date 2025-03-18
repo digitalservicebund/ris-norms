@@ -14,10 +14,10 @@ export interface Announcement {
   frbrName?: string
   /** Amtsblatt number */
   frbrNumber?: string
-  /** Date of publication (Veröffentlichungsdatum). Conforms to YYYY-MM-DD. */
+  /** Date of publication (Veröffentlichungsdatum) */
   frbrDateVerkuendung?: string
   /** Date of issue (Ausfertigungsdatum) */
-  frbrDateAusfertigung?: string
+  dateAusfertigung?: string
   /** Date of first processing (Datenlieferungsdatum) */
-  importTimestamp?: string
+  importedAt?: string
 }
