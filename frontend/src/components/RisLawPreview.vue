@@ -41,11 +41,6 @@ const props = withDefaults(
      * Should the default styling for norms be applied? Default: true
      */
     styled?: boolean
-
-    /**
-     * Accessible name for the textbox role. This is required for accessibility.
-     */
-    ariaLabel?: string
   }>(),
   {
     highlightAffectedDocument: false,
@@ -53,7 +48,6 @@ const props = withDefaults(
     eIdClasses: () => ({}),
     arrowFocus: true,
     styled: true,
-    ariaLabel: "Gesetztext",
   },
 )
 
@@ -393,7 +387,6 @@ const slots: SetupContext["slots"] = useSlots()
       ref="container"
       :aria-activedescendant="activeDescendant"
       :role="arrowFocus ? 'textbox' : undefined"
-      :aria-label="ariaLabel"
       class="preview-container flex h-full overflow-auto bg-white p-20 outline outline-4 outline-blue-800 focus:outline focus:outline-4 focus:-outline-offset-2 focus:outline-blue-800"
       :class="{
         'default-norm-style': styled,

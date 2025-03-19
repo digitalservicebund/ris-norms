@@ -105,7 +105,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
               <RisLawPreview
                 class="h-full w-full"
                 :content="amendingLawHtml ?? ''"
-                aria-label="Volltext der Bekanntmachung"
+                :arrow-focus="false"
               />
             </section>
           </SplitterPanel>
