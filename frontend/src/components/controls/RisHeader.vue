@@ -219,7 +219,7 @@ export function useHeaderContext() {
     v-bind="$attrs"
   >
     <section class="flex items-center">
-      <Breadcrumb :model="allBreadcrumbs">
+      <Breadcrumb :model="allBreadcrumbs" aria-label="Breadcrumb-Navigation">
         <template #item="{ item, props: slotProps }">
           <template v-if="item.key === 'back-button'">
             <RouterLink

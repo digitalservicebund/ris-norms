@@ -67,11 +67,11 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 
   <div v-else class="flex h-[calc(100dvh-5rem)] flex-col bg-gray-100">
     <RisHeader :back-destination="{ name: 'Home' }" :breadcrumbs>
-      <div class="flex-grow overflow-hidden">
+      <main class="flex-grow overflow-hidden">
         <Splitter class="h-full" layout="horizontal">
           <SplitterPanel :size="75" :min-size="10">
             <section
-              aria-label="Announcement Details"
+              aria-label="Bekanntmachungsdetails"
               class="flex flex-col gap-24 p-24"
             >
               <RisAnnouncementDetails
@@ -92,22 +92,25 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </SplitterPanel>
 
           <SplitterPanel :size="25" :min-size="10">
-            <div
-              v-if="isFetchingAmendingLawHtml"
-              class="flex items-center justify-center"
-            >
-              <RisLoadingSpinner></RisLoadingSpinner>
-            </div>
-            <div v-else-if="loadingErrorAmendingLawHtml">
-              <RisErrorCallout :error="loadingErrorAmendingLawHtml" />
-            </div>
-            <RisLawPreview
-              class="h-full w-full"
-              :content="amendingLawHtml ?? ''"
-            />
+            <section aria-label="Bekanntmachungsvorschau" class="h-full">
+              <div
+                v-if="isFetchingAmendingLawHtml"
+                class="flex items-center justify-center"
+              >
+                <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
+              <div v-else-if="loadingErrorAmendingLawHtml">
+                <RisErrorCallout :error="loadingErrorAmendingLawHtml" />
+              </div>
+              <RisLawPreview
+                class="h-full w-full"
+                :content="amendingLawHtml ?? ''"
+                aria-label="Volltext der Bekanntmachung"
+              />
+            </section>
           </SplitterPanel>
         </Splitter>
-      </div>
+      </main>
     </RisHeader>
   </div>
 </template>
