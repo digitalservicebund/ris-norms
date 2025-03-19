@@ -69,10 +69,9 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     <RisHeader :back-destination="{ name: 'Home' }" :breadcrumbs>
       <div class="flex-grow overflow-hidden">
         <Splitter class="h-full" layout="horizontal">
-          <section aria-label="Announcement Details">
-            <SplitterPanel
-              :size="75"
-              :min-size="10"
+          <SplitterPanel :size="75" :min-size="10">
+            <section
+              aria-label="Announcement Details"
               class="flex flex-col gap-24 p-24"
             >
               <RisAnnouncementDetails
@@ -89,8 +88,9 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
                   text-content="Es sind noch keine Zielnormen vorhanden"
                 />
               </div>
-            </SplitterPanel>
-          </section>
+            </section>
+          </SplitterPanel>
+
           <SplitterPanel :size="25" :min-size="10">
             <div
               v-if="isFetchingAmendingLawHtml"
