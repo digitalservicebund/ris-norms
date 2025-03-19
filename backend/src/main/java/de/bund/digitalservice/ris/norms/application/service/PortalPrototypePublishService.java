@@ -97,6 +97,15 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
             "Norm {} could not be published to portal-prototype (schema validation failed)",
             norm.getManifestationEli().toString()
           );
+          for (LdmlDeNotValidException.ValidationError error : e.getErrors()) {
+            log.error(
+              "Validation error: Type={}, Line={}, Column={}, Detail={}",
+              error.type(),
+              error.lineNumber(),
+              error.columnNumber(),
+              error.detail()
+            );
+          }
           log.error(e.getMessage(), e);
           return false;
         }
