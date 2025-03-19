@@ -23,7 +23,7 @@ test.describe(
       ).toBeVisible()
 
       const announcementSection = page.getByRole("region", {
-        name: "Announcement Details",
+        name: "Bekanntmachungsdetails",
       })
 
       await expect(
