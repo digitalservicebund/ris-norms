@@ -11,7 +11,9 @@ const logoutLink = getLogoutLink()
 <template>
   <nav
     class="flex h-80 items-center justify-between border-b border-gray-400 bg-white px-16"
+    aria-labelledby="main-nav-label"
   >
+    <span id="main-nav-label" class="sr-only">Hauptnavigation</span>
     <RouterLink :to="{ name: 'Home' }" class="flex gap-16">
       <img alt="" :src="neurisLogo" />
       <span>
