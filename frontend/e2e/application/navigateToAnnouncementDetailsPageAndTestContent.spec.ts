@@ -10,6 +10,19 @@ test.describe(
     test("navigate to announcement details page and should display details correctly", async ({
       page,
     }) => {
+      await page.route(
+        "**/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        async (route) => {
+          const response = await route.fetch()
+          const body = await response.json()
+          body.importedAt = "2025-03-19T22:52:00Z"
+          await route.fulfill({
+            status: response.status(),
+            body: JSON.stringify(body),
+          })
+        },
+      )
+
       await page.goto(
         "./announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
@@ -35,7 +48,12 @@ test.describe(
         announcementSection.getByText("Ausfertigungsdatum"),
       ).toBeVisible()
       await expect(announcementSection.getByText("01.01.1900")).toBeVisible()
-
+      await expect(
+        announcementSection.getByText("Datenlieferungsdatum"),
+      ).toBeVisible()
+      await expect(
+        announcementSection.getByText("19.03.2025, 23:52"),
+      ).toBeVisible()
       await expect(announcementSection.getByText("FNA")).toBeVisible()
       await expect(
         announcementSection.getByText("nicht-vorhanden"),
