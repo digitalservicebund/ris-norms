@@ -365,7 +365,6 @@ jobs:
         with:
           filePath: tmp/frontend-unit-test-report
           destinationDir: test-reports/ris-norms/frontend/unit-tests
-          keepAllVersions: false
           reportIsDirectory: true
       # E2E test report
       - name: E2E test reports - Download
@@ -418,7 +417,6 @@ jobs:
         with:
           filePath: tmp/backend-unit-test-report
           destinationDir: test-reports/ris-norms/backend/unit-tests
-          keepAllVersions: false
           reportIsDirectory: true
       # backend integration test report
       - name: integration test report - download artifact
@@ -431,7 +429,6 @@ jobs:
         with:
           filePath: tmp/backend-integration-test-report
           destinationDir: test-reports/ris-norms/backend/integration-tests
-          keepAllVersions: false
           reportIsDirectory: true
       # Push reports
       - name: Push reports
