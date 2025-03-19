@@ -102,11 +102,11 @@ jobs:
           current_time_to_print=$(TZ=UTC date "+%H:%M")
           current_time=$((10#$(TZ=UTC date "+%H%M")))
           if (( current_time >= 600 && current_time < 2230 )); then
-            echo "Should not deploy automatically. Current time is $current_time_to_print"
-            echo "should-auto-deploy=false" >> "$GITHUB_OUTPUT"
-          else
             echo "Should deploy automatically. Current time is $current_time_to_print"
             echo "should-auto-deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Should not deploy automatically. Current time is $current_time_to_print"
+            echo "should-auto-deploy=false" >> "$GITHUB_OUTPUT"
           fi
 
   # ######################
