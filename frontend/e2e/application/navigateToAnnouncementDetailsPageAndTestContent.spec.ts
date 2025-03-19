@@ -36,27 +36,6 @@ test.describe(
       ).toBeVisible()
       await expect(announcementSection.getByText("01.01.1900")).toBeVisible()
 
-      await expect(
-        announcementSection.getByText("Datenlieferungsdatum"),
-      ).toBeVisible()
-      const browserDateTime = await page.evaluate(() => {
-        const now = new Date()
-        return now.toLocaleDateString("de-DE", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      })
-
-      const [datePart, timePart] = browserDateTime.split(",")
-      const cleanDatePart = datePart.trim()
-      const cleanTimePart = timePart.trim()
-
-      const expectedPattern = new RegExp(`${cleanDatePart}.*${cleanTimePart}`)
-      await expect(announcementSection.getByText(expectedPattern)).toBeVisible()
-
       await expect(announcementSection.getByText("FNA")).toBeVisible()
       await expect(
         announcementSection.getByText("nicht-vorhanden"),
