@@ -33,7 +33,11 @@ class EliServiceTest {
   @Test
   void findNextExpressionEliVersion1AlreadyInUse() {
     when(loadNormUseCase.loadNorm(any()))
-      .thenReturn(Fixtures.loadNormFromDisk("SimpleNorm.xml"))
+      .thenReturn(
+        Fixtures.loadNormFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      )
       .thenThrow(new NormNotFoundException(""));
 
     var eli = eliService.findNextExpressionEli(

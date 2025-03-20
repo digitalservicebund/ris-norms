@@ -28,7 +28,9 @@ class RegelungstextTest {
   @Test
   void getWorkEli() {
     // given
-    final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     // when
     final var actualEli = regelungstext.getWorkEli();
@@ -41,7 +43,9 @@ class RegelungstextTest {
   @Test
   void getExpressionEli() {
     // given
-    final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     DokumentExpressionEli expectedEli = DokumentExpressionEli.fromString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     );
@@ -56,7 +60,9 @@ class RegelungstextTest {
   @Test
   void getManifestationEli() {
     // given
-    final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     DokumentManifestationEli expectedEli = DokumentManifestationEli.fromString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
@@ -1200,7 +1206,9 @@ class RegelungstextTest {
     @Test
     void itShouldCreatesANewElement() {
       // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final Node parentNode = NodeParser
         .getNodeFromExpression("//act/meta", regelungstext.getDocument())
         .orElseThrow();
@@ -1224,7 +1232,9 @@ class RegelungstextTest {
     @Test
     void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
       // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
 
       // when
       final var temporalData = regelungstext.getMeta().getOrCreateTemporalData();
@@ -1260,7 +1270,9 @@ class RegelungstextTest {
     @Test
     void itShouldDeleteTheNodeOfTheEId() {
       // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
 
       // when
       regelungstext.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
@@ -1278,7 +1290,9 @@ class RegelungstextTest {
     @Test
     void itShouldDeleteTemporalGroupIfUnused() {
       // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       // delete the mod so the temporal group is unused
       regelungstext.deleteByEId("meta-1_analysis-1_activemod-1");
 
@@ -1292,7 +1306,9 @@ class RegelungstextTest {
     @Test
     void itShouldNotDeleteTemporalGroupIfUsed() {
       // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
 
       // when
       regelungstext.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
@@ -1308,7 +1324,9 @@ class RegelungstextTest {
     @Test
     void itShouldDeleteEventRefIfUnused() {
       // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       // delete the mod so the temporal group is unused
       regelungstext.deleteByEId("meta-1_analysis-1_activemod-1");
 
@@ -1328,7 +1346,9 @@ class RegelungstextTest {
     @Test
     void itShouldNotDeleteEventRefIfUsed() {
       // given
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
 
       assertThat(
         NodeParser.getNodeFromExpression(

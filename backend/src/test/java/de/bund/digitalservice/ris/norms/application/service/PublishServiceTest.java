@@ -72,9 +72,11 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicAndPrivateStorage() {
       // Given
-      final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-        "SimpleOffenestruktur.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
       );
       final Norm norm = new Norm(
         NormPublishState.QUEUED_FOR_PUBLISH,
@@ -106,9 +108,11 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicAndPrivateStorageWhenMigrationLogExists() {
       // Given
-      final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-        "SimpleOffenestruktur.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
       );
       final Norm norm = new Norm(
         NormPublishState.QUEUED_FOR_PUBLISH,
@@ -149,7 +153,9 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicButPrivateFails() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
@@ -179,7 +185,9 @@ class PublishServiceTest {
     @Test
     void publishNormToPublicFails() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       )
@@ -209,7 +217,9 @@ class PublishServiceTest {
     @Test
     void deleteAllNormsIfUnpublishedMigrationLogExists() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final MigrationLog migrationLog = MigrationLog
         .builder()
         .size(5)
@@ -254,7 +264,9 @@ class PublishServiceTest {
     @Test
     void doNotdeleteAllNormsIfMigrationLogExistsButSizeIsZero() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final MigrationLog migrationLog = MigrationLog
         .builder()
         .size(0)
@@ -281,7 +293,9 @@ class PublishServiceTest {
     @Test
     void doNotDeleteNormsIfNoMigrationLogExists() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
 
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
@@ -314,7 +328,9 @@ class PublishServiceTest {
     @Test
     void doNotDeleteNormsIfMigrationLogIsAlreadyPublished() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final MigrationLog migrationLog = MigrationLog
         .builder()
         .size(5)
@@ -353,7 +369,9 @@ class PublishServiceTest {
     @Test
     void deleteAllNormsIfMigrationLogExistsAndIsOldButNotCompleted() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      final Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final MigrationLog migrationLog = MigrationLog
         .builder()
         .size(5)

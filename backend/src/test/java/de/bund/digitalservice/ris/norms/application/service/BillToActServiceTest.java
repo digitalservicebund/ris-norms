@@ -16,7 +16,9 @@ class BillToActServiceTest {
   @Test
   void itChangesNothing() {
     // given
-    final String xmlString = Fixtures.loadTextFromDisk("NormWithMods.xml");
+    final String xmlString = Fixtures.loadTextFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+    );
 
     // when
     String result = underTest.convert(XmlMapper.toDocument(xmlString));

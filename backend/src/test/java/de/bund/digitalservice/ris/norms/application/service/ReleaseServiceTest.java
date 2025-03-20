@@ -57,10 +57,12 @@ class ReleaseServiceTest {
   @Test
   void itShouldReleaseAnAnnouncement() {
     // Given
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
     var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
-      "NormWithoutPassiveModifications.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
@@ -121,7 +123,9 @@ class ReleaseServiceTest {
   @Test
   void itShouldUpdateTheReleasedByDocumentalistAtDate() {
     // Given
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     when(normService.loadNorm(any())).thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(norm);
@@ -146,11 +150,13 @@ class ReleaseServiceTest {
   @Test
   void itShouldThrowWhenTryingToReleaseXsdInvalidNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
     var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
-      "NormWithoutPassiveModifications.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
@@ -193,11 +199,13 @@ class ReleaseServiceTest {
   @Test
   void itShouldThrowWhenTryingToReleaseSchematronInvalidNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
     var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
-      "NormWithoutPassiveModifications.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
       "NormWithoutPassiveModificationsNoNextVersion.xml"
