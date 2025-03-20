@@ -1,4 +1,4 @@
-# 14. Storage of links between Verkündungen and amended norm-expression
+# 16. Storage of links between Verkündungen and amended norm-expression
 
 **Date**: 2025-03-14
 
