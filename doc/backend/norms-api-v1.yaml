@@ -689,7 +689,7 @@ components:
         dateAusfertigung:
           type: string
           format: date
-        importTimestamp:
+        importedAt:
           type: string
           format: date
 
