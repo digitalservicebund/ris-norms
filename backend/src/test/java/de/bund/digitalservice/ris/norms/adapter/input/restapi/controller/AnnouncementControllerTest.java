@@ -209,7 +209,9 @@ class AnnouncementControllerTest {
     @Test
     void itReturnsAnnouncement() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       var normEli = norm.getExpressionEli();
       var announcement = Announcement
         .builder()
@@ -253,7 +255,9 @@ class AnnouncementControllerTest {
     @Test
     void itReturns404() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       var normEli = norm.getExpressionEli();
       // When
       when(loadAnnouncementUseCase.loadAnnouncement(new LoadAnnouncementUseCase.Query(normEli)))
@@ -279,7 +283,9 @@ class AnnouncementControllerTest {
     @Test
     void itReturnsZielnormen() throws Exception {
       // Given
-      var zielnorm1 = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+      var zielnorm1 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       when(
         loadNormExpressionsAffectedByVerkuendungUseCase.loadNormExpressionsAffectedByVerkuendung(
           any()
@@ -323,7 +329,9 @@ class AnnouncementControllerTest {
     @Test
     void itCreatesAnAnnouncement() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -358,7 +366,9 @@ class AnnouncementControllerTest {
     @Test
     void itCreatesAnAnnouncementWithForce() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -393,7 +403,9 @@ class AnnouncementControllerTest {
     @Test
     void itShouldNotExposeInternalInformationOnUnexpectedErrors() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",

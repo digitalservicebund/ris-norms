@@ -47,7 +47,9 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticles() throws Exception {
       // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
 
       when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
         .thenReturn(regelungstext.getArticles());
@@ -139,7 +141,9 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticle() throws Exception {
       // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
 

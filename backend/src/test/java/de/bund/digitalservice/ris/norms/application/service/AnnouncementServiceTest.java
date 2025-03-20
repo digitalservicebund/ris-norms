@@ -60,7 +60,9 @@ class AnnouncementServiceTest {
     @Test
     void itReturnsAnnouncements() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
 
@@ -79,7 +81,9 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsAnnouncementNotFoundException() {
       // given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final var query = new LoadAnnouncementUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
@@ -112,7 +116,9 @@ class AnnouncementServiceTest {
     @Test
     void itReturnsAnnouncement() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -138,7 +144,9 @@ class AnnouncementServiceTest {
     @Test
     void itCreatesANewAnnouncement() throws IOException {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -188,7 +196,9 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheFileIsNotXML() throws IOException {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.txt",
@@ -227,7 +237,9 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenAnEliOfTheSameEliExists() throws IOException {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -244,7 +256,13 @@ class AnnouncementServiceTest {
               .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
           )
         );
-      doReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithMods.xml")))
+      doReturn(
+        Optional.of(
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      )
         .when(loadNormPort)
         .loadNorm(
           argThat(argument ->
@@ -263,7 +281,9 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenANormWithSameGuidExists() throws IOException {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -279,7 +299,13 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        );
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -290,7 +316,7 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.empty());
       when(
         loadNormByGuidPort.loadNormByGuid(
-          new LoadNormByGuidPort.Command(UUID.fromString("ba44d2ae-0e73-44ba-850a-932ab2fa553f"))
+          new LoadNormByGuidPort.Command(UUID.fromString("e47a5106-c153-4da4-8d94-8cc2ebf9b232"))
         )
       )
         .thenReturn(Optional.of(norm));
@@ -379,7 +405,9 @@ class AnnouncementServiceTest {
     @Test
     void itCreatesANewAnnouncementWithForce() throws IOException {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -395,7 +423,13 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithoutPassiveModifications.xml")));
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        );
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -403,7 +437,13 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithMods.xml")));
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            )
+          )
+        );
 
       when(
         updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
@@ -433,8 +473,12 @@ class AnnouncementServiceTest {
     @Test
     void itReturnsListOfNorms() {
       // Given
-      var verkuendungsNorm = Fixtures.loadNormFromDisk("NormWithMods.xml");
-      var affectedNorm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      var verkuendungsNorm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+      var affectedNorm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      );
 
       when(loadNormPort.loadNorm(any()))
         .thenReturn(Optional.of(verkuendungsNorm))
@@ -454,7 +498,7 @@ class AnnouncementServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(
           new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2023-12-30/1/deu")
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu")
           )
         );
     }

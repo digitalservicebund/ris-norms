@@ -39,7 +39,9 @@ class ReleaseControllerTest {
     @Test
     void itReturnsRelease() throws Exception {
       // Given
-      var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm1 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       List<Release> releases = List.of(
         Release
@@ -83,7 +85,9 @@ class ReleaseControllerTest {
     @Test
     void itReleaseANormExpression() throws Exception {
       // Given
-      var norm1 = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm1 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
       var release = Release
         .builder()
