@@ -228,47 +228,6 @@ class ProprietaryTest {
   }
 
   @Nested
-  class metadataIsPresent {
-
-    @Test
-    void returnsTrueIfMetadataIsPresent() {
-      final Proprietary proprietary = new Proprietary(
-        XmlMapper.toElement(
-          """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-            eId="meta-1_proprietary-1"
-            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-            source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-                <ris:bedingtesInkrafttreten/>
-              </ris:legalDocML.de_metadaten>
-           </akn:proprietary>
-          """
-        )
-      );
-      assertThat(proprietary.isMetadataTagPresent(Metadata.BEDINGT_INKRAFT)).isTrue();
-    }
-
-    @Test
-    void returnsFalseIfMetadataIsNotPresent() {
-      final Proprietary proprietary = new Proprietary(
-        XmlMapper.toElement(
-          """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-            eId="meta-1_proprietary-1"
-            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-            source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-              </ris:legalDocML.de_metadaten>
-           </akn:proprietary>
-          """
-        )
-      );
-      assertThat(proprietary.isMetadataTagPresent(Metadata.BEDINGT_INKRAFT)).isFalse();
-    }
-  }
-
-  @Nested
   class getRessort {
 
     @Test

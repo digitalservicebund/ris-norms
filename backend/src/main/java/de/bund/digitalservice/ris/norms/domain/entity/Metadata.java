@@ -50,8 +50,7 @@ public enum Metadata {
   ENTRY_INTO_FORCE_ENG(Namespace.METADATEN_RIS, "./entryIntoForce/@date", "date", true),
   ENTRY_INTO_FORCE_DE(Namespace.METADATEN_RIS, "./inkraft/@date", "date", true),
   STANDANGABE(Namespace.METADATEN_RIS, "./standangabe", "standangabe"),
-  VOLLZITAT(Namespace.METADATEN_RIS, "./vollzitat", "vollzitat"),
-  BEDINGT_INKRAFT(Namespace.METADATEN_RIS, "./bedingtesInkrafttreten", "bedingtesInkrafttreten");
+  VOLLZITAT(Namespace.METADATEN_RIS, "./vollzitat", "vollzitat");
 
   private final Namespace namespace;
   private final String xpath;
