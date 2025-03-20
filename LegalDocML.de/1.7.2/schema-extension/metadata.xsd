@@ -35,6 +35,10 @@
                 <xs:element name="einzelelement" type="EinzelelementType" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="entryIntoForce" type="EntryIntoForceType" minOccurs="0" maxOccurs="1"/>
                 <xs:element name="expiry" type="ExpiryType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="inkraft" type="InkraftType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="ausserkraft" type="AusserkraftType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="vollzitat" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="standangabe" type="StandangabeType" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:any minOccurs="0" namespace="http://MetadatenMods.LegalDocML.de/1.7.2/"/>
             </xs:choice>
         </xs:complexType>
@@ -133,6 +137,31 @@
     <xs:complexType name="ExpiryType">
         <xs:attribute name="date" type="dateLiterals" use="required"/>
     </xs:complexType>
+
+    <xs:complexType name="InkraftType">
+      <xs:attribute name="date" type="dateLiterals" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="AusserkraftType">
+      <xs:attribute name="date" type="dateLiterals" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="StandangabeType">
+      <xs:attribute name="type" type="standangabeTypeLiterals" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="standangabeTypeLiterals">
+      <xs:annotation>
+        <xs:documentation>Art einer Standangabe.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="aufh"/>
+        <xs:enumeration value="hinweis"/>
+        <xs:enumeration value="neuf"/>
+        <xs:enumeration value="sonst"/>
+        <xs:enumeration value="stand"/>
+      </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="eId-verweis">
         <xs:restriction base="xs:string">
