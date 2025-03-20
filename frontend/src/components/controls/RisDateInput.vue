@@ -152,7 +152,6 @@ watch(inputCompleted, (is) => {
       { 'grid-rows-[1fr_min-content]': localValidationError },
     ]"
   >
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label class="ris-label2-regular min-w-[6rem]" :for="id">
       {{ label }}
     </label>

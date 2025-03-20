@@ -309,7 +309,6 @@ watch(hasSaved, (finished) => {
 </script>
 
 <template>
-  <!-- eslint-disable vuejs-accessibility/label-has-for -->
   <div class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="grow">
@@ -348,19 +347,19 @@ watch(hasSaved, (finished) => {
           <fieldset class="contents">
             <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
-            <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-            <label :id="documentTypeId" class="ris-label2-regular"
-              >Dokumenttyp</label
-            >
+            <label :for="documentTypeId" class="ris-label2-regular">
+              Dokumenttyp
+            </label>
             <Select
               v-model="documentType"
+              :label-id="documentTypeId"
               :options="documentTypeItems"
+              aria-label="Dokumenttyp"
               option-label="label"
               option-value="value"
-              :aria-labelledby="documentTypeId"
             />
 
-            <label :for="artNormSnId" class="self-start"> Art der Norm </label>
+            <label :for="artNormSnId" class="self-start">Art der Norm</label>
             <div class="space-y-10">
               <div class="flex items-center">
                 <Checkbox v-model="artNormSN" :input-id="artNormSnId" binary />
@@ -388,7 +387,7 @@ watch(hasSaved, (finished) => {
           <fieldset class="contents">
             <legend class="ris-label2-bold col-span-2">Normgeber</legend>
 
-            <label :id="staatId"
+            <label :for="staatId"
               ><abbr
                 title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
                 >Staat</abbr
@@ -396,16 +395,19 @@ watch(hasSaved, (finished) => {
             >
             <Select
               v-model="staat"
+              :label-id="staatId"
               :options="staatItems"
+              aria-label="Staat"
               option-label="label"
               option-value="value"
-              :aria-labelledby="staatId"
             />
 
-            <label :id="beschliessendesOrganId"> beschließendes Organ </label>
+            <label :for="beschliessendesOrganId">beschließendes Organ</label>
             <Select
               v-model="beschliessendesOrgan"
+              :label-id="beschliessendesOrganId"
               :options="beschliessendesOrganItems"
+              aria-label="beschließendes Organ"
               option-label="label"
               option-value="value"
               :aria-labelledby="beschliessendesOrganId"
@@ -424,13 +426,14 @@ watch(hasSaved, (finished) => {
           <fieldset class="contents">
             <legend class="ris-label2-bold col-span-2">Federführung</legend>
 
-            <label :id="ressortId">Ressort</label>
+            <label :for="ressortId">Ressort</label>
             <Select
               v-model="ressort"
+              :label-id="ressortId"
               :options="ressortItems"
+              aria-label="Ressort"
               option-label="label"
               option-value="value"
-              :aria-labelledby="ressortId"
             />
 
             <label :for="organisationsEinheitId"> Organisationseinheit </label>

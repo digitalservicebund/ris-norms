@@ -108,7 +108,6 @@ watch(hasSaved, (finished) => {
 </script>
 
 <template>
-  <!-- eslint-disable vuejs-accessibility/label-has-for -->
   <div
     v-if="elementIsLoading"
     class="flex h-full items-center justify-center p-24"
