@@ -37,7 +37,7 @@
                 <xs:element name="expiry" type="ExpiryType" minOccurs="0" maxOccurs="1"/>
                 <xs:element name="inkraft" type="InkraftType" minOccurs="0" maxOccurs="1"/>
                 <xs:element name="ausserkraft" type="AusserkraftType" minOccurs="0" maxOccurs="1"/>
-                <xs:element name="vollzitat" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="vollzitat" type="xs:string" minOccurs="0" maxOccurs="1"/>
                 <xs:element name="standangabe" type="StandangabeType" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:any minOccurs="0" namespace="http://MetadatenMods.LegalDocML.de/1.7.2/"/>
             </xs:choice>

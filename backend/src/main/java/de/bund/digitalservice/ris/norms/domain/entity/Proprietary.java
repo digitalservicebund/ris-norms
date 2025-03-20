@@ -53,6 +53,17 @@ public class Proprietary {
   }
 
   /**
+   * Check whether a XML node for the given {@link Metadata}.exist and is empty
+   * @param metadata - the given {@link Metadata}
+   * @return {@link Boolean}
+   */
+  public Boolean isMetadataTagPresent(final Metadata metadata) {
+    return getMetadataParent(metadata.getNamespace())
+      .flatMap(e -> NodeParser.getNodeFromExpression(metadata.getXpath() + "[not(node())]", e))
+      .isPresent();
+  }
+
+  /**
    * Retrieves the text content of the XML node for FEDERFUEHRUNG at a specific date.
    *
    * @param date - the reference date

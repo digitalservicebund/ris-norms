@@ -124,6 +124,19 @@ class PrototypeCleanupServiceTest {
       .contains(
         "V aufgeh. durch Art. 22 G v. 22.12.2011 I 1111 mWv\n                       1.1.2012"
       );
+    assertThat(
+      norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.VOLLZITAT)
+    )
+      .contains("Gesetz vom 1. Januar 2024 (BGBl. 2024 I S. 1909)");
+    assertThat(
+      norm
+        .getRegelungstext1()
+        .getMeta()
+        .getProprietary()
+        .get()
+        .isMetadataTagPresent(Metadata.BEDINGT_INKRAFT)
+    )
+      .isTrue();
   }
 
   @Test

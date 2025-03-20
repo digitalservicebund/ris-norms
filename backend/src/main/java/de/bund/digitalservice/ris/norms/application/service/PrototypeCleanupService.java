@@ -23,7 +23,8 @@ public class PrototypeCleanupService {
     "expiry",
     "ausserkraft",
     "standangabe",
-    "vollzitat"
+    "vollzitat",
+    "bedingtesInkrafttreten"
   );
 
   /**
