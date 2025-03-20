@@ -150,7 +150,6 @@ function handleUpdate(event: MouseEvent) {
 
     <form v-else class="grid grid-cols-1 gap-y-12">
       <div class="flex flex-col gap-6">
-        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label id="timeBoundariesLabel" class="ris-label2-regular"
           >Zeitgrenze</label
         >

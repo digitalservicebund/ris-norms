@@ -309,7 +309,6 @@ watch(hasSaved, (finished) => {
 </script>
 
 <template>
-  <!-- eslint-disable vuejs-accessibility/label-has-for -->
   <div class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="grow">
