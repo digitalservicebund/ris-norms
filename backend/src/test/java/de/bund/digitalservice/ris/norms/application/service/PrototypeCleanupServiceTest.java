@@ -90,7 +90,7 @@ class PrototypeCleanupServiceTest {
         .get()
         .getMetadataValue(Metadata.ENTRY_INTO_FORCE_ENG)
     )
-      .contains("2025-09-01");
+      .isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -99,7 +99,7 @@ class PrototypeCleanupServiceTest {
         .get()
         .getMetadataValue(Metadata.EXPIRY_ENG)
     )
-      .contains("2011-12-31");
+      .isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -108,11 +108,11 @@ class PrototypeCleanupServiceTest {
         .get()
         .getMetadataValue(Metadata.ENTRY_INTO_FORCE_DE)
     )
-      .contains("2000-01-01");
+      .isEmpty();
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.EXPIRY_DE)
     )
-      .contains("2002-02-02");
+      .isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -128,15 +128,6 @@ class PrototypeCleanupServiceTest {
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.VOLLZITAT)
     )
       .contains("Gesetz vom 1. Januar 2024 (BGBl. 2024 I S. 1909)");
-    assertThat(
-      norm
-        .getRegelungstext1()
-        .getMeta()
-        .getProprietary()
-        .get()
-        .isMetadataTagPresent(Metadata.BEDINGT_INKRAFT)
-    )
-      .isTrue();
   }
 
   @Test
