@@ -49,7 +49,7 @@ const computedimportTimestamp = computed(() => {
     options,
   )
 })
-console.log(props.datenlieferungsdatum)
+
 const computedFna = computed(() => props.fna ?? "")
 </script>
 
