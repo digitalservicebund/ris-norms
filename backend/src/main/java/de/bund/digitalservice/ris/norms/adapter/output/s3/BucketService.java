@@ -6,8 +6,8 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeleteAllPublish
 import de.bund.digitalservice.ris.norms.application.port.output.DeletePublishedNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishChangelogPort;
 import de.bund.digitalservice.ris.norms.application.port.output.PublishNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -120,6 +120,20 @@ public class BucketService
         );
         changelog.addContent(Changelog.CHANGED, dokument.getManifestationEli().toString());
       });
+    norm
+      .getBinaryFiles()
+      .forEach(binaryFile -> {
+        uploadToBucket(
+          s3Client,
+          bucketName,
+          binaryFile.getDokumentManifestationEli().toString(),
+          binaryFile.getContent()
+        );
+        changelog.addContent(
+          Changelog.CHANGED,
+          binaryFile.getDokumentManifestationEli().toString()
+        );
+      });
   }
 
   private void uploadToBucket(
@@ -128,13 +142,31 @@ public class BucketService
     final String key,
     final String content
   ) {
+    uploadToBucket(s3Client, bucketName, key, RequestBody.fromString(content));
+  }
+
+  private void uploadToBucket(
+    final S3Client s3Client,
+    final String bucketName,
+    final String key,
+    final byte[] content
+  ) {
+    uploadToBucket(s3Client, bucketName, key, RequestBody.fromBytes(content));
+  }
+
+  private void uploadToBucket(
+    final S3Client s3Client,
+    final String bucketName,
+    final String key,
+    final RequestBody requestBody
+  ) {
     try {
       final PutObjectRequest request = PutObjectRequest
         .builder()
         .bucket(bucketName)
         .key(key)
         .build();
-      s3Client.putObject(request, RequestBody.fromString(content));
+      s3Client.putObject(request, requestBody);
     } catch (final Exception e) {
       throw new BucketException(
         BucketException.Operation.PUT,
@@ -153,32 +185,39 @@ public class BucketService
   ) {
     norm
       .getDokumente()
-      .forEach(dokument -> deleteFromBucket(changelog, s3Client, bucketName, dokument));
+      .forEach(dokument ->
+        deleteFromBucket(changelog, s3Client, bucketName, dokument.getManifestationEli())
+      );
+    norm
+      .getBinaryFiles()
+      .forEach(binaryFile ->
+        deleteFromBucket(changelog, s3Client, bucketName, binaryFile.getDokumentManifestationEli())
+      );
   }
 
   private void deleteFromBucket(
     final Changelog changelog,
     final S3Client s3Client,
     final String bucketName,
-    final Dokument dokument
+    final DokumentManifestationEli eli
   ) {
     try {
       final DeleteObjectRequest request = DeleteObjectRequest
         .builder()
         .bucket(bucketName)
-        .key(dokument.getManifestationEli().toString())
+        .key(eli.toString())
         .build();
       s3Client.deleteObject(request);
     } catch (final Exception e) {
       throw new BucketException(
         BucketException.Operation.DELETE,
         bucketName,
-        "Key %s could not be deleted".formatted(dokument.getManifestationEli().toString()),
+        "Key %s could not be deleted".formatted(eli.toString()),
         e
       );
     }
 
-    changelog.addContent(Changelog.DELETED, dokument.getManifestationEli().toString());
+    changelog.addContent(Changelog.DELETED, eli.toString());
   }
 
   /**
