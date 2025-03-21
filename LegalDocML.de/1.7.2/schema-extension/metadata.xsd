@@ -148,7 +148,7 @@
 
   <xs:complexType name="StandangabeType">
     <xs:simpleContent>
-      <xs:extension base="xs:string">
+      <xs:extension base="StringNotEmpty">
         <xs:attribute name="type" type="standangabeTypeLiterals" use="required"/>
       </xs:extension>
     </xs:simpleContent>
@@ -165,6 +165,12 @@
         <xs:enumeration value="neuf"/>
         <xs:enumeration value="sonst"/>
         <xs:enumeration value="stand"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="StringNotEmpty">
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
       </xs:restriction>
     </xs:simpleType>
 
