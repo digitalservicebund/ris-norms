@@ -55,7 +55,7 @@ otc:
 publish:
   cron: "0 0 23 * * 0-4" # Runs at 11:00 PM UTC, which is 12:00 AM Berlin time in CET (Winter) and 1:00 AM in CEST (Summer) Mo-Fr
   portal-prototype:
-    cron: "0 0 13 * * *" # Runs at 04:00 PM UTC, which is 05:00 AM Berlin time in CET (Winter) and 6:00 AM in CEST (Summer) every day
+    cron: "0 40 13 * * *" # Runs at 04:00 PM UTC, which is 05:00 AM Berlin time in CET (Winter) and 6:00 AM in CEST (Summer) every day
 
 frontend:
   auth:
