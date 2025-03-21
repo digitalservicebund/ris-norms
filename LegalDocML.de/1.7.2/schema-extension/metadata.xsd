@@ -146,11 +146,16 @@
       <xs:attribute name="date" type="dateLiterals" use="required"/>
     </xs:complexType>
 
-    <xs:complexType name="StandangabeType">
-      <xs:attribute name="type" type="standangabeTypeLiterals" use="required"/>
-    </xs:complexType>
+  <xs:complexType name="StandangabeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="type" type="standangabeTypeLiterals" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
 
-    <xs:simpleType name="standangabeTypeLiterals">
+
+  <xs:simpleType name="standangabeTypeLiterals">
       <xs:annotation>
         <xs:documentation>Art einer Standangabe.</xs:documentation>
       </xs:annotation>
