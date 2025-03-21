@@ -76,7 +76,11 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
         .build();
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -108,7 +112,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsAnnouncement() throws Exception {
       // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml");
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       var normEli = regelungstext.getExpressionEli().asNormEli();
       var announcement = Announcement
         .builder()
@@ -164,11 +170,17 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .build();
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
         )
       );
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz_2017-03-15.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+          )
+        )
       );
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
@@ -203,7 +215,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCreatesANewAnnouncement() throws Exception {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -240,7 +254,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itStoresTheImportTimestamp() throws Exception {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -311,15 +327,23 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itFailsIfTheNormAlreadyExist() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -344,7 +368,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       );
       dokumentRepository.save(
@@ -353,7 +379,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var regelungstextWithSameGuid = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+      var regelungstextWithSameGuid = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       regelungstextWithSameGuid
         .getMeta()
         .getFRBRExpression()
@@ -378,7 +406,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       );
 
@@ -405,7 +435,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       );
 
@@ -474,7 +506,11 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void ifCreatesAnnouncementWithForce() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
 
       var announcement = Announcement
@@ -483,7 +519,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .build();
       announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
-      var xmlContent = Fixtures.loadTextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -513,7 +551,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .withTest(
           Input.from(
             Fixtures
-              .loadRegelungstextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")
+              .loadRegelungstextFromDisk(
+                "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+              )
               .getDocument()
           )
         )

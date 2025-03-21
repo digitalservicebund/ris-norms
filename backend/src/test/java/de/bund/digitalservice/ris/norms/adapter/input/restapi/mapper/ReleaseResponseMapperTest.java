@@ -18,8 +18,12 @@ class ReleaseResponseMapperTest {
       .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
       .publishedNorms(
         List.of(
-          Fixtures.loadNormFromDisk("SimpleNorm.xml"),
-          Fixtures.loadNormFromDisk("NormWithMods.xml")
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          ),
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
         )
       )
       .build();

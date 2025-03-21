@@ -29,7 +29,9 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void processQueuedFilesForPublish() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     dokumentRepository.save(DokumentMapper.mapToDto(norm.getRegelungstext1()));
 
     var normDto = normManifestationRepository

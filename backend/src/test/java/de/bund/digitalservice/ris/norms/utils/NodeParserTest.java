@@ -253,7 +253,10 @@ class NodeParserTest {
     { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act/@name" }
   )
   void xPathsWorkWithoutNamespaceAwareness(String xPath) {
-    var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml", false);
+    var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      false
+    );
     Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
     assertThat(result).contains("regelungstext");
@@ -264,7 +267,10 @@ class NodeParserTest {
     { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act/@name" }
   )
   void xPathsWorkWithNamespaceAwareness(String xPath) {
-    var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml", true);
+    var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      true
+    );
     Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
     assertThat(result).contains("regelungstext");
@@ -272,7 +278,10 @@ class NodeParserTest {
 
   @Test
   void xPathsWorkWithNamespaceDoesNotMatchInDocumentWithDifferentNamespace() {
-    var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml", true);
+    var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      true
+    );
     Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(
       "//Q{http://Inhaltsdaten.LegalDocML.de/1.5/}act/@name",

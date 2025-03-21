@@ -33,7 +33,13 @@ class CreateNewVersionOfNormServiceTest {
     when(eliService.findNextExpressionEli(any(), any(), any()))
       .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu"));
     when(loadNormByGuidPort.loadNormByGuid(any()))
-      .thenReturn(Optional.of(Fixtures.loadNormFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")));
+      .thenReturn(
+        Optional.of(
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
 
     // When
     var result = createNewVersionOfNormService.createNewExpression(

@@ -31,7 +31,9 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateAValidNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithMods.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
 
       // When // Then
       ldmlDeValidator.validateXSDSchema(norm); // Check that it doesn't throw
@@ -54,7 +56,9 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldParseAValidNorm() {
       // Given
-      String xml = Fixtures.loadTextFromDisk("NormWithMods.xml");
+      String xml = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
 
       // When
       Regelungstext regelungstext = ldmlDeValidator.parseAndValidateRegelungstext(xml);
@@ -109,7 +113,10 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldSuccessfullyValidateNorm() {
       // Given
-      Norm norm = Fixtures.loadNormFromDisk("NormWithMods.xml", true);
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+        true
+      );
 
       // When // Then
       assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();

@@ -51,7 +51,9 @@ class PortalPrototypePublishServiceTest {
   @Test
   void itShouldPublishNorm() {
     // Given
-    var norm1 = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+    var norm1 = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     when(loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any()))
       .thenReturn(List.of(norm1.getManifestationEli()));
@@ -77,7 +79,9 @@ class PortalPrototypePublishServiceTest {
   @Test
   void itShouldNotPublishNormIfNotInAllowList() {
     // Given
-    var norm1 = Fixtures.loadNormFromDisk("Vereinsgesetz.xml");
+    var norm1 = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     when(loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any()))
       .thenReturn(List.of(norm1.getManifestationEli()));
