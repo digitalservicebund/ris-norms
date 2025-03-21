@@ -33,7 +33,6 @@ paths:
 
         ## Offene Fragen
 
-        - Das Verfahren zum manuellen Übertragen der Daten, wenn die Verkündung wiederholt nicht angenommen wurde, muss noch definiert werden.
         - Signierung:
           - Art und Format der Signatur müssen noch definiert werden.
           - Es muss entschieden werden, ob nur das ZIP-Archiv und/oder die Dateien im Archiv signiert werden.
