@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -77,6 +78,18 @@ public class PrototypeCleanupService {
     for (Node node : nodesToDelete) {
       node.getParentNode().removeChild(node);
     }
+
+    NodeParser
+      .getNodesFromExpression("./notes", metadataElement)
+      .forEach(notesNode -> {
+        boolean hasElementChildren = IntStream
+          .range(0, notesNode.getChildNodes().getLength())
+          .mapToObj(i -> notesNode.getChildNodes().item(i))
+          .anyMatch(node -> node.getNodeType() == Node.ELEMENT_NODE);
+        if (!hasElementChildren) {
+          notesNode.getParentNode().removeChild(notesNode);
+        }
+      });
   }
 
   private void cleanLifecycleEvents(Dokument dokument) {

@@ -167,6 +167,27 @@ class PrototypeCleanupServiceTest {
   }
 
   @Test
+  void cleanNotesMetadataDeleteNotes() {
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+    norm.getRegelungstext1().deleteByEId("meta-1_editfnote-1");
+
+    prototypeCleanupService.clean(norm);
+    List<Node> notes = NodeParser
+      .nodeListToList(
+        norm.getRegelungstext1().getMeta().getElement().getElementsByTagName("akn:note")
+      )
+      .stream()
+      .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+      .toList();
+
+    assertThat(notes).isEmpty();
+    assertThat(
+      NodeParser.getNodesFromExpression("//notes", norm.getRegelungstext1().getMeta().getElement())
+    )
+      .isEmpty();
+  }
+
+  @Test
   void cleanZeitgrenzenMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
 
