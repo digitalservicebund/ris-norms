@@ -33,7 +33,6 @@ paths:
 
         ## Offene Fragen
 
-        - Die erlaubten Dateiformate (MIME-Types) für nicht-strukturierte Anlagen sind noch nicht abschließend geklärt.
         - Das Verfahren zum manuellen Übertragen der Daten, wenn die Verkündung wiederholt nicht angenommen wurde, muss noch definiert werden.
         - Signierung:
           - Art und Format der Signatur müssen noch definiert werden.
@@ -49,7 +48,7 @@ paths:
           | Rechtsetzungsdokument                                   | XML                | `rechtsetzungsdokument.xml`             |                  |
           | Regelungstext(e)                                        | XML                | `regelungstext-{n}.xml`                 |                  |
           | Strukturierte Anlage(n)                                 | XML                | `offenestruktur-{n}.xml`                | soweit vorhanden |
-          | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, ... | entsprechend Referenzierung im Dokument | soweit vorhanden |
+          | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, GIF | entsprechend Referenzierung im Dokument | soweit vorhanden |
           | konsolidierte Fassung(en) aus der E-Gesetzgebung        | PDF                | `konsolidierte-fassungen/{name}.pdf`    |                  |
         content:
           multipart/form-data:
