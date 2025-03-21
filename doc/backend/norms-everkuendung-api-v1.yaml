@@ -30,13 +30,6 @@ paths:
         Wurde das Normendokumentationspaket vollständig übertragen, wird die Übermittelung mit dem Status-Code `202 ACCEPTED` bestätigt. Die weitere Verarbeitung (z.B. Kontrolle der Signatur, Schema-Validierung) findet in einem Hintergrundprozess statt. Fortschritt und Erfolg bzw. Fehler dieses Prozesses kann über den Endpunkt `/verkuendungen/status/{processId}` abgefragt werden.
 
         Wenn das Normendokumentationspaket nicht übertragen werden konnte, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum erneut versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
-
-        ## Offene Fragen
-
-        - Signierung:
-          - Art und Format der Signatur müssen noch definiert werden.
-          - Es muss entschieden werden, ob nur das ZIP-Archiv und/oder die Dateien im Archiv signiert werden.
-          - Das Verfahren zum Austausch des öffentlichen Schlüssels für die Verifizierung der Signatur muss noch definiert werden.
       requestBody:
         required: true
         description: |
