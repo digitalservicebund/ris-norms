@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,12 +29,8 @@ public abstract class BaseS3MockIntegrationTest extends BaseIntegrationTest {
     return Paths.get(LOCAL_STORAGE_PATH, PUBLIC_BUCKET);
   }
 
-  protected static Path getPublicPath(Dokument regelungstext) {
-    return Paths.get(
-      LOCAL_STORAGE_PATH,
-      PUBLIC_BUCKET,
-      regelungstext.getManifestationEli().toString()
-    );
+  protected static Path getPublicPath(DokumentManifestationEli eli) {
+    return Paths.get(LOCAL_STORAGE_PATH, PUBLIC_BUCKET, eli.toString());
   }
 
   protected static Path getPrivatePath() {

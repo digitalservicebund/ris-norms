@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.Changelog;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.domain.entity.BinaryFile;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -48,9 +49,16 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
       "SimpleOffenestruktur.xml"
     );
+    final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
+      "image-1.png",
+      DokumentManifestationEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.xml"
+      )
+    );
     final Norm norm = new Norm(
       NormPublishState.QUEUED_FOR_PUBLISH,
-      Set.of(regelungstext1, offenestruktur1, regelungstext2)
+      Set.of(regelungstext1, offenestruktur1, regelungstext2),
+      Set.of(binaryFile1)
     );
 
     // When
@@ -62,9 +70,10 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
-    assertThat(Files.exists(getPublicPath(regelungstext1))).isTrue();
-    assertThat(Files.exists(getPublicPath(regelungstext2))).isTrue();
-    assertThat(Files.exists(getPublicPath(offenestruktur1))).isTrue();
+    assertThat(Files.exists(getPublicPath(regelungstext1.getManifestationEli()))).isTrue();
+    assertThat(Files.exists(getPublicPath(regelungstext2.getManifestationEli()))).isTrue();
+    assertThat(Files.exists(getPublicPath(offenestruktur1.getManifestationEli()))).isTrue();
+    assertThat(Files.exists(getPublicPath(binaryFile1.getDokumentManifestationEli()))).isTrue();
     assertChangelogContains(true, PUBLIC_BUCKET, CHANGED, norm);
   }
 
@@ -78,9 +87,16 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
       "SimpleOffenestruktur.xml"
     );
+    final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
+      "image-1.png",
+      DokumentManifestationEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.xml"
+      )
+    );
     final Norm norm = new Norm(
       NormPublishState.QUEUED_FOR_PUBLISH,
-      Set.of(regelungstext1, offenestruktur1, regelungstext2)
+      Set.of(regelungstext1, offenestruktur1, regelungstext2),
+      Set.of(binaryFile1)
     );
     final PublishNormPort.Command commandPublish = new PublishNormPort.Command(norm);
     bucketService.publishNorm(commandPublish);
@@ -94,9 +110,10 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
-    assertThat(Files.exists(getPublicPath(regelungstext1))).isFalse();
-    assertThat(Files.exists(getPublicPath(regelungstext2))).isFalse();
-    assertThat(Files.exists(getPublicPath(offenestruktur1))).isFalse();
+    assertThat(Files.exists(getPublicPath(regelungstext1.getManifestationEli()))).isFalse();
+    assertThat(Files.exists(getPublicPath(regelungstext2.getManifestationEli()))).isFalse();
+    assertThat(Files.exists(getPublicPath(offenestruktur1.getManifestationEli()))).isFalse();
+    assertThat(Files.exists(getPublicPath(binaryFile1.getDokumentManifestationEli()))).isFalse();
     assertChangelogContains(false, PUBLIC_BUCKET, DELETED, norm);
     assertChangelogContains(false, PUBLIC_BUCKET, CHANGED, norm);
   }
@@ -121,8 +138,8 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     bucketService.publishChangelogs(commandPublishChangelogs);
 
     // Then
-    final Path filePath1 = getPublicPath(norm1.getRegelungstext1());
-    final Path filePath2 = getPublicPath(norm2.getRegelungstext1());
+    final Path filePath1 = getPublicPath(norm1.getRegelungstext1().getManifestationEli());
+    final Path filePath2 = getPublicPath(norm2.getRegelungstext1().getManifestationEli());
     assertThat(Files.exists(filePath1)).isFalse();
     assertThat(Files.exists(filePath2)).isFalse();
     assertChangelogContains(false, PUBLIC_BUCKET, DELETED, norm1);
