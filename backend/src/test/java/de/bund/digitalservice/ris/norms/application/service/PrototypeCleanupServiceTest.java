@@ -18,7 +18,7 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanRisMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
 
     prototypeCleanupService.clean(norm);
     assertThat(
@@ -132,7 +132,7 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanRegularAndBundesregierungMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
 
     prototypeCleanupService.clean(norm);
     List<Node> proprietyChildNodes = NodeParser
@@ -144,13 +144,13 @@ class PrototypeCleanupServiceTest {
       .toList();
 
     assertThat(proprietyChildNodes).hasSize(1);
-    assertThat(proprietyChildNodes.get(0).getNamespaceURI())
+    assertThat(proprietyChildNodes.getFirst().getNamespaceURI())
       .isEqualTo(Namespace.METADATEN_RIS.getNamespaceUri());
   }
 
   @Test
   void cleanNotesMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
 
     prototypeCleanupService.clean(norm);
     List<Node> notes = NodeParser
@@ -168,7 +168,7 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanNotesMetadataDeleteNotes() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
     norm.getRegelungstext1().deleteByEId("meta-1_editfnote-1");
 
     prototypeCleanupService.clean(norm);
@@ -189,7 +189,7 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanZeitgrenzenMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithProprietaryToBeCleaned.xml");
+    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
 
     prototypeCleanupService.clean(norm);
 
