@@ -61,7 +61,7 @@ const computedFna = computed(() => props.fna ?? "")
       {{ title }}
     </span>
 
-    <div class="flex flex-wrap gap-x-8 gap-y-4">
+    <div class="flex flex-wrap gap-x-16 gap-y-4">
       <div class="flex min-w-192 flex-1 flex-col">
         <span class="ris-body2-regular text-gray-900"
           >Veröffentlichungsdatum</span
