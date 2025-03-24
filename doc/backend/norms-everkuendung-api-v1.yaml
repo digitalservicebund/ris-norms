@@ -54,7 +54,7 @@ paths:
                 signature:
                   type: string
                   format: binary
-                  description: "Digitale Signatur für das Archiv. Hinweis: Bis Art und Format der Signatur definiert sind (siehe offene Fragen) ist die Übersendung der Signatur möglich, die Korrektheit wird aber nicht überprüft."
+                  description: "Digitale Signatur für das Archiv. Hinweis: Bis Art und Format der Signatur definiert sind ist die Übersendung der Signatur möglich, die Korrektheit wird aber nicht überprüft."
       responses:
         "202":
           description: Die Verkündung wurde erfolgreich an NeuRIS übermittelt. Sie wird jetzt im Hintergrund verarbeitet. Die Antwort enthält eine Prozess-ID, mit deren Hilfe der Status am Endpunkt `/verkuendungen/status/{processId}` abgefragt werden kann.
@@ -70,12 +70,6 @@ paths:
                 $ref: "#/components/schemas/ProblemDetail"
         "403":
           description: Die Anfrage hat eine gültige Authentifizierung, jedoch fehlt die erforderliche Berechtigung.
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/ProblemDetail"
-        "409":
-          description: Duplikat erkannt. Eine Verkündung mit dieser ELI wurde bereits übermittelt.
           content:
             application/problem+json:
               schema:
@@ -120,6 +114,7 @@ paths:
 
         - Das ZIP-Archiv ist ungültig
         - Die Signatur des Archivs fehlt oder ist ungültig
+        - Duplikat erkannt: Eine Verkündung mit dieser ELI existiert bereits
         - Die XML-Dokumente weisen entweder XSD- oder Schematron-Fehler auf. Schematron-Warnungen führen nicht zu einem Fehler.
         - Die XML-Dokumente liegen in einer nicht unterstützten Version von LegalDocML.de vor
       parameters:
