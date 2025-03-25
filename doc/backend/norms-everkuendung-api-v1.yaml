@@ -10,9 +10,8 @@ info:
     ## Authentifizierung
 
     Für die Nutzung aller Endpunkte muss ein gültiger Access Token als `Authorization: Bearer <token>` übermittelt werden. Der Token kann über einen [OAuth2 Client Credentials Grant](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4) abgerufen werden. Die notwendigen Informationen werden vom DigitalService bereitgestellt.
-
 servers:
-  - url: /api/v1
+  - url: /api/v1/external
     description: Backend
 
 security:
@@ -27,19 +26,9 @@ paths:
 
         Es kann immer nur eine Anfrage gleichzeitig verarbeitet werden.
 
-        Das Archiv wird während der Anfrage innerhalb von 120 Sekunden validiert. Eine erfolgreiche Übermittlung wird mit dem Status-Code `201 CREATED` bestätigt.
+        Wurde das Normendokumentationspaket vollständig übertragen, wird die Übermittelung mit dem Status-Code `202 ACCEPTED` bestätigt. Die weitere Verarbeitung (z.B. Kontrolle der Signatur, Schema-Validierung) findet in einem Hintergrundprozess statt. Fortschritt und Erfolg bzw. Fehler dieses Prozesses kann über den Endpunkt `/verkuendungen/status/{processId}` abgefragt werden.
 
-        Wenn die Validierung fehlschlägt oder nicht innerhalb dieser Zeit abgeschlossen werden kann, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum erneut versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
-
-        ## Offene Fragen
-
-        - Die erlaubten Dateiformate (MIME-Types) für nicht-strukturierte Anlagen sind noch nicht abschließend geklärt.
-        - Das Verfahren zum manuellen Übertragen der Daten, wenn die Verkündung wiederholt nicht angenommen wurde, muss noch definiert werden.
-        - Signierung:
-          - Art und Format der Signatur müssen noch definiert werden.
-          - Es muss entschieden werden, ob nur das ZIP-Archiv und/oder die Dateien im Archiv signiert werden.
-          - Das Verfahren zum Austausch des öffentlichen Schlüssels für die Verifizierung der Signatur muss noch definiert werden.
-        - Eventuell wird es in Zukunft notwendig sein, statt einer synchronen Anfrage eine asynchrone Anfrage zu verwenden, damit das Backend größere Datenmengen besser verarbeiten kann.
+        Wenn das Normendokumentationspaket nicht übertragen werden konnte, wird die Anfrage mit einem Fehler beendet. Falls der Fehler aufseiten von NeuRIS liegt, sollte die Übertragung nach einem gewissen Zeitraum erneut versucht werden. Dieser Zeitraum kann dem [`Retry-After`-Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After) der Antwort entnommen werden. Wurde die Verkündung nach 5 Versuchen nicht angenommen, muss ein manueller Austausch mit der Normendokumentation stattfinden.
       requestBody:
         required: true
         description: |
@@ -50,7 +39,7 @@ paths:
           | Rechtsetzungsdokument                                   | XML                | `rechtsetzungsdokument.xml`             |                  |
           | Regelungstext(e)                                        | XML                | `regelungstext-{n}.xml`                 |                  |
           | Strukturierte Anlage(n)                                 | XML                | `offenestruktur-{n}.xml`                | soweit vorhanden |
-          | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, ... | entsprechend Referenzierung im Dokument | soweit vorhanden |
+          | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, GIF | entsprechend Referenzierung im Dokument | soweit vorhanden |
           | konsolidierte Fassung(en) aus der E-Gesetzgebung        | PDF                | `konsolidierte-fassungen/{name}.pdf`    |                  |
         content:
           multipart/form-data:
@@ -64,22 +53,14 @@ paths:
                 signature:
                   type: string
                   format: binary
-                  description: "Digitale Signatur für das Archiv. Hinweis: Bis Art und Format der Signatur definiert sind (siehe offene Fragen) ist die Übersendung der Signatur möglich, die Korrektheit wird aber nicht überprüft."
+                  description: "Digitale Signatur für das Archiv. Hinweis: Bis Art und Format der Signatur definiert sind ist die Übersendung der Signatur möglich, die Korrektheit wird aber nicht überprüft."
       responses:
-        "201":
-          description: Die Verkündung wurde erfolgreich an NeuRIS übermittelt.
-        "400":
-          description: |
-            Die Eingangsdaten sind fehlerhaft. Es kann sich um verschiedene Fehler handeln:
-
-            - Das ZIP-Archiv ist ungültig
-            - Die Signatur des Archivs fehlt oder ist ungültig
-            - Die XML-Dokumente weisen entweder XSD- oder Schematron-Fehler auf. Schematron-Warnungen führen nicht zu einem Fehler.
-            - Die XML-Dokumente liegen in einer nicht unterstützten Version von LegalDocML.de vor
+        "202":
+          description: Die Verkündung wurde erfolgreich an NeuRIS übermittelt. Sie wird jetzt im Hintergrund verarbeitet. Die Antwort enthält eine Prozess-ID, mit deren Hilfe der Status am Endpunkt `/verkuendungen/status/{processId}` abgefragt werden kann.
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ProblemDetail"
+                $ref: "#/components/schemas/VerkuendungAccepted"
         "401":
           description: Fehlende Berechtigung, z.B. kann die Authentifizierung der Anfrage fehlen oder ungültig sein.
           content:
@@ -88,12 +69,6 @@ paths:
                 $ref: "#/components/schemas/ProblemDetail"
         "403":
           description: Die Anfrage hat eine gültige Authentifizierung, jedoch fehlt die erforderliche Berechtigung.
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/ProblemDetail"
-        "409":
-          description: Duplikat erkannt. Eine Verkündung mit dieser ELI wurde bereits übermittelt.
           content:
             application/problem+json:
               schema:
@@ -123,6 +98,66 @@ paths:
               schema:
                 $ref: "#/components/schemas/ProblemDetail"
 
+  /verkuendungen/status/{processId}:
+    get:
+      summary: Auskunft über den Fortschritt der Verarbeitung einer übertragenen Verkündung.
+      description: |
+        Erlaubt die Abfrage des Fortschritts der Verarbeitung einer zuvor übertragenen Verkündung. Folgende Werte für den Status sind möglich:
+
+        - `accepted`: Die Verkündung wurde erfolgreich übermittelt, die Verarbeitung hat jedoch noch nicht begonnen.
+        - `processing`: Die Verkündung wird gerade verarbeitet.
+        - `success`: Die Verkündung wurde erfolgreich verarbeitet.
+        - `error`: Beim Verarbeiten der Verkündung ist ein Fehler aufgetreten. In diesem Fall enthält die Antwort weitere Informationen über die Art des Fehlers (siehe `VerkuendungStatusError`).
+
+        Fehler, die während der Verarbeitung auftreten können, sind beispielsweise:
+
+        - Das ZIP-Archiv ist ungültig
+        - Die Signatur des Archivs fehlt oder ist ungültig
+        - Duplikat erkannt: Eine Verkündung mit dieser ELI existiert bereits
+        - Die XML-Dokumente weisen entweder XSD- oder Schematron-Fehler auf. Schematron-Warnungen führen nicht zu einem Fehler.
+        - Die XML-Dokumente liegen in einer nicht unterstützten Version von LegalDocML.de vor
+      parameters:
+        - name: processId
+          description: Die ID der Verarbeitung einer kürzlich übertragenen Verkündung.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Der Status der Verarbeitung.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerkuendungStatus"
+        "401":
+          description: Fehlende Berechtigung, z.B. kann die Authentifizierung der Anfrage fehlen oder ungültig sein.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "403":
+          description: Die Anfrage hat eine gültige Authentifizierung, jedoch fehlt die erforderliche Berechtigung.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "404":
+          description: Die angegebene Prozess-ID wurde nicht gefunden.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "500":
+          description: Interner Server-Fehler.
+          headers:
+            Retry-After:
+              $ref: "#/components/headers/Retry-After"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+
 components:
   securitySchemes:
     ClientCredentials:
@@ -133,6 +168,7 @@ components:
           tokenUrl: https://example.com
           scopes:
             upload_verkuendung: Erlaubt das Übertragen von Verkündungen an NeuRIS.
+
   headers:
     Retry-After:
       description: Gibt an, wie lange der Client warten sollte, bevor eine neue Anfrage gestellt wird.
@@ -144,8 +180,19 @@ components:
             format: date-time
             description: HTTP-Datum für den Zeitpunkt der erneuten Anfrage
       example: 120
+
   schemas:
     ProblemDetail:
+      description: |
+        Der Antwort-Typ `ProblemDetail` implementiert [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) als einheitliches Format für die Kommunikation verschiedener Arten von Fehlern. Weitere Informationen zur Verwendung bei NeuRIS Normen finden sich [ADR 12: Error responses](https://github.com/digitalservicebund/ris-norms/blob/main/doc/adr/0012-error-responses.md).
+
+        Zu den möglichen Fehler-URIs gehören beispielsweise:
+
+        | URI                                           | Beschreibung                                             |
+        | --------------------------------------------- | -------------------------------------------------------- |
+        | `/errors/http-message-not-readable-exception` | Der Inhalt der Anfrage ist fehlerhaft.                   |
+        | `/errors/internal-server-error`               | Ein unerwarteter System-interner Fehler ist aufgetreten. |
+        | `/errors/missing-required-parameter`          | Ein notwendiger Parameter fehlt in der Anfrage.          |
       type: object
       required:
         - type
@@ -176,3 +223,56 @@ components:
           type: object
           additionalProperties: true
           description: Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
+    VerkuendungAccepted:
+      type: object
+      required:
+        - processId
+      properties:
+        processId:
+          type: string
+          description: Die ID des Prozesses, der die übertragene Verkündung im Hintergrund verarbeitet. Diese ID kann genutzt werden, um den Status der Verarbeitung abzufragen.
+    VerkuendungStatus:
+      oneOf:
+        - $ref: "#/components/schemas/VerkuendungStatusProcessingOrSuccess"
+        - $ref: "#/components/schemas/VerkuendungStatusError"
+    VerkuendungStatusProcessingOrSuccess:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: ["accepted", "processing", "success"]
+    VerkuendungStatusError:
+      description: |
+        Siehe auch: Schema `ProblemDetail`. Zu den Fehler-URIs, die im Fall eines Verarbeitungsfehlers auftreten können, gehören beispielsweise:
+
+        | URI                                     | Beschreibung                                                                                  |
+        | --------------------------------------- | --------------------------------------------------------------------------------------------- |
+        | `/errors/duplicate-announcement`        | Dieses Normendokumentationspaket wurde bereits übermittelt.                                   |
+        | `/errors/process-id-not-found`          | Die Prozess-ID wurde nicht gefunden.                                                          |
+        | `/errors/invalid-archive`               | Die übermittelte Datei ist kein gültiges ZIP-Archiv.                                          |
+        | `/errors/invalid-signature`             | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |
+        | `/errors/invalid-contents`              | Die Dateien im Archiv folgen nicht der erwarteten Benennung.                                  |
+        | `/errors/ldml-de-not-schematron-valid`  | Eine oder mehrere LDML.de-Dateien weisen Schematron-Fehler auf (Warnungen werden akzeptiert). |
+        | `/errors/ldml-de-not-valid`             | Eine oder LDML.de-Dateien weisen XSD-Fehler auf.                                              |
+      type: object
+      required:
+        - status
+        - type
+      properties:
+        status:
+          type: string
+          enum: ["error"]
+        type:
+          type: string
+          format: uri
+          description: Eine URI, die die Art des Fehlers ausweist.
+          example: /errors/example-error
+        title:
+          type: string
+          description: Eine kurze, menschenlesbare Beschreibung des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
+          example: Ein Beispielfehler ist aufgetreten.
+        detail:
+          type: string
+          description: Menschenlesbare Details zur Ursache des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
