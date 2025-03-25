@@ -38,7 +38,7 @@ setup("create sample data", async ({ authenticatedRequest: request }) => {
     formData.append("file", new Blob([fileContent], { type: "text/xml" }), file)
     formData.append("force", String(true))
 
-    const response = await request.post(`/api/v1/announcements`, {
+    const response = await request.post(`/api/v1/verkuendungen`, {
       multipart: formData,
     })
 

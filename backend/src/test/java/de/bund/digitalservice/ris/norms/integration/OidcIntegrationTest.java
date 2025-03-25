@@ -20,7 +20,7 @@ class OidcIntegrationTest extends BaseIntegrationTest {
   void accessIfNotLoggedIn() throws Exception {
     // when
     mvc
-      .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+      .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
       // then
       .andExpect(status().isOk());
   }
@@ -29,7 +29,7 @@ class OidcIntegrationTest extends BaseIntegrationTest {
   void noAccessIfNotLoggedIn() throws Exception {
     // when
     mvc
-      .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+      .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
       // then
       .andExpect(status().isUnauthorized());
   }
