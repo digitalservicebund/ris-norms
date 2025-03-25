@@ -11,7 +11,7 @@ info:
 
     Für die Nutzung aller Endpunkte muss ein gültiger Access Token als `Authorization: Bearer <token>` übermittelt werden. Der Token kann über einen [OAuth2 Client Credentials Grant](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4) abgerufen werden. Die notwendigen Informationen werden vom DigitalService bereitgestellt.
 servers:
-  - url: /api/v1
+  - url: /api/v1/external
     description: Backend
 
 security:
