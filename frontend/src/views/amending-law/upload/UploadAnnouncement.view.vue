@@ -202,7 +202,7 @@ function resetUploadPage() {
           invalid-file-type-message="{0} ist keine XML-Datei."
           mode="basic"
           name="file"
-          url="/api/v1/announcements"
+          url="/api/v1/verkuendungen"
           @select="onFileChoosing"
           @before-upload="onBeginUpload()"
           @error="onUploadError"

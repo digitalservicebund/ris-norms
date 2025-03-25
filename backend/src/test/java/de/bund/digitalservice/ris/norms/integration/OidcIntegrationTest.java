@@ -24,7 +24,8 @@ class OidcIntegrationTest extends BaseIntegrationTest {
   @WithMockUser(roles = { Roles.NORMS_USER })
   void accessToNormsApi() throws Exception {
     mvc
-      .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+      .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
+      // then
       .andExpect(status().isOk());
   }
 
@@ -40,7 +41,7 @@ class OidcIntegrationTest extends BaseIntegrationTest {
   @WithMockUser(roles = { Roles.EVERKUENDUNG_USER })
   void noAccessNormsApiBecauseOfEvRole() throws Exception {
     mvc
-      .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+      .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
 
@@ -55,7 +56,7 @@ class OidcIntegrationTest extends BaseIntegrationTest {
   @Test
   void noAccessNormsApiIfNotLoggedIn() throws Exception {
     mvc
-      .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+      .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isUnauthorized());
   }
 

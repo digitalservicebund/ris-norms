@@ -29,7 +29,7 @@ test.describe("Redirect and start page content", () => {
   test("should display a loading error message when the API call fails", async ({
     page,
   }) => {
-    await page.route("**/api/v1/announcements", (route) => {
+    await page.route("**/api/v1/verkuendungen", (route) => {
       route.fulfill({
         status: 500,
         body: JSON.stringify({ message: "Internal Server Error" }),
@@ -52,7 +52,7 @@ test.describe("Redirect and start page content", () => {
   test("should display a no data message when the API returns an empty array", async ({
     page,
   }) => {
-    await page.route("**/api/v1/announcements", (route) => {
+    await page.route("**/api/v1/verkuendungen", (route) => {
       route.fulfill({
         status: 200,
         body: JSON.stringify([]),

@@ -36,7 +36,7 @@ describe("uploadService", () => {
 
       expect(data.value).toEqual(expectedNorm)
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/announcements?force=true`,
+        `/api/v1/verkuendungen?force=true`,
         expect.objectContaining({
           method: "POST",
           body: expect.any(FormData),
@@ -67,7 +67,7 @@ describe("uploadService", () => {
 
       expect(error.value).toEqual(expectedError)
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/announcements?force=true`,
+        `/api/v1/verkuendungen?force=true`,
         expect.objectContaining({
           method: "POST",
           body: expect.any(FormData),

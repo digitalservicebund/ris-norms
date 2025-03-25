@@ -10,7 +10,7 @@ export async function uploadAmendingLaw(
   const filePath = path.join(samplesDirectory, filename)
   const fileContent = await fs.readFile(filePath)
 
-  const response = await request.post("/api/v1/announcements", {
+  const response = await request.post("/api/v1/verkuendungen", {
     multipart: {
       file: {
         name: filename,
