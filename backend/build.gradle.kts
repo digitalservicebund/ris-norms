@@ -221,6 +221,19 @@ tasks {
             }
         }
     }
+
+    processTestResources {
+        // include the ldml.de fixture files
+        from("../LegalDocML.de") {
+            includeEmptyDirs = false
+            include("**/*.xml")
+            include("**/*.png")
+            include("**/*.jpg")
+            include("**/*.gif")
+            include("**/*.pdf")
+            into("./LegalDocML.de")
+        }
+    }
 }
 
 spotless {

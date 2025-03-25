@@ -42,12 +42,14 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itPublishesNormToBucket() {
     // Given
-    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
       "SimpleRegelungstext2.xml"
     );
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-      "SimpleOffenestruktur.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
     );
     final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
       "image-1.png",
@@ -80,12 +82,14 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesNormFromPublicBucket() {
     // Given
-    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
       "SimpleRegelungstext2.xml"
     );
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-      "SimpleOffenestruktur.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
     );
     final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
       "image-1.png",
@@ -121,7 +125,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   @Test
   void itDeletesAllNormsFromPublicBucket() {
     // Given
-    final Norm norm1 = Fixtures.loadNormFromDisk("SimpleNorm.xml");
+    final Norm norm1 = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     final Norm norm2 = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
     final PublishNormPort.Command commandPublish1 = new PublishNormPort.Command(norm1);
     final PublishNormPort.Command commandPublish2 = new PublishNormPort.Command(norm2);

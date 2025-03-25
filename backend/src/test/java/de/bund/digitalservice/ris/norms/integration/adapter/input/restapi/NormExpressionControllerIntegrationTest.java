@@ -48,7 +48,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsNormsServiceAndReturnsNorm() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
 
       // When // Then
@@ -71,7 +75,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsNormsServiceAndReturnsNormXml() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("Vereinsgesetz.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
 
       // When // Then
@@ -92,7 +100,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("Vereinsgesetz_2017_s419_2017-03-15.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
         )
       );
 
@@ -124,7 +134,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
 
       // When // Then
@@ -195,7 +209,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itThrowsInvalidUpdateExceptionBecauseEliChanged() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
       var newXml =
         """
@@ -255,7 +273,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itThrowsInvalidUpdateExceptionBecauseGuidChanged() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
       var newXml =
         """
@@ -315,7 +337,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsNormServiceAndUpdatesNorm() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
       var newXml =
         """
@@ -335,7 +361,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
                        <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
                        <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c79" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu" />
                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
-                           <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c"/>
+                           <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
                     </akn:FRBRExpression>
                          <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
@@ -403,7 +429,11 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     void itExtractsAndReturnsTimeBoundariesFromNorm() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
 
       // When // Then
@@ -415,9 +445,8 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
             .accept(MediaType.APPLICATION_JSON_VALUE)
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", hasSize(2)))
-        .andExpect(jsonPath("$[0].date", is("2023-12-30")))
-        .andExpect(jsonPath("$[1].date", is("2023-12-30")));
+        .andExpect(jsonPath("$", hasSize(1)))
+        .andExpect(jsonPath("$[0].date", is("2017-03-16")));
     }
 
     @Test

@@ -66,8 +66,8 @@ class LdmlDeElementSorterTest {
     strings = {
       "Einkommensteuer-Durchführungsverordnung.xml",
       "ReglungstextVerkuendungsfassung.xml",
-      "SimpleOffenestruktur.xml",
-      "Vereinsgesetz_2017_s419_2017-03-15.xml",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
       "20240722_1108_Export_Regelungstext-Stammgesetz_Regelungstext-BDSG-Neufassung.xml",
     }
   )

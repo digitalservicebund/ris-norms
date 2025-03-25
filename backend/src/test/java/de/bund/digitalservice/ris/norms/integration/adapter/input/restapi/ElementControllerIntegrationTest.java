@@ -74,7 +74,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
 
       // When
@@ -112,7 +116,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsElementRenderedAsHtml() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
 
       // When
@@ -172,7 +180,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnsNotFoundIfElementNotFoundByEid() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
 
       // When
@@ -210,7 +222,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     void returnElementEidTitleAndType() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithMultipleMods.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
       );
 
       // When

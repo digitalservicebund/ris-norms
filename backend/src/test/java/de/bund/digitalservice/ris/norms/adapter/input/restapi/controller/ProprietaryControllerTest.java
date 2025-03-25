@@ -402,7 +402,9 @@ class ProprietaryControllerTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
       var proprietary = Fixtures
-        .loadRegelungstextFromDisk("SimpleNorm.xml")
+        .loadRegelungstextFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
         .getMeta()
         .getOrCreateProprietary();
       when(

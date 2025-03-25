@@ -255,14 +255,18 @@ class XsltTransformationServiceTest {
 
   static String loadTestResource(String fileName) throws IOException {
     var resource =
-      XsltTransformationServiceTest.class.getResource("xsltTransformationService/" + fileName);
+      XsltTransformationServiceTest.class.getResource(
+          XsltTransformationServiceTest.class.getSimpleName() + "/" + fileName
+        );
     assert resource != null;
     return IOUtils.toString(resource, StandardCharsets.UTF_8);
   }
 
   static void saveTestResource(String fileName, String result) throws IOException {
     var resource =
-      XsltTransformationServiceTest.class.getResource("xsltTransformationService/" + fileName);
+      XsltTransformationServiceTest.class.getResource(
+          XsltTransformationServiceTest.class.getSimpleName() + "/" + fileName
+        );
     assert resource != null;
     FileUtils.writeStringToFile(new File(resource.getFile()), result, StandardCharsets.UTF_8);
   }

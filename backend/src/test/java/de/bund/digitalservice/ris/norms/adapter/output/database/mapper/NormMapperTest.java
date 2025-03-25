@@ -22,14 +22,18 @@ class NormMapperTest {
   @Test
   void itShouldMapToDomain() {
     // Given
-    var regelungstext1Xml = Fixtures.loadTextFromDisk("SimpleNorm.xml");
+    var regelungstext1Xml = Fixtures.loadTextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     var dokumentDto1 = DokumentDto
       .builder()
       .xml(regelungstext1Xml)
       .subtype("regelungstext")
       .build();
 
-    var regelungstext2Xml = Fixtures.loadTextFromDisk("NormWithMods.xml");
+    var regelungstext2Xml = Fixtures.loadTextFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+    );
     var dokumentDto2 = DokumentDto
       .builder()
       .xml(regelungstext2Xml)
@@ -87,8 +91,12 @@ class NormMapperTest {
   @Test
   void itShouldMapToDtos() {
     // Given
-    var regelungstext1 = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
-    var regelungstext2 = Fixtures.loadRegelungstextFromDisk("NormWithMods.xml");
+    var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
+    var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+    );
     var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk("OffeneStruktur.xml");
     var binaryFile = Fixtures.loadBinaryFileFromDisk(
       "image-1.png",
