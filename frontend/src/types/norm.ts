@@ -16,4 +16,6 @@ export interface Norm {
   frbrNumber?: string
   /** When the law was published. Conforms to YYYY-MM-DD. */
   frbrDateVerkuendung?: string
+  /** Status of the norm (e.g. 'inForce', 'repealed', etc.) */
+  status?: string
 }
