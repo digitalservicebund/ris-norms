@@ -11,7 +11,7 @@
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.7.2/ ../metadata.xsd">
    <akn:act name="regelungstext">
 <!-- Metadaten-->
-       <akn:meta eId="meta-1" GUID="52226401-eb20-4c64-8077-bacdcf3bf584">
+     <akn:meta eId="meta-1" GUID="52226401-eb20-4c64-8077-bacdcf3bf584">
          <akn:identification eId="meta-1_ident-1"
                              GUID="e225e375-84cf-4f86-8b81-e3e8d6755e22"
                              source="attributsemantik-noch-undefiniert">
@@ -81,7 +81,7 @@
                                    GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
-                             value="eli/bund/bgbl-1/2000/s717/1/deu/regelungstext-1.xml/2021-06-02"/>
+                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="d0491f91-d599-46d4-ba61-c7426b607e4f"
                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-1.xml"/>
@@ -101,32 +101,32 @@
                         GUID="cef30a63-d738-4712-bac8-50fda44949e2"
                         source="attributsemantik-noch-undefiniert">
 <!-- 1. Originales Gesetz -->
-             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
-                           GUID="65f3910d-4e79-45f8-a24d-44ef7523963a"
-                           date="1955-12-21"
-                           source="attributsemantik-noch-undefiniert"
-                           type="generation"
-                           refersTo="ausfertigung"/>
+           <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
+                         GUID="65f3910d-4e79-45f8-a24d-44ef7523963a"
+                         date="1955-12-21"
+                         source="attributsemantik-noch-undefiniert"
+                         type="generation"
+                         refersTo="ausfertigung"/>
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
                           GUID="22cfa201-1d32-4655-afae-4bf01e9ba75c"
                           date="1955-12-21"
                           source="attributsemantik-noch-undefiniert"
                           type="generation"
                           refersTo="inkrafttreten"/>
-             <!-- Neufassung -->
-             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3"
-                           GUID="85e92fc8-b381-47bb-a476-c35fa2794336"
-                           date="2000-05-10"
-                           source="attributsemantik-noch-undefiniert"
-                           type="amendment"
-                           refersTo="neufassung"/>
-             <!-- Letzte Änderung -->
-             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
-                           GUID="85e92fc8-b381-47bb-a476-c35fa2794337"
-                           date="2023-01-01"
-                           source="attributsemantik-noch-undefiniert"
-                           type="amendment"
-                           refersTo="inkrafttreten"/>
+           <!-- Neufassung -->
+           <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3"
+                         GUID="85e92fc8-b381-47bb-a476-c35fa2794336"
+                         date="2000-05-10"
+                         source="attributsemantik-noch-undefiniert"
+                         type="amendment"
+                         refersTo="neufassung"/>
+           <!-- Letzte Änderung -->
+           <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
+                         GUID="85e92fc8-b381-47bb-a476-c35fa2794337"
+                         date="2023-01-01"
+                         source="attributsemantik-noch-undefiniert"
+                         type="amendment"
+                         refersTo="inkrafttreten"/>
          </akn:lifecycle>
          <akn:temporalData eId="meta-1_geltzeiten-1"
                            GUID="58a31120-e277-4a33-a093-6a3637fd603d"
@@ -153,10 +153,10 @@
                                  refersTo="geltungszeit"/>
             </akn:temporalGroup>
          </akn:temporalData>
-           <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung. -->
-           <akn:proprietary eId="meta-1_proprietary-1"
-                            GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
-                            source="attributsemantik-noch-undefiniert">
+       <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung. -->
+       <akn:proprietary eId="meta-1_proprietary-1"
+                        GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
+                        source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>stammform</meta:form>
@@ -165,8 +165,8 @@
                <meta:initiant>nicht-vorhanden</meta:initiant>
                <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
                <meta:fna>611-1-1</meta:fna>
-                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
-                <meta:gesta>nicht-vorhanden</meta:gesta>
+              <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+              <meta:gesta>nicht-vorhanden</meta:gesta>
             </meta:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
                 <meta:federfuehrung>
@@ -174,13 +174,9 @@
                                       bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
-         </akn:proprietary>
-           <!-- Metadaten vom DS definiert -->
-           <akn:proprietary eId="meta-1_proprietary-2"
-                            GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8"
-                            source="attributsemantik-noch-undefiniert">
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                <ris:subtyp>SN</ris:subtyp>
+               <ris:entryIntoForce date="2023-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
@@ -202,20 +198,20 @@
             </akn:p>
          </akn:longTitle>
       </akn:preface>
-       <!-- Hauptteil -->
-       <akn:body eId="hauptteil-1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
+     <!-- Hauptteil -->
+     <akn:body eId="hauptteil-1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
       <!-- Vorherige Paragraphen fehlen-->
-           <akn:article eId="hauptteil-1_art-1"
-                        GUID="a726a175-3a70-40e7-852f-9d08d1a26a13"
-                        period="#meta-1_geltzeiten-1_geltungszeitgr-3">
+       <akn:article eId="hauptteil-1_art-1"
+                    GUID="a726a175-3a70-40e7-852f-9d08d1a26a13"
+                    period="#meta-1_geltzeiten-1_geltungszeitgr-3">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
                         §82a</akn:num>
             <akn:heading GUID="6b993dcf-84de-48eb-ae6e-035fb985d3d4"
                          eId="hauptteil-1_art-1_überschrift-1">Erhöhte Absetzungen von Herstellungskosten und Sonderbehandlung von Erhaltungsaufwand für bestimmte Anlagen und Einrichtungen bei Gebäuden</akn:heading>
-               <!--Absatz 1-->
-               <akn:paragraph GUID="eb932754-5119-4fc1-a167-4dfc5381d2ca"
-                              eId="hauptteil-1_art-1_abs-1">
+         <!--Absatz 1-->
+         <akn:paragraph GUID="eb932754-5119-4fc1-a167-4dfc5381d2ca"
+                        eId="hauptteil-1_art-1_abs-1">
                <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
                         GUID="8280d4ef-4a96-44b7-81b9-f30f1006a2fe">
                            (1)</akn:num>
@@ -295,9 +291,9 @@
                   </akn:wrapUp>
                </akn:list>
             </akn:paragraph>
-               <!--Absatz 2-->
-               <akn:paragraph GUID="cd17b333-e7d5-4f0f-9406-5d50eb12f783"
-                              eId="hauptteil-1_art-1_abs-2">
+         <!--Absatz 2-->
+         <akn:paragraph GUID="cd17b333-e7d5-4f0f-9406-5d50eb12f783"
+                        eId="hauptteil-1_art-1_abs-2">
                <akn:num eId="hauptteil-1_art-1_abs-2_bezeichnung-1"
                         GUID="48d155ca-ec9e-4136-a14a-96d4f7e7a017">
                            (2)</akn:num>
