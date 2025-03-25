@@ -30,13 +30,13 @@ Additionally, some tests files only include very minimal data that makes them sc
    1. General test norms
       1. can be used by any test, and should thus be "just" some norms that could happen to be in our system during normal use
       2. are stored in a folder structure according to their manifestation elis
-      3. are schema valid
-      4. should be documented in a README.md file explaining what norm it is (e.g. "Änderungsgesetz for the Vereinsgesetz")
+      3. should be documented in a README.md file explaining what norm it is (e.g. "Änderungsgesetz for the Vereinsgesetz")
+      4. should not be changed for adding edge-cases. But can be extended if some data is fitting for the norm and "just" missing (e.g. a new metadata field is added).
    2. Test specific test norms
       1. may only be used in tests for one class
-      2. stored in the `test-specific` subfolder
-      3. do not need to be schema valid
-      4. are given a name that explains what they are used for
+      2. stored in the resource folder for the class in a folder with the class name. (e.g. for LdmlDeValidatorTest in `src/test/resources/de/bund/digitalservice/ris/norms/application/service/LdmlDeValidatorTest`)
+      3. are given a name that explains what they are used for
+3. All norm test files need to be schema-valid, unless specified in the name of the test file. All the general test norms must be schema-valid.
 
 ## Consequences
 
@@ -44,14 +44,9 @@ Additionally, some tests files only include very minimal data that makes them sc
 - If a specific kind of norm (e.g. a Änderungsgesetz) is needed the README.md shows if such a norm exists as a general test norm
 - If none of the general test norms are useful for the specific test a new test specific norm should to be created
 - All the different files related to one norm are in the same folder
-  - we can add a method to the Fixtures class to create a norm based on all files in a folder
+  - this allows us to add a method to the Fixtures class to create a norm based on all files in a folder. We will add this method once we need it.
 - The eli of a general test norm is always clearly visible as it is used within `Fixtures::loadNormFromDisk`
 - All general test norms have unique elis
 - All general test norms are schema valid
 - For updating the LegalDocMl.de version all norms are available as xml files
 
-## Open Questions
-
-* Should we place the norm fixtures in a more top-level folder within the resource folder?
-* Or even keep them in the `/LegalDocML.de` folder?
-* Better idea on how to organize the test specific norms?
