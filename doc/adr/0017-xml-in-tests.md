@@ -1,10 +1,10 @@
-# 17. Test files for norms
+# 17. XML in tests
 
-**Date**: 2025-03-20
+**Date**: 2025-03-25
 
 ## Status
 
-Proposal
+Accepted
 
 ## Context
 
