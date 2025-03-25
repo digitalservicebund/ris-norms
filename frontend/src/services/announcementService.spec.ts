@@ -57,7 +57,7 @@ describe("announcementService", () => {
       )
 
       const { useApiFetch } = await import("@/services/apiService")
-      expect(useApiFetch).toHaveBeenCalledWith("/announcements")
+      expect(useApiFetch).toHaveBeenCalledWith("/verkuendungen")
     })
   })
 
@@ -104,6 +104,55 @@ describe("announcementService", () => {
       expect(data.value?.dateAusfertigung).toBe("2025-02-24")
       expect(data.value?.importedAt).toBe("2025-02-24T08:12:00Z")
       expect(data.value?.fna).toBe("8052-5, 860-5, 2030-2-30-2, 51-1-23")
+      expect(useApiFetch).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe("useZielnormen()", () => {
+    it("fetches zielnormen for a specific announcement ELI", async () => {
+      const mockZielnormen = [
+        {
+          eli: "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-1",
+          status: "inForce",
+          frbrDateVerkuendung: "2002-05-15",
+        },
+        {
+          eli: "eli/bund/bgbl-1/2004/789/2004-07-21/1/deu/regelungstext-1",
+          status: "outOfForce",
+          frbrDateVerkuendung: "2004-07-21",
+        },
+      ]
+
+      const useApiFetch = vi.fn().mockReturnValue({
+        data: ref(mockZielnormen),
+        json: vi.fn().mockReturnValue({
+          data: ref(mockZielnormen),
+          error: ref(null),
+          isFetching: ref(false),
+          isFinished: ref(true),
+        }),
+      })
+
+      vi.doMock("@/services/apiService", () => ({ useApiFetch }))
+
+      const { useGetZielnormen } = await import(
+        "@/services/announcementService"
+      )
+
+      const eli = ref(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-1",
+        ),
+      )
+
+      const { data } = useGetZielnormen(eli)
+
+      expect(data.value).toEqual(mockZielnormen)
+      expect(data.value?.length).toBe(2)
+      expect(data.value?.[0].eli).toBe(
+        "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-1",
+      )
+      expect(data.value?.[1].status).toBe("outOfForce")
       expect(useApiFetch).toHaveBeenCalledTimes(1)
     })
   })
