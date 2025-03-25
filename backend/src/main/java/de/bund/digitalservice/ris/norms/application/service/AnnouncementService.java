@@ -14,7 +14,6 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.Document;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -34,7 +33,6 @@ public class AnnouncementService
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
-  private final BillToActService billToActService;
   private final LdmlDeValidator ldmlDeValidator;
   private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
@@ -45,7 +43,6 @@ public class AnnouncementService
     LoadNormPort loadNormPort,
     LoadNormByGuidPort loadNormByGuidPort,
     UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
-    BillToActService billToActService,
     LdmlDeValidator ldmlDeValidator,
     DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
     UpdateOrSaveNormPort updateOrSaveNormPort
@@ -55,7 +52,6 @@ public class AnnouncementService
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
-    this.billToActService = billToActService;
     this.ldmlDeValidator = ldmlDeValidator;
     this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -76,16 +72,23 @@ public class AnnouncementService
   @Override
   public Announcement createAnnouncement(CreateAnnouncementUseCase.Query query) throws IOException {
     validateFileIsXml(query.file());
-    var document = convertFileToDocument(query.file());
-    final String actString = billToActService.convert(document);
+    var regelungstextString = IOUtils.toString(
+      query.file().getInputStream(),
+      Charset.defaultCharset()
+    );
+    var regelungstextDocument = XmlMapper.toDocument(regelungstextString);
+
+    if (!regelungstextDocument.getDocumentElement().getTagName().equals("akn:akomaNtoso")) {
+      throw new NotLdmlDeXmlFileException(query.file().getOriginalFilename());
+    }
 
     // it throws an exception if the validation fails or the LDML.de Version is not 1.7.2
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
     // not yet.
-    var validatedRegelungstext = ldmlDeValidator.parseAndValidateRegelungstext(actString);
+    var validatedRegelungstext = ldmlDeValidator.parseAndValidateRegelungstext(regelungstextString);
     ldmlDeValidator.validateSchematron(validatedRegelungstext);
 
-    var norm = Norm.builder().dokumente(Set.of(new Regelungstext(document))).build();
+    var norm = Norm.builder().dokumente(Set.of(new Regelungstext(regelungstextDocument))).build();
 
     final boolean normFound = isNormRetrievableByEli(query.force(), norm);
 
@@ -107,16 +110,6 @@ public class AnnouncementService
         file != null ? file.getContentType() : "null"
       );
     }
-  }
-
-  private Document convertFileToDocument(MultipartFile file) throws IOException {
-    var xmlString = IOUtils.toString(file.getInputStream(), Charset.defaultCharset());
-    var document = XmlMapper.toDocument(xmlString);
-
-    if (!document.getDocumentElement().getTagName().equals("akn:akomaNtoso")) {
-      throw new NotLdmlDeXmlFileException(file.getOriginalFilename());
-    }
-    return document;
   }
 
   private boolean isNormRetrievableByEli(boolean forceOverwrite, Norm norm) {

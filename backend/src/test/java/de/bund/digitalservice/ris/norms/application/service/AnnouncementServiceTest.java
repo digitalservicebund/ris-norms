@@ -32,7 +32,6 @@ class AnnouncementServiceTest {
   );
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
-  final BillToActService billToActService = mock(BillToActService.class);
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
   final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort = mock(
     UpdateOrSaveAnnouncementPort.class
@@ -48,7 +47,6 @@ class AnnouncementServiceTest {
     loadNormPort,
     loadNormByGuidPort,
     updateOrSaveAnnouncementPort,
-    billToActService,
     ldmlDeValidator,
     deleteAnnouncementByNormEliPort,
     updateOrSaveNormPort
