@@ -276,7 +276,3 @@ components:
         detail:
           type: string
           description: Menschenlesbare Details zur Ursache des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
-        extensions:
-          type: object
-          additionalProperties: true
-          description: Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
