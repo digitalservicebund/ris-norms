@@ -123,7 +123,12 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateAInvalidNormWithError() {
       // Given
-      Norm norm = Fixtures.loadNormFromDisk("NormWithModsSchematronInvalid.xml", true);
+      Norm norm = Fixtures.loadNormFromDisk(
+        LdmlDeValidatorTest.class.getResource(
+            LdmlDeValidatorTest.class.getSimpleName() + "/NormWithModsSchematronInvalid.xml"
+          ),
+        true
+      );
 
       // When // Then
       assertThatThrownBy(() -> ldmlDeValidator.validateSchematron(norm))
