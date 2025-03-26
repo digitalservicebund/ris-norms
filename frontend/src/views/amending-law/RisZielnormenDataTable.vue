@@ -37,8 +37,8 @@ const props = defineProps<{
   }
 }>()
 
-const expandedRows = ref<TableRow[]>([])
-const nestedExpandedRows = ref<string[]>([])
+const expandedRows = ref<Record<string, boolean>>({})
+const nestedExpandedRows = ref<Record<string, boolean>>({})
 
 const laws = computed(() => {
   const sorted = [...props.groupedZielnorm.expressions].sort(
@@ -75,6 +75,31 @@ const laws = computed(() => {
 })
 
 type NestedRow = { label: string; versions: ExpressionRow[] }
+
+function toggleRow(row: TableRow) {
+  const id = row.id
+  const currentlyExpanded = expandedRows.value[id]
+
+  if (currentlyExpanded) {
+    delete expandedRows.value[id]
+  } else {
+    expandedRows.value[id] = true
+  }
+  expandedRows.value = { ...expandedRows.value }
+}
+
+function toggleNestedRow(row: NestedRow) {
+  const label = row.label
+  const isExpanded = nestedExpandedRows.value[label]
+
+  if (isExpanded) {
+    delete nestedExpandedRows.value[label]
+  } else {
+    nestedExpandedRows.value[label] = true
+  }
+
+  nestedExpandedRows.value = { ...nestedExpandedRows.value }
+}
 </script>
 
 <template>
@@ -85,12 +110,24 @@ type NestedRow = { label: string; versions: ExpressionRow[] }
       :show-headers="false"
       :data-key="'id'"
       row-hover
+      :pt="{
+        bodyRow: {
+          class:
+            'hover:bg-blue-200 border-none cursor-pointer focus:outline-4 focus:-outline-offset-4 focus:outline-blue-800',
+          tabindex: 0,
+          role: 'button',
+        },
+      }"
+      @row-click="({ data }) => toggleRow(data)"
     >
       <Column
         :expander="true"
         :pt="{
           bodyCell: {
             class: 'align-top pt-10',
+          },
+          rowToggleButton: {
+            tabindex: -1,
           },
         }"
       >
@@ -119,12 +156,25 @@ type NestedRow = { label: string; versions: ExpressionRow[] }
           v-model:expanded-rows="nestedExpandedRows"
           :value="data.children"
           :show-headers="false"
-          :row-expandable="(row: NestedRow) => row.versions.length > 0"
           :data-key="'label'"
-          :pt="{ bodyRow: { class: 'border-none' } }"
-          class="pb-24"
+          :pt="{
+            bodyRow: {
+              class:
+                'hover:bg-blue-200 border-none cursor-pointer focus:outline-4 focus:-outline-offset-4 focus:outline-blue-800',
+              tabindex: 0,
+              role: 'button',
+            },
+          }"
+          @row-click="({ data }) => toggleNestedRow(data)"
         >
-          <Column :expander="true">
+          <Column
+            :expander="true"
+            :pt="{
+              rowToggleButton: {
+                tabindex: -1,
+              },
+            }"
+          >
             <template #rowtoggleicon="{ rowExpanded }">
               <div class="ml-20 flex items-center">
                 <ChevronRightIcon v-if="!rowExpanded" />
@@ -144,16 +194,17 @@ type NestedRow = { label: string; versions: ExpressionRow[] }
             <DataTable
               :value="subData.versions"
               :show-headers="false"
-              class="pl-32"
               :pt="{
-                bodyRow: { class: 'border-b border-blue-300' },
+                bodyRow: {
+                  class: 'hover:bg-blue-200 border-b border-blue-300',
+                },
               }"
             >
               <Column
                 field="eli"
                 :pt="{
                   bodyCell: {
-                    class: 'whitespace-nowrap w-2 pl-24',
+                    class: 'whitespace-nowrap w-2 pl-56',
                   },
                 }"
               />
