@@ -14,12 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -301,196 +297,12 @@ class RegelungstextTest {
     assertThatThrownBy(regelungstext::getMeta).isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 
-  private static Stream<Arguments> provideParametersForGetArticles() {
-    return Stream.of(
-      Arguments.of(
-        """
-                              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                         http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                                 <akn:act name="regelungstext">
-                                    <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                       <!-- Artikel 1 : Hauptänderung -->
-                                       <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                                              <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
-                                          <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
-                                          <!-- Absatz (1) -->
-                                          <akn:paragraph eId="hauptteil-1_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
-                                             <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1" GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-                                             </akn:num>
-                                             <akn:list eId="hauptteil-1_art-1_abs-1_untergl-1" GUID="41675622-ed62-46e3-869f-94d99908b010">
-                                                <akn:intro eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1" GUID="5d6fc824-7926-43b4-b243-b0096da183f9">
-                                                   <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1" GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"> Das <akn:affectedDocument eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                                         href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
-                                                </akn:intro>
-                                             </akn:list>
-                                          </akn:paragraph>
-                                       </akn:article>
-                                        <!-- Artikel 3: Geltungszeitregel-->
-                                        <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
-                                               <akn:num eId="hauptteil-1_art-3_bezeichnung-1" GUID="1bc12642-f00c-4b55-8388-5e8870e6e706">Artikel 3</akn:num>
-                                           <akn:heading eId="hauptteil-1_art-3_überschrift-1" GUID="59a7dc28-e095-4da6-ba78-278a0d69a3fd">Inkrafttreten</akn:heading>
-                                           <!-- Absatz (1) -->
-                                           <akn:paragraph eId="hauptteil-1_art-3_abs-1" GUID="0b1590b0-8945-44a0-bf44-ebfb7d8c3bd8">
-                                              <akn:num eId="hauptteil-1_art-3_abs-1_bezeichnung-1" GUID="c46a1cbc-f823-4a18-9b0c-0f131244a58e">
-                                              </akn:num>
-                                              <akn:content eId="hauptteil-1_art-3_abs-1_inhalt-1" GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa">
-                                                 <akn:p eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1" GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1" GUID="2ee89811-5368-46e0-acf8-a598506cc956" date="2017-03-16" refersTo="inkrafttreten-datum">am Tag
-                                                    nach der Verkündung</akn:date> in Kraft. </akn:p>
-                                              </akn:content>
-                                           </akn:paragraph>
-                                        </akn:article>
-                                    </akn:body>
-                                 </akn:act>
-                              </akn:akomaNtoso>
-        """,
-        "hauptteil-1_art-1",
-        "hauptteil-1_art-3"
-      ),
-      Arguments.of(
-        """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                <akn:section GUID="851e76da-dea2-4d9b-a85a-a90c31358e6e" eId="hauptteil-1_abschnitt-erster">
-                   <akn:num GUID="15376a15-dcf4-4c11-ad20-f09b134db7f9" eId="hauptteil-1_abschnitt-erster_bezeichnung-1">
-                          Erster Abschnitt </akn:num>
-                   <akn:heading GUID="a803190c-9626-421f-9fd4-a904f9e572dd" eId="hauptteil-1_abschnitt-erster_überschrift-1">
-                      Zusammenarbeit, Aufgaben der Verfassungsschutzbehörden
-                   </akn:heading>
-                   <!-- Artikel 1 : Hauptänderung -->
-                   <akn:article eId="hauptteil-1_abschnitt-erster_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                      <akn:num eId="hauptteil-1_abschnitt-erster_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                             Artikel 1</akn:num>
-                      <akn:heading eId="hauptteil-1_abschnitt-erster_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
-                      <!-- Absatz (1) -->
-                      <akn:paragraph eId="hauptteil-1_abschnitt-erster_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
-                         <akn:num eId="hauptteil-1_abschnitt-erster_art-1_abs-1_bezeichnung-1" GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-                         </akn:num>
-                         <akn:list eId="hauptteil-1_abschnitt-erster_art-1_abs-1_untergl-1" GUID="41675622-ed62-46e3-869f-94d99908b010">
-                            <akn:intro eId="hauptteil-1_abschnitt-erster_art-1_abs-1_untergl-1_intro-1" GUID="5d6fc824-7926-43b4-b243-b0096da183f9">
-                               <akn:p eId="hauptteil-1_abschnitt-erster_art-1_abs-1_untergl-1_intro-1_text-1" GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"> Das <akn:affectedDocument eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                     href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
-                            </akn:intro>
-                         </akn:list>
-                      </akn:paragraph>
-                   </akn:article>
-                   <!-- Artikel 3: Geltungszeitregel-->
-                   <akn:article eId="hauptteil-1_abschnitt-erster_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
-                          <akn:num eId="hauptteil-1_abschnitt-erster_art-3_bezeichnung-1" GUID="1bc12642-f00c-4b55-8388-5e8870e6e706">Artikel 3</akn:num>
-                      <akn:heading eId="hauptteil-1_abschnitt-erster_art-3_überschrift-1" GUID="59a7dc28-e095-4da6-ba78-278a0d69a3fd">Inkrafttreten</akn:heading>
-                      <!-- Absatz (1) -->
-                      <akn:paragraph eId="hauptteil-1_abschnitt-erster_art-3_abs-1" GUID="0b1590b0-8945-44a0-bf44-ebfb7d8c3bd8">
-                         <akn:num eId="hauptteil-1_abschnitt-erster_art-3_abs-1_bezeichnung-1" GUID="c46a1cbc-f823-4a18-9b0c-0f131244a58e">
-
-                         </akn:num>
-                         <akn:content eId="hauptteil-1_abschnitt-erster_art-3_abs-1_inhalt-1" GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa">
-                            <akn:p eId="hauptteil-1_abschnitt-erster_art-3_abs-1_inhalt-1_text-1" GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1" GUID="2ee89811-5368-46e0-acf8-a598506cc956" date="2017-03-16" refersTo="inkrafttreten-datum">am Tag
-                               nach der Verkündung</akn:date> in Kraft. </akn:p>
-                         </akn:content>
-                      </akn:paragraph>
-                   </akn:article>
-                 </akn:section>
-              </akn:body>
-           </akn:act>
-        </akn:akomaNtoso>
-        """,
-        "hauptteil-1_abschnitt-erster_art-1",
-        "hauptteil-1_abschnitt-erster_art-3"
-      ),
-      Arguments.of(
-        """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                    <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                       xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                           http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                   <akn:act name="regelungstext">
-                      <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                        <akn:section GUID="851e76da-dea2-4d9b-a85a-a90c31358e6e" eId="hauptteil-1_abschnitt-erster">
-                           <akn:num GUID="15376a15-dcf4-4c11-ad20-f09b134db7f9" eId="hauptteil-1_abschnitt-erster_bezeichnung-1">
-                                  Erster
-                              Abschnitt </akn:num>
-                           <akn:heading GUID="a803190c-9626-421f-9fd4-a904f9e572dd" eId="hauptteil-1_abschnitt-erster_überschrift-1">
-                              Zusammenarbeit, Aufgaben der Verfassungsschutzbehörden
-                           </akn:heading>
-                           <!-- Artikel 1 : Hauptänderung -->
-                           <akn:article eId="hauptteil-1_abschnitt-erster_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                              <akn:num eId="hauptteil-1_abschnitt-erster_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                                     Artikel 1</akn:num>
-                              <akn:heading eId="hauptteil-1_abschnitt-erster_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
-                              <!-- Absatz (1) -->
-                              <akn:paragraph eId="hauptteil-1_abschnitt-erster_art-1_abs-1" GUID="48ead358-f901-41d3-a135-e372d5ef97b1">
-                                 <akn:num eId="hauptteil-1_abschnitt-erster_art-1_abs-1_bezeichnung-1" GUID="ef3a32d2-df20-4978-914b-cd6288872208">
-
-                                 </akn:num>
-                                 <akn:list eId="hauptteil-1_abschnitt-erster_art-1_abs-1_untergl-1" GUID="41675622-ed62-46e3-869f-94d99908b010">
-                                    <akn:intro eId="hauptteil-1_abschnitt-erster_art-1_abs-1_untergl-1_intro-1" GUID="5d6fc824-7926-43b4-b243-b0096da183f9">
-                                       <akn:p eId="hauptteil-1_abschnitt-erster_art-1_abs-1_untergl-1_intro-1_text-1" GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"> Das <akn:affectedDocument eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                             href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
-                                    </akn:intro>
-                                            <akn:point GUID="db5af8b9-7a46-4b65-8cc3-b87e8e7674eb" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8">
-                                                                        <akn:num GUID="cc554b9a-e137-48cd-b735-0b6774e6779e" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_bezeichnung-1">8.</akn:num>
-                                                                    <akn:content GUID="2fe9739e-c809-4139-91fa-e111a7674e5b" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1">
-                                                                        <akn:p GUID="5675e613-f44b-4383-a825-1da8673206ae" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1">
-                                                                            <akn:mod GUID="2cbbf69b-9fe9-4996-b989-c10481119472" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">Das <akn:ref GUID="908f56a9-218c-478f-8bf4-7f915bf6ea59" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-3.xml">3. Buch</akn:ref> wird ersetzt durch: <akn:quotedStructure GUID="5287afa2-cdd1-4d8c-b027-8ca653aa8f19" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
-                                                                                <akn:book GUID="bff63266-ee36-4d78-9110-675239af599f" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3">
-                                                                                        <akn:num GUID="ddec4bf9-36d3-4af4-a607-a0acb1ee1bea" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_bezeichnung-1">3. Buch</akn:num>
-                                                                                    <akn:heading GUID="0384394e-3c9f-4355-8580-70280688c64f" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_überschrift-1">Beispiele Teil I</akn:heading>
-                                                                                    <akn:article GUID="c31f4462-545e-4064-af55-d42bb34dacde" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_art-6" period="#meta-1_geltzeiten-1_geltungszeitgr-2">
-                                                                                            <akn:num GUID="6b1085ed-6ac5-4ff3-ac2c-79602af6446f" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_art-6_bezeichnung-1">§ 6</akn:num>
-                                                                                        <akn:heading GUID="e3f17909-13f5-47e0-8467-e4906b90be2b" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_art-6_überschrift-1">Beispielartikel (neu)</akn:heading>
-                                                                                        <akn:paragraph GUID="d4cfcdd1-d1fd-408a-bf51-0720c852f6b5" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_art-6_abs-1">
-                                                                                                <akn:num GUID="9819cc84-b783-43e7-8185-b00f73748bdd" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_art-6_abs-1_bezeichnung-1"></akn:num>
-                                                                                            <akn:content GUID="debcb0c7-991d-4823-9397-d55544fb70b0" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_art-6_abs-1_inhalt-1">
-                                                                                                <akn:p GUID="f6aa96b1-0d31-4b72-8651-5a6bc2b3b1c8" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1_quotstruct-1_buch-3_art-6_abs-1_inhalt-1_text-1">Im Rahmen des Gesetzes werden klare Regelungen für die Inanspruchnahme von Rechtsmitteln festgelegt.</akn:p>
-                                                                                    </akn:content>
-                                                                                </akn:paragraph>
-                                                                            </akn:article>
-                                                                        </akn:book>
-                                                                    </akn:quotedStructure>
-                                                                    </akn:mod>
-                                                                </akn:p>
-                                                            </akn:content>
-                                                        </akn:point>
-                                 </akn:list>
-                              </akn:paragraph>
-                           </akn:article>
-                           <!-- Artikel 3: Geltungszeitregel-->
-                           <akn:article eId="hauptteil-1_abschnitt-erster_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
-                              <akn:num eId="hauptteil-1_abschnitt-erster_art-3_bezeichnung-1" GUID="1bc12642-f00c-4b55-8388-5e8870e6e706">
-                                     Artikel 3</akn:num>
-                              <akn:heading eId="hauptteil-1_abschnitt-erster_art-3_überschrift-1" GUID="59a7dc28-e095-4da6-ba78-278a0d69a3fd">Inkrafttreten</akn:heading>
-                              <!-- Absatz (1) -->
-                              <akn:paragraph eId="hauptteil-1_abschnitt-erster_art-3_abs-1" GUID="0b1590b0-8945-44a0-bf44-ebfb7d8c3bd8">
-                                 <akn:num eId="hauptteil-1_abschnitt-erster_art-3_abs-1_bezeichnung-1" GUID="c46a1cbc-f823-4a18-9b0c-0f131244a58e">
-
-                                     </akn:num>
-                                 <akn:content eId="hauptteil-1_abschnitt-erster_art-3_abs-1_inhalt-1" GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa">
-                                    <akn:p eId="hauptteil-1_abschnitt-erster_art-3_abs-1_inhalt-1_text-1" GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1" GUID="2ee89811-5368-46e0-acf8-a598506cc956" date="2017-03-16" refersTo="inkrafttreten-datum">am Tag
-                                       nach der Verkündung</akn:date> in Kraft. </akn:p>
-                                 </akn:content>
-                              </akn:paragraph>
-                           </akn:article>
-                         </akn:section>
-                      </akn:body>
-                   </akn:act>
-                </akn:akomaNtoso>
-        """,
-        "hauptteil-1_abschnitt-erster_art-1",
-        "hauptteil-1_abschnitt-erster_art-3"
-      )
-    );
-  }
-
-  @ParameterizedTest
-  @MethodSource("provideParametersForGetArticles")
-  void getArticles(String xml, String firstArticleEid, String secondArticleEid) {
+  @Test
+  void getArticles() {
     // given
-    final var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
+    final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+    );
     final var expectedNumberOfArticles = 2;
     final var firstExpectedHeading = "Änderung des Vereinsgesetzes";
     final var secondExpectedHeading = "Inkrafttreten";
@@ -502,7 +314,7 @@ class RegelungstextTest {
     assertThat(actualArticles).hasSize(expectedNumberOfArticles);
     assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
-    assertThat(actualArticles.get(0).getEid()).hasToString(firstArticleEid);
+    assertThat(actualArticles.get(0).getEid()).hasToString("hauptteil-1_art-1");
     assertThat(actualArticles.get(0).getAffectedDocumentEli())
       .contains(
         DokumentExpressionEli.fromString(
@@ -512,7 +324,7 @@ class RegelungstextTest {
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
     assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
-    assertThat(actualArticles.get(1).getEid()).hasToString(secondArticleEid);
+    assertThat(actualArticles.get(1).getEid()).hasToString("hauptteil-1_art-2");
     assertThat(actualArticles.get(1).getAffectedDocumentEli()).isNotPresent();
   }
 
@@ -544,29 +356,12 @@ class RegelungstextTest {
   @Test
   void equalsShouldEqualWithSameXml() {
     // given
-    final String xml =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                        <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    final var regelungstext1 = new Regelungstext(XmlMapper.toDocument(xml));
-    final var regelungstext2 = new Regelungstext(XmlMapper.toDocument(xml));
+    final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
+    final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     // then
     assertThat(regelungstext1).isEqualTo(regelungstext2);
@@ -575,50 +370,12 @@ class RegelungstextTest {
   @Test
   void equalsShouldNotEqualWithDifferentXml() {
     // given
-    final String xml1 =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                        <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    final String xml2 =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                        <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-06" name="verkuendungsfassung" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    final var regelungstext1 = new Regelungstext(XmlMapper.toDocument(xml1));
-    final var regelungstext2 = new Regelungstext(XmlMapper.toDocument(xml2));
+    final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
+    final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+    );
 
     // then
     assertThat(regelungstext1).isNotEqualTo(regelungstext2);
@@ -627,29 +384,12 @@ class RegelungstextTest {
   @Test
   void hashCodeShouldBeTheSameWithSameXml() {
     // given
-    final String xml =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                        <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    final var regelungstext1 = new Regelungstext(XmlMapper.toDocument(xml));
-    final var regelungstext2 = new Regelungstext(XmlMapper.toDocument(xml));
+    final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
+    final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     // then
     assertThat(regelungstext1.hashCode()).hasSameHashCodeAs(regelungstext2.hashCode());
@@ -658,50 +398,12 @@ class RegelungstextTest {
   @Test
   void hashCodeShouldBeDifferentWithDifferentXml() {
     // given
-    final String xml1 =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                        <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    final String xml2 =
-      """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <!-- Metadaten -->
-              <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                 <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                    <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                        <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                        <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                        <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-06" name="verkuendungsfassung" />
-                     </akn:FRBRWork>
-                </akn:identification>
-              </akn:meta>
-           </akn:act>
-        </akn:akomaNtoso>
-      """;
-
-    final var regelungstext1 = new Regelungstext(XmlMapper.toDocument(xml1));
-    final var regelungstext2 = new Regelungstext(XmlMapper.toDocument(xml2));
+    final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
+    final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+    );
 
     // then
     assertThat(regelungstext1.hashCode()).isNotEqualTo(regelungstext2.hashCode());
