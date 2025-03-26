@@ -99,9 +99,6 @@ public class PublishService implements PublishNormUseCase {
       }
     });
 
-    publishPublicChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
-    publishPrivateChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
-
     lastMigrationLog.ifPresent(migrationLog -> {
       if (migrationLogIsRelevant(migrationLog)) {
         log.info(
@@ -126,6 +123,8 @@ public class PublishService implements PublishNormUseCase {
         );
       }
     });
+    publishPublicChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
+    publishPrivateChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
     log.info("Publish job successfully completed.");
   }
 
