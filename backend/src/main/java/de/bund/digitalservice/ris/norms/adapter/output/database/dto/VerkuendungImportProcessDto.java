@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 /**
  * DTO representing information about the progress of the background processing
@@ -25,6 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class VerkuendungImportProcessDto {
 
   @Id
@@ -33,6 +37,7 @@ public class VerkuendungImportProcessDto {
   private UUID id;
 
   @Enumerated(EnumType.STRING)
+  @JdbcType(PostgreSQLEnumJdbcType.class)
   @Column(name = "status", nullable = false)
   private Status status;
 
