@@ -264,28 +264,24 @@ class PublishServiceTest {
     @Test
     void doNotdeleteAllNormsIfMigrationLogExistsButSizeIsZero() {
       // Given
-      final Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
       final MigrationLog migrationLog = MigrationLog
         .builder()
         .size(0)
         .createdAt(Instant.now())
         .build();
 
-      when(
-        loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
-      )
-        .thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())))
-        .thenReturn(Optional.of(norm));
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
 
       // Then When
       assertThatThrownBy(publishService::processQueuedFilesForPublish)
         .isInstanceOf(MigrationJobException.class);
 
-      // Check that deletion was not called
+      // Check that neither loading,nor publish methods nor deletion were called
+      verify(loadNormManifestationElisByPublishStatePort, times(0))
+        .loadNormManifestationElisByPublishState(any());
+      verify(loadNormPort, times(0)).loadNorm(any());
+      verify(publishNormPort, times(0)).publishNorm(any());
+      verify(publishPrivateNormPort, times(0)).publishNorm(any());
       verify(deleteAllPublishedDokumentePort, times(0)).deleteAllPublishedDokumente(any());
       verify(deleteAllPrivateDokumentePort, times(0)).deleteAllPublishedDokumente(any());
     }
