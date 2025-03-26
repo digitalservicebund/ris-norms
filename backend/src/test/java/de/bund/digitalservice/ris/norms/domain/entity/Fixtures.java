@@ -141,6 +141,27 @@ public class Fixtures {
     }
   }
 
+  public static String loadTextFromDisk(Class<?> testClass, final String fileName) {
+    try {
+      var resource = Optional
+        .ofNullable(testClass.getResource(testClass.getSimpleName() + "/" + fileName))
+        .orElseThrow(() ->
+          new RuntimeException(
+            "Could not find resource " +
+            testClass.getSimpleName() +
+            "/" +
+            fileName +
+            " in " +
+            testClass.getPackageName()
+          )
+        );
+
+      return IOUtils.toString(resource, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public static String loadTextFromDisk(final String fileName) {
     return loadFile(fileName);
   }
