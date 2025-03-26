@@ -13,6 +13,9 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.UrlResource;
 
+/**
+ * Loader for norm fixtures.
+ */
 public class Fixtures {
 
   private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.7.2";
@@ -74,11 +77,23 @@ public class Fixtures {
     return loadNormFromDisk(fileName, false);
   }
 
-  public static Norm loadNormFromDisk(final String fileName, boolean validated) {
-    return Norm.builder().dokumente(Set.of(loadRegelungstextFromDisk(fileName, validated))).build();
+  public static Norm loadNormFromDisk(final Class<?> clazz, final String fileName) {
+    return loadNormFromDisk(clazz, fileName, false);
   }
 
-  public static Norm loadNormFromDisk(final URL fileName, boolean validated) {
+  public static Norm loadNormFromDisk(final String fileName, boolean validated) {
+    return loadNormFromDisk(getResource(fileName), validated);
+  }
+
+  public static Norm loadNormFromDisk(
+    final Class<?> clazz,
+    final String fileName,
+    boolean validated
+  ) {
+    return loadNormFromDisk(getResource(clazz, fileName), validated);
+  }
+
+  private static Norm loadNormFromDisk(final URL fileName, boolean validated) {
     return Norm.builder().dokumente(Set.of(loadRegelungstextFromDisk(fileName, validated))).build();
   }
 
@@ -87,25 +102,36 @@ public class Fixtures {
   }
 
   public static Regelungstext loadRegelungstextFromDisk(
-    final String fileName,
-    final boolean validated
+    final Class<?> clazz,
+    final String fileName
   ) {
-    if (validated) {
-      return ldmlDeValidator.parseAndValidateRegelungstext(loadFile(fileName));
-    }
-
-    return new Regelungstext(XmlMapper.toDocument(loadFile(fileName)));
+    return loadRegelungstextFromDisk(clazz, fileName, false);
   }
 
   public static Regelungstext loadRegelungstextFromDisk(
+    final String fileName,
+    final boolean validated
+  ) {
+    return loadRegelungstextFromDisk(getResource(fileName), validated);
+  }
+
+  public static Regelungstext loadRegelungstextFromDisk(
+    final Class<?> clazz,
+    final String fileName,
+    final boolean validated
+  ) {
+    return loadRegelungstextFromDisk(getResource(clazz, fileName), validated);
+  }
+
+  private static Regelungstext loadRegelungstextFromDisk(
     final URL fileName,
     final boolean validated
   ) {
     if (validated) {
-      return ldmlDeValidator.parseAndValidateRegelungstext(loadFile(fileName));
+      return ldmlDeValidator.parseAndValidateRegelungstext(loadTextFromDisk(fileName));
     }
 
-    return new Regelungstext(XmlMapper.toDocument(loadFile(fileName)));
+    return new Regelungstext(XmlMapper.toDocument(loadTextFromDisk(fileName)));
   }
 
   public static OffeneStruktur loadOffeneStrukturFromDisk(final String fileName) {
@@ -116,22 +142,55 @@ public class Fixtures {
     final String fileName,
     final boolean validated
   ) {
+    return loadOffeneStrukturFromDisk(getResource(fileName), validated);
+  }
+
+  public static OffeneStruktur loadOffeneStrukturFromDisk(
+    final Class<?> clazz,
+    final String fileName
+  ) {
+    return loadOffeneStrukturFromDisk(clazz, fileName, false);
+  }
+
+  public static OffeneStruktur loadOffeneStrukturFromDisk(
+    final Class<?> clazz,
+    final String fileName,
+    final boolean validated
+  ) {
+    return loadOffeneStrukturFromDisk(getResource(clazz, fileName), validated);
+  }
+
+  private static OffeneStruktur loadOffeneStrukturFromDisk(
+    final URL fileName,
+    final boolean validated
+  ) {
     if (validated) {
-      return ldmlDeValidator.parseAndValidateOffeneStruktur(loadFile(fileName));
+      return ldmlDeValidator.parseAndValidateOffeneStruktur(loadTextFromDisk(fileName));
     }
 
-    return new OffeneStruktur(XmlMapper.toDocument(loadFile(fileName)));
+    return new OffeneStruktur(XmlMapper.toDocument(loadTextFromDisk(fileName)));
   }
 
   public static BinaryFile loadBinaryFileFromDisk(
     final String fileName,
     DokumentManifestationEli dokumentManifestationEli
   ) {
-    try (
-      var resourceStream = Optional
-        .ofNullable(Fixtures.class.getResourceAsStream(FIXTURES_RESOURCE_FOLDER + "/" + fileName))
-        .orElseGet(() -> Objects.requireNonNull(Fixtures.class.getResourceAsStream(fileName)))
-    ) {
+    return loadBinaryFileFromDisk(getResource(fileName), dokumentManifestationEli);
+  }
+
+  public static BinaryFile loadBinaryFileFromDisk(
+    final Class<?> clazz,
+    final String fileName,
+    DokumentManifestationEli dokumentManifestationEli
+  ) {
+    return loadBinaryFileFromDisk(getResource(clazz, fileName), dokumentManifestationEli);
+  }
+
+  private static BinaryFile loadBinaryFileFromDisk(
+    final URL fileName,
+    DokumentManifestationEli dokumentManifestationEli
+  ) {
+    try (var resourceStream = fileName.openStream();) {
       return new BinaryFile(
         dokumentManifestationEli,
         Objects.requireNonNull(resourceStream).readAllBytes()
@@ -142,44 +201,14 @@ public class Fixtures {
   }
 
   public static String loadTextFromDisk(Class<?> testClass, final String fileName) {
-    try {
-      var resource = Optional
-        .ofNullable(testClass.getResource(testClass.getSimpleName() + "/" + fileName))
-        .orElseThrow(() ->
-          new RuntimeException(
-            "Could not find resource " +
-            testClass.getSimpleName() +
-            "/" +
-            fileName +
-            " in " +
-            testClass.getPackageName()
-          )
-        );
-
-      return IOUtils.toString(resource, StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    return loadTextFromDisk(getResource(testClass, fileName));
   }
 
   public static String loadTextFromDisk(final String fileName) {
-    return loadFile(fileName);
+    return loadTextFromDisk(getResource(fileName));
   }
 
-  private static String loadFile(final String fileName) {
-    try {
-      return IOUtils.toString(
-        Optional
-          .ofNullable(Fixtures.class.getResourceAsStream(FIXTURES_RESOURCE_FOLDER + "/" + fileName))
-          .orElseGet(() -> Objects.requireNonNull(Fixtures.class.getResourceAsStream(fileName))),
-        StandardCharsets.UTF_8
-      );
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private static String loadFile(final URL fileName) {
+  private static String loadTextFromDisk(final URL fileName) {
     try {
       return IOUtils.toString(
         Objects.requireNonNull(fileName.openStream()),
@@ -188,5 +217,23 @@ public class Fixtures {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private static URL getResource(String fileName) {
+    return Optional
+      .ofNullable(Fixtures.class.getResource(FIXTURES_RESOURCE_FOLDER + "/" + fileName))
+      // TODO: (Malte Laukötter, 2025-03-26) remove once all xml files have been moved to the new structure
+      .or(() -> Optional.ofNullable(Fixtures.class.getResource(fileName)))
+      .orElseThrow(() -> new RuntimeException("Could not find fixture " + fileName));
+  }
+
+  private static URL getResource(Class<?> clazz, String fileName) {
+    return Optional
+      .ofNullable(clazz.getResource(clazz.getSimpleName() + "/" + fileName))
+      .orElseThrow(() ->
+        new RuntimeException(
+          "Could not find fixture " + fileName + " in test resources for class " + clazz.getName()
+        )
+      );
   }
 }
