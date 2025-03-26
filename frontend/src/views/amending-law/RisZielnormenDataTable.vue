@@ -38,7 +38,7 @@ const props = defineProps<{
 }>()
 
 const expandedRows = ref<TableRow[]>([])
-const nestedExpandedRows = ref<any[]>([])
+const nestedExpandedRows = ref<string[]>([])
 
 const laws = computed(() => {
   const sorted = [...props.groupedZielnorm.expressions].sort(
@@ -84,8 +84,16 @@ type NestedRow = { label: string; versions: ExpressionRow[] }
       :value="laws"
       :show-headers="false"
       :data-key="'id'"
+      row-hover
     >
-      <Column :expander="true">
+      <Column
+        :expander="true"
+        :pt="{
+          bodyCell: {
+            class: 'align-top pt-10',
+          },
+        }"
+      >
         <template #rowtoggleicon="{ rowExpanded, class: iconClass }">
           <ChevronRightIcon v-if="!rowExpanded" :class="iconClass" />
           <ChevronDownIcon v-else :class="iconClass" />
@@ -113,17 +121,20 @@ type NestedRow = { label: string; versions: ExpressionRow[] }
           :show-headers="false"
           :row-expandable="(row: NestedRow) => row.versions.length > 0"
           :data-key="'label'"
-          class="ml-8"
+          :pt="{ bodyRow: { class: 'border-none' } }"
+          class="pb-24"
         >
           <Column :expander="true">
             <template #rowtoggleicon="{ rowExpanded }">
-              <ChevronRightIcon v-if="!rowExpanded" />
-              <ChevronDownIcon v-else />
+              <div class="ml-20 flex items-center">
+                <ChevronRightIcon v-if="!rowExpanded" />
+                <ChevronDownIcon v-else />
+              </div>
             </template>
           </Column>
           <Column>
             <template #body="{ data: rowData }">
-              <div class="ris-link1-regular cursor-pointer">
+              <div class="ris-link1-bold cursor-pointer">
                 {{ rowData.label }}
               </div>
             </template>
@@ -133,17 +144,33 @@ type NestedRow = { label: string; versions: ExpressionRow[] }
             <DataTable
               :value="subData.versions"
               :show-headers="false"
-              class="ml-16"
+              class="pl-32"
+              :pt="{
+                bodyRow: { class: 'border-b border-blue-300' },
+              }"
             >
-              <Column field="eli" />
-              <Column>
-                <template #body="{ data }">
-                  <div class="flex items-center gap-8">
+              <Column
+                field="eli"
+                :pt="{
+                  bodyCell: {
+                    class: 'whitespace-nowrap w-2 pl-24',
+                  },
+                }"
+              />
+              <Column
+                :pt="{
+                  bodyCell: {
+                    class: 'whitespace-nowrap w-2 text-right',
+                  },
+                }"
+              >
+                <template #body="{ data: expression }">
+                  <div class="flex gap-8 pl-32">
                     <span
                       class="h-20 w-20 rounded-full border border-dotted"
-                      :class="`bg-highlight-${data.colorIndex}-default`"
+                      :class="`bg-highlight-${expression.colorIndex}-default`"
                     />
-                    {{ data.datum }}
+                    {{ expression.datum }}
                   </div>
                 </template>
               </Column>

@@ -135,7 +135,10 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
         <Splitter class="h-full" layout="horizontal">
           <SplitterPanel :size="75" :min-size="10" class="overflow-auto">
             <div class="flex h-full flex-col gap-24">
-              <section class="shrink-0 p-24 pb-0">
+              <section
+                class="shrink-0 p-24 pb-0"
+                aria-labelledby="announcement-details-label"
+              >
                 <span id="announcement-details-label" class="sr-only"
                   >Bekanntmachungsdetails</span
                 >
@@ -147,7 +150,10 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
                   :fna="announcement?.fna"
                 />
               </section>
-              <section class="flex flex-grow flex-col gap-16 p-24 pt-0">
+              <section
+                class="flex flex-grow flex-col gap-16 p-24 pt-0"
+                aria-labelledby="zielnormen-label"
+              >
                 <span id="zielnormen-label" class="sr-only">Zielnormen</span>
                 <h2 class="ris-body1-bold">Zielnormen</h2>
 
@@ -183,7 +189,10 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </SplitterPanel>
 
           <SplitterPanel :size="25" :min-size="10">
-            <section class="h-full">
+            <section
+              class="h-full"
+              aria-labelledby="amending-law-preview-label"
+            >
               <span id="amending-law-preview-label" class="sr-only"
                 >Bekanntmachungsvorschau</span
               >
