@@ -49,6 +49,30 @@ class VerkuendungImportProcessMapperTest {
   }
 
   @Test
+  void itShouldMapToDomainWithEmptyDetails() {
+    // Given
+    var dto = new VerkuendungImportProcessDto(
+      UUID.randomUUID(),
+      VerkuendungImportProcessDto.Status.ERROR,
+      Instant.parse("2025-03-26T09:00:00Z"),
+      Instant.parse("2025-03-26T10:00:00Z"),
+      Instant.parse("2025-03-26T11:00:00Z"),
+      null
+    );
+
+    // When
+    var entity = VerkuendungImportProcessMapper.mapToDomain(dto);
+
+    // Then
+    assertThat(entity.getId()).isEqualTo(dto.getId());
+    assertThat(entity.getStatus()).isEqualTo(VerkuendungImportProcess.Status.ERROR);
+    assertThat(entity.getCreatedAt()).isEqualTo(dto.getCreatedAt());
+    assertThat(entity.getStartedAt()).isEqualTo(dto.getStartedAt());
+    assertThat(entity.getFinishedAt()).isEqualTo(dto.getFinishedAt());
+    assertThat(entity.getDetail()).isNull();
+  }
+
+  @Test
   void itShouldMapToDto() {
     // Given
     var entityDetail = VerkuendungImportProcessDetail
@@ -83,5 +107,29 @@ class VerkuendungImportProcessMapperTest {
     assertThat(dtoDetail.getType()).isEqualTo(entityDetail.getType());
     assertThat(dtoDetail.getTitle()).isEqualTo(entityDetail.getTitle());
     assertThat(dtoDetail.getDetail()).isEqualTo(entityDetail.getDetail());
+  }
+
+  @Test
+  void itShouldMapToDtoWithEmptyDetails() {
+    // Given
+    var entity = VerkuendungImportProcess
+      .builder()
+      .id(UUID.randomUUID())
+      .status(VerkuendungImportProcess.Status.ERROR)
+      .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+      .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
+      .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+      .build();
+
+    // When
+    var dto = VerkuendungImportProcessMapper.mapToDto(entity);
+
+    // Then
+    assertThat(dto.getId()).isEqualTo(entity.getId());
+    assertThat(dto.getStatus()).isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
+    assertThat(dto.getCreatedAt()).isEqualTo(entity.getCreatedAt());
+    assertThat(dto.getStartedAt()).isEqualTo(entity.getStartedAt());
+    assertThat(dto.getFinishedAt()).isEqualTo(entity.getFinishedAt());
+    assertThat(dto.getDetail()).isNull();
   }
 }

@@ -23,6 +23,14 @@ public class VerkuendungImportProcessMapper {
   public static VerkuendungImportProcess mapToDomain(
     final VerkuendungImportProcessDto verkuendungImportProcessDto
   ) {
+    var detail = verkuendungImportProcessDto.getDetail() == null
+      ? null
+      : verkuendungImportProcessDto
+        .getDetail()
+        .stream()
+        .map(VerkuendungImportProcessMapper::mapDetailToDomain)
+        .toList();
+
     return VerkuendungImportProcess
       .builder()
       .id(verkuendungImportProcessDto.getId())
@@ -30,13 +38,7 @@ public class VerkuendungImportProcessMapper {
       .createdAt(verkuendungImportProcessDto.getCreatedAt())
       .startedAt(verkuendungImportProcessDto.getStartedAt())
       .finishedAt(verkuendungImportProcessDto.getFinishedAt())
-      .detail(
-        verkuendungImportProcessDto
-          .getDetail()
-          .stream()
-          .map(VerkuendungImportProcessMapper::mapDetailToDomain)
-          .toList()
-      )
+      .detail(detail)
       .build();
   }
 
@@ -50,17 +52,21 @@ public class VerkuendungImportProcessMapper {
   public static VerkuendungImportProcessDto mapToDto(
     final VerkuendungImportProcess verkuendungImportProcess
   ) {
+    var detail = verkuendungImportProcess.getDetail() == null
+      ? null
+      : verkuendungImportProcess
+        .getDetail()
+        .stream()
+        .map(VerkuendungImportProcessMapper::mapDetailToDto)
+        .toList();
+
     return new VerkuendungImportProcessDto(
       verkuendungImportProcess.getId(),
       mapStatusToDto(verkuendungImportProcess.getStatus()),
       verkuendungImportProcess.getCreatedAt(),
       verkuendungImportProcess.getStartedAt(),
       verkuendungImportProcess.getFinishedAt(),
-      verkuendungImportProcess
-        .getDetail()
-        .stream()
-        .map(VerkuendungImportProcessMapper::mapDetailToDto)
-        .toList()
+      detail
     );
   }
 
