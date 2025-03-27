@@ -132,4 +132,68 @@ class VerkuendungImportProcessMapperTest {
     assertThat(dto.getFinishedAt()).isEqualTo(entity.getFinishedAt());
     assertThat(dto.getDetail()).isNull();
   }
+
+  @Test
+  void itMapsStatusesCorrectlyToDoamin() {
+    // Given
+    var createdDto = new VerkuendungImportProcessDto();
+    createdDto.setStatus(VerkuendungImportProcessDto.Status.CREATED);
+
+    var processingDto = new VerkuendungImportProcessDto();
+    processingDto.setStatus(VerkuendungImportProcessDto.Status.PROCESSING);
+
+    var errorDto = new VerkuendungImportProcessDto();
+    errorDto.setStatus(VerkuendungImportProcessDto.Status.ERROR);
+
+    var successDto = new VerkuendungImportProcessDto();
+    successDto.setStatus(VerkuendungImportProcessDto.Status.SUCCESS);
+
+    // When
+    var createdEntity = VerkuendungImportProcessMapper.mapToDomain(createdDto);
+    var processingEntity = VerkuendungImportProcessMapper.mapToDomain(processingDto);
+    var errorEntity = VerkuendungImportProcessMapper.mapToDomain(errorDto);
+    var successEntity = VerkuendungImportProcessMapper.mapToDomain(successDto);
+
+    // Then
+    assertThat(createdEntity.getStatus()).isEqualTo(VerkuendungImportProcess.Status.CREATED);
+    assertThat(processingEntity.getStatus()).isEqualTo(VerkuendungImportProcess.Status.PROCESSING);
+    assertThat(errorEntity.getStatus()).isEqualTo(VerkuendungImportProcess.Status.ERROR);
+    assertThat(successEntity.getStatus()).isEqualTo(VerkuendungImportProcess.Status.SUCCESS);
+  }
+
+  @Test
+  void itMapsStatusesCorrectlyToDto() {
+    // Given
+    var createdEntity = VerkuendungImportProcess
+      .builder()
+      .status(VerkuendungImportProcess.Status.CREATED)
+      .build();
+
+    var processingEntity = VerkuendungImportProcess
+      .builder()
+      .status(VerkuendungImportProcess.Status.PROCESSING)
+      .build();
+
+    var errorEntity = VerkuendungImportProcess
+      .builder()
+      .status(VerkuendungImportProcess.Status.ERROR)
+      .build();
+
+    var successEntity = VerkuendungImportProcess
+      .builder()
+      .status(VerkuendungImportProcess.Status.SUCCESS)
+      .build();
+
+    // When
+    var createdDto = VerkuendungImportProcessMapper.mapToDto(createdEntity);
+    var processingDto = VerkuendungImportProcessMapper.mapToDto(processingEntity);
+    var errorDto = VerkuendungImportProcessMapper.mapToDto(errorEntity);
+    var successDto = VerkuendungImportProcessMapper.mapToDto(successEntity);
+
+    // Then
+    assertThat(createdDto.getStatus()).isEqualTo(VerkuendungImportProcessDto.Status.CREATED);
+    assertThat(processingDto.getStatus()).isEqualTo(VerkuendungImportProcessDto.Status.PROCESSING);
+    assertThat(errorDto.getStatus()).isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
+    assertThat(successDto.getStatus()).isEqualTo(VerkuendungImportProcessDto.Status.SUCCESS);
+  }
 }
