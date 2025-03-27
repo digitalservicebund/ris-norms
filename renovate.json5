@@ -22,11 +22,6 @@
       "description": "Allow only patch updates for AWS SDK in the 2.29.x series. With new minor version 2.30.x we have some issue with the integrity checks when communicating with OTC OBS"
     },
     {
-      "matchDepNames": ["@digitalservicebund/ris-ui"],
-      "allowedVersions": "3.1.0",
-      "description": "v3.2.0 has a bug, preventing automatic upgrade until its fixed"
-    },
-    {
       "groupName": "all non-major frontend dependencies",
       "matchPaths": [
         "frontend/**"
