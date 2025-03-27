@@ -155,14 +155,6 @@
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                <ris:entryIntoForce date="1964-09-21" />
-               <ris:bezeichnungInVorlage start="1964-09-21"
-                                         end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber start="1964-09-21" end="unbestimmt">DEU</ris:normgeber>
-               <ris:beschliessendesOrgan start="1964-09-21" end="unbestimmt"
-                                         qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-               <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
-               <ris:expiry date="2030-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
@@ -177,7 +169,7 @@
                <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1"
                                  GUID="c83abe1e-5fde-4e4e-a9b5-7293505ffeff"/>
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
-                             GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
+                             GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Neuer Title</akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
                                GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline
                        eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"

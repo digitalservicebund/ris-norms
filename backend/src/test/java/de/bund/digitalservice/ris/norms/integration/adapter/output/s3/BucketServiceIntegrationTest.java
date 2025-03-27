@@ -128,7 +128,9 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     final Norm norm1 = Fixtures.loadNormFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
-    final Norm norm2 = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
+    final Norm norm2 = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-1.xml"
+    );
     final PublishNormPort.Command commandPublish1 = new PublishNormPort.Command(norm1);
     final PublishNormPort.Command commandPublish2 = new PublishNormPort.Command(norm2);
     bucketService.publishNorm(commandPublish1);

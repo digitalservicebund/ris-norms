@@ -117,7 +117,7 @@
                           refersTo="ausfertigung"/>
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
                           GUID="3f84ea91-54e6-44c7-8e24-009d68a7c911"
-                          date="1964-09-21"
+                          date=""
                           source="attributsemantik-noch-undefiniert"
                           type="generation"
                           refersTo="inkrafttreten"/>
@@ -155,14 +155,6 @@
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                <ris:entryIntoForce date="1964-09-21" />
-               <ris:bezeichnungInVorlage start="1964-09-21"
-                                         end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber start="1964-09-21" end="unbestimmt">DEU</ris:normgeber>
-               <ris:beschliessendesOrgan start="1964-09-21" end="unbestimmt"
-                                         qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-               <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
-               <ris:expiry date="2030-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

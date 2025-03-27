@@ -560,10 +560,14 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       normManifestationRepository.save(normDto);
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormToBeReleased.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-1.xml"
+          )
+        )
       );
       var normDto2 = normManifestationRepository
-        .findByManifestationEli("eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/2022-08-23")
+        .findByManifestationEli("eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16")
         .orElseThrow();
       normDto2.setPublishState(NormPublishState.PUBLISHED);
       normManifestationRepository.save(normDto);

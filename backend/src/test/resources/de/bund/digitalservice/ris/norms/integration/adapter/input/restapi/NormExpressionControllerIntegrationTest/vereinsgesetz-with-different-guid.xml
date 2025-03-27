@@ -71,7 +71,7 @@
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
                               GUID="519cad64-9102-4808-99ba-ea64988745bd"
                               name="aktuelle-version-id"
-                              value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
+                              value="69cb29f5-3d31-48a4-8b48-14b1f23b64fb"/>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
                                GUID="e4334f35-501a-46f0-a8f5-a02d9a03aca3"
                                href="recht.bund.de/institution/bundesregierung"/>
@@ -155,14 +155,6 @@
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                <ris:entryIntoForce date="1964-09-21" />
-               <ris:bezeichnungInVorlage start="1964-09-21"
-                                         end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber start="1964-09-21" end="unbestimmt">DEU</ris:normgeber>
-               <ris:beschliessendesOrgan start="1964-09-21" end="unbestimmt"
-                                         qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-               <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
-               <ris:expiry date="2030-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

@@ -17,9 +17,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -165,33 +163,12 @@ class ArticleServiceTest {
     void loadAllArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
-      var regelungstext = new Regelungstext(
-        XmlMapper.toDocument(
-          """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-               <akn:act name="regelungstext">
-                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                           <!-- Artikel 1 : Hauptänderung -->
-                           <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                              Some Text
-                           </akn:article>
-
-                           <!-- Artikel 3: Geltungszeitregel-->
-                           <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
-                              More Text
-                           </akn:article>
-                        </akn:body>
-               </akn:act>
-            </akn:akomaNtoso>
-          """
-        )
-      );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
@@ -204,7 +181,7 @@ class ArticleServiceTest {
         .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(xmls).isNotEmpty();
       assertThat(xmls.getFirst()).contains("hauptteil-1_art-1");
-      assertThat(xmls.get(1)).contains("hauptteil-1_art-3");
+      assertThat(xmls.get(1)).contains("hauptteil-1_art-2");
     }
 
     @Test
@@ -229,33 +206,12 @@ class ArticleServiceTest {
     void loadSpecificArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
-      var regelungstext = new Regelungstext(
-        XmlMapper.toDocument(
-          """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-               <akn:act name="regelungstext">
-                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                           <!-- Artikel 1 : Hauptänderung -->
-                           <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                              Some Text
-                           </akn:article>
-
-                           <!-- Artikel 3: Geltungszeitregel-->
-                           <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="geltungszeitregel">
-                              More Text
-                           </akn:article>
-                        </akn:body>
-               </akn:act>
-            </akn:akomaNtoso>
-          """
-        )
-      );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
@@ -267,7 +223,7 @@ class ArticleServiceTest {
       verify(loadRegelungstextPort, times(1))
         .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(xmls).isNotEmpty();
-      assertThat(xmls.getFirst()).contains("hauptteil-1_art-3");
+      assertThat(xmls.getFirst()).contains("hauptteil-1_art-2");
     }
 
     @Test
@@ -278,24 +234,9 @@ class ArticleServiceTest {
       );
       var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
 
-      var regelungstext = new Regelungstext(
-        XmlMapper.toDocument(
-          """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-               <akn:act name="regelungstext">
-                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                           <!-- Artikel 1 : Hauptänderung -->
-                           <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
-                              Some Text
-                           </akn:article>
-                        </akn:body>
-               </akn:act>
-            </akn:akomaNtoso>
-          """
-        )
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        ArticleServiceTest.class,
+        "regelungstext-without-geltungszeitregel.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -317,22 +258,11 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
-
-      var regelungstext = new Regelungstext(
-        XmlMapper.toDocument(
-          """
-            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                       http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-               <akn:act name="regelungstext">
-                  <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                  </akn:body>
-               </akn:act>
-            </akn:akomaNtoso>
-          """
-        )
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        ArticleServiceTest.class,
+        "regelungstext-without-articles.xml"
       );
+
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When

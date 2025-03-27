@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,109 +55,18 @@ class AnnouncementControllerTest {
     @Test
     void itReturnsAnnouncements() throws Exception {
       // Given
-      var norm1 = Norm
-        .builder()
-        .dokumente(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                    <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                           xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                               http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                       <akn:act name="regelungstext">
-                          <!-- Metadaten -->
-                          <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                                <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                                   <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                                   <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                                   <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                                </akn:FRBRWork>
-                                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                   <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                                   <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
-                                   <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
-                                   <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
-                                </akn:FRBRExpression>
-                            </akn:identification>
-                          </akn:meta>
-
-                          <akn:preface eId="einleitung-1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
-                             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
-                                <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0">
-                                   <akn:docTitle
-                                      eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
-                                </akn:p>
-                             </akn:longTitle>
-                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
-                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="2021-12-21">Vom
-                                   29.12.2023</akn:date>
-                             </akn:block>
-                          </akn:preface>
-                       </akn:act>
-                    </akn:akomaNtoso>
-                """
-              )
-            )
-          )
-        )
-        .build();
+      var norm1 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
       var announcement1 = Announcement
         .builder()
         .eli(norm1.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
 
-      var norm2 = Norm
-        .builder()
-        .dokumente(
-          Set.of(
-            new Regelungstext(
-              XmlMapper.toDocument(
-                """
-                    <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                           xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                               http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                       <akn:act name="regelungstext">
-                          <!-- Metadaten -->
-                          <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                             <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                                <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                                   <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="413" />
-                                   <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                                   <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="2023-12-29" name="verkuendungsfassung" />
-                                </akn:FRBRWork>
-                                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                   <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1" />
-                                   <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
-                                   <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
-                                   <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
-                                </akn:FRBRExpression>
-                            </akn:identification>
-                          </akn:meta>
-
-                          <akn:preface eId="einleitung-1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
-                             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
-                                <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0">
-                                   <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts</akn:docTitle>
-                                </akn:p>
-                             </akn:longTitle>
-                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
-                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="2023-12-30">Vom
-                                   29.12.2023</akn:date>
-                             </akn:block>
-                          </akn:preface>
-                       </akn:act>
-                    </akn:akomaNtoso>
-                """
-              )
-            )
-          )
-        )
-        .build();
+      var norm2 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
+      );
       var announcement2 = Announcement
         .builder()
         .eli(norm2.getExpressionEli())
@@ -177,28 +85,26 @@ class AnnouncementControllerTest {
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
         .andExpect(
-          jsonPath("$[0].title", equalTo("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+          jsonPath(
+            "$[0].title",
+            equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
+          )
         )
         .andExpect(
           jsonPath(
             "$[0].eli",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
           )
         )
-        .andExpect(jsonPath("$[0].frbrDateVerkuendung", equalTo("1964-08-05")))
-        .andExpect(jsonPath("$[0].dateAusfertigung", equalTo("2021-12-21")))
+        .andExpect(jsonPath("$[0].frbrDateVerkuendung", equalTo("2017-03-15")))
+        .andExpect(jsonPath("$[0].dateAusfertigung", equalTo("1900-01-01")))
         .andExpect(jsonPath("$[0].importedAt", equalTo("2025-03-13T15:00:00Z")))
+        .andExpect(jsonPath("$[1].title", equalTo("Gesetz zur Änderung des Lobbyregistergesetzes")))
         .andExpect(
-          jsonPath(
-            "$[1].title",
-            equalTo("Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts")
-          )
+          jsonPath("$[1].eli", equalTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-1"))
         )
-        .andExpect(
-          jsonPath("$[1].eli", equalTo("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
-        )
-        .andExpect(jsonPath("$[1].frbrDateVerkuendung", equalTo("2023-12-29")))
-        .andExpect(jsonPath("$[1].dateAusfertigung", equalTo("2023-12-30")))
+        .andExpect(jsonPath("$[1].frbrDateVerkuendung", equalTo("2024-01-18")))
+        .andExpect(jsonPath("$[1].dateAusfertigung", equalTo("2024-01-15")))
         .andExpect(jsonPath("$[1].importedAt", equalTo("2025-03-13T16:00:00Z")));
     }
   }

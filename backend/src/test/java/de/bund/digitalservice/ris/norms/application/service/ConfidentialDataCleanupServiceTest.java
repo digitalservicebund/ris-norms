@@ -13,7 +13,9 @@ class ConfidentialDataCleanupServiceTest {
 
   @Test
   void clean() {
-    var norm = Fixtures.loadNormFromDisk("NormToBeReleased.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
 
     assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))

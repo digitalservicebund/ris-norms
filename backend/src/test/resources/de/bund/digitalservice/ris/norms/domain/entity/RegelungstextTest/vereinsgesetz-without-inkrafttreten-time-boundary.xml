@@ -115,23 +115,10 @@
                           source="attributsemantik-noch-undefiniert"
                           type="generation"
                           refersTo="ausfertigung"/>
-            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
-                          GUID="3f84ea91-54e6-44c7-8e24-009d68a7c911"
-                          date="1964-09-21"
-                          source="attributsemantik-noch-undefiniert"
-                          type="generation"
-                          refersTo="inkrafttreten"/>
          </akn:lifecycle>
          <akn:temporalData eId="meta-1_geltzeiten-1"
                            GUID="0b03ee18-0131-47ec-bd46-519d60209cc7"
                            source="attributsemantik-noch-undefiniert">
-            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
-                               GUID="2b728878-4b15-4b14-89cd-ecc270202a81">
-               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
-                                 GUID="10819a15-54fe-4924-a469-4a097f9c0e41"
-                                 refersTo="geltungszeit"
-                                 start="#meta-1_lebzykl-1_ereignis-2"/>
-            </akn:temporalGroup>
          </akn:temporalData>
            <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
            <akn:proprietary eId="meta-1_proprietary-1"
@@ -155,14 +142,6 @@
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                <ris:entryIntoForce date="1964-09-21" />
-               <ris:bezeichnungInVorlage start="1964-09-21"
-                                         end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber start="1964-09-21" end="unbestimmt">DEU</ris:normgeber>
-               <ris:beschliessendesOrgan start="1964-09-21" end="unbestimmt"
-                                         qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-               <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
-               <ris:expiry date="2030-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
