@@ -821,14 +821,15 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itLoadsAProcessWithoutDetails() {
       // Given
-      var dto = new VerkuendungImportProcessDto(
-        null,
-        VerkuendungImportProcessDto.Status.ERROR,
-        Instant.parse("2025-03-26T09:00:00Z"),
-        Instant.parse("2025-03-26T10:00:00Z"),
-        Instant.parse("2025-03-26T11:00:00Z"),
-        List.of()
-      );
+      var dto = VerkuendungImportProcessDto
+        .builder()
+        .id(null)
+        .status(VerkuendungImportProcessDto.Status.ERROR)
+        .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+        .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
+        .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+        .detail(List.of())
+        .build();
 
       var saved = verkuendungImportProcessesRepository.save(dto);
 
@@ -855,14 +856,15 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         "example title",
         "example detail"
       );
-      var dto = new VerkuendungImportProcessDto(
-        null,
-        VerkuendungImportProcessDto.Status.ERROR,
-        Instant.parse("2025-03-26T09:00:00Z"),
-        Instant.parse("2025-03-26T10:00:00Z"),
-        Instant.parse("2025-03-26T11:00:00Z"),
-        List.of(dtoDetail)
-      );
+      var dto = VerkuendungImportProcessDto
+        .builder()
+        .id(null)
+        .status(VerkuendungImportProcessDto.Status.ERROR)
+        .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+        .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
+        .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+        .detail(List.of(dtoDetail))
+        .build();
 
       var saved = verkuendungImportProcessesRepository.save(dto);
 

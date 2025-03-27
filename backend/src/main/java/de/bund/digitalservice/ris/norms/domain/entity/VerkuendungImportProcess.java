@@ -1,9 +1,11 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +28,8 @@ public class VerkuendungImportProcess {
 
   private Instant finishedAt;
 
-  private List<VerkuendungImportProcessDetail> detail;
+  @Default
+  private List<VerkuendungImportProcessDetail> detail = new ArrayList<>();
 
   /**
    * The different statuses that a background process can have.

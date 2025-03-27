@@ -22,27 +22,28 @@ class VerkuendungImportProcessMapperTest {
       "example title",
       "example detail"
     );
-    var dto = new VerkuendungImportProcessDto(
-      UUID.randomUUID(),
-      VerkuendungImportProcessDto.Status.ERROR,
-      Instant.parse("2025-03-26T09:00:00Z"),
-      Instant.parse("2025-03-26T10:00:00Z"),
-      Instant.parse("2025-03-26T11:00:00Z"),
-      List.of(dtoDetail)
-    );
-
+    var dto = VerkuendungImportProcessDto
+      .builder()
+      .id(UUID.randomUUID())
+      .status(VerkuendungImportProcessDto.Status.ERROR)
+      .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+      .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
+      .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+      .detail(List.of(dtoDetail))
+      .build();
     // When
     var entity = VerkuendungImportProcessMapper.mapToDomain(dto);
-    var entityDetail = entity.getDetail().getFirst();
 
+    var entityDetail = entity.getDetail().getFirst();
     // Then
     assertThat(entity.getId()).isEqualTo(dto.getId());
+
     assertThat(entity.getStatus()).isEqualTo(VerkuendungImportProcess.Status.ERROR);
     assertThat(entity.getCreatedAt()).isEqualTo(dto.getCreatedAt());
     assertThat(entity.getStartedAt()).isEqualTo(dto.getStartedAt());
     assertThat(entity.getFinishedAt()).isEqualTo(dto.getFinishedAt());
-
     assertThat(entityDetail.getId()).isEqualTo(dtoDetail.getId());
+
     assertThat(entityDetail.getType()).isEqualTo(dtoDetail.getType());
     assertThat(entityDetail.getTitle()).isEqualTo(dtoDetail.getTitle());
     assertThat(entityDetail.getDetail()).isEqualTo(dtoDetail.getDetail());
@@ -51,14 +52,14 @@ class VerkuendungImportProcessMapperTest {
   @Test
   void itShouldMapToDomainWithEmptyDetails() {
     // Given
-    var dto = new VerkuendungImportProcessDto(
-      UUID.randomUUID(),
-      VerkuendungImportProcessDto.Status.ERROR,
-      Instant.parse("2025-03-26T09:00:00Z"),
-      Instant.parse("2025-03-26T10:00:00Z"),
-      Instant.parse("2025-03-26T11:00:00Z"),
-      null
-    );
+    var dto = VerkuendungImportProcessDto
+      .builder()
+      .id(UUID.randomUUID())
+      .status(VerkuendungImportProcessDto.Status.ERROR)
+      .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+      .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
+      .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+      .build();
 
     // When
     var entity = VerkuendungImportProcessMapper.mapToDomain(dto);
@@ -69,7 +70,7 @@ class VerkuendungImportProcessMapperTest {
     assertThat(entity.getCreatedAt()).isEqualTo(dto.getCreatedAt());
     assertThat(entity.getStartedAt()).isEqualTo(dto.getStartedAt());
     assertThat(entity.getFinishedAt()).isEqualTo(dto.getFinishedAt());
-    assertThat(entity.getDetail()).isNull();
+    assertThat(entity.getDetail()).isEmpty();
   }
 
   @Test
@@ -130,23 +131,31 @@ class VerkuendungImportProcessMapperTest {
     assertThat(dto.getCreatedAt()).isEqualTo(entity.getCreatedAt());
     assertThat(dto.getStartedAt()).isEqualTo(entity.getStartedAt());
     assertThat(dto.getFinishedAt()).isEqualTo(entity.getFinishedAt());
-    assertThat(dto.getDetail()).isNull();
+    assertThat(dto.getDetail()).isEmpty();
   }
 
   @Test
   void itMapsStatusesCorrectlyToDoamin() {
     // Given
-    var createdDto = new VerkuendungImportProcessDto();
-    createdDto.setStatus(VerkuendungImportProcessDto.Status.CREATED);
+    var createdDto = VerkuendungImportProcessDto
+      .builder()
+      .status(VerkuendungImportProcessDto.Status.CREATED)
+      .build();
 
-    var processingDto = new VerkuendungImportProcessDto();
-    processingDto.setStatus(VerkuendungImportProcessDto.Status.PROCESSING);
+    var processingDto = VerkuendungImportProcessDto
+      .builder()
+      .status(VerkuendungImportProcessDto.Status.PROCESSING)
+      .build();
 
-    var errorDto = new VerkuendungImportProcessDto();
-    errorDto.setStatus(VerkuendungImportProcessDto.Status.ERROR);
+    var errorDto = VerkuendungImportProcessDto
+      .builder()
+      .status(VerkuendungImportProcessDto.Status.ERROR)
+      .build();
 
-    var successDto = new VerkuendungImportProcessDto();
-    successDto.setStatus(VerkuendungImportProcessDto.Status.SUCCESS);
+    var successDto = VerkuendungImportProcessDto
+      .builder()
+      .status(VerkuendungImportProcessDto.Status.SUCCESS)
+      .build();
 
     // When
     var createdEntity = VerkuendungImportProcessMapper.mapToDomain(createdDto);

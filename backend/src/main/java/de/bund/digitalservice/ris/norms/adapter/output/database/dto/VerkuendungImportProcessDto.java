@@ -12,9 +12,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +32,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 @Table(name = "verkuendung_import_processes")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class VerkuendungImportProcessDto {
@@ -54,7 +58,8 @@ public class VerkuendungImportProcessDto {
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "process_id")
-  private List<VerkuendungImportProcessDetailDto> detail;
+  @Default
+  private List<VerkuendungImportProcessDetailDto> detail = new ArrayList<>();
 
   /**
    * The different statuses that a background process can have.
