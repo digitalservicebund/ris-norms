@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.MigrationLogDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungImportProcessDetailDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungImportProcessDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -15,6 +17,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Dokum
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungImportProcessesRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -60,6 +63,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private MigrationLogRepository migrationLogRepository;
 
+  @Autowired
+  private VerkuendungImportProcessesRepository verkuendungImportProcessesRepository;
+
   @AfterEach
   void cleanUp() {
     announcementRepository.deleteAll();
@@ -68,6 +74,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
     migrationLogRepository.deleteAll();
+    verkuendungImportProcessesRepository.deleteAll();
   }
 
   @Nested
@@ -806,6 +813,93 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         .isEqualTo(
           NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
         );
+    }
+  }
+
+  @Nested
+  class loadVerkuendungImportProcess {
+
+    @Test
+    void itLoadsAProcessWithoutDetails() {
+      // Given
+      var dto = VerkuendungImportProcessDto
+        .builder()
+        .id(null)
+        .status(VerkuendungImportProcessDto.Status.ERROR)
+        .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+        .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
+        .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+        .detail(List.of())
+        .build();
+
+      var saved = verkuendungImportProcessesRepository.save(dto);
+
+      // When
+      var resultOptional = dbService.loadVerkuendungImportProcess(
+        new LoadVerkuendungImportProcessPort.Command(saved.getId())
+      );
+
+      // Then
+      assertThat(resultOptional).isPresent();
+      assertThat(resultOptional.get().getStatus()).isEqualTo(VerkuendungImportProcess.Status.ERROR);
+      assertThat(resultOptional.get().getCreatedAt()).isEqualTo(dto.getCreatedAt());
+      assertThat(resultOptional.get().getStartedAt()).isEqualTo(dto.getStartedAt());
+      assertThat(resultOptional.get().getFinishedAt()).isEqualTo(dto.getFinishedAt());
+      assertThat(resultOptional.get().getDetail()).isEmpty();
+    }
+
+    @Test
+    void itLoadsAProcessWithDetails() {
+      // Given
+      var dtoDetail = new VerkuendungImportProcessDetailDto(
+        null,
+        "/example/type",
+        "example title",
+        "example detail"
+      );
+      var dto = VerkuendungImportProcessDto
+        .builder()
+        .id(null)
+        .status(VerkuendungImportProcessDto.Status.ERROR)
+        .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+        .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
+        .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+        .detail(List.of(dtoDetail))
+        .build();
+
+      var saved = verkuendungImportProcessesRepository.save(dto);
+
+      // When
+      var resultOptional = dbService.loadVerkuendungImportProcess(
+        new LoadVerkuendungImportProcessPort.Command(saved.getId())
+      );
+      var detail = resultOptional.get().getDetail().getFirst();
+
+      // Then
+      assertThat(resultOptional).isPresent();
+      assertThat(resultOptional.get().getStatus()).isEqualTo(VerkuendungImportProcess.Status.ERROR);
+      assertThat(resultOptional.get().getCreatedAt()).isEqualTo(dto.getCreatedAt());
+      assertThat(resultOptional.get().getStartedAt()).isEqualTo(dto.getStartedAt());
+      assertThat(resultOptional.get().getFinishedAt()).isEqualTo(dto.getFinishedAt());
+      assertThat(resultOptional.get().getDetail()).hasSize(1);
+
+      assertThat(detail.getType()).isEqualTo(dtoDetail.getType());
+      assertThat(detail.getTitle()).isEqualTo(dtoDetail.getTitle());
+      assertThat(detail.getDetail()).isEqualTo(dtoDetail.getDetail());
+    }
+
+    @Test
+    void itReturnsEmptyIfTheProcessDoesntExist() {
+      // Given
+      // Nothing
+
+      // When
+      var resultOptional = dbService.loadVerkuendungImportProcess(
+        new LoadVerkuendungImportProcessPort.Command(UUID.randomUUID())
+      );
+
+      // Then
+      assertThat(resultOptional).isEmpty();
     }
   }
 }

@@ -104,7 +104,7 @@ paths:
       description: |
         Erlaubt die Abfrage des Fortschritts der Verarbeitung einer zuvor übertragenen Verkündung. Folgende Werte für den Status sind möglich:
 
-        - `accepted`: Die Verkündung wurde erfolgreich übermittelt, die Verarbeitung hat jedoch noch nicht begonnen.
+        - `created`: Die Verkündung wurde erfolgreich übermittelt, die Verarbeitung hat jedoch noch nicht begonnen.
         - `processing`: Die Verkündung wird gerade verarbeitet.
         - `success`: Die Verkündung wurde erfolgreich verarbeitet.
         - `error`: Beim Verarbeiten der Verkündung ist ein Fehler aufgetreten. In diesem Fall enthält die Antwort weitere Informationen über die Art des Fehlers (siehe `VerkuendungStatusError`).
@@ -242,7 +242,7 @@ components:
       properties:
         status:
           type: string
-          enum: ["accepted", "processing", "success"]
+          enum: ["created", "processing", "success"]
     VerkuendungStatusError:
       description: |
         Siehe auch: Schema `ProblemDetail`. Zu den Fehler-URIs, die im Fall eines Verarbeitungsfehlers auftreten können, gehören beispielsweise:

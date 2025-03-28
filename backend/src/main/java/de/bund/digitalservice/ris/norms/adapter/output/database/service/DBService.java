@@ -9,11 +9,13 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentM
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.MigrationLogMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManifestationMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ReleaseMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.VerkuendungImportProcessMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.MigrationLogRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungImportProcessesRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -31,7 +33,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service class for interacting with the database. This class is annotated with {@link Service} to
+ * Service class for interacting with the database. This class is annotated with
+ * {@link Service} to
  * indicate that it's a service component in the Spring context.
  */
 @Service
@@ -55,26 +58,30 @@ public class DBService
     LoadDokumentPort,
     UpdateDokumentPort,
     LoadReleasesByNormExpressionEliPort,
-    CompleteMigrationLogPort {
+    CompleteMigrationLogPort,
+    LoadVerkuendungImportProcessPort {
 
   private final AnnouncementRepository announcementRepository;
   private final DokumentRepository dokumentRepository;
   private final NormManifestationRepository normManifestationRepository;
   private final ReleaseRepository releaseRepository;
   private final MigrationLogRepository migrationLogRepository;
+  private final VerkuendungImportProcessesRepository verkuendungImportProcessesRepository;
 
   public DBService(
     AnnouncementRepository announcementRepository,
     DokumentRepository dokumentRepository,
     NormManifestationRepository normManifestationRepository,
     ReleaseRepository releaseRepository,
-    MigrationLogRepository migrationLogRepository
+    MigrationLogRepository migrationLogRepository,
+    VerkuendungImportProcessesRepository verkuendungImportProcessesRepository
   ) {
     this.announcementRepository = announcementRepository;
     this.dokumentRepository = dokumentRepository;
     this.normManifestationRepository = normManifestationRepository;
     this.releaseRepository = releaseRepository;
     this.migrationLogRepository = migrationLogRepository;
+    this.verkuendungImportProcessesRepository = verkuendungImportProcessesRepository;
   }
 
   @Override
@@ -85,7 +92,8 @@ public class DBService
         .map(NormManifestationMapper::mapToDomain);
       case NormManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
-          // we can find the norm based on the expression eli as the point in time manifestation is the only additional identifying part of the eli
+          // we can find the norm based on the expression eli as the point in time
+          // manifestation is the only additional identifying part of the eli
           yield this.loadNorm(new LoadNormPort.Command(manifestationEli.asExpressionEli()));
         }
 
@@ -309,7 +317,8 @@ public class DBService
         .map(DokumentMapper::mapToDomain);
       case DokumentManifestationEli manifestationEli -> {
         if (!manifestationEli.hasPointInTimeManifestation()) {
-          // we can find the regelungstext based on the expression eli as the point in time manifestation is the only additional identifying part of the eli
+          // we can find the regelungstext based on the expression eli as the point in
+          // time manifestation is the only additional identifying part of the eli
           yield this.loadDokument(new LoadDokumentPort.Command(manifestationEli.asExpressionEli()));
         }
         yield dokumentRepository
@@ -355,5 +364,15 @@ public class DBService
   @Override
   public void completeMigrationLog(CompleteMigrationLogPort.Command command) {
     migrationLogRepository.updateCompletedById(command.id(), true);
+  }
+
+  @Transactional
+  @Override
+  public Optional<VerkuendungImportProcess> loadVerkuendungImportProcess(
+    LoadVerkuendungImportProcessPort.Command command
+  ) {
+    return verkuendungImportProcessesRepository
+      .findById(command.id())
+      .map(VerkuendungImportProcessMapper::mapToDomain);
   }
 }
