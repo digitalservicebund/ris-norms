@@ -2,6 +2,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveNormendokumentationspaketPort;
+import java.io.IOException;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,12 +18,13 @@ class VerkuendungsImportService implements StoreNormendokumentationspaketUseCase
   }
 
   @Override
-  public String storeNormendokumentationspaket(Query query) {
+  public UUID storeNormendokumentationspaket(Query query) throws IOException {
+    UUID processId = UUID.randomUUID();
     saveNormendokumentationspaketPort.saveNormendokumentationspaket(
-      new SaveNormendokumentationspaketPort.Command(query.file(), query.signature())
+      new SaveNormendokumentationspaketPort.Command(processId, query.file(), query.signature())
     );
 
     // TODO start processing
-    return "";
+    return processId;
   }
 }
