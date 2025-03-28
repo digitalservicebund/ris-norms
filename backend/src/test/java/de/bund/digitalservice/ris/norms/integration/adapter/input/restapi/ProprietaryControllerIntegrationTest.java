@@ -105,11 +105,14 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+          )
         )
       );
 
@@ -602,13 +605,16 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+          )
         )
       );
 

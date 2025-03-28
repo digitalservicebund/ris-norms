@@ -269,6 +269,66 @@
                          GUID="924d7140-bdfd-4a50-9b7f-feb006d19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5 und 6 des Strafgesetzbuches entsprechend.</akn:p>
                </akn:content>
             </akn:paragraph>
+            <akn:paragraph eId="hauptteil-1_art-1_abs-3"
+                           GUID="f0f31024-8381-4a62-8980-5f432d03a924"
+                           period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+               <akn:num eId="hauptteil-1_art-1_abs-3_bezeichnung-1"
+                        GUID="c0ea5d8c-8d91-4e0c-812e-429a7a24a1a4">
+                  (3) </akn:num>
+               <akn:content eId="hauptteil-1_art-1_abs-3_inhalt-1"
+                            GUID="8b51c358-ca54-4949-b957-4cbe5e55f33d">
+                  <akn:p eId="hauptteil-1_art-1_abs-3_inhalt-1_text-1"
+                         GUID="924d7140-bdfd-4a50-9b7f-feb046d19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5 und 6 des Strafgesetzbuches entsprechend.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph eId="hauptteil-1_art-1_abs-4"
+                           GUID="f0f31024-8381-4a62-8980-5f432de3a924"
+                           period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+               <akn:num eId="hauptteil-1_art-1_abs-4_bezeichnung-1"
+                        GUID="c0ea5d8c-8d91-4e0c-812e-429a7a2ea1a4">
+                  (4) </akn:num>
+               <akn:content eId="hauptteil-1_art-1_abs-4_inhalt-1"
+                            GUID="8b51c358-ca54-4949-b957-4cbe5ee5f33d">
+                  <akn:p eId="hauptteil-1_art-1_abs-4_inhalt-1_text-1"
+                         GUID="924d7140-bdfd-4a50-9b7f-feb04ed19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5 und 6 des Strafgesetzbuches entsprechend.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph eId="hauptteil-1_art-1_abs-5"
+                           GUID="f0f31024-8381-4a62-8980-5fd32d03a924"
+                           period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+               <akn:num eId="hauptteil-1_art-1_abs-5_bezeichnung-1"
+                        GUID="c0ea5d8c-8d91-4e0c-812e-429a7a2da1a4">
+                  (5) </akn:num>
+               <akn:content eId="hauptteil-1_art-1_abs-5_inhalt-1"
+                            GUID="8b51c358-ca54-4949-b957-4cde5e55f33d">
+                  <akn:p eId="hauptteil-1_art-1_abs-5_inhalt-1_text-1"
+                         GUID="924d7140-bdfd-4a50-9b7f-febd46d19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5 und 6 des Strafgesetzbuches entsprechend.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph eId="hauptteil-1_art-1_abs-6"
+                           GUID="f0f31024-8381-4a62-8980-5f43cd03a924"
+                           period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+               <akn:num eId="hauptteil-1_art-1_abs-6_bezeichnung-1"
+                        GUID="c0ea5d8c-8d91-4e0c-812e-429a7ac4a1a4">
+                  (6) </akn:num>
+               <akn:content eId="hauptteil-1_art-1_abs-6_inhalt-1"
+                            GUID="8b51c358-ca54-4949-b957-4cbe5ec5f33d">
+                  <akn:p eId="hauptteil-1_art-1_abs-6_inhalt-1_text-1"
+                         GUID="924d7140-bdfd-4a50-9b7f-feb046d1caae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5 und 6 des Strafgesetzbuches entsprechend.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph eId="hauptteil-1_art-1_abs-7"
+                           GUID="f0f31024-8381-4a62-8980-5f432da3a924"
+                           period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+               <akn:num eId="hauptteil-1_art-1_abs-7_bezeichnung-1"
+                        GUID="c0ea5d8c-8d91-4e0c-812e-42aa7a24a1a4">
+                  (7) </akn:num>
+               <akn:content eId="hauptteil-1_art-1_abs-7_inhalt-1"
+                            GUID="8b51c358-ca54-4949-b957-4abe5e55f33d">
+                  <akn:p eId="hauptteil-1_art-1_abs-7_inhalt-1_text-1"
+                         GUID="924d7140-bdfd-4a50-9b7f-feb04ad19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5 und 6 des Strafgesetzbuches entsprechend.</akn:p>
+               </akn:content>
+            </akn:paragraph>
          </akn:article>
            <!-- Artikel 34: Geltungszeitregel-->
            <akn:article eId="hauptteil-1_art-2"

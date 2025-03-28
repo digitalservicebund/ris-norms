@@ -74,7 +74,7 @@
                               value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
                                GUID="e4334f35-501a-46f0-a8f5-a02d9a03aca3"
-                               href="recht.bund.de/institution/bundesregierung"/>
+                               href="recht.bund.de/institution/bundestag"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
                              GUID="1bfbd095-93f3-4674-8096-be18041cbc65"
                              date="1964-08-05"
@@ -126,7 +126,7 @@
                            GUID="0b03ee18-0131-47ec-bd46-519d60209cc7"
                            source="attributsemantik-noch-undefiniert">
             <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
-                               GUID="2b728878-4b15-4b14-89cd-ecc270202a81">
+                               GUID="0b03ee18-0131-47ec-bd46-519d60209cc7">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
                                  GUID="10819a15-54fe-4924-a469-4a097f9c0e41"
                                  refersTo="geltungszeit"
@@ -195,16 +195,6 @@
                       date="1964-08-05">Vom 5. August 1964 </akn:date>
          </akn:block>
       </akn:preface>
-       <!-- Eingangsformel + Inhaltsübersicht -->
-       <akn:preamble eId="preambel-1" GUID="d3023c46-1e74-4c1f-b101-b29898267f71">
-         <akn:formula eId="preambel-1_formel-1"
-                      GUID="1b476669-1cbb-4633-a0ed-04783680b841"
-                      refersTo="eingangsformel"
-                      name="attributsemantik-noch-undefiniert">
-            <akn:p eId="preambel-1_formel-1_text-1"
-                   GUID="c1793533-b05a-4fc4-be62-bd6c3449c53a">Der Bundestag hat mit Zustimmung des Bundesrates das folgende Gesetz beschlossen:</akn:p>
-         </akn:formula>
-      </akn:preamble>
        <!-- Hauptteil -->
        <akn:body eId="hauptteil-1" GUID="2094abe2-16e6-44d5-9198-3ef9486833e9">
          <akn:article eId="hauptteil-1_art-1"

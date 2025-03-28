@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
@@ -272,45 +273,26 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
     void failsWhenTryingToReleaseAnXsdInvalidNorm() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithModsXsdInvalid.xml"))
-      );
-      dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            ReleaseControllerIntegrationTest.class,
+            "vereinsgesetz-xsd-invalid.xml"
           )
         )
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
-        )
-      );
-
-      var affectedNormZf0 = normManifestationRepository
-        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
-        .orElseThrow();
-      affectedNormZf0.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-      normManifestationRepository.save(affectedNormZf0);
 
       // When // Then
       // Request is refused
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
+          post("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")));
 
-      // Content of the DB should be unchanged = 3 sample norms, all unpublished
-      assertThat(dokumentRepository.findAll()).hasSize(3);
-      assertThat(
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-        )
-      )
-        .isNotEmpty();
+      // Content of the DB should be unchanged & unpublished
+      assertThat(dokumentRepository.findAll()).hasSize(1);
       assertThat(
         dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
@@ -318,13 +300,14 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       )
         .isNotEmpty();
 
-      var originalNormWithPassiveMods = normManifestationRepository.findByManifestationEli(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23"
-      );
-
-      assertThat(originalNormWithPassiveMods).isNotEmpty();
-      assertThat(originalNormWithPassiveMods.get().getPublishState())
-        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+      assertThat(
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
+        )
+      )
+        .isNotEmpty()
+        .map(NormManifestationDto::getPublishState)
+        .contains(NormPublishState.UNPUBLISHED);
     }
 
     @Test
@@ -332,19 +315,10 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithModsSchematronInvalid.xml")
-        )
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            ReleaseControllerIntegrationTest.class,
+            "vereinsgesetze-schematron-invalid.xml"
           )
-        )
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
 
@@ -352,20 +326,14 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
+          post("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases")
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-schematron-valid")));
 
-      // Content of the DB should be unchanged = 3 sample norms, all unpublished
-      assertThat(dokumentRepository.findAll()).hasSize(3);
-      assertThat(
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-        )
-      )
-        .isNotEmpty();
+      // Content of the DB should be unchanged = 1 sample norms, unpublished
+      assertThat(dokumentRepository.findAll()).hasSize(1);
       assertThat(
         dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
@@ -373,11 +341,13 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       )
         .isNotEmpty();
       assertThat(
-        dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
+        normManifestationRepository.findByManifestationEli(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
         )
       )
-        .isNotEmpty();
+        .isNotEmpty()
+        .map(NormManifestationDto::getPublishState)
+        .contains(NormPublishState.UNPUBLISHED);
     }
   }
 }

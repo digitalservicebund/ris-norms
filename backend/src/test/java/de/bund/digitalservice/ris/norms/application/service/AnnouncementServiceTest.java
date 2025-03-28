@@ -328,7 +328,9 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotXsdValid() throws IOException {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       final MultipartFile file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -336,22 +338,6 @@ class AnnouncementServiceTest {
         new ByteArrayInputStream(xmlContent.getBytes())
       );
 
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
-          )
-        )
-      )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
-      when(
-        loadNormPort.loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
-          )
-        )
-      )
-        .thenReturn(Optional.empty());
       when(ldmlDeValidator.parseAndValidateRegelungstext(any()))
         .thenThrow(new LdmlDeNotValidException(List.of()));
 
@@ -364,7 +350,9 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsWhenTheNormIsNotSchematronValid() throws IOException {
       // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk("NormWithModsSchematronInvalid.xml");
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       var xmlContent = XmlMapper.toString(regelungstext.getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -380,7 +368,13 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        );
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(

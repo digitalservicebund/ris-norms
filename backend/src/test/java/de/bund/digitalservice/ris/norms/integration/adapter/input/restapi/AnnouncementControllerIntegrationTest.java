@@ -412,7 +412,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        AnnouncementControllerIntegrationTest.class,
+        "vereinsgesetz-xsd-invalid.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -441,7 +444,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsSchematronInvalid.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        AnnouncementControllerIntegrationTest.class,
+        "vereinsgesetz-schematron-invalid.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
