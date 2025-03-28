@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller.extern
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungsProcessIdResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/external/verkuendungen")
 public class VerkuendungController {
 
-  public VerkuendungController() {}
+  private final StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase;
+
+  public VerkuendungController(
+    StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase
+  ) {
+    this.storeNormendokumentationspaketUseCase = storeNormendokumentationspaketUseCase;
+  }
 
   /**
    * Endpoint to upload the Normendokumentationspaket
@@ -26,6 +33,14 @@ public class VerkuendungController {
     @RequestParam final MultipartFile file,
     @RequestParam final MultipartFile signature
   ) {
-    return ResponseEntity.internalServerError().build();
+    return ResponseEntity
+      .accepted()
+      .body(
+        new VerkuendungsProcessIdResponseSchema(
+          storeNormendokumentationspaketUseCase.storeNormendokumentationspaket(
+            new StoreNormendokumentationspaketUseCase.Query(file, signature)
+          )
+        )
+      );
   }
 }
