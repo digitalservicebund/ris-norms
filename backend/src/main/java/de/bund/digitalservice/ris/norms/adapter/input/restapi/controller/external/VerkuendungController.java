@@ -38,7 +38,10 @@ public class VerkuendungController {
       .body(
         new VerkuendungsProcessIdResponseSchema(
           storeNormendokumentationspaketUseCase.storeNormendokumentationspaket(
-            new StoreNormendokumentationspaketUseCase.Query(file, signature)
+            new StoreNormendokumentationspaketUseCase.Query(
+              file.getResource(),
+              signature.getResource()
+            )
           )
         )
       );

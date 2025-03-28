@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
 
 /** UseCase for storing a newly uploaded Normendokumentationspaket for processing */
 public interface StoreNormendokumentationspaketUseCase {
@@ -18,5 +18,5 @@ public interface StoreNormendokumentationspaketUseCase {
    * @param file the Normendokumentationspaket
    * @param signature the signature for verifying the Normendokumentationspaket
    */
-  record Query(MultipartFile file, MultipartFile signature) {}
+  record Query(Resource file, Resource signature) {}
 }

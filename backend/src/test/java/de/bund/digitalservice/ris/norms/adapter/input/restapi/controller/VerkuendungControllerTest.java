@@ -61,8 +61,8 @@ class VerkuendungControllerTest {
       verify(storeNormendokumentationspaketUseCase, times(1))
         .storeNormendokumentationspaket(
           assertArg(query -> {
-            assertThat(query.file()).isEqualTo(file);
-            assertThat(query.signature()).isEqualTo(signature);
+            assertThat(query.file().getFilename()).isEqualTo("normendokumentationspaket.zip");
+            assertThat(query.signature().getFilename()).isEqualTo("signature.sig");
           })
         );
     }
