@@ -14,7 +14,7 @@ test.describe(
       )
       await expect(
         page.getByRole("region", {
-          name: "Bekanntmachungsdetails",
+          name: "Verkündungs-Details",
         }),
       ).toBeVisible()
 

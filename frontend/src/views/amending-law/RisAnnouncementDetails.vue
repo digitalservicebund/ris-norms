@@ -63,9 +63,9 @@ const computedFna = computed(() => props.fna ?? "")
 
     <div class="flex flex-wrap gap-x-16 gap-y-4">
       <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900"
-          >Veröffentlichungsdatum</span
-        >
+        <span class="ris-body2-regular text-gray-900">
+          Veröffentlichungsdatum
+        </span>
         <span class="ris-body2-regular break-words">{{
           computedfrbrDateVerkuendung
         }}</span>
@@ -79,9 +79,9 @@ const computedFna = computed(() => props.fna ?? "")
       </div>
 
       <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900"
-          >Datenlieferungsdatum</span
-        >
+        <span class="ris-body2-regular text-gray-900">
+          Datenlieferungsdatum
+        </span>
         <span class="ris-body2-regular break-words">{{
           computedimportTimestamp
         }}</span>
@@ -98,7 +98,7 @@ const computedFna = computed(() => props.fna ?? "")
         Geltungszeitregeln anlegen
       </RouterLink>
 
-      <span class="ris-link1-bold cursor-not-allowed text-gray-900">
+      <span class="ris-link1-bold cursor-not-allowed text-gray-600">
         Zielnormen verknüpfen
       </span>
     </div>

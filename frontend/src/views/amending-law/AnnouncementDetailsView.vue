@@ -19,6 +19,7 @@ import {
 } from "@/services/announcementService"
 import RisZielnormenDataTable from "./RisZielnormenDataTable.vue"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { useElementId } from "@/composables/useElementId"
 
 const eli = useDokumentExpressionEliPathParameter()
 const normExpressionEli = computed(() => eli.value.asNormEli())
@@ -28,6 +29,7 @@ const {
   isFetching: isFetchingAmendingLawHtml,
   error: loadingErrorAmendingLawHtml,
 } = useGetNormHtml(eli)
+
 const {
   data: zielnormen,
   isFetching: isFetchingZielnormen,
@@ -86,6 +88,7 @@ const {
 } = useGetAnnouncementService(normExpressionEli)
 
 const router = useRouter()
+
 watch(
   () => loadingErrorAnnouncement.value,
   (err) => {
@@ -94,6 +97,7 @@ watch(
     }
   },
 )
+
 watch(
   () => loadingErrorZielnormen.value,
   (err) => {
@@ -102,6 +106,7 @@ watch(
     }
   },
 )
+
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "amendingLaw",
@@ -112,6 +117,12 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     to: `/verkuendungen/${eli.value}`,
   },
 ])
+
+const {
+  verkuendungDetailsLabelId,
+  zielnormenLabelId,
+  verkuendungPreviewLabelId,
+} = useElementId()
 </script>
 
 <template>
@@ -129,19 +140,19 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     />
   </div>
 
-  <div v-else class="flex h-[calc(100dvh-5rem)] flex-col bg-gray-100">
+  <div v-else class="h-[calc(100dvh-5rem)] bg-white">
     <RisHeader :back-destination="{ name: 'Home' }" :breadcrumbs>
-      <main class="flex-grow overflow-hidden">
+      <main class="h-[calc(100dvh-5rem-5rem)] overflow-hidden">
         <Splitter class="h-full" layout="horizontal">
-          <SplitterPanel :size="75" :min-size="10" class="overflow-auto">
-            <div class="flex h-full flex-col gap-24">
+          <SplitterPanel :size="75" :min-size="30">
+            <div class="flex h-full flex-col gap-24 overflow-auto bg-gray-100">
               <section
                 class="shrink-0 p-24 pb-0"
-                aria-labelledby="announcement-details-label"
+                :aria-labelledby="verkuendungDetailsLabelId"
               >
-                <span id="announcement-details-label" class="sr-only"
-                  >Bekanntmachungsdetails</span
-                >
+                <span :id="verkuendungDetailsLabelId" class="sr-only">
+                  Verkündungs-Details
+                </span>
                 <RisAnnouncementDetails
                   :title="announcement?.title"
                   :veroeffentlichungsdatum="announcement?.frbrDateVerkuendung"
@@ -152,21 +163,16 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
               </section>
               <section
                 class="flex flex-grow flex-col gap-16 p-24 pt-0"
-                aria-labelledby="zielnormen-label"
+                :aria-labelledby="zielnormenLabelId"
               >
-                <span id="zielnormen-label" class="sr-only">Zielnormen</span>
+                <span :id="zielnormenLabelId" class="sr-only">Zielnormen</span>
                 <h2 class="ris-body1-bold">Zielnormen</h2>
 
                 <div v-if="isFetchingZielnormen">
                   <RisLoadingSpinner />
                 </div>
 
-                <div
-                  v-else-if="
-                    loadingErrorZielnormen &&
-                    loadingErrorZielnormen.status !== 404
-                  "
-                >
+                <div v-else-if="loadingErrorZielnormen">
                   <RisErrorCallout :error="loadingErrorZielnormen" />
                 </div>
 
@@ -188,14 +194,14 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
             </div>
           </SplitterPanel>
 
-          <SplitterPanel :size="25" :min-size="10">
+          <SplitterPanel :size="25" :min-size="25">
             <section
               class="h-full"
-              aria-labelledby="amending-law-preview-label"
+              :aria-labelledby="verkuendungPreviewLabelId"
             >
-              <span id="amending-law-preview-label" class="sr-only"
-                >Bekanntmachungsvorschau</span
-              >
+              <span :id="verkuendungPreviewLabelId" class="sr-only">
+                Verkündungstext
+              </span>
               <div
                 v-if="isFetchingAmendingLawHtml"
                 class="flex items-center justify-center"
