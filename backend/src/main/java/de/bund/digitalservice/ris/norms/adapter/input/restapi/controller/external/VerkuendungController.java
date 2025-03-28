@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungsProcessIdResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
+import java.io.IOException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,17 +33,19 @@ public class VerkuendungController {
   public ResponseEntity<VerkuendungsProcessIdResponseSchema> postVerkuendung(
     @RequestParam final MultipartFile file,
     @RequestParam final MultipartFile signature
-  ) {
+  ) throws IOException {
     return ResponseEntity
       .accepted()
       .body(
         new VerkuendungsProcessIdResponseSchema(
-          storeNormendokumentationspaketUseCase.storeNormendokumentationspaket(
-            new StoreNormendokumentationspaketUseCase.Query(
-              file.getResource(),
-              signature.getResource()
+          storeNormendokumentationspaketUseCase
+            .storeNormendokumentationspaket(
+              new StoreNormendokumentationspaketUseCase.Query(
+                file.getResource(),
+                signature.getResource()
+              )
             )
-          )
+            .toString()
         )
       );
   }

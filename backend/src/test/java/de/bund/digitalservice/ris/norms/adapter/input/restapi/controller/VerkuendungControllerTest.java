@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.controller.external.VerkuendungController;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import java.io.InputStream;
+import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,9 @@ class VerkuendungControllerTest {
 
     @Test
     void itShouldReturnOk() throws Exception {
+      UUID processId = UUID.randomUUID();
       when(storeNormendokumentationspaketUseCase.storeNormendokumentationspaket(any()))
-        .thenReturn("process-id");
+        .thenReturn(processId);
 
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -56,7 +58,7 @@ class VerkuendungControllerTest {
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isAccepted())
-        .andExpect(jsonPath("$.processId").value("process-id"));
+        .andExpect(jsonPath("$.processId").value(processId.toString()));
 
       verify(storeNormendokumentationspaketUseCase, times(1))
         .storeNormendokumentationspaket(
