@@ -31,6 +31,10 @@ otc:
       bucket-name: portal-prototype
       access-key-id: test
       secret-access-key: test
+    everkuendung:
+      bucket-name: everkuendung
+      access-key-id: test
+      secret-access-key: test
 
 sentry:
   environment: local
