@@ -5,7 +5,7 @@ info:
   description: API for managing norms and announcements
 
 paths:
-  /announcements:
+  /verkuendungen:
     get:
       tags:
         - Announcements
@@ -53,7 +53,7 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/InternalServerError"
-  /announcements/{expressionEli}:
+  /verkuendungen/{expressionEli}:
     get:
       tags:
         - Announcements
@@ -76,7 +76,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /announcements/{expressionEli}/zielnormen:
+  /verkuendungen/{expressionEli}/zielnormen:
     get:
       tags:
         - Announcements

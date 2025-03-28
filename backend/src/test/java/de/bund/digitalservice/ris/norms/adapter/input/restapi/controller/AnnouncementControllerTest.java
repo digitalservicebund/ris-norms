@@ -80,7 +80,7 @@ class AnnouncementControllerTest {
 
       // When // Then
       mockMvc
-        .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
@@ -136,7 +136,7 @@ class AnnouncementControllerTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/announcements/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/verkuendungen/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
@@ -172,7 +172,7 @@ class AnnouncementControllerTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/announcements/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/verkuendungen/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isNotFound());
@@ -202,7 +202,7 @@ class AnnouncementControllerTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/announcements/eli/bund/bgbl-1/2025/2/2025-01-05/1/deu/zielnormen")
+          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2025/2/2025-01-05/1/deu/zielnormen")
             .accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -257,7 +257,7 @@ class AnnouncementControllerTest {
       // When // Then
       mockMvc
         .perform(
-          multipart("/api/v1/announcements")
+          multipart("/api/v1/verkuendungen")
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
@@ -294,7 +294,7 @@ class AnnouncementControllerTest {
       // When // Then
       mockMvc
         .perform(
-          multipart("/api/v1/announcements?force=true")
+          multipart("/api/v1/verkuendungen?force=true")
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
@@ -328,7 +328,7 @@ class AnnouncementControllerTest {
       // When // Then
       mockMvc
         .perform(
-          multipart("/api/v1/announcements")
+          multipart("/api/v1/verkuendungen")
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())

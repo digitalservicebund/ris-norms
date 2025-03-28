@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /** Controller for announcement-related actions. */
 @RestController
-@RequestMapping("/api/v1/announcements")
+@RequestMapping("/api/v1/verkuendungen")
 public class AnnouncementController {
 
   private final LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
