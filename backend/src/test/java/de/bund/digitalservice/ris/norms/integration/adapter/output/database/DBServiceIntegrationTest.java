@@ -74,6 +74,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
     migrationLogRepository.deleteAll();
+    verkuendungImportProcessesRepository.deleteAll();
   }
 
   @Nested

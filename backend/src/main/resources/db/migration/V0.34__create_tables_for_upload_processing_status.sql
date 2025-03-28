@@ -15,3 +15,5 @@ CREATE TABLE IF NOT EXISTS verkuendung_import_process_detail (
     title VARCHAR(255),
     detail TEXT
 );
+
+CREATE INDEX idx_verkuendung_process_detail_process_id ON verkuendung_import_process_detail(process_id);

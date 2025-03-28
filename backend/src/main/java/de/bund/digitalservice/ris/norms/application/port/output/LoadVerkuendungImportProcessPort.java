@@ -20,7 +20,7 @@ public interface LoadVerkuendungImportProcessPort {
   /**
    * Parameters for loading the progress information.
    *
-   * @param processId ID of the process for which information should be loaded
+   * @param id ID of the process for which information should be loaded
    */
-  record Command(UUID processId) {}
+  record Command(UUID id) {}
 }

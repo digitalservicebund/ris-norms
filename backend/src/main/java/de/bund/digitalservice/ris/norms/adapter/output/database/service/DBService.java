@@ -372,7 +372,7 @@ public class DBService
     LoadVerkuendungImportProcessPort.Command command
   ) {
     return verkuendungImportProcessesRepository
-      .findById(command.processId())
+      .findById(command.id())
       .map(VerkuendungImportProcessMapper::mapToDomain);
   }
 }
