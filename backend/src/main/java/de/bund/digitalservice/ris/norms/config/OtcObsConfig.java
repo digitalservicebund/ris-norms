@@ -38,13 +38,6 @@ public class OtcObsConfig {
   @Value("${otc.obs.public.secret-access-key}")
   private String publicSecretAccessKey;
 
-  // Bucket for storing packages from E-Verkündung
-  @Value("${otc.obs.everkuendung.access-key-id}")
-  private String eVerkuendungAccessKeyId;
-
-  @Value("${otc.obs.everkuendung.secret-access-key}")
-  private String eVerkuendungSecretAccessKey;
-
   /**
    * Creates a {@link S3Client} for accessing the private S3 bucket.
    *
@@ -74,20 +67,6 @@ public class OtcObsConfig {
   }
 
   /**
-   * Creates a {@link S3Client} for accessing the eVerkündungs S3 bucket.
-   *
-   * <p>This bean is only available in the "staging", "uat", and "production" profiles.</p>
-   *
-   * @return an instance of {@link S3Client} configured for the eVerkündungs bucket.
-   * @throws URISyntaxException if the endpoint URI is malformed.
-   */
-  @Bean(name = "eVerkuendungS3Client")
-  @Profile({ "uat" })
-  public S3Client eVerkuendungS3Client() throws URISyntaxException {
-    return createS3Client(eVerkuendungAccessKeyId, eVerkuendungSecretAccessKey);
-  }
-
-  /**
    * Creates a mock S3 client for the private client for local development and testing purposes.
    *
    * <p>This bean is available when the active profile is not "staging", "uat", or "production".</p>
@@ -110,19 +89,6 @@ public class OtcObsConfig {
   @Bean(name = "publicS3Client")
   @Profile("!staging & !uat & !production")
   public S3Client publicS3MockClient() {
-    return new S3MockClient();
-  }
-
-  /**
-   * Creates a mock S3 client for the eVerkuendung client for local development and testing purposes.
-   *
-   * <p>This bean is available when the active profile is not "staging", "uat", or "production".</p>
-   *
-   * @return an instance of {@link S3MockClient} for local testing.
-   */
-  @Bean(name = "eVerkuendungS3Client")
-  @Profile("!staging & !uat & !production")
-  public S3Client eVerkuendungS3MockClient() {
     return new S3MockClient();
   }
 

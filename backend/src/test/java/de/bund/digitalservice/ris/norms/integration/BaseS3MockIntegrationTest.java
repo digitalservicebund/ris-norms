@@ -14,7 +14,6 @@ public abstract class BaseS3MockIntegrationTest extends BaseIntegrationTest {
   protected static final String PUBLIC_BUCKET = "public";
   protected static final String PRIVATE_BUCKET = "private";
   protected static final String PORTAL_PROTOTYPE_BUCKET = "portal-prototype";
-  protected static final String EVERKUENDUG_BUCKET = "everkuendung";
 
   @AfterEach
   void emptyDir() throws Exception {
@@ -32,10 +31,6 @@ public abstract class BaseS3MockIntegrationTest extends BaseIntegrationTest {
 
   protected static Path getPublicPath(DokumentManifestationEli eli) {
     return Paths.get(LOCAL_STORAGE_PATH, PUBLIC_BUCKET, eli.toString());
-  }
-
-  protected static Path getEverkuendungPath() {
-    return Paths.get(LOCAL_STORAGE_PATH, EVERKUENDUG_BUCKET);
   }
 
   protected static Path getPrivatePath() {
