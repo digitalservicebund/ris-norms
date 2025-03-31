@@ -40,7 +40,11 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
           post("/api/v1/renderings")
             .accept(MediaType.TEXT_HTML)
             .contentType(MediaType.APPLICATION_XML)
-            .content(Fixtures.loadTextFromDisk("NormWithPassiveModifications.xml"))
+            .content(
+              Fixtures.loadTextFromDisk(
+                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+              )
+            )
         )
         .andExpect(status().isOk())
         .andExpect(

@@ -104,10 +104,10 @@ class ArticleServiceTest {
     void itReturnsArticlesFromNorm() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "NormWithMultiplePassiveModifications.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
 

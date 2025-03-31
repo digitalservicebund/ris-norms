@@ -573,7 +573,7 @@ class RegelungstextTest {
     void itShouldFindTheTemporalDataNodeIfItExist() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "NormWithPassiveModifications.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
 
       // when
@@ -582,7 +582,7 @@ class RegelungstextTest {
       // then
       assertThat(temporalData).isNotNull();
       assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getElement()))
-        .contains("f866d5a3-98c8-4927-8cab-1630c5832f3c");
+        .contains("0b03ee18-0131-47ec-bd46-519d60209cc7");
     }
   }
 

@@ -159,7 +159,13 @@ class AnnouncementServiceTest {
           )
         )
       )
-        .thenReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")));
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        );
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Command(
@@ -245,7 +251,13 @@ class AnnouncementServiceTest {
         new ByteArrayInputStream(xmlContent.getBytes())
       );
 
-      doReturn(Optional.of(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml")))
+      doReturn(
+        Optional.of(
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
+      )
         .when(loadNormPort)
         .loadNorm(
           argThat(argument ->

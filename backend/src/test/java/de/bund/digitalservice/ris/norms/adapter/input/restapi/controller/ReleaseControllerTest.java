@@ -42,7 +42,9 @@ class ReleaseControllerTest {
       var norm1 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
-      var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      var norm2 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       List<Release> releases = List.of(
         Release
           .builder()
@@ -73,7 +75,7 @@ class ReleaseControllerTest {
         .andExpect(
           jsonPath(
             "[0].norms[1]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml")
           )
         );
     }
@@ -88,7 +90,9 @@ class ReleaseControllerTest {
       var norm1 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
-      var norm2 = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+      var norm2 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
       var release = Release
         .builder()
         .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
@@ -116,7 +120,7 @@ class ReleaseControllerTest {
         .andExpect(
           jsonPath(
             "norms[1]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml")
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml")
           )
         );
     }

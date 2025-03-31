@@ -234,8 +234,7 @@
                      <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1"
                                   GUID="fff000f9-bed8-41eb-b26b-93a5da40ff5f">
                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
-                               GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem
-                                    vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied
+                               GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied
                            beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
                      </akn:content>
                   </akn:point>
@@ -268,29 +267,6 @@
                             GUID="8b51c358-ca54-4949-b957-bcbe5e55f33d">
                   <akn:p eId="hauptteil-1_art-1_abs-2_inhalt-1_text-1"
                          GUID="924d7140-bdfd-4a50-9b7f-feb006d19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5 und 6 des Strafgesetzbuches entsprechend.</akn:p>
-               </akn:content>
-            </akn:paragraph>
-         </akn:article>
-           <!-- Artikel 34: Geltungszeitregel-->
-           <akn:article eId="hauptteil-1_art-2"
-                        GUID="6574da6e-2a23-4280-80dd-b4f4c5416cdf"
-                        period="#meta-1_geltzeiten-1_geltungszeitgr-1"
-                        refersTo="geltungszeitregel">
-            <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
-                     GUID="19b65c8b-44ae-4092-be09-7de64ac623e5">
-               Artikel 34</akn:num>
-            <akn:heading eId="hauptteil-1_art-2_überschrift-1"
-                         GUID="772db065-a163-4453-a22f-269f6aebddaa">Inkrafttreten</akn:heading>
-               <!-- Absatz (1) -->
-               <akn:paragraph eId="hauptteil-1_art-2_abs-1"
-                              GUID="38c00dca-43e1-4cb5-aa69-bd03cc486c99">
-               <akn:num eId="hauptteil-1_art-2_abs-1_bezeichnung-1"
-                        GUID="b5758ec8-bcb9-4b69-8764-fb86911e937c">
-               </akn:num>
-               <akn:content eId="hauptteil-1_art-2_abs-1_inhalt-1"
-                            GUID="45ca26fa-b7c0-416b-9a0a-7f2bd7c86873">
-                  <akn:p eId="hauptteil-1_art-2_abs-1_inhalt-1_text-1"
-                         GUID="aa475227-3bb4-4568-99b3-98467b8daf91">Dieses Gesetz tritt einen Monat nach seiner Verkündung in Kraft.</akn:p>
                </akn:content>
             </akn:paragraph>
          </akn:article>

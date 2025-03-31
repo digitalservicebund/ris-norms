@@ -91,11 +91,6 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
-        )
-      );
 
       var amendingNorm = normManifestationRepository
         .findByManifestationEli("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
@@ -103,15 +98,12 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       var affectedNorm = normManifestationRepository
         .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         .orElseThrow();
-      var affectedNormZf0 = normManifestationRepository
-        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
-        .orElseThrow();
 
       releaseRepository.save(
         ReleaseDto
           .builder()
           .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
-          .norms(List.of(amendingNorm, affectedNorm, affectedNormZf0))
+          .norms(List.of(amendingNorm, affectedNorm))
           .build()
       );
 
@@ -126,14 +118,13 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("[0]").exists())
         .andExpect(jsonPath("[1]").doesNotExist())
         .andExpect(jsonPath("[0].releaseAt", equalTo("2024-01-02T10:20:30Z")))
-        .andExpect(jsonPath("[0].norms[3]").doesNotExist())
+        .andExpect(jsonPath("[0].norms[2]").doesNotExist())
         .andExpect(
           jsonPath(
             "[0].norms",
             containsInAnyOrder(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml",
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23/regelungstext-1.xml"
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
             )
           )
         );
@@ -317,7 +308,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
             ReleaseControllerIntegrationTest.class,
-            "vereinsgesetze-schematron-invalid.xml"
+            "vereinsgesetz-schematron-invalid.xml"
           )
         )
       );

@@ -220,7 +220,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+          )
         )
       );
 
@@ -233,7 +235,11 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(normOptional)
-        .contains(Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml"));
+        .contains(
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+          )
+        );
     }
   }
 
@@ -247,7 +253,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       var regelungstextCurrent = Fixtures.loadRegelungstextFromDisk(
-        "NormWithPassiveModifications.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
       );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstextOld));
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstextCurrent));
@@ -771,11 +777,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+          )
         )
       );
       var normDto2 = normManifestationRepository
-        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15")
         .orElseThrow();
       var release2 = Release
         .builder()
@@ -811,7 +819,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       assertThat(releases.get(1).getPublishedNorms()).hasSize(1);
       assertThat(releases.get(1).getPublishedNorms().getFirst().getManifestationEli())
         .isEqualTo(
-          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2022-08-23")
+          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15")
         );
     }
   }
