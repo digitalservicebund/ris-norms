@@ -82,7 +82,7 @@ public class OtcObsConfig {
    * @throws URISyntaxException if the endpoint URI is malformed.
    */
   @Bean(name = "eVerkuendungS3Client")
-  @Profile({ "staging", "uat", "production" })
+  @Profile({ "uat" })
   public S3Client eVerkuendungS3Client() throws URISyntaxException {
     return createS3Client(eVerkuendungAccessKeyId, eVerkuendungSecretAccessKey);
   }

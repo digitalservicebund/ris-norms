@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungsProcessIdResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import java.io.IOException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 /** Controller for verkuendungen-related actions. */
 @RestController
 @RequestMapping("/api/v1/external/verkuendungen")
+@Profile({ "uat" })
 public class VerkuendungController {
 
   private final StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase;
