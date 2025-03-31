@@ -34,12 +34,15 @@ public class NormenDokumentationsPaketBucketService implements SaveNormendokumen
   public void saveNormendokumentationspaket(Command command) throws IOException {
     uploadToBucket(
       command.processId() + "/" + command.file().getFilename(),
-      RequestBody.fromBytes(command.file().getContentAsByteArray())
+      RequestBody.fromInputStream(command.file().getInputStream(), command.file().contentLength())
     );
 
     uploadToBucket(
       command.processId() + "/" + command.signature().getFilename(),
-      RequestBody.fromBytes(command.signature().getContentAsByteArray())
+      RequestBody.fromInputStream(
+        command.signature().getInputStream(),
+        command.signature().contentLength()
+      )
     );
   }
 
