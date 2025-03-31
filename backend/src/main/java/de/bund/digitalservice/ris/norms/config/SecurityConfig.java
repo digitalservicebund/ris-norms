@@ -53,6 +53,8 @@ public class SecurityConfig {
           .permitAll()
           .requestMatchers("/api/**")
           .hasRole(Roles.NORMS_USER)
+          .requestMatchers("/api/v1/external/**")
+          .hasRole(Roles.EVERKUENDUNG_USER)
           .anyRequest() // shall prevent an (authenticated) user to access accidentally available urls
           .denyAll()
       )
