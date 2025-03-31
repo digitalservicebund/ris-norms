@@ -10,6 +10,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 public class Roles {
 
   public static final String NORMS_USER = "norms_user";
+  public static final String EVERKUENDUNG_USER = "norms_e_verkuendung";
 
   // Private constructor to prevent instantiation
   private Roles() {

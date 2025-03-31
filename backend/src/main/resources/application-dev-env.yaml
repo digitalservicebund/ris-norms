@@ -19,3 +19,7 @@ otc:
       bucket-name: public
       access-key-id: test
       secret-access-key: test
+    everkuendung:
+      bucket-name: everkuendung
+      access-key-id: test
+      secret-access-key: test
