@@ -18,7 +18,9 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanRisMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     prototypeCleanupService.clean(norm);
     assertThat(
@@ -121,18 +123,18 @@ class PrototypeCleanupServiceTest {
         .get()
         .getMetadataValue(Metadata.STANDANGABE)
     )
-      .contains(
-        "V aufgeh. durch Art. 22 G v. 22.12.2011 I 1111 mWv\n                       1.1.2012"
-      );
+      .contains("zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351");
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.VOLLZITAT)
     )
-      .contains("Gesetz vom 1. Januar 2024 (BGBl. 2024 I S. 1909)");
+      .contains("Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)");
   }
 
   @Test
   void cleanRegularAndBundesregierungMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     prototypeCleanupService.clean(norm);
     List<Node> proprietyChildNodes = NodeParser
@@ -150,7 +152,9 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanNotesMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     prototypeCleanupService.clean(norm);
     List<Node> notes = NodeParser
@@ -168,7 +172,9 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanNotesMetadataDeleteNotes() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     norm.getRegelungstext1().deleteByEId("meta-1_editfnote-1");
 
     prototypeCleanupService.clean(norm);
@@ -189,14 +195,16 @@ class PrototypeCleanupServiceTest {
 
   @Test
   void cleanZeitgrenzenMetadata() {
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     prototypeCleanupService.clean(norm);
 
     List<Node> eventRefs = NodeParser.nodeListToList(
       norm.getRegelungstext1().getDocument().getElementsByTagName("akn:eventRef")
     );
-    assertThat(eventRefs).hasSize(28);
+    assertThat(eventRefs).hasSize(2);
 
     for (Node eventRef : eventRefs) {
       Element event = (Element) eventRef;

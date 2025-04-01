@@ -133,6 +133,14 @@
                                  start="#meta-1_lebzykl-1_ereignis-2"/>
             </akn:temporalGroup>
          </akn:temporalData>
+
+           <akn:notes source="attributsemantik-noch-undefiniert">
+               <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1" eId="meta-1_editfnote-1"
+                         marker="#" placement="bottom" refersTo="kommentierende-fussnote">
+                   <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b"
+                          eId="meta-1_editfnote-1_text-1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
+               </akn:note>
+           </akn:notes>
            <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
            <akn:proprietary eId="meta-1_proprietary-1"
                             GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
@@ -154,14 +162,18 @@
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:subtyp>rechtsverordnung</ris:subtyp>
                <ris:entryIntoForce date="1964-09-21" />
                <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
                <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
                <ris:normgeber>DEU</ris:normgeber>
-               <ris:subtyp>rechtsverordnung</ris:subtyp>
                <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
                <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
                <ris:expiry date="2030-01-01" />
+               <ris:inkraft date="1964-08-05" />
+               <ris:ausserkraft date="2030-01-01" />
+               <ris:standangabe type="stand">zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351</ris:standangabe>
+               <ris:vollzitat>Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)</ris:vollzitat>
                <ris:einzelelement href="#hauptteil-1_art-1">
                   <ris:artDerNorm>SN</ris:artDerNorm>
                </ris:einzelelement>

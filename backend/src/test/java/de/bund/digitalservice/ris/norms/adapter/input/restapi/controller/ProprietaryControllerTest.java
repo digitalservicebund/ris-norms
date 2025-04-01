@@ -92,7 +92,7 @@ class ProprietaryControllerTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+        .andExpect(jsonPath("art").value("regelungstext"))
         .andExpect(jsonPath("typ").value("gesetz"))
         .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
@@ -100,8 +100,8 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("staat").value("DEU"))
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
-        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"))
-        .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"));
+        .andExpect(jsonPath("organisationsEinheit").value("Aktuelle Organisationseinheit"))
+        .andExpect(jsonPath("ressort").value("Bundesministerium der Justiz"));
     }
 
     @Test
@@ -416,7 +416,7 @@ class ProprietaryControllerTest {
 
       var proprietary = Fixtures
         .loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
         )
         .getMeta()
         .getOrCreateProprietary();

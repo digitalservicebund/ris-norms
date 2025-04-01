@@ -18,13 +18,17 @@ class ReferenceServiceTest {
   @Test
   void ifFindsAndCreatesReferences() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesToFind.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      ReferenceServiceTest.class,
+      "NormWithReferencesToFind.xml"
+    );
 
     // When
     service.findAndCreateReferences(norm);
 
     // Then
     final Regelungstext expectedUpdatedRegelungstext = Fixtures.loadRegelungstextFromDisk(
+      ReferenceServiceTest.class,
       "NormWithReferencesFound.xml"
     );
     final Diff diff = DiffBuilder
@@ -41,12 +45,16 @@ class ReferenceServiceTest {
   @Test
   void itDoesNotFindReferencesInNum() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("NormWithReferencesInNumToSkip.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      ReferenceServiceTest.class,
+      "NormWithReferencesInNumToSkip.xml"
+    );
     // When
     service.findAndCreateReferences(norm);
 
     // Then
     final Regelungstext sameNormReload = Fixtures.loadRegelungstextFromDisk(
+      ReferenceServiceTest.class,
       "NormWithReferencesInNumToSkip.xml"
     );
     final Diff diff = DiffBuilder

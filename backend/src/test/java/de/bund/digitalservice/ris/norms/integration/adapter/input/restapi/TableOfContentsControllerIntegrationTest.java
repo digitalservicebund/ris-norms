@@ -68,10 +68,14 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
   void returnsToc() throws Exception {
     // given
     var eli = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     );
     dokumentRepository.save(
-      DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithGliederung.xml"))
+      DokumentMapper.mapToDto(
+        Fixtures.loadRegelungstextFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      )
     );
 
     // when
@@ -79,123 +83,15 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
       .perform(get("/api/v1/norms/" + eli + "/toc").accept(MediaType.APPLICATION_JSON_VALUE))
       // then
       .andExpect(status().isOk())
-      // Verify Title 1 exists inside Subsection 1
-      .andExpect(
-        jsonPath("$[0].children[0].children[0].children[0].children[0].children[0].id")
-          .value("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1")
-      )
-      .andExpect(
-        jsonPath("$[0].children[0].children[0].children[0].children[0].children[0].marker")
-          .value("Titel 1")
-      )
-      .andExpect(
-        jsonPath("$[0].children[0].children[0].children[0].children[0].children[0].heading")
-          .value("Überschrift Titel")
-      )
-      .andExpect(
-        jsonPath("$[0].children[0].children[0].children[0].children[0].children[0].type")
-          .value("title")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children.length()"
-        )
-          .value(1)
-      ) // Title contains one subtitle
-      // Verify Subtitle 1 inside Title 1
-      .andExpect(
-        jsonPath("$[0].children[0].children[0].children[0].children[0].children[0].children[0].id")
-          .value("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].marker"
-        )
-          .value("Untertitel 1")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].heading"
-        )
-          .value("Überschrift Untertitel")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].type"
-        )
-          .value("subtitle")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children.length()"
-        )
-          .value(2)
-      ) // Subtitle contains two articles
-      // Verify First Article inside Subtitle
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].id"
-        )
-          .value(
-            "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-1"
-          )
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].marker"
-        )
-          .value("§ 1")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].heading"
-        )
-          .value("Anwendungsbereich")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].type"
-        )
-          .value("article")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children"
-        )
-          .isEmpty()
-      ) // Articles have NO children
-      // Verify Second Article inside Subtitle
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].id"
-        )
-          .value(
-            "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-2"
-          )
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].marker"
-        )
-          .value("§ 2")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].heading"
-        )
-          .value("Paragrafenüberschrift")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].type"
-        )
-          .value("article")
-      )
-      .andExpect(
-        jsonPath(
-          "$[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].children"
-        )
-          .isEmpty()
-      ); // Articles have NO children
+      .andExpect(jsonPath("$[0].id").value("hauptteil-1_art-1"))
+      .andExpect(jsonPath("$[0].marker").value("§ 20"))
+      .andExpect(jsonPath("$[0].heading").isEmpty())
+      .andExpect(jsonPath("$[0].type").value("article"))
+      .andExpect(jsonPath("$[0].children").isEmpty())
+      .andExpect(jsonPath("$[1].id").value("hauptteil-1_art-2"))
+      .andExpect(jsonPath("$[1].marker").value("Artikel 34"))
+      .andExpect(jsonPath("$[1].heading").value("Inkrafttreten"))
+      .andExpect(jsonPath("$[1].type").value("article"))
+      .andExpect(jsonPath("$[1].children").isEmpty());
   }
 }

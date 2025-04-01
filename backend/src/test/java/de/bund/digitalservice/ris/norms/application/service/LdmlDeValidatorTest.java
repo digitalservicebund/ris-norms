@@ -31,7 +31,9 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateAValidNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
 
       // When // Then
       ldmlDeValidator.validateXSDSchema(norm); // Check that it doesn't throw
