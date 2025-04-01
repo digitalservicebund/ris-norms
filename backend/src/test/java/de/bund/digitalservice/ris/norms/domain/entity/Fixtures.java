@@ -222,8 +222,6 @@ public class Fixtures {
   private static URL getResource(String fileName) {
     return Optional
       .ofNullable(Fixtures.class.getResource(FIXTURES_RESOURCE_FOLDER + "/" + fileName))
-      // TODO: (Malte Laukötter, 2025-03-26) remove once all xml files have been moved to the new structure
-      .or(() -> Optional.ofNullable(Fixtures.class.getResource(fileName)))
       .orElseThrow(() -> new RuntimeException("Could not find fixture " + fileName));
   }
 
