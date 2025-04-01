@@ -49,7 +49,7 @@ class TimeBoundaryServiceTest {
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "Einkommensteuer-Durchführungsverordnung.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -61,11 +61,11 @@ class TimeBoundaryServiceTest {
       // Then
       verify(loadRegelungstextPort, times(1))
         .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(timeBoundaries).hasSize(3);
+      assertThat(timeBoundaries).hasSize(1);
 
       // handle 1st time boundary
       assertThat(timeBoundaries.getFirst().getEventRef().getDate())
-        .contains(LocalDate.parse("1955-12-21"));
+        .contains(LocalDate.parse("1964-09-21"));
       assertThat(timeBoundaries.getFirst().getEventRefEid())
         .isEqualTo("meta-1_lebzykl-1_ereignis-2");
       assertThat(
@@ -89,50 +89,15 @@ class TimeBoundaryServiceTest {
           .getNamedItem("GUID")
           .getNodeValue()
       )
-        .contains("ee45119b-2485-4115-b587-da54b95e3ebd");
+        .contains("2b728878-4b15-4b14-89cd-ecc270202a81");
       assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
         .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
       assertThat(timeBoundaries.getFirst().getTimeInterval().getElement().getAttribute("GUID"))
-        .contains("a43d0287-920d-4fbb-91d1-42fd7e03fe16");
+        .contains("10819a15-54fe-4924-a469-4a097f9c0e41");
       assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("refersTo"))
         .contains("geltungszeit");
       assertThat(timeBoundaries.get(0).getTimeInterval().getElement().getAttribute("start"))
         .contains("#" + timeBoundaries.get(0).getEventRefEid());
-
-      // handle 2nd time boundary
-      assertThat(timeBoundaries.get(1).getEventRef().getDate())
-        .contains(LocalDate.parse("2000-05-10"));
-      assertThat(timeBoundaries.get(1).getEventRefEid()).isEqualTo("meta-1_lebzykl-1_ereignis-3");
-      assertThat(
-        timeBoundaries
-          .get(1)
-          .getTimeInterval()
-          .getElement()
-          .getParentNode()
-          .getAttributes()
-          .getNamedItem("eId")
-          .getNodeValue()
-      )
-        .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
-      assertThat(
-        timeBoundaries
-          .get(1)
-          .getTimeInterval()
-          .getElement()
-          .getParentNode()
-          .getAttributes()
-          .getNamedItem("GUID")
-          .getNodeValue()
-      )
-        .contains("0477223f-0f4e-4f79-9656-5ff7d2afd9c4");
-      assertThat(timeBoundaries.get(1).getTimeIntervalEid())
-        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
-      assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("GUID"))
-        .contains("ebd52dd5-7122-4000-93e8-b6e96d0ac75f");
-      assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("refersTo"))
-        .contains("geltungszeit");
-      assertThat(timeBoundaries.get(1).getTimeInterval().getElement().getAttribute("start"))
-        .contains("#" + timeBoundaries.get(1).getEventRefEid());
     }
 
     @Test
@@ -455,10 +420,12 @@ class TimeBoundaryServiceTest {
     @Test
     void itChangesADate() {
       DokumentExpressionEli eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
-      var xml = Fixtures.loadTextFromDisk("Einkommensteuer-Durchführungsverordnung.xml");
+      var xml = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
 
       var normBefore = Norm
         .builder()
@@ -471,20 +438,13 @@ class TimeBoundaryServiceTest {
       when(normService.updateNorm(any())).thenReturn(Map.of(eli.asNormEli(), normBefore));
 
       // When
-      var timeBoundaryChangeDataNewDate1 = new TimeBoundaryChangeData(
+      var timeBoundaryChangeDataNewDate = new TimeBoundaryChangeData(
         "meta-1_lebzykl-1_ereignis-2",
-        LocalDate.parse("1980-01-01")
-      );
-      var timeBoundaryChangeDataNewDate2 = new TimeBoundaryChangeData(
-        "meta-1_lebzykl-1_ereignis-3",
         LocalDate.parse("1990-01-01")
       );
 
       service.updateTimeBoundariesOfRegelungstext(
-        new UpdateTimeBoundariesUseCase.Query(
-          eli,
-          List.of(timeBoundaryChangeDataNewDate1, timeBoundaryChangeDataNewDate2)
-        )
+        new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataNewDate))
       );
 
       // Then
@@ -496,10 +456,8 @@ class TimeBoundaryServiceTest {
           assertArg(argument -> {
             assertThat(argument.getRegelungstexte()).hasSize(1);
             var timeBoundaries = argument.getRegelungstext1().getTimeBoundaries();
-            assertThat(timeBoundaries).hasSize(2);
+            assertThat(timeBoundaries).hasSize(1);
             assertThat(timeBoundaries.getFirst().getEventRef().getDate())
-              .contains(LocalDate.parse("1980-01-01"));
-            assertThat(timeBoundaries.getLast().getEventRef().getDate())
               .contains(LocalDate.parse("1990-01-01"));
           })
         );
@@ -516,10 +474,12 @@ class TimeBoundaryServiceTest {
       memoryAppender.start();
 
       DokumentExpressionEli eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
 
-      var xml = Fixtures.loadTextFromDisk("Einkommensteuer-Durchführungsverordnung.xml");
+      var xml = Fixtures.loadTextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
 
       var normBefore = Norm
         .builder()
