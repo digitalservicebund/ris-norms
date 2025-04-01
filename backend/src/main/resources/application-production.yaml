@@ -15,6 +15,8 @@ spring:
 
 otc:
   obs:
+    everkuendung:
+      bucket-name: ris-norms-prod-ev-ldml-data
     public:
       bucket-name: ris-norms-prod-public-ldml-data
     private:

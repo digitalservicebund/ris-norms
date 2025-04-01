@@ -11,6 +11,8 @@ spring:
 
 otc:
   obs:
+    everkuendung:
+      bucket-name: ris-norms-staging-ev-ldml-data
     public:
       bucket-name: ris-norms-staging-public-ldml-data
     private:
