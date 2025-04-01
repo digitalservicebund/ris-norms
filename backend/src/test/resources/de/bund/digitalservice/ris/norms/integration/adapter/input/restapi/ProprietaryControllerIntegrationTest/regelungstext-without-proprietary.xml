@@ -107,41 +107,7 @@
                                value="xml"/>
             </akn:FRBRManifestation>
          </akn:identification>
-           <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
-           <akn:proprietary eId="meta-1_proprietary-1"
-                            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-                            source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>stammform</meta:form>
-               <meta:fassung>verkuendungsfassung</meta:fassung>
-               <meta:art>rechtsetzungsdokument</meta:art>
-               <meta:initiant>nicht-vorhanden</meta:initiant>
-               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
-                <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
-                <meta:fna>754-28-1</meta:fna>
-                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
-                <meta:gesta>nicht-vorhanden</meta:gesta>
-                <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
-             </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
-                <meta:federfuehrung>
-                    <meta:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                  <meta:federfuehrend ab="2002-10-01" bis="2019-11-21">Bundesministerium der Justiz</meta:federfuehrend>
-               </meta:federfuehrung>
-            </meta:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:subtyp>rechtsverordnung</ris:subtyp>
-               <ris:bezeichnungInVorlage >Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber>DEU</ris:normgeber>
-               <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-               <ris:organisationsEinheit >Organisationseinheit</ris:organisationsEinheit>
-               <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
-                  <ris:artDerNorm>SN</ris:artDerNorm>
-               </ris:einzelelement>
-            </ris:legalDocML.de_metadaten>
-         </akn:proprietary>
+           <!-- PROPRIETARY HAS BEEN REMOVED ON PURPOSE -->
       </akn:meta>
    </akn:act>
 </akn:akomaNtoso>

@@ -51,18 +51,6 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
-        )
-      );
 
       // When // Then
       mockMvc
@@ -82,7 +70,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListWhenTheNormHasNoArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ArticleControllerIntegrationTest.class,
+            "vereinsgesetz-without-articles.xml"
+          )
+        )
       );
 
       // When // Then
@@ -261,7 +254,10 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithoutPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            ArticleControllerIntegrationTest.class,
+            "vereinsgestz-without-geltungszeit-article.xml"
+          )
         )
       );
 
@@ -299,7 +295,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsNotFoundIfTheNormHasNoArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ArticleControllerIntegrationTest.class,
+            "vereinsgesetz-without-articles.xml"
+          )
+        )
       );
 
       // When // Then
@@ -339,24 +340,11 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticle() throws Exception {
       // Given
-
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
             "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
           )
-        )
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
         )
       );
 
@@ -483,7 +471,9 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithMultiplePassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       );
 
@@ -491,7 +481,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
           )
             .accept(MediaType.TEXT_HTML)
         )
@@ -502,17 +492,17 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail")
             .value(
-              "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+              "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
             )
         )
         .andExpect(
           jsonPath("instance")
             .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
             )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
         )
         .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
     }

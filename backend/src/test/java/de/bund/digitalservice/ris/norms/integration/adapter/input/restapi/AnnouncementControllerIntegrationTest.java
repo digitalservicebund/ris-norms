@@ -363,19 +363,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithQuotedStructureMods.xml")
-        )
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
           )
-        )
-      );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModsQuotedStructure.xml")
         )
       );
 
@@ -385,7 +375,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       regelungstextWithSameGuid
         .getMeta()
         .getFRBRExpression()
-        .setFRBRaliasCurrentVersionId(UUID.fromString("c4166ebb-b6df-4f61-8ac1-1d6399cc80ef"));
+        .setFRBRaliasCurrentVersionId(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"));
       var xmlContent = XmlMapper.toString(regelungstextWithSameGuid.getDocument());
       var file = new MockMultipartFile(
         "file",
@@ -412,7 +402,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        AnnouncementControllerIntegrationTest.class,
+        "vereinsgesetz-xsd-invalid.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",
@@ -441,7 +434,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk("NormWithModsSchematronInvalid.xml");
+      var xmlContent = Fixtures.loadTextFromDisk(
+        AnnouncementControllerIntegrationTest.class,
+        "vereinsgesetz-schematron-invalid.xml"
+      );
       var file = new MockMultipartFile(
         "file",
         "norm.xml",

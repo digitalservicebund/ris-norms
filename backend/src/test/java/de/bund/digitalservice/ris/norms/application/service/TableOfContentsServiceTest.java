@@ -40,7 +40,8 @@ class TableOfContentsServiceTest {
   void itRetrievesToc() {
     // Given
     final Regelungstext regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "NormWithGliederung.xml"
+      TableOfContentsServiceTest.class,
+      "regelungstext-with-full-gliederung.xml"
     );
 
     when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));

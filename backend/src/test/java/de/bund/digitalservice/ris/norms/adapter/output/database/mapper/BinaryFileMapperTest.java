@@ -13,7 +13,7 @@ class BinaryFileMapperTest {
   @Test
   void itShouldMapToDomain() {
     var binaryFileFixture = Fixtures.loadBinaryFileFromDisk(
-      "image-1.png",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
       DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
       )
@@ -36,7 +36,7 @@ class BinaryFileMapperTest {
   @Test
   void itShouldMapToDtos() {
     var binaryFile = Fixtures.loadBinaryFileFromDisk(
-      "image-1.png",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
       DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
       )

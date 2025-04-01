@@ -31,7 +31,9 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateAValidNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithFullRisProprietary.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
 
       // When // Then
       ldmlDeValidator.validateXSDSchema(norm); // Check that it doesn't throw
@@ -40,7 +42,10 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldNotValidateAInvalidNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk("NormWithModsXsdInvalid.xml");
+      var norm = Fixtures.loadNormFromDisk(
+        LdmlDeValidatorTest.class,
+        "vereinsgesetz-xsd-invalid.xml"
+      );
 
       // When // Then
       assertThatThrownBy(() -> ldmlDeValidator.validateXSDSchema(norm))
@@ -75,7 +80,10 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldThrowForInvalidNorms() {
       // Given
-      String xml = Fixtures.loadTextFromDisk("NormWithModsXsdInvalid.xml");
+      String xml = Fixtures.loadTextFromDisk(
+        LdmlDeValidatorTest.class,
+        "vereinsgesetz-xsd-invalid.xml"
+      );
 
       // When // Then
       assertThatThrownBy(() -> ldmlDeValidator.parseAndValidateRegelungstext(xml))
@@ -87,7 +95,7 @@ class LdmlDeValidatorTest {
               .contains(
                 new LdmlDeNotValidException.ValidationError(
                   URI.create("/errors/ldml-de-not-valid/cvc-pattern-valid"),
-                  18,
+                  23,
                   64,
                   "cvc-pattern-valid: Value 'invalid-guid-to-break-xsd' is not facet-valid with respect to pattern '([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\})' for type 'GUIDLiterals'."
                 )
@@ -95,7 +103,7 @@ class LdmlDeValidatorTest {
               .contains(
                 new LdmlDeNotValidException.ValidationError(
                   URI.create("/errors/ldml-de-not-valid/cvc-attribute.3"),
-                  18,
+                  23,
                   64,
                   "cvc-attribute.3: The value 'invalid-guid-to-break-xsd' of attribute 'GUID' on element 'akn:meta' is not valid with respect to its type, 'GUIDLiterals'."
                 )
@@ -125,7 +133,7 @@ class LdmlDeValidatorTest {
       // Given
       Norm norm = Fixtures.loadNormFromDisk(
         LdmlDeValidatorTest.class,
-        "NormWithModsSchematronInvalid.xml",
+        "vereinsgesetz-schematron-invalid.xml",
         true
       );
 
@@ -148,7 +156,7 @@ class LdmlDeValidatorTest {
                 new LdmlDeSchematronException.ValidationError(
                   "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
                   "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalData[1]/@Q{}GUID",
-                  "GUIDs müssen einmalig sein; \"82854d32-d922-43d7-ac8c-612c07219336\" kommt jedoch 2-mal im Dokument vor!",
+                  "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
                   "meta-1_geltzeiten-1"
                 )
               )
@@ -156,7 +164,7 @@ class LdmlDeValidatorTest {
                 new LdmlDeSchematronException.ValidationError(
                   "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
                   "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalData[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalGroup[1]/@Q{}GUID",
-                  "GUIDs müssen einmalig sein; \"82854d32-d922-43d7-ac8c-612c07219336\" kommt jedoch 2-mal im Dokument vor!",
+                  "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
                   "meta-1_geltzeiten-1_geltungszeitgr-1"
                 )
               )
@@ -176,7 +184,11 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldSuccessfullyValidateANormWithWarnings() {
       // Given
-      Norm norm = Fixtures.loadNormFromDisk("NormWithModsSchematronWarning.xml", true);
+      Norm norm = Fixtures.loadNormFromDisk(
+        LdmlDeValidatorTest.class,
+        "vereinsgesetz-schematron-warning.xml",
+        true
+      );
 
       // When // Then
       assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();

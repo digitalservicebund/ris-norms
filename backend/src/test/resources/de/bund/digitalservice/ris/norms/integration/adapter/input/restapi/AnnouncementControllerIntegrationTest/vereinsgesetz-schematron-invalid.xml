@@ -74,7 +74,7 @@
                               value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
                                GUID="e4334f35-501a-46f0-a8f5-a02d9a03aca3"
-                               href="recht.bund.de/institution/bundesregierung"/>
+                               href="recht.bund.de/institution/bundestag"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
                              GUID="1bfbd095-93f3-4674-8096-be18041cbc65"
                              date="1964-08-05"
@@ -126,21 +126,13 @@
                            GUID="0b03ee18-0131-47ec-bd46-519d60209cc7"
                            source="attributsemantik-noch-undefiniert">
             <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
-                               GUID="2b728878-4b15-4b14-89cd-ecc270202a81">
+                               GUID="0b03ee18-0131-47ec-bd46-519d60209cc7">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
                                  GUID="10819a15-54fe-4924-a469-4a097f9c0e41"
                                  refersTo="geltungszeit"
                                  start="#meta-1_lebzykl-1_ereignis-2"/>
             </akn:temporalGroup>
          </akn:temporalData>
-
-           <akn:notes source="attributsemantik-noch-undefiniert">
-               <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1" eId="meta-1_editfnote-1"
-                         marker="#" placement="bottom" refersTo="kommentierende-fussnote">
-                   <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b"
-                          eId="meta-1_editfnote-1_text-1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
-               </akn:note>
-           </akn:notes>
            <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
            <akn:proprietary eId="meta-1_proprietary-1"
                             GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
@@ -157,26 +149,20 @@
             </meta:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
                 <meta:federfuehrung>
-                  <meta:federfuehrend ab="1964-08-05" bis="2019-11-22">Bundesministerium der Justiz</meta:federfuehrend>
-                  <meta:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                  <meta:federfuehrend ab="1964-08-05" bis="unbestimmt">nicht-vorhanden</meta:federfuehrend>
+                  <meta:federfuehrend ab="1964-08-05" bis="unbestimmt">nicht-vorhanden</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:subtyp>rechtsverordnung</ris:subtyp>
                <ris:entryIntoForce date="1964-09-21" />
-               <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-               <ris:normgeber>DEU</ris:normgeber>
-               <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
+               <ris:bezeichnungInVorlage start="1964-09-21"
+                                         end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
+               <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
+               <ris:normgeber start="1964-09-21" end="unbestimmt">DEU</ris:normgeber>
+               <ris:beschliessendesOrgan start="1964-09-21" end="unbestimmt"
+                                         qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
                <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
                <ris:expiry date="2030-01-01" />
-               <ris:inkraft date="1964-08-05" />
-               <ris:ausserkraft date="2030-01-01" />
-               <ris:standangabe type="stand">zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351</ris:standangabe>
-               <ris:vollzitat>Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)</ris:vollzitat>
-               <ris:einzelelement href="#hauptteil-1_art-1">
-                  <ris:artDerNorm>SN</ris:artDerNorm>
-               </ris:einzelelement>
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
@@ -209,16 +195,6 @@
                       date="1964-08-05">Vom 5. August 1964 </akn:date>
          </akn:block>
       </akn:preface>
-       <!-- Eingangsformel + Inhaltsübersicht -->
-       <akn:preamble eId="preambel-1" GUID="d3023c46-1e74-4c1f-b101-b29898267f71">
-         <akn:formula eId="preambel-1_formel-1"
-                      GUID="1b476669-1cbb-4633-a0ed-04783680b841"
-                      refersTo="eingangsformel"
-                      name="attributsemantik-noch-undefiniert">
-            <akn:p eId="preambel-1_formel-1_text-1"
-                   GUID="c1793533-b05a-4fc4-be62-bd6c3449c53a">Der Bundestag hat mit Zustimmung des Bundesrates das folgende Gesetz beschlossen:</akn:p>
-         </akn:formula>
-      </akn:preamble>
        <!-- Hauptteil -->
        <akn:body eId="hauptteil-1" GUID="2094abe2-16e6-44d5-9198-3ef9486833e9">
          <akn:article eId="hauptteil-1_art-1"
@@ -248,8 +224,7 @@
                      <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1"
                                   GUID="fff000f9-bed8-41eb-b26b-93a5da40ff5f">
                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
-                               GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem
-                                    vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied
+                               GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied
                            beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
                      </akn:content>
                   </akn:point>

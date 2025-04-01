@@ -46,13 +46,13 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "SimpleRegelungstext2.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
     );
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
     );
     final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
-      "image-1.png",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
       DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.xml"
       )
@@ -86,13 +86,13 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "SimpleRegelungstext2.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
     );
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
     );
     final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
-      "image-1.png",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
       DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.xml"
       )

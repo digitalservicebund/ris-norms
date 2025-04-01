@@ -78,7 +78,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when
@@ -105,11 +110,14 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+          )
         )
       );
 
@@ -137,10 +145,14 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnProprietary() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
 
       // when
@@ -151,7 +163,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+        .andExpect(jsonPath("art").value("regelungstext"))
         .andExpect(jsonPath("typ").value("gesetz"))
         .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
@@ -159,9 +171,8 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("staat").value("DEU"))
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
-        .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"))
-        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"))
-        .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"));
+        .andExpect(jsonPath("ressort").value("Bundesministerium der Justiz"))
+        .andExpect(jsonPath("organisationsEinheit").value("Aktuelle Organisationseinheit"));
     }
   }
 
@@ -217,10 +228,14 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void updatesAll() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
 
       // when
@@ -282,10 +297,14 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void doesResetAllFieldsBySendingNull() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
 
       // when
@@ -338,17 +357,21 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
-      assertThat(proprietary.getRessort(LocalDate.parse("2019-11-22"))).isEmpty();
+      assertThat(proprietary.getRessort(LocalDate.parse("1964-08-05"))).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
     }
 
     @Test
     void doesResetAllFieldsBySendingEmptyString() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
 
       // when
@@ -401,18 +424,20 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
-      assertThat(proprietary.getRessort(LocalDate.parse("2019-11-22"))).isEmpty();
+      assertThat(proprietary.getRessort(LocalDate.parse("1964-08-05"))).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
     }
 
     @Test
     void doesRemoveQualifizierteMehrheitFromBeschliessendesOrganWhenNull() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithProprietaryAndMultipleTimeBoundaries.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       );
 
@@ -477,7 +502,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when
@@ -584,7 +614,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when
@@ -602,13 +637,16 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+          )
         )
       );
 
@@ -627,12 +665,16 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnProprietarySingleElement() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-1_art-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
       );
 
       // when
@@ -698,7 +740,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when

@@ -69,10 +69,12 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var proprietary = Fixtures
-        .loadRegelungstextFromDisk("NormWithProprietary.xml")
+        .loadRegelungstextFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -90,7 +92,7 @@ class ProprietaryControllerTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+        .andExpect(jsonPath("art").value("regelungstext"))
         .andExpect(jsonPath("typ").value("gesetz"))
         .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
@@ -98,18 +100,21 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("staat").value("DEU"))
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
-        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"))
-        .andExpect(jsonPath("ressort").value("Bundesministerium des Innern und für Heimat"));
+        .andExpect(jsonPath("organisationsEinheit").value("Aktuelle Organisationseinheit"))
+        .andExpect(jsonPath("ressort").value("Bundesministerium der Justiz"));
     }
 
     @Test
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var proprietary = Fixtures
-        .loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
+        .loadRegelungstextFromDisk(
+          ProprietaryControllerTest.class,
+          "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+        )
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -140,15 +145,18 @@ class ProprietaryControllerTest {
     }
 
     @Test
-    void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
+    void returnsEmptyValuesIfProprietaryIsEmpty() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var proprietary = Fixtures
-        .loadRegelungstextFromDisk("SimpleNorm.xml")
-        .getMeta()
-        .getOrCreateProprietary();
+      var proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert"></akn:proprietary>
+          """
+        )
+      );
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
@@ -337,12 +345,14 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures
-        .loadRegelungstextFromDisk("NormWithProprietary.xml")
+        .loadRegelungstextFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -367,12 +377,15 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures
-        .loadRegelungstextFromDisk("NormWithInvalidProprietary.xml")
+        .loadRegelungstextFromDisk(
+          ProprietaryControllerTest.class,
+          "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+        )
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -399,11 +412,11 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures
         .loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
         )
         .getMeta()
         .getOrCreateProprietary();

@@ -2,12 +2,13 @@
 
 This folder includes:
 
-| Folder/File                                                 | Description                                                                 |
-| ------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Folder/File                                                   | Description                                                                 |
+|---------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `fixtures`                                                    | LegalDocML.de 1.7.2 files used for testing (eg. in the backend unit tests)  |
 | `schema`                                                      | The official LegalDocML 1.7.2 schema files                                  |
 | `schema-extension`                                            | Our extension of the schema for the `legalDocML.de_metadaten` block         |
+| `schema-extension-fixtures`                                   | Test files for our schema-extension                                         |
 | `legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd` | The schema file for a regelungstext that includes our custom metadata block |
-| `fixtures`                                                    | Test files for our schema-extension                                         |
 | `samples`                                                     | Sample LegalDocML.de 1.7.2 files                                            |
 
 ## LDML.de Extension for Custom Metadata
@@ -31,5 +32,5 @@ sudo apt-get install libxml2-utils
 After making changes to schemas, you can test them against the fixtures in `fixtures` by running `xmllint`, e.g.
 
 ```sh
-xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd fixtures/SaatG_regelungstext.xml
+xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd schema-extension-fixtures/SaatG_regelungstext.xml
 ```

@@ -83,7 +83,7 @@ class ArticleControllerTest {
     void itReturnsUnprocessableEntityWhenMandatoryNodeIsMissing() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "NormWithPassiveModificationsInDifferentArticles.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
@@ -95,7 +95,7 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
           )
             .accept(MediaType.APPLICATION_JSON)
         )

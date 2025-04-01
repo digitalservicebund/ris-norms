@@ -78,7 +78,9 @@ class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk("NormWithPassiveModifications.xml")
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       );
 
@@ -92,15 +94,9 @@ class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", hasSize(4)))
+        .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].date", is("1964-09-21")))
-        .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
-        .andExpect(jsonPath("$[1].date", is("2017-03-23")))
-        .andExpect(jsonPath("$[1].eventRefEid", is("meta-1_lebzykl-1_ereignis-4")))
-        .andExpect(jsonPath("$[2].date", is("2019-01-01")))
-        .andExpect(jsonPath("$[2].eventRefEid", is("meta-1_lebzykl-1_ereignis-5")))
-        .andExpect(jsonPath("$[3].date", is("2017-03-01")))
-        .andExpect(jsonPath("$[3].eventRefEid", is("meta-1_lebzykl-1_ereignis-6")));
+        .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")));
     }
   }
 

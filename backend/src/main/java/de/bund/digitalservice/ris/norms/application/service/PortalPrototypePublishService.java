@@ -133,7 +133,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
       new DeleteAllPublishedDokumentePort.Command(startOfProcessing)
     );
-    log.info("Deleted all old dokumente from portal-prototype  bucket");
+    log.info("Deleted all old dokumente from portal-prototype bucket");
 
     publishChangelogPort.publishChangelogs(new PublishChangelogPort.Command(false));
 

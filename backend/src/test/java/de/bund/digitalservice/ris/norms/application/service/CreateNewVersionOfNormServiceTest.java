@@ -27,7 +27,9 @@ class CreateNewVersionOfNormServiceTest {
   @Test
   void createNewExpressionWithSameDate() {
     // Given
-    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     when(eliService.findNextExpressionEli(any(), any(), any()))
@@ -120,7 +122,9 @@ class CreateNewVersionOfNormServiceTest {
     // Given
     when(eliService.findNextExpressionEli(any(), any(), any()))
       .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu"));
-    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     // When
@@ -199,7 +203,9 @@ class CreateNewVersionOfNormServiceTest {
   @Test
   void createNewManifestation() {
     // Given
-    var norm = Fixtures.loadNormFromDisk("NormWithPassiveModifications.xml");
+    var norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
 
     // When
     var result = createNewVersionOfNormService.createNewManifestation(

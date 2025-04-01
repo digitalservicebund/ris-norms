@@ -29,11 +29,13 @@ class PortalPrototypePublishServiceIntegrationTest extends BaseS3MockIntegration
   @Test
   void itPublishesToTheCorrectBucket() {
     // Given
-    final Norm norm = Fixtures.loadNormFromDisk("Einkommensteuer-Durchführungsverordnung.xml");
+    final Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-1.xml"
+    );
     dokumentRepository.save(DokumentMapper.mapToDto(norm.getRegelungstext1()));
 
     var normDto = normManifestationRepository
-      .findByManifestationEli("eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02")
+      .findByManifestationEli("eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16")
       .orElseThrow();
     normDto.setPublishState(NormPublishState.PUBLISHED);
     normManifestationRepository.save(normDto);

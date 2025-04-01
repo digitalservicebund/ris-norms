@@ -40,7 +40,9 @@ class NormMapperTest {
       .subtype("regelungstext")
       .build();
 
-    var offenestrukturXml = Fixtures.loadTextFromDisk("OffeneStruktur.xml");
+    var offenestrukturXml = Fixtures.loadTextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+    );
     var offenestrukturDto = DokumentDto
       .builder()
       .xml(offenestrukturXml)
@@ -48,7 +50,7 @@ class NormMapperTest {
       .build();
 
     var binaryFileFixture = Fixtures.loadBinaryFileFromDisk(
-      "image-1.png",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
       DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
       )
@@ -97,9 +99,11 @@ class NormMapperTest {
     var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
       "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
     );
-    var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk("OffeneStruktur.xml");
+    var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+    );
     var binaryFile = Fixtures.loadBinaryFileFromDisk(
-      "image-1.png",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
       DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
       )
