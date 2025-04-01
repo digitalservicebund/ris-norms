@@ -197,23 +197,6 @@ public class LdmlDeValidator {
     var xPathEIdCache = new HashMap<String, String>();
     var errors = Stream
       .concat(failedAssertMessages, successfulReportMessages)
-      .filter(node -> {
-        // TODO: (Malte Laukötter, 2024-09-23) remove once we support elis with point-in-time-manifestation
-        String ruleId = Optional
-          .ofNullable(node.getAttributes().getNamedItem("id"))
-          // for some rules (the verkündungsfassung specific once) the rule id is not added to the sch:assert but only to the sch:rule so we need to get the id from the svrl:fired-rule before the svrl:failed-assert in the validation result
-          .orElseGet(() -> node.getPreviousSibling().getAttributes().getNamedItem("id"))
-          .getNodeValue();
-
-        var rulesCheckingPointInTimeManifestation = List.of(
-          "SCH-00520-010",
-          "SCH-00550-010",
-          "SCH-VERK-valueLiterals.manifestation.FRBRthis",
-          "SCH-VERK-valueLiterals.manifestation.FRBRuri"
-        );
-
-        return !rulesCheckingPointInTimeManifestation.contains(ruleId);
-      })
       .filter(node ->
         // Allow warnings
         Optional
