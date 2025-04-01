@@ -59,6 +59,9 @@
             <meta-breg:federfuehrend ab="2021-04-16" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
           </meta-breg:federfuehrung>
         </meta-breg:legalDocML.de_metadaten>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:inkraft date="2021-04-16" />
+            </ris:legalDocML.de_metadaten>
       </akn:proprietary>
     </akn:meta>
     <akn:preface GUID="45f1672f-2be9-47d5-a350-888b1d66a61b" eId="einleitung-1">
