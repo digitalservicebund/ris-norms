@@ -51,10 +51,12 @@ public class SecurityConfig {
             "/app/**"
           )
           .permitAll()
-          .requestMatchers("/api/**")
-          .hasRole(Roles.NORMS_USER)
+          // First restrict /api/v1/external/** to e-V user
           .requestMatchers("/api/v1/external/**")
           .hasRole(Roles.EVERKUENDUNG_USER)
+          // Second restrict the rest of /api/v1/** to norms user, excluding /api/v1/external/** because matched before
+          .requestMatchers("/api/v1/**")
+          .hasRole(Roles.NORMS_USER)
           .anyRequest() // shall prevent an (authenticated) user to access accidentally available urls
           .denyAll()
       )
