@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
@@ -194,7 +195,7 @@ public class LdmlDeValidator {
     var failedAssertMessages = NodeParser.nodeListToList(failedAsserts).stream();
     var successfulReportMessages = NodeParser.nodeListToList(successfulReports).stream();
 
-    var xPathEIdCache = new HashMap<String, String>();
+    var xPathEIdCache = new HashMap<String, EId>();
     var errors = Stream
       .concat(failedAssertMessages, successfulReportMessages)
       .filter(node ->
@@ -214,14 +215,16 @@ public class LdmlDeValidator {
         // Find the eId of the node responsible for this problem. Sometimes the location
         // points to an attribute, so we might need to move up in the element tree to
         // find the eId.
-        String eId = xPathEIdCache.computeIfAbsent(
+        EId eId = xPathEIdCache.computeIfAbsent(
           xPath + "/ancestor-or-self::*/@eId",
           key ->
-            NodeParser
-              .getNodesFromExpression(key, regelungstext.getDocument())
-              .stream()
-              .map(Node::getNodeValue)
-              .reduce("", (a, b) -> a.length() > b.length() ? a : b)
+            new EId(
+              NodeParser
+                .getNodesFromExpression(key, regelungstext.getDocument())
+                .stream()
+                .map(Node::getNodeValue)
+                .reduce("", (a, b) -> a.length() > b.length() ? a : b)
+            )
         );
 
         String ruleId = Optional
@@ -234,7 +237,7 @@ public class LdmlDeValidator {
           "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(node.getLocalName(), ruleId),
           xPath,
           node.getTextContent(),
-          eId
+          eId.toString()
         );
       })
       .toList();
