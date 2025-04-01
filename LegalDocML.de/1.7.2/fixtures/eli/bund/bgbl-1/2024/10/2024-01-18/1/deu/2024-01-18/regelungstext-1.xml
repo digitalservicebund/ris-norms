@@ -590,14 +590,6 @@
                         <akn:intro GUID="55413fa4-ded5-4db8-a879-57e99ebe4a6a" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-1_untergl-1_intro-1">
                           <akn:p GUID="ddcaaa62-6e48-4b74-a127-191eac66c34f" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-1_untergl-1_intro-1_text-1">Nummer 1 wird wie folgt geändert:</akn:p>
                         </akn:intro>
-                        <!-- TODO: This causes validation error in TextKo -->
-                        <!--
-                        <point marker="aaa)">
-                          <content>
-                            <p><mod refersTo="streichen" force="#tg1">In <ref href="@#a3&#x2D;p1&#x2D;pa">Buchstabe a</ref> wird das Wort <quotedText>Geburtsname,</quotedText> gestrichen</mod> und <mod refersTo="ersetzen" force="#tg1" href="@#a3&#x2D;p1&#x2D;pa">werden die Wörter <quotedText>Vornamen, akademischer Grad (optional),</quotedText> durch die Wörter <quotedText>Vorname, optional der akademische Grad, optional der Künstler&#x2D; oder Ordensname,</quotedText> ersetzt.</mod></p>
-                          </content>
-                        </point>
-                        -->
                         <akn:point GUID="973edb53-5ad5-42aa-a322-b0959ce50243" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-1_untergl-1_listenelem-1">
                           <akn:num GUID="b1789edd-51b1-44f6-b33e-e72ffe7eb169" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1">bbb)</akn:num>
                           <akn:content GUID="a80de53f-9689-41f8-aa73-5949e401dbec" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1">
@@ -699,22 +691,6 @@
                         <akn:p GUID="f11033c6-2448-4cd2-b8af-b093f5ca5073" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1"><akn:mod refersTo="aenderungsbefehl-einfuegen" GUID="68a944b8-63ec-49de-99a7-c5db5daa53e7" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1">Nach <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2.xml" GUID="e0e8c683-96b7-4c9a-b49e-fb2f089477eb" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_ref-1">Nummer 2</akn:ref> wird folgende Nummer 3 eingefügt: <akn:quotedStructure startQuote="„" endQuote="“" GUID="9b34fcd9-5ef3-4711-9531-55a25d47a4a3" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1"><akn:point GUID="97a5f631-d669-40fd-99b8-df7a793d7662" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1"><akn:num GUID="97af48f5-5187-41c0-9d71-30bc46242c43" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_bezeichnung-1">3.</akn:num><akn:list GUID="27175cd2-9e1f-4ab3-baa4-5f68393bb67a" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1"><akn:intro GUID="42f2f237-7d8f-4d78-8f8e-26611fec3fbe" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_intro-1"><akn:p GUID="edf49b79-ec32-4fde-9479-874019f99aa4" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_intro-1_text-1">bei den in den Nummern 1 und 2 Buchstabe c und d aufgeführten natürlichen Personen ergänzend allgemeine Angaben</akn:p></akn:intro><akn:point GUID="300d0b11-cd4c-40c5-83b6-e14ad309d6f2" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-1"><akn:num GUID="31c7ac00-b418-4887-b517-c3f8fe4ca711" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num><akn:content GUID="f47c2ead-5fa3-49e8-8b71-15e1f5460b45" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-1_inhalt-1"><akn:p GUID="f7f04636-9171-4bb7-b07d-84b055d34113" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1">über ein aktuell oder zuletzt wahrgenommenes Amt als Mitglied der Bundesregierung, das nicht länger als fünf Jahre zurückliegt,</akn:p></akn:content></akn:point><akn:point GUID="824d0c95-e89a-42dd-9bd6-0c79bec71103" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-2"><akn:num GUID="cf613dff-b952-4997-b9ba-ff23ad4b3f3f" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num><akn:content GUID="3bb9cc53-c4f3-4b5b-9d2a-e77c4350a155" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-2_inhalt-1"><akn:p GUID="3f908039-8d47-40ed-aee3-4579ec73a192" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1">über ein aktuell oder zuletzt wahrgenommenes Amt als Parlamentarische Staatssekretärin oder Parlamentarischer Staatssekretär, das nicht länger als fünf Jahre zurückliegt,</akn:p></akn:content></akn:point><akn:point GUID="45fe373e-2b6b-455f-8dd1-4ce3026e0b52" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-3"><akn:num GUID="61ed53f0-12fd-46ce-be05-d5bc12e414e5" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-3_bezeichnung-1">c)</akn:num><akn:content GUID="998520c2-3e96-4496-bfce-78068122fc26" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-3_inhalt-1"><akn:p GUID="4a0481d9-9c00-48da-ab0e-ec66cc5c6cf6" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1">über eine aktuell oder zuletzt bestehende Mitgliedschaft im Deutschen Bundestag, die nicht länger als fünf Jahre zurückliegt, sofern die Person nicht zugleich ein Amt nach Buchstabe a oder b wahrgenommen hat,</akn:p></akn:content></akn:point><akn:point GUID="d4ed7b22-9659-4fd8-b5df-9ac4c69b60d4" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-4"><akn:num GUID="cf4008f3-bb54-4f12-97af-2ddc14d9693c" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-4_bezeichnung-1">d)</akn:num><akn:content GUID="32919f6a-ac8b-476a-938e-a96c03c0ae6c" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-4_inhalt-1"><akn:p GUID="18d99ed9-2e23-4217-a7c2-b727e756c794" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-4_inhalt-1_text-1">über eine aktuell oder zuletzt ausgeübte Funktion für ein Mitglied des Deutschen Bundestages, die nicht länger als fünf Jahre zurückliegt,</akn:p></akn:content></akn:point><akn:point GUID="e9c07c31-e8a5-451f-b2f3-3b3a4eeed1cf" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-5"><akn:num GUID="7d214d1e-0418-4d52-8921-270fbc1a8384" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-5_bezeichnung-1">e)</akn:num><akn:content GUID="8d754d2b-03c9-4edd-8ef2-bc941a68b789" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-5_inhalt-1"><akn:p GUID="893db92f-d5c0-4f0f-af73-d4ab4a467d57" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-5_inhalt-1_text-1">über eine aktuell oder zuletzt ausgeübte Funktion für eine Fraktion oder Gruppe im Deutschen Bundestag, die nicht länger als fünf Jahre zurückliegt, oder</akn:p></akn:content></akn:point><akn:point GUID="e03f6937-e968-4d70-871e-62ca67c23962" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-6"><akn:num GUID="2a439f5c-0c87-4ffe-af2a-018b4a3c6b85" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-6_bezeichnung-1">f)</akn:num><akn:content GUID="18dc2420-fbef-4452-8aa9-1483ed7b7b99" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-6_inhalt-1"><akn:p GUID="26713749-bcac-494d-bc7b-762fe79ca149" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_listenelem-6_inhalt-1_text-1">über eine aktuell oder zuletzt ausgeübte Funktion oder ein aktuell oder zuletzt ausgeübtes Amt in der Bundesverwaltung, die oder das nicht länger als fünf Jahre zurückliegt,</akn:p></akn:content></akn:point><akn:wrapUp GUID="fc82db81-99b7-4d94-9be0-79d4b48be004" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_schlusstext-1"><akn:p GUID="5d568529-d3de-456e-a90a-4b2c124436b8" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-1_untergl-1_schlusstext-1_text-1">sowie gegebenenfalls die Angabe des Zeitpunkts der Beendigung dieser Tätigkeit,</akn:p></akn:wrapUp></akn:list></akn:point></akn:quotedStructure></akn:mod>.</akn:p>
                       </akn:content>
                     </akn:point>
-                    <!-- TODO: Two mods in one -->
-                    <!--
-                    <point marker="dd)">
-                      <content>
-                        <p>Die bisherige Nummer 3 wird Nummer 4 und wird wie folgt gefasst: <mod>
-                            <quotedStructure>
-                              <point marker="4.">
-                                <content>
-                                  <p>Interessen&#x2D; und Vorhabenbereiche sowie Beschreibung der zum Zweck der Interessenvertretung ausgeübten Tätigkeit,</p>
-                                </content>
-                              </point>
-                            </quotedStructure>
-                          </mod>.</p>
-                      </content>
-                    </point>
-                    -->
                     <akn:point GUID="f71edc9d-2624-409b-82b6-9e0bd6dd529e" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-4">
                       <akn:num GUID="acf1c96f-fe33-4540-a466-42eb4ad6a4e5" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-4_bezeichnung-1">ee)</akn:num>
                       <akn:content GUID="d3de4642-0d64-4ece-ba16-446e517ba989" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-3_untergl-1_listenelem-1_untergl-1_listenelem-4_inhalt-1">
@@ -776,59 +752,6 @@
                     </akn:p>
                   </akn:content>
                 </akn:point>
-                <!-- TODO: Two mods -->
-                <!--
-                <point marker="c)">
-                  <content>
-                    <p>Der bisherige Absatz 3 wird Absatz 4 und wird wie folgt gefasst:<mod>
-                        <quotedStructure>
-                          <paragraph marker="(4)">
-                            <content>
-                              <p>Der Zeitpunkt der Eintragung in das Lobbyregister sowie der Zeitpunkt der letzten Änderung und Aktualisierung werden automatisch ausgewiesen.</p>
-                            </content>
-                          </paragraph>
-                        </quotedStructure>
-                      </mod></p>
-                  </content>
-                </point>
-                <point marker="d)">
-                  <content>
-                    <p>Der bisherige Absatz 4 wird Absatz 5 und wird wie folgt gefasst:<mod>
-                        <quotedStructure>
-                          <paragraph marker="(5)">
-                            <content>
-                              <p>Werden die Angaben nach § 3 Absatz 1 und 2 nicht gemäß § 3 Absatz 3 Satz 2 aktualisiert und wird der gesamte Registereintrag nicht gemäß § 3 Absatz 3 Satz 3 vollständig überprüft sowie seine Richtigkeit bestätigt, werden die betroffenen Interessenvertreterinnen und Interessenvertreter durch elektronische Benachrichtigung aufgefordert, dies nachzuholen. Kommen sie dieser Aufforderung innerhalb von 30 Tagen nicht nach, wird die Eintragung als „nicht aktualisiert“ gekennzeichnet. Kommen sie der Aufforderung nach Satz 1 auch innerhalb von weiteren 120 Tagen nicht nach, werden sie elektronisch darüber benachrichtigt, dass die Eintragung in 30 Tagen in die Liste nach § 3 Absatz 5 übertragen wird.</p>
-                            </content>
-                          </paragraph>
-                        </quotedStructure>
-                      </mod></p>
-                  </content>
-                </point>
-                <point marker="e)">
-                  <list>
-                    <intro>
-                      <p>Der bisherige Absatz 5 wird Absatz 6 und wird wie folgt geändert:</p>
-                    </intro>
-                    <point marker="aa)">
-                      <content>
-                        <p>In Satz 1 werden die Wörter „des Absatzes 2 Satz 2“ durch die Wörter „des Absatzes 2 Satz 5“, wird das Wort „Antrag“ durch die Wörter „schriftlichen Antrag“, die Angabe „(§ 3 Absatz 1)“ durch die Wörter „(§ 3 Absatz 1 und 2)“ und werden die Wörter „§ 3 Absatz 1 Nummer 2 oder 4“ durch die Wörter „§ 3 Absatz 1 Nummer 1 und 2 sowie Absatz 2 Nummer 2 und 3“ ersetzt.</p>
-                      </content>
-                    </point>
-                    <point marker="bb)">
-                      <content>
-                        <p>Folgender Satz wird angefügt: <mod>
-                            <quotedText>Gegen eine ablehnende Entscheidung kann Widerspruch bei der registerführenden Stelle eingelegt werden.</quotedText>
-                          </mod></p>
-                      </content>
-                    </point>
-                  </list>
-                </point>
-                <point marker="f)">
-                  <content>
-                    <p>Der bisherige Absatz 6 wird Absatz 7 und in Satz 3 werden nach den Wörtern <quotedText>erteilt werden, ob</quotedText> die Wörter <quotedText>und gegebenenfalls mit welchen Angaben</quotedText> eingefügt.</p>
-                  </content>
-                </point>
-                -->
               </akn:list>
             </akn:point>
             <akn:point GUID="affa526c-ea34-4620-821c-7cc9c114cb10" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-5">
@@ -929,14 +852,6 @@
                     </akn:p>
                   </akn:content>
                 </akn:point>
-                <!-- TODO: Combined mods -->
-                <!--
-                <point marker="e)">
-                  <content>
-                    <p>Der bisherige Absatz 9 wird Absatz 10 und die Wörter „§ 3 Absatz 1 erfolgt ist, keine Angaben verweigert wurden“ werden durch die Wörter „§ 3 Absatz 1 und 2 erfolgt ist“ ersetzt.</p>
-                  </content>
-                </point>
-                -->
               </akn:list>
             </akn:point>
             <akn:point GUID="37de8685-ec40-46d4-9111-6a5465c5e75f" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-6">
