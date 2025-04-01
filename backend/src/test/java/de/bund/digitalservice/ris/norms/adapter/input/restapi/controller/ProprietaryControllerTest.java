@@ -69,10 +69,12 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var proprietary = Fixtures
-        .loadRegelungstextFromDisk("NormWithProprietary.xml")
+        .loadRegelungstextFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -343,12 +345,14 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures
-        .loadRegelungstextFromDisk("NormWithProprietary.xml")
+        .loadRegelungstextFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -375,7 +379,7 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures
         .loadRegelungstextFromDisk(
@@ -408,7 +412,7 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures
         .loadRegelungstextFromDisk(
