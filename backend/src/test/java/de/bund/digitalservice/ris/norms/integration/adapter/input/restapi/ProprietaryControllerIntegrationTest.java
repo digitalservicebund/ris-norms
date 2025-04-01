@@ -78,7 +78,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when
@@ -497,7 +502,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when
@@ -604,7 +614,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when
@@ -725,7 +740,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("NormWithoutProprietary.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ProprietaryControllerIntegrationTest.class,
+            "regelungstext-without-proprietary.xml"
+          )
+        )
       );
 
       // when

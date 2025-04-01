@@ -143,7 +143,10 @@ class ArticleServiceTest {
       final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      final var regelungstext = Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml");
+      final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        ArticleServiceTest.class,
+        "vereinsgesetz-without-articles.xml"
+      );
       final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
@@ -260,7 +263,7 @@ class ArticleServiceTest {
       var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
-        "regelungstext-without-articles.xml"
+        "vereinsgesetz-without-articles.xml"
       );
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));

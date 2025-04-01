@@ -117,7 +117,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      var regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+      );
       var offenestruktur = Fixtures.loadOffeneStrukturFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
       );
@@ -126,7 +128,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(DokumentMapper.mapToDto(offenestruktur));
 
       var binaryFile = Fixtures.loadBinaryFileFromDisk(
-        "image-1.png",
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
         DokumentManifestationEli.fromString(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
         )
@@ -418,7 +420,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      var regelungstext2 = Fixtures.loadRegelungstextFromDisk("SimpleRegelungstext2.xml");
+      var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+      );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext1));
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext2));
 

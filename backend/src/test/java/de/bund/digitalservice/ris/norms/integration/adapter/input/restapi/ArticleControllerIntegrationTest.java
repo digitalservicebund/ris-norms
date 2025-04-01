@@ -70,7 +70,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsEmptyListWhenTheNormHasNoArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ArticleControllerIntegrationTest.class,
+            "vereinsgesetz-without-articles.xml"
+          )
+        )
       );
 
       // When // Then
@@ -290,7 +295,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsNotFoundIfTheNormHasNoArticles() throws Exception {
       // Given
       dokumentRepository.save(
-        DokumentMapper.mapToDto(Fixtures.loadRegelungstextFromDisk("SimpleNorm.xml"))
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            ArticleControllerIntegrationTest.class,
+            "vereinsgesetz-without-articles.xml"
+          )
+        )
       );
 
       // When // Then

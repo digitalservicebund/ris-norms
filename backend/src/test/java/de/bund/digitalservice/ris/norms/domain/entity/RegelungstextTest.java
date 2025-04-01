@@ -480,46 +480,46 @@ class RegelungstextTest {
   void getStartDateForTemporalGroup() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "NormWithMultiplePassiveModifications.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
 
     // when
     final var date = regelungstext.getStartDateForTemporalGroup(
-      new EId("meta-1_geltzeiten-1_geltungszeitgr-2")
+      new EId("meta-1_geltzeiten-1_geltungszeitgr-1")
     );
 
     // then
-    assertThat(date).contains("2017-03-23");
+    assertThat(date).contains("1964-09-21");
   }
 
   @Test
   void getStartEventRefForTemporalGroup() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "NormWithMultiplePassiveModifications.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
 
     // when
     final var eId = regelungstext.getStartEventRefForTemporalGroup(
-      new EId("meta-1_geltzeiten-1_geltungszeitgr-2")
+      new EId("meta-1_geltzeiten-1_geltungszeitgr-1")
     );
 
     // then
-    assertThat(eId).contains(new EId("meta-1_lebzykl-1_ereignis-4"));
+    assertThat(eId).contains(new EId("meta-1_lebzykl-1_ereignis-2"));
   }
 
   @Test
   void getStartDateForEventRef() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "NormWithMultiplePassiveModifications.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
 
     // when
-    final var date = regelungstext.getStartDateForEventRef(new EId("meta-1_lebzykl-1_ereignis-3"));
+    final var date = regelungstext.getStartDateForEventRef(new EId("meta-1_lebzykl-1_ereignis-1"));
 
     // then
-    assertThat(date).contains("2017-03-15");
+    assertThat(date).contains("1964-08-05");
   }
 
   @Nested
