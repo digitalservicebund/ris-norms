@@ -7,8 +7,6 @@ import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import {
   useGetAnnouncementService,
@@ -32,56 +30,8 @@ const {
   error: loadingErrorAmendingLawHtml,
 } = useGetNormHtml(eli)
 
-const {
-  data: zielnormen,
-  isFetching: isFetchingZielnormen,
-  error: loadingErrorZielnormen,
-} = useGetZielnormen(normExpressionEli)
-
-const groupedZielnormen = computed(() => {
-  if (!zielnormen.value?.length) return []
-
-  const map = new Map<
-    string,
-    {
-      key: string
-      eli: string
-      title: string
-      fna: string
-      expressions: typeof zielnormen.value
-    }
-  >()
-
-  for (const norm of zielnormen.value) {
-    try {
-      const parsed = DokumentExpressionEli.fromString(norm.eli)
-      const key = `${parsed.agent}/${parsed.year}/${parsed.naturalIdentifier}`
-      const eli = `eli/bund/${key}`
-
-      if (!map.has(key)) {
-        map.set(key, { key, eli, title: "", fna: "", expressions: [] })
-      }
-
-      map.get(key)!.expressions.push(norm)
-    } catch (err) {
-      console.error("Failed to parse ELI", norm.eli, err)
-    }
-  }
-
-  return Array.from(map.values()).map((group) => {
-    const sortedExpressions = [...group.expressions].sort((a, b) =>
-      (b.frbrDateVerkuendung ?? "").localeCompare(a.frbrDateVerkuendung ?? ""),
-    )
-    const latest = sortedExpressions[0]
-
-    return {
-      ...group,
-      title: latest.shortTitle || latest.title || "Unbenannt",
-      fna: latest.fna || "nicht-vorhanden",
-      expressions: sortedExpressions.reverse(),
-    }
-  })
-})
+const { isFetching: isFetchingZielnormen, error: loadingErrorZielnormen } =
+  useGetZielnormen(normExpressionEli)
 
 const {
   data: announcement,
@@ -126,81 +76,7 @@ const {
   verkuendungPreviewLabelId,
 } = useElementId()
 
-const items = ref<RisZielnormenListItem[]>([
-  {
-    title: "Mutterschutzgesetz",
-    fna: "8052-5",
-    eli: "eli/bund/bgbl-1/1994/s2265",
-    expressions: [
-      {
-        eli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
-        ).toString(),
-        fna: "754-28-1",
-        frbrDateVerkuendung: "2017-03-15",
-        frbrName: "BGBl. I",
-        frbrNumber: "s593",
-        shortTitle: "Vereinsgesetz",
-        status: "status-not-yet-implemented",
-        title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
-      },
-      {
-        eli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-1",
-        ).toString(),
-        fna: "754-28-2",
-        frbrDateVerkuendung: "2017-03-16",
-        frbrName: "BGBl. I",
-        frbrNumber: "s593",
-        shortTitle: "Foo",
-        status: "status-not-yet-implemented",
-        title: "Gesetz zur Regelung des öffentlichen Foo",
-      },
-      {
-        eli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-1",
-        ).toString(),
-        fna: "754-28-3",
-        frbrDateVerkuendung: "2017-03-17",
-        frbrName: "BGBl. I",
-        frbrNumber: "s593",
-        shortTitle: "Bar",
-        status: "status-not-yet-implemented",
-        title: "Gesetz zur Regelung des öffentlichen Bar",
-      },
-      {
-        eli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s593/2017-03-18/1/deu/regelungstext-1",
-        ).toString(),
-        fna: "754-28-4",
-        frbrDateVerkuendung: "2017-03-18",
-        frbrName: "BGBl. I",
-        frbrNumber: "s593",
-        shortTitle: "Baz",
-        status: "status-not-yet-implemented",
-        title: "Gesetz zur Regelung des öffentlichen Baz",
-      },
-    ],
-  },
-  {
-    title: "Fünftes Buch Sozialgesetzbuch",
-    fna: "860-5",
-    eli: "eli/bund/bgbl-1/1968/s537",
-    expressions: [],
-  },
-  {
-    title: "Mutterschutz- und Elternzeitverordnung",
-    fna: "2030-2-30-2",
-    eli: "eli/bund/bgbl-1/1968/s537",
-    expressions: [],
-  },
-  {
-    title: "Mutterschutzverordnung für Soldatinnen",
-    fna: "51-1-23",
-    eli: "eli/bund/bgbl-1/1968/s537",
-    expressions: [],
-  },
-])
+const zielnormenListItems = ref<RisZielnormenListItem[]>([])
 </script>
 
 <template>
@@ -256,12 +132,12 @@ const items = ref<RisZielnormenListItem[]>([
 
                 <template v-else>
                   <RisEmptyState
-                    v-if="groupedZielnormen?.length === 0"
+                    v-if="zielnormenListItems.length === 0"
                     text-content="Es sind noch keine Zielnormen vorhanden"
                   />
 
                   <div v-else class="flex flex-col">
-                    <RisZielnormenList :items />
+                    <RisZielnormenList :items="zielnormenListItems" />
                   </div>
                 </template>
               </section>

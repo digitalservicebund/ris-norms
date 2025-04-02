@@ -73,7 +73,10 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
               <span class="text-gray-800">FNA</span>
               {{ item.fna }}
             </div>
-            <span>{{ item.eli }}</span>
+            <span>
+              <span class="sr-only">ELI</span>
+              {{ item.eli }}
+            </span>
           </div>
         </div>
       </AccordionHeader>
