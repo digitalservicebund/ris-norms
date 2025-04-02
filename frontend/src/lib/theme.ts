@@ -6,23 +6,8 @@ import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
 import type { AccordionPassThroughOptions } from "primevue/accordion"
 import type { AccordionContentPassThroughOptions } from "primevue/accordioncontent"
 import type { AccordionHeaderPassThroughOptions } from "primevue/accordionheader"
-import type { DataTablePassThroughOptions } from "primevue/datatable"
 import { usePassThrough } from "primevue/passthrough"
 import { tw } from "./tw"
-
-const dataTable: DataTablePassThroughOptions = {
-  table: {
-    class: tw`w-full`,
-  },
-  tbody: {
-    class: tw`divide-y divide-blue-300 ris-body2-regular`,
-  },
-  column: {
-    bodyCell: {
-      class: tw`py-12 px-14`,
-    },
-  },
-}
 
 const accordion: AccordionPassThroughOptions = {
   root: {
@@ -51,7 +36,6 @@ export default usePassThrough(
     accordion,
     accordionHeader,
     accordionContent,
-    dataTable,
   },
-  { mergeProps: false, mergeSections: false },
+  { mergeProps: false, mergeSections: true },
 )
