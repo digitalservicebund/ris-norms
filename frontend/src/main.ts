@@ -1,6 +1,7 @@
+import theme from "@/lib/theme"
 import { Sentry } from "@/plugins/sentry"
 import "@digitalservicebund/ris-ui/fonts.css"
-import { RisUiLocale, RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
+import { RisUiLocale } from "@digitalservicebund/ris-ui/primevue"
 import PrimeVue from "primevue/config"
 import ConfirmationService from "primevue/confirmationservice"
 import ToastService from "primevue/toastservice"
@@ -18,7 +19,7 @@ try {
   // Initialize Vue application
   const app = createApp(App)
     .use(PrimeVue, {
-      pt: RisUiTheme,
+      pt: theme,
       unstyled: true,
       locale: RisUiLocale.deDE,
     })
