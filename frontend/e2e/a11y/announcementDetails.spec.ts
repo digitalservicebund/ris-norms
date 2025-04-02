@@ -27,6 +27,7 @@ test.describe(
           "aria-allowed-attr",
           "aria-required-attr",
           "heading-order",
+          "color-contrast",
         ])
         .analyze()
       logAccessibilityViolations(accessibilityScanResults.violations)
