@@ -1,25 +1,62 @@
-import { describe, it, expect, vi, beforeEach } from "vitest"
+import { describe, expect, it } from "vitest"
+import {
+  getHighlightClasses,
+  useTimeBoundaryHighlightClasses,
+} from "./useTimeBoundaryHighlightClasses"
 
-describe("useTimeBoundaryHighlightClasses", () => {
-  beforeEach(() => {
-    vi.resetModules()
-    vi.resetAllMocks()
+describe("getHighlightClasses", () => {
+  it("returns highlight classes for the first allowed index", () => {
+    expect(getHighlightClasses(0)).toEqual({
+      selected: ["bg-highlight-1-selected"],
+      default: [
+        "bg-highlight-1-default",
+        "hover:bg-highlight-1-hover",
+        "focus:bg-highlight-1-hover",
+      ],
+    })
   })
 
-  it("if there are no highlight elements no classes are returned", async () => {
-    const { useTimeBoundaryHighlightClasses } = await import(
-      "./useTimeBoundaryHighlightClasses"
-    )
+  it("returns classes for the last allowed index", () => {
+    expect(getHighlightClasses(9)).toEqual({
+      selected: ["bg-highlight-10-selected"],
+      default: [
+        "bg-highlight-10-default",
+        "hover:bg-highlight-10-hover",
+        "focus:bg-highlight-10-hover",
+      ],
+    })
+  })
 
+  it("returns the default classes for an out of bound index", () => {
+    expect(getHighlightClasses(10)).toEqual({
+      selected: ["bg-highlight-default-selected"],
+      default: [
+        "bg-highlight-default-default",
+        "hover:bg-highlight-default-hover",
+        "focus:bg-highlight-default-hover",
+      ],
+    })
+  })
+
+  it("returns default classes for a negative index", () => {
+    expect(getHighlightClasses(-1)).toEqual({
+      selected: ["bg-highlight-default-selected"],
+      default: [
+        "bg-highlight-default-default",
+        "hover:bg-highlight-default-hover",
+        "focus:bg-highlight-default-hover",
+      ],
+    })
+  })
+})
+
+describe("useTimeBoundaryHighlightClasses", () => {
+  it("if there are no highlight elements no classes are returned", () => {
     const classes = useTimeBoundaryHighlightClasses([], () => false)
     expect(classes.value).toEqual({})
   })
 
-  it("get classes in order of temporal group eIds", async () => {
-    const { useTimeBoundaryHighlightClasses } = await import(
-      "./useTimeBoundaryHighlightClasses"
-    )
-
+  it("get classes in order of temporal group eIds", () => {
     const classes = useTimeBoundaryHighlightClasses(
       [
         {
@@ -37,9 +74,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-1"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-2-default`,
-      `hover:bg-highlight-2-hover`,
-      `focus:bg-highlight-2-hover`,
+      "bg-highlight-2-default",
+      "hover:bg-highlight-2-hover",
+      "focus:bg-highlight-2-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -48,9 +85,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-2"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-1-default`,
-      `hover:bg-highlight-1-hover`,
-      `focus:bg-highlight-1-hover`,
+      "bg-highlight-1-default",
+      "hover:bg-highlight-1-hover",
+      "focus:bg-highlight-1-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -58,11 +95,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
     ])
   })
 
-  it("when more than 10 dates exist the later dates get the default color", async () => {
-    const { useTimeBoundaryHighlightClasses } = await import(
-      "./useTimeBoundaryHighlightClasses"
-    )
-
+  it("when more than 10 dates exist the later dates get the default color", () => {
     const classes = useTimeBoundaryHighlightClasses(
       [
         {
@@ -120,9 +153,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-11"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-default-default`,
-      `hover:bg-highlight-default-hover`,
-      `focus:bg-highlight-default-hover`,
+      "bg-highlight-default-default",
+      "hover:bg-highlight-default-hover",
+      "focus:bg-highlight-default-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -131,9 +164,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-12"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-default-default`,
-      `hover:bg-highlight-default-hover`,
-      `focus:bg-highlight-default-hover`,
+      "bg-highlight-default-default",
+      "hover:bg-highlight-default-hover",
+      "focus:bg-highlight-default-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -141,11 +174,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
     ])
   })
 
-  it("missing time boundaries get the last color", async () => {
-    const { useTimeBoundaryHighlightClasses } = await import(
-      "./useTimeBoundaryHighlightClasses"
-    )
-
+  it("missing time boundaries get the last color", () => {
     const classes = useTimeBoundaryHighlightClasses(
       [
         {
@@ -162,9 +191,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-1"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-1-default`,
-      `hover:bg-highlight-1-hover`,
-      `focus:bg-highlight-1-hover`,
+      "bg-highlight-1-default",
+      "hover:bg-highlight-1-hover",
+      "focus:bg-highlight-1-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -173,9 +202,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-2"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-default-default`,
-      `hover:bg-highlight-default-hover`,
-      `focus:bg-highlight-default-hover`,
+      "bg-highlight-default-default",
+      "hover:bg-highlight-default-hover",
+      "focus:bg-highlight-default-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -183,11 +212,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
     ])
   })
 
-  it("elements with the same time boundary get the same color", async () => {
-    const { useTimeBoundaryHighlightClasses } = await import(
-      "./useTimeBoundaryHighlightClasses"
-    )
-
+  it("elements with the same time boundary get the same color", () => {
     const classes = useTimeBoundaryHighlightClasses(
       [
         {
@@ -209,9 +234,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-1"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-2-default`,
-      `hover:bg-highlight-2-hover`,
-      `focus:bg-highlight-2-hover`,
+      "bg-highlight-2-default",
+      "hover:bg-highlight-2-hover",
+      "focus:bg-highlight-2-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -220,9 +245,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-2"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-2-default`,
-      `hover:bg-highlight-2-hover`,
-      `focus:bg-highlight-2-hover`,
+      "bg-highlight-2-default",
+      "hover:bg-highlight-2-hover",
+      "focus:bg-highlight-2-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -231,9 +256,9 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-3"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-1-default`,
-      `hover:bg-highlight-1-hover`,
-      `focus:bg-highlight-1-hover`,
+      "bg-highlight-1-default",
+      "hover:bg-highlight-1-hover",
+      "focus:bg-highlight-1-hover",
       "outline-dotted",
       "outline",
       "outline-1",
@@ -241,11 +266,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
     ])
   })
 
-  it("selected elements get different classes", async () => {
-    const { useTimeBoundaryHighlightClasses } = await import(
-      "./useTimeBoundaryHighlightClasses"
-    )
-
+  it("selected elements get different classes", () => {
     const classes = useTimeBoundaryHighlightClasses(
       [
         {
@@ -267,21 +288,21 @@ describe("useTimeBoundaryHighlightClasses", () => {
     expect(classes.value["eid-1"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-2-selected`,
+      "bg-highlight-2-selected",
       "outline-2",
       "outline",
     ])
     expect(classes.value["eid-2"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-2-selected`,
+      "bg-highlight-2-selected",
       "outline-2",
       "outline",
     ])
     expect(classes.value["eid-3"]).toEqual([
       "px-2",
       "outline-blue-800",
-      `bg-highlight-1-selected`,
+      "bg-highlight-1-selected",
       "outline-2",
       "outline",
     ])

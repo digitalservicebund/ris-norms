@@ -14,7 +14,7 @@ function useUploadService(force: boolean, file: File): UseFetchReturn<Norm> {
   formData.append("file", file)
 
   return useApiFetch(
-    computed(() => `/announcements?force=${force}`),
+    computed(() => `/verkuendungen?force=${force}`),
     {
       method: "POST",
       body: formData,

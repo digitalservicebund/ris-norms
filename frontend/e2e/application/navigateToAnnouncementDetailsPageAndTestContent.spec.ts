@@ -11,7 +11,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "**/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        "**/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
         async (route) => {
           const response = await route.fetch()
           const body = await response.json()
@@ -24,7 +24,7 @@ test.describe(
       )
 
       await page.goto(
-        "./announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
 
       await expect(
@@ -36,7 +36,7 @@ test.describe(
       ).toBeVisible()
 
       const announcementSection = page.getByRole("region", {
-        name: "Bekanntmachungsdetails",
+        name: "Verkündungs-Details",
       })
 
       await expect(
@@ -64,12 +64,12 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "**/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        "**/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
         (route) => route.fulfill({ status: 404 }),
       )
 
       await page.goto(
-        "./announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
 
       // Check if redirected to 404 page
@@ -86,7 +86,7 @@ test.describe(
 
       // Navigate to the announcement
       await page.goto(
-        "./announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
 
       await expect(
@@ -96,7 +96,7 @@ test.describe(
 
     test("user can navigate to temporal data page", async ({ page }) => {
       await page.goto(
-        "./announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
 
       await page.getByText("Geltungszeitregeln anlegen").click()

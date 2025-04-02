@@ -62,7 +62,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // when
       mockMvc
-        .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").doesNotExist());
@@ -86,7 +86,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When
       mockMvc
-        .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
@@ -128,7 +128,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/announcements/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/verkuendungen/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
@@ -151,7 +151,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu";
       // When
       mockMvc
-        .perform(get("/api/v1/announcements/{eli}", eli).accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/v1/verkuendungen/{eli}", eli).accept(MediaType.APPLICATION_JSON))
         // Then
         .andExpect(status().isNotFound());
     }
@@ -187,7 +187,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/announcements/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen")
+          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen")
             .accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -200,7 +200,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "$[0].eli",
-            equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1")
           )
         )
         .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
@@ -227,7 +227,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
@@ -266,7 +266,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When / Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(
           jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
@@ -292,7 +292,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/not-a-xml-file")))
         .andExpect(jsonPath("fileName", equalTo("norm.txt")))
@@ -317,7 +317,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/not-a-ldml-de-xml-file")))
         .andExpect(jsonPath("fileName", equalTo("norm.xml")));
@@ -353,7 +353,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/norm-with-eli-exists-already")));
     }
@@ -386,7 +386,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/norm-with-guid-exists-already")));
     }
@@ -415,7 +415,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")))
         .andExpect(
@@ -447,7 +447,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
       // When // Then
       mockMvc
-        .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+        .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-schematron-valid")))
         .andExpect(
@@ -528,7 +528,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          multipart("/api/v1/announcements?force=true")
+          multipart("/api/v1/verkuendungen?force=true")
             .file(file)
             .accept(MediaType.APPLICATION_JSON)
         )

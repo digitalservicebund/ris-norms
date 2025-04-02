@@ -43,12 +43,15 @@ export default defineConfig((context) =>
 
             // Views are too complex too set up and mock in unit tests, we're covering
             // those with E2E test instead. (App is also a view)
-            "src/views/**/*",
+            "**/*.view.vue",
             "src/App.vue",
 
             // If necessary to use e.g. guards, we'll have a router-guards file that
             // then should be tested
             "src/router.ts",
+
+            // This file only contains styles and can't meaninfully be tested
+            "src/lib/theme.ts",
 
             // Just the init file and global setup, nothing much to test here.
             "src/main.ts",
