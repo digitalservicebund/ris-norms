@@ -21,7 +21,8 @@ const routes: readonly RouteRecordRaw[] = [
   {
     path: `/verkuendungen/${createDokumentExpressionEliPathParameter()}`,
     name: "AnnouncementDetails",
-    component: () => import("@/views/amending-law/AnnouncementDetailsView.vue"),
+    component: () =>
+      import("@/views/amending-law/AnnouncementDetails.view.vue"),
   },
   {
     path: `/${createDokumentExpressionEliPathParameter()}/metadata`,

@@ -1,25 +1,27 @@
 <script lang="ts" setup>
+import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisEmptyState from "@/components/controls/RisEmptyState.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
 import RisHeader from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
+import { useElementId } from "@/composables/useElementId"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
-import { useGetNormHtml } from "@/services/normService"
-import { ref, watch, computed } from "vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import { useRouter } from "vue-router"
-import Splitter from "primevue/splitter"
-import SplitterPanel from "primevue/splitterpanel"
-import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisEmptyState from "@/components/controls/RisEmptyState.vue"
-import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
 import {
   useGetAnnouncementService,
   useGetZielnormen,
 } from "@/services/announcementService"
-import RisZielnormenDataTable from "./RisZielnormenDataTable.vue"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import { useElementId } from "@/composables/useElementId"
+import { useGetNormHtml } from "@/services/normService"
+import Splitter from "primevue/splitter"
+import SplitterPanel from "primevue/splitterpanel"
+import { computed, ref, watch } from "vue"
+import { useRouter } from "vue-router"
+import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
+import type { RisZielnormenListItem } from "./RisZielnormenList.vue"
+import RisZielnormenList from "./RisZielnormenList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 const normExpressionEli = computed(() => eli.value.asNormEli())
@@ -123,6 +125,82 @@ const {
   zielnormenLabelId,
   verkuendungPreviewLabelId,
 } = useElementId()
+
+const items = ref<RisZielnormenListItem[]>([
+  {
+    title: "Mutterschutzgesetz",
+    fna: "8052-5",
+    eli: "eli/bund/bgbl-1/1994/s2265",
+    expressions: [
+      {
+        eli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        ).toString(),
+        fna: "754-28-1",
+        frbrDateVerkuendung: "2017-03-15",
+        frbrName: "BGBl. I",
+        frbrNumber: "s593",
+        shortTitle: "Vereinsgesetz",
+        status: "status-not-yet-implemented",
+        title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+      },
+      {
+        eli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-1",
+        ).toString(),
+        fna: "754-28-2",
+        frbrDateVerkuendung: "2017-03-16",
+        frbrName: "BGBl. I",
+        frbrNumber: "s593",
+        shortTitle: "Foo",
+        status: "status-not-yet-implemented",
+        title: "Gesetz zur Regelung des öffentlichen Foo",
+      },
+      {
+        eli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-1",
+        ).toString(),
+        fna: "754-28-3",
+        frbrDateVerkuendung: "2017-03-17",
+        frbrName: "BGBl. I",
+        frbrNumber: "s593",
+        shortTitle: "Bar",
+        status: "status-not-yet-implemented",
+        title: "Gesetz zur Regelung des öffentlichen Bar",
+      },
+      {
+        eli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-18/1/deu/regelungstext-1",
+        ).toString(),
+        fna: "754-28-4",
+        frbrDateVerkuendung: "2017-03-18",
+        frbrName: "BGBl. I",
+        frbrNumber: "s593",
+        shortTitle: "Baz",
+        status: "status-not-yet-implemented",
+        title: "Gesetz zur Regelung des öffentlichen Baz",
+      },
+    ],
+  },
+  {
+    title: "Fünftes Buch Sozialgesetzbuch",
+    fna: "860-5",
+    eli: "eli/bund/bgbl-1/1968/s537",
+    expressions: [],
+  },
+  {
+    title: "Mutterschutz- und Elternzeitverordnung",
+    fna: "2030-2-30-2",
+    eli: "eli/bund/bgbl-1/1968/s537",
+    expressions: [],
+  },
+  {
+    title: "Mutterschutzverordnung für Soldatinnen",
+    fna: "51-1-23",
+    eli: "eli/bund/bgbl-1/1968/s537",
+    expressions: [],
+  },
+])
 </script>
 
 <template>
@@ -183,11 +261,7 @@ const {
                   />
 
                   <div v-else class="flex flex-col">
-                    <RisZielnormenDataTable
-                      v-for="(group, index) in groupedZielnormen"
-                      :key="index"
-                      :grouped-zielnorm="group"
-                    />
+                    <RisZielnormenList :items />
                   </div>
                 </template>
               </section>
