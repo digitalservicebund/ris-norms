@@ -43,7 +43,7 @@ export default defineConfig((context) =>
 
             // Views are too complex too set up and mock in unit tests, we're covering
             // those with E2E test instead. (App is also a view)
-            "src/views/**/*",
+            "**/*.view.vue",
             "src/App.vue",
 
             // If necessary to use e.g. guards, we'll have a router-guards file that
