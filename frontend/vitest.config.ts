@@ -50,6 +50,9 @@ export default defineConfig((context) =>
             // then should be tested
             "src/router.ts",
 
+            // This file only contains styles and can't meaninfully be tested
+            "src/lib/theme.ts",
+
             // Just the init file and global setup, nothing much to test here.
             "src/main.ts",
             "src/plugins/sentry.ts",
