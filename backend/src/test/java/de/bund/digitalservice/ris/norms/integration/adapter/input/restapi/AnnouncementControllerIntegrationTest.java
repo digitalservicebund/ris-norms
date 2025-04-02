@@ -200,7 +200,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "$[0].eli",
-            equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1")
           )
         )
         .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))

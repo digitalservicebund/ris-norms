@@ -502,7 +502,7 @@ class AnnouncementServiceTest {
       verify(loadNormPort, times(1))
         .loadNorm(
           new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu")
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu")
           )
         );
     }
