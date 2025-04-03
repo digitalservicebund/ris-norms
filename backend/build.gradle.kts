@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
     implementation(libs.flyway.postgres)
+    implementation(libs.jobrunr)
     implementation(libs.jose4j)
     implementation(libs.prometheus)
     implementation(libs.saxon.he)
