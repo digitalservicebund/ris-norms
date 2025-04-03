@@ -32,4 +32,11 @@ describe("dokumentExpressionEli", () => {
       "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
     )
   })
+
+  it("asNormWorkEli", () => {
+    const eli = DokumentExpressionEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+    )
+    expect(eli.asNormWorkEli().toString()).toBe("eli/bund/bgbl-1/2021/s4")
+  })
 })
