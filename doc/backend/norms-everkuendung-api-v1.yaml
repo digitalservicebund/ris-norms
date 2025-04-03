@@ -36,7 +36,7 @@ paths:
 
           | Dokument                                                | Dateiformat        | Benennung                               | Anmerkungen      |
           | ------------------------------------------------------- | ------------------ | --------------------------------------- | ---------------- |
-          | Rechtsetzungsdokument                                   | XML                | `rechtsetzungsdokument.xml`             |                  |
+          | Rechtsetzungsdokument                                   | XML                | `rechtsetzungsdokument-1.xml`           |                  |
           | Regelungstext(e)                                        | XML                | `regelungstext-{n}.xml`                 |                  |
           | Strukturierte Anlage(n)                                 | XML                | `offenestruktur-{n}.xml`                | soweit vorhanden |
           | Nicht-strukturierte Anlage(n), z.B. eingebundene Bilder | PDF, JPG, PNG, GIF | entsprechend Referenzierung im Dokument | soweit vorhanden |
