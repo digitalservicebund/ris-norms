@@ -50,14 +50,17 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
     title: item.title,
     eli: item.eli,
     fna: item.fna,
-    expressions: item.expressions.map((expr, i) => ({
-      normExpressionEli: NormExpressionEli.fromString(expr.eli).toString(),
-      formattedDate: {
-        label: formatDate(expr.frbrDateVerkuendung),
-        color: getHighlightClasses(i).default,
-      },
-      formattedStatus: "neu",
-    })),
+    expressions: item.expressions.map((expr, i) => {
+      const normEli = NormExpressionEli.fromString(expr.eli)
+      return {
+        normExpressionEli: normEli.toString(),
+        formattedDate: {
+          label: formatDate(normEli.pointInTime),
+          color: getHighlightClasses(i).default,
+        },
+        formattedStatus: "neu",
+      }
+    }),
   })),
 )
 </script>
