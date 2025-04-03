@@ -18,8 +18,8 @@ import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref, watch } from "vue"
 import { useRouter } from "vue-router"
 import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
-import type { RisZielnormenListItem } from "./RisZielnormenList.vue"
 import RisZielnormenList from "./RisZielnormenList.vue"
+import { useGroupedZielnormen } from "./useGroupedZielnormen"
 
 const eli = useDokumentExpressionEliPathParameter()
 const normExpressionEli = computed(() => eli.value.asNormEli())
@@ -30,8 +30,11 @@ const {
   error: loadingErrorAmendingLawHtml,
 } = useGetNormHtml(eli)
 
-const { isFetching: isFetchingZielnormen, error: loadingErrorZielnormen } =
-  useGetZielnormen(normExpressionEli)
+const {
+  data: zielnormen,
+  isFetching: isFetchingZielnormen,
+  error: loadingErrorZielnormen,
+} = useGetZielnormen(normExpressionEli)
 
 const {
   data: announcement,
@@ -76,7 +79,7 @@ const {
   verkuendungPreviewLabelId,
 } = useElementId()
 
-const zielnormenListItems = ref<RisZielnormenListItem[]>([])
+const groupedZielnormen = useGroupedZielnormen(zielnormen)
 </script>
 
 <template>
@@ -132,12 +135,12 @@ const zielnormenListItems = ref<RisZielnormenListItem[]>([])
 
                 <template v-else>
                   <RisEmptyState
-                    v-if="zielnormenListItems.length === 0"
+                    v-if="groupedZielnormen.length === 0"
                     text-content="Es sind noch keine Zielnormen vorhanden"
                   />
 
                   <div v-else class="flex flex-col">
-                    <RisZielnormenList :items="zielnormenListItems" />
+                    <RisZielnormenList :items="groupedZielnormen" />
                   </div>
                 </template>
               </section>
