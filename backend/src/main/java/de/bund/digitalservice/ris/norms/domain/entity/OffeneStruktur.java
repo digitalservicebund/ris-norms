@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
  * Represents the "OffeneStruktur" of a norm in LDML.de.
  */
 @Getter
-public class OffeneStruktur extends Dokument {
+public non-sealed class OffeneStruktur extends Dokument {
 
   @Override
   public Dokument copy() {

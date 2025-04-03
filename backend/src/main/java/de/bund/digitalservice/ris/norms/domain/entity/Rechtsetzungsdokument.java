@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
  * Represents the "Rechtsetzungsdokument" of a norm in LDML.de.
  */
 @Getter
-public class Rechtsetzungsdokument extends Dokument {
+public non-sealed class Rechtsetzungsdokument extends Dokument {
 
   @Override
   public Dokument copy() {
