@@ -54,7 +54,21 @@ public class Fixtures {
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-bekanntmachung.xsd"
+          )
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
             LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-offenestruktur.xsd"
+          )
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
           )
       )
     )
@@ -71,6 +85,10 @@ public class Fixtures {
 
   public static XsdSchemaService getXsdSchemaService() {
     return xsdSchemaService;
+  }
+
+  public static LdmlDeValidator getLdmlDeValidator() {
+    return ldmlDeValidator;
   }
 
   public static Norm loadNormFromDisk(final String fileName) {
@@ -219,13 +237,13 @@ public class Fixtures {
     }
   }
 
-  private static URL getResource(String fileName) {
+  public static URL getResource(String fileName) {
     return Optional
       .ofNullable(Fixtures.class.getResource(FIXTURES_RESOURCE_FOLDER + "/" + fileName))
       .orElseThrow(() -> new RuntimeException("Could not find fixture " + fileName));
   }
 
-  private static URL getResource(Class<?> clazz, String fileName) {
+  public static URL getResource(Class<?> clazz, String fileName) {
     return Optional
       .ofNullable(clazz.getResource(clazz.getSimpleName() + "/" + fileName))
       .orElseThrow(() ->

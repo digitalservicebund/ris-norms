@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Bekanntmachung;
 import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
+import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -28,7 +30,9 @@ public class XsdSchemaService {
   Resource metadatenXsdSchema;
   Resource regelungstextVerkuendungsfassungXsdSchema;
   Resource risNormsRegelungstextVerkuendungsfassungXsdSchema;
+  Resource risNormsBekanntmachungXsdSchema;
   Resource risNormsOffeneStrukturXsdSchema;
+  Resource risNormsRechtsetzungsdokumentXsdSchema;
 
   public XsdSchemaService(
     @Value(
@@ -44,15 +48,23 @@ public class XsdSchemaService {
       "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
     ) Resource risNormsRegelungstextVerkuendungsfassungXsdSchema,
     @Value(
+      "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-bekanntmachung.xsd"
+    ) Resource risNormsBekanntmachungXsdSchema,
+    @Value(
       "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-offenestruktur.xsd"
-    ) Resource risNormsOffeneStrukturXsdSchema
+    ) Resource risNormsOffeneStrukturXsdSchema,
+    @Value(
+      "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
+    ) Resource risNormsRechtsetzungsdokumentXsdSchema
   ) {
     this.baukastenXsdSchema = baukastenXsdSchema;
     this.metadatenXsdSchema = metadatenXsdSchema;
     this.regelungstextVerkuendungsfassungXsdSchema = regelungstextVerkuendungsfassungXsdSchema;
     this.risNormsRegelungstextVerkuendungsfassungXsdSchema =
     risNormsRegelungstextVerkuendungsfassungXsdSchema;
+    this.risNormsBekanntmachungXsdSchema = risNormsBekanntmachungXsdSchema;
     this.risNormsOffeneStrukturXsdSchema = risNormsOffeneStrukturXsdSchema;
+    this.risNormsRechtsetzungsdokumentXsdSchema = risNormsRechtsetzungsdokumentXsdSchema;
   }
 
   /**
@@ -81,11 +93,27 @@ public class XsdSchemaService {
   }
 
   /**
+   * Load the neuris-norm specific schema for validating a {@link Bekanntmachung}
+   * @return the schema
+   */
+  public Schema getBekanntmachungSchema() {
+    return createSchemaFromResource(risNormsBekanntmachungXsdSchema);
+  }
+
+  /**
    * Load the neuris-norm specific schema for validating a {@link OffeneStruktur}
    * @return the schema
    */
   public Schema getOffeneStrukturSchema() {
     return createSchemaFromResource(risNormsOffeneStrukturXsdSchema);
+  }
+
+  /**
+   * Load the neuris-norm specific schema for validating a {@link Rechtsetzungsdokument}
+   * @return the schema
+   */
+  public Schema getRechtsetzungsdokumentSchema() {
+    return createSchemaFromResource(risNormsRechtsetzungsdokumentXsdSchema);
   }
 
   private Schema createSchemaFromResource(Resource schemaResource) {
