@@ -1,4 +1,5 @@
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
 export class DokumentExpressionEli {
   readonly agent: string
@@ -57,6 +58,10 @@ export class DokumentExpressionEli {
       this.version,
       this.language,
     )
+  }
+
+  asNormWorkEli(): NormWorkEli {
+    return new NormWorkEli(this.agent, this.year, this.naturalIdentifier)
   }
 
   toString(): string {

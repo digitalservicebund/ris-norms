@@ -25,8 +25,10 @@ export function useGroupedZielnormen(
         return dateA.localeCompare(dateB)
       })
       .reduce((all, current) => {
-        const parsed = DokumentExpressionEli.fromString(current.eli)
-        const eli = `eli/bund/${parsed.agent}/${parsed.year}/${parsed.naturalIdentifier}`
+        const eli = DokumentExpressionEli.fromString(current.eli)
+          .asNormEli()
+          .asNormWorkEli()
+          .toString()
 
         const group = all.get(eli) ?? {
           eli,

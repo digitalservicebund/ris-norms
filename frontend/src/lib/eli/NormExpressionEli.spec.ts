@@ -20,4 +20,11 @@ describe("normExpressionEli", () => {
     )
     expect(eli.toString()).toBe("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu")
   })
+
+  it("asNormWorkEli", () => {
+    const eli = NormExpressionEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
+    )
+    expect(eli.asNormWorkEli().toString()).toBe("eli/bund/bgbl-1/2021/s4")
+  })
 })
