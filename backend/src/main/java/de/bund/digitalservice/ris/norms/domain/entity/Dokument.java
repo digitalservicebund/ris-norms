@@ -18,11 +18,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Represents an abstract "Dokument" in LDML.de (which can be a "Rechtsetzungsdokument", a "Regelungstext" and a "Offene Struktur")
+ * Represents an abstract "Dokument" in LDML.de
  */
 @Getter
 @AllArgsConstructor
-public abstract class Dokument {
+public abstract sealed class Dokument
+  permits Bekanntmachung, OffeneStruktur, Rechtsetzungsdokument, Regelungstext {
 
   private final Document document;
 

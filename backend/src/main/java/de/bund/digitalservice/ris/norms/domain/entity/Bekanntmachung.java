@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
  * Represents the "Bekanntmachung" of a norm in LDML.de.
  */
 @Getter
-public class Bekanntmachung extends Dokument {
+public non-sealed class Bekanntmachung extends Dokument {
 
   @Override
   public Dokument copy() {
