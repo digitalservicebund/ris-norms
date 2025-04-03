@@ -396,13 +396,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
           )
         )
       );
 
       var newNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
       );
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
