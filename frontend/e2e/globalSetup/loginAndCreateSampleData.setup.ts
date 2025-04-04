@@ -27,6 +27,7 @@ setup("create sample data", async ({ authenticatedRequest: request }) => {
     "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",
     "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
     "bgbl-1_2017_s419/aenderungsgesetz.xml",
+    "bgbl-1_2017_s593/regelungstext-1.xml",
     "bgbl-1_2023_413/aenderungsgesetz.xml",
   ]
 

@@ -102,5 +102,63 @@ test.describe(
       await page.getByText("Geltungszeitregeln anlegen").click()
       await expect(page).toHaveURL(/.*\/temporal-data/)
     })
+
+    test("should show fallback if no Zielnormen available", async ({
+      page,
+    }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      )
+
+      const zielnormenSection = page.getByRole("region", { name: "Zielnormen" })
+      await expect(zielnormenSection).toBeVisible()
+      await expect(
+        zielnormenSection.getByText("Es sind noch keine Zielnormen vorhanden"),
+      ).toBeVisible()
+    })
+
+    test("should show Zielnormen", async ({ page }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+
+      const zielnormenSection = page.getByRole("region", { name: "Zielnormen" })
+      await expect(zielnormenSection).toBeVisible()
+      await expect(
+        zielnormenSection.getByText(
+          "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+        ),
+      ).toBeVisible()
+      await expect(zielnormenSection.getByText("FNA 754-28-1")).toBeVisible()
+    })
+
+    test("should expand the Zielnorm and Textkonsolidierung to show the expression with ELI and date", async ({
+      page,
+    }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+
+      const zielnormenSection = page.getByRole("region", { name: "Zielnormen" })
+
+      const zielnormButton = zielnormenSection.getByRole("button", {
+        name: /Gesetz zur Regelung des öffentlichen Vereinsrechts/,
+      })
+
+      await zielnormButton.click()
+
+      const textkonsolidierungButton = zielnormenSection.getByRole("button", {
+        name: "Textkonsolidierung",
+      })
+      await expect(textkonsolidierungButton).toBeVisible()
+      await textkonsolidierungButton.click()
+
+      await expect(
+        zielnormenSection.getByText(
+          "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu",
+        ),
+      ).toBeVisible()
+      await expect(zielnormenSection.getByText("15.03.2017")).toBeVisible()
+    })
   },
 )
