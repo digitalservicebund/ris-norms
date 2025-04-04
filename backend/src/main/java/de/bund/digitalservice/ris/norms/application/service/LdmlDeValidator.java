@@ -69,18 +69,26 @@ public class LdmlDeValidator {
    * @throws LdmlDeNotValidException if a part of the norm is not valid according to the XSD.
    */
   public void validateXSDSchema(Norm norm) {
-    norm
-      .getRegelungstexte()
-      .stream()
-      .map(Regelungstext::getDocument)
-      .map(XmlMapper::toString)
-      .forEach(this::parseAndValidateRegelungstext);
-    norm
-      .getOffenestrukturen()
-      .stream()
-      .map(OffeneStruktur::getDocument)
-      .map(XmlMapper::toString)
-      .forEach(this::parseAndValidateOffeneStruktur);
+    norm.getDokumente().forEach(this::validateXSDSchema);
+  }
+
+  /**
+   * Validate the xsd schema for a Dokument.
+   *
+   * @param dokument the Dokument to validate.
+   * @throws LdmlDeNotValidException if the dokument is not valid according to the XSD.
+   */
+  public void validateXSDSchema(Dokument dokument) {
+    var xmlContent = XmlMapper.toString(dokument.getDocument());
+
+    switch (dokument) {
+      case Regelungstext regelungstext -> this.parseAndValidateRegelungstext(xmlContent);
+      case Bekanntmachung bekanntmachung -> this.parseAndValidateBekanntmachung(xmlContent);
+      case OffeneStruktur offeneStruktur -> this.parseAndValidateOffeneStruktur(xmlContent);
+      case Rechtsetzungsdokument rechtsetzungsdokument -> this.parseAndValidateRechtsetzungsdokument(
+          xmlContent
+        );
+    }
   }
 
   /**
