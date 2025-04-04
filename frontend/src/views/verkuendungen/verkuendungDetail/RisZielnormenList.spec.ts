@@ -74,4 +74,23 @@ describe("risZielnormenList", () => {
       }),
     ).toBeInTheDocument()
   })
+
+  it("falls back to long title if short title is missing", () => {
+    render(RisZielnormenList, {
+      props: {
+        items: [
+          {
+            title: "Fallback long title",
+            eli: "eli/fallback",
+            shortTitle: "",
+            fna: "1234-5",
+            expressions: [],
+          },
+        ],
+      },
+    })
+
+    expect(screen.getByText(/Fallback long title/)).toBeInTheDocument()
+    expect(screen.queryByText(/abbrv/)).not.toBeInTheDocument()
+  })
 })
