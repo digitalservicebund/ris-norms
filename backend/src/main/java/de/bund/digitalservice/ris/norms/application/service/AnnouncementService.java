@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
@@ -167,11 +168,8 @@ public class AnnouncementService
 
     return affectedExpressionElis
       .stream()
-      .map(eli ->
-        loadNormPort
-          .loadNorm(new LoadNormPort.Command(eli))
-          .orElseThrow(() -> new NormNotFoundException(eli.toString()))
-      )
+      .map(eli -> loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+      .flatMap(Optional::stream)
       .toList();
   }
 }
