@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
  * component in the Spring context.
  */
 @Service
+@Slf4j
 public class AnnouncementService
   implements
     LoadAllAnnouncementsUseCase,
@@ -168,7 +170,17 @@ public class AnnouncementService
 
     return affectedExpressionElis
       .stream()
-      .map(eli -> loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+      .map(eli -> {
+        var norm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
+        if (norm.isEmpty()) {
+          log.warn(
+            "Norm with ELI {} could not be loaded when collecting expressions affected by Verkuendung with ELI {}",
+            eli,
+            query.eli()
+          );
+        }
+        return norm;
+      })
       .flatMap(Optional::stream)
       .toList();
   }
