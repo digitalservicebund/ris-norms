@@ -11,6 +11,7 @@ describe("risZielnormenList", () => {
           {
             title: "Example norm",
             eli: "eli/example",
+            shortTitle: "abbrv",
             fna: "4711-1",
             expressions: [],
           },
@@ -18,7 +19,7 @@ describe("risZielnormenList", () => {
       },
     })
 
-    expect(screen.getByText(/Example norm/)).toBeInTheDocument()
+    expect(screen.getByText(/abbrv/)).toBeInTheDocument()
     expect(screen.getByText(/4711-1/)).toBeInTheDocument()
     expect(screen.getByText(/eli\/example/)).toBeInTheDocument()
   })
@@ -31,6 +32,7 @@ describe("risZielnormenList", () => {
         items: [
           {
             title: "Example norm",
+            shortTitle: "abbrv",
             eli: "eli/example",
             fna: "4711-1",
             expressions: [
@@ -50,7 +52,7 @@ describe("risZielnormenList", () => {
       },
     })
 
-    await user.click(screen.getByRole("button", { name: /Example norm/ }))
+    await user.click(screen.getByRole("button", { name: /abbrv/ }))
     await user.click(screen.getByRole("button", { name: "Textkonsolidierung" }))
     const textko = screen.getByRole("region", { name: "Textkonsolidierung" })
 
