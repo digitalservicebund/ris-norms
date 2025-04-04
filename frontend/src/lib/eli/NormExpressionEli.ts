@@ -1,3 +1,5 @@
+import { NormWorkEli } from "@/lib/eli/NormWorkEli"
+
 export class NormExpressionEli {
   readonly agent: string
   readonly year: string
@@ -40,6 +42,10 @@ export class NormExpressionEli {
       parseInt(match.groups?.version ?? "0", 10),
       match.groups?.language ?? "",
     )
+  }
+
+  asNormWorkEli(): NormWorkEli {
+    return new NormWorkEli(this.agent, this.year, this.naturalIdentifier)
   }
 
   toString(): string {

@@ -214,7 +214,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
       var newXml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
       );
 
       // When // Then

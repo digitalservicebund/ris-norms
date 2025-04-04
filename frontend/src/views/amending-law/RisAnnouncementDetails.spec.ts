@@ -8,6 +8,7 @@ describe("risAnnouncementDetails", () => {
       props: {
         title: "Test Announcement Title",
       },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
     expect(screen.getByText("Test Announcement Title")).toBeInTheDocument()
   })
@@ -21,6 +22,7 @@ describe("risAnnouncementDetails", () => {
         datenlieferungsdatum: "2025-02-24T08:12:00Z",
         fna: "8052-5, 860-5, 2030-2-30-2, 51-1-23",
       },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
 
     expect(screen.getByText("Veröffentlichungsdatum")).toBeInTheDocument()

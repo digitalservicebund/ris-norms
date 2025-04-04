@@ -65,7 +65,7 @@ class ReleaseServiceTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
     );
     var savedRelease = new Release(Instant.now(), List.of(manifestationOfNormToQueue));
 
@@ -159,7 +159,7 @@ class ReleaseServiceTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
     );
 
     when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
@@ -208,7 +208,7 @@ class ReleaseServiceTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
     );
 
     when(normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli()))))
