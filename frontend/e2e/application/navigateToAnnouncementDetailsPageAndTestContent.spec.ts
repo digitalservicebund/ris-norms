@@ -124,11 +124,7 @@ test.describe(
 
       const zielnormenSection = page.getByRole("region", { name: "Zielnormen" })
       await expect(zielnormenSection).toBeVisible()
-      await expect(
-        zielnormenSection.getByText(
-          "Gesetz zur Regelung des öffentlichen Vereinsrechts",
-        ),
-      ).toBeVisible()
+      await expect(zielnormenSection.getByText("Vereinsgesetz")).toBeVisible()
       await expect(zielnormenSection.getByText("FNA 754-28-1")).toBeVisible()
     })
 
@@ -142,7 +138,7 @@ test.describe(
       const zielnormenSection = page.getByRole("region", { name: "Zielnormen" })
 
       const zielnormButton = zielnormenSection.getByRole("button", {
-        name: /Gesetz zur Regelung des öffentlichen Vereinsrechts/,
+        name: "Vereinsgesetz",
       })
 
       await zielnormButton.click()
