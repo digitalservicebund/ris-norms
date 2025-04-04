@@ -33,6 +33,7 @@ export function useGroupedZielnormen(
           eli,
           title: current.title ?? "",
           fna: current.fna ?? "",
+          shortTitle: current.shortTitle ?? "",
           expressions: [],
         }
 
