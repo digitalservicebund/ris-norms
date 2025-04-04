@@ -288,6 +288,24 @@ public abstract sealed class Dokument
     temporalDataNode.removeChild(temporalGroupNode);
   }
 
+  /**
+   * Load the filenames of all Dokumente references by this one.
+   * @return a List of filenames
+   */
+  public List<String> getReferencedDokumenteNames() {
+    return NodeParser
+      .getNodesFromExpression("//componentRef/@src|//documentRef/@href", document)
+      .stream()
+      .map(Node::getNodeValue)
+      .map(value -> {
+        if (value.contains("/")) {
+          return DokumentManifestationEli.fromString(value).getFileName();
+        }
+        return value;
+      })
+      .toList();
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;
