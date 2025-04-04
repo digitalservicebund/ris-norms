@@ -506,5 +506,27 @@ class AnnouncementServiceTest {
           )
         );
     }
+
+    @Test
+    void itDoesntReturnNonExistingNorms() {
+      // Given
+      var verkuendungsNorm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+
+      when(loadNormPort.loadNorm(any()))
+        .thenReturn(Optional.of(verkuendungsNorm))
+        .thenReturn(Optional.empty());
+
+      // When
+      var norms = announcementService.loadNormExpressionsAffectedByVerkuendung(
+        new LoadNormExpressionsAffectedByVerkuendungUseCase.Query(
+          verkuendungsNorm.getExpressionEli()
+        )
+      );
+
+      // Then
+      assertThat(norms).isEmpty();
+    }
   }
 }
