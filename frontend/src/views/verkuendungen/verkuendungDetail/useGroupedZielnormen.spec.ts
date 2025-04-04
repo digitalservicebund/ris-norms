@@ -55,6 +55,7 @@ describe("useGroupedZielnormen", () => {
         eli: "eli/bund/bgbl-1/2017/s593",
         fna: "754-28-1",
         title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+        shortTitle: "Vereinsgesetz",
         expressions: [
           {
             eli: "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
@@ -132,6 +133,7 @@ describe("useGroupedZielnormen", () => {
         eli: "eli/bund/bgbl-1/2018/s500",
         fna: "754-28-1",
         title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+        shortTitle: "Vereinsgesetz",
         expressions: [
           {
             eli: "eli/bund/bgbl-1/2018/s500/2018-03-15/1/deu/regelungstext-1",
@@ -149,6 +151,7 @@ describe("useGroupedZielnormen", () => {
         eli: "eli/bund/bgbl-1/2018/s300",
         fna: "754-28-3",
         title: "Gesetz zur Regelung des öffentlichen Bar",
+        shortTitle: "Bar",
         expressions: [
           {
             eli: "eli/bund/bgbl-1/2018/s300/2018-03-17/1/deu/regelungstext-1",
@@ -166,6 +169,7 @@ describe("useGroupedZielnormen", () => {
         eli: "eli/bund/bgbl-1/2020/s400",
         fna: "754-28-2",
         title: "Gesetz zur Regelung des öffentlichen Foo",
+        shortTitle: "Foo",
         expressions: [
           {
             eli: "eli/bund/bgbl-1/2020/s400/2020-03-16/1/deu/regelungstext-1",
@@ -223,6 +227,7 @@ describe("useGroupedZielnormen", () => {
         eli: "eli/bund/bgbl-1/2017/s593",
         fna: "754-28-1",
         title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+        shortTitle: "Vereinsgesetz",
         expressions: [
           {
             eli: "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
