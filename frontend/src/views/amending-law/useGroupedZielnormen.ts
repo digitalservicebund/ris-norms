@@ -26,7 +26,6 @@ export function useGroupedZielnormen(
       })
       .reduce((all, current) => {
         const eli = DokumentExpressionEli.fromString(current.eli)
-          .asNormEli()
           .asNormWorkEli()
           .toString()
 
