@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import { computed } from "vue"
 
 const props = defineProps<{
@@ -61,36 +62,23 @@ const computedFna = computed(() => props.fna ?? "")
       {{ title }}
     </span>
 
-    <div class="flex flex-wrap gap-x-16 gap-y-4">
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">
-          Veröffentlichungsdatum
-        </span>
-        <span class="ris-body2-regular break-words">{{
-          computedfrbrDateVerkuendung
-        }}</span>
-      </div>
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-16">
+      <RisPropertyValue
+        property="Veröffentlichungsdatum"
+        :value="computedfrbrDateVerkuendung"
+      />
 
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">Ausfertigungsdatum</span>
-        <span class="ris-body2-regular break-words">{{
-          computedfrbrDateAusfertigung
-        }}</span>
-      </div>
+      <RisPropertyValue
+        property="Ausfertigungsdatum"
+        :value="computedfrbrDateAusfertigung"
+      />
 
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">
-          Datenlieferungsdatum
-        </span>
-        <span class="ris-body2-regular break-words">{{
-          computedimportTimestamp
-        }}</span>
-      </div>
+      <RisPropertyValue
+        property="Datenlieferungsdatum"
+        :value="computedimportTimestamp"
+      />
 
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">FNA</span>
-        <span class="ris-body2-regular break-words">{{ computedFna }}</span>
-      </div>
+      <RisPropertyValue property="FNA" :value="computedFna" />
     </div>
 
     <div class="flex flex-col items-start gap-4">
