@@ -69,7 +69,7 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
     :loading="isFetchingVerkuendung"
   >
     <Splitter class="h-full" layout="horizontal">
-      <SplitterPanel :size="75" :min-size="30">
+      <SplitterPanel :size="66" :min-size="33">
         <div class="flex h-full flex-col gap-24 overflow-auto bg-gray-100">
           <section
             class="shrink-0 p-24 pb-0"
@@ -116,23 +116,28 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
         </div>
       </SplitterPanel>
 
-      <SplitterPanel :size="25" :min-size="25">
-        <section class="h-full" :aria-labelledby="verkuendungPreviewLabelId">
+      <SplitterPanel :size="33" :min-size="33">
+        <section
+          class="h-full overflow-auto"
+          :aria-labelledby="verkuendungPreviewLabelId"
+        >
           <span :id="verkuendungPreviewLabelId" class="sr-only">
             Verkündungstext
           </span>
           <div
             v-if="isFetchingVerkuendungPreview"
-            class="flex items-center justify-center"
+            class="flex h-full items-center justify-center p-24"
           >
             <RisLoadingSpinner></RisLoadingSpinner>
           </div>
-          <div v-else-if="verkuendungPreviewError">
+
+          <div v-else-if="verkuendungPreviewError" class="p-24">
             <RisErrorCallout :error="verkuendungPreviewError" />
           </div>
+
           <RisLawPreview
-            class="h-full w-full"
-            :content="verkuendungPreview ?? ''"
+            v-if="verkuendungPreview"
+            :content="verkuendungPreview"
             :arrow-focus="false"
           />
         </section>

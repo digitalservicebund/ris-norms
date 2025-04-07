@@ -380,14 +380,14 @@ const slots: SetupContext["slots"] = useSlots()
 </script>
 
 <template>
-  <div class="overflow-hidden">
+  <div>
     <!-- eslint-disable vue/no-v-html -->
     <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
     <div
       ref="container"
       :aria-activedescendant="activeDescendant"
       :role="arrowFocus ? 'textbox' : undefined"
-      class="preview-container flex h-full overflow-auto bg-white p-20 outline outline-4 outline-blue-800 focus:outline focus:outline-4 focus:-outline-offset-2 focus:outline-blue-800"
+      class="preview-container flex bg-white p-20 focus:outline-4 focus:-outline-offset-2 focus:outline-blue-800"
       :class="{
         'default-norm-style': styled,
       }"
@@ -400,7 +400,6 @@ const slots: SetupContext["slots"] = useSlots()
     ></div>
     <!-- eslint-enable vue/no-v-html -->
     <!-- eslint-enable vuejs-accessibility/no-static-element-interactions -->
-
     <template
       v-for="eId in getTeleportSlotEIds(slots)"
       :key="`${uniqueId}-${eId}`"
