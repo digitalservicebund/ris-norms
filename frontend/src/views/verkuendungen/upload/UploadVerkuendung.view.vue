@@ -1,28 +1,28 @@
 <script lang="ts" setup>
-import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
 import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
-import RisHeader from "@/components/controls/RisHeader.vue"
+import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useErrorMessage } from "@/composables/useErrorMessage"
+import { useAuthentication } from "@/lib/auth"
 import { isErrorResponse } from "@/lib/errorResponseMapper"
+import { useForceUploadFile } from "@/services/uploadService"
 import type { ErrorResponse } from "@/types/errorResponse"
 import type { Norm } from "@/types/norm"
+import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
 import Button from "primevue/button"
-import FileUpload from "primevue/fileupload"
 import ConfirmDialog from "primevue/confirmdialog"
-import { useConfirm } from "primevue/useconfirm"
-import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"
-import Message from "primevue/message"
-import { useToast } from "primevue/usetoast"
-import { computed, ref, useTemplateRef } from "vue"
-import { useRouter } from "vue-router"
-import { useForceUploadFile } from "@/services/uploadService"
-import { useAuthentication } from "@/lib/auth"
 import type {
   FileUploadBeforeSendEvent,
   FileUploadErrorEvent,
   FileUploadUploadEvent,
 } from "primevue/fileupload"
+import FileUpload from "primevue/fileupload"
+import Message from "primevue/message"
+import { useConfirm } from "primevue/useconfirm"
+import { useToast } from "primevue/usetoast"
+import { computed, ref, useTemplateRef } from "vue"
+import { useRouter } from "vue-router"
+import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"
 
 const { addAuthorizationHeader } = useAuthentication()
 
@@ -160,7 +160,7 @@ async function forceUpload() {
       life: 10000,
     })
     if (data.value.eli) {
-      await router.push(`/amending-laws/${data.value.eli}`)
+      await router.push(`/verkuendungen/${data.value.eli}`)
     }
   } else if (error.value) {
     addToast({
@@ -181,9 +181,7 @@ function resetUploadPage() {
 </script>
 
 <template>
-  <RisHeader :back-destination="{ name: 'Home' }" :breadcrumbs="breadcrumbs" />
-
-  <div class="flex flex-col bg-gray-100 p-24 pb-64">
+  <RisViewLayout :header-back-destination="{ name: 'Home' }" :breadcrumbs>
     <h1 class="ris-heading2-regular mb-64">Upload</h1>
 
     <div class="mx-auto flex w-full max-w-[640px] flex-col items-center gap-24">
@@ -240,7 +238,8 @@ function resetUploadPage() {
         </output>
       </div>
     </div>
-  </div>
+  </RisViewLayout>
+
   <ConfirmDialog>
     <template #icon>
       <IcBaselineErrorOutline class="text-red-800" />

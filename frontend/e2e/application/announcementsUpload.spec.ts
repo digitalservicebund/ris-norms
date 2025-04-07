@@ -115,7 +115,9 @@ test(
       page.getByText("Verkündung erfolgreich hochgeladen"),
     ).toBeVisible()
 
-    await expect(page.getByText("Upload Test 2/2")).toBeVisible()
+    await expect(
+      page.getByLabel("Verkündungs-Details").getByText("Upload Test 2/2"),
+    ).toBeVisible()
   },
 )
 

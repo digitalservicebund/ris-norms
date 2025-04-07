@@ -1,7 +1,9 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import RisViewLayout from "@/components/RisViewLayout.vue"
+</script>
 
 <template>
-  <div class="p-24">
+  <RisViewLayout>
     <h1 class="ris-heading2-regular mb-24">
       <span class="font-bold">404</span> - Seite nicht gefunden
     </h1>
@@ -19,5 +21,5 @@
         Schaltfläche ausgewählt haben, wenden Sie sich an den NeuRIS-Support.
       </p>
     </div>
-  </div>
+  </RisViewLayout>
 </template>
