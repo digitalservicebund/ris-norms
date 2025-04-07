@@ -1,8 +1,8 @@
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
-test.describe("Navigation", () => {
-  test("Navigate to article editor using side navigation", async ({ page }) => {
+test.describe("navigation", () => {
+  test("navigate to article editor using side navigation", async ({ page }) => {
     await page.goto(
       "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     )
@@ -20,7 +20,7 @@ test.describe("Navigation", () => {
     )
   })
 
-  test("Navigate to base url opens editor without selected mods", async ({
+  test("navigate to base url opens editor without selected mods", async ({
     page,
   }) => {
     await page.goto(
@@ -40,7 +40,7 @@ test.describe("Navigation", () => {
     ).toBeVisible()
   })
 
-  test("Navigate to url with selected mod opens editor with selected mod", async ({
+  test("navigate to url with selected mod opens editor with selected mod", async ({
     page,
   }) => {
     await page.goto(
@@ -55,8 +55,8 @@ test.describe("Navigation", () => {
   })
 })
 
-test.describe("Mod selection and url behaviour", () => {
-  test("Selecting mod updates url", async ({ page }) => {
+test.describe("mod selection and URL behaviour", () => {
+  test("selecting mod updates url", async ({ page }) => {
     await page.goto(
       "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
@@ -72,7 +72,7 @@ test.describe("Mod selection and url behaviour", () => {
     )
   })
 
-  test("Deselecting mod updates url", async ({ page }) => {
+  test("deselecting mod updates url", async ({ page }) => {
     await page.goto(
       "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -88,7 +88,7 @@ test.describe("Mod selection and url behaviour", () => {
     )
   })
 
-  test("Selecting multiple mod updates url", async ({ page }) => {
+  test("selecting multiple mod updates url", async ({ page }) => {
     await page.goto(
       "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -113,7 +113,7 @@ test.describe("Mod selection and url behaviour", () => {
     )
   })
 
-  test("Deselecting some mod works", async ({ page }) => {
+  test("deselecting some mod works", async ({ page }) => {
     await page.goto(
       "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -141,7 +141,7 @@ test.describe("Mod selection and url behaviour", () => {
     )
   })
 
-  test("Selecting a range of mods using Shift + click works", async ({
+  test("selecting a range of mods using Shift + click works", async ({
     page,
   }) => {
     await page.goto(
@@ -165,7 +165,7 @@ test.describe("Mod selection and url behaviour", () => {
     ).toBeVisible()
   })
 
-  test("Selecting all mods using Ctrl+A works", async ({ page }) => {
+  test("selecting all mods using Ctrl+A works", async ({ page }) => {
     await page.goto(
       "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -210,7 +210,7 @@ test.describe("Mod selection and url behaviour", () => {
 })
 
 test.describe("XML and HTML tabs", () => {
-  test("Load amending law xml and html in their respective tabs", async ({
+  test("load amending law xml and html in their respective tabs", async ({
     page,
   }) => {
     await page.goto(
@@ -240,7 +240,7 @@ test.describe("XML and HTML tabs", () => {
     ).toBeVisible()
   })
 
-  test("Handle 404 error for XML in tabs", async ({ page }) => {
+  test("handle 404 error for XML in tabs", async ({ page }) => {
     await page.route(
       "**/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?",
       async (route, request) => {

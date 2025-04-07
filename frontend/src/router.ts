@@ -3,11 +3,14 @@ import type { RouteRecordRaw } from "vue-router"
 import { createRouter, createWebHistory } from "vue-router"
 
 /**
- * The regular expressions for the eId is based on the definitions from LDML.de 1.7.2 (Section 9.2.12.67, eIdLiterals.einzelvorschrift)
+ * The regular expressions for the eId is based on the definitions from
+ * LDML.de 1.7.2 (Section 9.2.12.67, eIdLiterals.einzelvorschrift)
  *
  * The expression only matches eIds that represent articles or paragraphs.
  *
- * All groups have been converted to non-capturing groups and all closing ) have been escaped. This is as the vue-router otherwise has problems parsing the RegEx.
+ * All groups have been converted to non-capturing groups and all closing ")"
+ * have been escaped. This is as the vue-router otherwise has problems parsing
+ * the RegEx.
  */
 const ARTICLE_EID_ROUTE_PATH =
   ":eid((?:[a-zäöüß0-9]+-[1-9]{1}[0-9]*_\\)*(?:art\\)-[1-9]{1}[0-9]*)"
@@ -16,14 +19,42 @@ const routes: readonly RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
-    redirect: { name: "AmendingLaws" },
+    redirect: { name: "Verkuendungen" },
   },
+
   {
-    path: `/verkuendungen/${createDokumentExpressionEliPathParameter()}`,
-    name: "AnnouncementDetails",
-    component: () =>
-      import("@/views/amending-law/AnnouncementDetails.view.vue"),
+    path: `/verkuendungen`,
+    children: [
+      {
+        path: "",
+        name: "Verkuendungen",
+        component: () => import("@/views/verkuendungen/Verkuendungen.view.vue"),
+      },
+      {
+        path: "upload",
+        name: "VerkuendungUpload",
+        component: () =>
+          import("@/views/verkuendungen/upload/UploadVerkuendung.view.vue"),
+      },
+      {
+        path: `${createDokumentExpressionEliPathParameter()}`,
+        name: "VerkuendungDetail",
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/VerkuendungDetail.view.vue"
+          ),
+      },
+      {
+        path: `${createDokumentExpressionEliPathParameter()}/zeitgrenzen`,
+        name: "VerkuendungZeitgrenzen",
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/zeitgrenzen/VerkuendungZeitgrenzen.view.vue"
+          ),
+      },
+    ],
   },
+
   {
     path: `/${createDokumentExpressionEliPathParameter()}/metadata`,
     name: "ExpressionMetadataEditor",
@@ -58,20 +89,12 @@ const routes: readonly RouteRecordRaw[] = [
       },
     ],
   },
+
+  // Legacy routes - these are leftovers from an earlier version of the
+  // application and will be removed soon
   {
     path: "/amending-laws",
     children: [
-      {
-        path: "",
-        name: "AmendingLaws",
-        component: () => import("@/views/amending-laws/AmendingLaws.view.vue"),
-      },
-      {
-        path: "upload",
-        name: "UploadAnnouncement",
-        component: () =>
-          import("@/views/amending-law/upload/UploadAnnouncement.view.vue"),
-      },
       {
         path: createDokumentExpressionEliPathParameter(),
         component: () => import("@/views/amending-law/AmendingLaw.view.vue"),
@@ -108,6 +131,9 @@ const routes: readonly RouteRecordRaw[] = [
       },
     ],
   },
+
+  // Legacy routes - these are leftovers from an earlier version of the
+  // application and will be removed soon
   {
     path: `/amending-laws/${createDokumentExpressionEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
     name: "AmendingLawArticleEditor",
@@ -134,6 +160,9 @@ const routes: readonly RouteRecordRaw[] = [
       },
     ],
   },
+
+  // Legacy routes - these are leftovers from an earlier version of the
+  // application and will be removed soon
   {
     path: `/amending-laws/${createDokumentExpressionEliPathParameter()}/references/:refEid?`,
     name: "References",
@@ -142,6 +171,7 @@ const routes: readonly RouteRecordRaw[] = [
         "@/views/amending-law/affected-documents/references/References.view.vue"
       ),
   },
+
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",

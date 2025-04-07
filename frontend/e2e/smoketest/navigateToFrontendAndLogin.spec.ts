@@ -29,7 +29,7 @@ test.describe(
       page,
       appCredentials,
     }) => {
-      await page.goto("./amending-laws/upload")
+      await page.goto("./verkuendungen/upload")
       await expect(page.getByText("Anmelden bei NeuRIS Staging")).toBeVisible()
 
       await page
@@ -42,7 +42,7 @@ test.describe(
 
       await page.getByRole("button", { name: "Anmelden" }).click()
 
-      await page.waitForURL("/app/amending-laws/upload")
+      await page.waitForURL("/app/verkuendungen/upload")
       await expect(page.getByRole("heading", { name: "Upload" })).toBeVisible()
     })
   },

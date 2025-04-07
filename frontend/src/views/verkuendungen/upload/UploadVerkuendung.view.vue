@@ -35,7 +35,7 @@ function addAuthHeader(event: FileUploadBeforeSendEvent) {
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
-    key: "uploadAnnouncement",
+    key: "VerkuendungUpload",
     title: "Verkündung manuell hinzufügen",
   },
 ])
@@ -85,7 +85,7 @@ function onUploaded(event: FileUploadUploadEvent) {
     const responseData: Norm = JSON.parse(event.xhr.responseText)
 
     if (responseData.eli) {
-      router.push(`/amending-laws/${responseData.eli}`)
+      router.push(`/verkuendungen/${responseData.eli}`)
     } else throw new Error()
 
     addToast({

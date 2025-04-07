@@ -138,8 +138,8 @@ test("should be able to add two new ref's and delete one using the delete icon i
   await expect(ref2Highlight).toBeVisible()
 })
 
-test.describe("References Page Error Handling", () => {
-  test("Redirect to 404 if XML not found", async ({ page }) => {
+test.describe("references page error handling", () => {
+  test("redirect to 404 if XML not found", async ({ page }) => {
     await page.route(
       "**/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1?",
       async (route, request) => {

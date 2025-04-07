@@ -3,13 +3,13 @@ import { expect } from "@playwright/test"
 import { logAccessibilityViolations, useAxeBuilder } from "../utils/a11y"
 
 test.describe(
-  "Accessibility check for Announcements Page",
+  "accessibility check for Verkuendungen page",
   { tag: ["@RISDEV-6515"] },
   () => {
-    test("Should have no detectable accessibility violations", async ({
+    test("should have no detectable accessibility violations", async ({
       page,
     }) => {
-      await page.goto("./amending-laws")
+      await page.goto("./verkuendungen")
       await expect(
         page.getByRole("button", {
           name: "Verkündung manuell hinzufügen",

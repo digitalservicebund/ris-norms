@@ -2,8 +2,8 @@ import { amendingLaws } from "@e2e/testData/testData"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
-test.describe("Articles page", () => {
-  test(`navigate to articles overview`, async ({ page }) => {
+test.describe("articles page", () => {
+  test("navigate to articles overview", async ({ page }) => {
     await page.goto(
       "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     )
@@ -47,7 +47,7 @@ test.describe("Articles page", () => {
 
       // Back
       await page.getByRole("link", { name: "Zurück" }).click()
-      await expect(page).toHaveURL("/app/amending-laws")
+      await expect(page).toHaveURL("/app/verkuendungen")
     })
   }
 })

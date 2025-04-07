@@ -94,7 +94,10 @@ const computedFna = computed(() => props.fna ?? "")
     </div>
 
     <div class="flex flex-col items-start gap-4">
-      <RouterLink :to="{ name: 'TemporalData' }" class="ris-link1-bold">
+      <RouterLink
+        :to="{ name: 'VerkuendungZeitgrenzen' }"
+        class="ris-link1-bold"
+      >
         Geltungszeitregeln anlegen
       </RouterLink>
 
