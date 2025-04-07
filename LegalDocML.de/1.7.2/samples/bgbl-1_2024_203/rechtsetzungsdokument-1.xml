@@ -48,7 +48,7 @@
     </akn:meta>
     <akn:collectionBody GUID="3d866c93-c5d7-42e2-b447-3ac2a6d6341f" eId="rdokhauptteil-1">
       <akn:component GUID="43589fed-e573-4332-bdf9-fcf23d2e1d6d" eId="rdokhauptteil-1_tldokverweis-1">
-        <akn:documentRef GUID="e7314d58-1112-472d-9e4d-92ce7150422b" eId="rdokhauptteil-1_tldokverweis-1_verweis-1" href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/regelungstext-1.xml" showAs="regelungstext"/>
+        <akn:documentRef GUID="e7314d58-1112-472d-9e4d-92ce7150422b" eId="rdokhauptteil-1_tldokverweis-1_verweis-1" href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/regelungstext-1.xml" showAs="regelungstext"/>
       </akn:component>
     </akn:collectionBody>
   </akn:documentCollection>
