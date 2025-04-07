@@ -19,7 +19,7 @@ setup("login", async ({ page, appCredentials }) => {
 
   await page.context().storageState({ path: `e2e/storage/state.json` })
 
-  await page.waitForURL(/\/amending-laws/)
+  await page.waitForURL(/\/verkuendungen/)
 })
 
 setup("create sample data", async ({ authenticatedRequest: request }) => {

@@ -17,7 +17,7 @@ import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref, watch } from "vue"
 import { useRouter } from "vue-router"
-import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
+import RisVerkuendungHeader from "./RisVerkuendungHeader.vue"
 import RisZielnormenList from "./RisZielnormenList.vue"
 import { useGroupedZielnormen } from "./useGroupedZielnormen"
 
@@ -110,7 +110,7 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
                 <span :id="verkuendungDetailsLabelId" class="sr-only">
                   Verkündungs-Details
                 </span>
-                <RisAnnouncementDetails
+                <RisVerkuendungHeader
                   :title="announcement?.title"
                   :veroeffentlichungsdatum="announcement?.frbrDateVerkuendung"
                   :ausfertigungsdatum="announcement?.dateAusfertigung"

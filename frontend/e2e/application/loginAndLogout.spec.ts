@@ -7,7 +7,7 @@ test.describe(
   "login and logout functionality",
   { tag: ["@RISDEV-5654"] },
   () => {
-    test("An unauthenticated user gets redirected to the login and then to the page they wanted to visit, after clicking Abmelden they are logged out again", async ({
+    test("an unauthenticated user gets redirected to the login and then to the page they wanted to visit, after clicking Abmelden they are logged out again", async ({
       page,
     }) => {
       await page.goto(

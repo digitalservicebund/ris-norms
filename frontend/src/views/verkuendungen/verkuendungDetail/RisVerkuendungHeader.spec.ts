@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, it } from "vitest"
-import RisAnnouncementDetails from "./RisAnnouncementDetails.vue"
+import RisVerkuendungHeader from "./RisVerkuendungHeader.vue"
 
 describe("risAnnouncementDetails", () => {
   it("should render the title", () => {
-    render(RisAnnouncementDetails, {
+    render(RisVerkuendungHeader, {
       props: {
         title: "Test Announcement Title",
       },
@@ -14,7 +14,7 @@ describe("risAnnouncementDetails", () => {
   })
 
   it("should render all announcement details correctly", () => {
-    render(RisAnnouncementDetails, {
+    render(RisVerkuendungHeader, {
       props: {
         title: "Test Announcement",
         veroeffentlichungsdatum: "2025-02-27",

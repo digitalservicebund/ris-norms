@@ -1,8 +1,8 @@
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
-test.describe("announcement details view", { tag: ["@RISDEV-6942"] }, () => {
-  test("navigate to announcement details page and should display details correctly", async ({
+test.describe("navigate and test content", { tag: ["@RISDEV-6942"] }, () => {
+  test("navigate to Verkuendungen detail page and should display details correctly", async ({
     page,
   }) => {
     await page.route(
@@ -93,11 +93,13 @@ test.describe("announcement details view", { tag: ["@RISDEV-6942"] }, () => {
     )
 
     await page.getByText("Geltungszeitregeln anlegen").click()
-    await expect(page).toHaveURL(/.*\/temporal-data/)
+    await expect(page).toHaveURL(
+      "/app/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+    )
   })
 })
 
-test.describe("shows affected documents", { tag: ["@RISDEV-6941"] }, () => {
+test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
   test("should show fallback if no Zielnormen available", async ({ page }) => {
     await page.goto(
       "./verkuendungen/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",

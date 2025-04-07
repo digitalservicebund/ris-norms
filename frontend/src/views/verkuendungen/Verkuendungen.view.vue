@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import RisAmendingLawCard from "@/views/amending-laws/RisAmendingLawCard.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useAnnouncementsService } from "@/services/announcementService"
-import { RouterLink } from "vue-router"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import Button from "primevue/button"
 import Message from "primevue/message"
+import { RouterLink } from "vue-router"
+import RisVerkuendungListItem from "./RisVerkuendungListItem.vue"
 
 const { isFetching, error, data: amendingLaws } = useAnnouncementsService()
 </script>
@@ -14,7 +14,7 @@ const { isFetching, error, data: amendingLaws } = useAnnouncementsService()
   <div class="flex min-h-screen flex-col bg-gray-100 p-24">
     <header class="mb-24 flex items-center justify-between">
       <h1 class="ris-heading2-regular">Verkündungen</h1>
-      <RouterLink :to="{ name: 'UploadAnnouncement' }">
+      <RouterLink :to="{ name: 'VerkuendungUpload' }">
         <Button severity="primary" label="Verkündung manuell hinzufügen" />
       </RouterLink>
     </header>
@@ -33,7 +33,7 @@ const { isFetching, error, data: amendingLaws } = useAnnouncementsService()
           :to="`/verkuendungen/${amendingLaw.eli}`"
           class="block"
         >
-          <RisAmendingLawCard
+          <RisVerkuendungListItem
             :key="amendingLaw.eli"
             :eli="amendingLaw.eli"
             :frbr-name="amendingLaw.frbrName"

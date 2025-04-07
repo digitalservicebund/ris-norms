@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, it } from "vitest"
-import RisAmendingLawCard from "./RisAmendingLawCard.vue"
+import RisVerkuendungListItem from "./RisVerkuendungListItem.vue"
 
-describe("risAmendingLawCard", () => {
+describe("risVerkuendungListItem", () => {
   it("should render overview of open print amending law", () => {
-    render(RisAmendingLawCard, {
+    render(RisVerkuendungListItem, {
       props: {
         eli: "someEli",
         frbrName: "GazetteName",
@@ -16,7 +16,7 @@ describe("risAmendingLawCard", () => {
   })
 
   it("should render overview of open digital amending law", () => {
-    render(RisAmendingLawCard, {
+    render(RisVerkuendungListItem, {
       props: {
         eli: "someEli",
         frbrName: "DigitalGazette",

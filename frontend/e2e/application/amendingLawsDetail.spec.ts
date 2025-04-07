@@ -2,7 +2,7 @@ import { amendingLaws, getExpectedHeading } from "@e2e/testData/testData"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
-test.describe("Info header", () => {
+test.describe("info header", () => {
   for (const amendingLaw of amendingLaws) {
     test(`navigate and verify header for ${amendingLaw.eli}`, async ({
       page,

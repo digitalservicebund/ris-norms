@@ -3,10 +3,10 @@ import { expect } from "@playwright/test"
 import { logAccessibilityViolations, useAxeBuilder } from "../utils/a11y"
 
 test.describe(
-  "Accessibility check for Announcement Details Page",
+  "accessibility check for Verkuendung detail page",
   { tag: ["@RISDEV-6942"] },
   () => {
-    test("Should have no detectable accessibility violations", async ({
+    test("should have no detectable accessibility violations", async ({
       page,
     }) => {
       await page.goto(
