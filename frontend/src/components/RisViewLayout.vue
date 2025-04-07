@@ -48,7 +48,14 @@ const {
   redirectOn404?: boolean
 }>()
 
-const hasHeader = computed(() => headerBackDestination || breadcrumbs)
+const slots = defineSlots<{
+  default: never
+  headerAction: never
+}>()
+
+const hasHeader = computed(
+  () => headerBackDestination || breadcrumbs || slots.headerAction,
+)
 
 const errorToShow = computed(() => errors.find((e) => !!e))
 
@@ -81,6 +88,10 @@ if (redirectOn404) use404Redirect(() => errors)
         >
           <slot />
         </main>
+
+        <template #action>
+          <slot name="headerAction" />
+        </template>
       </RisHeader>
 
       <main

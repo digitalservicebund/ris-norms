@@ -74,6 +74,20 @@ describe("risViewLayout", () => {
     expect(screen.getByRole("banner")).toBeInTheDocument()
   })
 
+  it("renders header actions", () => {
+    render(RisViewLayout, {
+      props: {
+        headerBackDestination: "history-back",
+      },
+      slots: {
+        default: "<div>Example</div>",
+        headerAction: "<button>Click me</button>",
+      },
+    })
+
+    expect(screen.getByRole("button", { name: "Click me" })).toBeInTheDocument()
+  })
+
   it("renders breadcrumbs", () => {
     render(RisViewLayout, {
       props: {
