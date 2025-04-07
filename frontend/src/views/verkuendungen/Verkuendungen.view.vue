@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useAnnouncementsService } from "@/services/announcementService"
 import Button from "primevue/button"
 import Message from "primevue/message"
@@ -11,21 +10,19 @@ const { isFetching, error, data: amendingLaws } = useAnnouncementsService()
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col bg-gray-100 p-24">
+  <RisViewLayout :loading="isFetching" :errors="[error]">
     <header class="mb-24 flex items-center justify-between">
       <h1 class="ris-heading2-regular">Verkündungen</h1>
       <RouterLink :to="{ name: 'VerkuendungUpload' }">
         <Button severity="primary" label="Verkündung manuell hinzufügen" />
       </RouterLink>
     </header>
-    <main>
-      <div v-if="error" class="w-1/2">
-        <RisErrorCallout :error />
-      </div>
-      <RisLoadingSpinner v-if="isFetching" />
-      <div v-if="amendingLaws?.length === 0" class="w-1/2">
+
+    <div>
+      <div v-if="amendingLaws?.length === 0">
         <Message severity="info">Keine Verkündungen gefunden.</Message>
       </div>
+
       <div v-else class="flex flex-col gap-8">
         <RouterLink
           v-for="amendingLaw in amendingLaws"
@@ -42,6 +39,6 @@ const { isFetching, error, data: amendingLaws } = useAnnouncementsService()
           />
         </RouterLink>
       </div>
-    </main>
-  </div>
+    </div>
+  </RisViewLayout>
 </template>

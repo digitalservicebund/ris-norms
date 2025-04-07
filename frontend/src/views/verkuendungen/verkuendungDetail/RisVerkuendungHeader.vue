@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import RisPropertyValue from "@/components/RisPropertyValue.vue"
+import { formatDate, formatDateTime } from "@/lib/dateTime"
 import { computed } from "vue"
 
 const props = defineProps<{
@@ -9,46 +11,19 @@ const props = defineProps<{
   fna?: string
 }>()
 
-const computedfrbrDateVerkuendung = computed(() => {
-  if (!props.veroeffentlichungsdatum) return ""
+const formattedVeroeffentlichungsdatum = computed(() =>
+  props.veroeffentlichungsdatum
+    ? formatDate(props.veroeffentlichungsdatum)
+    : "",
+)
 
-  const options: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }
-  return new Date(props.veroeffentlichungsdatum).toLocaleDateString(
-    "de-DE",
-    options,
-  )
-})
+const formattedAusfertigungsdatum = computed(() =>
+  props.ausfertigungsdatum ? formatDate(props.ausfertigungsdatum) : "",
+)
 
-const computedfrbrDateAusfertigung = computed(() => {
-  if (!props.ausfertigungsdatum) return ""
-
-  const options: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }
-  return new Date(props.ausfertigungsdatum).toLocaleDateString("de-DE", options)
-})
-
-const computedimportTimestamp = computed(() => {
-  if (!props.datenlieferungsdatum) return ""
-
-  const options: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }
-  return new Date(props.datenlieferungsdatum).toLocaleDateString(
-    "de-DE",
-    options,
-  )
-})
+const formattedDatenlieferungsdatum = computed(() =>
+  props.datenlieferungsdatum ? formatDateTime(props.datenlieferungsdatum) : "",
+)
 
 const computedFna = computed(() => props.fna ?? "")
 </script>
@@ -61,36 +36,23 @@ const computedFna = computed(() => props.fna ?? "")
       {{ title }}
     </span>
 
-    <div class="flex flex-wrap gap-x-16 gap-y-4">
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">
-          Veröffentlichungsdatum
-        </span>
-        <span class="ris-body2-regular break-words">{{
-          computedfrbrDateVerkuendung
-        }}</span>
-      </div>
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-16">
+      <RisPropertyValue
+        property="Veröffentlichungsdatum"
+        :value="formattedVeroeffentlichungsdatum"
+      />
 
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">Ausfertigungsdatum</span>
-        <span class="ris-body2-regular break-words">{{
-          computedfrbrDateAusfertigung
-        }}</span>
-      </div>
+      <RisPropertyValue
+        property="Ausfertigungsdatum"
+        :value="formattedAusfertigungsdatum"
+      />
 
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">
-          Datenlieferungsdatum
-        </span>
-        <span class="ris-body2-regular break-words">{{
-          computedimportTimestamp
-        }}</span>
-      </div>
+      <RisPropertyValue
+        property="Datenlieferungsdatum"
+        :value="formattedDatenlieferungsdatum"
+      />
 
-      <div class="flex min-w-192 flex-1 flex-col">
-        <span class="ris-body2-regular text-gray-900">FNA</span>
-        <span class="ris-body2-regular break-words">{{ computedFna }}</span>
-      </div>
+      <RisPropertyValue property="FNA" :value="computedFna" />
     </div>
 
     <div class="flex flex-col items-start gap-4">
