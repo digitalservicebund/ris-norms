@@ -38,7 +38,7 @@ jobs:
       - name: Publish container image
         run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Install cosign
-        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a
+        uses: sigstore/cosign-installer@b6ee8f83b9a8b8ef7f46b5a8ff326f488b386693
       - name: Sign the published Docker image
         run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       #      - name: Download cosign vulnerability scan record
