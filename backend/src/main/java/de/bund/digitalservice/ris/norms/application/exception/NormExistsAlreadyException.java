@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.exception;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import java.net.URI;
+import java.util.Map;
 import lombok.Getter;
 
 /**
@@ -14,5 +16,20 @@ public class NormExistsAlreadyException extends RuntimeException implements Norm
   public NormExistsAlreadyException(String eli) {
     super("A norm with the eli %s already exists.".formatted(eli));
     this.eli = eli;
+  }
+
+  @Override
+  public URI getType() {
+    return URI.create("/errors/norm-with-eli-exists-already");
+  }
+
+  @Override
+  public String getTitle() {
+    return "Norm with ELI exists already";
+  }
+
+  @Override
+  public Map<String, Object> getProperties() {
+    return Map.of("eli", getEli());
   }
 }

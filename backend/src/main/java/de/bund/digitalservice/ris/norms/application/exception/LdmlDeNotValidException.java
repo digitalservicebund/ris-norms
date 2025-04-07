@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 
 /**
@@ -18,6 +19,21 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
   public LdmlDeNotValidException(List<ValidationError> errors) {
     super("The provided xml is not a valid LDML.de 1.7.2 document.");
     this.errors = errors;
+  }
+
+  @Override
+  public URI getType() {
+    return TYPE;
+  }
+
+  @Override
+  public String getTitle() {
+    return "The provided xml is not a valid LDML.de 1.7.2 document";
+  }
+
+  @Override
+  public Map<String, Object> getProperties() {
+    return Map.of("errors", getErrors());
   }
 
   /**

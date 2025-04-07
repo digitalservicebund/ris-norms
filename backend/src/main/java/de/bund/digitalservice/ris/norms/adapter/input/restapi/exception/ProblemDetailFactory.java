@@ -1,12 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
-import de.bund.digitalservice.ris.norms.application.exception.*;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.net.URI;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
@@ -17,6 +12,8 @@ import org.springframework.http.ProblemDetail;
  * type in form of a {@link URI} and a title.
  */
 public class ProblemDetailFactory {
+
+  private ProblemDetailFactory() {}
 
   /**
    * Creates a {@link ProblemDetail} instance for the given exception and HTTP status. The {@link
@@ -32,121 +29,10 @@ public class ProblemDetailFactory {
     final NormsAppException e,
     final HttpStatus status
   ) {
-    final ProblemMapping problemMapping = ProblemMapping.getInstance(e.getClass());
     final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
-    problemDetail.setType(problemMapping.getType());
-    problemDetail.setTitle(problemMapping.getTitle());
+    problemDetail.setType(e.getType());
+    problemDetail.setTitle(e.getTitle());
+    problemDetail.setProperties(e.getProperties());
     return problemDetail;
-  }
-
-  @Getter
-  private enum ProblemMapping {
-    NORM_NOT_FOUND(
-      NormNotFoundException.class,
-      URI.create("/errors/norm-not-found"),
-      "Norm not found"
-    ),
-    DOKUMENT_NOT_FOUND(
-      DokumentNotFoundException.class,
-      URI.create("/errors/dokument-not-found"),
-      "Dokument not found"
-    ),
-    REGELUNGSTEXT_NOT_FOUND(
-      RegelungstextNotFoundException.class,
-      URI.create("/errors/regelungstext-not-found"),
-      "Regelungstext not found"
-    ),
-    ARTICLE_NOT_FOUND(
-      ArticleNotFoundException.class,
-      URI.create("/errors/article-not-found"),
-      "Article not found"
-    ),
-    ARTICLE_OF_TYPE_NOT_FOUND(
-      LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class,
-      URI.create("/errors/article-of-type-not-found"),
-      "Article of specific type not found"
-    ),
-    ANNOUNCEMENT_NOT_FOUND(
-      AnnouncementNotFoundException.class,
-      URI.create("/errors/announcement-not-found"),
-      "Announcement not found"
-    ),
-    ELEMENT_NOT_FOUND(
-      ElementNotFoundException.class,
-      URI.create("/errors/element-not-found"),
-      "Element not found"
-    ),
-    MANDATORY_NODE_NOT_FOUND(
-      MandatoryNodeNotFoundException.class,
-      URI.create("/errors/mandatory-node-not-found"),
-      "Mandatory node not found"
-    ),
-    INVALID_UPDATE(
-      InvalidUpdateException.class,
-      URI.create("/errors/invalidate-update"),
-      "Invalid update operation"
-    ),
-    XML_PROCESSING_ERROR(
-      XmlProcessingException.class,
-      URI.create("/errors/xml-processing-error"),
-      "XML processing error"
-    ),
-    NORM_WITH_ELI_EXISTS_ALREADY(
-      NormExistsAlreadyException.class,
-      URI.create("/errors/norm-with-eli-exists-already"),
-      "Norm with ELI exists already"
-    ),
-    NORM_WITH_GUID_EXISTS_ALREADY(
-      NormWithGuidAlreadyExistsException.class,
-      URI.create("/errors/norm-with-guid-exists-already"),
-      "Norm with GUID exists already"
-    ),
-    NOT_A_XML_FILE(
-      NotAXmlFileException.class,
-      URI.create("/errors/not-a-xml-file"),
-      "The provided file is not a xml file"
-    ),
-    NOT_LDML_DE_FILE(
-      NotLdmlDeXmlFileException.class,
-      URI.create("/errors/not-a-ldml-de-xml-file"),
-      "The provided xml file is not a LDML.de xml file"
-    ),
-    LDML_DE_NOT_VALID(
-      LdmlDeNotValidException.class,
-      LdmlDeNotValidException.TYPE,
-      "The provided xml is not a valid LDML.de 1.7 document"
-    ),
-    LDML_DE_SCHEMATRON_EXCEPTION(
-      LdmlDeSchematronException.class,
-      URI.create("/errors/ldml-de-not-schematron-valid"),
-      "The provided xml is not a schematron-valid LDML.de 1.7.2 document"
-    );
-
-    /**
-     * Creates the Enum
-     *
-     * @param clazz - Class to create the enum
-     * @return A {@link ProblemMapping} enum
-     */
-    public static ProblemMapping getInstance(Class<? extends NormsAppException> clazz) {
-      for (ProblemMapping mapping : ProblemMapping.values()) {
-        if (mapping.clazz.equals(clazz)) {
-          return mapping;
-        }
-      }
-      throw new IllegalArgumentException(
-        "No matching ProblemMapping found for class: " + clazz.getName()
-      );
-    }
-
-    private final Class<? extends NormsAppException> clazz;
-    private final URI type;
-    private final String title;
-
-    ProblemMapping(Class<? extends NormsAppException> clazz, URI type, String title) {
-      this.clazz = clazz;
-      this.type = type;
-      this.title = title;
-    }
   }
 }

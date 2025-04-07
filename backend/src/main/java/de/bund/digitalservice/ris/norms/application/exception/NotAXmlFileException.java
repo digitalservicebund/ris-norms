@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.exception;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import java.net.URI;
+import java.util.Map;
 import lombok.Getter;
 
 /** The given file is not a xml file, while a xml file was expected. */
@@ -19,5 +21,20 @@ public class NotAXmlFileException extends RuntimeException implements NormsAppEx
     );
     this.fileName = fileName;
     this.contentType = contentType;
+  }
+
+  @Override
+  public URI getType() {
+    return URI.create("/errors/not-a-xml-file");
+  }
+
+  @Override
+  public String getTitle() {
+    return "The provided file is not a xml file";
+  }
+
+  @Override
+  public Map<String, Object> getProperties() {
+    return Map.of("fileName", fileName, "contentType", contentType);
   }
 }
