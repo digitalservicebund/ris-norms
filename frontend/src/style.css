@@ -72,4 +72,9 @@
   body {
     background: var(--color-gray-100);
   }
+
+  hr {
+    border-top-color: var(--color-gray-400);
+    margin: 24px 0;
+  }
 }
