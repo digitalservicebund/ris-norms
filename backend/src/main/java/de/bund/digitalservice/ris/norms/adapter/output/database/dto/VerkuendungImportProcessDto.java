@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
@@ -32,13 +31,12 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 @Table(name = "verkuendung_import_processes")
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class VerkuendungImportProcessDto {
 
   @Id
-  @GeneratedValue
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
 
@@ -56,7 +54,7 @@ public class VerkuendungImportProcessDto {
   @Column(name = "finished_at")
   private Instant finishedAt;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "process_id")
   @Default
   private List<VerkuendungImportProcessDetailDto> detail = new ArrayList<>();

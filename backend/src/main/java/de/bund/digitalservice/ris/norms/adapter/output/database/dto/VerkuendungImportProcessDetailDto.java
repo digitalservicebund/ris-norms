@@ -6,10 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * DTO representing detail information (like errors) related to the background
@@ -21,6 +18,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(toBuilder = true)
 public class VerkuendungImportProcessDetailDto {
 
   @Id
@@ -28,12 +26,12 @@ public class VerkuendungImportProcessDetailDto {
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
 
-  @Column(name = "type", length = 255)
+  @Column(name = "type")
   private String type;
 
-  @Column(name = "title", length = 255)
+  @Column(name = "title")
   private String title;
 
-  @Column(name = "detail", columnDefinition = "TEXT")
+  @Column(name = "detail")
   private String detail;
 }
