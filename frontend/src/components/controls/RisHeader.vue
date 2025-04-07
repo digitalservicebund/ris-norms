@@ -17,6 +17,12 @@ import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
 import { useDebounceFn } from "@vueuse/core"
 import Breadcrumb from "primevue/breadcrumb"
 
+/** Possible behaviors for the back button of the header component */
+export type RisHeaderBackDestination =
+  | "history-back"
+  | "breadcrumb-back"
+  | RouteLocationRaw
+
 const props = withDefaults(
   defineProps<{
     /**
@@ -26,7 +32,7 @@ const props = withDefaults(
      *
      * @default "breadcrumb-back"
      */
-    backDestination?: "history-back" | "breadcrumb-back" | RouteLocationRaw
+    backDestination?: RisHeaderBackDestination
 
     /**
      * List of breadcrumbs to be displayed in the header. The list is assumed to
