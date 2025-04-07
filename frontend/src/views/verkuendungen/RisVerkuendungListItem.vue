@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatDate } from "@/lib/dateTime"
 import { computed } from "vue"
 import IcBaselineChevronRight from "~icons/ic/baseline-chevron-right"
 
@@ -32,21 +33,9 @@ const frbrDateVerkuendungYear = computed(() =>
   props.frbrDateVerkuendung?.substring(0, 4),
 )
 
-const frbrDateVerkuendungGerman = computed(() => {
-  if (props.frbrDateVerkuendung == null) {
-    return null
-  }
-
-  const options: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }
-  return new Date(props.frbrDateVerkuendung).toLocaleDateString(
-    "de-DE",
-    options,
-  )
-})
+const frbrDateVerkuendungGerman = computed(() =>
+  props.frbrDateVerkuendung ? formatDate(props.frbrDateVerkuendung) : "",
+)
 </script>
 
 <template>
