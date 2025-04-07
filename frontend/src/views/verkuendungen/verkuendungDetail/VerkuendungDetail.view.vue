@@ -69,61 +69,58 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
     :loading="isFetchingVerkuendung"
   >
     <Splitter class="h-full" layout="horizontal">
-      <SplitterPanel :size="66" :min-size="33">
-        <div class="flex h-full flex-col gap-24 overflow-auto bg-gray-100">
-          <section
-            class="shrink-0 p-24 pb-0"
-            :aria-labelledby="verkuendungDetailsLabelId"
-          >
-            <span :id="verkuendungDetailsLabelId" class="sr-only">
-              Verkündungs-Details
-            </span>
-            <RisVerkuendungHeader
-              :title="verkuendung?.title"
-              :veroeffentlichungsdatum="verkuendung?.frbrDateVerkuendung"
-              :ausfertigungsdatum="verkuendung?.dateAusfertigung"
-              :datenlieferungsdatum="verkuendung?.importedAt"
-              :fna="verkuendung?.fna"
+      <SplitterPanel
+        :size="66"
+        :min-size="33"
+        class="flex h-full flex-col gap-24 overflow-auto bg-gray-100 p-24"
+      >
+        <section :aria-labelledby="verkuendungDetailsLabelId">
+          <span :id="verkuendungDetailsLabelId" class="sr-only">
+            Verkündungs-Details
+          </span>
+          <RisVerkuendungHeader
+            :title="verkuendung?.title"
+            :veroeffentlichungsdatum="verkuendung?.frbrDateVerkuendung"
+            :ausfertigungsdatum="verkuendung?.dateAusfertigung"
+            :datenlieferungsdatum="verkuendung?.importedAt"
+            :fna="verkuendung?.fna"
+          />
+        </section>
+
+        <section
+          class="flex flex-grow flex-col gap-16"
+          :aria-labelledby="zielnormenLabelId"
+        >
+          <span :id="zielnormenLabelId" class="sr-only">Zielnormen</span>
+          <h2 class="ris-body1-bold">Zielnormen</h2>
+
+          <div v-if="isFetchingZielnormen">
+            <RisLoadingSpinner />
+          </div>
+
+          <div v-else-if="zielnormenError">
+            <RisErrorCallout :error="zielnormenError" />
+          </div>
+
+          <template v-else>
+            <RisEmptyState
+              v-if="groupedZielnormen.length === 0"
+              text-content="Es sind noch keine Zielnormen vorhanden"
             />
-          </section>
 
-          <section
-            class="flex flex-grow flex-col gap-16 p-24 pt-0"
-            :aria-labelledby="zielnormenLabelId"
-          >
-            <span :id="zielnormenLabelId" class="sr-only">Zielnormen</span>
-            <h2 class="ris-body1-bold">Zielnormen</h2>
-
-            <div v-if="isFetchingZielnormen">
-              <RisLoadingSpinner />
+            <div v-else class="flex flex-col">
+              <RisZielnormenList :items="groupedZielnormen" />
             </div>
-
-            <div v-else-if="zielnormenError">
-              <RisErrorCallout :error="zielnormenError" />
-            </div>
-
-            <template v-else>
-              <RisEmptyState
-                v-if="groupedZielnormen.length === 0"
-                text-content="Es sind noch keine Zielnormen vorhanden"
-              />
-
-              <div v-else class="flex flex-col">
-                <RisZielnormenList :items="groupedZielnormen" />
-              </div>
-            </template>
-          </section>
-        </div>
+          </template>
+        </section>
       </SplitterPanel>
 
-      <SplitterPanel :size="33" :min-size="33">
-        <section
-          class="h-full overflow-auto"
-          :aria-labelledby="verkuendungPreviewLabelId"
-        >
-          <span :id="verkuendungPreviewLabelId" class="sr-only">
+      <SplitterPanel :size="33" :min-size="33" class="h-full overflow-auto">
+        <section :aria-labelledby="verkuendungPreviewLabelId">
+          <h2 :id="verkuendungPreviewLabelId" class="sr-only">
             Verkündungstext
-          </span>
+          </h2>
+
           <div
             v-if="isFetchingVerkuendungPreview"
             class="flex h-full items-center justify-center p-24"
