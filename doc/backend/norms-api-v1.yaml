@@ -315,7 +315,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /norms/{expressionEli}/timeBoundaries:
+  /norms/{expressionEli}/zeitgrenzen:
     get:
       tags:
         - Norm expression
@@ -706,13 +706,12 @@ components:
     TimeBoundary:
       type: object
       properties:
-        eventRefEid:
-          type: string
         date:
           type: string
           format: date
-        temporalGroupEid:
+        art:
           type: string
+          enum: [inkrafttreten, ausserkrafttreten]
 
     ReleaseResponse:
       type: object
