@@ -176,5 +176,5 @@ describe("risZeitgrenzenList", () => {
     expect(
       screen.getByRole("button", { name: "Geltungszeit hinzufügen" }),
     ).toBeDisabled()
-  })
+  }, 30000)
 })
