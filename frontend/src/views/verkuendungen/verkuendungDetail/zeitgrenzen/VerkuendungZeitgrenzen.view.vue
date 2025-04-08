@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -12,11 +11,13 @@ import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetAnnouncementService } from "@/services/announcementService"
 import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
+import type { Zeitgrenze } from "@/types/zeitgrenze"
 import Button from "primevue/button"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
+import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
@@ -51,6 +52,8 @@ const formattedVerkuendungsdatum = computed(() =>
 )
 
 const { geltungszeitenHtmlHeadingId } = useElementId()
+
+const zeitgrenzen = ref<Zeitgrenze[]>([])
 </script>
 
 <template>
@@ -69,9 +72,7 @@ const { geltungszeitenHtmlHeadingId } = useElementId()
           Geltungszeitregeln anlegen
         </h1>
 
-        <RisEmptyState
-          text-content="Es wurden noch keine Geltungszeiten angelegt."
-        />
+        <RisZeitgrenzenList v-model="zeitgrenzen" />
       </SplitterPanel>
 
       <SplitterPanel
