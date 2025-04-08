@@ -5,7 +5,7 @@ import RisPropertyValue from "./RisPropertyValue.vue"
 describe("risPropertyValue", () => {
   it("shows the property name", () => {
     render(RisPropertyValue, { props: { property: "Foo" } })
-    expect(screen.getByText("Foo")).toBeInTheDocument()
+    expect(screen.getByRole("figure", { name: "Foo" })).toBeInTheDocument()
   })
 
   it("shows the property value", () => {

@@ -16,7 +16,7 @@ describe("risEmptyState", () => {
   it("should render the recommended action", () => {
     render(RisEmptyState, {
       props: { textContent: "No announcements available" },
-      slots: { "recommended-action": "Add new announcements" },
+      slots: { recommendedAction: "Add new announcements" },
     })
 
     expect(screen.getByText("No announcements available")).toBeInTheDocument()
@@ -51,7 +51,7 @@ describe("risEmptyState", () => {
         textContent: "No announcements available",
         icon: markRaw(UploadFileOutlineRounded),
       },
-      slots: { "recommended-action": "Add new announcements" },
+      slots: { recommendedAction: "Add new announcements" },
     })
 
     expect(screen.getByTestId("empty-state")).toHaveAttribute(

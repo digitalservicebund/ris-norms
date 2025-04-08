@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RisEmptyState from "@/components/controls/RisEmptyState.vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -7,15 +6,18 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
+import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetAnnouncementService } from "@/services/announcementService"
 import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
+import type { Zeitgrenze } from "@/types/zeitgrenze"
 import Button from "primevue/button"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
+import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
@@ -48,6 +50,10 @@ const formattedVerkuendungsdatum = computed(() =>
     ? formatDate(verkuendung.value.frbrDateVerkuendung)
     : undefined,
 )
+
+const { geltungszeitenHtmlHeadingId } = useElementId()
+
+const zeitgrenzen = ref<Zeitgrenze[]>([])
 </script>
 
 <template>
@@ -66,9 +72,7 @@ const formattedVerkuendungsdatum = computed(() =>
           Geltungszeitregeln anlegen
         </h1>
 
-        <RisEmptyState
-          text-content="Es wurden noch keine Geltungszeiten angelegt."
-        />
+        <RisZeitgrenzenList v-model="zeitgrenzen" />
       </SplitterPanel>
 
       <SplitterPanel
@@ -76,8 +80,13 @@ const formattedVerkuendungsdatum = computed(() =>
         :min-size="33"
         class="h-full overflow-auto p-24"
       >
-        <section>
-          <h2 class="ris-subhead-regular mb-10 font-bold">Verkündungsdaten</h2>
+        <section :aria-labelledby="geltungszeitenHtmlHeadingId">
+          <h2
+            :id="geltungszeitenHtmlHeadingId"
+            class="ris-subhead-regular mb-10 font-bold"
+          >
+            Verkündungsdaten
+          </h2>
           <RisPropertyValue
             property="Verkündungsdatum"
             :value="formattedVerkuendungsdatum"

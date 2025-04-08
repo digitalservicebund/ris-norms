@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getHighlightClasses } from "@/composables/useTimeBoundaryHighlightClasses"
+import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import type { Norm } from "@/types/norm"
 import Accordion from "primevue/accordion"
@@ -28,7 +28,7 @@ type MappedRisZielnormenListItem = Omit<
 > & {
   expressions: Array<{
     normExpressionEli: string
-    formattedDate: { color: string[]; label: string }
+    formattedDate: { colorIndex: number; label: string }
     formattedStatus: string
   }>
 }
@@ -56,7 +56,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
         normExpressionEli: normEli.toString(),
         formattedDate: {
           label: formatDate(normEli.pointInTime),
-          color: getHighlightClasses(i).default,
+          colorIndex: i,
         },
         formattedStatus: "neu",
       }
@@ -101,11 +101,8 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
                 <Column field="formattedDate" header="Datum">
                   <template #body="{ data }">
                     <div class="flex items-center gap-8">
-                      <span
-                        :class="[
-                          'h-20 w-20 rounded-full border border-dotted border-blue-800',
-                          data.formattedDate.color,
-                        ]"
+                      <RisHighlightColorSwatch
+                        :color-index="data.formattedDate.colorIndex"
                       />
                       {{ data.formattedDate.label }}
                     </div>

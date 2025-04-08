@@ -10,10 +10,14 @@ const props = defineProps<{
   icon?: Component
 }>()
 
+defineSlots<{
+  recommendedAction: never
+}>()
+
 const slots = useSlots() as Slots
 
 const variant = computed<"simple" | "extended">(() =>
-  props.icon || slots["recommended-action"] ? "extended" : "simple",
+  props.icon || slots["recommendedAction"] ? "extended" : "simple",
 )
 </script>
 
@@ -30,8 +34,10 @@ const variant = computed<"simple" | "extended">(() =>
       class="mx-auto mb-16 text-4xl text-blue-700"
     />
 
-    <p class="my-4">{{ textContent }}</p>
+    <p>{{ textContent }}</p>
 
-    <slot name="recommended-action"></slot>
+    <div v-if="$slots.recommendedAction" class="mt-16">
+      <slot name="recommendedAction"></slot>
+    </div>
   </div>
 </template>
