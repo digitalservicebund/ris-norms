@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useElementId } from "@/composables/useElementId"
+
 const { property, value = "-" } = defineProps<{
   /**
    * Name of the property.
@@ -12,11 +14,13 @@ const { property, value = "-" } = defineProps<{
    */
   value?: string
 }>()
+
+const { id } = useElementId("property-value")
 </script>
 
 <template>
-  <figure class="ris-label2-regular">
-    <figcaption class="text-gray-900">{{ property }}</figcaption>
+  <figure class="ris-label2-regular" :aria-labelledby="id">
+    <figcaption :id class="text-gray-900">{{ property }}</figcaption>
     <span class="break-words">{{ value }}</span>
   </figure>
 </template>

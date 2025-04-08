@@ -7,6 +7,7 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
+import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetAnnouncementService } from "@/services/announcementService"
@@ -48,6 +49,8 @@ const formattedVerkuendungsdatum = computed(() =>
     ? formatDate(verkuendung.value.frbrDateVerkuendung)
     : undefined,
 )
+
+const { geltungszeitenHtmlHeadingId } = useElementId()
 </script>
 
 <template>
@@ -76,8 +79,13 @@ const formattedVerkuendungsdatum = computed(() =>
         :min-size="33"
         class="h-full overflow-auto p-24"
       >
-        <section>
-          <h2 class="ris-subhead-regular mb-10 font-bold">Verkündungsdaten</h2>
+        <section :aria-labelledby="geltungszeitenHtmlHeadingId">
+          <h2
+            :id="geltungszeitenHtmlHeadingId"
+            class="ris-subhead-regular mb-10 font-bold"
+          >
+            Verkündungsdaten
+          </h2>
           <RisPropertyValue
             property="Verkündungsdatum"
             :value="formattedVerkuendungsdatum"
