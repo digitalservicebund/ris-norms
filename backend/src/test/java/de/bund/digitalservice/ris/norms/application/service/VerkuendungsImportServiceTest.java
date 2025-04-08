@@ -105,6 +105,24 @@ class VerkuendungsImportServiceTest {
       .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107")));
   }
 
+  @Test
+  void validateUnsupportedFileType() throws IOException {
+    var resource = loadFolderAsZipResource("verkuendung-with-unsupported-filetype");
+
+    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
+      .isInstanceOf(ProcessNormendokumentationspaketUseCase.UnsupportedFileTypeException.class);
+  }
+
+  @Test
+  void validateNoRegelungstext() throws IOException {
+    var resource = loadFolderAsZipResource("verkuendung-without-regelungstext");
+
+    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
+      .isInstanceOf(
+        ProcessNormendokumentationspaketUseCase.NoRegelungstextOrBekanntmachungstextException.class
+      );
+  }
+
   private Resource loadFolderAsZipResource(String folderName) throws IOException {
     var folder = new File(
       Objects
