@@ -4,7 +4,7 @@
 
 ## Status
 
-Proposal
+Accepted
 
 ## Context
 
