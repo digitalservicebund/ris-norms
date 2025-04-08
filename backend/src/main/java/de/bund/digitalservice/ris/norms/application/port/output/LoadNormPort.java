@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.util.Optional;
 
 /**
@@ -12,6 +13,8 @@ import java.util.Optional;
 public interface LoadNormPort {
   /**
    * Loads a {@link Norm} based on the provided ELI specified in the command.
+   * Loading using a {@link NormWorkEli} returns the latest expression and not necessarily the expression that is
+   * currently in force.
    *
    * @param command The command specifying the ELI to identify the norm to be loaded.
    * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
