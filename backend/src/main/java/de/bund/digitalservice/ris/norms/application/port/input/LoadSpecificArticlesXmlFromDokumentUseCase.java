@@ -2,7 +2,9 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 
 /**
@@ -32,12 +34,29 @@ public interface LoadSpecificArticlesXmlFromDokumentUseCase {
   class ArticleOfTypeNotFoundException extends RuntimeException implements NormsAppException {
 
     private final String eli;
-    private final String type;
+    private final String articleType;
 
-    public ArticleOfTypeNotFoundException(final String eli, final String type) {
-      super("Dokument with eli %s does not contain articles of type %s".formatted(eli, type));
+    public ArticleOfTypeNotFoundException(final String eli, final String articleType) {
+      super(
+        "Dokument with eli %s does not contain articles of type %s".formatted(eli, articleType)
+      );
       this.eli = eli;
-      this.type = type;
+      this.articleType = articleType;
+    }
+
+    @Override
+    public URI getType() {
+      return URI.create("/errors/article-of-type-not-found");
+    }
+
+    @Override
+    public String getTitle() {
+      return "Article of specific type not found";
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+      return Map.of("eli", getEli(), "articleType", getArticleType());
     }
   }
 }

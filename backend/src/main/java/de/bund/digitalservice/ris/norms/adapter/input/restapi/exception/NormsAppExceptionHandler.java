@@ -3,9 +3,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -34,7 +34,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final InvalidUpdateException e) {
     log.error("InvalidUpdateException: {}", e.getMessage(), e);
-    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -47,12 +47,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(final AnnouncementNotFoundException e) {
     log.error("AnnouncementNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.NOT_FOUND
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -65,7 +60,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ProblemDetail handleException(final XmlProcessingException e) {
     log.error("XmlProcessingException: {}", e.getMessage(), e);
-    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    return createProblemDetail(e, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   /**
@@ -77,12 +72,7 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(NormNotFoundException.class)
   public ProblemDetail handleException(final NormNotFoundException e) {
     log.error("NormNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.NOT_FOUND
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -94,12 +84,7 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(DokumentNotFoundException.class)
   public ProblemDetail handleException(final DokumentNotFoundException e) {
     log.error("DokumentNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.NOT_FOUND
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -111,12 +96,7 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(RegelungstextNotFoundException.class)
   public ProblemDetail handleException(final RegelungstextNotFoundException e) {
     log.error("RegelungstextNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.NOT_FOUND
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -129,13 +109,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(final ArticleNotFoundException e) {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.NOT_FOUND
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    problemDetail.setProperty("eid", e.getEid());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -148,13 +122,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(final ElementNotFoundException e) {
     log.error("ElementNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.NOT_FOUND
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    problemDetail.setProperty("eid", e.getEid());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -170,13 +138,7 @@ public class NormsAppExceptionHandler {
     final LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException e
   ) {
     log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.NOT_FOUND
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    problemDetail.setProperty("articleType", e.getType());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -189,18 +151,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final MandatoryNodeNotFoundException e) {
     log.error("MandatoryNodeNotFoundException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("xpath", e.getXpath());
-    if (StringUtils.isNotEmpty(e.getEli())) {
-      problemDetail.setProperty("eli", e.getEli());
-    }
-    if (StringUtils.isNotEmpty(e.getNode())) {
-      problemDetail.setProperty("nodeName", e.getNode());
-    }
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -213,12 +164,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final NormExistsAlreadyException e) {
     log.error("NormExistsAlreadyException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("eli", e.getEli());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -231,12 +177,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final NormWithGuidAlreadyExistsException e) {
     log.error("NormWithGuidAlreadyExistsException: {}", e.getMessage(), e);
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("guid", e.getGuid());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -249,14 +190,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final NotAXmlFileException e) {
     log.error("NotAXmlFileException: {}", e.getMessage(), e);
-
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("fileName", e.getFileName());
-    problemDetail.setProperty("contentType", e.getContentType());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -269,13 +203,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final NotLdmlDeXmlFileException e) {
     log.error("NotLdmlDeXmlFileException: {}", e.getMessage(), e);
-
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("fileName", e.getFileName());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -288,13 +216,7 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final LdmlDeNotValidException e) {
     log.error("LdmlDeNotValidException: {}", e.getMessage(), e);
-
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("errors", e.getErrors());
-    return problemDetail;
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -307,12 +229,14 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final LdmlDeSchematronException e) {
     log.error("LdmlDeSchematronException: {}", e.getMessage(), e);
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+  }
 
-    final ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(
-      e,
-      HttpStatus.UNPROCESSABLE_ENTITY
-    );
-    problemDetail.setProperty("errors", e.getErrors());
+  private static ProblemDetail createProblemDetail(NormsAppException e, HttpStatus status) {
+    final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
+    problemDetail.setType(e.getType());
+    problemDetail.setTitle(e.getTitle());
+    problemDetail.setProperties(e.getProperties());
     return problemDetail;
   }
 }

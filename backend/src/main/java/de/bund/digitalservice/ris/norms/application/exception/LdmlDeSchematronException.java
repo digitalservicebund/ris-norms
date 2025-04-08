@@ -2,7 +2,9 @@ package de.bund.digitalservice.ris.norms.application.exception;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
@@ -29,6 +31,21 @@ public class LdmlDeSchematronException extends RuntimeException implements Norms
         )
     );
     this.errors = errors;
+  }
+
+  @Override
+  public URI getType() {
+    return URI.create("/errors/ldml-de-not-schematron-valid");
+  }
+
+  @Override
+  public String getTitle() {
+    return "The provided xml is not a schematron-valid LDML.de 1.7.2 document";
+  }
+
+  @Override
+  public Map<String, Object> getProperties() {
+    return Map.of("errors", getErrors());
   }
 
   /**

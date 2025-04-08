@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.exception;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import java.net.URI;
+import java.util.Map;
 import lombok.Getter;
 
 /** The given XML file is not a LDML.de file */
@@ -12,5 +14,20 @@ public class NotLdmlDeXmlFileException extends RuntimeException implements Norms
   public NotLdmlDeXmlFileException(String fileName) {
     super("The xml file %s is not a LDML.de xml file.".formatted(fileName));
     this.fileName = fileName;
+  }
+
+  @Override
+  public URI getType() {
+    return URI.create("/errors/not-a-ldml-de-xml-file");
+  }
+
+  @Override
+  public String getTitle() {
+    return "The provided xml file is not a LDML.de xml file";
+  }
+
+  @Override
+  public Map<String, Object> getProperties() {
+    return Map.of("fileName", fileName);
   }
 }

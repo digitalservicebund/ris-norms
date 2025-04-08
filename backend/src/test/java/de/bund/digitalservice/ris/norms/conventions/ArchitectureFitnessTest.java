@@ -72,6 +72,7 @@ class ArchitectureFitnessTest {
     "net.sf.saxon..",
     "org.xml.sax..",
     "org.slf4j..",
+    "org.apache.commons..",
   };
 
   @BeforeAll
