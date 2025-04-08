@@ -97,6 +97,7 @@ class VerkuendungsImportService
     throw new RuntimeException("Not implemented yet");
   }
 
+  // TODO: (Malte Laukötter, 2025-04-08) make private once integrated in processNormendokumentationspaket
   public Norm parseAndValidate(Resource zipFile)
     throws IOException, NormendokumentationspaketImportFailedException {
     validateFileIsZipArchive(zipFile);
@@ -161,21 +162,17 @@ class VerkuendungsImportService
       throw new NoRegelungstextOrBekanntmachungstextException();
     }
 
-    // TODO: (Malte Laukötter, 2025-04-03) shouldn't we check this on work level?
-    if (loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli())).isPresent()) {
-      throw new NormExistsAlreadyException(norm.getManifestationEli().toString());
+    if (loadNormPort.loadNorm(new LoadNormPort.Command(norm.getWorkEli())).isPresent()) {
+      throw new NormExistsAlreadyException(norm.getWorkEli().toString());
     }
 
     log.info(
-      "Created new norm from import: {} with {} Dokumenten and {} Binary files",
+      "Verified new norm from import: {} with {} Dokumenten and {} Binary files",
       norm.getManifestationEli(),
       norm.getDokumente().size(),
       norm.getBinaryFiles().size()
     );
 
-    /*
-MUST: If any of the above-mentioned validation fails, the requester should get a descriptive error response
-     */
     return norm;
   }
 

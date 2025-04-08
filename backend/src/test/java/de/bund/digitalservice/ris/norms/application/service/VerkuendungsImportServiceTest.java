@@ -2,15 +2,18 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
+import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveNormendokumentationspaketPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.ZipUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -81,6 +85,24 @@ class VerkuendungsImportServiceTest {
       .isInstanceOf(
         ProcessNormendokumentationspaketUseCase.MissingRechtsetzungsdokumentException.class
       );
+  }
+
+  @Test
+  void validateNormAlreadyExists() throws IOException {
+    var resource = loadFolderAsZipResource("verkuendung-valid");
+    when(loadNormPort.loadNorm(any()))
+      .thenReturn(
+        Optional.of(
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
+      );
+
+    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
+      .isInstanceOf(NormExistsAlreadyException.class);
+    verify(loadNormPort)
+      .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107")));
   }
 
   private Resource loadFolderAsZipResource(String folderName) throws IOException {
