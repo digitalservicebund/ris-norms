@@ -59,18 +59,19 @@ const isFull = computed(
     <div class="ris-label2-regular"></div>
 
     <ul class="contents">
-      <!-- eslint-disable vuejs-accessibility/no-autofocus -- it's not the native HTML autofocus -->
-      <!-- eslint-disable vue/valid-v-for -- we don't have a reasonable key here -->
-      <RisZeitgrenzenListItem
-        v-for="(zeitgrenze, i) in zeitgrenzen"
-        :autofocus="i === zeitgrenzen.length - 1 && !zeitgrenze.date"
-        :model-value="zeitgrenze"
-        :index="i"
-        @update:model-value="updateZeitgrenze(i, $event)"
-        @delete="deleteZeitgrenze(i)"
-      />
-      <!-- eslint-enable vue/valid-v-for -->
-      <!-- eslint-enable vuejs-accessibility/no-autofocus -->
+      <!-- eslint-disable vue/require-v-for-key -- we don't have a reasonable key here -->
+      <li v-for="(zeitgrenze, i) in zeitgrenzen" class="contents">
+        <!-- eslint-disable vuejs-accessibility/no-autofocus -- it's not the native HTML autofocus -->
+        <RisZeitgrenzenListItem
+          :autofocus="i === zeitgrenzen.length - 1 && !zeitgrenze.date"
+          :model-value="zeitgrenze"
+          :index="i"
+          @update:model-value="updateZeitgrenze(i, $event)"
+          @delete="deleteZeitgrenze(i)"
+        />
+        <!-- eslint-enable vuejs-accessibility/no-autofocus -->
+      </li>
+      <!-- eslint-enable vue/require-v-for-key -->
     </ul>
   </div>
 
