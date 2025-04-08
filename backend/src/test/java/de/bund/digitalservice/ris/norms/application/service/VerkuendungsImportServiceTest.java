@@ -125,13 +125,7 @@ class VerkuendungsImportServiceTest {
 
   private Resource loadFolderAsZipResource(String folderName) throws IOException {
     var folder = new File(
-      Objects
-        .requireNonNull(
-          VerkuendungsImportServiceTest.class.getResource(
-              VerkuendungsImportServiceTest.class.getSimpleName() + "/" + folderName
-            )
-        )
-        .getFile()
+      Fixtures.getResource(VerkuendungsImportServiceTest.class, folderName).getFile()
     );
 
     var byteArrayOutputStream = new ByteArrayOutputStream();

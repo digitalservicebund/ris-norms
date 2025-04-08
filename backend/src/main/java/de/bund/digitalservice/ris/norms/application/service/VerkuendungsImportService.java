@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.ZipUtils;
 import java.io.IOException;
 import java.util.HashMap;
@@ -152,9 +153,12 @@ class VerkuendungsImportService
 
     ldmlDeValidator.validateSchematron(norm);
 
-    var rechtsetzungsdokument = norm.getRechtsetzungsdokument().orElseThrow();
-
-    if (!rechtsetzungsdokument.isVerkuendungsfassung()) {
+    if (
+      !norm
+        .getRechtsetzungsdokument()
+        .orElseThrow(MissingRechtsetzungsdokumentException::new)
+        .isVerkuendungsfassung()
+    ) {
       throw new RechtsetzungsdokumentNotAVerkuendungsfassungException();
     }
 
@@ -190,37 +194,28 @@ class VerkuendungsImportService
     if (!files.containsKey(RECHTSETZUNGSDOKUMENT_FILENAME)) {
       throw new MissingRechtsetzungsdokumentException();
     }
-    log.debug("Rechtsetzungsdokument found.");
 
-    var rechtsetzungsdokument = ldmlDeValidator.parseAndValidateRechtsetzungsdokument(
-      new String(files.get(RECHTSETZUNGSDOKUMENT_FILENAME))
-    );
-    var normManifestationEli = rechtsetzungsdokument.getManifestationEli().asNormEli();
-
-    log.debug(
-      "Rechtsetzungsdokument validated. Eli: {}",
-      rechtsetzungsdokument.getManifestationEli()
-    );
+    NormManifestationEli normManifestationEli = null;
 
     Map<String, Dokument> dokumente = new HashMap<>();
-    dokumente.put(RECHTSETZUNGSDOKUMENT_FILENAME, rechtsetzungsdokument);
-
     Queue<String> dokumenteToProcess = new LinkedList<>();
     dokumenteToProcess.add(RECHTSETZUNGSDOKUMENT_FILENAME);
 
     while (!dokumenteToProcess.isEmpty()) {
       String dokumentName = dokumenteToProcess.poll();
-      // only compute if absent to not parse the rechtsetzungsdokument twice
-      var dokument = dokumente.computeIfAbsent(
-        dokumentName,
-        name -> parseAndValidateDokument(name, files.get(dokumentName))
-      );
+      log.debug("Processing Dokument {}", dokumentName);
+      var dokument = parseAndValidateDokument(dokumentName, files.get(dokumentName));
+      dokumente.put(dokumentName, dokument);
 
       if (!dokument.getManifestationEli().getSubtype().equals(dokumentName.split("\\.")[0])) {
         throw new MismatchBetweenFilenameAndSubtypeException(
           dokumentName,
           dokument.getManifestationEli()
         );
+      }
+
+      if (normManifestationEli == null) {
+        normManifestationEli = dokument.getManifestationEli().asNormEli();
       }
 
       if (!dokument.getManifestationEli().asNormEli().equals(normManifestationEli)) {
@@ -232,7 +227,7 @@ class VerkuendungsImportService
       }
 
       log.debug(
-        "Parsed & validated dokument {} now looking for referenced dokuments in it",
+        "Parsed & validated Dokument {} now looking for referenced dokuments in it",
         dokument.getManifestationEli()
       );
 
@@ -271,6 +266,9 @@ class VerkuendungsImportService
 
   private Dokument parseAndValidateDokument(String dokumentName, byte[] file) {
     return switch (dokumentName.split("-")[0]) {
+      case "rechtsetzungsdokument" -> ldmlDeValidator.parseAndValidateRechtsetzungsdokument(
+        new String(file)
+      );
       case "regelungstext" -> ldmlDeValidator.parseAndValidateRegelungstext(new String(file));
       case "offenestruktur" -> ldmlDeValidator.parseAndValidateOffeneStruktur(new String(file));
       case "bekanntmachungstext" -> ldmlDeValidator.parseAndValidateBekanntmachung(
