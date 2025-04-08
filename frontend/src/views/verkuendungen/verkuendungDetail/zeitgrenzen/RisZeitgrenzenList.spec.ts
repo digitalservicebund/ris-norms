@@ -1,5 +1,6 @@
 import userEvent from "@testing-library/user-event"
 import { render, screen, within } from "@testing-library/vue"
+import InputText from "primevue/inputtext"
 import { describe, expect, it } from "vitest"
 import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
 
@@ -9,6 +10,7 @@ describe("risZeitgrenzenList", () => {
       props: {
         modelValue: [],
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     expect(
@@ -24,6 +26,7 @@ describe("risZeitgrenzenList", () => {
           { date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     const items = screen.getAllByRole("listitem")
@@ -34,7 +37,7 @@ describe("risZeitgrenzenList", () => {
     ).not.toBeChecked()
     expect(
       within(items[0]).getByRole("textbox", { name: "Geltungszeit" }),
-    ).toHaveValue("2025-04-08")
+    ).toHaveValue("08.04.2025")
     expect(
       within(items[0]).getByRole("combobox", { name: "Inkrafttreten" }),
     ).toBeVisible()
@@ -44,7 +47,7 @@ describe("risZeitgrenzenList", () => {
     ).not.toBeChecked()
     expect(
       within(items[1]).getByRole("textbox", { name: "Geltungszeit" }),
-    ).toHaveValue("2025-04-10")
+    ).toHaveValue("10.04.2025")
     expect(
       within(items[1]).getByRole("combobox", { name: "Außerkrafttreten" }),
     ).toBeVisible()
@@ -63,12 +66,13 @@ describe("risZeitgrenzenList", () => {
           { date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     const [item] = screen.getAllByRole("listitem")
     const textbox = within(item).getByRole("textbox", { name: "Geltungszeit" })
     await user.clear(textbox)
-    await user.type(textbox, "2025-05-30")
+    await user.type(textbox, "30.05.2025")
 
     expect(emitted("update:modelValue")).toContainEqual([
       [
@@ -87,6 +91,7 @@ describe("risZeitgrenzenList", () => {
           { date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     const [, item] = screen.getAllByRole("listitem")
@@ -110,6 +115,7 @@ describe("risZeitgrenzenList", () => {
           { date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     await user.click(
@@ -131,6 +137,7 @@ describe("risZeitgrenzenList", () => {
       props: {
         modelValue: [],
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     await user.click(
@@ -147,6 +154,7 @@ describe("risZeitgrenzenList", () => {
       props: {
         modelValue: [],
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     await rerender({ modelValue: [{ date: "", art: "inkrafttreten" }] })
@@ -162,6 +170,7 @@ describe("risZeitgrenzenList", () => {
           art: "inkrafttreten",
         }),
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     expect(

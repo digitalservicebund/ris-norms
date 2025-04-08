@@ -1,5 +1,6 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
+import InputText from "primevue/inputtext"
 import { describe, expect, it } from "vitest"
 import RisZeitgrenzenListItem from "./RisZeitgrenzenListItem.vue"
 
@@ -10,6 +11,7 @@ describe("risZeitgrenzenListItem", () => {
         index: 0,
         modelValue: { date: "2025-04-08", art: "inkrafttreten" },
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     // Hardcoded to "false" for now
@@ -24,6 +26,7 @@ describe("risZeitgrenzenListItem", () => {
         index: 1,
         modelValue: { date: "2025-04-08", art: "inkrafttreten" },
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     // eslint-disable-next-line -- Purely visual component, no better selectors available
@@ -36,10 +39,11 @@ describe("risZeitgrenzenListItem", () => {
         index: 1,
         modelValue: { date: "2025-04-08", art: "inkrafttreten" },
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     expect(screen.getByRole("textbox", { name: "Geltungszeit" })).toHaveValue(
-      "2025-04-08",
+      "08.04.2025",
     )
   })
 
@@ -49,6 +53,7 @@ describe("risZeitgrenzenListItem", () => {
         index: 0,
         modelValue: { date: "2025-04-08", art: "ausserkrafttreten" },
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     // Hardcoded to "false" for now
@@ -64,6 +69,7 @@ describe("risZeitgrenzenListItem", () => {
         index: 0,
         modelValue: { date: "2025-04-08", art: "ausserkrafttreten" },
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     await user.click(
@@ -82,14 +88,33 @@ describe("risZeitgrenzenListItem", () => {
         index: 0,
         modelValue: { date: "2025-04-08", art: "ausserkrafttreten" },
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     const textbox = screen.getByRole("textbox", { name: "Geltungszeit" })
     await user.clear(textbox)
-    await user.type(textbox, "2025-04-09")
+    await user.type(textbox, "09.04.2025")
 
     expect(emitted("update:modelValue")).toContainEqual([
       { date: "2025-04-09", art: "ausserkrafttreten" },
+    ])
+  })
+
+  it("sets the date to empty string when clearing the Geltungszeit", async () => {
+    const user = userEvent.setup()
+    const { emitted } = render(RisZeitgrenzenListItem, {
+      props: {
+        index: 0,
+        modelValue: { date: "2025-04-08", art: "ausserkrafttreten" },
+      },
+      global: { stubs: { InputMask: InputText } },
+    })
+
+    const textbox = screen.getByRole("textbox", { name: "Geltungszeit" })
+    await user.clear(textbox)
+
+    expect(emitted("update:modelValue")).toContainEqual([
+      { date: "", art: "ausserkrafttreten" },
     ])
   })
 
@@ -100,6 +125,7 @@ describe("risZeitgrenzenListItem", () => {
         index: 0,
         modelValue: { date: "2025-04-08", art: "ausserkrafttreten" },
       },
+      global: { stubs: { InputMask: InputText } },
     })
 
     await user.click(screen.getByRole("combobox", { name: "Außerkrafttreten" }))

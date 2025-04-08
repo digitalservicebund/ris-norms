@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import RisDateInput from "@/components/controls/RisDateInput.vue"
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import type { Zeitgrenze, ZeitgrenzeArt } from "@/types/zeitgrenze"
 import Button from "primevue/button"
 import Checkbox from "primevue/checkbox"
-import InputText from "primevue/inputtext"
 import Select from "primevue/select"
 import { computed, onMounted, useTemplateRef } from "vue"
 import IcBaselineClear from "~icons/ic/baseline-clear"
@@ -27,12 +28,17 @@ defineEmits<{
 
 const geltungszeitEl = useTemplateRef("geltungszeitEl")
 
+const { geltungszeitInputId } = useElementId()
+
 onMounted(() => {
-  // @ts-expect-error -- Complains about missing $el, but that is what PrimeVue recommends
-  if (autofocus && geltungszeitEl.value) geltungszeitEl.value.$el?.focus()
+  if (autofocus && geltungszeitEl.value) geltungszeitEl.value.focus()
 })
 
-const formattedDate = computed(() => formatDate(zeitgrenze.value.date))
+const deleteButtonHint = computed(() =>
+  zeitgrenze.value.date
+    ? `Zeitgrenze vom ${formatDate(zeitgrenze.value.date)} entfernen`
+    : `Zeitgrenze entfernen`,
+)
 
 const artOptions: Array<{ label: string; value: ZeitgrenzeArt }> = [
   { label: "Inkrafttreten", value: "inkrafttreten" },
@@ -44,7 +50,7 @@ const geltungszeit = computed({
     return zeitgrenze.value.date
   },
   set(value) {
-    zeitgrenze.value = { ...zeitgrenze.value, date: value }
+    zeitgrenze.value = { ...zeitgrenze.value, date: value ?? "" }
   },
 })
 
@@ -73,7 +79,12 @@ const art = computed({
 
     <label>
       <span class="sr-only">Geltungszeit</span>
-      <InputText ref="geltungszeitEl" v-model="geltungszeit" fluid />
+      <RisDateInput
+        :id="geltungszeitInputId"
+        ref="geltungszeitEl"
+        v-model="geltungszeit"
+        fluid
+      />
     </label>
 
     <label>
@@ -88,11 +99,7 @@ const art = computed({
     </label>
 
     <div>
-      <Button
-        :aria-label="`Zeitgrenze vom ${formattedDate} entfernen`"
-        text
-        @click="$emit('delete')"
-      >
+      <Button :aria-label="deleteButtonHint" text @click="$emit('delete')">
         <template #icon><IcBaselineClear /></template>
       </Button>
     </div>
