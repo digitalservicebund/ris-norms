@@ -38,7 +38,7 @@ export function useGetZeitgrenzen(
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
-    return `/${eliVal}/zeitgrenzen`
+    return `/norms/${eliVal}/zeitgrenzen`
   })
 
   return useApiFetch(url, { refetch: true }).json().get()
@@ -60,7 +60,7 @@ export function usePutZeitgrenzen(
     computed(() => {
       const eliVal = toValue(eli)
       if (!eliVal) return INVALID_URL
-      return `/${eliVal}/zeitgrenzen`
+      return `/norms/${eliVal}/zeitgrenzen`
     }),
     { immediate: false, refetch: false },
   )

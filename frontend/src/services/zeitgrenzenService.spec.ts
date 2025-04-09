@@ -112,7 +112,7 @@ describe("zeitgrenzenService", () => {
       expect(data.value).toEqual(response)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
         expect.anything(),
       )
     })
@@ -155,7 +155,7 @@ describe("zeitgrenzenService", () => {
       await vi.waitUntil(() => isFinished.value)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
         expect.anything(),
       )
 
@@ -166,7 +166,7 @@ describe("zeitgrenzenService", () => {
       await flushPromises()
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-1/zeitgrenzen",
         expect.anything(),
       )
     })
@@ -197,7 +197,7 @@ describe("zeitgrenzenService", () => {
       await flushPromises()
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
         expect.objectContaining({
           body: JSON.stringify(payload.value),
           headers: {

@@ -9,7 +9,7 @@ test.describe(
       // Temporarily mock the respone while we're waiting for the backend implementation
       // TODO: Remove once backend is ready
       await page.route(
-        "/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
         async (route) => {
           await route.fulfill({
             status: 200,
@@ -79,7 +79,7 @@ test.describe(
       })
 
       await page.waitForResponse(
-        "/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
       )
 
       const loadedItems = await editor.getByRole("listitem").all()
@@ -130,7 +130,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
         async (route) => {
           await route.fulfill({
             status: 200,
@@ -174,7 +174,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
         async (route) => {
           await route.fulfill({
             status: 500,
