@@ -45,14 +45,21 @@ const {
     </div>
 
     <div class="gap grid min-h-0 grow grid-cols-2 grid-rows-1 gap-16">
-      <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+      <section
+        class="mt-16 flex flex-col gap-8 overflow-hidden"
+        aria-label="Vorschau"
+      >
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
           <RisLoadingSpinner />
         </div>
 
         <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
-        <RisLawPreview v-else class="grow p-2" :content="render ?? ''" />
+        <RisLawPreview
+          v-else
+          class="h-full grow overflow-auto p-2"
+          :content="render ?? ''"
+        />
       </section>
 
       <section
