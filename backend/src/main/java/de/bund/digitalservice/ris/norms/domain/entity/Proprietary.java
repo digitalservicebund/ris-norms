@@ -234,6 +234,23 @@ public class Proprietary {
       .map(CustomModsMetadata::new);
   }
 
+  /**
+   * Gets the custom norms-application-only mods metadata, if not present yet, it creates the node and return the custom object.
+   *
+   * @return The retrieved/created object of {@link CustomModsMetadata}
+   */
+  public CustomModsMetadata getOrCreateCustomModsMetadata() {
+    return this.getCustomModsMetadata()
+      .orElseGet(() -> {
+        final var newElement = NodeCreator.createElement(
+          Namespace.METADATEN_NORMS_APPLICATION_MODS,
+          "legalDocML.de_metadaten",
+          element
+        );
+        return new CustomModsMetadata(newElement);
+      });
+  }
+
   private String getXpathExpression(final Namespace namespace) {
     return "Q{" + namespace.getNamespaceUri() + "}legalDocML.de_metadaten";
   }

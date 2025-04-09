@@ -102,6 +102,34 @@ public abstract class Dokument {
   }
 
   /**
+   * Extracts the time boundaries saved under the custom {@link Namespace#METADATEN_NORMS_APPLICATION_MODS} from the document.
+   *
+   * @return a list of {@link Zeitgrenze}
+   */
+  public List<Zeitgrenze> getZeitgrenzen() {
+    return getMeta()
+      .getProprietary()
+      .flatMap(p -> p.getCustomModsMetadata().map(CustomModsMetadata::getZeitgrenzen))
+      .orElse(List.of());
+  }
+
+  /**
+   * Updates the time boundaries in a sorted way under the custom {@link Namespace#METADATEN_NORMS_APPLICATION_MODS}
+   *
+   * @param zeitgrenzen the list of {@link Zeitgrenze}
+   * @return the created and sorted list of {@link Zeitgrenze} with the generated ids
+   */
+  public List<Zeitgrenze> setZeitgrenzen(final List<Zeitgrenze> zeitgrenzen) {
+    if (zeitgrenzen != null && !zeitgrenzen.isEmpty()) {
+      final Proprietary proprietary = getMeta().getOrCreateProprietary();
+      final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
+      return customModsMetadata.updateZeitgrenzen(zeitgrenzen);
+    } else {
+      return zeitgrenzen;
+    }
+  }
+
+  /**
    * * Extracts a list of time boundaries (Zeitgrenzen) from the document of a pre-filtered given
    * list of temporal groups.
    *
