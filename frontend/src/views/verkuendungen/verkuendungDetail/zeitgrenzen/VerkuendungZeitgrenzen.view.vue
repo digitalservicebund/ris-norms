@@ -75,10 +75,7 @@ const {
         class="h-full overflow-auto bg-gray-100 p-24"
       >
         <section :aria-labelledby="geltungszeitenHeadingId">
-          <h1
-            :id="geltungszeitenHeadingId"
-            class="ris-subhead-regular mb-24 font-bold"
-          >
+          <h1 :id="geltungszeitenHeadingId" class="ris-subhead-bold mb-24">
             Geltungszeitregeln anlegen
           </h1>
           <RisZeitgrenzenList v-if="zeitgrenzen" v-model="zeitgrenzen" />
@@ -91,10 +88,7 @@ const {
         class="h-full overflow-auto p-24"
       >
         <section :aria-labelledby="geltungszeitenHtmlHeadingId">
-          <h2
-            :id="geltungszeitenHtmlHeadingId"
-            class="ris-subhead-regular mb-10 font-bold"
-          >
+          <h2 :id="geltungszeitenHtmlHeadingId" class="ris-subhead-bold mb-10">
             Verkündungsdaten
           </h2>
           <RisPropertyValue
