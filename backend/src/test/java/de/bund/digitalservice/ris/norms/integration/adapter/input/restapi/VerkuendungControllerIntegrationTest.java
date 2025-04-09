@@ -56,8 +56,8 @@ class VerkuendungControllerIntegrationTest extends BaseS3MockIntegrationTest {
         "$.processId"
       );
 
-      assertFileExists(processId, file.getOriginalFilename());
-      assertFileExists(processId, signature.getOriginalFilename());
+      assertFileExists(processId, "file.zip");
+      assertFileExists(processId, "signature.sig");
     }
   }
 

@@ -47,9 +47,7 @@ class NormenDokumentationsPaketBucketServiceIntegrationTest extends BaseS3MockIn
     // Then
     assertThat(
       Files.exists(
-        getEverkuendungPath()
-          .resolve("b6a825ce-e065-4e24-918a-6f9e6c7fafdf")
-          .resolve("SimpleNorm.xml.zip")
+        getEverkuendungPath().resolve("b6a825ce-e065-4e24-918a-6f9e6c7fafdf").resolve("file.zip")
       )
     )
       .isTrue();

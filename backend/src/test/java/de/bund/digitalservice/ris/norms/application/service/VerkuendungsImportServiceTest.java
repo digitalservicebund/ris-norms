@@ -1,18 +1,21 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
-import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormendokumentationspaketPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveNormendokumentationspaketPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.ZipUtils;
 import java.io.ByteArrayOutputStream;
@@ -20,15 +23,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.jetbrains.annotations.NotNull;
 import org.jobrunr.scheduling.JobScheduler;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.stubbing.Answer;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.ByteArrayResource;
@@ -36,16 +43,32 @@ import org.springframework.core.io.Resource;
 
 class VerkuendungsImportServiceTest {
 
+  LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  LoadNormendokumentationspaketPort loadNormendokumentationspaketPort = mock(
+    LoadNormendokumentationspaketPort.class
+  );
   SaveNormendokumentationspaketPort saveNormendokumentationspaketPort = mock(
     SaveNormendokumentationspaketPort.class
   );
-  LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  LoadVerkuendungImportProcessPort loadVerkuendungImportProcessPort = mock(
+    LoadVerkuendungImportProcessPort.class
+  );
+  UpdateVerkuendungImportProcessPort updateVerkuendungImportProcessPort = mock(
+    UpdateVerkuendungImportProcessPort.class
+  );
   JobScheduler jobScheduler = mock(JobScheduler.class);
+  ObjectMapper objectMapper = mock(ObjectMapper.class);
   VerkuendungsImportService verkuendungsImportService = new VerkuendungsImportService(
-    saveNormendokumentationspaketPort,
-    Fixtures.getLdmlDeValidator(),
     loadNormPort,
-    jobScheduler
+    updateOrSaveNormPort,
+    loadNormendokumentationspaketPort,
+    saveNormendokumentationspaketPort,
+    loadVerkuendungImportProcessPort,
+    updateVerkuendungImportProcessPort,
+    Fixtures.getLdmlDeValidator(),
+    jobScheduler,
+    objectMapper
   );
 
   @BeforeAll
@@ -59,68 +82,285 @@ class VerkuendungsImportServiceTest {
     logger2.setLevel(Level.DEBUG);
   }
 
-  @Test
-  void validate() throws IOException {
-    var norm = verkuendungsImportService.parseAndValidate(
-      loadFolderAsZipResource("verkuendung-valid")
-    );
+  @Nested
+  class processNormendokumentationspaket {
 
-    assertThat(norm.getManifestationEli())
-      .hasToString("eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27");
-    assertThat(norm.getDokumente()).hasSize(2);
-    assertThat(norm.getBinaryFiles()).hasSize(1);
-  }
-
-  @Test
-  void validateSchematronInvalid() throws IOException {
-    var resource = loadFolderAsZipResource("verkuendung-invalid-schematron");
-    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
-      .isInstanceOf(LdmlDeSchematronException.class);
-  }
-
-  @Test
-  void validateMissingRechtsetzungsdokument() throws IOException {
-    var resource = loadFolderAsZipResource("verkuendung-without-rechtsetzungsdokument");
-    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
-      .isInstanceOf(
-        ProcessNormendokumentationspaketUseCase.MissingRechtsetzungsdokumentException.class
-      );
-  }
-
-  @Test
-  void validateNormAlreadyExists() throws IOException {
-    var resource = loadFolderAsZipResource("verkuendung-valid");
-    when(loadNormPort.loadNorm(any()))
-      .thenReturn(
-        Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+    @Test
+    void itProcessesAValidPaket() throws IOException {
+      // Given
+      var processId = UUID.randomUUID();
+      var process = VerkuendungImportProcess
+        .builder()
+        .id(processId)
+        .createdAt(Instant.now())
+        .build();
+      when(loadVerkuendungImportProcessPort.loadVerkuendungImportProcess(any()))
+        .thenReturn(Optional.of(process));
+      when(updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(any()))
+        // assert within thenAnswer as part of the call is called by referenced and that reference is overwritten later
+        .thenAnswer(
+          (Answer<VerkuendungImportProcess>) invocationOnMock -> {
+            var arg = invocationOnMock.getArgument(
+              0,
+              UpdateVerkuendungImportProcessPort.Command.class
+            );
+            assertThat(arg.verkuendungImportProcess().getStatus())
+              .isEqualTo(VerkuendungImportProcess.Status.PROCESSING);
+            return process;
+          }
         )
+        .thenAnswer(
+          (Answer<VerkuendungImportProcess>) invocationOnMock -> {
+            var arg = invocationOnMock.getArgument(
+              0,
+              UpdateVerkuendungImportProcessPort.Command.class
+            );
+            assertThat(arg.verkuendungImportProcess().getStatus())
+              .isEqualTo(VerkuendungImportProcess.Status.SUCCESS);
+            return process;
+          }
+        );
+
+      when(loadNormendokumentationspaketPort.loadNormendokumentationspaket(any()))
+        .thenReturn(
+          new LoadNormendokumentationspaketPort.Result(
+            loadFolderAsZipResource("verkuendung-valid"),
+            null
+          )
+        );
+
+      // When
+      verkuendungsImportService.processNormendokumentationspaket(
+        new ProcessNormendokumentationspaketUseCase.Query(processId)
       );
 
-    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
-      .isInstanceOf(NormExistsAlreadyException.class);
-    verify(loadNormPort)
-      .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107")));
-  }
+      // Then
+      verify(updateVerkuendungImportProcessPort, times(2)).updateVerkuendungImportProcess(any());
+      verify(updateOrSaveNormPort, times(1))
+        .updateOrSave(
+          assertArg(command -> {
+            assertThat(command.norm().getManifestationEli())
+              .hasToString("eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27");
+            assertThat(command.norm().getDokumente()).hasSize(2);
+            assertThat(command.norm().getBinaryFiles()).hasSize(1);
+          })
+        );
+    }
 
-  @Test
-  void validateUnsupportedFileType() throws IOException {
-    var resource = loadFolderAsZipResource("verkuendung-with-unsupported-filetype");
+    @Test
+    void itFailsForSchematronInvalidContent() throws IOException {
+      // Given
+      var processId = UUID.randomUUID();
+      var process = VerkuendungImportProcess
+        .builder()
+        .id(processId)
+        .createdAt(Instant.now())
+        .build();
+      when(loadVerkuendungImportProcessPort.loadVerkuendungImportProcess(any()))
+        .thenReturn(Optional.of(process));
+      when(updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(any()))
+        .thenReturn(process);
 
-    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
-      .isInstanceOf(ProcessNormendokumentationspaketUseCase.UnsupportedFileTypeException.class);
-  }
+      when(loadNormendokumentationspaketPort.loadNormendokumentationspaket(any()))
+        .thenReturn(
+          new LoadNormendokumentationspaketPort.Result(
+            loadFolderAsZipResource("verkuendung-invalid-schematron"),
+            null
+          )
+        );
 
-  @Test
-  void validateNoRegelungstext() throws IOException {
-    var resource = loadFolderAsZipResource("verkuendung-without-regelungstext");
-
-    assertThatThrownBy(() -> verkuendungsImportService.parseAndValidate(resource))
-      .isInstanceOf(
-        ProcessNormendokumentationspaketUseCase.NoRegelungstextOrBekanntmachungstextException.class
+      // When
+      verkuendungsImportService.processNormendokumentationspaket(
+        new ProcessNormendokumentationspaketUseCase.Query(processId)
       );
+
+      // Then
+      verify(updateVerkuendungImportProcessPort, times(2))
+        .updateVerkuendungImportProcess(
+          assertArg(command -> {
+            assertThat(command.verkuendungImportProcess().getStatus())
+              .isEqualTo(VerkuendungImportProcess.Status.ERROR);
+            assertThat(command.verkuendungImportProcess().getDetail().getFirst().getType())
+              .isEqualTo("/errors/ldml-de-not-schematron-valid");
+          })
+        );
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    }
+
+    @Test
+    void itFailsForMissingRechtsetzungsdokument() throws IOException {
+      // Given
+      var processId = UUID.randomUUID();
+      var process = VerkuendungImportProcess
+        .builder()
+        .id(processId)
+        .createdAt(Instant.now())
+        .build();
+      when(loadVerkuendungImportProcessPort.loadVerkuendungImportProcess(any()))
+        .thenReturn(Optional.of(process));
+      when(updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(any()))
+        .thenReturn(process);
+
+      when(loadNormendokumentationspaketPort.loadNormendokumentationspaket(any()))
+        .thenReturn(
+          new LoadNormendokumentationspaketPort.Result(
+            loadFolderAsZipResource("verkuendung-without-rechtsetzungsdokument"),
+            null
+          )
+        );
+
+      // When
+      verkuendungsImportService.processNormendokumentationspaket(
+        new ProcessNormendokumentationspaketUseCase.Query(processId)
+      );
+
+      // Then
+      verify(updateVerkuendungImportProcessPort, times(2))
+        .updateVerkuendungImportProcess(
+          assertArg(command -> {
+            assertThat(command.verkuendungImportProcess().getStatus())
+              .isEqualTo(VerkuendungImportProcess.Status.ERROR);
+            assertThat(command.verkuendungImportProcess().getDetail().getFirst().getType())
+              .isEqualTo(
+                "/errors/normendokumentationspaket-import-failed/missing-rechtsetzungsdokument"
+              );
+          })
+        );
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    }
+
+    @Test
+    void itFailsIfNormAlreadyExists() throws IOException {
+      // Given
+      var processId = UUID.randomUUID();
+      var process = VerkuendungImportProcess
+        .builder()
+        .id(processId)
+        .createdAt(Instant.now())
+        .build();
+      when(loadVerkuendungImportProcessPort.loadVerkuendungImportProcess(any()))
+        .thenReturn(Optional.of(process));
+      when(updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(any()))
+        .thenReturn(process);
+
+      when(loadNormPort.loadNorm(any()))
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        );
+
+      when(loadNormendokumentationspaketPort.loadNormendokumentationspaket(any()))
+        .thenReturn(
+          new LoadNormendokumentationspaketPort.Result(
+            loadFolderAsZipResource("verkuendung-valid"),
+            null
+          )
+        );
+
+      // When
+      verkuendungsImportService.processNormendokumentationspaket(
+        new ProcessNormendokumentationspaketUseCase.Query(processId)
+      );
+
+      // Then
+      verify(updateVerkuendungImportProcessPort, times(2))
+        .updateVerkuendungImportProcess(
+          assertArg(command -> {
+            assertThat(command.verkuendungImportProcess().getStatus())
+              .isEqualTo(VerkuendungImportProcess.Status.ERROR);
+            assertThat(command.verkuendungImportProcess().getDetail().getFirst().getType())
+              .isEqualTo("/errors/norm-with-eli-exists-already");
+          })
+        );
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+      verify(loadNormPort)
+        .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107")));
+    }
+
+    @Test
+    void itFailsIfItHasAnUnsupportedFileType() throws IOException {
+      // Given
+      var processId = UUID.randomUUID();
+      var process = VerkuendungImportProcess
+        .builder()
+        .id(processId)
+        .createdAt(Instant.now())
+        .build();
+      when(loadVerkuendungImportProcessPort.loadVerkuendungImportProcess(any()))
+        .thenReturn(Optional.of(process));
+      when(updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(any()))
+        .thenReturn(process);
+
+      when(loadNormendokumentationspaketPort.loadNormendokumentationspaket(any()))
+        .thenReturn(
+          new LoadNormendokumentationspaketPort.Result(
+            loadFolderAsZipResource("verkuendung-with-unsupported-filetype"),
+            null
+          )
+        );
+
+      // When
+      verkuendungsImportService.processNormendokumentationspaket(
+        new ProcessNormendokumentationspaketUseCase.Query(processId)
+      );
+
+      // Then
+      verify(updateVerkuendungImportProcessPort, times(2))
+        .updateVerkuendungImportProcess(
+          assertArg(command -> {
+            assertThat(command.verkuendungImportProcess().getStatus())
+              .isEqualTo(VerkuendungImportProcess.Status.ERROR);
+            assertThat(command.verkuendungImportProcess().getDetail().getFirst().getType())
+              .isEqualTo("/errors/normendokumentationspaket-import-failed/unsupported-file-type");
+          })
+        );
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    }
+
+    @Test
+    void itFailsIfItHasNoRegelungstext() throws IOException {
+      // Given
+      var processId = UUID.randomUUID();
+      var process = VerkuendungImportProcess
+        .builder()
+        .id(processId)
+        .createdAt(Instant.now())
+        .build();
+      when(loadVerkuendungImportProcessPort.loadVerkuendungImportProcess(any()))
+        .thenReturn(Optional.of(process));
+      when(updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(any()))
+        .thenReturn(process);
+
+      when(loadNormendokumentationspaketPort.loadNormendokumentationspaket(any()))
+        .thenReturn(
+          new LoadNormendokumentationspaketPort.Result(
+            loadFolderAsZipResource("verkuendung-without-regelungstext"),
+            null
+          )
+        );
+
+      // When
+      verkuendungsImportService.processNormendokumentationspaket(
+        new ProcessNormendokumentationspaketUseCase.Query(processId)
+      );
+
+      // Then
+      verify(updateVerkuendungImportProcessPort, times(2))
+        .updateVerkuendungImportProcess(
+          assertArg(command -> {
+            assertThat(command.verkuendungImportProcess().getStatus())
+              .isEqualTo(VerkuendungImportProcess.Status.ERROR);
+            assertThat(command.verkuendungImportProcess().getDetail().getFirst().getType())
+              .isEqualTo(
+                "/errors/normendokumentationspaket-import-failed/no-regelungstext-or-bekanntmachungstext"
+              );
+          })
+        );
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    }
   }
 
   private Resource loadFolderAsZipResource(String folderName) throws IOException {

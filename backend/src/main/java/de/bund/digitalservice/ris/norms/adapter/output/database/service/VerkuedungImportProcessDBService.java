@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungI
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.VerkuendungImportProcessMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungImportProcessesRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import java.util.Optional;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class VerkuedungImportProcessDBService
   extends DBService
-  implements LoadVerkuendungImportProcessPort {
+  implements LoadVerkuendungImportProcessPort, UpdateVerkuendungImportProcessPort {
 
   private final VerkuendungImportProcessesRepository verkuendungImportProcessesRepository;
 
@@ -33,5 +34,16 @@ public class VerkuedungImportProcessDBService
     return verkuendungImportProcessesRepository
       .findById(command.id())
       .map(VerkuendungImportProcessMapper::mapToDomain);
+  }
+
+  @Override
+  public VerkuendungImportProcess updateVerkuendungImportProcess(
+    UpdateVerkuendungImportProcessPort.Command command
+  ) {
+    return VerkuendungImportProcessMapper.mapToDomain(
+      verkuendungImportProcessesRepository.save(
+        VerkuendungImportProcessMapper.mapToDto(command.verkuendungImportProcess())
+      )
+    );
   }
 }

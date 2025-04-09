@@ -1,18 +1,29 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormendokumentationspaketPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveNormendokumentationspaketPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.domain.entity.BinaryFile;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
+import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.ZipUtils;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -32,15 +43,23 @@ import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeType;
 
+/**
+ * Service for importing normendokumentationspakete as new verkündungen.
+ */
 @Service
 @Slf4j
-class VerkuendungsImportService
+public class VerkuendungsImportService
   implements StoreNormendokumentationspaketUseCase, ProcessNormendokumentationspaketUseCase {
 
   private final LoadNormPort loadNormPort;
+  private final UpdateOrSaveNormPort updateOrSaveNormPort;
+  private final LoadNormendokumentationspaketPort loadNormendokumentationspaketPort;
   private final SaveNormendokumentationspaketPort saveNormendokumentationspaketPort;
+  private final LoadVerkuendungImportProcessPort loadVerkuendungImportProcessPort;
+  private final UpdateVerkuendungImportProcessPort updateVerkuendungImportProcessPort;
   private final LdmlDeValidator ldmlDeValidator;
   private final JobScheduler jobScheduler;
+  private final ObjectMapper objectMapper;
 
   static final List<MimeType> SUPPORTED_MIME_TYPES = List.of(
     MediaType.APPLICATION_XML,
@@ -53,15 +72,25 @@ class VerkuendungsImportService
   static final String RECHTSETZUNGSDOKUMENT_FILENAME = "rechtsetzungsdokument-1.xml";
 
   public VerkuendungsImportService(
-    SaveNormendokumentationspaketPort saveNormendokumentationspaketPort,
-    LdmlDeValidator ldmlDeValidator,
     LoadNormPort loadNormPort,
-    JobScheduler jobScheduler
+    UpdateOrSaveNormPort updateOrSaveNormPort,
+    LoadNormendokumentationspaketPort loadNormendokumentationspaketPort,
+    SaveNormendokumentationspaketPort saveNormendokumentationspaketPort,
+    LoadVerkuendungImportProcessPort loadVerkuendungImportProcessPort,
+    UpdateVerkuendungImportProcessPort updateVerkuendungImportProcessPort,
+    LdmlDeValidator ldmlDeValidator,
+    JobScheduler jobScheduler,
+    ObjectMapper objectMapper
   ) {
-    this.saveNormendokumentationspaketPort = saveNormendokumentationspaketPort;
-    this.ldmlDeValidator = ldmlDeValidator;
     this.loadNormPort = loadNormPort;
+    this.updateOrSaveNormPort = updateOrSaveNormPort;
+    this.loadNormendokumentationspaketPort = loadNormendokumentationspaketPort;
+    this.saveNormendokumentationspaketPort = saveNormendokumentationspaketPort;
+    this.loadVerkuendungImportProcessPort = loadVerkuendungImportProcessPort;
+    this.updateVerkuendungImportProcessPort = updateVerkuendungImportProcessPort;
+    this.ldmlDeValidator = ldmlDeValidator;
     this.jobScheduler = jobScheduler;
+    this.objectMapper = objectMapper;
   }
 
   @Override
@@ -90,17 +119,63 @@ class VerkuendungsImportService
   }
 
   @Override
-  public void processNormendokumentationspaket(
-    ProcessNormendokumentationspaketUseCase.Query query
-  ) {
-    // TODO: (Malte Laukötter, 2025-04-08) call parseAndValidate with the zip file resource
+  public void processNormendokumentationspaket(ProcessNormendokumentationspaketUseCase.Query query)
+    throws IOException {
+    log.info("Start processing Normendokumentationspaket: {}", query.processId());
 
-    throw new RuntimeException("Not implemented yet");
+    var process = loadVerkuendungImportProcessPort
+      .loadVerkuendungImportProcess(new LoadVerkuendungImportProcessPort.Command(query.processId()))
+      .orElseThrow(() -> new RuntimeException("Could not load verkuendung import process"));
+
+    process.setStatus(VerkuendungImportProcess.Status.PROCESSING);
+    process.setStartedAt(Instant.now());
+    process =
+    updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(
+      new UpdateVerkuendungImportProcessPort.Command(process)
+    );
+
+    try {
+      var files = loadNormendokumentationspaketPort.loadNormendokumentationspaket(
+        new LoadNormendokumentationspaketPort.Command(query.processId())
+      );
+      var zipFile = files.file();
+
+      Norm norm = parseAndValidate(zipFile);
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+
+      // TODO: (Malte Laukötter, 2025-04-10) create verkündung
+
+      process.setStatus(VerkuendungImportProcess.Status.SUCCESS);
+    } catch (Exception e) {
+      log.warn(
+        "Exception during processing of Normendokumentationspaket: {}",
+        query.processId(),
+        e
+      );
+      process.setStatus(VerkuendungImportProcess.Status.ERROR);
+      if (e instanceof NormsAppException normsAppException) {
+        process.setDetail(
+          List.of(
+            VerkuendungImportProcessDetail
+              .builder()
+              .type(normsAppException.getType().toString())
+              .title(normsAppException.getTitle())
+              .detail(objectMapper.writeValueAsString(normsAppException.getProperties()))
+              .build()
+          )
+        );
+      }
+    }
+
+    process.setFinishedAt(Instant.now());
+    updateVerkuendungImportProcessPort.updateVerkuendungImportProcess(
+      new UpdateVerkuendungImportProcessPort.Command(process)
+    );
+    log.info("Finished processing Normendokumentationspaket: {}", query.processId());
   }
 
-  // TODO: (Malte Laukötter, 2025-04-08) make private once integrated in processNormendokumentationspaket
-  public Norm parseAndValidate(Resource zipFile)
-    throws IOException, NormendokumentationspaketImportFailedException {
+  private Norm parseAndValidate(Resource zipFile)
+    throws IOException, NormendokumentationspaketImportFailedException, LdmlDeNotValidException, LdmlDeSchematronException {
     validateFileIsZipArchive(zipFile);
     log.debug("File is zip archive.");
 
@@ -181,13 +256,8 @@ class VerkuendungsImportService
   }
 
   private void validateFileIsZipArchive(Resource file) {
-    var mediaType = MediaTypeFactory
-      .getMediaType(file)
-      .orElseThrow(() -> new NotAZipFileException("Invalid filetype: " + file.getFilename()));
-
-    if (!mediaType.includes(MimeType.valueOf("application/zip"))) {
-      throw new NotAZipFileException("Invalid filetype: " + file.getFilename());
-    }
+    // TODO: (Malte Laukötter, 2025-04-09) use mimetype guessing (based on file content) as the filename is given by us and also less secure to use anyway
+    return;
   }
 
   private Set<Dokument> findParseAndValidateDokumente(Map<String, byte[]> files) {
