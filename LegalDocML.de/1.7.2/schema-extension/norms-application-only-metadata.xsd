@@ -16,11 +16,54 @@
                    organisatorischer-rahmen=""/>
         </xs:appinfo>
     </xs:annotation>
-    <xs:element name="legalDocML.de_metadaten">
-      <xs:complexType>
-        <xs:choice>
-          <xs:any processContents="lax"/>
-        </xs:choice>
-      </xs:complexType>
-    </xs:element>
+  <xs:element name="legalDocML.de_metadaten">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="geltungszeiten" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="geltungszeit" maxOccurs="unbounded">
+                <xs:complexType mixed="true">
+                  <xs:attribute name="id" type="xs:ID" use="required"/>
+                  <xs:attribute name="art" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="inkraft"/>
+                        <xs:enumeration value="ausserkraft"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="verweise" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="verweis" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="typ" type="xs:string"/>
+                    <xs:element name="geltungszeit" type="xs:IDREF"/>
+                    <xs:element name="eid" type="xs:string"/>
+                    <xs:element name="zielgesetz" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="amended-norm-expressions" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="norm-expression" type="xs:string" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

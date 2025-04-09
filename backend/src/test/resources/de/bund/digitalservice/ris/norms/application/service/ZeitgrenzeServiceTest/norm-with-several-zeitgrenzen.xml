@@ -180,7 +180,10 @@
                <ris:entryIntoForce date="2017-03-16" />
                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
                  <norms:geltungszeiten>
-                   <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
+                     <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
+                     <norms:geltungszeit id="gz-2" art="ausserkraft">2018-04-21</norms:geltungszeit>
+                     <norms:geltungszeit id="gz-3" art="inkraft">2019-12-29</norms:geltungszeit>
+                     <norms:geltungszeit id="gz-4" art="ausserkraft">2026-01-01</norms:geltungszeit>
                  </norms:geltungszeiten>
                  <norms:amended-norm-expressions>
                    <norms:norm-expression>eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu</norms:norm-expression>
