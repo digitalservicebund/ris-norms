@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import { type HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
@@ -53,7 +53,12 @@ const formattedVerkuendungsdatum = computed(() =>
 
 const { geltungszeitenHtmlHeadingId } = useElementId()
 
-const zeitgrenzen = ref<Zeitgrenze[]>([])
+const zeitgrenzen = ref<Zeitgrenze[]>([
+  { date: "2025-04-08", art: "inkrafttreten" },
+  { date: "2025-04-09", art: "inkrafttreten" },
+  { date: "2025-05-10", art: "inkrafttreten" },
+  { date: "2025-06-12", art: "ausserkrafttreten" },
+])
 </script>
 
 <template>

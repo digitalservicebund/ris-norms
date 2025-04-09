@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useErrorToast } from "@/lib/errorToast"
-import type { TemporalDataResponse } from "@/types/temporalDataResponse"
 import Button from "primevue/button"
 import InputText from "primevue/inputtext"
 import Select from "primevue/select"
@@ -9,6 +8,18 @@ import { useToast } from "primevue/usetoast"
 import { computed, watch } from "vue"
 import IconCheck from "~icons/ic/baseline-check"
 import { useElementId } from "@/composables/useElementId"
+
+/** Describes temporal data (e.g. for life cycle events) or a norm. */
+export interface TemporalDataResponse {
+  /** ISO-formatted date string. */
+  date: string
+
+  /** ID of the event ref in the LDML document. */
+  eventRefEid?: string
+
+  /** EID of the temporalgroup. */
+  temporalGroupEid?: string
+}
 
 const props = defineProps<{
   /** the possible time boundaries in the format YYYY-MM-DD. */

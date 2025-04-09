@@ -1,8 +1,8 @@
 import { nextTick, ref } from "vue"
 import { describe, it, expect, vi } from "vitest"
-import * as temporalDataService from "@/services/temporalDataService"
+import * as temporalDataService from "./temporalDataService"
 import type { UseFetchReturn } from "@vueuse/core"
-import type { TemporalDataResponse } from "@/types/temporalDataResponse"
+import type { TemporalDataResponse } from "@/views/amending-law/articles/editor/temporalDataResponse"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useTemporalData", () => {
@@ -34,7 +34,9 @@ describe("useTemporalData", () => {
       data: ref(),
     } as UseFetchReturn<TemporalDataResponse[]>)
 
-    const { useTemporalData } = await import("@/composables/useTemporalData")
+    const { useTemporalData } = await import(
+      "@/views/amending-law/articles/editor/useTemporalData"
+    )
 
     const { data } = useTemporalData(eli)
     dataRef.value = mockReleaseDates
@@ -72,7 +74,9 @@ describe("useTemporalData", () => {
       }),
     } as unknown as UseFetchReturn<TemporalDataResponse[]>)
 
-    const { useTemporalData } = await import("@/composables/useTemporalData")
+    const { useTemporalData } = await import(
+      "@/views/amending-law/articles/editor/useTemporalData"
+    )
     const {
       data,
       update: { execute },

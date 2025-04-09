@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import type {
   HeaderBreadcrumb,
   RisHeaderBackDestination,
-} from "@/components/controls/RisHeader.vue"
-import RisHeader from "@/components/controls/RisHeader.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+} from "@/components/RisHeader.vue"
+import RisHeader from "@/components/RisHeader.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { use404Redirect } from "@/composables/use404Redirect"
 import { computed } from "vue"
 

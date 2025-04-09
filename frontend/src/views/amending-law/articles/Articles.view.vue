@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useHeaderContext } from "@/components/controls/RisHeader.vue"
-import RisInfoModal from "@/components/controls/RisInfoModal.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import { useHeaderContext } from "@/components/RisHeader.vue"
+import RisInfoModal from "@/views/amending-law/articles/RisInfoModal.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useArticles } from "@/services/articleService"
 import { onUnmounted } from "vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 const { data: articles, isFetching, error } = useArticles(eli)

@@ -112,7 +112,7 @@ export function getHighlightClasses(index: number): HighlightClasses {
  * @param isSelected function returning true when the element with the given eId is currently selected and false otherwise
  * @returns An object containing for each eId an array of classes to apply to the element of that eId
  */
-export function useTimeBoundaryHighlightClasses(
+export function useZeitgrenzenHighlightClasses(
   highlightElements: MaybeRefOrGetter<
     {
       eId: string
@@ -210,5 +210,5 @@ export function useModHighlightClasses(
     })),
   )
 
-  return useTimeBoundaryHighlightClasses(modsWithTimeBoundaries, isSelected)
+  return useZeitgrenzenHighlightClasses(modsWithTimeBoundaries, isSelected)
 }

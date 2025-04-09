@@ -1,5 +1,5 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import type { TemporalDataResponse } from "@/types/temporalDataResponse"
+import type { TemporalDataResponse } from "@/views/amending-law/articles/editor/temporalDataResponse"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, ref, toValue, watch } from "vue"
 import type { UseFetchReturn } from "@vueuse/core"

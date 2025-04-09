@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { DropdownItem } from "@/types/dropdownItem"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import { useHeaderContext } from "@/components/controls/RisHeader.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import { useHeaderContext } from "@/components/RisHeader.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
@@ -277,7 +277,7 @@ const organisationsEinheit = computed<string>({
 })
 
 /* -------------------------------------------------- *
- * HTML preview                                 *
+ * HTML preview                                       *
  * -------------------------------------------------- */
 
 const {

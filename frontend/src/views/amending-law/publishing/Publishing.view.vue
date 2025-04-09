@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import { useHeaderContext } from "@/components/controls/RisHeader.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import { useHeaderContext } from "@/components/RisHeader.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useReleases } from "@/views/amending-law/publishing/useReleases"
 import Button from "primevue/button"
 import Message from "primevue/message"
