@@ -123,11 +123,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
       name: "Zielnormen",
     })
     await expect(zielnormenSection).toBeVisible()
-    await expect(
-      zielnormenSection.getByText(
-        "Gesetz zur Regelung des öffentlichen Vereinsrechts",
-      ),
-    ).toBeVisible()
+    await expect(zielnormenSection.getByText(/Vereinsgesetz/)).toBeVisible()
     await expect(zielnormenSection.getByText("FNA 754-28-1")).toBeVisible()
   })
 
@@ -143,7 +139,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
     })
 
     const zielnormButton = zielnormenSection.getByRole("button", {
-      name: /Gesetz zur Regelung des öffentlichen Vereinsrechts/,
+      name: /Vereinsgesetz/,
     })
 
     await zielnormButton.click()
