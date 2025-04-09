@@ -14,6 +14,8 @@ import { computed } from "vue"
 export type RisZielnormenListItem = {
   /** Name of the Zielnorm */
   title: string
+  /** Short Title of the Zielnorm */
+  shortTitle: string
   /** FNA of the Zielnorm */
   fna: string
   /** ELI of the Zielnorm */
@@ -48,6 +50,7 @@ function formatDate(dateString: string | undefined): string {
 const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
   items.map<MappedRisZielnormenListItem>((item) => ({
     title: item.title,
+    shortTitle: item.shortTitle,
     eli: item.eli,
     fna: item.fna,
     expressions: item.expressions.map((expr, i) => {
@@ -70,7 +73,9 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
     <AccordionPanel v-for="(item, i) in mappedItems" :key="item.eli" :value="i">
       <AccordionHeader>
         <div>
-          <div class="ris-body1-bold mb-8">{{ item.title }}</div>
+          <div class="ris-body1-bold mb-8">
+            {{ item.shortTitle || item.title }}
+          </div>
           <div class="flex gap-32">
             <div>
               <span class="text-gray-800">FNA</span>
