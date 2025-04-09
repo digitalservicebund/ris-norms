@@ -23,9 +23,7 @@ describe("temporalDataService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response("<div></div>"))
 
-      const { useGetEntryIntoForceHtml } = await import(
-        "@/services/temporalDataService"
-      )
+      const { useGetEntryIntoForceHtml } = await import("./temporalDataService")
 
       const { data, isFinished } = useGetEntryIntoForceHtml(
         DokumentExpressionEli.fromString(
@@ -53,9 +51,7 @@ describe("temporalDataService", () => {
         .mockResolvedValueOnce(new Response("<div>1</div>"))
         .mockResolvedValueOnce(new Response("<div>2</div>"))
 
-      const { useGetEntryIntoForceHtml } = await import(
-        "@/services/temporalDataService"
-      )
+      const { useGetEntryIntoForceHtml } = await import("./temporalDataService")
 
       const eli = ref(
         DokumentExpressionEli.fromString(
@@ -99,7 +95,7 @@ describe("temporalDataService", () => {
         .mockResolvedValue(new Response(JSON.stringify(expectedDates)))
 
       const { useGetTemporalDataTimeBoundaries } = await import(
-        "@/services/temporalDataService"
+        "./temporalDataService"
       )
 
       const { isFinished, data } = useGetTemporalDataTimeBoundaries(
@@ -129,7 +125,7 @@ describe("temporalDataService", () => {
         .mockResolvedValueOnce(new Response(JSON.stringify([])))
 
       const { useGetTemporalDataTimeBoundaries } = await import(
-        "@/services/temporalDataService"
+        "./temporalDataService"
       )
 
       const eli = ref(
@@ -174,7 +170,7 @@ describe("temporalDataService", () => {
         .mockResolvedValue(new Response(JSON.stringify(dates)))
 
       const { useUpdateTemporalDataTimeBoundaries } = await import(
-        "@/services/temporalDataService"
+        "./temporalDataService"
       )
 
       const { data, execute } = useUpdateTemporalDataTimeBoundaries(
@@ -207,7 +203,7 @@ describe("temporalDataService", () => {
         .mockResolvedValueOnce(new Response(JSON.stringify([])))
 
       const { useUpdateTemporalDataTimeBoundaries } = await import(
-        "@/services/temporalDataService"
+        "./temporalDataService"
       )
       const eli = ref(
         DokumentExpressionEli.fromString(
@@ -238,7 +234,7 @@ describe("temporalDataService", () => {
       vi.spyOn(global, "fetch").mockResolvedValueOnce(new Response("[]"))
 
       const { useUpdateTemporalDataTimeBoundaries } = await import(
-        "@/services/temporalDataService"
+        "./temporalDataService"
       )
 
       const dates = ref([

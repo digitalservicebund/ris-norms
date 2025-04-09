@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest"
 import {
   getHighlightClasses,
-  useTimeBoundaryHighlightClasses,
-} from "./useTimeBoundaryHighlightClasses"
+  useZeitgrenzenHighlightClasses,
+} from "./useZeitgrenzenHighlightClasses"
 
 describe("getHighlightClasses", () => {
   it("returns highlight classes for the first allowed index", () => {
@@ -50,14 +50,14 @@ describe("getHighlightClasses", () => {
   })
 })
 
-describe("useTimeBoundaryHighlightClasses", () => {
+describe("useZeitgrenzenHighlightClasses", () => {
   it("if there are no highlight elements no classes are returned", () => {
-    const classes = useTimeBoundaryHighlightClasses([], () => false)
+    const classes = useZeitgrenzenHighlightClasses([], () => false)
     expect(classes.value).toEqual({})
   })
 
   it("get classes in order of temporal group eIds", () => {
-    const classes = useTimeBoundaryHighlightClasses(
+    const classes = useZeitgrenzenHighlightClasses(
       [
         {
           eId: "eid-1",
@@ -96,7 +96,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
   })
 
   it("when more than 10 dates exist the later dates get the default color", () => {
-    const classes = useTimeBoundaryHighlightClasses(
+    const classes = useZeitgrenzenHighlightClasses(
       [
         {
           eId: "eid-1",
@@ -175,7 +175,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
   })
 
   it("missing time boundaries get the last color", () => {
-    const classes = useTimeBoundaryHighlightClasses(
+    const classes = useZeitgrenzenHighlightClasses(
       [
         {
           eId: "eid-1",
@@ -213,7 +213,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
   })
 
   it("elements with the same time boundary get the same color", () => {
-    const classes = useTimeBoundaryHighlightClasses(
+    const classes = useZeitgrenzenHighlightClasses(
       [
         {
           eId: "eid-1",
@@ -267,7 +267,7 @@ describe("useTimeBoundaryHighlightClasses", () => {
   })
 
   it("selected elements get different classes", () => {
-    const classes = useTimeBoundaryHighlightClasses(
+    const classes = useZeitgrenzenHighlightClasses(
       [
         {
           eId: "eid-1",

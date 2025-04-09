@@ -19,10 +19,6 @@ const menuItems: LevelOneMenuItem[] = [
     route: { name: "AmendingLaw" },
     children: [
       {
-        label: "Zeitgrenzen anlegen",
-        route: { name: "TemporalData" },
-      },
-      {
         label: "Artikelübersicht",
         route: { name: "AmendingLawArticles" },
       },

@@ -6,7 +6,7 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/RisTabs.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useNormRenderHtml } from "@/composables/useNormRender"
-import { useTemporalData } from "@/composables/useTemporalData"
+import { useTemporalData } from "@/views/amending-law/articles/editor/useTemporalData"
 import { computed, ref } from "vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 

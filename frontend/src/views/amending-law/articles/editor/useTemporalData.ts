@@ -1,8 +1,8 @@
 import {
   useGetTemporalDataTimeBoundaries,
   useUpdateTemporalDataTimeBoundaries,
-} from "@/services/temporalDataService"
-import type { TemporalDataResponse } from "@/types/temporalDataResponse"
+} from "./temporalDataService"
+import type { TemporalDataResponse } from "@/views/amending-law/articles/editor/temporalDataResponse"
 import type { MaybeRefOrGetter } from "vue"
 import { ref, watch } from "vue"
 import type { UseFetchReturn } from "@vueuse/core"

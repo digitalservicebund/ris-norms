@@ -108,14 +108,6 @@ const routes: readonly RouteRecordRaw[] = [
               ),
           },
           {
-            path: "temporal-data",
-            name: "TemporalData",
-            component: () =>
-              import(
-                "@/views/amending-law/temporal-data/TemporalData.view.vue"
-              ),
-          },
-          {
             path: "articles",
             name: "AmendingLawArticles",
             component: () =>
