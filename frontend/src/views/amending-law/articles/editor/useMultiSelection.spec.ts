@@ -1,5 +1,5 @@
-import { useMultiSelection } from "@/composables/useMultiSelection"
-import { describe, it, expect } from "vitest"
+import { describe, expect, it } from "vitest"
+import { useMultiSelection } from "./useMultiSelection"
 
 describe("useMultiSelection", () => {
   it("values is initially empty", () => {
