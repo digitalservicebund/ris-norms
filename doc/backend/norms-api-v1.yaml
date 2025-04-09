@@ -334,7 +334,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TimeBoundary"
+                  $ref: "#/components/schemas/ZeitgrenzeResponse"
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
@@ -357,7 +357,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/TimeBoundary"
+                $ref: "#/components/schemas/ZeitgrenzeRequest"
       responses:
         "200":
           description: Updated time boundaries
@@ -366,7 +366,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TimeBoundary"
+                  $ref: "#/components/schemas/ZeitgrenzeResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "404":
@@ -703,9 +703,21 @@ components:
         title:
           type: string
 
-    TimeBoundary:
+    ZeitgrenzeRequest:
       type: object
       properties:
+        date:
+          type: string
+          format: date
+        art:
+          type: string
+          enum: [inkrafttreten, ausserkrafttreten]
+
+    ZeitgrenzeResponse:
+      type: object
+      properties:
+        id:
+          type: string
         date:
           type: string
           format: date
