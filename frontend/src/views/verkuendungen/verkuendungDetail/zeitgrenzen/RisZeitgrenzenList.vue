@@ -21,6 +21,7 @@ function deleteZeitgrenze(position: number) {
 
 function insertZeitgrenze() {
   zeitgrenzen.value = zeitgrenzen.value.concat({
+    id: crypto.randomUUID(),
     date: "",
     art: "inkrafttreten",
   })
@@ -59,8 +60,11 @@ const isFull = computed(
     <div class="ris-label2-regular"></div>
 
     <ul class="contents">
-      <!-- eslint-disable vue/require-v-for-key -- we don't have a reasonable key here -->
-      <li v-for="(zeitgrenze, i) in zeitgrenzen" class="contents">
+      <li
+        v-for="(zeitgrenze, i) in zeitgrenzen"
+        :key="zeitgrenze.id"
+        class="contents"
+      >
         <!-- eslint-disable vuejs-accessibility/no-autofocus -- it's not the native HTML autofocus -->
         <RisZeitgrenzenListItem
           :autofocus="i === zeitgrenzen.length - 1 && !zeitgrenze.date"
@@ -71,7 +75,6 @@ const isFull = computed(
         />
         <!-- eslint-enable vuejs-accessibility/no-autofocus -->
       </li>
-      <!-- eslint-enable vue/require-v-for-key -->
     </ul>
   </div>
 

@@ -89,8 +89,8 @@ describe("zeitgrenzenService", () => {
   describe("useGetZeitgrenzen", () => {
     it("loads the Zeitgrenzen of a norm", async () => {
       const response: Zeitgrenze[] = [
-        { date: "2023-11-01", art: "inkrafttreten" },
-        { date: "2023-12-01", art: "ausserkrafttreten" },
+        { id: "1", date: "2023-11-01", art: "inkrafttreten" },
+        { id: "2", date: "2023-12-01", art: "ausserkrafttreten" },
       ]
 
       const fetchSpy = vi
@@ -133,8 +133,8 @@ describe("zeitgrenzenService", () => {
 
     it("reloads when the ELI is changed", async () => {
       const response: Zeitgrenze[] = [
-        { date: "2023-11-01", art: "inkrafttreten" },
-        { date: "2023-12-01", art: "ausserkrafttreten" },
+        { id: "1", date: "2023-11-01", art: "inkrafttreten" },
+        { id: "2", date: "2023-12-01", art: "ausserkrafttreten" },
       ]
 
       const fetchSpy = vi
@@ -188,8 +188,8 @@ describe("zeitgrenzenService", () => {
         ),
       )
       const payload = ref<Zeitgrenze[]>([
-        { date: "2023-11-01", art: "inkrafttreten" },
-        { date: "2023-12-01", art: "ausserkrafttreten" },
+        { id: "1", date: "2023-11-01", art: "inkrafttreten" },
+        { id: "2", date: "2023-12-01", art: "ausserkrafttreten" },
       ])
       const { execute } = usePutZeitgrenzen(eli, payload)
 
@@ -226,8 +226,8 @@ describe("zeitgrenzenService", () => {
         ),
       )
       const payload = ref<Zeitgrenze[]>([
-        { date: "2023-11-01", art: "inkrafttreten" },
-        { date: "2023-12-01", art: "ausserkrafttreten" },
+        { id: "1", date: "2023-11-01", art: "inkrafttreten" },
+        { id: "2", date: "2023-12-01", art: "ausserkrafttreten" },
       ])
       const { execute, data } = usePutZeitgrenzen(eli, payload)
 
