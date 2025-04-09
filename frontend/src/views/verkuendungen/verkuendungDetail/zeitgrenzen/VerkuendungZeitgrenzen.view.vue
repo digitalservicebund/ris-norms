@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
-import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
@@ -10,8 +10,10 @@ import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetAnnouncementService } from "@/services/announcementService"
-import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
-import type { Zeitgrenze } from "@/types/zeitgrenze"
+import {
+  useGeltungszeitenHtml,
+  useGetZeitgrenzen,
+} from "@/services/zeitgrenzenService"
 import Button from "primevue/button"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
@@ -51,21 +53,20 @@ const formattedVerkuendungsdatum = computed(() =>
     : undefined,
 )
 
-const { geltungszeitenHtmlHeadingId } = useElementId()
+const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
 
-const zeitgrenzen = ref<Zeitgrenze[]>([
-  { date: "2025-04-08", art: "inkrafttreten" },
-  { date: "2025-04-09", art: "inkrafttreten" },
-  { date: "2025-05-10", art: "inkrafttreten" },
-  { date: "2025-06-12", art: "ausserkrafttreten" },
-])
+const {
+  data: zeitgrenzen,
+  error: zeitgrenzenError,
+  isFetching: isFetchingZeitgrenzen,
+} = useGetZeitgrenzen(eli)
 </script>
 
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError]"
-    :loading="isFetchingVerkuendung"
+    :errors="[verkuendungError, zeitgrenzenError]"
+    :loading="isFetchingVerkuendung || isFetchingZeitgrenzen"
   >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
@@ -73,11 +74,15 @@ const zeitgrenzen = ref<Zeitgrenze[]>([
         :min-size="33"
         class="h-full overflow-auto bg-gray-100 p-24"
       >
-        <h1 class="ris-subhead-regular mb-24 font-bold">
-          Geltungszeitregeln anlegen
-        </h1>
-
-        <RisZeitgrenzenList v-model="zeitgrenzen" />
+        <section :aria-labelledby="geltungszeitenHeadingId">
+          <h1
+            :id="geltungszeitenHeadingId"
+            class="ris-subhead-regular mb-24 font-bold"
+          >
+            Geltungszeitregeln anlegen
+          </h1>
+          <RisZeitgrenzenList v-if="zeitgrenzen" v-model="zeitgrenzen" />
+        </section>
       </SplitterPanel>
 
       <SplitterPanel

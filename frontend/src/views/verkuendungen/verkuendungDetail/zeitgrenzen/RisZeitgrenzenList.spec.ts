@@ -22,8 +22,8 @@ describe("risZeitgrenzenList", () => {
     render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { date: "2025-04-08", art: "inkrafttreten" },
-          { date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
+          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -62,8 +62,8 @@ describe("risZeitgrenzenList", () => {
     const { emitted } = render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { date: "2025-04-08", art: "inkrafttreten" },
-          { date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
+          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -76,8 +76,8 @@ describe("risZeitgrenzenList", () => {
 
     expect(emitted("update:modelValue")).toContainEqual([
       [
-        { date: "2025-05-30", art: "inkrafttreten" },
-        { date: "2025-04-10", art: "ausserkrafttreten" },
+        { id: expect.anything(), date: "2025-05-30", art: "inkrafttreten" },
+        { id: expect.anything(), date: "2025-04-10", art: "ausserkrafttreten" },
       ],
     ])
   })
@@ -87,8 +87,8 @@ describe("risZeitgrenzenList", () => {
     const { emitted } = render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { date: "2025-04-08", art: "inkrafttreten" },
-          { date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
+          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -102,7 +102,7 @@ describe("risZeitgrenzenList", () => {
     )
 
     expect(emitted("update:modelValue")).toContainEqual([
-      [{ date: "2025-04-08", art: "inkrafttreten" }],
+      [{ id: expect.anything(), date: "2025-04-08", art: "inkrafttreten" }],
     ])
   })
 
@@ -111,8 +111,8 @@ describe("risZeitgrenzenList", () => {
     const { emitted } = render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { date: "2025-04-08", art: "inkrafttreten" },
-          { date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
+          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -124,9 +124,9 @@ describe("risZeitgrenzenList", () => {
 
     expect(emitted("update:modelValue")).toContainEqual([
       [
-        { date: "2025-04-08", art: "inkrafttreten" },
-        { date: "2025-04-10", art: "ausserkrafttreten" },
-        { date: "", art: "inkrafttreten" },
+        { id: expect.anything(), date: "2025-04-08", art: "inkrafttreten" },
+        { id: expect.anything(), date: "2025-04-10", art: "ausserkrafttreten" },
+        { id: expect.anything(), date: "", art: "inkrafttreten" },
       ],
     ])
   })
@@ -145,7 +145,7 @@ describe("risZeitgrenzenList", () => {
     )
 
     expect(emitted("update:modelValue")).toContainEqual([
-      [{ date: "", art: "inkrafttreten" }],
+      [{ id: expect.anything(), date: "", art: "inkrafttreten" }],
     ])
   })
 
@@ -163,9 +163,15 @@ describe("risZeitgrenzenList", () => {
   })
 
   it("does not allow adding more than 100 entries", () => {
+    const id = (function* counter() {
+      let i = 0
+      while (true) yield ++i
+    })()
+
     render(RisZeitgrenzenList, {
       props: {
         modelValue: Array(100).fill({
+          id: id.next().value,
           date: "2025-04-08",
           art: "inkrafttreten",
         }),

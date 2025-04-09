@@ -8,6 +8,9 @@ export type ZeitgrenzeArt = "inkrafttreten" | "ausserkrafttreten"
  * into effect or expire).
  */
 export type Zeitgrenze = {
+  /* Unique identifier of the Zeitgrenze */
+  id: string
+
   /** Date of the Zeitgrenze in the format YYYY-MM-DD */
   date: string
 
