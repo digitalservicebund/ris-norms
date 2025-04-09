@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.SaveNormendokume
 import de.bund.digitalservice.ris.norms.application.port.output.SaveVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.jobrunr.scheduling.JobBuilder;
@@ -49,8 +48,7 @@ class VerkuendungsImportService
     saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
       new SaveVerkuendungImportProcessPort.Command(
         processId,
-        VerkuendungImportProcess.Status.CREATED,
-        List.of()
+        VerkuendungImportProcess.Status.CREATED
       )
     );
 

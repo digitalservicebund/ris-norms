@@ -128,8 +128,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
       SaveVerkuendungImportProcessPort.Command command =
         new SaveVerkuendungImportProcessPort.Command(
           UUID.randomUUID(),
-          VerkuendungImportProcess.Status.CREATED,
-          List.of()
+          VerkuendungImportProcess.Status.CREATED
         );
       // When
 
