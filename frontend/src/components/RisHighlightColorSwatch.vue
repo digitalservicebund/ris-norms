@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getHighlightClasses } from "@/composables/useTimeBoundaryHighlightClasses"
+import { getHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import { computed } from "vue"
 
 const { colorIndex, size = ["h-20", "w-20"] } = defineProps<{

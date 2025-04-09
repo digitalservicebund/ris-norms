@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
-import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
-import RisHeader from "@/components/controls/RisHeader.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
+import RisHeader from "@/components/RisHeader.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisRefsEditor from "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"

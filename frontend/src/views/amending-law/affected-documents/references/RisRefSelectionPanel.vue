@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import type { AknElementClickEvent } from "@/components/RisLawPreview.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useAknTextSelection } from "@/composables/useAknTextSelection"
@@ -15,7 +15,7 @@ import {
 import { useDebounce } from "@vueuse/core"
 import { computed, ref, triggerRef, watch } from "vue"
 import CloseIcon from "~icons/ic/close"
-import RisErrorCallout from "../../../../components/controls/RisErrorCallout.vue"
+import RisErrorCallout from "../../../../components/RisErrorCallout.vue"
 
 /**
  * The eId of the currently selected akn:ref element.

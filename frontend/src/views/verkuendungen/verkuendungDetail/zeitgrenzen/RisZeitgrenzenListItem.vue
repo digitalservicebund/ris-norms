@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisDateInput from "@/components/controls/RisDateInput.vue"
+import RisDateInput from "@/components/RisDateInput.vue"
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"

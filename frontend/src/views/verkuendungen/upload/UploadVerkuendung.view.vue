@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
+import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useErrorMessage } from "@/composables/useErrorMessage"

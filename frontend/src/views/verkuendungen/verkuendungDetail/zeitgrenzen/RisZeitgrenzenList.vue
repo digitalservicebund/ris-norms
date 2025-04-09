@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisEmptyState from "@/components/controls/RisEmptyState.vue"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
 import Button from "primevue/button"
 import IcBaselinePlus from "~icons/ic/baseline-plus"

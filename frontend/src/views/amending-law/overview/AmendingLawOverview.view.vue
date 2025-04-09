@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useModHighlightClasses } from "@/composables/useTimeBoundaryHighlightClasses"
 import { useNormXml } from "@/composables/useNormXml"
@@ -8,7 +8,7 @@ import { useGetNormHtml } from "@/services/normService"
 import { xmlStringToDocument } from "@/services/xmlService"
 import { computed, toValue, watch } from "vue"
 import { useRouter } from "vue-router"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
 
 const router = useRouter()
 const eli = useDokumentExpressionEliPathParameter()

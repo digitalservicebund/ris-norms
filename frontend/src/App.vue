@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import RisErrorToast from "@/components/controls/RisErrorToast.vue"
-import RisNavbar from "@/components/controls/RisNavbar.vue"
+import RisErrorToast from "@/components/RisErrorToast.vue"
+import RisNavbar from "@/components/RisNavbar.vue"
 import Toast from "primevue/toast"
 import { RouterView } from "vue-router"
 </script>

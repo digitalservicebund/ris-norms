@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { HeaderBreadcrumb } from "@/components/controls/RisHeader.vue"
-import RisHeader from "@/components/controls/RisHeader.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import type { LevelOneMenuItem } from "@/components/controls/RisNavbarSide.vue"
-import RisNavbarSide from "@/components/controls/RisNavbarSide.vue"
+import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
+import RisHeader from "@/components/RisHeader.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
+import type { LevelOneMenuItem } from "@/components/RisNavbarSide.vue"
+import RisNavbarSide from "@/components/RisNavbarSide.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 import { ref, watch } from "vue"
-import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { RouterView, useRouter } from "vue-router"
 
 const router = useRouter()
