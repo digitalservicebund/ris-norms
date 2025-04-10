@@ -35,6 +35,18 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
   Optional<NormManifestationDto> findByManifestationEli(final String manifestationEli);
 
   /**
+   * Finds the {@link NormManifestationDto}s by the norm work ELI (European Legislation Identifier).
+   * It takes the newest manifestation of the newest expression if multiple exist.
+   * THIS MIGHT NOT BE THE EXPRESSION THAT IS CURRENTLY IN FORCE.
+   *
+   * @param workEli The ELI to search for.
+   * @return A {@link Optional} containing the found {@link NormManifestationDto} or empty if not found.
+   */
+  Optional<NormManifestationDto> findFirstByWorkEliOrderByManifestationEliDesc(
+    final String workEli
+  );
+
+  /**
    * Finds a {@link NormManifestationDto} by its aktuelle-version-id.
    * It takes the newest manifestation if multiple norms with the same version-id exist.
    *

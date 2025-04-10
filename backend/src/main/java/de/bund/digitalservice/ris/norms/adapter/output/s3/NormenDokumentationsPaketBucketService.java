@@ -6,9 +6,12 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 /**
@@ -17,7 +20,8 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
  */
 @Slf4j
 @Service
-public class NormenDokumentationsPaketBucketService implements SaveNormendokumentationspaketPort {
+public class NormenDokumentationsPaketBucketService
+  implements SaveNormendokumentationspaketPort, LoadNormendokumentationspaketPort {
 
   private final String bucketName;
   private final S3Client s3Client;
@@ -30,20 +34,36 @@ public class NormenDokumentationsPaketBucketService implements SaveNormendokumen
     this.bucketName = bucketName;
   }
 
+  private static final String ZIP_FILE_NAME = "file.zip";
+  private static final String SIGNATURE_FILE_NAME = "signature.sig";
+
   @Override
-  public void saveNormendokumentationspaket(Command command) throws IOException {
+  public void saveNormendokumentationspaket(SaveNormendokumentationspaketPort.Command command)
+    throws IOException {
     uploadToBucket(
-      command.processId() + "/" + command.file().getFilename(),
+      command.processId() + "/" + ZIP_FILE_NAME,
       RequestBody.fromInputStream(command.file().getInputStream(), command.file().contentLength())
     );
 
     uploadToBucket(
-      command.processId() + "/" + command.signature().getFilename(),
+      command.processId() + "/" + SIGNATURE_FILE_NAME,
       RequestBody.fromInputStream(
         command.signature().getInputStream(),
         command.signature().contentLength()
       )
     );
+  }
+
+  @Override
+  public Result loadNormendokumentationspaket(LoadNormendokumentationspaketPort.Command command) {
+    Resource file = new ByteArrayResource(
+      loadFromBucket(command.processId() + "/" + ZIP_FILE_NAME)
+    );
+    Resource signature = new ByteArrayResource(
+      loadFromBucket(command.processId() + "/" + SIGNATURE_FILE_NAME)
+    );
+
+    return new Result(file, signature);
   }
 
   private void uploadToBucket(final String key, final RequestBody requestBody) {
@@ -59,6 +79,24 @@ public class NormenDokumentationsPaketBucketService implements SaveNormendokumen
         BucketException.Operation.PUT,
         bucketName,
         "Key %s could not be uploaded".formatted(key),
+        e
+      );
+    }
+  }
+
+  private byte[] loadFromBucket(final String key) {
+    try {
+      final GetObjectRequest request = GetObjectRequest
+        .builder()
+        .bucket(bucketName)
+        .key(key)
+        .build();
+      return s3Client.getObjectAsBytes(request).asByteArray();
+    } catch (final Exception e) {
+      throw new BucketException(
+        BucketException.Operation.GET,
+        bucketName,
+        "Key %s could not be loaded".formatted(key),
         e
       );
     }

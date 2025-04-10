@@ -7,7 +7,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungI
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungImportProcessesRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.VerkuedungImportProcessDBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
+import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.Instant;
 import java.util.List;
@@ -114,6 +116,64 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
 
       // Then
       assertThat(resultOptional).isEmpty();
+    }
+  }
+
+  @Nested
+  class updateVerkuendungImportProcess {
+
+    @Test
+    void itUpdateAProcessWithNewInformation() {
+      // Given
+      var dto = VerkuendungImportProcessDto
+        .builder()
+        .id(null)
+        .status(VerkuendungImportProcessDto.Status.CREATED)
+        .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
+        .detail(List.of())
+        .build();
+
+      var saved = verkuendungImportProcessesRepository.save(dto);
+      var process = verkuedungImportProcessDBService
+        .loadVerkuendungImportProcess(new LoadVerkuendungImportProcessPort.Command(saved.getId()))
+        .orElseThrow();
+
+      // When
+      process.setStatus(VerkuendungImportProcess.Status.ERROR);
+      process.setStartedAt(Instant.parse("2025-03-26T10:00:00Z"));
+      process.setFinishedAt(Instant.parse("2025-03-26T11:00:00Z"));
+      process.setDetail(
+        List.of(
+          VerkuendungImportProcessDetail
+            .builder()
+            .type("/error/processing-error")
+            .title("Processing Error")
+            .detail("{ \"fileName\": \"bla.zip\" }")
+            .build()
+        )
+      );
+      verkuedungImportProcessDBService.updateVerkuendungImportProcess(
+        new UpdateVerkuendungImportProcessPort.Command(process)
+      );
+
+      // When
+      var resultOptional = verkuedungImportProcessDBService.loadVerkuendungImportProcess(
+        new LoadVerkuendungImportProcessPort.Command(saved.getId())
+      );
+      assertThat(resultOptional).isPresent();
+      assertThat(resultOptional.get().getStatus()).isEqualTo(VerkuendungImportProcess.Status.ERROR);
+      assertThat(resultOptional.get().getCreatedAt())
+        .isEqualTo(Instant.parse("2025-03-26T09:00:00Z"));
+      assertThat(resultOptional.get().getStartedAt())
+        .isEqualTo(Instant.parse("2025-03-26T10:00:00Z"));
+      assertThat(resultOptional.get().getFinishedAt())
+        .isEqualTo(Instant.parse("2025-03-26T11:00:00Z"));
+      assertThat(resultOptional.get().getDetail()).hasSize(1);
+      assertThat(resultOptional.get().getDetail().get(0).getType())
+        .isEqualTo("/error/processing-error");
+      assertThat(resultOptional.get().getDetail().get(0).getTitle()).isEqualTo("Processing Error");
+      assertThat(resultOptional.get().getDetail().get(0).getDetail())
+        .isEqualTo("{ \"fileName\": \"bla.zip\" }");
     }
   }
 }

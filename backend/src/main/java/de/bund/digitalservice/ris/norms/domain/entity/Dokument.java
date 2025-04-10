@@ -21,11 +21,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Represents an abstract "Dokument" in LDML.de (which can be a "Rechtsetzungsdokument", a "Regelungstext" and a "Offene Struktur")
+ * Represents an abstract "Dokument" in LDML.de
  */
 @Getter
 @AllArgsConstructor
-public abstract class Dokument {
+public abstract sealed class Dokument
+  permits Bekanntmachung, OffeneStruktur, Rechtsetzungsdokument, Regelungstext {
 
   private final Document document;
 
@@ -313,6 +314,24 @@ public abstract class Dokument {
     Node temporalGroupNode = timeIntervalNode.get().getParentNode();
     Node temporalDataNode = temporalGroupNode.getParentNode();
     temporalDataNode.removeChild(temporalGroupNode);
+  }
+
+  /**
+   * Load the filenames of all Dokumente references by this one.
+   * @return a List of filenames
+   */
+  public List<String> getReferencedDokumenteNames() {
+    return NodeParser
+      .getNodesFromExpression("//componentRef/@src|//documentRef/@href", document)
+      .stream()
+      .map(Node::getNodeValue)
+      .map(value -> {
+        if (value.contains("/")) {
+          return DokumentManifestationEli.fromString(value).getFileName();
+        }
+        return value;
+      })
+      .toList();
   }
 
   @Override
