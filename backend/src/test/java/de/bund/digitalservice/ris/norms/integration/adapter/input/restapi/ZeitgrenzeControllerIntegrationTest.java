@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -7,12 +9,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
+import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import java.time.LocalDate;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -287,6 +294,12 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
+      assertThat(regelungstext.getZeitgrenzen())
+        .hasSize(1)
+        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
+        .containsExactlyInAnyOrder(
+          tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+        );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
 
       // When
@@ -315,6 +328,21 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$[2].id", is("gz-3")))
         .andExpect(jsonPath("$[2].date", is("2025-01-01")))
         .andExpect(jsonPath("$[2].art", is("INKRAFT")));
+
+      final Optional<DokumentDto> loadedFromDb =
+        dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
+          eli.toString()
+        );
+      assertThat(loadedFromDb).isPresent();
+      final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
+      assertThat(dokument.getZeitgrenzen())
+        .hasSize(3)
+        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
+        .containsExactlyInAnyOrder(
+          tuple("gz-1", LocalDate.parse("2023-12-30"), Zeitgrenze.Art.AUSSERKRAFT),
+          tuple("gz-2", LocalDate.parse("2024-01-01"), Zeitgrenze.Art.AUSSERKRAFT),
+          tuple("gz-3", LocalDate.parse("2025-01-01"), Zeitgrenze.Art.INKRAFT)
+        );
     }
   }
 }

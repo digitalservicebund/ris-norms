@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFo
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +16,14 @@ import org.springframework.stereotype.Service;
 public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgrenzenUseCase {
 
   private final LoadRegelungstextPort loadRegelungstextPort;
+  private final UpdateDokumentPort updateDokumentPort;
 
-  public ZeitgrenzeService(LoadRegelungstextPort loadRegelungstextPort) {
+  public ZeitgrenzeService(
+    LoadRegelungstextPort loadRegelungstextPort,
+    UpdateDokumentPort updateDokumentPort
+  ) {
     this.loadRegelungstextPort = loadRegelungstextPort;
+    this.updateDokumentPort = updateDokumentPort;
   }
 
   @Override
@@ -30,9 +36,11 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
 
   @Override
   public List<Zeitgrenze> updateZeitgrenzenOfDokument(UpdateZeitgrenzenUseCase.Query query) {
-    return loadRegelungstextPort
+    final Regelungstext regelungstext = loadRegelungstextPort
       .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()))
-      .setZeitgrenzen(query.zeitgrenzen());
+      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
+    final List<Zeitgrenze> updatedZeitgrenze = regelungstext.setZeitgrenzen(query.zeitgrenzen());
+    updateDokumentPort.updateDokument(new UpdateDokumentPort.Command(regelungstext));
+    return updatedZeitgrenze;
   }
 }

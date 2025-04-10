@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFo
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.LocalDate;
@@ -21,8 +22,12 @@ import org.junit.jupiter.api.Test;
 class ZeitgrenzeServiceTest {
 
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
+  final UpdateDokumentPort updateDokumentPort = mock(UpdateDokumentPort.class);
 
-  final ZeitgrenzeService service = new ZeitgrenzeService(loadRegelungstextPort);
+  final ZeitgrenzeService service = new ZeitgrenzeService(
+    loadRegelungstextPort,
+    updateDokumentPort
+  );
 
   @Nested
   class loadZeizgrenzenFromDokument {
@@ -136,6 +141,7 @@ class ZeitgrenzeServiceTest {
         )
         .isInstanceOf(RegelungstextNotFoundException.class)
         .hasMessageContaining(eli.toString());
+      verify(updateDokumentPort, times(0)).updateDokument(any());
     }
 
     @Test
@@ -172,6 +178,7 @@ class ZeitgrenzeServiceTest {
       // Then
       verify(loadRegelungstextPort, times(1))
         .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(updateDokumentPort, times(1)).updateDokument(any());
       assertThat(updatedZeitgrenze)
         .hasSize(3)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
