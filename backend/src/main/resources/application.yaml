@@ -60,10 +60,9 @@ otc:
     endpoint: https://obs.eu-de.otc.t-systems.com
 
 publish:
-  cron: "0 30 9 * * 4" # Runs today (Thursday) at 11:30 Berlin CEST (09:30 UTC)
-  # cron: "0 0 22 * * 0-3" # Runs at 10:00 PM UTC, which is 11:00 PM Berlin time in CET (Winter) So-Th and 12:00 AM in CEST (Summer) Mo-Fr
+  cron: "0 0 22 * * 0-4" # Runs at 10:00 PM UTC, which is 11:00 PM Berlin time in CET (Winter) So-Th and 12:00 AM in CEST (Summer) Mo-Fr
   portal-prototype:
-    cron: "0 0 3 * * *" # Runs at 03:00 PM UTC, which is 04:00 AM Berlin time in CET (Winter) and 5:00 AM in CEST (Summer) every day
+    cron: "0 15 14 * * 4" # Runs at 2:15 PM UTC, which is 4:15 PM Berlin time (CEST) on Thursday
 
 frontend:
   auth:
