@@ -114,7 +114,8 @@ jobs:
   # ######################
 
   deploy-staging-job:
-    if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
+    if: false
+    # if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
     needs:
       - check-auto-deploy
       - frontend-jobs
