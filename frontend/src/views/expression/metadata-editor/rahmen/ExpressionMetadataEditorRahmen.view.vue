@@ -347,16 +347,18 @@ watch(hasSaved, (finished) => {
         >
           <fieldset class="contents">
             <legend class="ris-label2-bold col-span-2">Sachgebiet</legend>
-            <label :for="fnaId">Sachgebiet</label>
+            <div><label :for="fnaId">Sachgebiet</label></div>
             <InputText :id="fnaId" v-model="fna" />
           </fieldset>
 
           <fieldset class="contents">
             <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
 
-            <label :for="documentTypeId" class="ris-label2-regular">
-              Dokumenttyp
-            </label>
+            <div>
+              <label :for="documentTypeId" class="ris-label2-regular">
+                Dokumenttyp
+              </label>
+            </div>
             <Select
               v-model="documentType"
               :label-id="documentTypeId"
@@ -366,25 +368,41 @@ watch(hasSaved, (finished) => {
               option-value="value"
             />
 
-            <label :for="artNormSnId" class="self-start">Art der Norm</label>
-            <div class="space-y-10">
-              <div class="flex items-center">
-                <Checkbox v-model="artNormSN" :input-id="artNormSnId" binary />
-                <label :for="artNormSnId">SN - Stammnorm</label>
+            <fieldset class="contents">
+              <legend class="h-full">Art der Norm</legend>
+              <div class="space-y-10">
+                <div class="flex items-center">
+                  <Checkbox
+                    v-model="artNormSN"
+                    :input-id="artNormSnId"
+                    binary
+                  />
+                  <label :for="artNormSnId">SN - Stammnorm</label>
+                </div>
+                <div class="flex items-center">
+                  <Checkbox
+                    v-model="artNormAN"
+                    :input-id="artNormAnId"
+                    binary
+                  />
+                  <label :for="artNormAnId">ÄN - Änderungsnorm</label>
+                </div>
+                <div class="flex items-center">
+                  <Checkbox
+                    v-model="artNormUN"
+                    :input-id="artNormUnId"
+                    binary
+                  />
+                  <label :for="artNormUnId">ÜN - Übergangsnorm</label>
+                </div>
               </div>
-              <div class="flex items-center">
-                <Checkbox v-model="artNormAN" :input-id="artNormAnId" binary />
-                <label :for="artNormAnId">ÄN - Änderungsnorm</label>
-              </div>
-              <div class="flex items-center">
-                <Checkbox v-model="artNormUN" :input-id="artNormUnId" binary />
-                <label :for="artNormUnId">ÜN - Übergangsnorm</label>
-              </div>
-            </div>
+            </fieldset>
 
-            <label :for="bezeichnungInVorlageId">
-              Bezeichnung gemäß Vorlage
-            </label>
+            <div>
+              <label :for="bezeichnungInVorlageId">
+                Bezeichnung gemäß Vorlage
+              </label>
+            </div>
             <InputText
               :id="bezeichnungInVorlageId"
               v-model="bezeichnungInVorlage"
@@ -394,12 +412,15 @@ watch(hasSaved, (finished) => {
           <fieldset class="contents">
             <legend class="ris-label2-bold col-span-2">Normgeber</legend>
 
-            <label :for="staatId"
-              ><abbr
-                title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
-                >Staat</abbr
-              ></label
-            >
+            <div>
+              <label :for="staatId">
+                <abbr
+                  title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
+                >
+                  Staat
+                </abbr>
+              </label>
+            </div>
             <Select
               v-model="staat"
               :label-id="staatId"
@@ -409,7 +430,9 @@ watch(hasSaved, (finished) => {
               option-value="value"
             />
 
-            <label :for="beschliessendesOrganId">beschließendes Organ</label>
+            <div>
+              <label :for="beschliessendesOrganId">beschließendes Organ</label>
+            </div>
             <Select
               v-model="beschliessendesOrgan"
               :label-id="beschliessendesOrganId"
@@ -420,9 +443,11 @@ watch(hasSaved, (finished) => {
               :aria-labelledby="beschliessendesOrganId"
             />
 
-            <label :for="qualifizierteMehrheitId">
-              Beschlussf. qual. Mehrheit
-            </label>
+            <div>
+              <label :for="qualifizierteMehrheitId">
+                Beschlussf. qual. Mehrheit
+              </label>
+            </div>
             <Checkbox
               v-model="qualifizierteMehrheit"
               :input-id="qualifizierteMehrheitId"
@@ -433,7 +458,7 @@ watch(hasSaved, (finished) => {
           <fieldset class="contents">
             <legend class="ris-label2-bold col-span-2">Federführung</legend>
 
-            <label :for="ressortId">Ressort</label>
+            <div><label :for="ressortId">Ressort</label></div>
             <Select
               v-model="ressort"
               :label-id="ressortId"
@@ -443,7 +468,11 @@ watch(hasSaved, (finished) => {
               option-value="value"
             />
 
-            <label :for="organisationsEinheitId"> Organisationseinheit </label>
+            <div>
+              <label :for="organisationsEinheitId">
+                Organisationseinheit
+              </label>
+            </div>
             <InputText
               :id="organisationsEinheitId"
               v-model="organisationsEinheit"
