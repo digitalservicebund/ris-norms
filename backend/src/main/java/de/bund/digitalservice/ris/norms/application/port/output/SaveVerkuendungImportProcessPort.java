@@ -3,7 +3,6 @@ package de.bund.digitalservice.ris.norms.application.port.output;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -31,21 +30,6 @@ public interface SaveVerkuendungImportProcessPort {
     VerkuendungImportProcess.Status status,
     List<VerkuendungImportProcessDetail> details
   ) {
-    /**
-     * Parameter for saving/updating a {@link VerkuendungImportProcess} object
-     *
-     * @param id of the job
-     * @param status of the file import
-     * @param details of what went wrong
-     */
-    public Command {
-      Objects.requireNonNull(id, "id cannot be null");
-      Objects.requireNonNull(status, "status cannot be null");
-      Objects.requireNonNull(
-        details,
-        "Details cannot be null. Use the other constructor or provide an empty list."
-      );
-    }
     /**
      * Parameter for saving/updating a {@link VerkuendungImportProcess} object
      *

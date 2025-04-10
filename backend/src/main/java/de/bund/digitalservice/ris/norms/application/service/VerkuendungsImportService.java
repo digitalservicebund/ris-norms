@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.StatusNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
@@ -72,6 +72,6 @@ class VerkuendungsImportService
       .loadVerkuendungImportProcess(
         new LoadVerkuendungImportProcessPort.Command(query.processingId())
       )
-      .orElseThrow(() -> new StatusNotFoundException(query.processingId()));
+      .orElseThrow(() -> new ImportProcessNotFoundException(query.processingId()));
   }
 }

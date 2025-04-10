@@ -5,7 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.StatusNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveNormendokumentationspaketPort;
@@ -75,6 +75,6 @@ class VerkuendungsImportServiceTest {
       new LoadNormendokumentationspacketProcessingStatusUseCase.Query(UUID.randomUUID());
     assertThatThrownBy(() -> verkuendungsImportService.getStatus(query))
       // then
-      .isInstanceOf(StatusNotFoundException.class);
+      .isInstanceOf(ImportProcessNotFoundException.class);
   }
 }

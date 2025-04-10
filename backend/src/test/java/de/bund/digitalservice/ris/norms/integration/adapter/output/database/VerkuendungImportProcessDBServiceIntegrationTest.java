@@ -179,16 +179,20 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
         command
       );
 
+      var reloadedFromDb = verkuendungImportProcessesRepository
+        .findById(resultProcess.getId())
+        .get();
+
       // Then
-      assertThat(resultProcess).isNotNull();
-      assertThat(resultProcess.getStatus()).isEqualTo(VerkuendungImportProcess.Status.ERROR);
-      assertThat(resultProcess.getCreatedAt()).isEqualTo(initialProcess.getCreatedAt());
-      assertThat(resultProcess.getStartedAt()).isEqualTo(initialProcess.getStartedAt());
-      assertThat(resultProcess.getFinishedAt())
+      assertThat(reloadedFromDb).isNotNull();
+      assertThat(reloadedFromDb.getStatus()).isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
+      assertThat(reloadedFromDb.getCreatedAt()).isEqualTo(initialProcess.getCreatedAt());
+      assertThat(reloadedFromDb.getStartedAt()).isEqualTo(initialProcess.getStartedAt());
+      assertThat(reloadedFromDb.getFinishedAt())
         .isBetween(Instant.now().minusSeconds(30), Instant.now());
-      assertThat(resultProcess.getDetail()).hasSize(2);
-      assertThat(resultProcess.getDetail().get(0).getDetail()).isEqualTo("detail");
-      assertThat(resultProcess.getDetail().get(1).getDetail()).isEqualTo("detail2");
+      assertThat(reloadedFromDb.getDetail()).hasSize(2);
+      assertThat(reloadedFromDb.getDetail().get(0).getDetail()).isEqualTo("detail");
+      assertThat(reloadedFromDb.getDetail().get(1).getDetail()).isEqualTo("detail2");
     }
 
     @Test

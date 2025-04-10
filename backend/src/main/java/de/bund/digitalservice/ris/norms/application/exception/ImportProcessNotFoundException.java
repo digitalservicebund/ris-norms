@@ -8,11 +8,12 @@ import lombok.Getter;
 
 /** Indicates that the requested status does not exist. */
 @Getter
-public class StatusNotFoundException extends RuntimeException implements NormsAppException {
+public class ImportProcessNotFoundException extends RuntimeException implements NormsAppException {
 
   private final UUID processId;
 
-  public StatusNotFoundException(UUID processId) {
+  public ImportProcessNotFoundException(UUID processId) {
+    super("Import process with id %s not found".formatted(processId));
     this.processId = processId;
   }
 
@@ -23,11 +24,11 @@ public class StatusNotFoundException extends RuntimeException implements NormsAp
 
   @Override
   public String getTitle() {
-    return "Could not find process with id " + processId;
+    return "Could not find process processId";
   }
 
   @Override
   public Map<String, Object> getProperties() {
-    return Map.of();
+    return Map.of("processId", processId);
   }
 }
