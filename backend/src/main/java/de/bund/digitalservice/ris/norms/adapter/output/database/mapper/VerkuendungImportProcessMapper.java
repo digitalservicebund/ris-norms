@@ -6,16 +6,15 @@ import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 
 /**
- * Converts background process information for newly uploaded Verkündungen between
- * the DTOs and domain entities.
+ * Converts background process information for newly uploaded Verkündungen between the DTOs and
+ * domain entities.
  */
 public class VerkuendungImportProcessMapper {
 
   private VerkuendungImportProcessMapper() {}
 
   /**
-   * Maps a {@link VerkuendungImportProcessDto} to the corresponding domain
-   * entity.
+   * Maps a {@link VerkuendungImportProcessDto} to the corresponding domain entity.
    *
    * @param verkuendungImportProcessDto The input that should be converted
    * @return A new {@link VerkuendungImportProcess} based on the DTO
@@ -44,8 +43,7 @@ public class VerkuendungImportProcessMapper {
    * Maps a {@link VerkuendungImportProcess} to the corresponding DTO.
    *
    * @param verkuendungImportProcess The input that should be converted
-   * @return A new {@link VerkuendungImportProcessDto} based on the domain
-   *         entity.
+   * @return A new {@link VerkuendungImportProcessDto} based on the domain entity.
    */
   public static VerkuendungImportProcessDto mapToDto(
     final VerkuendungImportProcess verkuendungImportProcess
@@ -72,57 +70,53 @@ public class VerkuendungImportProcessMapper {
   ) {
     return VerkuendungImportProcessDetail
       .builder()
-      .id(verkuendungImportProcessDetailDto.getId())
       .type(verkuendungImportProcessDetailDto.getType())
       .title(verkuendungImportProcessDetailDto.getTitle())
       .detail(verkuendungImportProcessDetailDto.getDetail())
       .build();
   }
 
-  private static VerkuendungImportProcessDetailDto mapDetailToDto(
+  /**
+   * Maps a detail
+   * @param verkuendungImportProcessDetail detail to map
+   * @return mapped detail
+   */
+  public static VerkuendungImportProcessDetailDto mapDetailToDto(
     final VerkuendungImportProcessDetail verkuendungImportProcessDetail
   ) {
-    return new VerkuendungImportProcessDetailDto(
-      verkuendungImportProcessDetail.getId(),
-      verkuendungImportProcessDetail.getType(),
-      verkuendungImportProcessDetail.getTitle(),
-      verkuendungImportProcessDetail.getDetail()
-    );
+    return VerkuendungImportProcessDetailDto
+      .builder()
+      .type(verkuendungImportProcessDetail.getType())
+      .title(verkuendungImportProcessDetail.getTitle())
+      .detail(verkuendungImportProcessDetail.getDetail())
+      .build();
   }
 
   private static VerkuendungImportProcess.Status mapStatusToDomain(
     final VerkuendungImportProcessDto.Status status
   ) {
-    switch (status) {
-      case VerkuendungImportProcessDto.Status.CREATED:
-        return VerkuendungImportProcess.Status.CREATED;
-      case VerkuendungImportProcessDto.Status.PROCESSING:
-        return VerkuendungImportProcess.Status.PROCESSING;
-      case VerkuendungImportProcessDto.Status.ERROR:
-        return VerkuendungImportProcess.Status.ERROR;
-      case VerkuendungImportProcessDto.Status.SUCCESS:
-        return VerkuendungImportProcess.Status.SUCCESS;
-      default:
-        throw new IllegalArgumentException(
-          "Cannot map unknown status %s to domain entity".formatted(status)
-        );
-    }
+    return switch (status) {
+      case VerkuendungImportProcessDto.Status.CREATED -> VerkuendungImportProcess.Status.CREATED;
+      case VerkuendungImportProcessDto.Status.PROCESSING -> VerkuendungImportProcess.Status.PROCESSING;
+      case VerkuendungImportProcessDto.Status.ERROR -> VerkuendungImportProcess.Status.ERROR;
+      case VerkuendungImportProcessDto.Status.SUCCESS -> VerkuendungImportProcess.Status.SUCCESS;
+    };
   }
 
-  private static VerkuendungImportProcessDto.Status mapStatusToDto(
+  /**
+   * Maps a status
+   *
+   * @param status to map
+   * @return mapped status
+   */
+  public static VerkuendungImportProcessDto.Status mapStatusToDto(
     final VerkuendungImportProcess.Status status
   ) {
-    switch (status) {
-      case VerkuendungImportProcess.Status.CREATED:
-        return VerkuendungImportProcessDto.Status.CREATED;
-      case VerkuendungImportProcess.Status.PROCESSING:
-        return VerkuendungImportProcessDto.Status.PROCESSING;
-      case VerkuendungImportProcess.Status.ERROR:
-        return VerkuendungImportProcessDto.Status.ERROR;
-      case VerkuendungImportProcess.Status.SUCCESS:
-        return VerkuendungImportProcessDto.Status.SUCCESS;
-      default:
-        throw new IllegalArgumentException("Cannot map unknown status %s to DTO".formatted(status));
-    }
+    return switch (status) {
+      case VerkuendungImportProcess.Status.CREATED -> VerkuendungImportProcessDto.Status.CREATED;
+      case VerkuendungImportProcess.Status.PROCESSING -> VerkuendungImportProcessDto.Status.PROCESSING;
+      case VerkuendungImportProcess.Status.ERROR -> VerkuendungImportProcessDto.Status.ERROR;
+      case VerkuendungImportProcess.Status.SUCCESS -> VerkuendungImportProcessDto.Status.SUCCESS;
+    };
   }
 }

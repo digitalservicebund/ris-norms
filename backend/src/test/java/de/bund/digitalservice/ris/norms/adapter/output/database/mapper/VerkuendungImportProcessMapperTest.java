@@ -42,7 +42,6 @@ class VerkuendungImportProcessMapperTest {
     assertThat(entity.getCreatedAt()).isEqualTo(dto.getCreatedAt());
     assertThat(entity.getStartedAt()).isEqualTo(dto.getStartedAt());
     assertThat(entity.getFinishedAt()).isEqualTo(dto.getFinishedAt());
-    assertThat(entityDetail.getId()).isEqualTo(dtoDetail.getId());
 
     assertThat(entityDetail.getType()).isEqualTo(dtoDetail.getType());
     assertThat(entityDetail.getTitle()).isEqualTo(dtoDetail.getTitle());
@@ -78,7 +77,6 @@ class VerkuendungImportProcessMapperTest {
     // Given
     var entityDetail = VerkuendungImportProcessDetail
       .builder()
-      .id(UUID.randomUUID())
       .type("/example/type")
       .title("example title")
       .detail("example detail")
@@ -104,7 +102,6 @@ class VerkuendungImportProcessMapperTest {
     assertThat(dto.getStartedAt()).isEqualTo(entity.getStartedAt());
     assertThat(dto.getFinishedAt()).isEqualTo(entity.getFinishedAt());
 
-    assertThat(dtoDetail.getId()).isEqualTo(entityDetail.getId());
     assertThat(dtoDetail.getType()).isEqualTo(entityDetail.getType());
     assertThat(dtoDetail.getTitle()).isEqualTo(entityDetail.getTitle());
     assertThat(dtoDetail.getDetail()).isEqualTo(entityDetail.getDetail());
@@ -120,6 +117,7 @@ class VerkuendungImportProcessMapperTest {
       .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
       .startedAt(Instant.parse("2025-03-26T10:00:00Z"))
       .finishedAt(Instant.parse("2025-03-26T11:00:00Z"))
+      .detail(List.of())
       .build();
 
     // When

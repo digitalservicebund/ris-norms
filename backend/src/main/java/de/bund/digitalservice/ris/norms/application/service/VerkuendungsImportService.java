@@ -1,7 +1,12 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveNormendokumentationspaketPort;
+import de.bund.digitalservice.ris.norms.application.port.output.SaveVerkuendungImportProcessPort;
+import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import java.io.IOException;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -11,24 +16,40 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-class VerkuendungsImportService implements StoreNormendokumentationspaketUseCase {
+class VerkuendungsImportService
+  implements
+    StoreNormendokumentationspaketUseCase, LoadNormendokumentationspacketProcessingStatusUseCase {
 
-  SaveNormendokumentationspaketPort saveNormendokumentationspaketPort;
+  private final SaveNormendokumentationspaketPort saveNormendokumentationspaketPort;
+  private final SaveVerkuendungImportProcessPort saveVerkuendungImportProcessPort;
+  private final LoadVerkuendungImportProcessPort loadVerkuendungImportProcessPort;
   private final JobScheduler jobScheduler;
 
   public VerkuendungsImportService(
     SaveNormendokumentationspaketPort saveNormendokumentationspaketPort,
+    SaveVerkuendungImportProcessPort saveVerkuendungImportProcessPort,
+    LoadVerkuendungImportProcessPort loadVerkuendungImportProcessPort,
     JobScheduler jobScheduler
   ) {
     this.saveNormendokumentationspaketPort = saveNormendokumentationspaketPort;
+    this.saveVerkuendungImportProcessPort = saveVerkuendungImportProcessPort;
+    this.loadVerkuendungImportProcessPort = loadVerkuendungImportProcessPort;
     this.jobScheduler = jobScheduler;
   }
 
   @Override
-  public UUID storeNormendokumentationspaket(Query query) throws IOException {
-    UUID processId = UUID.randomUUID();
+  public UUID storeNormendokumentationspaket(StoreNormendokumentationspaketUseCase.Query query)
+    throws IOException {
+    final UUID processId = UUID.randomUUID();
     saveNormendokumentationspaketPort.saveNormendokumentationspaket(
       new SaveNormendokumentationspaketPort.Command(processId, query.file(), query.signature())
+    );
+
+    saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
+      new SaveVerkuendungImportProcessPort.Command(
+        processId,
+        VerkuendungImportProcess.Status.CREATED
+      )
     );
 
     jobScheduler.create(
@@ -36,15 +57,21 @@ class VerkuendungsImportService implements StoreNormendokumentationspaketUseCase
         .aJob()
         .withId(processId)
         .withName("Process Normendokumentationspaket")
-        .withDetails(() ->
-          log.info("Scheduled job for processing Normendokumentationspaket with id: {}", processId)
-        // TODO scan for virus
-        // TODO verify sig
-        // TODO unzip
-        // TODO validate
+        .<NormendokumentationspaketService>withDetails(service ->
+          service.runProcessing(processId, query.file(), query.signature())
         )
     );
-
     return processId;
+  }
+
+  @Override
+  public VerkuendungImportProcess getStatus(
+    LoadNormendokumentationspacketProcessingStatusUseCase.Query query
+  ) {
+    return loadVerkuendungImportProcessPort
+      .loadVerkuendungImportProcess(
+        new LoadVerkuendungImportProcessPort.Command(query.processingId())
+      )
+      .orElseThrow(() -> new ImportProcessNotFoundException(query.processingId()));
   }
 }

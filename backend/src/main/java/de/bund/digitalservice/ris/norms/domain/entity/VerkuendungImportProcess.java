@@ -7,14 +7,12 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Domain entity representing information about the progress of the background
  * processing of a new Verkündung.
  */
 @Getter
-@Setter
 @Builder
 public class VerkuendungImportProcess {
 
