@@ -209,6 +209,39 @@ describe("zeitgrenzenService", () => {
       )
     })
 
+    it("updates the Zeitgrenzen if data is null", async () => {
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValue(new Response(JSON.stringify([])))
+
+      const { usePutZeitgrenzen } = await import(
+        "@/services/zeitgrenzenService"
+      )
+
+      const eli = ref(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        ),
+      )
+      const payload = ref(null)
+      const { execute } = usePutZeitgrenzen(eli, payload)
+
+      await execute()
+      await flushPromises()
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        expect.objectContaining({
+          body: JSON.stringify([]),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+        }),
+      )
+    })
+
     it("returns the updated Zeitgrenzen", async () => {
       vi.spyOn(global, "fetch").mockResolvedValue(
         new Response(JSON.stringify([{ date: "2025-11-01", art: "INKRAFT" }])),

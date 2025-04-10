@@ -96,7 +96,7 @@ function showToast() {
     addErrorToast(saveError, sentryTraceId)
   } else {
     addToast({
-      summary: "Speichern erfolgreich",
+      summary: "Gespeichert!",
       severity: "success",
     })
   }

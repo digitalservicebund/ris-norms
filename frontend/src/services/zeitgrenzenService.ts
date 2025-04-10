@@ -54,7 +54,7 @@ export function useGetZeitgrenzen(
  */
 export function usePutZeitgrenzen(
   eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
-  dates: MaybeRefOrGetter<Zeitgrenze[]>,
+  dates: MaybeRefOrGetter<Zeitgrenze[] | null>,
 ): UseFetchReturn<Zeitgrenze[]> {
   return useApiFetch(
     computed(() => {
@@ -65,5 +65,5 @@ export function usePutZeitgrenzen(
     { immediate: false, refetch: false },
   )
     .json()
-    .put(computed(() => JSON.stringify(toValue(dates))))
+    .put(computed(() => JSON.stringify(toValue(dates) ?? [])))
 }

@@ -77,7 +77,7 @@ function showToast() {
     addErrorToast(props.updateError, sentryTraceId)
   } else {
     addToast({
-      summary: "Speichern erfolgreich",
+      summary: "Gespeichert!",
       severity: "success",
     })
   }

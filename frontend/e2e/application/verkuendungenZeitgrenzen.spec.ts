@@ -221,5 +221,62 @@ test.describe(
           .getByText("Ein unbekannter Fehler ist aufgetreten."),
       ).toBeVisible()
     })
+
+    test("saves new Zeitgrenzen successfully", async ({ page }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+      )
+
+      const editor = page.getByRole("region", {
+        name: "Geltungszeitregeln anlegen",
+      })
+
+      // Delete first Zeitgrenze
+      await editor
+        .getByRole("button", {
+          name: "Zeitgrenze vom 08.04.2025 entfernen",
+        })
+        .click()
+
+      // Change 2nd Zeitgrenze
+      const zeitgrenzen = editor.getByRole("listitem")
+      await expect(zeitgrenzen.first()).toBeVisible()
+      await zeitgrenzen
+        .first()
+        .getByRole("textbox", { name: "Geltungszeit" })
+        .fill("10.04.2025")
+
+      await zeitgrenzen.first().getByRole("combobox").click()
+      await page.getByRole("option", { name: "Außerkrafttreten" }).click()
+
+      // Add a new Zeitgrenze
+      await editor
+        .getByRole("button", { name: "Geltungszeit hinzufügen" })
+        .click()
+
+      await zeitgrenzen.last().getByRole("combobox").click()
+      await zeitgrenzen
+        .last()
+        .getByRole("textbox", { name: "Geltungszeit" })
+        .fill("30.05.2025")
+      await page.getByRole("option", { name: "Außerkrafttreten" }).click()
+
+      // Save -> Success toast
+      await page.getByRole("button", { name: "Speichern" }).click()
+      await expect(page.getByText("Gespeichert!")).toBeVisible()
+
+      // Reload -> Data still there
+      // TODO: Add test
+    })
+
+    test.skip("shows an error message when saving fails", async ({}) => {
+      // TODO: Go to page, create a Zeitgrenze with an empty date, save -> error toast
+      expect(true).toBe(true)
+    })
+
+    test.skip("updates the data on the page with the new data from the backend", ({}) => {
+      // TODO: Test when implemented
+      expect(true).toBe(true)
+    })
   },
 )

@@ -8,12 +8,15 @@ import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
+import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetAnnouncementService } from "@/services/announcementService"
 import {
   useGeltungszeitenHtml,
   useGetZeitgrenzen,
+  usePutZeitgrenzen,
 } from "@/services/zeitgrenzenService"
+import { useToast } from "primevue"
 import Button from "primevue/button"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
@@ -55,11 +58,33 @@ const formattedVerkuendungsdatum = computed(() =>
 
 const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
 
+const toast = useToast()
+
 const {
   data: zeitgrenzen,
   error: zeitgrenzenError,
   isFetching: isFetchingZeitgrenzen,
 } = useGetZeitgrenzen(eli)
+
+const {
+  execute: saveZeitgrenzen,
+  error: saveZeitgrenzenError,
+  isFetching: saveZeitgrenzenIsFetching,
+} = usePutZeitgrenzen(eli, zeitgrenzen)
+
+const { addErrorToast } = useErrorToast()
+
+async function onSaveZeitgrenzen() {
+  await saveZeitgrenzen()
+  if (!saveZeitgrenzenError.value) {
+    toast.add({
+      summary: "Gespeichert!",
+      severity: "success",
+    })
+  } else {
+    addErrorToast(saveZeitgrenzenError)
+  }
+}
 </script>
 
 <template>
@@ -120,7 +145,11 @@ const {
     </Splitter>
 
     <template #headerAction>
-      <Button disabled label="Speichern">
+      <Button
+        label="Speichern"
+        :loading="saveZeitgrenzenIsFetching"
+        @click="onSaveZeitgrenzen()"
+      >
         <template #icon><IcBaselineCheck /></template>
       </Button>
     </template>
