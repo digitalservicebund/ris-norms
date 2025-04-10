@@ -23,7 +23,7 @@ function insertZeitgrenze() {
   zeitgrenzen.value = zeitgrenzen.value.concat({
     id: crypto.randomUUID(),
     date: "",
-    art: "inkrafttreten",
+    art: "INKRAFT",
   })
 }
 

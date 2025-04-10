@@ -14,9 +14,9 @@ test.describe(
           await route.fulfill({
             status: 200,
             json: [
-              { id: "1", date: "2025-04-08", art: "inkrafttreten" },
-              { id: "2", date: "2025-04-10", art: "inkrafttreten" },
-              { id: "3", date: "2025-04-20", art: "ausserkrafttreten" },
+              { id: "1", date: "2025-04-08", art: "INKRAFT" },
+              { id: "2", date: "2025-04-10", art: "INKRAFT" },
+              { id: "3", date: "2025-04-20", art: "AUSSERKRAFT" },
             ],
           })
         },

@@ -1,7 +1,7 @@
 /**
  * Specifies different types of Zeitgrenzen.
  */
-export type ZeitgrenzeArt = "inkrafttreten" | "ausserkrafttreten"
+export type ZeitgrenzeArt = "INKRAFT" | "AUSSERKRAFT"
 
 /**
  * Describes a Zeitgrenze (= a point in time where changes to a Norm go
