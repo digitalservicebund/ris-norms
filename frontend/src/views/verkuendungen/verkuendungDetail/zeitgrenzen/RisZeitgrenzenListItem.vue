@@ -51,8 +51,8 @@ const geltungszeit = computed({
 })
 
 const artOptions: Array<{ label: string; value: ZeitgrenzeArt }> = [
-  { label: "Inkrafttreten", value: "inkrafttreten" },
-  { label: "Außerkrafttreten", value: "ausserkrafttreten" },
+  { label: "Inkrafttreten", value: "INKRAFT" },
+  { label: "Außerkrafttreten", value: "AUSSERKRAFT" },
 ]
 
 const art = computed({

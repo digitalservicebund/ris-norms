@@ -711,7 +711,7 @@ components:
           format: date
         art:
           type: string
-          enum: [inkrafttreten, ausserkrafttreten]
+          enum: [INKRAFT, AUSSERKRAFT]
 
     ZeitgrenzeResponse:
       type: object
@@ -723,7 +723,7 @@ components:
           format: date
         art:
           type: string
-          enum: [inkrafttreten, ausserkrafttreten]
+          enum: [INKRAFT, AUSSERKRAFT]
 
     ReleaseResponse:
       type: object

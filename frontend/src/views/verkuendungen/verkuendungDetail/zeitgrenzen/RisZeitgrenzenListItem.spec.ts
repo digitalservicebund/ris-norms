@@ -9,7 +9,7 @@ describe("risZeitgrenzenListItem", () => {
     render(RisZeitgrenzenListItem, {
       props: {
         index: 0,
-        modelValue: { id: "1", date: "2025-04-08", art: "inkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "INKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -24,7 +24,7 @@ describe("risZeitgrenzenListItem", () => {
     const { container } = render(RisZeitgrenzenListItem, {
       props: {
         index: 1,
-        modelValue: { id: "1", date: "2025-04-08", art: "inkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "INKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -37,7 +37,7 @@ describe("risZeitgrenzenListItem", () => {
     render(RisZeitgrenzenListItem, {
       props: {
         index: 1,
-        modelValue: { id: "1", date: "2025-04-08", art: "inkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "INKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -51,7 +51,7 @@ describe("risZeitgrenzenListItem", () => {
     render(RisZeitgrenzenListItem, {
       props: {
         index: 0,
-        modelValue: { id: "1", date: "2025-04-08", art: "ausserkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "AUSSERKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -67,7 +67,7 @@ describe("risZeitgrenzenListItem", () => {
     const { emitted } = render(RisZeitgrenzenListItem, {
       props: {
         index: 0,
-        modelValue: { id: "1", date: "2025-04-08", art: "ausserkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "AUSSERKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -86,7 +86,7 @@ describe("risZeitgrenzenListItem", () => {
     const { emitted } = render(RisZeitgrenzenListItem, {
       props: {
         index: 0,
-        modelValue: { id: "1", date: "2025-04-08", art: "ausserkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "AUSSERKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -96,7 +96,7 @@ describe("risZeitgrenzenListItem", () => {
     await user.type(textbox, "09.04.2025")
 
     expect(emitted("update:modelValue")).toContainEqual([
-      { id: expect.anything(), date: "2025-04-09", art: "ausserkrafttreten" },
+      { id: expect.anything(), date: "2025-04-09", art: "AUSSERKRAFT" },
     ])
   })
 
@@ -105,7 +105,7 @@ describe("risZeitgrenzenListItem", () => {
     const { emitted } = render(RisZeitgrenzenListItem, {
       props: {
         index: 0,
-        modelValue: { id: "1", date: "2025-04-08", art: "ausserkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "AUSSERKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -114,7 +114,7 @@ describe("risZeitgrenzenListItem", () => {
     await user.clear(textbox)
 
     expect(emitted("update:modelValue")).toContainEqual([
-      { id: expect.anything(), date: "", art: "ausserkrafttreten" },
+      { id: expect.anything(), date: "", art: "AUSSERKRAFT" },
     ])
   })
 
@@ -123,7 +123,7 @@ describe("risZeitgrenzenListItem", () => {
     const { emitted } = render(RisZeitgrenzenListItem, {
       props: {
         index: 0,
-        modelValue: { id: "1", date: "2025-04-08", art: "ausserkrafttreten" },
+        modelValue: { id: "1", date: "2025-04-08", art: "AUSSERKRAFT" },
       },
       global: { stubs: { InputMask: InputText } },
     })
@@ -132,7 +132,7 @@ describe("risZeitgrenzenListItem", () => {
     await user.click(screen.getByRole("option", { name: "Inkrafttreten" }))
 
     expect(emitted("update:modelValue")).toEqual([
-      [{ id: expect.anything(), date: "2025-04-08", art: "inkrafttreten" }],
+      [{ id: expect.anything(), date: "2025-04-08", art: "INKRAFT" }],
     ])
   })
 })

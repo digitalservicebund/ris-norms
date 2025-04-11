@@ -22,8 +22,8 @@ describe("risZeitgrenzenList", () => {
     render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
-          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "INKRAFT" },
+          { id: "2", date: "2025-04-10", art: "AUSSERKRAFT" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -62,8 +62,8 @@ describe("risZeitgrenzenList", () => {
     const { emitted } = render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
-          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "INKRAFT" },
+          { id: "2", date: "2025-04-10", art: "AUSSERKRAFT" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -76,8 +76,8 @@ describe("risZeitgrenzenList", () => {
 
     expect(emitted("update:modelValue")).toContainEqual([
       [
-        { id: expect.anything(), date: "2025-05-30", art: "inkrafttreten" },
-        { id: expect.anything(), date: "2025-04-10", art: "ausserkrafttreten" },
+        { id: expect.anything(), date: "2025-05-30", art: "INKRAFT" },
+        { id: expect.anything(), date: "2025-04-10", art: "AUSSERKRAFT" },
       ],
     ])
   })
@@ -87,8 +87,8 @@ describe("risZeitgrenzenList", () => {
     const { emitted } = render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
-          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "INKRAFT" },
+          { id: "2", date: "2025-04-10", art: "AUSSERKRAFT" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -102,7 +102,7 @@ describe("risZeitgrenzenList", () => {
     )
 
     expect(emitted("update:modelValue")).toContainEqual([
-      [{ id: expect.anything(), date: "2025-04-08", art: "inkrafttreten" }],
+      [{ id: expect.anything(), date: "2025-04-08", art: "INKRAFT" }],
     ])
   })
 
@@ -111,8 +111,8 @@ describe("risZeitgrenzenList", () => {
     const { emitted } = render(RisZeitgrenzenList, {
       props: {
         modelValue: [
-          { id: "1", date: "2025-04-08", art: "inkrafttreten" },
-          { id: "2", date: "2025-04-10", art: "ausserkrafttreten" },
+          { id: "1", date: "2025-04-08", art: "INKRAFT" },
+          { id: "2", date: "2025-04-10", art: "AUSSERKRAFT" },
         ],
       },
       global: { stubs: { InputMask: InputText } },
@@ -124,9 +124,9 @@ describe("risZeitgrenzenList", () => {
 
     expect(emitted("update:modelValue")).toContainEqual([
       [
-        { id: expect.anything(), date: "2025-04-08", art: "inkrafttreten" },
-        { id: expect.anything(), date: "2025-04-10", art: "ausserkrafttreten" },
-        { id: expect.anything(), date: "", art: "inkrafttreten" },
+        { id: expect.anything(), date: "2025-04-08", art: "INKRAFT" },
+        { id: expect.anything(), date: "2025-04-10", art: "AUSSERKRAFT" },
+        { id: expect.anything(), date: "", art: "INKRAFT" },
       ],
     ])
   })
@@ -145,7 +145,7 @@ describe("risZeitgrenzenList", () => {
     )
 
     expect(emitted("update:modelValue")).toContainEqual([
-      [{ id: expect.anything(), date: "", art: "inkrafttreten" }],
+      [{ id: expect.anything(), date: "", art: "INKRAFT" }],
     ])
   })
 
@@ -157,7 +157,7 @@ describe("risZeitgrenzenList", () => {
       global: { stubs: { InputMask: InputText } },
     })
 
-    await rerender({ modelValue: [{ date: "", art: "inkrafttreten" }] })
+    await rerender({ modelValue: [{ date: "", art: "INKRAFT" }] })
 
     expect(screen.getByRole("textbox", { name: "Geltungszeit" })).toHaveFocus()
   })
@@ -173,7 +173,7 @@ describe("risZeitgrenzenList", () => {
         modelValue: Array(100).fill({
           id: id.next().value,
           date: "2025-04-08",
-          art: "inkrafttreten",
+          art: "INKRAFT",
         }),
       },
       global: { stubs: { InputMask: InputText } },

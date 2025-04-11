@@ -8,32 +8,29 @@ import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
+import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetAnnouncementService } from "@/services/announcementService"
 import {
   useGeltungszeitenHtml,
   useGetZeitgrenzen,
+  usePutZeitgrenzen,
 } from "@/services/zeitgrenzenService"
+import { useToast } from "primevue"
 import Button from "primevue/button"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
-const {
-  data: verkuendung,
-  isFetching: isFetchingVerkuendung,
-  error: verkuendungError,
-} = useGetAnnouncementService(() => eli.value.asNormEli())
+const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
 
-const {
-  data: geltungszeitenHtml,
-  isFetching: isFetchingGeltungszeitenHtml,
-  error: geltungszeitenHtmlError,
-} = useGeltungszeitenHtml(eli)
+const toast = useToast()
+
+const { addErrorToast } = useErrorToast()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -47,19 +44,47 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   { key: "zeitgrenzen", title: "Geltungszeitregeln anlegen" },
 ])
 
-const formattedVerkuendungsdatum = computed(() =>
-  verkuendung.value?.frbrDateVerkuendung
-    ? formatDate(verkuendung.value.frbrDateVerkuendung)
-    : undefined,
-)
+const {
+  data: verkuendung,
+  isFetching: isFetchingVerkuendung,
+  error: verkuendungError,
+} = useGetAnnouncementService(() => eli.value.asNormEli())
 
-const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
+const {
+  data: geltungszeitenHtml,
+  isFetching: isFetchingGeltungszeitenHtml,
+  error: geltungszeitenHtmlError,
+} = useGeltungszeitenHtml(eli)
 
 const {
   data: zeitgrenzen,
   error: zeitgrenzenError,
   isFetching: isFetchingZeitgrenzen,
 } = useGetZeitgrenzen(eli)
+
+const {
+  data: updatedZeitgrenzen,
+  execute: saveZeitgrenzen,
+  error: saveZeitgrenzenError,
+  isFetching: saveZeitgrenzenIsFetching,
+} = usePutZeitgrenzen(eli, zeitgrenzen)
+
+watch(updatedZeitgrenzen, (newVal) => {
+  zeitgrenzen.value = newVal
+})
+
+const formattedVerkuendungsdatum = computed(() =>
+  verkuendung.value?.frbrDateVerkuendung
+    ? formatDate(verkuendung.value.frbrDateVerkuendung)
+    : undefined,
+)
+
+async function onSaveZeitgrenzen() {
+  await saveZeitgrenzen()
+  if (!saveZeitgrenzenError.value) {
+    toast.add({ summary: "Gespeichert!", severity: "success" })
+  } else addErrorToast(saveZeitgrenzenError)
+}
 </script>
 
 <template>
@@ -120,7 +145,11 @@ const {
     </Splitter>
 
     <template #headerAction>
-      <Button disabled label="Speichern">
+      <Button
+        label="Speichern"
+        :loading="saveZeitgrenzenIsFetching"
+        @click="onSaveZeitgrenzen()"
+      >
         <template #icon><IcBaselineCheck /></template>
       </Button>
     </template>
