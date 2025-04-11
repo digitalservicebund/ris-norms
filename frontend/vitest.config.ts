@@ -36,6 +36,7 @@ export default defineConfig((context) =>
             "test/**/*",
             "e2e/**/*",
             "a11y/**/*",
+            "src/vitest-setup.ts",
 
             // App content we're not interested in covering with unit tests. If you
             // add something here, please also add a comment explaining why the
@@ -52,6 +53,9 @@ export default defineConfig((context) =>
 
             // This file only contains styles and can't meaninfully be tested
             "src/lib/theme.ts",
+
+            // Just configuration and static text
+            "src/lib/errorMessages.ts",
 
             // Just the init file and global setup, nothing much to test here.
             "src/main.ts",
