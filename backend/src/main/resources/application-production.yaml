@@ -6,7 +6,7 @@ sentry:
 
 publish:
   portal-prototype:
-    enabled: true
+    enabled: false
 
 spring:
   datasource:
