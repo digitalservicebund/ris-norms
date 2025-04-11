@@ -19,6 +19,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
@@ -276,6 +277,46 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Input validation error"))
         .andExpect(jsonPath("status").value(400))
         .andExpect(jsonPath("detail").value("Not all combinations of date + art are unique."))
+        .andExpect(
+          jsonPath("instance")
+            .value(
+              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+            )
+        );
+    }
+
+    @Test
+    void itCallsUpdateZeitgrenzenWithMoreThanTheAllowedNumberOfItems() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+
+      LocalDate currentDate = LocalDate.parse("2023-12-30");
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+      StringBuilder payload = new StringBuilder();
+      payload.append("[");
+      for (int i = 0; i < 101; i++) {
+        if (i > 0) payload.append(",");
+        payload.append(
+          "{\"date\": \"%s\", \"art\": \"INKRAFT\"}".formatted(currentDate.format(formatter))
+        );
+        currentDate = currentDate.plusDays(1);
+      }
+      payload.append("]");
+
+      // When
+      // Then
+      mockMvc
+        .perform(
+          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(payload.toString())
+        )
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("type").value("/errors/input-validation-error"))
+        .andExpect(jsonPath("title").value("Input validation error"))
+        .andExpect(jsonPath("status").value(400))
+        .andExpect(jsonPath("detail").value("A maximum of 100 time boundaries is supported"))
         .andExpect(
           jsonPath("instance")
             .value(
