@@ -18,7 +18,7 @@ export default defineConfig((context) =>
           modules: { classNameStrategy: "non-scoped" },
         },
         coverage: {
-          provider: "v8",
+          provider: "istanbul",
           reporter: ["lcov"],
           // Changes to this also need to be reflected in the sonar-project.properties
           exclude: [
