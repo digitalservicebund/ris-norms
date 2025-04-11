@@ -20,23 +20,17 @@ import { useToast } from "primevue"
 import Button from "primevue/button"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
-const {
-  data: verkuendung,
-  isFetching: isFetchingVerkuendung,
-  error: verkuendungError,
-} = useGetAnnouncementService(() => eli.value.asNormEli())
+const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
 
-const {
-  data: geltungszeitenHtml,
-  isFetching: isFetchingGeltungszeitenHtml,
-  error: geltungszeitenHtmlError,
-} = useGeltungszeitenHtml(eli)
+const toast = useToast()
+
+const { addErrorToast } = useErrorToast()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -50,15 +44,17 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   { key: "zeitgrenzen", title: "Geltungszeitregeln anlegen" },
 ])
 
-const formattedVerkuendungsdatum = computed(() =>
-  verkuendung.value?.frbrDateVerkuendung
-    ? formatDate(verkuendung.value.frbrDateVerkuendung)
-    : undefined,
-)
+const {
+  data: verkuendung,
+  isFetching: isFetchingVerkuendung,
+  error: verkuendungError,
+} = useGetAnnouncementService(() => eli.value.asNormEli())
 
-const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
-
-const toast = useToast()
+const {
+  data: geltungszeitenHtml,
+  isFetching: isFetchingGeltungszeitenHtml,
+  error: geltungszeitenHtmlError,
+} = useGeltungszeitenHtml(eli)
 
 const {
   data: zeitgrenzen,
@@ -67,23 +63,27 @@ const {
 } = useGetZeitgrenzen(eli)
 
 const {
+  data: updatedZeitgrenzen,
   execute: saveZeitgrenzen,
   error: saveZeitgrenzenError,
   isFetching: saveZeitgrenzenIsFetching,
 } = usePutZeitgrenzen(eli, zeitgrenzen)
 
-const { addErrorToast } = useErrorToast()
+watch(updatedZeitgrenzen, (newVal) => {
+  zeitgrenzen.value = newVal
+})
+
+const formattedVerkuendungsdatum = computed(() =>
+  verkuendung.value?.frbrDateVerkuendung
+    ? formatDate(verkuendung.value.frbrDateVerkuendung)
+    : undefined,
+)
 
 async function onSaveZeitgrenzen() {
   await saveZeitgrenzen()
   if (!saveZeitgrenzenError.value) {
-    toast.add({
-      summary: "Gespeichert!",
-      severity: "success",
-    })
-  } else {
-    addErrorToast(saveZeitgrenzenError)
-  }
+    toast.add({ summary: "Gespeichert!", severity: "success" })
+  } else addErrorToast(saveZeitgrenzenError)
 }
 </script>
 

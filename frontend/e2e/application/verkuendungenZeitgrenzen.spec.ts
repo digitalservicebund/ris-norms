@@ -5,6 +5,14 @@ test.describe(
   "showing the Zeitgrenzen page for a Verkündung",
   { tag: ["@RISDEV-4007"] },
   () => {
+    test.beforeEach(async ({ authenticatedRequest: request }) => {
+      // Set initial Zeitgrenzen data
+      await request.put(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        { data: [{ id: "gz-1", date: "2017-03-16", art: "INKRAFT" }] },
+      )
+    })
+
     test("opens the page for a Verkündung", async ({ page }) => {
       await page.goto(
         "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -268,7 +276,7 @@ test.describe(
       ).toBeVisible()
     })
 
-    test.skip("updates the data on the page with the new data from the backend", async ({
+    test("updates the data on the page with the new data from the backend", async ({
       page,
     }) => {
       await page.goto(
@@ -320,7 +328,7 @@ test.describe(
         items[1].getByRole("textbox", { name: "Geltungszeit" }),
       ).toHaveValue("30.05.2025")
       await expect(items[1].getByRole("combobox")).toContainText(
-        "Außerkrafttreten",
+        "Inkrafttreten",
       )
 
       await expect(
