@@ -79,6 +79,14 @@
             <meta-breg:federfuehrend ab="2023-12-29" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
           </meta-breg:federfuehrung>
         </meta-breg:legalDocML.de_metadaten>
+        <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+            <norms:geltungszeiten>
+              <norms:geltungszeit id="gz-1" art="inkraft">2023-12-30</norms:geltungszeit>
+              <norms:geltungszeit id="gz-2" art="inkraft">2024-06-01</norms:geltungszeit>
+            </norms:geltungszeiten>
+          </norms:legalDocML.de_metadaten>
+        </ris:legalDocML.de_metadaten>
       </akn:proprietary>
     </akn:meta>
     <akn:preface GUID="9037be8a-f323-4778-a03f-d1fe16a9cd81" eId="einleitung-1">
