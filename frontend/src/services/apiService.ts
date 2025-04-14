@@ -93,7 +93,17 @@ export const useApiFetch = createFetch({
       // Since we're only ever interested in the data and never the error object,
       // we'll replace the `fetchContext.error` with the response data so we can
       // access it in the UI.
-      const baseError = fetchContext.data ?? getFallbackError()
+      //
+      // For `.text()` calls, the error response comes as a string that needs
+      // to be parsed as JSON. We check the type of the data and parse it if
+      // it's a string.
+      let baseError
+
+      if (typeof fetchContext.data === "string") {
+        baseError = JSON.parse(fetchContext.data)
+      } else {
+        baseError = fetchContext.data ??= getFallbackError()
+      }
 
       fetchContext.error = {
         ...baseError,

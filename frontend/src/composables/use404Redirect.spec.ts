@@ -37,21 +37,58 @@ describe("use404Redirect", () => {
   })
 
   it("redirects for a single 404 error", async () => {
-    const errors = ref([{ status: 404 }])
+    const errors = ref([
+      {
+        status: 404,
+        body: JSON.stringify({
+          type: "/errors/not-found",
+          status: 404,
+          title: "Not found",
+        }),
+      },
+    ])
     use404Redirect(errors)
     await nextTick()
     expect(replaceMock).toHaveBeenCalledOnce()
   })
 
   it("redirects with multiple 404 errors", async () => {
-    const errors = ref([undefined, { status: 404 }, { status: 404 }])
+    const errors = ref([
+      undefined,
+      {
+        status: 404,
+        body: JSON.stringify({
+          type: "/errors/not-found",
+          status: 404,
+          title: "Not found",
+        }),
+      },
+      {
+        status: 404,
+        body: JSON.stringify({
+          type: "/errors/not-found",
+          status: 404,
+          title: "Not found",
+        }),
+      },
+    ])
     use404Redirect(errors)
     await nextTick()
     expect(replaceMock).toHaveBeenCalledOnce()
   })
 
   it("redirects as soon as one error is a 404", async () => {
-    const errors = ref([{ status: 300 }, { status: 404 }])
+    const errors = ref([
+      { status: 300 },
+      {
+        status: 404,
+        body: JSON.stringify({
+          type: "/errors/not-found",
+          status: 404,
+          title: "Not found",
+        }),
+      },
+    ])
     use404Redirect(errors)
     await nextTick()
     expect(replaceMock).toHaveBeenCalledOnce()

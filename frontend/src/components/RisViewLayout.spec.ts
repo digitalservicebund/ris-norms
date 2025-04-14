@@ -175,7 +175,16 @@ describe("risViewLayout", () => {
   it("redirects when receiving a 404 error", async () => {
     render(RisViewLayout, {
       props: {
-        errors: [{ status: 404 }],
+        errors: [
+          {
+            status: 404,
+            body: JSON.stringify({
+              type: "/errors/not-found",
+              status: 404,
+              title: "Not found",
+            }),
+          },
+        ],
       },
       slots: {
         default: "<div>Example</div>",
@@ -189,7 +198,16 @@ describe("risViewLayout", () => {
   it("does not redirect on 404 if the behavior is disabled", async () => {
     render(RisViewLayout, {
       props: {
-        errors: [{ status: 404 }],
+        errors: [
+          {
+            status: 404,
+            body: JSON.stringify({
+              type: "/errors/not-found",
+              status: 404,
+              title: "Not found",
+            }),
+          },
+        ],
         redirectOn404: false,
       },
       slots: {

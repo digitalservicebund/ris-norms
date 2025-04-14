@@ -58,7 +58,15 @@ test.describe("navigate and test content", { tag: ["@RISDEV-6942"] }, () => {
   }) => {
     await page.route(
       "**/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
-      (route) => route.fulfill({ status: 404 }),
+      (route) =>
+        route.fulfill({
+          status: 404,
+          body: JSON.stringify({
+            type: "/errors/not-found",
+            status: 404,
+            title: "Not found",
+          }),
+        }),
     )
 
     await page.goto(
@@ -74,7 +82,16 @@ test.describe("navigate and test content", { tag: ["@RISDEV-6942"] }, () => {
   }) => {
     await page.route(
       "**/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?",
-      (route) => route.fulfill({ status: 500, body: "Server error" }),
+      (route) =>
+        route.fulfill({
+          status: 500,
+          body: JSON.stringify({
+            type: "/errors/internal-server-error",
+            status: 500,
+            title: "Internal Server Error",
+            detail: "Server error",
+          }),
+        }),
     )
 
     // Navigate to the announcement
@@ -83,7 +100,7 @@ test.describe("navigate and test content", { tag: ["@RISDEV-6942"] }, () => {
     )
 
     await expect(
-      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      page.getByText("Ein unerwarteter Fehler ist aufgetreten"),
     ).toBeVisible()
   })
 

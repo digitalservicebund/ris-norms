@@ -247,4 +247,25 @@ describe("useApiFetch", () => {
 
     expect(fetchSpy).not.toHaveBeenCalled()
   })
+
+  it("parses string error responses (for .text() calls)", async () => {
+    vi.spyOn(window, "fetch").mockResolvedValue(
+      new Response(
+        '{"type":"/errors/article-of-type-not-found","articleType":"geltungszeitregel"}',
+        { status: 404 },
+      ),
+    )
+
+    const { useApiFetch } = await import("@/services/apiService")
+
+    const { error } = useApiFetch("/example", { immediate: true }).text()
+
+    await vi.waitFor(() => {
+      expect(error.value).toEqual({
+        type: "/errors/article-of-type-not-found",
+        articleType: "geltungszeitregel",
+        status: 404,
+      })
+    })
+  })
 })
