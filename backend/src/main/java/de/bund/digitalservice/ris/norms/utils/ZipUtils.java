@@ -48,6 +48,18 @@ public class ZipUtils {
           );
         }
 
+        if (
+          entry.getName().contains("/") ||
+          entry.getName().contains("\\") ||
+          entry.getName().contains("..")
+        ) {
+          throw new IllegalArgumentException(
+            "Zip contains path traversals (\"%s\"). This is not supported.".formatted(
+                entry.getName()
+              )
+          );
+        }
+
         if (entry.getSize() > MAX_SINGLE_FILE_UNCOMPRESSED_SIZE) {
           throw new IllegalArgumentException(
             "File %s is too large to be extracted".formatted(entry.getName())
