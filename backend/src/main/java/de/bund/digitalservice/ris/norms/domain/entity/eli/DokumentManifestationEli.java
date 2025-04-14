@@ -170,6 +170,14 @@ public final class DokumentManifestationEli implements DokumentEli {
   }
 
   /**
+   * The filename a file storing a document of this eli should have.
+   * @return the filename
+   */
+  public String getFileName() {
+    return "%s.%s".formatted(getSubtype(), getFormat());
+  }
+
+  /**
    * Create the URI for the eli to be used in e.g. href attributes.
    *
    * @return the URI for the eli
