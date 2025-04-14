@@ -54,15 +54,22 @@ public class ZipUtils {
           );
         }
 
-        byte[] entryBytes = new byte[(int) entry.getSize()];
-        int readBytes = zipInputStream.readNBytes(entryBytes, 0, (int) entry.getSize());
+        int entrySize = (int) entry.getSize();
+        if (entrySize < 0) {
+          throw new IllegalArgumentException(
+            "File %s is missing filesize information, we can't unpack it".formatted(entry.getName())
+          );
+        }
+
+        byte[] entryBytes = new byte[entrySize];
+        int readBytes = zipInputStream.readNBytes(entryBytes, 0, entrySize);
 
         // We expect the stream to have read the whole file and only have one single byte left that is indicating the end of the stream.
         // Otherwise, the zip file was modified and the entry size is not correct so it could be a zip-bomb.
         if (zipInputStream.available() != 1) {
           throw new IllegalArgumentException(
             "Expected uncompressed filesize (%s) differs from actual file size for %s".formatted(
-                entry.getSize(),
+                entrySize,
                 entry.getName()
               )
           );
