@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidExce
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.net.URI;
@@ -111,34 +110,6 @@ class LdmlDeValidatorTest {
               );
           }
         });
-    }
-  }
-
-  @Nested
-  class parseAndValidateRechtsetzungsdokument {
-
-    @Test
-    void itShouldParseAValidNorm() {
-      // Given
-      String xml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
-      );
-
-      // When
-      Rechtsetzungsdokument rechtsetzungsdokument =
-        ldmlDeValidator.parseAndValidateRechtsetzungsdokument(xml);
-
-      // Then
-      // we can't use Norm::getEli as it is not yet namespace-aware
-      assertThat(
-        NodeParser.getValueFromMandatoryNodeFromExpression(
-          "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
-          rechtsetzungsdokument.getDocument()
-        )
-      )
-        .isEqualTo(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
-        );
     }
   }
 

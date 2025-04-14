@@ -43,10 +43,6 @@ public class NormManifestationDto {
   private String expressionEli;
 
   @Immutable
-  @Column(name = "eli_norm_work")
-  private String workEli;
-
-  @Immutable
   @Column(name = "expression_aktuelle_version_id")
   private UUID expressionAktuelleVersionId;
 

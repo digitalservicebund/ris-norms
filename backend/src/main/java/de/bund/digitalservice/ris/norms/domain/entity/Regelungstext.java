@@ -12,7 +12,7 @@ import org.w3c.dom.Document;
  * Represents the "Regelungstext" of a norm in LDML.de.
  */
 @Getter
-public non-sealed class Regelungstext extends Dokument {
+public class Regelungstext extends Dokument {
 
   @Override
   public Dokument copy() {

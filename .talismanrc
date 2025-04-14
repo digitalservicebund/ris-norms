@@ -35,7 +35,5 @@ fileignoreconfig:
     checksum: 8139c80e6a60abcd8055f3e4e59655e0b7e1ea1839a75a1d0ecaf0c799c7e2e2
   - filename: backend/src/test/resources/de/bund/digitalservice/ris/norms/domain/entity/*.xml
     ignore_detectors: [filecontent]
-  - filename: backend/src/test/resources/de/bund/digitalservice/ris/norms/application/service/VerkuendungsImportServiceTest/*/*.pdf
-    ignore_detectors: [filecontent]
   - filename: backend/src/test/java/de/bund/digitalservice/ris/norms/utils/NodeParserTest.java
     checksum: 37b659328bdbba83886283555c3e3a3892f49218d6d37ac270dff9943e34f44f

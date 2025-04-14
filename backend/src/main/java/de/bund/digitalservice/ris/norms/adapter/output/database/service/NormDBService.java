@@ -63,9 +63,9 @@ public class NormDBService
           .findByManifestationEli(manifestationEli.toString())
           .map(NormManifestationMapper::mapToDomain);
       }
-      case NormWorkEli workEli -> normManifestationRepository
-        .findFirstByWorkEliOrderByManifestationEliDesc(workEli.toString())
-        .map(NormManifestationMapper::mapToDomain);
+      case NormWorkEli ignored -> throw new IllegalArgumentException(
+        "It's currently not possible to load a norm by it's work eli."
+      );
     };
   }
 

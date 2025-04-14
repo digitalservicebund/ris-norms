@@ -18,7 +18,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.util.List;
 import java.util.Optional;
@@ -213,31 +212,6 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
         .contains(
           Fixtures.loadNormFromDisk(
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
-          )
-        );
-    }
-
-    @Test
-    void itFindsNormByWorkEli() {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
-      );
-
-      // When
-      final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
-      );
-
-      // Then
-      assertThat(normOptional)
-        .contains(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
           )
         );
     }

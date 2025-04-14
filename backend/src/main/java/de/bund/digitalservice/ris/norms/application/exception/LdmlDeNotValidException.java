@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.Getter;
 
 /**
@@ -18,14 +17,7 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
   public static final URI TYPE = URI.create("/errors/ldml-de-not-valid");
 
   public LdmlDeNotValidException(List<ValidationError> errors) {
-    super(
-      """
-      The provided xml is not a valid LDML.de 1.7.2 document:
-      %s
-      """.formatted(
-          errors.stream().map(ValidationError::toString).collect(Collectors.joining("\n"))
-        )
-    );
+    super("The provided xml is not a valid LDML.de 1.7.2 document.");
     this.errors = errors;
   }
 

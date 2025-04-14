@@ -71,19 +71,6 @@ public class Norm {
   }
 
   /**
-   * Returns all Bekanntmachung objects from the dokumente set.
-   *
-   * @return a set of Bekanntmachung objects, or an empty set if none exist
-   */
-  public Set<Bekanntmachung> getBekanntmachungen() {
-    return dokumente
-      .stream()
-      .filter(Bekanntmachung.class::isInstance)
-      .map(Bekanntmachung.class::cast)
-      .collect(Collectors.toSet());
-  }
-
-  /**
    * Returns all Regelungstext objects from the dokumente set.
    *
    * @return a set of Regelungstext objects, or an empty set if none exist
@@ -94,19 +81,6 @@ public class Norm {
       .filter(OffeneStruktur.class::isInstance)
       .map(OffeneStruktur.class::cast)
       .collect(Collectors.toSet());
-  }
-
-  /**
-   * Returns the Rechtsetzungsdokument.
-   *
-   * @return the {@link Rechtsetzungsdokument}, or an empty set if none exist
-   */
-  public Optional<Rechtsetzungsdokument> getRechtsetzungsdokument() {
-    return dokumente
-      .stream()
-      .filter(Rechtsetzungsdokument.class::isInstance)
-      .map(Rechtsetzungsdokument.class::cast)
-      .findFirst();
   }
 
   /**
