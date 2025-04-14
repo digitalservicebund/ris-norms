@@ -35,6 +35,6 @@ END;
 $$
     LANGUAGE 'plpgsql' VOLATILE SET search_path from current;
 
-UPDATE norm_manifestation SET eli_norm_work = (SELECT DISTINCT dokumente.eli_norm_work FROM dokumente WHERE dokumente.eli_norm_manifestation = norm_manifestation.eli_norm_manifestation);
+UPDATE norm_manifestation SET eli_norm_work = (SELECT dokumente.eli_norm_work FROM dokumente WHERE dokumente.eli_norm_manifestation = norm_manifestation.eli_norm_manifestation LIMIT 1);
 
 ALTER TABLE norm_manifestation ALTER COLUMN eli_norm_work SET not null;
