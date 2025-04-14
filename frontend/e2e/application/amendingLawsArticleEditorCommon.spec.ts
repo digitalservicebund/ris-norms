@@ -39,20 +39,6 @@ test.describe("navigation", () => {
       page.getByRole("navigation").getByText("Änderung des Vereinsgesetzes"),
     ).toBeVisible()
   })
-
-  test("navigate to url with selected mod opens editor with selected mod", async ({
-    page,
-  }) => {
-    await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
-    )
-
-    await expect(
-      page.getByRole("combobox", {
-        name: "Zeitgrenze",
-      }),
-    ).toHaveText("01.02.1001")
-  })
 })
 
 test.describe("mod selection and URL behaviour", () => {

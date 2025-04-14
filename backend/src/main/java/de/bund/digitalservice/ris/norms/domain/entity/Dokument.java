@@ -1,12 +1,9 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import static de.bund.digitalservice.ris.norms.utils.NodeParser.getElementsFromExpression;
-
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -92,16 +89,6 @@ public abstract class Dokument {
   }
 
   /**
-   * Extracts a list of time boundaries (Zeitgrenzen) from the document.
-   *
-   * @return a list of {@link TimeBoundary} containing dates and event IDs.
-   */
-  public List<TimeBoundary> getTimeBoundaries() {
-    final List<TemporalGroup> temporalGroups = getMeta().getTemporalData().getTemporalGroups();
-    return getTimeBoundaries(temporalGroups);
-  }
-
-  /**
    * Extracts the time boundaries saved under the custom {@link Namespace#METADATEN_NORMS_APPLICATION_MODS} from the document.
    *
    * @return a list of {@link Zeitgrenze}
@@ -130,99 +117,6 @@ public abstract class Dokument {
   }
 
   /**
-   * * Extracts a list of time boundaries (Zeitgrenzen) from the document of a pre-filtered given
-   * list of temporal groups.
-   *
-   * @param temporalGroups - the pre-filtered listed of temporal groups
-   * @return a list of {@link TimeBoundary} containing dates and event IDs.
-   */
-  public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
-    return temporalGroups
-      .stream()
-      .map(temporalGroup -> {
-        final TimeInterval timeInterval = temporalGroup.getTimeInterval();
-        final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
-        final EventRef eventRef = getMeta()
-          .getLifecycle()
-          .getEventRefs()
-          .stream()
-          .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
-          .findFirst()
-          .orElseThrow();
-        return (TimeBoundary) TimeBoundary
-          .builder()
-          .temporalGroup(temporalGroup)
-          .timeInterval(timeInterval)
-          .eventRef(eventRef)
-          .build();
-      })
-      .toList();
-  }
-
-  /**
-   * @param temporalGroupEid EId of a temporal group
-   * @return Start date of the temporal group
-   */
-  public Optional<String> getStartDateForTemporalGroup(EId temporalGroupEid) {
-    return getStartEventRefForTemporalGroup(temporalGroupEid)
-      .flatMap(this::getStartDateForEventRef);
-  }
-
-  /**
-   * @param temporalGroupEid EId of a temporal group
-   * @return eid of the event ref of the start of the temporal group
-   */
-  public Optional<EId> getStartEventRefForTemporalGroup(final EId temporalGroupEid) {
-    return getMeta()
-      .getTemporalData()
-      .getTemporalGroups()
-      .stream()
-      .filter(temporalGroup -> temporalGroup.getEid().equals(temporalGroupEid.value()))
-      .findFirst()
-      .flatMap(m -> m.getTimeInterval().getEventRefEId())
-      .map(EId::new);
-  }
-
-  /**
-   * @param eId EId of an event ref
-   * @return Start date of the event ref
-   */
-  public Optional<String> getStartDateForEventRef(EId eId) {
-    return getMeta()
-      .getLifecycle()
-      .getEventRefs()
-      .stream()
-      .filter(eventRef -> Objects.equals(eventRef.getEid(), eId))
-      .findFirst()
-      .flatMap(EventRef::getDate)
-      .map(LocalDate::toString);
-  }
-
-  /**
-   * Adds one time boundary (Zeitgrenze) to the document. New eventRef node as child of lifecycle.
-   * The temporalData node will get a new temporalGroup node as child, which will have a new
-   * timeInterval node as child.
-   *
-   * @param date the {@link LocalDate} for the new time boundary.
-   * @param eventRefType the {@link EventRefType} for the new time boundary.
-   * @return the newly created {@link TemporalGroup}
-   */
-  public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
-    // Create new eventRef node
-    final EventRef eventRef = getMeta().getLifecycle().addEventRef();
-    eventRef.setDate(date.toString());
-    eventRef.setRefersTo("inkrafttreten");
-    eventRef.setType(eventRefType.getValue());
-
-    final TemporalGroup temporalGroup = getMeta().getTemporalData().addTemporalGroup();
-    final TimeInterval timeInterval = temporalGroup.getOrCreateTimeInterval();
-    timeInterval.setStart(new Href.Builder().setEId(eventRef.getEid()).buildInternalReference());
-    timeInterval.setRefersTo("geltungszeit");
-
-    return temporalGroup;
-  }
-
-  /**
    * Returns the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to return
@@ -239,80 +133,10 @@ public abstract class Dokument {
    * Deletes the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to delete
-   * @return the deleted element or empty if nothing to delete was found
    */
-  public Optional<Element> deleteByEId(String eId) {
+  public void deleteByEId(String eId) {
     var node = getElementByEId(eId);
-
     node.ifPresent(n -> n.getParentNode().removeChild(n));
-
-    return node;
-  }
-
-  /**
-   * Deletes the temporal group if it is not referenced anymore in the norm.
-   *
-   * @param eId the eId of the temporal group to delete
-   * @return the deleted temporal group or empty if nothing was deleted
-   */
-  public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
-    final var nodesUsingTemporalData = getElementsFromExpression(
-      String.format("//*[@period='#%s']", eId),
-      getDocument()
-    );
-
-    if (!nodesUsingTemporalData.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return deleteByEId(eId).map(TemporalGroup::new);
-  }
-
-  /**
-   * Deletes the event ref if it is not referenced anymore in the norm.
-   *
-   * @param eId the eId of the event ref to delete
-   * @return the deleted temporal ref node or empty if nothing was deleted
-   */
-  public Optional<Element> deleteEventRefIfUnused(String eId) {
-    final var nodesUsingTemporalData = getElementsFromExpression(
-      String.format("//*[@start='#%s' or @end='#%s']", eId, eId),
-      getDocument()
-    );
-
-    if (!nodesUsingTemporalData.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return deleteByEId(eId);
-  }
-
-  /**
-   * Deletes one time boundary (Zeitgrenze) from the document.
-   *
-   * @param timeBoundaryToDelete the time boundary that should be deleted from the xml
-   */
-  public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
-    // delete eventRef node
-    deleteByEId(timeBoundaryToDelete.eid());
-
-    // delete temporalGroup node and its timeInterval node children
-    String timeIntervalNodeExpression = String.format(
-      "//temporalData/temporalGroup/timeInterval[@start='#%s']",
-      timeBoundaryToDelete.eid()
-    );
-    Optional<Element> timeIntervalNode = NodeParser.getElementFromExpression(
-      timeIntervalNodeExpression,
-      document
-    );
-
-    if (timeIntervalNode.isEmpty()) {
-      return;
-    }
-
-    Node temporalGroupNode = timeIntervalNode.get().getParentNode();
-    Node temporalDataNode = temporalGroupNode.getParentNode();
-    temporalDataNode.removeChild(temporalGroupNode);
   }
 
   @Override
