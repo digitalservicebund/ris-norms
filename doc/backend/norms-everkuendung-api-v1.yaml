@@ -123,6 +123,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
       responses:
         "200":
           description: Der Status der Verarbeitung.
@@ -230,6 +231,7 @@ components:
       properties:
         processId:
           type: string
+          format: uuid
           description: Die ID des Prozesses, der die übertragene Verkündung im Hintergrund verarbeitet. Diese ID kann genutzt werden, um den Status der Verarbeitung abzufragen.
     VerkuendungStatus:
       oneOf:

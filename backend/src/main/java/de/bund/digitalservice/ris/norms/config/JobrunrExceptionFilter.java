@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.config;
 
-import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Component;
 public class JobrunrExceptionFilter implements JobServerFilter {
 
   SaveVerkuendungImportProcessPort saveVerkuendungImportProcessPort;
-  LoadVerkuendungImportProcessPort loadVerkuendungImportProcessPort;
 
   @Override
   public void onFailedAfterRetries(Job job) {
@@ -29,7 +27,7 @@ public class JobrunrExceptionFilter implements JobServerFilter {
         VerkuendungImportProcess.Status.ERROR,
         List.of(
           new VerkuendungImportProcessDetail(
-            "/errors/jobRunFailed",
+            "/errors/job-run-failed",
             "Tried to import a Normendokumentationspacket the max amount of times but failed",
             "none"
           )

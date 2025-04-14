@@ -2,9 +2,14 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller.extern
 
 import static org.springframework.http.MediaType.*;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.VerkuendungStatusMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungsProcessIdResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import java.io.IOException;
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class VerkuendungController {
 
   private final StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase;
+  private final LoadNormendokumentationspacketProcessingStatusUseCase statusService;
 
   public VerkuendungController(
-    StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase
+    StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase,
+    LoadNormendokumentationspacketProcessingStatusUseCase statusService
   ) {
     this.storeNormendokumentationspaketUseCase = storeNormendokumentationspaketUseCase;
+    this.statusService = statusService;
   }
 
   /**
@@ -48,5 +56,18 @@ public class VerkuendungController {
             .toString()
         )
       );
+  }
+
+  /**
+   * Endpoint to retrieve the status of background processing a new Verkuendung
+   * @param processId The uuid of the processing requests
+   * @return The processing status of the Verkuendung
+   */
+  @GetMapping("/status/{processId}")
+  public ResponseEntity<VerkuendungStatusResponseSchema> getStatus(@PathVariable UUID processId) {
+    VerkuendungImportProcess status = statusService.getStatus(
+      new LoadNormendokumentationspacketProcessingStatusUseCase.Query(processId)
+    );
+    return ResponseEntity.ok(VerkuendungStatusMapper.fromVerkuendungImportProcess(status));
   }
 }
