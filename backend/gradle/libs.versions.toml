@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.7.0"
+flyway = "11.7.1"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.3.1"
@@ -17,13 +17,13 @@ flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
 google-protobuf-java = "com.google.protobuf:protobuf-java:4.30.2"
-jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.4.1"
+jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.0"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.38"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.17.0"
 postgresql = "org.postgresql:postgresql:42.7.5"
-prometheus = "io.micrometer:micrometer-registry-prometheus:1.14.5"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.14.6"
 saxon-he = "net.sf.saxon:Saxon-HE:12.5"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
@@ -44,7 +44,7 @@ squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.11.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.6.0"
+testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.7.0"
 
 
 [plugins]
