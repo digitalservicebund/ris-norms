@@ -232,6 +232,19 @@ public class NormsAppExceptionHandler {
     return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
+  /**
+   * Exception handler method for handling {@link ImportProcessNotFoundException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
+   */
+  @ExceptionHandler(ImportProcessNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ProblemDetail handleException(final ImportProcessNotFoundException e) {
+    log.error("ImportProcessNotFoundException: {}", e.getMessage(), e);
+    return createProblemDetail(e, HttpStatus.NOT_FOUND);
+  }
+
   private static ProblemDetail createProblemDetail(NormsAppException e, HttpStatus status) {
     final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
     problemDetail.setType(e.getType());

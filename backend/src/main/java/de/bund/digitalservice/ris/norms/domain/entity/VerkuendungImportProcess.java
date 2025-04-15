@@ -36,6 +36,11 @@ public class VerkuendungImportProcess {
     CREATED,
     PROCESSING,
     SUCCESS,
-    ERROR,
+    ERROR;
+
+    @Override
+    public String toString() {
+      return name().toLowerCase();
+    }
   }
 }
