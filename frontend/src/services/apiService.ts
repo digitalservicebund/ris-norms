@@ -100,9 +100,13 @@ export const useApiFetch = createFetch({
       let baseError
 
       if (typeof fetchContext.data === "string") {
-        baseError = JSON.parse(fetchContext.data)
+        try {
+          baseError = JSON.parse(fetchContext.data)
+        } catch {
+          baseError = getFallbackError()
+        }
       } else {
-        baseError = fetchContext.data ??= getFallbackError()
+        baseError = fetchContext.data ?? getFallbackError()
       }
 
       fetchContext.error = {

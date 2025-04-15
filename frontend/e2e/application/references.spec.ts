@@ -149,11 +149,6 @@ test.describe("references page error handling", () => {
         ) {
           await route.fulfill({
             status: 404,
-            body: JSON.stringify({
-              type: "/errors/not-found",
-              status: 404,
-              title: "Not found",
-            }),
           })
         } else {
           await route.continue()

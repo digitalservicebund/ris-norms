@@ -178,11 +178,6 @@ describe("risViewLayout", () => {
         errors: [
           {
             status: 404,
-            body: JSON.stringify({
-              type: "/errors/not-found",
-              status: 404,
-              title: "Not found",
-            }),
           },
         ],
       },
@@ -201,11 +196,6 @@ describe("risViewLayout", () => {
         errors: [
           {
             status: 404,
-            body: JSON.stringify({
-              type: "/errors/not-found",
-              status: 404,
-              title: "Not found",
-            }),
           },
         ],
         redirectOn404: false,

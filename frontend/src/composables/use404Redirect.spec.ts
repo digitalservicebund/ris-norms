@@ -40,11 +40,6 @@ describe("use404Redirect", () => {
     const errors = ref([
       {
         status: 404,
-        body: JSON.stringify({
-          type: "/errors/not-found",
-          status: 404,
-          title: "Not found",
-        }),
       },
     ])
     use404Redirect(errors)
@@ -57,19 +52,9 @@ describe("use404Redirect", () => {
       undefined,
       {
         status: 404,
-        body: JSON.stringify({
-          type: "/errors/not-found",
-          status: 404,
-          title: "Not found",
-        }),
       },
       {
         status: 404,
-        body: JSON.stringify({
-          type: "/errors/not-found",
-          status: 404,
-          title: "Not found",
-        }),
       },
     ])
     use404Redirect(errors)

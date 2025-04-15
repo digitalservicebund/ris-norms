@@ -250,11 +250,6 @@ test.describe("XML and HTML tabs", () => {
         ) {
           await route.fulfill({
             status: 404,
-            body: JSON.stringify({
-              type: "/errors/not-found",
-              status: 404,
-              title: "Not found",
-            }),
           })
         } else {
           await route.continue()
