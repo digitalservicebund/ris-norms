@@ -24,10 +24,10 @@ public class VerkuendungController {
 
   public VerkuendungController(
     StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase,
-    LoadNormendokumentationspacketProcessingStatusUseCase statusService
+    LoadNormendokumentationspacketProcessingStatusUseCase loadNormendokumentationspacketProcessingStatusUseCase
   ) {
     this.storeNormendokumentationspaketUseCase = storeNormendokumentationspaketUseCase;
-    this.statusService = statusService;
+    this.statusService = loadNormendokumentationspacketProcessingStatusUseCase;
   }
 
   /**

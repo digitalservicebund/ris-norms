@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.Verkuendung
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /** Mapper class for converting between {@link VerkuendungImportProcess} and {@link VerkuendungStatusResponseSchema}. */
@@ -22,18 +23,12 @@ public class VerkuendungStatusMapper {
     VerkuendungImportProcess verkuendungImportProcess
   ) {
     return switch (verkuendungImportProcess.getStatus()) {
-      case CREATED -> new VerkuendungStatusProcessingOrSuccessResponseSchema(
+      case CREATED, PROCESSING, SUCCESS -> new VerkuendungStatusProcessingOrSuccessResponseSchema(
         VerkuendungImportProcess.Status.CREATED.toString()
-      );
-      case PROCESSING -> new VerkuendungStatusProcessingOrSuccessResponseSchema(
-        VerkuendungImportProcess.Status.PROCESSING.toString()
-      );
-      case SUCCESS -> new VerkuendungStatusProcessingOrSuccessResponseSchema(
-        VerkuendungImportProcess.Status.SUCCESS.toString()
       );
       case ERROR -> new VerkuendungStatusErrorResponseSchema(
         VerkuendungImportProcess.Status.ERROR.toString(),
-        verkuendungImportProcess.getDetail().getFirst().getType(),
+        getType(verkuendungImportProcess),
         verkuendungImportProcess
           .getDetail()
           .stream()
@@ -46,5 +41,14 @@ public class VerkuendungStatusMapper {
           .collect(Collectors.joining(" ;"))
       );
     };
+  }
+
+  private static String getType(VerkuendungImportProcess verkuendungImportProcess) {
+    return Optional
+      .of(verkuendungImportProcess)
+      .map(VerkuendungImportProcess::getDetail)
+      .flatMap(list -> list.stream().findFirst())
+      .map(VerkuendungImportProcessDetail::getType)
+      .orElse("");
   }
 }

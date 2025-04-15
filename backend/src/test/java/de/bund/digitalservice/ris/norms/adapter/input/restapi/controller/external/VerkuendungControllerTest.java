@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.controller.SecurelessControllerTest;
+import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
@@ -106,6 +107,24 @@ class VerkuendungControllerTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.verkuendungStatus").value("processing"));
+    }
+
+    @Test
+    void processIdNotFound() throws Exception {
+      // given
+      UUID processId = UUID.randomUUID();
+
+      // when
+      when(statusService.getStatus(any())).thenThrow(new ImportProcessNotFoundException(processId));
+
+      // then
+
+      mockMvc
+        .perform(
+          get("/api/v1/external/verkuendungen/status/{processId}", processId)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isNotFound());
     }
 
     @Test
