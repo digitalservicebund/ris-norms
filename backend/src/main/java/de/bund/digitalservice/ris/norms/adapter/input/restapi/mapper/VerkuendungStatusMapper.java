@@ -24,7 +24,7 @@ public class VerkuendungStatusMapper {
   ) {
     return switch (verkuendungImportProcess.getStatus()) {
       case CREATED, PROCESSING, SUCCESS -> new VerkuendungStatusProcessingOrSuccessResponseSchema(
-        VerkuendungImportProcess.Status.CREATED.toString()
+        verkuendungImportProcess.getStatus().toString()
       );
       case ERROR -> new VerkuendungStatusErrorResponseSchema(
         VerkuendungImportProcess.Status.ERROR.toString(),
