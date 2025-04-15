@@ -34,3 +34,52 @@ After making changes to schemas, you can test them against the fixtures in `fixt
 ```sh
 xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd schema-extension-fixtures/SaatG_regelungstext.xml
 ```
+
+
+### Creating ZIP archives
+
+There is a `create-archives.sh` script in this directory that helps you package all `samples` subfolders into `.zip` files and optionally generate cryptographic signatures for them.
+
+#### Usage
+
+```bash
+./create-archives.sh [PRIVATE_KEY_PATH]
+```
+PRIVATE_KEY_PATH: (optional) Path to an RSA private key in PEM format. If provided, the script will generate a .sig file for each .zip file.
+
+#### What it does
+
+For each subfolder in the current directory (e.g., samples/):
+1. Creates a .zip archive with the same name as the folder.
+2. If a private key is provided, it also generates a .sig signature file for the archive.
+
+#### Example
+Given this structure:
+```samples/
+├── folder-a/
+│   └── file-a.xml
+├── folder-b/
+│   └── file-b.xml
+├── create-archives.sh
+├── private.pem
+```
+Running:
+```bash
+./create-archives.sh private.pem
+```
+Produces:
+```folder-a.zip
+folder-a.sig
+folder-b.zip
+folder-b.sig
+```
+#### Generating a test key pair
+To create a self-signed RSA key pair, use the following command:
+```bash
+openssl req -x509 -newkey rsa:2048 -keyout private.pem -out public.pem -days 365 -nodes
+```
+This creates:
+- `private.pem`: your private key (used to sign files)
+- `public.pem`: your public certificate (used to verify signatures)
+
+ℹ️ The script uses OpenSSL with SHA-256 to create signatures, and writes them in hex format.
