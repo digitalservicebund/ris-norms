@@ -34,7 +34,7 @@ public class PortalPrototypePublishingScheduler {
    *
    * <p>The cron schedule is controlled by the property {@code publish.cron}.</p>
    */
-  @Scheduled(cron = "${publish.portal-prototype.cron}")
+  @Scheduled(cron = "${publish.portal-prototype.cron}", zone = "Europe/Berlin")
   @SchedulerLock(
     name = "scheduledPublishToPortalPrototype",
     lockAtMostFor = "240m",

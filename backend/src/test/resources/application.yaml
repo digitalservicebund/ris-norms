@@ -38,8 +38,3 @@ otc:
 
 sentry:
   environment: local
-
-publish:
-  portal-prototype:
-    enabled: true
-    cron: "0 0 0 1 1 *"

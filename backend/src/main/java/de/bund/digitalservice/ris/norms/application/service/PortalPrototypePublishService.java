@@ -62,14 +62,13 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
   public void publishNormsToPortalPrototype() {
     final Instant startOfProcessing = Instant.now();
 
-    var publishedNormElis =
+    var queuedNormElis =
       loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(
-        new LoadNormManifestationElisByPublishStatePort.Command(NormPublishState.PUBLISHED)
+        new LoadNormManifestationElisByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
       );
+    log.info("Currently {} norms are in state QUEUED_FOR_PUBLISHED", queuedNormElis.size());
 
-    log.info("Currently {} norms are in state PUBLISHED", publishedNormElis.size());
-
-    var successfullyPublishedNormCount = publishedNormElis
+    var successfullyPublishedNormCount = queuedNormElis
       .stream()
       .map(eli -> {
         log.info("Processing norm with manifestation eli {}", eli);

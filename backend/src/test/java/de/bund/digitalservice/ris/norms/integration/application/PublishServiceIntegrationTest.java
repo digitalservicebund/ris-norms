@@ -14,7 +14,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
 
+@TestPropertySource(properties = { "publish.enabled=true", "publish.cron=0 0 0 1 1 *" })
 class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
   @Autowired

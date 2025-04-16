@@ -5,8 +5,9 @@ sentry:
   send-default-pii: on
 
 publish:
+  enabled: false
   portal-prototype:
-    enabled: false
+    enabled: true
 
 spring:
   datasource:

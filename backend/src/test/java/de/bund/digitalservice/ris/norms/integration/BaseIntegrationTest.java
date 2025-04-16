@@ -37,7 +37,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 public abstract class BaseIntegrationTest {
 
   protected static final KeycloakContainer keycloak;
-  protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test=";
+  protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test";
 
   @Container
   static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:14")

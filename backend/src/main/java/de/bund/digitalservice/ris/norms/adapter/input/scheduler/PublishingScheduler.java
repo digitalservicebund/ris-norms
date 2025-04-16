@@ -4,7 +4,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.PublishNormUseCas
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.LockAssert;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-@Profile({ "staging", "uat", "production" })
+@ConditionalOnProperty("publish.enabled")
 public class PublishingScheduler {
 
   private final PublishNormUseCase publishNormUseCase;
@@ -35,7 +35,7 @@ public class PublishingScheduler {
    *
    * <p>The cron schedule is controlled by the property {@code publish.cron}.</p>
    */
-  @Scheduled(cron = "${publish.cron}")
+  @Scheduled(cron = "${publish.cron}", zone = "Europe/Berlin")
   @SchedulerLock(name = "scheduledPublishToBucket", lockAtMostFor = "240m", lockAtLeastFor = "120m")
   public void runPublishProcess() {
     // To assert that the lock is held (prevents misconfiguration errors)

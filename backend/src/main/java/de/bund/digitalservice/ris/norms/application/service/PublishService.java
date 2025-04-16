@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@ConditionalOnProperty("publish.enabled")
 public class PublishService implements PublishNormUseCase {
 
   private final LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort;

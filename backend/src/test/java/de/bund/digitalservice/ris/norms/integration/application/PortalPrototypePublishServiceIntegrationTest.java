@@ -14,7 +14,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
 
+@TestPropertySource(
+  properties = {
+    "publish.portal-prototype.enabled=true", "publish.portal-prototype.cron=0 0 0 1 1 *",
+  }
+)
 class PortalPrototypePublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
   @Autowired
@@ -37,7 +43,7 @@ class PortalPrototypePublishServiceIntegrationTest extends BaseS3MockIntegration
     var normDto = normManifestationRepository
       .findByManifestationEli("eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16")
       .orElseThrow();
-    normDto.setPublishState(NormPublishState.PUBLISHED);
+    normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
     normManifestationRepository.save(normDto);
 
     // When
