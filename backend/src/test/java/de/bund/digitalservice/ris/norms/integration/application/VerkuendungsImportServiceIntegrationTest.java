@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungImportProcessDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungImportProcessesRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungRepository;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
@@ -21,6 +22,7 @@ import java.util.UUID;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,10 +43,92 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
   @Autowired
   private VerkuendungRepository verkuendungRepository;
 
+  @Autowired
+  private NormManifestationRepository normManifestationRepository;
+
+  @BeforeEach
+  void beforeEach() {
+    verkuendungRepository.deleteAll();
+    verkuendungImportProcessesRepository.deleteAll();
+    dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
+    normManifestationRepository.deleteAll();
+  }
+
   @Test
   void processNormendokumentationspaket() throws IOException {
     var processId = UUID.randomUUID();
     storeFolderAsNormendokumentationsPaket(processId, "verkuendung-valid");
+
+    verkuendungImportProcessesRepository.save(
+      new VerkuendungImportProcessDto(
+        processId,
+        VerkuendungImportProcessDto.Status.CREATED,
+        Instant.now(),
+        null,
+        null,
+        null
+      )
+    );
+
+    verkuendungsImportService.processNormendokumentationspaket(
+      new ProcessNormendokumentationspaketUseCase.Query(processId)
+    );
+
+    var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
+    assertThat(finishedProcess).isPresent();
+    assertThat(finishedProcess.get().getStatus())
+      .isEqualTo(VerkuendungImportProcessDto.Status.SUCCESS);
+
+    assertThat(dokumentRepository.findAll()).hasSize(2);
+    assertThat(binaryFileRepository.findAll()).hasSize(1);
+    assertThat(verkuendungRepository.findAll())
+      .hasSize(1)
+      .anySatisfy(verkuendungDto ->
+        assertThat(verkuendungDto.getEliNormExpression())
+          .isEqualTo("eli/bund/bgbl-1/2024/107/2024-03-27/1/deu")
+      );
+  }
+
+  @Test
+  void processNormendokumentationspaketWithBekanntmachung() throws IOException {
+    var processId = UUID.randomUUID();
+    storeFolderAsNormendokumentationsPaket(processId, "verkuendung-valid-bekanntmachung");
+
+    verkuendungImportProcessesRepository.save(
+      new VerkuendungImportProcessDto(
+        processId,
+        VerkuendungImportProcessDto.Status.CREATED,
+        Instant.now(),
+        null,
+        null,
+        null
+      )
+    );
+
+    verkuendungsImportService.processNormendokumentationspaket(
+      new ProcessNormendokumentationspaketUseCase.Query(processId)
+    );
+
+    var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
+    assertThat(finishedProcess).isPresent();
+    assertThat(finishedProcess.get().getStatus())
+      .isEqualTo(VerkuendungImportProcessDto.Status.SUCCESS);
+
+    assertThat(dokumentRepository.findAll()).hasSize(3);
+    assertThat(binaryFileRepository.findAll()).isEmpty();
+    assertThat(verkuendungRepository.findAll())
+      .hasSize(1)
+      .anySatisfy(verkuendungDto ->
+        assertThat(verkuendungDto.getEliNormExpression())
+          .isEqualTo("eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu")
+      );
+  }
+
+  @Test
+  void processNormendokumentationspaketWithExternesDokument() throws IOException {
+    var processId = UUID.randomUUID();
+    storeFolderAsNormendokumentationsPaket(processId, "verkuendung-valid-with-pdf-teildokument");
 
     verkuendungImportProcessesRepository.save(
       new VerkuendungImportProcessDto(

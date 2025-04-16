@@ -33,10 +33,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.jobrunr.scheduling.JobBuilder;
 import org.jobrunr.scheduling.JobScheduler;
@@ -221,46 +220,7 @@ public class VerkuendungsImportService
       throw new InvalidStructureInZipFileException(e.getMessage());
     }
 
-    Set<Dokument> dokumente = findParseAndValidateDokumente(files);
-
-    var manifestationEli = dokumente
-      .stream()
-      .findFirst()
-      .orElseThrow()
-      .getManifestationEli()
-      .asNormEli();
-
-    var binaryFiles = files
-      .entrySet()
-      .stream()
-      .filter(entry ->
-        dokumente
-          .stream()
-          .noneMatch(dokument -> dokument.getManifestationEli().getFileName().equals(entry.getKey())
-          )
-      )
-      .map(entry -> {
-        log.debug("Found binary file: {}", entry.getKey());
-
-        var mimeType = MediaTypeFactory.getMediaType(entry.getKey()).orElseThrow();
-
-        if (SUPPORTED_MIME_TYPES.stream().noneMatch(mimeType::isCompatibleWith)) {
-          throw new UnsupportedFileTypeException(entry.getKey());
-        }
-
-        return new BinaryFile(
-          DokumentManifestationEli.fromNormEli(
-            manifestationEli,
-            entry.getKey().split("\\.")[0],
-            entry.getKey().split("\\.")[1]
-          ),
-          entry.getValue()
-        );
-      })
-      .collect(Collectors.toSet());
-
-    var norm = new Norm(NormPublishState.UNPUBLISHED, dokumente, binaryFiles);
-
+    Norm norm = findParseAndValidateFilesAsNorm(files);
     ldmlDeValidator.validateSchematron(norm);
 
     if (
@@ -295,92 +255,141 @@ public class VerkuendungsImportService
     return;
   }
 
-  private Set<Dokument> findParseAndValidateDokumente(Map<String, byte[]> files) {
+  private Norm findParseAndValidateFilesAsNorm(Map<String, byte[]> files) {
     if (!files.containsKey(RECHTSETZUNGSDOKUMENT_FILENAME)) {
       throw new MissingRechtsetzungsdokumentException();
     }
 
     NormManifestationEli normManifestationEli = null;
-
     Map<String, Dokument> dokumente = new HashMap<>();
+
     Queue<String> dokumenteToProcess = new LinkedList<>();
+    Queue<String> binaryFilesToProcess = new LinkedList<>();
     dokumenteToProcess.add(RECHTSETZUNGSDOKUMENT_FILENAME);
 
     while (!dokumenteToProcess.isEmpty()) {
       String dokumentName = dokumenteToProcess.poll();
-      log.debug("Processing Dokument {}", dokumentName);
-      var dokument = parseAndValidateDokument(dokumentName, files.get(dokumentName));
+      log.debug("Processing Dokument: {}", dokumentName);
+      var dokument = parseAndValidateDokument(
+        normManifestationEli,
+        dokumentName,
+        files.get(dokumentName)
+      );
+      log.debug("Parsed & validated Dokument: {}", dokument.getManifestationEli());
       dokumente.put(dokumentName, dokument);
-
-      if (!dokument.getManifestationEli().getSubtype().equals(dokumentName.split("\\.")[0])) {
-        throw new MismatchBetweenFilenameAndSubtypeException(
-          dokumentName,
-          dokument.getManifestationEli()
-        );
-      }
 
       if (normManifestationEli == null) {
         normManifestationEli = dokument.getManifestationEli().asNormEli();
       }
 
-      if (!dokument.getManifestationEli().asNormEli().equals(normManifestationEli)) {
-        throw new InconsistentEliException(
-          dokumentName,
-          normManifestationEli,
-          dokument.getManifestationEli().asNormEli()
-        );
-      }
+      dokument
+        .getReferencedDokumentAndBinaryFileFileNames()
+        .stream()
+        // check if we already know about the referenced dokument
+        .filter(Predicate.not(dokumente::containsKey))
+        .filter(Predicate.not(binaryFilesToProcess::contains))
+        .filter(Predicate.not(dokumenteToProcess::contains))
+        .filter(referencedDokumentName -> {
+          if (files.containsKey(referencedDokumentName)) {
+            return true;
+          }
+          throw new MissingReferencedDokumentException(referencedDokumentName);
+        })
+        .forEach(referencedDokumentName -> {
+          log.debug("Found new referenced dokument: {}", referencedDokumentName);
+          if (isXmlFile(referencedDokumentName)) {
+            dokumenteToProcess.add(referencedDokumentName);
+          } else {
+            binaryFilesToProcess.add(referencedDokumentName);
+          }
+        });
+    }
 
-      log.debug(
-        "Parsed & validated Dokument {} now looking for referenced dokuments in it",
-        dokument.getManifestationEli()
+    Map<String, BinaryFile> binaryFiles = new HashMap<>();
+
+    while (!binaryFilesToProcess.isEmpty()) {
+      String binaryFileName = binaryFilesToProcess.poll();
+      log.debug("Processing BinaryFile: {}", binaryFileName);
+      var binaryFile = parseAndValidateBinaryFile(
+        normManifestationEli,
+        binaryFileName,
+        files.get(binaryFileName)
       );
+      log.debug("Parsed & validated BinaryFile: {}", binaryFileName);
+      binaryFiles.put(binaryFileName, binaryFile);
+    }
 
-      dokumenteToProcess.addAll(
-        dokument
-          .getReferencedDokumenteNames()
-          .stream()
-          // check if we already know about the referenced dokument
-          .filter(Predicate.not(dokumente::containsKey))
-          .filter(Predicate.not(dokumenteToProcess::contains))
-          .filter(referencedDokumentName -> {
-            if (isXmlFile(referencedDokumentName)) {
-              return true;
-            }
-            log.debug(
-              "Ignore referenced dokument {} as it is not an xml document.",
-              referencedDokumentName
-            );
-            return false;
-          })
-          .filter(referencedDokumentName -> {
-            if (files.containsKey(referencedDokumentName)) {
-              return true;
-            }
-            throw new MissingReferencedDokumentException(referencedDokumentName);
-          })
-          .peek(referencedDokumentName ->
-            log.debug("Found new referenced dokument {}", referencedDokumentName)
-          )
-          .collect(Collectors.toSet())
+    files
+      .keySet()
+      .stream()
+      .filter(fileName -> !dokumente.containsKey(fileName) && !binaryFiles.containsKey(fileName))
+      .forEach(fileName -> log.debug("Ignored file: {}", fileName));
+
+    return new Norm(
+      NormPublishState.UNPUBLISHED,
+      new HashSet<>(dokumente.values()),
+      new HashSet<>(binaryFiles.values())
+    );
+  }
+
+  private BinaryFile parseAndValidateBinaryFile(
+    NormManifestationEli normManifestationEli,
+    String binaryFileName,
+    byte[] file
+  ) {
+    var mimeType = MediaTypeFactory.getMediaType(binaryFileName).orElseThrow();
+
+    if (SUPPORTED_MIME_TYPES.stream().noneMatch(mimeType::isCompatibleWith)) {
+      throw new UnsupportedFileTypeException(binaryFileName);
+    }
+
+    return new BinaryFile(
+      DokumentManifestationEli.fromNormEli(
+        normManifestationEli,
+        binaryFileName.split("\\.")[0],
+        binaryFileName.split("\\.")[1]
+      ),
+      file
+    );
+  }
+
+  private Dokument parseAndValidateDokument(
+    @Nullable NormManifestationEli normManifestationEli,
+    String dokumentName,
+    byte[] file
+  ) {
+    Dokument dokument =
+      switch (dokumentName.split("-")[0]) {
+        case "rechtsetzungsdokument" -> ldmlDeValidator.parseAndValidateRechtsetzungsdokument(
+          new String(file)
+        );
+        case "regelungstext" -> ldmlDeValidator.parseAndValidateRegelungstext(new String(file));
+        case "offenestruktur" -> ldmlDeValidator.parseAndValidateOffeneStruktur(new String(file));
+        case "bekanntmachungstext" -> ldmlDeValidator.parseAndValidateBekanntmachung(
+          new String(file)
+        );
+        default -> throw new InvalidDokumentTypeException(dokumentName);
+      };
+
+    if (!dokument.getManifestationEli().getSubtype().equals(dokumentName.split("\\.")[0])) {
+      throw new MismatchBetweenFilenameAndSubtypeException(
+        dokumentName,
+        dokument.getManifestationEli()
       );
     }
 
-    return new HashSet<>(dokumente.values());
-  }
+    if (
+      normManifestationEli != null &&
+      !dokument.getManifestationEli().asNormEli().equals(normManifestationEli)
+    ) {
+      throw new InconsistentEliException(
+        dokumentName,
+        normManifestationEli,
+        dokument.getManifestationEli().asNormEli()
+      );
+    }
 
-  private Dokument parseAndValidateDokument(String dokumentName, byte[] file) {
-    return switch (dokumentName.split("-")[0]) {
-      case "rechtsetzungsdokument" -> ldmlDeValidator.parseAndValidateRechtsetzungsdokument(
-        new String(file)
-      );
-      case "regelungstext" -> ldmlDeValidator.parseAndValidateRegelungstext(new String(file));
-      case "offenestruktur" -> ldmlDeValidator.parseAndValidateOffeneStruktur(new String(file));
-      case "bekanntmachungstext" -> ldmlDeValidator.parseAndValidateBekanntmachung(
-        new String(file)
-      );
-      default -> throw new InvalidDokumentTypeException(dokumentName);
-    };
+    return dokument;
   }
 
   private boolean isXmlFile(String dokumentName) {
