@@ -71,6 +71,7 @@ dependencies {
     implementation(platform(libs.aws.bom))
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
+    implementation(libs.tika.core)
 
     compileOnly(libs.lombok)
 

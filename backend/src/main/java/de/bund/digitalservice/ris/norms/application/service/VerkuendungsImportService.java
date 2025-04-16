@@ -26,6 +26,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationE
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.ZipUtils;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,9 +42,7 @@ import org.jobrunr.scheduling.JobBuilder;
 import org.jobrunr.scheduling.JobScheduler;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MimeType;
 
 /**
  * Service for importing normendokumentationspakete as new verkündungen.
@@ -66,8 +65,9 @@ public class VerkuendungsImportService
   private final LdmlDeValidator ldmlDeValidator;
   private final JobScheduler jobScheduler;
   private final ObjectMapper objectMapper;
+  private final MediaTypeService mediaTypeService;
 
-  static final List<MimeType> SUPPORTED_MIME_TYPES = List.of(
+  static final List<MediaType> SUPPORTED_MEDIA_TYPES = List.of(
     MediaType.APPLICATION_XML,
     MediaType.APPLICATION_PDF,
     MediaType.IMAGE_JPEG,
@@ -87,7 +87,8 @@ public class VerkuendungsImportService
     UpdateOrSaveVerkuendungPort updateOrSaveVerkuendungPort,
     LdmlDeValidator ldmlDeValidator,
     JobScheduler jobScheduler,
-    ObjectMapper objectMapper
+    ObjectMapper objectMapper,
+    MediaTypeService mediaTypeService
   ) {
     this.loadNormPort = loadNormPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -99,6 +100,7 @@ public class VerkuendungsImportService
     this.ldmlDeValidator = ldmlDeValidator;
     this.jobScheduler = jobScheduler;
     this.objectMapper = objectMapper;
+    this.mediaTypeService = mediaTypeService;
   }
 
   @Override
@@ -250,12 +252,18 @@ public class VerkuendungsImportService
     return norm;
   }
 
-  private void validateFileIsZipArchive(Resource file) {
-    // TODO: (Malte Laukötter, 2025-04-09) use mimetype guessing (based on file content) as the filename is given by us and also less secure to use anyway
-    return;
+  private void validateFileIsZipArchive(Resource file) throws IOException {
+    var mediaType = mediaTypeService.detectMediaType(file.getInputStream());
+
+    if (
+      mediaType.isEmpty() ||
+      !mediaType.get().isCompatibleWith(MediaType.parseMediaType("application/zip"))
+    ) {
+      throw new NotAZipFileException();
+    }
   }
 
-  private Norm findParseAndValidateFilesAsNorm(Map<String, byte[]> files) {
+  private Norm findParseAndValidateFilesAsNorm(Map<String, byte[]> files) throws IOException {
     if (!files.containsKey(RECHTSETZUNGSDOKUMENT_FILENAME)) {
       throw new MissingRechtsetzungsdokumentException();
     }
@@ -336,10 +344,12 @@ public class VerkuendungsImportService
     NormManifestationEli normManifestationEli,
     String binaryFileName,
     byte[] file
-  ) {
-    var mimeType = MediaTypeFactory.getMediaType(binaryFileName).orElseThrow();
+  ) throws IOException {
+    var mediaType = mediaTypeService
+      .detectMediaType(new ByteArrayInputStream(file))
+      .orElseThrow(() -> new UnsupportedFileTypeException(binaryFileName));
 
-    if (SUPPORTED_MIME_TYPES.stream().noneMatch(mimeType::isCompatibleWith)) {
+    if (SUPPORTED_MEDIA_TYPES.stream().noneMatch(mediaType::isCompatibleWith)) {
       throw new UnsupportedFileTypeException(binaryFileName);
     }
 
@@ -393,8 +403,8 @@ public class VerkuendungsImportService
   }
 
   private boolean isXmlFile(String dokumentName) {
-    return MediaTypeFactory
-      .getMediaType(dokumentName)
+    return mediaTypeService
+      .detectMediaType(dokumentName)
       .map(type -> type.equalsTypeAndSubtype(MediaType.APPLICATION_XML))
       .orElse(false);
   }

@@ -35,6 +35,7 @@ import java.util.UUID;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.apache.tika.exception.TikaException;
 import org.jetbrains.annotations.NotNull;
 import org.jobrunr.scheduling.JobScheduler;
 import org.junit.jupiter.api.BeforeAll;
@@ -77,18 +78,16 @@ class VerkuendungsImportServiceTest {
     updateOrSaveVerkuendungPort,
     Fixtures.getLdmlDeValidator(),
     jobScheduler,
-    objectMapper
+    objectMapper,
+    new MediaTypeService()
   );
+
+  VerkuendungsImportServiceTest() throws TikaException, IOException {}
 
   @BeforeAll
   static void beforeAll() {
-    ch.qos.logback.classic.Logger logger = (Logger) LoggerFactory.getLogger(
-      VerkuendungsImportService.class
-    );
-    logger.setLevel(Level.DEBUG);
-
-    ch.qos.logback.classic.Logger logger2 = (Logger) LoggerFactory.getLogger(ZipUtils.class);
-    logger2.setLevel(Level.DEBUG);
+    ((Logger) LoggerFactory.getLogger(VerkuendungsImportService.class)).setLevel(Level.DEBUG);
+    ((Logger) LoggerFactory.getLogger(ZipUtils.class)).setLevel(Level.DEBUG);
   }
 
   @Test
@@ -177,7 +176,7 @@ class VerkuendungsImportServiceTest {
             assertThat(command.norm().getManifestationEli())
               .hasToString("eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27");
             assertThat(command.norm().getDokumente()).hasSize(2);
-            assertThat(command.norm().getBinaryFiles()).hasSize(1);
+            assertThat(command.norm().getBinaryFiles()).isEmpty();
           })
         );
 

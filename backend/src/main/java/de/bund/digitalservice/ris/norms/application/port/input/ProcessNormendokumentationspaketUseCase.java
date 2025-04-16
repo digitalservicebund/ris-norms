@@ -45,8 +45,8 @@ public interface ProcessNormendokumentationspaketUseCase {
    */
   class NotAZipFileException extends NormendokumentationspaketImportFailedException {
 
-    public NotAZipFileException(String message) {
-      super(message);
+    public NotAZipFileException() {
+      super("The uploaded file is not a zip file");
     }
 
     @Override
