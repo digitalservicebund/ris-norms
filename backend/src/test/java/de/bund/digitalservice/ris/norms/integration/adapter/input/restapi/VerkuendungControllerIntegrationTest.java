@@ -111,7 +111,7 @@ class VerkuendungControllerIntegrationTest extends BaseS3MockIntegrationTest {
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.verkuendungStatus").value("error"))
+        .andExpect(jsonPath("$.status").value("error"))
         .andExpect(jsonPath("$.type").value("/errors/job-run-failed"))
         .andExpect(
           jsonPath("$.title")

@@ -43,7 +43,7 @@ class VerkuendungStatusMapperTest {
       );
     assertThat(verkuendungStatusResponseSchema)
       .isInstanceOf(VerkuendungStatusErrorResponseSchema.class);
-    assertThat(verkuendungStatusResponseSchema.verkuendungStatus()).isEqualTo("error");
+    assertThat(verkuendungStatusResponseSchema.status()).isEqualTo("error");
     assertThat(verkuendungStatusResponseSchema.type()).isEqualTo("/errors/job-run-failed");
     assertThat(verkuendungStatusResponseSchema.title())
       .isEqualTo("Tried to import a Normendokumentationspacket the max amount of times but failed");
