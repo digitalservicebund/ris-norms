@@ -291,7 +291,7 @@ components:
       required:
         - type
         - file
-        - message
+        - details
         - line
         - column
       properties:
@@ -303,15 +303,15 @@ components:
           type: string
           description: Name der Datei, in der der Fehler gefunden wurde.
           example: regelungstext-1.xml
-        message:
+        details:
           type: string
           description: Die Fehlermeldung des XSD-Parsers.
           example: "cvc-complex-type.2.4.a: Invalid content was found starting with element 'author'."
-        line:
+        lineNumber:
           type: integer
           description: Zeilennummer des Fehlers im XML.
           example: 23
-        column:
+        columnNumber:
           type: integer
           description: Spaltennummer des Fehlers im XML.
           example: 14
@@ -321,7 +321,7 @@ components:
       required:
         - type
         - file
-        - message
+        - details
         - xpath
         - eId
       properties:
@@ -333,7 +333,7 @@ components:
           type: string
           description: Name der Datei, in der der Fehler gefunden wurde.
           example: regelungstext-1.xml
-        message:
+        details:
           type: string
           description: Die vom Schematron ausgelöste Fehlermeldung.
           example: Missing required attribute 'value' on <akn:FRBRthis>.
