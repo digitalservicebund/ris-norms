@@ -108,13 +108,13 @@ public abstract sealed class Dokument
    * @return the created and sorted list of {@link Zeitgrenze} with the generated ids
    */
   public List<Zeitgrenze> setZeitgrenzen(final List<Zeitgrenze> zeitgrenzen) {
-    if (zeitgrenzen != null && !zeitgrenzen.isEmpty()) {
-      final Proprietary proprietary = getMeta().getOrCreateProprietary();
-      final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
-      return customModsMetadata.updateZeitgrenzen(zeitgrenzen);
-    } else {
-      return zeitgrenzen;
+    final Proprietary proprietary = getMeta().getOrCreateProprietary();
+    final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
+    final List<Zeitgrenze> updatedZeitgrenzen = customModsMetadata.updateZeitgrenzen(zeitgrenzen);
+    if (!customModsMetadata.getElement().hasChildNodes()) {
+      document.removeChild(customModsMetadata.getElement());
     }
+    return updatedZeitgrenzen;
   }
 
   /**

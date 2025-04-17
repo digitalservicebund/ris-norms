@@ -6,11 +6,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class CustomModsMetadataTest {
 
@@ -290,6 +293,12 @@ class CustomModsMetadataTest {
       final List<Zeitgrenze> newlyRetrievedZeitgrenzen = customModsMetadata.getZeitgrenzen();
       assertThat(updatedZeitgrenzen).isEmpty();
       assertThat(newlyRetrievedZeitgrenzen).isEmpty();
+
+      final Optional<Node> geltunsZeitenNode = NodeParser.getNodeFromExpression(
+        "./geltungszeiten",
+        customModsMetadata.getElement()
+      );
+      assertThat(geltunsZeitenNode).isNotPresent();
     }
 
     @Test

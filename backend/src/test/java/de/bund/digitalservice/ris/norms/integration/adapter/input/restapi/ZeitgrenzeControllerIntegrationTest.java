@@ -47,7 +47,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
   class getZeitgrenzen {
 
     @Test
-    void itCallsGetTimeBoundariesAndReturns404() throws Exception {
+    void itCallsGetZeitgrenzenAndReturns404() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist";
 
@@ -326,7 +326,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itCallsUpdateTimeBoundariesAddAndDeleteAndEdit() throws Exception {
+    void itCallsUpdateZeitgrenzenAddAndDeleteAndEdit() throws Exception {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
@@ -384,6 +384,45 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
           tuple("gz-2", LocalDate.parse("2024-01-01"), Zeitgrenze.Art.AUSSERKRAFT),
           tuple("gz-3", LocalDate.parse("2025-01-01"), Zeitgrenze.Art.INKRAFT)
         );
+    }
+
+    @Test
+    void itCallsUpdateZeitgrenzenWithEmptyList() throws Exception {
+      // Given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
+
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+      assertThat(regelungstext.getZeitgrenzen())
+        .hasSize(1)
+        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
+        .containsExactlyInAnyOrder(
+          tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+        );
+      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
+
+      // When
+      // Then
+      mockMvc
+        .perform(
+          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("[]")
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$", hasSize(0)));
+
+      final Optional<DokumentDto> loadedFromDb =
+        dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
+          eli.toString()
+        );
+      assertThat(loadedFromDb).isPresent();
+      final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
+      assertThat(dokument.getZeitgrenzen()).isEmpty();
     }
   }
 }

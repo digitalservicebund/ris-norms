@@ -9,12 +9,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.Getter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
  * Class representing the norms-application-only metadata
  */
+@Getter
 public class CustomModsMetadata {
 
   private final Element element;
@@ -95,11 +97,6 @@ public class CustomModsMetadata {
    * @return the created list of {@link Zeitgrenze} including the ids
    */
   public List<Zeitgrenze> updateZeitgrenzen(final List<Zeitgrenze> zeitgrenzen) {
-    final List<Zeitgrenze> sortedZeitgrenzen = zeitgrenzen
-      .stream()
-      .sorted(Comparator.comparing(Zeitgrenze::getDate))
-      .toList();
-
     final Optional<Node> geltunsZeitenNode = NodeParser.getNodeFromExpression(
       "./geltungszeiten",
       element
@@ -114,14 +111,25 @@ public class CustomModsMetadata {
       }
     }
 
-    for (int i = 0; i < sortedZeitgrenzen.size(); i++) {
-      final Zeitgrenze zeitgrenze = sortedZeitgrenzen.get(i);
-      final String generatedId = "gz-" + (i + 1);
+    if (zeitgrenzen != null && !zeitgrenzen.isEmpty()) {
+      final List<Zeitgrenze> sortedZeitgrenzen = zeitgrenzen
+        .stream()
+        .sorted(Comparator.comparing(Zeitgrenze::getDate))
+        .toList();
+      for (int i = 0; i < sortedZeitgrenzen.size(); i++) {
+        final Zeitgrenze zeitgrenze = sortedZeitgrenzen.get(i);
+        final String generatedId = "gz-" + (i + 1);
 
-      final Element geltungszeit = NodeCreator.createElement("geltungszeit", geltungszeitenElement);
-      geltungszeit.setAttribute("id", generatedId);
-      geltungszeit.setAttribute("art", zeitgrenze.getArt().name().toLowerCase());
-      geltungszeit.setTextContent(zeitgrenze.getDate().toString());
+        final Element geltungszeit = NodeCreator.createElement(
+          "geltungszeit",
+          geltungszeitenElement
+        );
+        geltungszeit.setAttribute("id", generatedId);
+        geltungszeit.setAttribute("art", zeitgrenze.getArt().name().toLowerCase());
+        geltungszeit.setTextContent(zeitgrenze.getDate().toString());
+      }
+    } else {
+      geltungszeitenElement.getParentNode().removeChild(geltungszeitenElement);
     }
     return getZeitgrenzen();
   }
