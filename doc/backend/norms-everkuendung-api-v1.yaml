@@ -278,3 +278,70 @@ components:
         detail:
           type: string
           description: Menschenlesbare Details zur Ursache des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
+        errors:
+          type: array
+          description: Eine Liste strukturierter Validierungsfehler aus XSD oder Schematron.
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/XsdValidationError"
+              - $ref: "#/components/schemas/SchematronValidationError"
+    XsdValidationError:
+      type: object
+      description: Fehler bei der XSD-Validierung eines XML-Dokuments
+      required:
+        - type
+        - file
+        - message
+        - line
+        - column
+      properties:
+        type:
+          type: string
+          enum: [xsd]
+          example: xsd
+        file:
+          type: string
+          description: Name der Datei, in der der Fehler gefunden wurde.
+          example: regelungstext-1.xml
+        message:
+          type: string
+          description: Die Fehlermeldung des XSD-Parsers.
+          example: "cvc-complex-type.2.4.a: Invalid content was found starting with element 'author'."
+        line:
+          type: integer
+          description: Zeilennummer des Fehlers im XML.
+          example: 23
+        column:
+          type: integer
+          description: Spaltennummer des Fehlers im XML.
+          example: 14
+    SchematronValidationError:
+      type: object
+      description: Fehler bei der Schematron-Validierung eines XML-Dokuments
+      required:
+        - type
+        - file
+        - message
+        - xpath
+        - eId
+      properties:
+        type:
+          type: string
+          enum: [schematron]
+          example: schematron
+        file:
+          type: string
+          description: Name der Datei, in der der Fehler gefunden wurde.
+          example: regelungstext-1.xml
+        message:
+          type: string
+          description: Die vom Schematron ausgelöste Fehlermeldung.
+          example: Missing required attribute 'value' on <akn:FRBRthis>.
+        xpath:
+          type: string
+          description: XPath zur fehlerverursachenden Node.
+          example: /akn:akomaNtoso/akn:act/akn:meta/akn:identification/akn:FRBRWork/akn:FRBRthis/@value
+        eId:
+          type: string
+          description: Eindeutiger Identifier der Node.
+          example: meta-1_ident-1_frbrwork-1_frbrthis-1
