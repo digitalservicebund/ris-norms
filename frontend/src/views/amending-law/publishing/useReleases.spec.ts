@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { nextTick, ref } from "vue"
-import * as announcementReleaseService from "@/services/releaseService"
+import * as verkuendungReleaseService from "@/services/releaseService"
 import type { Release } from "@/types/release"
 import type { UseFetchReturn } from "@vueuse/core"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
@@ -20,11 +20,11 @@ describe("useReleases", () => {
     }
     const dataRef = ref<Release[]>([])
 
-    vi.spyOn(announcementReleaseService, "useGetReleases").mockReturnValue({
+    vi.spyOn(verkuendungReleaseService, "useGetReleases").mockReturnValue({
       data: dataRef,
     } as UseFetchReturn<Release[]>)
 
-    vi.spyOn(announcementReleaseService, "usePostRelease").mockReturnValue({
+    vi.spyOn(verkuendungReleaseService, "usePostRelease").mockReturnValue({
       data: ref(),
     } as UseFetchReturn<Release>)
 
@@ -53,7 +53,7 @@ describe("useReleases", () => {
     }
 
     const getDataRef = ref<Release[]>([])
-    vi.spyOn(announcementReleaseService, "useGetReleases").mockReturnValue({
+    vi.spyOn(verkuendungReleaseService, "useGetReleases").mockReturnValue({
       data: getDataRef,
       execute: vi.fn().mockImplementation(() => {
         getDataRef.value = [newRelease]
@@ -61,7 +61,7 @@ describe("useReleases", () => {
     } as unknown as UseFetchReturn<Release[]>)
 
     const dataRef = ref<Release | null>(null)
-    vi.spyOn(announcementReleaseService, "usePostRelease").mockReturnValue({
+    vi.spyOn(verkuendungReleaseService, "usePostRelease").mockReturnValue({
       data: dataRef,
       execute: vi.fn().mockImplementation(() => {
         dataRef.value = newRelease

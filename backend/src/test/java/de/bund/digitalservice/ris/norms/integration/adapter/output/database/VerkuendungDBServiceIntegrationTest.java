@@ -3,15 +3,15 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.VerkuendungMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
-import de.bund.digitalservice.ris.norms.adapter.output.database.service.AnnouncementDBService;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveAnnouncementPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.service.VerkuendungDBService;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungByNormEliPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveVerkuendungPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.Instant;
@@ -23,13 +23,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class AnnouncementDBServiceIntegrationTest extends BaseIntegrationTest {
+class VerkuendungDBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
-  private AnnouncementDBService announcementDBService;
+  private VerkuendungDBService verkuendungDBService;
 
   @Autowired
-  private AnnouncementRepository announcementRepository;
+  private VerkuendungRepository verkuendungRepository;
 
   @Autowired
   private DokumentRepository dokumentRepository;
@@ -37,40 +37,39 @@ class AnnouncementDBServiceIntegrationTest extends BaseIntegrationTest {
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
-    announcementRepository.deleteAll();
+    verkuendungRepository.deleteAll();
   }
 
   @Test
-  void itFindsAnnouncementOnDB() {
+  void itFindsVerkuendungOnDB() {
     // Given
     var norm = Fixtures.loadNormFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
     dokumentRepository.save(DokumentMapper.mapToDto(norm.getRegelungstext1()));
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
-    announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+    var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
+    verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
     // When
-    final Optional<Announcement> announcementOptional =
-      announcementDBService.loadAnnouncementByNormEli(
-        new LoadAnnouncementByNormEliPort.Command(
-          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
-        )
-      );
+    final Optional<Verkuendung> verkuendungOptional = verkuendungDBService.loadVerkuendungByNormEli(
+      new LoadVerkuendungByNormEliPort.Command(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+      )
+    );
 
     // Then
-    assertThat(announcementOptional)
+    assertThat(verkuendungOptional)
       .get()
       .usingRecursiveComparison()
       .ignoringFields("importTimestamp")
-      .isEqualTo(announcement);
+      .isEqualTo(verkuendung);
 
-    assertThat(announcementOptional.get().getImportTimestamp())
+    assertThat(verkuendungOptional.get().getImportTimestamp())
       .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES));
   }
 
   @Test
-  void itLoadsAllAnnouncementsFromDB() {
+  void itLoadsAllVerkuendungenFromDB() {
     // Given
     dokumentRepository.save(
       DokumentMapper.mapToDto(
@@ -87,28 +86,28 @@ class AnnouncementDBServiceIntegrationTest extends BaseIntegrationTest {
       )
     );
 
-    var announcement1 = Announcement
+    var verkuendung1 = Verkuendung
       .builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
       .build();
-    announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
-    var announcement2 = Announcement
+    verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung1));
+    var verkuendung2 = Verkuendung
       .builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
       .build();
-    announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
+    verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung2));
 
     // When
-    final List<Announcement> announcements = announcementDBService.loadAllAnnouncements();
+    final List<Verkuendung> verkuendungs = verkuendungDBService.loadAllVerkuendungen();
 
     // Then
-    assertThat(announcements)
+    assertThat(verkuendungs)
       .usingRecursiveFieldByFieldElementComparatorIgnoringFields("importTimestamp")
-      .containsExactly(announcement2, announcement1);
+      .containsExactly(verkuendung2, verkuendung1);
   }
 
   @Test
-  void itCreatesNewAnnouncement() {
+  void itCreatesNewVerkuendung() {
     // Given
     dokumentRepository.save(
       DokumentMapper.mapToDto(
@@ -117,22 +116,22 @@ class AnnouncementDBServiceIntegrationTest extends BaseIntegrationTest {
         )
       )
     );
-    var announcement = Announcement
+    var verkuendung = Verkuendung
       .builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
       .build();
 
     // When
-    var announcementFromDatabase = announcementDBService.updateOrSaveAnnouncement(
-      new UpdateOrSaveAnnouncementPort.Command(announcement)
+    var verkuendungFromDatabase = verkuendungDBService.updateOrSaveVerkuendung(
+      new UpdateOrSaveVerkuendungPort.Command(verkuendung)
     );
 
     // Then
-    assertThat(announcementFromDatabase)
+    assertThat(verkuendungFromDatabase)
       .usingRecursiveComparison()
       .ignoringFields("importTimestamp")
-      .isEqualTo(announcement);
-    assertThat(announcementFromDatabase.getImportTimestamp())
+      .isEqualTo(verkuendung);
+    assertThat(verkuendungFromDatabase.getImportTimestamp())
       .isNotNull()
       .isCloseTo(Instant.now(), within(1, ChronoUnit.MINUTES));
   }

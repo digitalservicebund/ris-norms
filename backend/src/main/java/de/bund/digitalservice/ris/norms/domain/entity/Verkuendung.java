@@ -7,13 +7,13 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 /**
- * Class representing an announcement entity. This class is annotated with Lombok annotations for
+ * Class representing an Verkuendung entity. This class is annotated with Lombok annotations for
  * generating getters, setters, constructors, and builder methods.
  */
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @Data
-public class Announcement {
+public class Verkuendung {
 
   private NormExpressionEli eli;
 

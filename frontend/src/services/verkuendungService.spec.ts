@@ -2,13 +2,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest"
 import { ref } from "vue"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
-describe("announcementService", () => {
+describe("verkuendungService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
   })
 
-  describe("useAnnouncements()", () => {
+  describe("useVerkuendungen()", () => {
     it("provides the data from the api", async () => {
       const mockData = [
         {
@@ -43,11 +43,11 @@ describe("announcementService", () => {
         }),
       }))
 
-      const { useAnnouncementsService } = await import(
-        "@/services/announcementService"
+      const { useVerkuendungenService } = await import(
+        "@/services/verkuendungService"
       )
 
-      const result = useAnnouncementsService()
+      const result = useVerkuendungenService()
 
       const data = result.data.value!
 
@@ -61,9 +61,9 @@ describe("announcementService", () => {
     })
   })
 
-  describe("useGetAnnouncementService()", () => {
-    it("fetches a specific announcement by its ELI", async () => {
-      const mockAnnouncement = {
+  describe("useGetVerkuendungService()", () => {
+    it("fetches a specific verkuendung by its ELI", async () => {
+      const mockVerkuendung = {
         eli: "eli/bund/bgbl-1/2025/s65/2025-02-27/1/deu/regelungstext-1",
         title: "Gesetz zur Anpassung des Mutterschutzgesetzes",
         frbrDateVerkuendung: "2025-02-27",
@@ -73,9 +73,9 @@ describe("announcementService", () => {
       }
 
       const useApiFetch = vi.fn().mockReturnValue({
-        data: ref(mockAnnouncement),
+        data: ref(mockVerkuendung),
         json: vi.fn().mockReturnValue({
-          data: ref(mockAnnouncement),
+          data: ref(mockVerkuendung),
           error: ref(null),
           isFetching: ref(false),
           isFinished: ref(true),
@@ -84,8 +84,8 @@ describe("announcementService", () => {
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useGetAnnouncementService } = await import(
-        "@/services/announcementService"
+      const { useGetVerkuendungService } = await import(
+        "@/services/verkuendungService"
       )
 
       const eliString =
@@ -94,9 +94,9 @@ describe("announcementService", () => {
         NormExpressionEli.fromString(eliString),
       )
 
-      const { data } = useGetAnnouncementService(eli)
+      const { data } = useGetVerkuendungService(eli)
 
-      expect(data.value).toEqual(mockAnnouncement)
+      expect(data.value).toEqual(mockVerkuendung)
       expect(data.value?.title).toBe(
         "Gesetz zur Anpassung des Mutterschutzgesetzes",
       )
@@ -109,7 +109,7 @@ describe("announcementService", () => {
   })
 
   describe("useZielnormen()", () => {
-    it("fetches zielnormen for a specific announcement ELI", async () => {
+    it("fetches zielnormen for a specific verkuendung ELI", async () => {
       const mockZielnormen = [
         {
           eli: "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-1",
@@ -135,9 +135,7 @@ describe("announcementService", () => {
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useGetZielnormen } = await import(
-        "@/services/announcementService"
-      )
+      const { useGetZielnormen } = await import("@/services/verkuendungService")
 
       const eli = ref(
         NormExpressionEli.fromString(

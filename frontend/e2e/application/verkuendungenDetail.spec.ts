@@ -30,30 +30,30 @@ test.describe("navigate and test content", { tag: ["@RISDEV-6942"] }, () => {
         .first(),
     ).toBeVisible()
 
-    const announcementSection = page.getByRole("region", {
+    const verkuendungSection = page.getByRole("region", {
       name: "Verkündungs-Details",
     })
 
     await expect(
-      announcementSection.getByText("Veröffentlichungsdatum"),
+      verkuendungSection.getByText("Veröffentlichungsdatum"),
     ).toBeVisible()
-    await expect(announcementSection.getByText("15.03.2017")).toBeVisible()
+    await expect(verkuendungSection.getByText("15.03.2017")).toBeVisible()
 
     await expect(
-      announcementSection.getByText("Ausfertigungsdatum"),
+      verkuendungSection.getByText("Ausfertigungsdatum"),
     ).toBeVisible()
-    await expect(announcementSection.getByText("01.01.1900")).toBeVisible()
+    await expect(verkuendungSection.getByText("01.01.1900")).toBeVisible()
     await expect(
-      announcementSection.getByText("Datenlieferungsdatum"),
+      verkuendungSection.getByText("Datenlieferungsdatum"),
     ).toBeVisible()
     await expect(
-      announcementSection.getByText("19.03.2025, 23:52"),
+      verkuendungSection.getByText("19.03.2025, 23:52"),
     ).toBeVisible()
-    await expect(announcementSection.getByText("FNA")).toBeVisible()
-    await expect(announcementSection.getByText("nicht-vorhanden")).toBeVisible()
+    await expect(verkuendungSection.getByText("FNA")).toBeVisible()
+    await expect(verkuendungSection.getByText("nicht-vorhanden")).toBeVisible()
   })
 
-  test("should redirect to 404 page when announcement returns 404", async ({
+  test("should redirect to 404 page when verkuendung returns 404", async ({
     page,
   }) => {
     await page.route(
@@ -94,7 +94,7 @@ test.describe("navigate and test content", { tag: ["@RISDEV-6942"] }, () => {
         }),
     )
 
-    // Navigate to the announcement
+    // Navigate to the verkuendung
     await page.goto(
       "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     )

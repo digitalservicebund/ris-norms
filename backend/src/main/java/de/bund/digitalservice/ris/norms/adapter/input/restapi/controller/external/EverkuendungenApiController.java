@@ -17,12 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 /** Controller for verkuendungen-related actions. */
 @RestController
 @RequestMapping("/api/v1/external/verkuendungen")
-public class VerkuendungController {
+public class EverkuendungenApiController {
 
   private final StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase;
   private final LoadNormendokumentationspacketProcessingStatusUseCase statusService;
 
-  public VerkuendungController(
+  public EverkuendungenApiController(
     StoreNormendokumentationspaketUseCase storeNormendokumentationspaketUseCase,
     LoadNormendokumentationspacketProcessingStatusUseCase loadNormendokumentationspacketProcessingStatusUseCase
   ) {

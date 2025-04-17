@@ -15,18 +15,18 @@ describe("risEmptyState", () => {
 
   it("should render the recommended action", () => {
     render(RisEmptyState, {
-      props: { textContent: "No announcements available" },
-      slots: { recommendedAction: "Add new announcements" },
+      props: { textContent: "No verkuendungen available" },
+      slots: { recommendedAction: "Add new verkuendungen" },
     })
 
-    expect(screen.getByText("No announcements available")).toBeInTheDocument()
-    expect(screen.getByText("Add new announcements")).toBeInTheDocument()
+    expect(screen.getByText("No verkuendungen available")).toBeInTheDocument()
+    expect(screen.getByText("Add new verkuendungen")).toBeInTheDocument()
   })
 
   it("should render the icon", () => {
     render(RisEmptyState, {
       props: {
-        textContent: "No announcements available",
+        textContent: "No verkuendungen available",
         icon: markRaw(UploadFileOutlineRounded),
       },
     })
@@ -36,7 +36,7 @@ describe("risEmptyState", () => {
 
   it("should detect the simple variant based on the props", () => {
     render(RisEmptyState, {
-      props: { textContent: "No announcements available" },
+      props: { textContent: "No verkuendungen available" },
     })
 
     expect(screen.getByTestId("empty-state")).toHaveAttribute(
@@ -48,10 +48,10 @@ describe("risEmptyState", () => {
   it("should detect the extended variant based on the props", () => {
     render(RisEmptyState, {
       props: {
-        textContent: "No announcements available",
+        textContent: "No verkuendungen available",
         icon: markRaw(UploadFileOutlineRounded),
       },
-      slots: { recommendedAction: "Add new announcements" },
+      slots: { recommendedAction: "Add new verkuendungen" },
     })
 
     expect(screen.getByTestId("empty-state")).toHaveAttribute(

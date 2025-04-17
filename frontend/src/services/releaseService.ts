@@ -16,9 +16,9 @@ function useReleaseService<T>(
 }
 
 /**
- * Get the releases of a specific announcement by eli.
+ * Get the releases of a specific verkuendung by eli.
  *
- * @param eli Eli of the norm associated with the announcement
+ * @param eli Eli of the norm associated with the verkuendung
  */
 export function useGetReleases(
   eli: MaybeRefOrGetter<NormExpressionEli>,
@@ -29,9 +29,9 @@ export function useGetReleases(
 }
 
 /**
- * Release the latest release of a specific announcement by eli.
+ * Release the latest release of a specific verkuendung by eli.
  *
- * @param eli Eli of the norm associated with the announcement
+ * @param eli Eli of the norm associated with the verkuendung
  */
 export function usePostRelease(
   eli: MaybeRefOrGetter<NormExpressionEli>,

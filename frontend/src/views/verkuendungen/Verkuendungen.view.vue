@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useAnnouncementsService } from "@/services/announcementService"
+import { useVerkuendungenService } from "@/services/verkuendungService"
 import Button from "primevue/button"
 import Message from "primevue/message"
 import { RouterLink } from "vue-router"
 import RisVerkuendungListItem from "./RisVerkuendungListItem.vue"
 
-const { isFetching, error, data: amendingLaws } = useAnnouncementsService()
+const { isFetching, error, data: amendingLaws } = useVerkuendungenService()
 </script>
 
 <template>

@@ -2,17 +2,17 @@ openapi: 3.0.0
 info:
   title: RIS-Norms API
   version: 1.0.0
-  description: API for managing norms and announcements
+  description: API for managing norms and verkuendungen
 
 paths:
   /verkuendungen:
     get:
       tags:
-        - Announcements
-      summary: Get a list of all announcements
+        - Verkuendungen
+      summary: Get a list of all verkuendungen
       responses:
         "200":
-          description: List of announcements
+          description: List of verkuendungen
           content:
             application/json:
               schema:
@@ -23,8 +23,8 @@ paths:
           $ref: "#/components/responses/InternalServerError"
     post:
       tags:
-        - Announcements
-      summary: Create a new announcement by uploading the XML of a norm
+        - Verkuendungen
+      summary: Create a new verkuendung by uploading the XML of a norm
       parameters:
         - name: force
           in: query
@@ -56,8 +56,8 @@ paths:
   /verkuendungen/{expressionEli}:
     get:
       tags:
-        - Announcements
-      summary: Get a specific announcement by its expression ELI
+        - Verkuendungen
+      summary: Get a specific verkuendung by its expression ELI
       parameters:
         - name: expressionEli
           in: path
@@ -66,7 +66,7 @@ paths:
             $ref: "#/components/schemas/DokumentExpressionEli"
       responses:
         "200":
-          description: Requested announcement
+          description: Requested verkuendung
           content:
             application/json:
               schema:
@@ -79,8 +79,8 @@ paths:
   /verkuendungen/{expressionEli}/zielnormen:
     get:
       tags:
-        - Announcements
-      summary: Get the zielnormen of a specific announcement
+        - Verkuendungen
+      summary: Get the zielnormen of a specific verkuendung
       parameters:
         - name: expressionEli
           in: path

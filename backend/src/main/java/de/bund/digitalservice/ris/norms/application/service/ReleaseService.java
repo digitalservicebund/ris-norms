@@ -6,10 +6,10 @@ import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedRele
 import de.bund.digitalservice.ris.norms.application.port.output.LoadReleasesByNormExpressionEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveReleasePort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
+import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -63,8 +63,8 @@ public class ReleaseService
    * <p></p>
    * NOTE: This is currently not taking care of updating the "nachfolgende-version-id".
    *
-   * @param query The query specifying the {@link Announcement} to be loaded.
-   * @return The information about the announcement published.
+   * @param query The query specifying the {@link Verkuendung} to be loaded.
+   * @return The information about the Verkuendung published.
    */
   @Override
   @Transactional

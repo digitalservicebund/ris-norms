@@ -1,12 +1,12 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungResponseSchema;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 
 /**
- * Mapper for creating a {@link VerkuendungResponseSchema} from an announcement and
+ * Mapper for creating a {@link VerkuendungResponseSchema} from an Verkuendung and
  * the announced {@link Norm}.
  */
 public class VerkuendungResponseMapper {
@@ -15,15 +15,15 @@ public class VerkuendungResponseMapper {
   private VerkuendungResponseMapper() {}
 
   /**
-   * Creates a {@link VerkuendungResponseSchema} instance from an announcement and
+   * Creates a {@link VerkuendungResponseSchema} instance from an Verkuendung and
    * the announced {@link Norm}.
    *
-   * @param announcement The input {@link Announcement} entity to be converted.
+   * @param verkuendung The input {@link Verkuendung} entity to be converted.
    * @param norm The input {@link Norm} entity to be converted.
    * @return A new {@link VerkuendungResponseSchema} instance mapped from the input {@link Norm}.
    */
   public static VerkuendungResponseSchema fromAnnouncedNorm(
-    final Announcement announcement,
+    final Verkuendung verkuendung,
     final Norm norm
   ) {
     return VerkuendungResponseSchema
@@ -43,7 +43,7 @@ public class VerkuendungResponseMapper {
           .getMetadataValue(Metadata.FNA)
           .orElse(null)
       )
-      .importedAt(announcement.getImportTimestamp())
+      .importedAt(verkuendung.getImportTimestamp())
       .build();
   }
 }

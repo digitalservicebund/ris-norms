@@ -5,25 +5,25 @@ import java.net.URI;
 import java.util.Map;
 import lombok.Getter;
 
-/** Indicates that the requested announcement does not exist. */
+/** Indicates that the requested verkuendung does not exist. */
 @Getter
-public class AnnouncementNotFoundException extends RuntimeException implements NormsAppException {
+public class VerkuendungNotFoundException extends RuntimeException implements NormsAppException {
 
   private final String eli;
 
-  public AnnouncementNotFoundException(final String eli) {
-    super("Announcement for norm with eli %s does not exist".formatted(eli));
+  public VerkuendungNotFoundException(final String eli) {
+    super("Verkuendung for norm with eli %s does not exist".formatted(eli));
     this.eli = eli;
   }
 
   @Override
   public URI getType() {
-    return URI.create("/errors/announcement-not-found");
+    return URI.create("/errors/verkuendung-not-found");
   }
 
   @Override
   public String getTitle() {
-    return "Announcement not found";
+    return "Verkuendung not found";
   }
 
   @Override

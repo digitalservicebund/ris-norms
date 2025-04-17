@@ -2,21 +2,21 @@ import { render, screen } from "@testing-library/vue"
 import { describe, expect, it } from "vitest"
 import RisVerkuendungHeader from "./RisVerkuendungHeader.vue"
 
-describe("risAnnouncementDetails", () => {
+describe("risVerkuendungDetails", () => {
   it("should render the title", () => {
     render(RisVerkuendungHeader, {
       props: {
-        title: "Test Announcement Title",
+        title: "Test Verkuendung Title",
       },
       global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
-    expect(screen.getByText("Test Announcement Title")).toBeInTheDocument()
+    expect(screen.getByText("Test Verkuendung Title")).toBeInTheDocument()
   })
 
-  it("should render all announcement details correctly", () => {
+  it("should render all verkuendung details correctly", () => {
     render(RisVerkuendungHeader, {
       props: {
-        title: "Test Announcement",
+        title: "Test Verkuendung",
         veroeffentlichungsdatum: "2025-02-27",
         ausfertigungsdatum: "2025-02-24",
         datenlieferungsdatum: "2025-02-24T08:12:00Z",

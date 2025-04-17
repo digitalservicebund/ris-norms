@@ -22,7 +22,7 @@ export const errorMessages = {
     message: `Die Norm "${e.eli}" existiert nicht.`,
   }),
 
-  "/errors/announcement-not-found": (e: ErrorResponse<{ eli: string }>) => ({
+  "/errors/verkuendung-not-found": (e: ErrorResponse<{ eli: string }>) => ({
     title: "Verkündung nicht gefunden",
     message: `Verkündung "${e.eli}" existiert nicht.`,
   }),

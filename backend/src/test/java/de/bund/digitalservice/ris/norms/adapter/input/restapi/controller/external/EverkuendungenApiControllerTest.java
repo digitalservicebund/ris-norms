@@ -25,8 +25,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SecurelessControllerTest(VerkuendungController.class)
-class VerkuendungControllerTest {
+@SecurelessControllerTest(EverkuendungenApiController.class)
+class EverkuendungenApiControllerTest {
 
   @Autowired
   private MockMvc mockMvc;

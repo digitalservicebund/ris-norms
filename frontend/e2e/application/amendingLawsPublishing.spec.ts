@@ -26,12 +26,12 @@ test.describe("navigation", () => {
 })
 
 test.describe(
-  "publishing flow for an announcement",
+  "publishing flow for an verkuendung",
   {
     tag: ["@RISDEV-4708"],
   },
   () => {
-    test("navigate to publishing page for an unpublished announcement", async ({
+    test("navigate to publishing page for an unpublished verkuendung", async ({
       page,
     }) => {
       await page.goto(
@@ -75,7 +75,7 @@ test.describe(
       ).toBeVisible()
     })
 
-    test.skip("editing of a published announcement doesn't change the published norms contents", async ({
+    test.skip("editing of a published verkuendung doesn't change the published norms contents", async ({
       page,
       authenticatedRequest: request,
     }) => {
@@ -110,7 +110,7 @@ test.describe(
       )
     })
 
-    test.skip("editing of a published announcement and re-publishing updates the published norms", async ({
+    test.skip("editing of a published verkuendung and re-publishing updates the published norms", async ({
       page,
       authenticatedRequest: request,
     }) => {
