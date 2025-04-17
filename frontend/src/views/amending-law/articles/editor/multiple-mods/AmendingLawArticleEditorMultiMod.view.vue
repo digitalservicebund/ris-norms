@@ -8,13 +8,13 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useTemporalData } from "@/views/amending-law/articles/editor/useTemporalData"
 import { useErrorToast } from "@/lib/errorToast"
 import Button from "primevue/button"
 import { useToast } from "primevue/usetoast"
 import { computed, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import Select from "primevue/select"
+import { useGetZeitgrenzen } from "@/services/zeitgrenzenService"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -68,7 +68,7 @@ const {
   data: timeBoundaries,
   isFetching: isFetchingTimeBoundaries,
   error: loadTimeBoundariesError,
-} = useTemporalData(eli)
+} = useGetZeitgrenzen(eli)
 
 const timeBoundaryItems = computed(() => {
   return [
