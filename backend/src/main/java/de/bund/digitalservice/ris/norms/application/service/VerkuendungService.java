@@ -24,56 +24,56 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 @Slf4j
-public class AnnouncementService
+public class VerkuendungService
   implements
-    LoadAllAnnouncementsUseCase,
-    CreateAnnouncementUseCase,
+    LoadAllVerkuendungenUseCase,
+    CreateVerkuendungUseCase,
     LoadNormExpressionsAffectedByVerkuendungUseCase,
-    LoadAnnouncementUseCase {
+    LoadVerkuendungUseCase {
 
-  private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
-  private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
+  private final LoadAllVerkuendungenPort loadAllVerkuendungenPort;
+  private final LoadVerkuendungByNormEliPort loadVerkuendungByNormEliPort;
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
-  private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
+  private final UpdateOrSaveVerkuendungPort updateOrSaveVerkuendungPort;
   private final LdmlDeValidator ldmlDeValidator;
-  private final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort;
+  private final DeleteVerkuendungByNormEliPort deleteVerkuendungByNormEliPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
-  public AnnouncementService(
-    LoadAllAnnouncementsPort loadAllAnnouncementsPort,
-    LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
+  public VerkuendungService(
+    LoadAllVerkuendungenPort loadAllVerkuendungenPort,
+    LoadVerkuendungByNormEliPort loadVerkuendungByNormEliPort,
     LoadNormPort loadNormPort,
     LoadNormByGuidPort loadNormByGuidPort,
-    UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
+    UpdateOrSaveVerkuendungPort updateOrSaveVerkuendungPort,
     LdmlDeValidator ldmlDeValidator,
-    DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort,
+    DeleteVerkuendungByNormEliPort deleteVerkuendungByNormEliPort,
     UpdateOrSaveNormPort updateOrSaveNormPort
   ) {
-    this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
-    this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
+    this.loadAllVerkuendungenPort = loadAllVerkuendungenPort;
+    this.loadVerkuendungByNormEliPort = loadVerkuendungByNormEliPort;
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
-    this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
+    this.updateOrSaveVerkuendungPort = updateOrSaveVerkuendungPort;
     this.ldmlDeValidator = ldmlDeValidator;
-    this.deleteAnnouncementByNormEliPort = deleteAnnouncementByNormEliPort;
+    this.deleteVerkuendungByNormEliPort = deleteVerkuendungByNormEliPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
   }
 
   @Override
-  public List<Announcement> loadAllAnnouncements() {
-    return loadAllAnnouncementsPort.loadAllAnnouncements();
+  public List<Verkuendung> loadAllVerkuendungen() {
+    return loadAllVerkuendungenPort.loadAllVerkuendungen();
   }
 
   @Override
-  public Announcement loadAnnouncement(LoadAnnouncementUseCase.Query query) {
-    return loadAnnouncementByNormEliPort
-      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
+  public Verkuendung loadVerkuendung(LoadVerkuendungUseCase.Query query) {
+    return loadVerkuendungByNormEliPort
+      .loadVerkuendungByNormEli(new LoadVerkuendungByNormEliPort.Command(query.eli()))
+      .orElseThrow(() -> new VerkuendungNotFoundException(query.eli().toString()));
   }
 
   @Override
-  public Announcement createAnnouncement(CreateAnnouncementUseCase.Query query) throws IOException {
+  public Verkuendung createVerkuendung(CreateVerkuendungUseCase.Query query) throws IOException {
     validateFileIsXml(query.file());
     var regelungstextString = IOUtils.toString(
       query.file().getInputStream(),
@@ -96,14 +96,14 @@ public class AnnouncementService
     final boolean normFound = isNormRetrievableByEli(query.force(), norm);
 
     if (normFound && query.force()) {
-      deleteAnnouncement(norm.getExpressionEli());
+      deleteVerkuendung(norm.getExpressionEli());
     } else if (
       loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
     ) {
       throw new NormWithGuidAlreadyExistsException(norm.getGuid());
     }
     runPreProcessing(norm);
-    return saveNewAnnouncement(norm);
+    return saveNewVerkuendung(norm);
   }
 
   private void validateFileIsXml(MultipartFile file) {
@@ -126,23 +126,23 @@ public class AnnouncementService
     return normExists;
   }
 
-  private void deleteAnnouncement(NormExpressionEli expressionEli) {
-    var announcement = loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(
-      new LoadAnnouncementByNormEliPort.Command(expressionEli)
+  private void deleteVerkuendung(NormExpressionEli expressionEli) {
+    var verkuendung = loadVerkuendungByNormEliPort.loadVerkuendungByNormEli(
+      new LoadVerkuendungByNormEliPort.Command(expressionEli)
     );
 
-    if (announcement.isPresent()) {
-      deleteAnnouncementByNormEliPort.deleteAnnouncementByNormEli(
-        new DeleteAnnouncementByNormEliPort.Command(expressionEli)
+    if (verkuendung.isPresent()) {
+      deleteVerkuendungByNormEliPort.deleteVerkuendungByNormEli(
+        new DeleteVerkuendungByNormEliPort.Command(expressionEli)
       );
     }
   }
 
-  private Announcement saveNewAnnouncement(Norm norm) {
-    var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+  private Verkuendung saveNewVerkuendung(Norm norm) {
+    var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
     updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
-    return updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
-      new UpdateOrSaveAnnouncementPort.Command(announcement)
+    return updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
+      new UpdateOrSaveVerkuendungPort.Command(verkuendung)
     );
   }
 
@@ -156,11 +156,11 @@ public class AnnouncementService
   public List<Norm> loadNormExpressionsAffectedByVerkuendung(
     LoadNormExpressionsAffectedByVerkuendungUseCase.Query query
   ) {
-    var announcementNorm = loadNormPort
+    var verkuendungNorm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli().toString()));
+      .orElseThrow(() -> new VerkuendungNotFoundException(query.eli().toString()));
 
-    var affectedExpressionElis = announcementNorm
+    var affectedExpressionElis = verkuendungNorm
       .getRegelungstext1()
       .getMeta()
       .getProprietary()

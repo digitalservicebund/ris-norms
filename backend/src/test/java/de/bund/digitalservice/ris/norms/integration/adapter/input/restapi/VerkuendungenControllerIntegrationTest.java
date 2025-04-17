@@ -5,11 +5,11 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.VerkuendungMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -32,13 +32,13 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 
 @WithMockUser(roles = { Roles.NORMS_USER })
-class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
+class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
-  private AnnouncementRepository announcementRepository;
+  private VerkuendungRepository verkuendungRepository;
 
   @Autowired
   private DokumentRepository dokumentRepository;
@@ -48,17 +48,17 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
 
   @AfterEach
   void cleanUp() {
-    announcementRepository.deleteAll();
+    verkuendungRepository.deleteAll();
     dokumentRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
   @Nested
-  class getAllAnnouncements {
+  class getAllVerkuendungen {
 
     @Test
-    void itReturnsEmptyListOfAnnouncements() throws Exception {
-      // given no announcement in the DB
+    void itReturnsEmptyListOfVerkuendungen() throws Exception {
+      // given no Verkuendung in the DB
 
       // when
       mockMvc
@@ -69,9 +69,9 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsAllAnnouncementsNorm() throws Exception {
+    void itReturnsAllVerkuendungenNorm() throws Exception {
       // Given
-      var announcement = Announcement
+      var verkuendung = Verkuendung
         .builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
         .build();
@@ -82,7 +82,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
       );
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
       // When
       mockMvc
@@ -107,23 +107,23 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class getAnnouncement {
+  class getVerkuendung {
 
     @Test
-    void itReturnsAnnouncement() throws Exception {
+    void itReturnsVerkuendung() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       var normEli = regelungstext.getExpressionEli().asNormEli();
-      var announcement = Announcement
+      var verkuendung = Verkuendung
         .builder()
         .eli(normEli)
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
 
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
       // When
       mockMvc
@@ -164,7 +164,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsAllZielnormen() throws Exception {
       // Given
 
-      var announcement = Announcement
+      var verkuendung = Verkuendung
         .builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
         .build();
@@ -182,7 +182,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
       );
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
       // When
       mockMvc
@@ -210,10 +210,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class postAnnouncement {
+  class postVerkuendung {
 
     @Test
-    void itCreatesANewAnnouncement() throws Exception {
+    void itCreatesANewVerkuendung() throws Exception {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
@@ -273,10 +273,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         );
 
       // Then
-      var announcement = announcementRepository.findByEliNormExpression(
+      var verkuendung = verkuendungRepository.findByEliNormExpression(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"
       );
-      assertThat(announcement.get().getImportTimestamp())
+      assertThat(verkuendung.get().getImportTimestamp())
         .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES));
     }
 
@@ -403,7 +403,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       var xmlContent = Fixtures.loadTextFromDisk(
-        AnnouncementControllerIntegrationTest.class,
+        VerkuendungenControllerIntegrationTest.class,
         "vereinsgesetz-xsd-invalid.xml"
       );
       var file = new MockMultipartFile(
@@ -435,7 +435,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       var xmlContent = Fixtures.loadTextFromDisk(
-        AnnouncementControllerIntegrationTest.class,
+        VerkuendungenControllerIntegrationTest.class,
         "vereinsgesetz-schematron-invalid.xml"
       );
       var file = new MockMultipartFile(
@@ -499,7 +499,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void ifCreatesAnnouncementWithForce() throws Exception {
+    void ifCreatesVerkuendungWithForce() throws Exception {
       // Given
       dokumentRepository.save(
         DokumentMapper.mapToDto(
@@ -509,11 +509,11 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var announcement = Announcement
+      var verkuendung = Verkuendung
         .builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
         .build();
-      announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
+      verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
       var xmlContent = Fixtures.loadTextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"

@@ -13,7 +13,7 @@ const props = defineProps<{
   /** Number in the bibliographic record of the norm. */
   frbrNumber?: string
 
-  /** Announcement date in the bibliographic record of the norm. */
+  /** Verkuendung date in the bibliographic record of the norm. */
   frbrDateVerkuendung?: string
 }>()
 

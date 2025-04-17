@@ -16,7 +16,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
 
 /**
- * Data Transfer Object (DTO) class representing an announcement entity. This class is annotated
+ * Data Transfer Object (DTO) class representing an verkuendung entity. This class is annotated
  * with Lombok annotations for generating getters, setters, constructors, and builder methods.
  */
 @Getter
@@ -25,8 +25,8 @@ import org.hibernate.generator.EventType;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "announcements")
-public class AnnouncementDto {
+@Table(name = "verkuendungen")
+public class VerkuendungDto {
 
   @Id
   @GeneratedValue

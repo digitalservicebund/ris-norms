@@ -6,8 +6,8 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +57,7 @@ public class ReleaseController {
    * @param eli Eli of the request
    * @return A {@link ResponseEntity} containing the created release.
    *     <p>Returns HTTP 200 (OK) and the release was successful.
-   *     <p>Returns HTTP 404 (Not Found) if no {@link Announcement} is found.
+   *     <p>Returns HTTP 404 (Not Found) if no {@link Verkuendung} is found.
    */
   @PostMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ReleaseResponseSchema> postReleases(final NormExpressionEli eli) {

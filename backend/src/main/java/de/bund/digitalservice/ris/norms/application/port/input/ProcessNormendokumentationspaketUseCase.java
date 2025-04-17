@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
+import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface ProcessNormendokumentationspaketUseCase {
   /**
    * Process a Normendokumentationspaket. This includes validating it, adding it into our database and creating a new
-   * {@link Announcement}
+   * {@link Verkuendung}
    *
    * @param query The query containing the processId for the Normendokumentationspaket
    */

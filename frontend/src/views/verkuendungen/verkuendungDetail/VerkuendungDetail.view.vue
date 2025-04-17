@@ -9,9 +9,9 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import { useElementId } from "@/composables/useElementId"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import {
-  useGetAnnouncementService,
+  useGetVerkuendungService,
   useGetZielnormen,
-} from "@/services/announcementService"
+} from "@/services/verkuendungService"
 import { useGetNormHtml } from "@/services/normService"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
@@ -39,7 +39,7 @@ const {
   data: verkuendung,
   isFetching: isFetchingVerkuendung,
   error: verkuendungError,
-} = useGetAnnouncementService(normExpressionEli)
+} = useGetVerkuendungService(normExpressionEli)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {

@@ -1,6 +1,6 @@
-/** Release information about an announcement. */
+/** Release information about an verkuendung. */
 export interface Release {
-  /** Time stamp of when the announcement has been released. */
+  /** Time stamp of when the verkuendung has been released. */
   releaseAt: string
 
   /** ELIs of the norm manifestations that are published. */

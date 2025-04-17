@@ -170,14 +170,14 @@ class RegelungstextTest {
     final String expectedFRBRname = "s593";
 
     // when
-    final String actualAnnouncementGazette = regelungstext
+    final String actualVerkuendungGazette = regelungstext
       .getMeta()
       .getFRBRWork()
       .getFRBRnumber()
       .get();
 
     // then
-    assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
+    assertThat(actualVerkuendungGazette).contains(expectedFRBRname);
   }
 
   @Test

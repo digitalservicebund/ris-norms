@@ -3,15 +3,16 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
-import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
@@ -24,123 +25,123 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-class AnnouncementServiceTest {
+class VerkuendungServiceTest {
 
-  final LoadAllAnnouncementsPort loadAllAnnouncementsPort = mock(LoadAllAnnouncementsPort.class);
-  final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort = mock(
-    LoadAnnouncementByNormEliPort.class
+  final LoadAllVerkuendungenPort loadAllVerkuendungenPort = mock(LoadAllVerkuendungenPort.class);
+  final LoadVerkuendungByNormEliPort loadVerkuendungByNormEliPort = mock(
+    LoadVerkuendungByNormEliPort.class
   );
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
-  final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort = mock(
-    UpdateOrSaveAnnouncementPort.class
+  final UpdateOrSaveVerkuendungPort updateOrSaveVerkuendungPort = mock(
+    UpdateOrSaveVerkuendungPort.class
   );
-  final DeleteAnnouncementByNormEliPort deleteAnnouncementByNormEliPort = mock(
-    DeleteAnnouncementByNormEliPort.class
+  final DeleteVerkuendungByNormEliPort deleteVerkuendungByNormEliPort = mock(
+    DeleteVerkuendungByNormEliPort.class
   );
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
-  final AnnouncementService announcementService = new AnnouncementService(
-    loadAllAnnouncementsPort,
-    loadAnnouncementByNormEliPort,
+  final VerkuendungService verkuendungService = new VerkuendungService(
+    loadAllVerkuendungenPort,
+    loadVerkuendungByNormEliPort,
     loadNormPort,
     loadNormByGuidPort,
-    updateOrSaveAnnouncementPort,
+    updateOrSaveVerkuendungPort,
     ldmlDeValidator,
-    deleteAnnouncementByNormEliPort,
+    deleteVerkuendungByNormEliPort,
     updateOrSaveNormPort
   );
 
   @Nested
-  class loadAllAnnouncements {
+  class loadAllVerkuendungen {
 
     @Test
-    void itReturnsAnnouncements() {
+    void itReturnsVerkuendungen() {
       // Given
       var norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
-      when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
+      var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
+      when(loadAllVerkuendungenPort.loadAllVerkuendungen()).thenReturn(List.of(verkuendung));
 
       // When
-      var loadedAnnouncements = announcementService.loadAllAnnouncements();
+      var loadedVerkuendungen = verkuendungService.loadAllVerkuendungen();
 
       // Then
-      verify(loadAllAnnouncementsPort, times(1)).loadAllAnnouncements();
-      assertThat(loadedAnnouncements).hasSize(1).containsExactly(announcement);
+      verify(loadAllVerkuendungenPort, times(1)).loadAllVerkuendungen();
+      assertThat(loadedVerkuendungen).hasSize(1).containsExactly(verkuendung);
     }
   }
 
   @Nested
-  class loadAnnouncement {
+  class loadVerkuendung {
 
     @Test
-    void itThrowsAnnouncementNotFoundException() {
+    void itThrowsVerkuendungNotFoundException() {
       // given
       var norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      final var query = new LoadAnnouncementUseCase.Query(
+      final var query = new LoadVerkuendungUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
+      when(loadVerkuendungByNormEliPort.loadVerkuendungByNormEli(any()))
         .thenReturn(Optional.empty());
 
       // when
-      assertThatThrownBy(() -> announcementService.loadAnnouncement(query))
+      assertThatThrownBy(() -> verkuendungService.loadVerkuendung(query))
         // then
-        .isInstanceOf(AnnouncementNotFoundException.class);
+        .isInstanceOf(VerkuendungNotFoundException.class);
     }
 
     @Test
-    void itThrowsAnnouncementNotFoundExceptionIfNormDoesNotExist() {
+    void itThrowsVerkuendungNotFoundExceptionIfNormDoesNotExist() {
       // given
-      final var query = new LoadAnnouncementUseCase.Query(
+      final var query = new LoadVerkuendungUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // when
-      assertThatThrownBy(() -> announcementService.loadAnnouncement(query))
+      assertThatThrownBy(() -> verkuendungService.loadVerkuendung(query))
         // then
-        .isInstanceOf(AnnouncementNotFoundException.class);
+        .isInstanceOf(VerkuendungNotFoundException.class);
     }
 
     @Test
-    void itReturnsAnnouncement() {
+    void itReturnsVerkuendung() {
       // Given
       var norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
-        .thenReturn(Optional.of(announcement));
+      when(loadVerkuendungByNormEliPort.loadVerkuendungByNormEli(any()))
+        .thenReturn(Optional.of(verkuendung));
 
       // When
-      var loadedAnnouncement = announcementService.loadAnnouncement(
-        new LoadAnnouncementUseCase.Query(
+      var loadedVerkuendung = verkuendungService.loadVerkuendung(
+        new LoadVerkuendungUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
       // Then
-      verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
-      assertThat(loadedAnnouncement).hasToString(announcement.toString());
+      verify(loadVerkuendungByNormEliPort, times(1)).loadVerkuendungByNormEli(any());
+      assertThat(loadedVerkuendung).hasToString(verkuendung.toString());
     }
   }
 
   @Nested
-  class createAnnouncement {
+  class createVerkuendung {
 
     @Test
-    void itCreatesANewAnnouncement() throws IOException {
+    void itCreatesANewVerkuendung() throws IOException {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
@@ -176,25 +177,25 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.empty());
 
       when(
-        updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
-          new UpdateOrSaveAnnouncementPort.Command(any())
+        updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
+          new UpdateOrSaveVerkuendungPort.Command(any())
         )
       )
         .thenReturn(
-          Announcement
+          Verkuendung
             .builder()
             .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
             .build()
         );
 
       // When
-      var announcement = announcementService.createAnnouncement(
-        new CreateAnnouncementUseCase.Query(file, false)
+      var verkuendung = verkuendungService.createVerkuendung(
+        new CreateVerkuendungUseCase.Query(file, false)
       );
 
       // Then
-      verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
-      assertThat(announcement.getEli()).hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
+      verify(updateOrSaveVerkuendungPort, times(1)).updateOrSaveVerkuendung(any());
+      assertThat(verkuendung.getEli()).hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
     }
 
     @Test
@@ -211,8 +212,8 @@ class AnnouncementServiceTest {
       );
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file, false);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+      var query = new CreateVerkuendungUseCase.Query(file, false);
+      assertThatThrownBy(() -> verkuendungService.createVerkuendung(query))
         .isInstanceOf(NotAXmlFileException.class);
     }
 
@@ -233,8 +234,8 @@ class AnnouncementServiceTest {
       );
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file, false);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+      var query = new CreateVerkuendungUseCase.Query(file, false);
+      assertThatThrownBy(() -> verkuendungService.createVerkuendung(query))
         .isInstanceOf(NotLdmlDeXmlFileException.class);
     }
 
@@ -283,8 +284,8 @@ class AnnouncementServiceTest {
         );
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file, false);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+      var query = new CreateVerkuendungUseCase.Query(file, false);
+      assertThatThrownBy(() -> verkuendungService.createVerkuendung(query))
         .isInstanceOf(NormExistsAlreadyException.class);
     }
 
@@ -332,8 +333,8 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.of(norm));
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file, false);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+      var query = new CreateVerkuendungUseCase.Query(file, false);
+      assertThatThrownBy(() -> verkuendungService.createVerkuendung(query))
         .isInstanceOf(NormWithGuidAlreadyExistsException.class);
     }
 
@@ -354,8 +355,8 @@ class AnnouncementServiceTest {
         .thenThrow(new LdmlDeNotValidException(List.of()));
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file, false);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+      var query = new CreateVerkuendungUseCase.Query(file, false);
+      assertThatThrownBy(() -> verkuendungService.createVerkuendung(query))
         .isInstanceOf(LdmlDeNotValidException.class);
     }
 
@@ -401,13 +402,13 @@ class AnnouncementServiceTest {
         .validateSchematron(regelungstext);
 
       // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file, false);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+      var query = new CreateVerkuendungUseCase.Query(file, false);
+      assertThatThrownBy(() -> verkuendungService.createVerkuendung(query))
         .isInstanceOf(LdmlDeSchematronException.class);
     }
 
     @Test
-    void itCreatesANewAnnouncementWithForce() throws IOException {
+    void itCreatesANewVerkuendungWithForce() throws IOException {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
@@ -450,24 +451,24 @@ class AnnouncementServiceTest {
         );
 
       when(
-        updateOrSaveAnnouncementPort.updateOrSaveAnnouncement(
-          new UpdateOrSaveAnnouncementPort.Command(any())
+        updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
+          new UpdateOrSaveVerkuendungPort.Command(any())
         )
       )
         .thenReturn(
-          Announcement
+          Verkuendung
             .builder()
             .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
             .build()
         );
 
-      var announcement = announcementService.createAnnouncement(
-        new CreateAnnouncementUseCase.Query(file, true)
+      var verkuendung = verkuendungService.createVerkuendung(
+        new CreateVerkuendungUseCase.Query(file, true)
       );
 
       // Then
-      verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
-      assertThat(announcement.getEli()).hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
+      verify(updateOrSaveVerkuendungPort, times(1)).updateOrSaveVerkuendung(any());
+      assertThat(verkuendung.getEli()).hasToString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
     }
   }
 
@@ -489,7 +490,7 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.of(affectedNorm));
 
       // When
-      var norms = announcementService.loadNormExpressionsAffectedByVerkuendung(
+      var norms = verkuendungService.loadNormExpressionsAffectedByVerkuendung(
         new LoadNormExpressionsAffectedByVerkuendungUseCase.Query(
           verkuendungsNorm.getExpressionEli()
         )
@@ -519,7 +520,7 @@ class AnnouncementServiceTest {
         .thenReturn(Optional.empty());
 
       // When
-      var norms = announcementService.loadNormExpressionsAffectedByVerkuendung(
+      var norms = verkuendungService.loadNormExpressionsAffectedByVerkuendung(
         new LoadNormExpressionsAffectedByVerkuendungUseCase.Query(
           verkuendungsNorm.getExpressionEli()
         )

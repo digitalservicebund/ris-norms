@@ -17,7 +17,7 @@ public interface SaveReleasePort {
   /**
    * A record representing the command for saving a release.
    *
-   * @param release The release to be saved to the announcement
+   * @param release The release to be saved to the verkuendung
    */
   record Command(Release release) {}
 }

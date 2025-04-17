@@ -38,15 +38,15 @@ public class NormsAppExceptionHandler {
   }
 
   /**
-   * Exception handler method for handling {@link AnnouncementNotFoundException}.
+   * Exception handler method for handling {@link VerkuendungNotFoundException}.
    *
    * @param e The exception that occurred.
    * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
    */
-  @ExceptionHandler(AnnouncementNotFoundException.class)
+  @ExceptionHandler(VerkuendungNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ProblemDetail handleException(final AnnouncementNotFoundException e) {
-    log.error("AnnouncementNotFoundException: {}", e.getMessage(), e);
+  public ProblemDetail handleException(final VerkuendungNotFoundException e) {
+    log.error("VerkuendungNotFoundException: {}", e.getMessage(), e);
     return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 

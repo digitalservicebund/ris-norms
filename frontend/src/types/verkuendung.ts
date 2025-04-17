@@ -1,8 +1,8 @@
 /**
- * Describes an announcement.
+ * Describes an verkuendung.
  */
-export interface Announcement {
-  /** ELI of the announcement */
+export interface Verkuendung {
+  /** ELI of the verkuendung */
   eli: string
   /** Official long title */
   title?: string

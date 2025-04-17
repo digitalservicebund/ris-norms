@@ -2,17 +2,18 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.exception.VerkuendungNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendungenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -28,37 +29,37 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SecurelessControllerTest(AnnouncementController.class)
-class AnnouncementControllerTest {
+@SecurelessControllerTest(VerkuendungenController.class)
+class VerkuendungenControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @MockitoBean
-  private LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
+  private LoadAllVerkuendungenUseCase loadAllVerkuendungenUseCase;
 
   @MockitoBean
-  private LoadAnnouncementUseCase loadAnnouncementUseCase;
+  private LoadVerkuendungUseCase loadVerkuendungUseCase;
 
   @MockitoBean
   private LoadNormUseCase loadNormUseCase;
 
   @MockitoBean
-  private CreateAnnouncementUseCase createAnnouncementUseCase;
+  private CreateVerkuendungUseCase createVerkuendungUseCase;
 
   @MockitoBean
   private LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
 
   @Nested
-  class getAllAnnouncements {
+  class getAllVerkuendungen {
 
     @Test
-    void itReturnsAnnouncements() throws Exception {
+    void itReturnsVerkuendungen() throws Exception {
       // Given
       var norm1 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
-      var announcement1 = Announcement
+      var verkuendung1 = Verkuendung
         .builder()
         .eli(norm1.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
@@ -67,15 +68,15 @@ class AnnouncementControllerTest {
       var norm2 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
       );
-      var announcement2 = Announcement
+      var verkuendung2 = Verkuendung
         .builder()
         .eli(norm2.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
 
       // When
-      when(loadAllAnnouncementsUseCase.loadAllAnnouncements())
-        .thenReturn(List.of(announcement1, announcement2));
+      when(loadAllVerkuendungenUseCase.loadAllVerkuendungen())
+        .thenReturn(List.of(verkuendung1, verkuendung2));
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm1).thenReturn(norm2);
 
       // When // Then
@@ -110,27 +111,27 @@ class AnnouncementControllerTest {
   }
 
   @Nested
-  class getAnnouncement {
+  class getVerkuendung {
 
     @Test
-    void itReturnsAnnouncement() throws Exception {
+    void itReturnsVerkuendung() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       var normEli = norm.getExpressionEli();
-      var announcement = Announcement
+      var verkuendung = Verkuendung
         .builder()
         .eli(normEli)
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
       // When
       when(
-        loadAnnouncementUseCase.loadAnnouncement(
-          new LoadAnnouncementUseCase.Query(norm.getExpressionEli())
+        loadVerkuendungUseCase.loadVerkuendung(
+          new LoadVerkuendungUseCase.Query(norm.getExpressionEli())
         )
       )
-        .thenReturn(announcement);
+        .thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When
@@ -152,8 +153,8 @@ class AnnouncementControllerTest {
         .andExpect(jsonPath("dateAusfertigung").value("1964-08-05"))
         .andExpect(jsonPath("importedAt").value("2025-03-13T15:00:00Z"));
 
-      verify(loadAnnouncementUseCase, times(1))
-        .loadAnnouncement(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+      verify(loadVerkuendungUseCase, times(1))
+        .loadVerkuendung(argThat(argument -> Objects.equals(argument.eli(), normEli)));
       verify(loadNormUseCase, times(1))
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), normEli)));
     }
@@ -166,8 +167,8 @@ class AnnouncementControllerTest {
       );
       var normEli = norm.getExpressionEli();
       // When
-      when(loadAnnouncementUseCase.loadAnnouncement(new LoadAnnouncementUseCase.Query(normEli)))
-        .thenThrow(new AnnouncementNotFoundException(normEli.toString()));
+      when(loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Query(normEli)))
+        .thenThrow(new VerkuendungNotFoundException(normEli.toString()));
 
       // When
       mockMvc
@@ -177,8 +178,8 @@ class AnnouncementControllerTest {
         // Then
         .andExpect(status().isNotFound());
 
-      verify(loadAnnouncementUseCase, times(1))
-        .loadAnnouncement(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+      verify(loadVerkuendungUseCase, times(1))
+        .loadVerkuendung(argThat(argument -> Objects.equals(argument.eli(), normEli)));
       verify(loadNormUseCase, times(0)).loadNorm(any());
     }
   }
@@ -230,10 +231,10 @@ class AnnouncementControllerTest {
   }
 
   @Nested
-  class postAnnouncement {
+  class postVerkuendung {
 
     @Test
-    void itCreatesAnAnnouncement() throws Exception {
+    void itCreatesAnVerkuendung() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
@@ -245,13 +246,13 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement
+      var verkuendung = Verkuendung
         .builder()
         .eli(norm.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
 
-      when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
+      when(createVerkuendungUseCase.createVerkuendung(any())).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When // Then
@@ -270,7 +271,7 @@ class AnnouncementControllerTest {
     }
 
     @Test
-    void itCreatesAnAnnouncementWithForce() throws Exception {
+    void itCreatesAnVerkuendungWithForce() throws Exception {
       // Given
       var norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
@@ -282,13 +283,13 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement
+      var verkuendung = Verkuendung
         .builder()
         .eli(norm.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
 
-      when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
+      when(createVerkuendungUseCase.createVerkuendung(any())).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When // Then
@@ -319,9 +320,9 @@ class AnnouncementControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var announcement = Announcement.builder().eli(norm.getExpressionEli()).build();
+      var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
 
-      when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
+      when(createVerkuendungUseCase.createVerkuendung(any())).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any()))
         .thenThrow(new RuntimeException("Should not be visible in the output"));
 

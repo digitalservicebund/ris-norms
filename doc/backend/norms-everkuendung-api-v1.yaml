@@ -251,7 +251,7 @@ components:
 
         | URI                                     | Beschreibung                                                                                  |
         | --------------------------------------- | --------------------------------------------------------------------------------------------- |
-        | `/errors/duplicate-announcement`        | Dieses Normendokumentationspaket wurde bereits übermittelt.                                   |
+        | `/errors/duplicate-verkuendung`        | Dieses Normendokumentationspaket wurde bereits übermittelt.                                   |
         | `/errors/process-id-not-found`          | Die Prozess-ID wurde nicht gefunden.                                                          |
         | `/errors/invalid-archive`               | Die übermittelte Datei ist kein gültiges ZIP-Archiv.                                          |
         | `/errors/invalid-signature`             | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |

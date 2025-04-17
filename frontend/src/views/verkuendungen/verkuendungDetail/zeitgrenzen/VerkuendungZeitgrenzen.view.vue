@@ -10,7 +10,7 @@ import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
-import { useGetAnnouncementService } from "@/services/announcementService"
+import { useGetVerkuendungService } from "@/services/verkuendungService"
 import {
   useGeltungszeitenHtml,
   useGetZeitgrenzen,
@@ -48,7 +48,7 @@ const {
   data: verkuendung,
   isFetching: isFetchingVerkuendung,
   error: verkuendungError,
-} = useGetAnnouncementService(() => eli.value.asNormEli())
+} = useGetVerkuendungService(() => eli.value.asNormEli())
 
 const {
   data: geltungszeitenHtml,

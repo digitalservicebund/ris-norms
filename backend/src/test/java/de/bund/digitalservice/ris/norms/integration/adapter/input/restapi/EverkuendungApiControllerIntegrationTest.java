@@ -28,7 +28,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WithMockUser(roles = { Roles.EVERKUENDUNG_USER })
-class VerkuendungControllerIntegrationTest extends BaseS3MockIntegrationTest {
+class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;

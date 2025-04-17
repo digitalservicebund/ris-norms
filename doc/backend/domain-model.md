@@ -6,7 +6,7 @@ direction BT
 class Analysis {
 - Element element
   }
-  class Announcement {
+  class Verkuendung {
 - NormExpressionEli eli
   }
   class Article {
@@ -232,7 +232,7 @@ Norm "1" *-- "many" Dokument
 Norm "1" *-- "many" BinaryFile
 Norm "1" *-- "1" NormManifestationEli
 
-Announcement "1" -- "1" NormExpressionEli
+Verkuendung "1" -- "1" NormExpressionEli
 
 Dokument "1" *-- "1" DokumentWorkEli
 Dokument "1" *-- "1" DokumentExpressionEli
