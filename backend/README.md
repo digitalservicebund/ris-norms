@@ -89,3 +89,11 @@ If the following statement prints a number > 0, then there are outdated librarie
 ./gradlew versionCatalogUpdate
 jq .outdated.count build/dependencyUpdates/report.json
 ```
+
+## Database Migrations
+
+Database migration are done using flyway by creating new migration sql-scripts in `src/main/resources/db/migration`. For long-running migrations (> 2 minutes) the pipeline will fail on the deployment action.
+If the migration takes this long the newly deployed image will take longer to be started and running than the check for a successful deployment is waiting. If such a pipeline failure happens you can check that
+the deployment is currently running a migration by checking argocd. Once the migration has completed successful you can rerun the pipeline and that deployment step should succeed. This will probably need to be
+repeated for every environment. If the migration takes longer than 90 minutes the pod will be restarted and the migration started anew. In this case we need to (temporarily) increase the maximal waiting time
+for the startUp probe in the infra repository.
