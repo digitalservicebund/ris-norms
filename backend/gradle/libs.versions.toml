@@ -45,6 +45,7 @@ testcontainers-core = { module = "org.testcontainers:testcontainers", version.re
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.7.0"
+tika-core = "org.apache.tika:tika-core:3.1.0"
 
 
 [plugins]

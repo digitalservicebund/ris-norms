@@ -141,12 +141,12 @@ public abstract sealed class Dokument
   }
 
   /**
-   * Load the filenames of all Dokumente references by this one.
+   * Load the filenames of all Dokumente and BinaryFiles references by this Dokument.
    * @return a List of filenames
    */
-  public List<String> getReferencedDokumenteNames() {
+  public List<String> getReferencedDokumentAndBinaryFileFileNames() {
     return NodeParser
-      .getNodesFromExpression("//componentRef/@src|//documentRef/@href", document)
+      .getNodesFromExpression("//componentRef/@src|//documentRef/@href|//img/@src", document)
       .stream()
       .map(Node::getNodeValue)
       .map(value -> {

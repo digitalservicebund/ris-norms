@@ -1,8 +1,10 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManifestationMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
@@ -37,13 +39,16 @@ public class NormDBService
 
   private final DokumentRepository dokumentRepository;
   private final NormManifestationRepository normManifestationRepository;
+  private final BinaryFileRepository binaryFileRepository;
 
   public NormDBService(
     DokumentRepository dokumentRepository,
-    NormManifestationRepository normManifestationRepository
+    NormManifestationRepository normManifestationRepository,
+    BinaryFileRepository binaryFileRepository
   ) {
     this.dokumentRepository = dokumentRepository;
     this.normManifestationRepository = normManifestationRepository;
+    this.binaryFileRepository = binaryFileRepository;
   }
 
   @Override
@@ -90,7 +95,7 @@ public class NormDBService
     var dokumentDtos = dokumentRepository.saveAll(
       command
         .norm()
-        .getRegelungstexte()
+        .getDokumente()
         .stream()
         .map(regelungstext ->
           dokumentRepository
@@ -104,7 +109,25 @@ public class NormDBService
         .collect(Collectors.toSet())
     );
 
+    var binaryFileDtos = binaryFileRepository.saveAll(
+      command
+        .norm()
+        .getBinaryFiles()
+        .stream()
+        .map(binaryFile ->
+          binaryFileRepository
+            .findById(binaryFile.getDokumentManifestationEli().toString())
+            .map(binaryFileDto -> {
+              binaryFileDto.setContent(binaryFile.getContent());
+              return binaryFileDto;
+            })
+        )
+        .flatMap(Optional::stream)
+        .collect(Collectors.toSet())
+    );
+
     normManifestationDto.get().setDokumente(dokumentDtos);
+    normManifestationDto.get().setBinaryFiles(binaryFileDtos);
     normManifestationDto.get().setPublishState(command.norm().getPublishState());
 
     return Optional.of(
@@ -121,9 +144,18 @@ public class NormDBService
       dokumentRepository.saveAllAndFlush(
         command
           .norm()
-          .getRegelungstexte()
+          .getDokumente()
           .stream()
           .map(DokumentMapper::mapToDto)
+          .collect(Collectors.toSet())
+      );
+
+      binaryFileRepository.saveAllAndFlush(
+        command
+          .norm()
+          .getBinaryFiles()
+          .stream()
+          .map(BinaryFileMapper::mapToDto)
           .collect(Collectors.toSet())
       );
 
