@@ -1,7 +1,6 @@
 name: Pipeline
 
 on:
-  # run on any branch receiving a push (not only on main)
   push:
     branches:
       - main
