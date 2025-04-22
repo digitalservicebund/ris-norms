@@ -181,13 +181,13 @@ public class VerkuendungsImportService
         )
       );
     } catch (Exception e) {
-      log.warn(
-        "Exception during processing of Normendokumentationspaket: {}",
-        query.processId(),
-        e
-      );
-      List<VerkuendungImportProcessDetail> errors = List.of();
+      List<VerkuendungImportProcessDetail> errors;
       if (e instanceof NormsAppException normsAppException) {
+        log.warn(
+          "Exception during processing of Normendokumentationspaket: {}",
+          query.processId(),
+          e
+        );
         errors =
         List.of(
           VerkuendungImportProcessDetail
@@ -195,6 +195,20 @@ public class VerkuendungsImportService
             .type(normsAppException.getType().toString())
             .title(normsAppException.getTitle())
             .detail(objectMapper.writeValueAsString(normsAppException.getProperties()))
+            .build()
+        );
+      } else {
+        log.error(
+          "Unexpected exception during processing of Normendokumentationspaket: {}",
+          query.processId(),
+          e
+        );
+        errors =
+        List.of(
+          VerkuendungImportProcessDetail
+            .builder()
+            .type("/errors/normendokumentationspaket-import-failed/internal-error")
+            .title("Internal Error")
             .build()
         );
       }
