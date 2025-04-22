@@ -63,10 +63,24 @@ export const errorMessages = {
       "Wenn das Problem bestehen bleibt, wenden Sie sich an den Betreiber",
   }),
 
-  "/errors/input-validation-error": (e: ErrorResponse) => ({
-    title: "Eingabefehler",
-    message: `Fehler bei den eingehenden Daten: ${e.detail}`,
-  }),
+  "/errors/input-validation-error": (e: ErrorResponse) => {
+    const validationDetailTranslations: Record<string, string> = {
+      "Date must not be null": "Das Datum darf nicht leer sein.",
+      "Art must not be null": "Die Art muss angegeben werden.",
+      "A maximum of 100 time boundaries is supported":
+        "Es sind maximal 100 Zeitgrenzen erlaubt.",
+      "Not all combinations of date + art are unique.":
+        "Das Datum darf für dieselbe Art nur einmal vorkommen.",
+    }
+
+    const detail = e.detail ?? "Unbekannter Validierungsfehler"
+    const germanDetail = validationDetailTranslations[detail] ?? detail
+
+    return {
+      title: "Eingabefehler",
+      message: `Fehler bei den eingehenden Daten: ${germanDetail}`,
+    }
+  },
 
   "/errors/parameter-binding-error": (
     e: ErrorResponse<{ invalidValue: string }>,
