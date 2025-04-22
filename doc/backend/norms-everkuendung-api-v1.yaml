@@ -249,15 +249,18 @@ components:
       description: |
         Siehe auch: Schema `ProblemDetail`. Zu den Fehler-URIs, die im Fall eines Verarbeitungsfehlers auftreten können, gehören beispielsweise:
 
-        | URI                                     | Beschreibung                                                                                  |
-        | --------------------------------------- | --------------------------------------------------------------------------------------------- |
-        | `/errors/duplicate-verkuendung`        | Dieses Normendokumentationspaket wurde bereits übermittelt.                                   |
-        | `/errors/process-id-not-found`          | Die Prozess-ID wurde nicht gefunden.                                                          |
-        | `/errors/invalid-archive`               | Die übermittelte Datei ist kein gültiges ZIP-Archiv.                                          |
-        | `/errors/invalid-signature`             | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |
-        | `/errors/invalid-contents`              | Die Dateien im Archiv folgen nicht der erwarteten Benennung.                                  |
-        | `/errors/ldml-de-not-schematron-valid`  | Eine oder mehrere LDML.de-Dateien weisen Schematron-Fehler auf (Warnungen werden akzeptiert). |
-        | `/errors/ldml-de-not-valid`             | Eine oder LDML.de-Dateien weisen XSD-Fehler auf.                                              |
+        | URI                                                                             | Beschreibung                                                                                  |
+        |---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+        | `/errors/norm-with-eli-exists-already`                                          | Es wurde bereits ein Normendokumentationspaket mit der selben ELI hochgeladen                 |
+        | `/errors/process-id-not-found`                                                  | Die Prozess-ID wurde nicht gefunden.                                                          |
+        | `/errors/invalid-signature`                                                     | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |
+        | `/errors/ldml-de-not-schematron-valid`                                          | Eine oder mehrere LDML.de-Dateien weisen Schematron-Fehler auf (Warnungen werden akzeptiert). |
+        | `/errors/ldml-de-not-valid`                                                     | Eine oder LDML.de-Dateien weisen XSD-Fehler auf.                                              |
+        | `/errors/normendokumentationspaket-import-failed/not-a-zip-file`                | Die übermittelte Datei ist kein gültiges ZIP-Archiv.                                          |
+        | `/errors/normendokumentationspaket-import-failed/missing-rechtsetzungsdokument` | Das Archiv beinhaltet kein Rechtsetzungsdokument                                              |
+        | `/errors/normendokumentationspaket-import-failed/missing-referenced-dokument`   | Ein referenziertes Dokument konnte nicht im Archiv gefunden werden                            |
+        | `/errors/normendokumentationspaket-import-failed/invalid-structure-in-zip-file` | Das Archiv hat eine unerwartete Struktur                                                      |
+        | `/errors/normendokumentationspaket-import-failed/unsupported-file-type`         | Eine Datei im Archiv ist in einem nicht unterstützten Format                                  |
       type: object
       required:
         - status
@@ -270,7 +273,7 @@ components:
           type: string
           format: uri
           description: Eine URI, die die Art des Fehlers ausweist.
-          example: /errors/example-error
+          example: /errors/norm-with-eli-exists-already
         title:
           type: string
           description: Eine kurze, menschenlesbare Beschreibung des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
