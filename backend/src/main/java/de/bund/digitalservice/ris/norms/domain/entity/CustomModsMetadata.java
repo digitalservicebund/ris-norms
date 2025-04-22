@@ -133,4 +133,12 @@ public class CustomModsMetadata {
     }
     return getZeitgrenzen();
   }
+
+  public List<ZielnormReference> getZielnormenReferences() {
+    return NodeParser
+      .getElementsFromExpression("./zielnorm-references/zielnorm-reference", getElement())
+      .stream()
+      .map(ZielnormReference::new)
+      .toList();
+  }
 }
