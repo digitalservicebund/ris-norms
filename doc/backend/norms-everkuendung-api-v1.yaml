@@ -288,6 +288,10 @@ components:
             oneOf:
               - $ref: "#/components/schemas/XsdValidationError"
               - $ref: "#/components/schemas/SchematronValidationError"
+        extensions:
+          type: object
+          additionalProperties: true
+          description: Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
     XsdValidationError:
       type: object
       description: Fehler bei der XSD-Validierung eines XML-Dokuments
