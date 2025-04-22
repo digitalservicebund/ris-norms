@@ -322,7 +322,7 @@ components:
       description: Fehler bei der Schematron-Validierung eines XML-Dokuments
       required:
         - type
-        - file
+        - eli
         - details
         - xpath
         - eId
@@ -330,10 +330,10 @@ components:
         type:
           type: string
           example: /errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005
-        file:
+        eli:
           type: string
-          description: Name der Datei, in der der Fehler gefunden wurde.
-          example: regelungstext-1.xml
+          description: Manifestation-ELI der Datei, in der der Fehler gefunden wurde.
+          example: eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2025-01-01/regelungstext-1.xml
         details:
           type: string
           description: Die vom Schematron ausgelöste Fehlermeldung.
