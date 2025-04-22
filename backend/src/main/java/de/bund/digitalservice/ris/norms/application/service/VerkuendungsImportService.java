@@ -305,7 +305,7 @@ public class VerkuendungsImportService
         })
         .forEach(referencedDokumentName -> {
           log.debug("Found new referenced dokument: {}", referencedDokumentName);
-          if (isXmlFile(referencedDokumentName)) {
+          if (isXmlFile(files.get(referencedDokumentName))) {
             dokumenteToProcess.add(referencedDokumentName);
           } else {
             binaryFilesToProcess.add(referencedDokumentName);
@@ -402,10 +402,14 @@ public class VerkuendungsImportService
     return dokument;
   }
 
-  private boolean isXmlFile(String dokumentName) {
-    return mediaTypeService
-      .detectMediaType(dokumentName)
-      .map(type -> type.equalsTypeAndSubtype(MediaType.APPLICATION_XML))
-      .orElse(false);
+  private boolean isXmlFile(byte[] dokument) {
+    try {
+      return mediaTypeService
+        .detectMediaType(new ByteArrayInputStream(dokument))
+        .map(type -> type.equalsTypeAndSubtype(MediaType.APPLICATION_XML))
+        .orElse(false);
+    } catch (IOException e) {
+      return false;
+    }
   }
 }
