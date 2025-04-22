@@ -293,9 +293,9 @@ public class VerkuendungsImportService
       String dokumentName = dokumenteToProcess.poll();
       log.debug("Processing Dokument: {}", dokumentName);
       var dokument = parseAndValidateDokument(
-        normManifestationEli,
-        dokumentName,
-        files.get(dokumentName)
+          normManifestationEli,
+          dokumentName,
+          files.get(dokumentName)
       );
       log.debug("Parsed & validated Dokument: {}", dokument.getManifestationEli());
       dokumente.put(dokumentName, dokument);
@@ -378,38 +378,29 @@ public class VerkuendungsImportService
   }
 
   private Dokument parseAndValidateDokument(
-    @Nullable NormManifestationEli normManifestationEli,
-    String dokumentName,
-    byte[] file
-  ) {
-    Dokument dokument =
-      switch (dokumentName.split("-")[0]) {
-        case "rechtsetzungsdokument" -> ldmlDeValidator.parseAndValidateRechtsetzungsdokument(
-          new String(file)
-        );
-        case "regelungstext" -> ldmlDeValidator.parseAndValidateRegelungstext(new String(file));
-        case "offenestruktur" -> ldmlDeValidator.parseAndValidateOffeneStruktur(new String(file));
-        case "bekanntmachungstext" -> ldmlDeValidator.parseAndValidateBekanntmachung(
-          new String(file)
-        );
-        default -> throw new InvalidDokumentTypeException(dokumentName);
-      };
+      @Nullable NormManifestationEli normManifestationEli,
+      String dokumentName,
+      byte[] file) {
+    var dokument = ldmlDeValidator.parseAndValidateDokument(
+        dokumentName,
+        new String(file)
+    );
 
     if (!dokument.getManifestationEli().getSubtype().equals(dokumentName.split("\\.")[0])) {
       throw new MismatchBetweenFilenameAndSubtypeException(
-        dokumentName,
-        dokument.getManifestationEli()
+          dokumentName,
+          dokument.getManifestationEli()
       );
     }
 
     if (
-      normManifestationEli != null &&
-      !dokument.getManifestationEli().asNormEli().equals(normManifestationEli)
+        normManifestationEli != null &&
+            !dokument.getManifestationEli().asNormEli().equals(normManifestationEli)
     ) {
       throw new InconsistentEliException(
-        dokumentName,
-        normManifestationEli,
-        dokument.getManifestationEli().asNormEli()
+          dokumentName,
+          normManifestationEli,
+          dokument.getManifestationEli().asNormEli()
       );
     }
 
@@ -419,9 +410,9 @@ public class VerkuendungsImportService
   private boolean isXmlFile(byte[] dokument) {
     try {
       return mediaTypeService
-        .detectMediaType(new ByteArrayInputStream(dokument))
-        .map(type -> type.equalsTypeAndSubtype(MediaType.APPLICATION_XML))
-        .orElse(false);
+          .detectMediaType(new ByteArrayInputStream(dokument))
+          .map(type -> type.equalsTypeAndSubtype(MediaType.APPLICATION_XML))
+          .orElse(false);
     } catch (IOException e) {
       return false;
     }

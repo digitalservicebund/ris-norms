@@ -124,34 +124,6 @@ public interface ProcessNormendokumentationspaketUseCase {
   }
 
   /**
-   * A Dokument is of an unknown Dokument Type
-   */
-  class InvalidDokumentTypeException extends NormendokumentationspaketImportFailedException {
-
-    private final String fileName;
-
-    public InvalidDokumentTypeException(String fileName) {
-      super("Dokument " + fileName + " is of an unknown dokument type.");
-      this.fileName = fileName;
-    }
-
-    @Override
-    public URI getType() {
-      return URI.create("/errors/normendokumentationspaket-import-failed/invalid-dokument-type");
-    }
-
-    @Override
-    public String getTitle() {
-      return "A Dokument is of an unknown Dokument Type";
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-      return Map.of("fileName", fileName);
-    }
-  }
-
-  /**
    * The structure of the zip file is not supported. E.g. it contains folders or is a zip bomb.
    */
   class InvalidStructureInZipFileException extends NormendokumentationspaketImportFailedException {
