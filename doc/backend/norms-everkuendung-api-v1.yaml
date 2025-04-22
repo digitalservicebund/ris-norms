@@ -297,8 +297,7 @@ components:
       properties:
         type:
           type: string
-          enum: [xsd]
-          example: xsd
+          example: /errors/ldml-de-not-valid/cvc-pattern-valid
         file:
           type: string
           description: Name der Datei, in der der Fehler gefunden wurde.
@@ -327,8 +326,7 @@ components:
       properties:
         type:
           type: string
-          enum: [schematron]
-          example: schematron
+          example: /errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005
         file:
           type: string
           description: Name der Datei, in der der Fehler gefunden wurde.
