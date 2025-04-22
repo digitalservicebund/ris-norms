@@ -78,7 +78,7 @@ export const errorMessages = {
 
     return {
       title: "Eingabefehler",
-      message: `Fehler bei den eingehenden Daten: ${germanDetail}`,
+      message: germanDetail,
     }
   },
 
