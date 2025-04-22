@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	##################################################################################
+	Projekt E-Gesetzgebung
+	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.7.2 (16.01.2025)
+
+	2025 Copyright (C) 2021-2025 Bundesministerium des Innern und für Heimat,
+	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
+	Verwaltungsarbeit
+
+	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
+	##################################################################################
+-->
+<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+   <akn:act name="regelungstext">
+<!-- Metadaten-->
+       <akn:meta GUID="ab2d39ae-1664-394f-b5d6-7674b2ba1c3a" eId="meta-1">
+         <akn:identification GUID="bf4895ee-b153-3f4d-a793-76663c3f4194"
+                             eId="meta-1_ident-1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="d5788d0e-5439-3439-adc4-1600036eba1f"
+                          eId="meta-1_ident-1_frbrwork-1">
+               <akn:FRBRthis GUID="e7d769bd-cb56-326d-b2ec-e6c9b2b927dd"
+                             eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                             value="eli/bund/bgbl-1/2004/s1673/regelungstext-1"/>
+               <akn:FRBRuri GUID="1c2f82c7-5988-3563-b988-a9a6a62c2ae2"
+                            eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                            value="eli/bund/bgbl-1/2004/s1673"/>
+               <akn:FRBRalias GUID="0e304dc5-dbb9-3830-9924-3736f15b7dcb"
+                              eId="meta-1_ident-1_frbrwork-1_frbralias-1"
+                              name="übergreifende-id"
+                              value="2c1a6ec9-7161-4e2f-8999-91219180d994"/>
+               <akn:FRBRdate GUID="ed3f4ab4-83eb-356d-b99e-dbcaa50dc5ca"
+                             date="2004-07-16"
+                             eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
+                             name="neufassung"/>
+               <akn:FRBRauthor GUID="c586fa74-c00f-36dc-9b62-ffe17ffbd44b"
+                               eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="edbfa224-c491-3ea0-90e1-0b532c369cce"
+                                eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="c37549b2-6011-33b9-a5ec-aec66b1ddbc1"
+                               eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
+                               value="s1673"/>
+               <akn:FRBRname GUID="3fab809c-48fa-3e42-b388-2e22dda596d4"
+                             eId="meta-1_ident-1_frbrwork-1_frbrname-1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="27910fea-29a1-360c-ada7-d797f7772277"
+                                eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"
+                                value="regelungstext-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="3499c05e-ad9a-3468-a23b-560d45d88d10"
+                                eId="meta-1_ident-1_frbrexpression-1">
+               <akn:FRBRthis GUID="ea561d5f-a1b1-3389-a060-d0bf2873bece"
+                             eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                             value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/regelungstext-1"/>
+               <akn:FRBRuri GUID="97570369-484e-3c21-bf75-1f2301cba0b5"
+                            eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                            value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu"/>
+               <akn:FRBRalias GUID="d7753a24-2636-3d5b-a13a-7526de078fcb"
+                              eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
+                              name="vorherige-version-id"
+                              value="398fc006-668a-4820-a3fa-81e21912f8b4"/>
+               <akn:FRBRalias GUID="021bd4bb-8e4b-3759-86d6-96bf06d07b44"
+                              eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
+                              name="aktuelle-version-id"
+                              value="53d31e3c-5c46-4e96-8017-b0db064561a1"/>
+               <akn:FRBRalias GUID="447f22c7-dfa6-321f-9ccc-650e821e733c"
+                              eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
+                              name="nachfolgende-version-id"
+                              value="5d84cd1d-3575-4a03-bb6c-f17834e392fd"/>
+               <akn:FRBRauthor GUID="1880cb82-2874-39ee-8562-55df87bddea7"
+                               eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate GUID="3bf3cf04-53fb-3caf-a738-52085e859e4c"
+                             date="2004-07-16"
+                             eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage GUID="9648e148-3039-3cf9-b0d2-f1a19c47df6a"
+                                 eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
+                                 language="deu"/>
+               <akn:FRBRversionNumber GUID="82d43d69-213a-3a80-a353-a7bf75e1bea9"
+                                      eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="045c9ff4-13d7-319d-ada7-cfc160dbce5b"
+                                   eId="meta-1_ident-1_frbrmanifestation-1">
+               <akn:FRBRthis GUID="6b42f392-8b6e-36f5-b7e9-a7510dfb5654"
+                             eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                             value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/2022-08-23/regelungstext-1.xml"/>
+               <akn:FRBRuri GUID="17cabf7a-0d50-3a6f-8940-5450653252a8"
+                            eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                            value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/2022-08-23/regelungstext-1.xml"/>
+               <akn:FRBRdate GUID="2f5124ff-7361-3ebf-8250-ee679d3a7a8c"
+                             date="2022-08-23"
+                             eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                             name="generierung"/>
+               <akn:FRBRauthor GUID="b433bf00-a224-3d09-9978-15d77f21982e"
+                               eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="a8fbd9fa-3a0b-391a-a22b-6d02e7aaf3cc"
+                               eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle GUID="9b44d2dc-9c66-3559-a7d6-6ff3be2b5207"
+                        eId="meta-1_lebzykl-1"
+                        source="attributsemantik-noch-undefiniert">
+<!-- 1. Originales Gesetz -->
+             <akn:eventRef GUID="d1c3d2a6-5d1a-3650-b439-c07d57b6cab1"
+                           date="1985-08-20"
+                           eId="meta-1_lebzykl-1_ereignis-1"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="generation"/>
+            <akn:eventRef GUID="fb8f4655-2ea3-3715-8889-3861cec69faf"
+                          date="1985-08-24"
+                          eId="meta-1_lebzykl-1_ereignis-2"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+             <!-- 2. -->
+             <akn:eventRef GUID="570d12e4-fb14-31a8-9368-de769f45435e"
+                           date="1990-06-28"
+                           eId="meta-1_lebzykl-1_ereignis-3"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="ad5db2a4-f687-3fb0-a2ac-1adcac05ea75"
+                          date="1990-07-01"
+                          eId="meta-1_lebzykl-1_ereignis-4"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- 3. -->
+             <akn:eventRef GUID="133224aa-7431-3029-a32c-2d74d549a1d0"
+                           date="1992-07-23"
+                           eId="meta-1_lebzykl-1_ereignis-5"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="5a1f177f-bffa-3d0c-a032-e93ac2cf4efc"
+                          date="1992-07-31"
+                          eId="meta-1_lebzykl-1_ereignis-6"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- 4. Aufhebung einer schwebenden Änderung | Umsetzung lt. HdR-Vorgabe -->
+             <akn:eventRef GUID="12447663-a2dc-3007-9ed2-c90ddf1ffbd4"
+                           date="1993-04-27"
+                           eId="meta-1_lebzykl-1_ereignis-7"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="b35f3e89-8d10-3fc5-a7b1-16dba8789629"
+                          date="1994-01-01"
+                          eId="meta-1_lebzykl-1_ereignis-8"
+                          refersTo="entfernt"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- Vor der Umstellung auf "entfernt" muss geprüft werden, ob dieses Event an anderer Stelle noch aktiv genutzt wird -->
+             <akn:eventRef GUID="37db3b80-5d70-39a2-8b32-5fae1475869f"
+                           date="1993-11-25"
+                           eId="meta-1_lebzykl-1_ereignis-9"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="8ab8f548-c8cd-3c57-885f-2cdee57a2c3b"
+                          date="1993-12-03"
+                          eId="meta-1_lebzykl-1_ereignis-10"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- 5. Daten bereits bei 4. angelegt, Doppelungen werden nicht erfasst -->
+             <!-- 6. -->
+             <akn:eventRef GUID="46c04d5c-9a8e-302e-831e-8b120695396e"
+                           date="1994-08-02"
+                           eId="meta-1_lebzykl-1_ereignis-11"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="fa047dbb-009e-3ee1-9d1b-1dcbb9560b0f"
+                          date="1995-01-01"
+                          eId="meta-1_lebzykl-1_ereignis-12"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- 7. Eintrag zum Inkrafttreten bereits angelegt bei 6., Doppelungen werden nicht erfasst -->
+             <akn:eventRef GUID="a7b24f40-308b-3c22-ad56-c6c0d6273b0e"
+                           date="1994-10-25"
+                           eId="meta-1_lebzykl-1_ereignis-13"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+             <!-- 8. -->
+             <akn:eventRef GUID="4535511e-9772-31f0-8d6d-4c9528813e61"
+                           date="2001-06-25"
+                           eId="meta-1_lebzykl-1_ereignis-14"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="83965d44-c055-344b-8194-d1a24ff55854"
+                          date="2001-06-28"
+                          eId="meta-1_lebzykl-1_ereignis-15"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- 9. -->
+             <akn:eventRef GUID="d62e1eec-acba-38b3-8370-6c132bde3155"
+                           date="2001-11-26"
+                           eId="meta-1_lebzykl-1_ereignis-16"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="11644a38-5c40-3702-8d78-62d80ff510a9"
+                          date="2002-01-01"
+                          eId="meta-1_lebzykl-1_ereignis-17"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- 10. -->
+             <akn:eventRef GUID="6ec135bf-aa1c-3a13-ad96-39f6e2240108"
+                           date="2002-03-21"
+                           eId="meta-1_lebzykl-1_ereignis-18"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="b90614e4-65a1-394c-8c3a-8b6cd77b1228"
+                          date="2002-03-29"
+                          eId="meta-1_lebzykl-1_ereignis-19"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- 11. -->
+             <akn:eventRef GUID="f7d43c1c-ef26-34d8-9b23-3efd86e98937"
+                           date="2003-11-25"
+                           eId="meta-1_lebzykl-1_ereignis-20"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="f0d4a724-f366-36b0-8b00-be3a5ea258a4"
+                          date="2003-11-28"
+                          eId="meta-1_lebzykl-1_ereignis-21"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- Auslöser der Neufassung -->
+             <akn:eventRef GUID="e09a976d-391e-331a-a59f-c867e933b9ff"
+                           date="2004-01-30"
+                           eId="meta-1_lebzykl-1_ereignis-22"
+                           refersTo="ausfertigung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"/>
+            <akn:eventRef GUID="d161aaaa-b5f2-390a-9ebb-826edc852c7f"
+                          date="2004-02-13"
+                          eId="meta-1_lebzykl-1_ereignis-23"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+             <!-- Neufassung des Dokuments -->
+             <akn:eventRef GUID="1d443b53-f4c8-3083-842e-4a0d0a77d440"
+                           date="2004-07-16"
+                           eId="meta-1_lebzykl-1_ereignis-24"
+                           refersTo="neufassung"
+                           source="attributsemantik-noch-undefiniert"
+                           type="generation"/>
+         </akn:lifecycle>
+         <akn:temporalData GUID="d777161c-f8fd-3701-b264-bde5a77e3893"
+                           eId="meta-1_geltzeiten-1"
+                           source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup GUID="0c389017-2152-33ad-b20a-c38fecba6199"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-1">
+               <akn:timeInterval GUID="ca24e780-dfd3-3451-9768-e95f60b4dee9"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-2"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="5b9053f0-0d23-36c4-9c61-98d702298650"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-2">
+               <akn:timeInterval GUID="f286f1dd-2ff2-32c0-add8-f0df3abaec24"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-4"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="7790c970-2f0e-3864-a270-71568713b7e8"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-3">
+               <akn:timeInterval GUID="8373690d-09f9-3eb6-a70f-cd8d7f513200"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-6"/>
+            </akn:temporalGroup>
+             <!-- Verweist auf deaktivierten Lifecycle-Eintrag ereignis-8, temporalGroup bleibt unbenutzt bestehen (kann bei Neufassung gelöscht werden) -->
+             <akn:temporalGroup GUID="cb1b7f4c-4579-3dbb-8a6a-0de92893dcc1"
+                                eId="meta-1_geltzeiten-1_geltungszeitgr-4">
+               <akn:timeInterval GUID="a796d198-3461-3ba7-b612-dc5a084be053"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-4_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-8"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="1203c06f-2864-3790-8860-baf3b924dd57"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-5">
+               <akn:timeInterval GUID="6f0a44c3-236e-302f-82e0-03fbb5a2c157"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-5_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-10"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="8cb2503c-ef7a-3272-bbf3-348065637e01"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-6">
+               <akn:timeInterval GUID="1fdf3af7-2795-3b05-ba9e-13b1cc17a31f"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-6_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-12"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="d84a111f-4172-3e30-9a97-1bf5739af298"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-7">
+               <akn:timeInterval GUID="227aceb6-b3f7-3097-aa76-98da80333972"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-7_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-15"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="56b41e49-582c-3a2f-a39f-59a696544fd0"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-8">
+               <akn:timeInterval GUID="082aad5f-6ecc-3b15-b07b-14934eedf409"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-8_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-17"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="c73a7193-6fde-3850-b011-2508c88860a4"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-9">
+               <akn:timeInterval GUID="129294e7-23ed-3cd8-970b-750e549178a5"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-9_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-19"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="6545c4e0-81d2-30af-afe8-dc19fd230854"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-10">
+               <akn:timeInterval GUID="32d2d41a-804a-3642-ad32-e8662846e98a"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-10_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-21"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="d0ae39bf-b0d9-3028-8d60-1893508a00bd"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-11">
+               <akn:timeInterval GUID="a696ace0-7fea-3883-8233-f39c4cfbda6c"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-11_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-23"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+           <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
+           <akn:proprietary GUID="44c657d0-3411-3f72-bd25-5c1546d0a38f"
+                            eId="meta-1_proprietary-1"
+                            source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>stammform</meta:form>
+               <meta:fassung>neufassung</meta:fassung>
+               <meta:art>regelungstext</meta:art>
+               <meta:initiant>nicht-vorhanden</meta:initiant>
+               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
+                <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
+                <meta:fna>754-28-1</meta:fna>
+                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                <meta:gesta>nicht-vorhanden</meta:gesta>
+                <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                <meta:migrationsstatusNeuRIS>text-vollstaendig-formatierung-vollstaendig</meta:migrationsstatusNeuRIS>
+            </meta:legalDocML.de_metadaten>
+            <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+               <meta-breg:federfuehrung>
+                  <meta-breg:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
+                  <meta-breg:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta-breg:federfuehrend>
+               </meta-breg:federfuehrung>
+            </meta-breg:legalDocML.de_metadaten>
+         </akn:proprietary>
+      </akn:meta>
+      <akn:preface GUID="29a68d89-5664-3a2c-9e7c-6cd12df2fbde" eId="einleitung-1">
+         <akn:longTitle GUID="37f89471-07bd-3800-a7f8-36f64219705d"
+                        eId="einleitung-1_doktitel-1">
+            <akn:p GUID="1b24925d-ed3f-3722-a4d3-69de08fc6f5d"
+                   eId="einleitung-1_doktitel-1_text-1">
+               <akn:docTitle GUID="6fa3cd51-dc15-35eb-933d-cafa69c9208b"
+                             eId="einleitung-1_doktitel-1_text-1_doctitel-1">Saatgutverkehrsgesetz
+                   <!-- Fußnote --><akn:authorialNote GUID="5301974f-807b-3e15-8bff-f94e5d2dfc9d"
+                                                      eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1"
+                                                      marker="*)"
+                                                      placement="bottom"
+                                                      placementBase="">
+                     <akn:p GUID="50e78dfe-8eec-3e6a-9adc-bec6bec16857"
+                            eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_text-1">Dieses Gesetz dient der Umsetzung folgender Richtlinien:</akn:p>
+                     <akn:ol GUID="002d7c8c-51f2-30c7-ba7e-2733a447b010"
+                             eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1">
+                        <akn:li GUID="0b8ef706-4d84-3cd6-bc92-f5475611afd5"
+                                eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-1"
+                                value="1.">
+                           <akn:p GUID="74ba7cbf-7d8a-3dca-8c28-94b9fd30c851"
+                                  eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-1_text-1">Richtlinie 66/401/EWG des Rates vom 14. Juni 1966 über den Verkehr mit Futterpflanzensaatgut (ABl. EG Nr. 125 S. 2298/66), zuletzt geändert durch die Richtlinie 2004/55/EG (ABl. EU Nr. L 114 S. 18);</akn:p>
+                        </akn:li>
+                        <akn:li GUID="c669b6c1-693b-3ff0-a4c3-f4c1fae12b5f"
+                                eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-2"
+                                value="2.">
+                           <akn:p GUID="51df052a-9b33-3c5a-95ed-e0fe79b53088"
+                                  eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-2_text-1">Richtlinie 66/402/EWG des Rates vom 14. Juni 1966 über den Verkehr mit Getreidesaatgut (ABl. EG Nr. 125 S. 2309/66), zuletzt geändert durch die Richtlinie 2003/61/EG (ABl. EU Nr. L 165 S. 23);</akn:p>
+                        </akn:li>
+                        <akn:li GUID="1f46970c-ba46-3c00-a542-8681441e07a6"
+                                eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-3"
+                                value="3.">
+                           <akn:p GUID="0a0afade-d690-33fb-8477-545fd724e1f4"
+                                  eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_listegeor-1_listenelem-3_text-1">Richtlinie 68/193/EWG des Rates vom 9. April 1968 über den Verkehr mit vegetativem Vermehrungsgut von Reben (ABl. EG Nr. L 93 S. 15), zuletzt geändert durch die Verordnung (EG) Nr. 1829/2003 (ABl. EU Nr. L 268 S. 1);</akn:p>
+                        </akn:li>
+                         <!-- weitere Aufzählungen, die im Originaldokument vorkommen werden ausgelassen -->
+                     </akn:ol>
+                  </akn:authorialNote>
+               </akn:docTitle>
+               <akn:shortTitle GUID="b9bffd6c-a094-3e9c-9c88-bbd4e6dcc4cf"
+                               eId="einleitung-1_doktitel-1_text-1_kurztitel-1">(<akn:inline GUID="e2251500-244f-39d3-9e35-c3f94d019106"
+                                                                                             eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
+                                                                                             name="attributsemantik-noch-undefiniert"
+                                                                                             refersTo="amtliche-abkuerzung">SaatG</akn:inline>)</akn:shortTitle>
+            </akn:p>
+         </akn:longTitle>
+      </akn:preface>
+       <!-- Hauptteil -->
+       <akn:body GUID="8096e287-ff40-3be1-84dc-a6d33d57266a" eId="hauptteil-1">
+<!-- Abschnitt 1 -->
+           <akn:section GUID="d49e09a4-0363-3232-aec2-9b389cf9369b"
+                        eId="hauptteil-1_abschnitt-1">
+            <akn:num GUID="e90a3866-d2ab-36ec-89f7-45adc30c6f1d"
+                     eId="hauptteil-1_abschnitt-1_bezeichnung-1">Abschnitt 1</akn:num>
+            <akn:heading GUID="d8246683-ff07-32f6-a98b-b7309f52dc72"
+                         eId="hauptteil-1_abschnitt-1_überschrift-1">Saatgutordnung</akn:heading>
+               <!-- Unterabschnitt 1 -->
+               <akn:subsection GUID="7c2cf93c-836a-388b-a27e-56772362d2fe"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1">
+               <akn:num GUID="29384d17-d8ce-32cd-98d5-2c8f24a520ae"
+                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_bezeichnung-1">Unterabschnitt 1</akn:num>
+               <akn:heading GUID="2e97265d-0dde-3660-b591-788ad7826a1c"
+                            eId="hauptteil-1_abschnitt-1_uabschnitt-1_überschrift-1">Allgemeine Vorschriften</akn:heading>
+                   <!-- §1 -->
+                   <akn:article GUID="b2aa427d-66d0-3d44-8fa2-a2055cab4ceb"
+                                eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1"
+                                period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+                  <akn:num GUID="0bbee884-3fdb-3dbb-83b1-d83e5a854ed6"
+                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_bezeichnung-1">§1</akn:num>
+                  <akn:heading GUID="2014ec58-d132-3c8e-a585-e92d16c35d82"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_überschrift-1">Anwendungsbereich</akn:heading>
+                       <!-- Absatz 1 -->
+                       <akn:paragraph GUID="5bbf5724-becd-3fad-b388-096723ba3a3a"
+                                      eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-1">
+                     <akn:num GUID="0992e2dd-fa0d-3cc2-a9a1-76634c5dce94"
+                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-1_bezeichnung-1">(1)</akn:num>
+                     <akn:content GUID="d38e1768-3355-3d36-9117-27412dd5ef52"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-1_inhalt-1">
+                        <akn:p GUID="1303a1a9-580e-370e-9fe9-e8cb6f55a554"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-1_inhalt-1_text-1">Dieses Gesetz gilt vorbehaltlich der §§ 56 und 57 für Saatgut und Vermehrungsmaterial der im Artenverzeichnis zu diesem Gesetz aufgeführten Arten.</akn:p>
+                     </akn:content>
+                  </akn:paragraph>
+                       <!-- Absatz 2 -->
+                       <akn:paragraph GUID="2c657e35-2b7b-3a2f-a416-59ed64fde27c"
+                                      eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-2">
+                     <akn:num GUID="dd63ac78-5d60-343d-a05c-10a5a5a34bbe"
+                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-2_bezeichnung-1">(2)</akn:num>
+                     <akn:content GUID="77fd9f9f-46f0-38e6-875b-23ffe4271d5a"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-2_inhalt-1">
+                        <akn:p GUID="ca084e5c-f2ed-3c5f-9ea0-2fd9d3e6492f"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-1_abs-2_inhalt-1_text-1">Das Bundesministerium für Verbraucherschutz, Ernährung und Landwirtschaft wird ermächtigt, durch Rechtsverordnung mit Zustimmung des Bundesrates das Artenverzeichnis zu diesem Gesetz aufzustellen. Eine Art darf in das Artenverzeichnis nur aufgenommen werden, wenn dies zur Durchführung von Rechtsakten der Europäischen Gemeinschaft oder zum Schutz des Verbrauchers erforderlich ist. Eine Art darf im Artenverzeichnis gestrichen werden, wenn der Schutz des Verbrauchers eine Regelung nach diesem Gesetz nicht mehr erfordert und Rechtsakte der Europäischen Gemeinschaft nicht entgegenstehen.</akn:p>
+                     </akn:content>
+                  </akn:paragraph>
+               </akn:article>
+                   <!-- §2 -->
+                   <akn:article GUID="43230368-617a-31b8-855f-7cde65e53d8c"
+                                eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2"
+                                period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+                  <akn:num GUID="7006d2f0-2bbd-3fb9-8128-076187f57397"
+                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_bezeichnung-1">§2</akn:num>
+                  <akn:heading GUID="a96dedac-5335-3e57-951b-ca0bae3ac3e7"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_überschrift-1">Begriffsbestimmungen</akn:heading>
+                       <!-- Absatz 1 -->
+                       <akn:paragraph GUID="327d6d56-b6e8-39ba-96b4-350ce2228443"
+                                      eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1">
+                     <akn:num GUID="5bce1e32-6074-3cca-97c6-4d488b8e90a0"
+                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_bezeichnung-1">(1)</akn:num>
+                     <akn:list GUID="eff67179-76cf-3a1d-b488-914de0df0006"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1">
+                        <akn:intro GUID="c91fa95d-4688-3cfa-8da9-a71872f2f881"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_intro-1">
+                           <akn:p GUID="776bea5f-3d0a-3081-a9b8-9f2498bae89a"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_intro-1_text-1">Im Sinne dieses Gesetzes sind</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="fb13884e-3621-33e9-bb75-b1cc2df09520"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1">
+                           <akn:num GUID="927d8819-8328-3961-9fcb-7d908073ba82"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                           <akn:list GUID="f48d4d4d-be6a-3053-8442-1e3bf935e394"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1">
+                              <akn:intro GUID="e6884d5f-4b14-39b0-a7ab-d3666f008340"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_intro-1">
+                                 <akn:p GUID="69b73b39-2e10-3b89-95bb-94da6eb705e1"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_intro-1_text-1">Saatgut:</akn:p>
+                              </akn:intro>
+                              <akn:point GUID="08dcb571-4905-39f5-a065-5adf7177ff4b"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1">
+                                 <akn:num GUID="e41cd1d6-4318-36dc-a19e-fdda9cbc38cc"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num>
+                                 <akn:content GUID="77eb48fa-218e-35ed-8a63-0b991f0d15ba"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="df8837ea-9854-347b-9e7a-bf5896af8003"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1">Samen, der zur Erzeugung von Pflanzen bestimmt ist; ausgenommen sind Samen von Obst und Zierpflanzen,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="caa10ddb-4bb0-3348-bae9-7654ade95854"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2">
+                                 <akn:num GUID="a6408bd9-6696-3cbc-bc79-811cdab65255"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num>
+                                 <akn:content GUID="a75a8389-239a-383b-bc2e-0eb607f504b4"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="7a4698e9-90db-3d17-8494-0f93e33a6a0d"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1">Pflanzgut von Kartoffel,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="d65b5c77-28cf-39cb-bcd2-9780107618ff"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3">
+                                 <akn:num GUID="0f9e2200-fb2c-3f8b-9d7e-6d33150c1aa3"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3_bezeichnung-1">c)</akn:num>
+                                 <akn:content GUID="86756c79-8f29-3d44-b2a9-0ed14ad4b901"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="5e09191d-8f20-3405-bb65-5822bbfad802"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1">Pflanzgut von Rebe einschließlich Ruten und Rutenteilen;</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                           </akn:list>
+                        </akn:point>
+                        <akn:point GUID="cb87d3d0-4245-319c-ae10-b57ee3ce4d6a"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2">
+                           <akn:num GUID="c59edc86-5c23-3d01-a9f7-3002cea392d0"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_bezeichnung-1">1a.</akn:num>
+                           <akn:list GUID="ed8decb2-45ef-3add-b6cc-4d0dbd662426"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1">
+                              <akn:intro GUID="9ccc57fd-ec2e-36ce-bbb9-0c9ad620b86c"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_intro-1">
+                                 <akn:p GUID="4eedde89-5ec2-3acd-aacf-01766825d632"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_intro-1_text-1">Vermehrungsmaterial: Pflanzen und Pflanzenteile</akn:p>
+                              </akn:intro>
+                              <akn:point GUID="c3a2a384-ceb3-3a07-a9ca-fa9590640f9a"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1">
+                                 <akn:num GUID="539e5c6c-7257-39cb-9e90-0814970caff0"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num>
+                                 <akn:content GUID="7c084382-da96-3c4e-a182-dab3091b7813"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="5120d5af-e002-3629-9516-82a79c842633"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_inhalt-1_text-1">von Gemüse, Obst oder Zierpflanzen, die für die Erzeugung von Pflanzen und Pflanzenteilen,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="41d4bd8c-c2fd-3f08-8a6c-7383681fd555"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2">
+                                 <akn:num GUID="624b9a0b-74e5-316b-82e9-c087d5d9ea5f"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num>
+                                 <akn:content GUID="402c627b-e59a-3bfe-b87b-adabdd583fd7"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="373542c0-f205-3ef0-a95e-86d4fb49ea46"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2_inhalt-1_text-1">von Gemüse und Obst, die sonst zum Anbau</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:wrapUp GUID="8be5a01c-f789-34f5-9c85-5337ee839fcd"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_schlusstext-1">
+                                 <akn:p GUID="5504a47b-bce3-3d51-bda2-93500cb37440"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-2_untergl-1_schlusstext-1_text-1">bestimmt sind; ausgenommen sind Samen von Gemüse;</akn:p>
+                              </akn:wrapUp>
+                           </akn:list>
+                        </akn:point>
+                        <akn:point GUID="da9d21df-9e9c-3ddb-b030-38f43ff8e837"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-3">
+                           <akn:num GUID="ce19271f-c78e-3325-afc5-6621154f8afa"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-3_bezeichnung-1">2.</akn:num>
+                           <akn:content GUID="836e6440-7f8b-378c-9204-66d0e21a9d1f"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-3_inhalt-1">
+                              <akn:p GUID="1b4dd43d-bd23-392a-aa07-5d1b89efe1c7"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-3_inhalt-1_text-1">Kategorien (für Saatgut): Basissaatgut, Zertifiziertes Saatgut, Standardpflanzgut, Standardsaatgut, Handelssaatgut und Behelfssaatgut; dem Basissaatgut, Zertifizierten Saatgut, Handelssaatgut und Behelfssaatgut steht jeweils Basispflanzgut, Zertifiziertes Pflanzgut, Handelspflanzgut oder Behelfspflanzgut gleich;</akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="e5bdf497-419b-3828-b757-f4ee707996be"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-4">
+                           <akn:num GUID="23506aa3-2c93-3a31-90f2-6b1a350b752c"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-4_bezeichnung-1">3.</akn:num>
+                           <akn:content GUID="d3138002-a5ca-33fa-912b-76761fd66e8d"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1">
+                              <akn:p GUID="c367e121-c7e4-380c-a830-5551a1c58ef8"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1">Basissaatgut: Saatgut, das nach den Grundsätzen systematischer Erhaltungszüchtung von dem in der Sortenliste für die Sorte eingetragenen Züchter oder unter dessen Aufsicht und nach dessen Anweisung gewonnen und als Basissaatgut anerkannt ist;</akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="69ed7782-a3e0-3055-9270-a03448b0a2be"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5">
+                           <akn:num GUID="9b4c27ad-d3a3-30c5-bc3a-2ad7e57578f5"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_bezeichnung-1">4.</akn:num>
+                           <akn:list GUID="e8242c81-c369-30e5-a48d-910094efd1c7"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1">
+                              <akn:intro GUID="e40768bb-35f5-37b0-b491-265df3085a9f"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_intro-1">
+                                 <akn:p GUID="604c8edd-1991-3c7f-ab3a-2bbddfbc5ae2"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_intro-1_text-1">Zertifiziertes Saatgut:</akn:p>
+                              </akn:intro>
+                              <akn:point GUID="66d94ec8-58df-32b2-bb0e-f2a14b9c7800"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1">
+                                 <akn:num GUID="8392c066-5a56-34ed-bbad-957f24efd485"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num>
+                                 <akn:content GUID="51df315b-5d4e-307e-be2f-84e059bcf3c1"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="c8d1c2ae-cca4-36d0-9f1e-306c97d6f504"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-1_inhalt-1_text-1">Saatgut der im Artenverzeichnis zu diesem Gesetz aufgeführten landwirtschaftlichen Arten und Gemüsearten, das unmittelbar aus Basissaatgut oder anerkanntem Vorstufensaatgut oder im Falle des § 5 Abs. 1 Nr. 4 Buchstabe a aus Zertifiziertem Saatgut erwachsen ist und als Zertifiziertes Saatgut oder im Falle der durch Rechtsverordnung nach § 5 Abs. 1 Nr. 3 bezeichneten Arten als Zertifiziertes Saatgut erster Generation anerkannt ist,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="2587837b-2225-3a12-bc1f-d1fa2767fc35"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2">
+                                 <akn:num GUID="388476ef-4a8c-3888-b446-78b01f9afb18"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num>
+                                 <akn:content GUID="41ea61ec-b96f-35e1-98a0-4a98d6ed2e1b"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="8ab9cb6f-6f50-3352-b191-754301a31569"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-2_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-2_inhalt-1_text-1">Saatgut der durch Rechtsverordnung nach § 5 Abs. 1 Nr. 3 bezeichneten Arten, das unmittelbar aus Basissaatgut, anerkanntem Vorstufensaatgut oder Zertifiziertem Saatgut erster Generation erwachsen ist und als Zertifiziertes Saatgut zweiter Generation anerkannt ist (Zertifiziertes Saatgut zweiter Generation),</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                               <!-- weitere Auzählungen aus dem Originaldokument werden ausgelassen -->
+                           </akn:list>
+                        </akn:point>
+                     </akn:list>
+                  </akn:paragraph>
+               </akn:article>
+                   <!-- §3 -->
+                   <akn:article GUID="0aa133e6-1e2d-3121-89a1-253c8ba760ec"
+                                eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3"
+                                period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+                  <akn:num GUID="cade4ef4-87ee-39bb-8e3e-8e513cf57778"
+                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_bezeichnung-1">§3</akn:num>
+                  <akn:heading GUID="4e8d6fb6-a01d-33b7-8d37-4a097e7c588b"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_überschrift-1">Inverkehrbringen von Saatgut</akn:heading>
+                       <!-- Absatz 1 -->
+                       <akn:paragraph GUID="bc36f6bf-3114-3272-b86f-6f3255dfbb60"
+                                      eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1">
+                     <akn:num GUID="97b3d86b-0a5e-38a8-993a-305203db3399"
+                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_bezeichnung-1">(1)</akn:num>
+                           <!-- Satz 1 -->
+                           <akn:list GUID="529007b2-2f9e-3435-8f28-c420d790fa78"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1">
+                        <akn:intro GUID="5d00832d-1ed4-359c-b461-9fba24865df2"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_intro-1">
+                           <akn:p GUID="3d3d1430-c2cb-3358-9c27-57e42341eb54"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_intro-1_text-1">Saatgut darf zu gewerblichen Zwecken nur in den Verkehr gebracht werden, wenn</akn:p>
+                        </akn:intro>
+                               <!-- Teilsatz 1 -->
+                               <akn:point GUID="3bcd8fb0-b929-3ff5-ad57-04a99b18c6d8"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-1">
+                           <akn:num GUID="dea1cc50-bc4d-37f4-98da-048a10f79fe5"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                           <akn:content GUID="2b591615-1f01-3682-9445-4f87d23ebfcf"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-1_inhalt-1">
+                              <akn:p GUID="13bc4b31-52fd-3d8c-9826-84c688238715"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-1_inhalt-1_text-1">es als Vorstufensaatgut, Basissaatgut, Zertifiziertes Saatgut oder Standardpflanzgut anerkannt ist,</akn:p>
+                           </akn:content>
+                        </akn:point>
+                               <!-- Teilsatz 2 -->
+                               <akn:point GUID="bf35b29a-d7d7-3190-a34b-c10106aa6366"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2">
+                           <akn:num GUID="823fb18c-27b7-3729-afa8-91b1424315c9"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                           <akn:list GUID="e8aaf650-a2c1-3c1b-830e-c0cc5e8f74b1"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1">
+                              <akn:intro GUID="a4e124bf-025a-377a-9aae-4454747bcf58"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_intro-1">
+                                 <akn:p GUID="91fbd64c-566a-3bdd-9658-1a9b9549ce7a"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_intro-1_text-1">sein Inverkehrbringen als Standardsaatgut, Handelssaatgut oder Behelfssaatgut durch Rechtsverordnung nach § 11 gestattet ist und es</akn:p>
+                              </akn:intro>
+                               <!-- Teilsatz a) -->
+                               <akn:point GUID="ced4af5a-223e-392b-bb29-306a7bd7d259"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1">
+                                 <akn:num GUID="881cafae-25f7-3ead-8d33-cbf2aa15058a"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num>
+                                 <akn:content GUID="efbd6a8b-71b7-3969-9e57-6a4775caf8ab"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="43aa8c82-1847-3a8c-817b-31c3b2a9230f"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_inhalt-1_text-1">bei Standardsaatgut den dafür festgesetzten Anforderungen entspricht,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                               <!-- Teilsatz b) -->
+                               <akn:point GUID="5c66253d-dbdd-362c-b12e-696acec6c588"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2">
+                                 <akn:num GUID="31de05d7-75a9-39c3-9329-bd233ce806e3"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num>
+                                 <akn:content GUID="2f87f849-8833-35d1-bfa6-5a5deb6d00cb"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="8413062f-1121-3d48-bcbe-ec2269fad542"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-2_inhalt-1_text-1">bei Handelssaatgut zugelassen und in den Fällen des § 13 Abs. 2 formecht ist,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                               <!-- Teilsatz c) -->
+                               <akn:point GUID="ee645e5b-9ac5-3ab0-9a2b-f1207795c589"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3">
+                                 <akn:num GUID="c348be56-7212-3b0e-ae94-0607312998ca"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3_bezeichnung-1">c)</akn:num>
+                                 <akn:content GUID="bcec6cce-216d-3e28-b2c1-b08889564df6"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="2c826166-711c-3099-a977-d4436e9d03c9"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3_inhalt-1_text-1">bei Behelfssaatgut den dafür festgesetzten Anforderungen entspricht und in den Fällen des § 14 formecht ist,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                           </akn:list>
+                        </akn:point>
+                               <!-- weitere Aufzählungen aus dem Originaldokument werden ausgelassen -->
+                               <!-- Teilsatz 9 -->
+                               <akn:point GUID="d87e73bd-0574-3198-b252-074eaaa25407"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-3">
+                           <akn:num GUID="cc04f6b7-c94e-31c1-be72-a8a39cfc2e0c"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-3_bezeichnung-1">9.</akn:num>
+                           <akn:content GUID="179980cb-eeef-30c3-8c99-9cb79d8765d2"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-3_inhalt-1">
+                              <akn:p GUID="b18e3aaf-080d-3f95-8aad-168ff1f77c22"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-1_listenelem-3_inhalt-1_text-1">sein Inverkehrbringen im Rahmen einer genehmigten Freisetzung nach § 14 Abs. 1 Nr. 1 des Gentechnikgesetzes erfolgt.</akn:p>
+                           </akn:content>
+                        </akn:point>
+                     </akn:list>
+                     <akn:list GUID="da4e522f-7ae2-3f8a-be4e-c5250b7125bc"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2">
+                        <akn:intro GUID="5f0a4487-ce9b-3c27-a5ae-78eaeef34d11"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_intro-1">
+                           <akn:p GUID="a21f1a5a-a72f-36c1-b0bd-d629d7389326"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_intro-1_text-1">Saatgut darf</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="b3de19af-67c5-34bc-9781-88f6bb40f15b"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-1">
+                           <akn:num GUID="5d1b217d-2313-323c-86b6-0cf5ea3832a5"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-1_bezeichnung-1">1.</akn:num>
+                           <akn:content GUID="3313c90b-acf0-3e28-a857-4adb6e672200"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-1_inhalt-1">
+                              <akn:p GUID="b6acb6e8-b737-3176-af9c-f38afafb5225"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-1_inhalt-1_text-1">nach Satz 1 Nr. 1, 2, 4 und 7 nur so lange in den Verkehr gebracht werden, als es den durch Rechtsverordnung nach § 5 Abs. 1 Nr. 1 Buchstabe b, Abs. 2 Nr. 1, § 11 Abs. 1, 2 und 3 Nr. 2, § 25 oder bei eingeführtem Saatgut den durch Rechtsakte der Europäischen Gemeinschaft festgesetzten Anforderungen entspricht,</akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="c856e732-3e11-3dfb-aed2-feea0c09a030"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2">
+                           <akn:num GUID="ef7e3feb-007e-35c6-9c7c-22e68ec8c986"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_bezeichnung-1">2.</akn:num>
+                           <akn:list GUID="e6daf294-30ee-39a7-96c8-80584e522153"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1">
+                              <akn:intro GUID="52c45cef-08f7-38c4-b7dc-3e61c50e585e"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_intro-1">
+                                 <akn:p GUID="f639615b-45ce-3b13-bfb7-fbe07b8f162f"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_intro-1_text-1">nach Satz 1 Nr. 1, 2 Buchstabe a und Nr. 7 nur so lange in den Verkehr gebracht werden, als</akn:p>
+                              </akn:intro>
+                              <akn:point GUID="2dc05781-0cbf-3750-8a06-7067ca46b88f"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-1">
+                                 <akn:num GUID="b380c25d-d0bb-33b2-a242-7f973a199034"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num>
+                                 <akn:content GUID="8e4fab5b-94cc-3d66-ab78-ac0f10aee4c9"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="49e9b018-4253-3c2a-92bd-66890a86e39c"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-1_inhalt-1_text-1">eine vom Bundessortenamt für das Inverkehrbringen von Saatgut der Sorte nach § 52 Abs. 6 festgesetzte Auslauffrist noch nicht abgelaufen ist oder</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="b4dbe126-bab7-304b-be4d-097c3ea130dc"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-2">
+                                 <akn:num GUID="e22033bc-1d23-3b9a-9881-b776bd0c7f1a"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num>
+                                 <akn:content GUID="54e11f0d-d1da-324b-8823-8e54b47523bb"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="0d4c43e4-69f1-39e1-b816-01dc3a06db70"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-2_untergl-1_listenelem-2_inhalt-1_text-1">eine in einem der Gemeinsamen Sortenkataloge veröffentlichte Auslauffrist für das Inverkehrbringen von Saatgut der Sorte noch nicht abgelaufen ist und</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                           </akn:list>
+                        </akn:point>
+                        <akn:point GUID="971993ac-a588-3815-be6d-e2284f9b4b59"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-3">
+                           <akn:num GUID="3fdac078-51a4-3de1-8391-3065d4fabc9c"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-3_bezeichnung-1">3.</akn:num>
+                           <akn:content GUID="96fac756-2e6c-3eca-a4f5-d6a5538ca073"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-3_inhalt-1">
+                              <akn:p GUID="51bc2ba4-8d4d-31ac-a5a7-a6bfc4ae3748"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_listenelem-3_inhalt-1_text-1">in Mischungen zu gewerblichen Zwecken nur in den Verkehr gebracht werden, wenn dies durch Rechtsverordnung nach § 26 gestattet ist.</akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:wrapUp GUID="cb06093d-2f7d-3678-bd30-cd180ab23e6e"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_schlusstext-1">
+                           <akn:p GUID="40e9964a-a720-3a95-8e4c-e1ab76828479"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-1_art-3_abs-1_untergl-2_schlusstext-1_text-1">Wer Saatgut einer Sorte, deren Pflanzen gentechnisch veränderte Organismen im Sinne des § 3 Nr. 3 des Gentechnikgesetzes sind, zu gewerblichen Zwecken in den Verkehr bringt, hat beim Anbieten des Saatgutes in Verkaufskatalogen oder mittels eines anderen in schriftlicher Form verfassten Angebotsträgers deutlich auf den Umstand der gentechnischen Veränderung hinzuweisen.</akn:p>
+                        </akn:wrapUp>
+                     </akn:list>
+                  </akn:paragraph>
+               </akn:article>
+                   <!-- weitere Aufzählungen aus dem Originaldokument werden ausgelassen -->
+            </akn:subsection>
+               <!-- Unterabschnitt 2 -->
+               <akn:subsection GUID="b17f9602-8389-3e17-944e-be5ec3aefadc"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-2">
+               <akn:num GUID="ae6b6248-1e3a-3efa-9881-35710da843d0"
+                        eId="hauptteil-1_abschnitt-1_uabschnitt-2_bezeichnung-1">Unterabschnitt 2</akn:num>
+               <akn:heading GUID="f2720914-b429-350b-8163-85d2dc657516"
+                            eId="hauptteil-1_abschnitt-1_uabschnitt-2_überschrift-1">Anerkanntes Saatgut</akn:heading>
+               <akn:article GUID="901724a3-4deb-393a-aacb-2049c663eca9"
+                            eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1"
+                            period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+                  <akn:num GUID="90de9a98-cd67-33b7-bbc1-5d102060024e"
+                           eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_bezeichnung-1">§4</akn:num>
+                  <akn:heading GUID="a33bfd28-33c8-304c-9586-4b961eace579"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_überschrift-1">Voraussetzungen für die Anerkennung</akn:heading>
+                  <akn:paragraph GUID="cbe10855-f042-3f5b-8807-384ed6e1f87a"
+                                 eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1">
+                     <akn:num GUID="5d193168-ae6e-31c6-8fd8-2f0449960938"
+                              eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_bezeichnung-1">(1)</akn:num>
+                     <akn:list GUID="acb462e8-d02c-3487-bdc5-97f40bbcc98e"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1">
+                        <akn:intro GUID="b0fa605d-b12b-378f-99b5-27ee8f952297"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_intro-1">
+                           <akn:p GUID="d184a9d3-2fb2-3fa4-a9f4-9bf944f1d358"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_intro-1_text-1">Saatgut wird anerkannt, wenn</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="9a29af0d-c14f-38d6-8851-f19799d2e179"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1">
+                           <akn:num GUID="0b1783d9-908a-3c66-a773-8e5665ce5ca8"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_bezeichnung-1">1.</akn:num>
+                           <akn:list GUID="751adfc2-20b4-3b39-ba1b-9efdb547e54b"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1">
+                              <akn:intro GUID="7f286c50-b3f5-3999-beb9-e3b151490c67"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_intro-1">
+                                 <akn:p GUID="d75c4cb4-777f-32db-a6c6-b8e888a8340c"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_intro-1_text-1"/>
+                              </akn:intro>
+                              <akn:point GUID="0f3e27e3-0043-3655-bdfc-68692c5c53f0"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1">
+                                 <akn:num GUID="a466cc56-9ac0-348d-8780-5657797caa78"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1">a)</akn:num>
+                                 <akn:content GUID="40d51fe3-122b-3d44-b02b-af937a0d294c"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1">
+                                    <akn:p GUID="f36ef566-d1c4-377d-936e-7e0728f102b0"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1">die Sorte nach § 30 zugelassen ist,</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="93204d04-53b5-3cb2-b84f-e194b71452dd"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2">
+                                 <akn:num GUID="53920479-0b9f-3fe9-b9fc-52e37aabd11f"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1">b)</akn:num>
+                                 <akn:content GUID="0e981ae7-4568-3055-bbe3-a63d2446bde8"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1">
+                                    <akn:p GUID="9f472e81-c34a-396e-811c-434692f02498"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1">eine vom Bundessortenamt für die Anerkennung von Saatgut der Sorte nach § 52 Abs. 6 festgesetzte Auslauffrist noch nicht abgelaufen ist oder</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="423bf3d7-4779-372d-99b3-edd815b43c64"
+                                         eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3">
+                                 <akn:num GUID="357dabc9-ae48-3c83-9e6a-a7b278f5a1bb"
+                                          eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3_bezeichnung-1">c)</akn:num>
+                                 <akn:content GUID="9aa027c0-a987-32d4-9b13-5d3c6c7915fe"
+                                              eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1">
+                                    <akn:p GUID="e8d2ecce-b94d-3784-b6dd-665eb52aea40"
+                                           eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3_inhalt-1_text-1">das Saatgut der Sorte nach § 55 Abs. 2 anerkannt werden darf;</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                           </akn:list>
+                        </akn:point>
+                        <akn:point GUID="19df2b6a-0eb7-3e7e-8b85-7f444fb6fb75"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-2">
+                           <akn:num GUID="aeed08e7-3959-30fd-8aa1-772da93c1773"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1">2.</akn:num>
+                           <akn:content GUID="16643f2d-38b9-36e3-a797-6c9ebdd84fa1"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-2_inhalt-1">
+                              <akn:p GUID="3fdca886-80cd-3f3b-831b-df3cc0ff005f"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">der Feldbestand der Vermehrungsfläche, auf der das Saatgut erwachsen ist, den festgesetzten Anforderungen entspricht;</akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="615fa894-d3d7-357a-b195-eeed699db016"
+                                   eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-3">
+                           <akn:num GUID="8a73d009-4408-3b7a-8149-5554bb5eac2b"
+                                    eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-3_bezeichnung-1">3.</akn:num>
+                           <akn:content GUID="1cb0716e-43a0-3984-97ba-1dd39f6289dc"
+                                        eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-3_inhalt-1">
+                              <akn:p GUID="25b31cc3-8b57-3b8d-bcf8-9e31adcd8a75"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1">das Saatgut den festgesetzten Anforderungen an seine Beschaffenheit entspricht;</akn:p>
+                           </akn:content>
+                        </akn:point>
+                         <!-- weitere Auzählungen aus dem Originaldokument werden ausgelassen -->
+                         <akn:wrapUp GUID="a79f45fd-16b7-3757-9a4c-e53a0d4ea9b8"
+                                     eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_schlusstext-1">
+                           <akn:p GUID="cc4c93ac-15c3-3bb0-be1d-849fd9161e21"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-1_untergl-1_schlusstext-1_text-1">Die Anerkennung als Standardpflanzgut setzt ferner voraus, dass das Inverkehrbringen von Standardpflanzgut der jeweiligen Rebsorte zu gewerblichen Zwecken durch Rechtsverordnung nach Absatz 3 gestattet ist. Die Anerkennung als Vorstufensaatgut setzt ferner voraus, dass das Saatgut den für Basissaatgut festgesetzten Anforderungen entspricht, soweit nicht durch Rechtsverordnung nach § 5 Abs. 1 Nr. 1 Buchstabe a oder b für Vorstufensaatgut abweichende Anforderungen festgesetzt sind.</akn:p>
+                        </akn:wrapUp>
+                     </akn:list>
+                  </akn:paragraph>
+                  <akn:paragraph GUID="e59e512f-da27-37e8-964b-4ac32625319e"
+                                 eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-2">
+                     <akn:num GUID="04de4ee9-070e-3730-932c-08ee43fc4ec5"
+                              eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-2_bezeichnung-1">(2)</akn:num>
+                     <akn:content GUID="08c6b426-6a42-347c-99f0-0acdcd9fd031"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-2_inhalt-1">
+                        <akn:p GUID="7b3d0937-ba45-3d5c-b3f8-7089cc9414db"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-1_abs-2_inhalt-1_text-1">Saatgut einer Sorte, die ausschließlich in einem der Sortenliste entsprechenden amtlichen Verzeichnis außerhalb der Vertragsstaaten eingetragen ist, kann anerkannt werden, wenn eine ausreichende Sortenbeschreibung vorliegt und das Saatgut zur Ausfuhr in ein Gebiet außerhalb der Vertragsstaaten bestimmt ist.</akn:p>
+                     </akn:content>
+                  </akn:paragraph>
+               </akn:article>
+                   <!-- Weitere Einzelvorschriften aus dem Originaldokument werden ausgelassen -->
+                   <!-- Geltungszeitregel -->
+                   <akn:article GUID="be3d46f2-a09d-3e92-ba3d-2aeceea4ff3d"
+                                eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-2"
+                                period="#meta-1_geltzeiten-1_geltungszeitgr-1"
+                                refersTo="geltungszeitregel">
+                  <akn:num GUID="77dd37b6-035d-3dd8-af31-1d73bb67e354"
+                           eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-2_bezeichnung-1">§63</akn:num>
+                  <akn:heading GUID="b59bb612-f58a-31c3-8e59-0bb4f0e372da"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-2_überschrift-1">(Inkrafttreten)</akn:heading>
+                  <akn:paragraph GUID="dc0d3889-80c6-3c17-be4f-639a3346dd2b"
+                                 eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-2_abs-1">
+                     <akn:num GUID="e95ff9c8-264d-3f5a-9730-422309b7657b"
+                              eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-2_abs-1_bezeichnung-1">
+<!-- ohne Nummierung! --></akn:num>
+                     <akn:content GUID="61fa9e55-10cd-36d9-a1c2-9e47f4352b0f"
+                                  eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-2_abs-1_inhalt-1">
+                        <akn:p GUID="57b44714-0383-3eac-a89c-8f58a017ac80"
+                               eId="hauptteil-1_abschnitt-1_uabschnitt-2_art-2_abs-1_inhalt-1_text-1"/>
+                     </akn:content>
+                  </akn:paragraph>
+               </akn:article>
+            </akn:subsection>
+         </akn:section>
+      </akn:body>
+   </akn:act>
+</akn:akomaNtoso>

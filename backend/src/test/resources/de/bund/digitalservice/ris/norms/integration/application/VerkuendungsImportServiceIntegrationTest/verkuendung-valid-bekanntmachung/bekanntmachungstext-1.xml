@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	##################################################################################
+	Projekt E-Gesetzgebung
+	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.7.2 (16.01.2025)
+
+	2025 Copyright (C) 2021-2025 Bundesministerium des Innern und für Heimat,
+	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
+	Verwaltungsarbeit
+
+	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
+	##################################################################################
+-->
+<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-bekanntmachung.xsd">
+   <akn:doc name="bekanntmachungstext">
+<!-- Metadaten -->
+       <akn:meta GUID="2e87a5de-4012-34c2-bbdb-be297bc1147d" eId="meta-1">
+         <akn:identification GUID="6f903d61-f4c1-377a-b4e3-2e9d53e53b6e"
+                             eId="meta-1_ident-1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="5a3f71cf-5e3c-35a9-95b5-8698d98dc48d"
+                          eId="meta-1_ident-1_frbrwork-1">
+               <akn:FRBRthis GUID="58ed34be-be4d-3b05-9b1b-253be93f4c75"
+                             eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                             value="eli/bund/bgbl-1/2004/s1673/bekanntmachungstext-1"/>
+               <akn:FRBRuri GUID="dd46d5a9-84eb-3f28-bdf8-fdbdd8e19c03"
+                            eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                            value="eli/bund/bgbl-1/2004/s1673"/>
+               <akn:FRBRalias GUID="6c4d216f-1772-39f7-ad5d-c6c2758216e6"
+                              eId="meta-1_ident-1_frbrwork-1_frbralias-1"
+                              name="übergreifende-id"
+                              value="2c1a6ec9-7161-4e2f-8999-91219180d994"/>
+               <akn:FRBRdate GUID="828be001-9b3c-324e-a4c2-b223c21dab10"
+                             date="2004-07-16"
+                             eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
+                             name="neufassung"/>
+               <akn:FRBRauthor GUID="7bc1b2c4-1699-3d22-b5ab-fef57fb349db"
+                               eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="6e7669ac-66b8-3d57-b4d9-14dcdb1d4c1d"
+                                eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="681ea750-2055-31db-9c8e-14609de330e4"
+                               eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
+                               value="s1673"/>
+               <akn:FRBRname GUID="a9278f25-ada5-34f0-b6df-10d0d9b750bc"
+                             eId="meta-1_ident-1_frbrwork-1_frbrname-1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="79fed17b-4382-3680-9d08-837c49715f6b"
+                                eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"
+                                value="bekanntmachungstext-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="29a7e273-e2e7-3052-90a7-0ba6ef6b9e71"
+                                eId="meta-1_ident-1_frbrexpression-1">
+               <akn:FRBRthis GUID="101a8227-28ac-3f64-89e8-caf397f83c09"
+                             eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                             value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/bekanntmachungstext-1"/>
+               <akn:FRBRuri GUID="a4fa180b-f177-3963-95a8-7900b6dd40ce"
+                            eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                            value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu"/>
+               <akn:FRBRalias GUID="986669b8-963c-324f-9647-2d6241bb1064"
+                              eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
+                              name="vorherige-version-id"
+                              value="398fc006-668a-4820-a3fa-81e21912f8b4"/>
+               <akn:FRBRalias GUID="e881248b-1727-3139-8766-e1471a47fe62"
+                              eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
+                              name="aktuelle-version-id"
+                              value="53d31e3c-5c46-4e96-8017-b0db064561a1"/>
+               <akn:FRBRalias GUID="f422d1c0-89cd-3c72-832f-988984b41889"
+                              eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
+                              name="nachfolgende-version-id"
+                              value="5d84cd1d-3575-4a03-bb6c-f17834e392fd"/>
+               <akn:FRBRauthor GUID="acdfb4f9-733c-3b29-8e91-adb2dc5ef2ea"
+                               eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate GUID="ca6d0f61-2c50-349a-b26e-9436c46fde2c"
+                             date="2004-07-16"
+                             eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage GUID="22c34f6d-e88c-31ea-9346-5fb9edab0be4"
+                                 eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
+                                 language="deu"/>
+               <akn:FRBRversionNumber GUID="de4b619e-80a0-3d0a-b614-8528f5d4c074"
+                                      eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="1dab234f-5ae3-30ed-8a9c-70d0d6c489b1"
+                                   eId="meta-1_ident-1_frbrmanifestation-1">
+               <akn:FRBRthis GUID="4fd5e45c-0600-358e-9b1e-b00059620f19"
+                             eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                             value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/2022-08-23/bekanntmachungstext-1.xml"/>
+               <akn:FRBRuri GUID="f72ab605-b9a8-3210-945d-f14803a1d5e3"
+                            eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                            value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/2022-08-23/bekanntmachungstext-1.xml"/>
+               <akn:FRBRdate GUID="0d9ce026-5c59-34ab-ab35-3d7d950e012d"
+                             date="2022-08-23"
+                             eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                             name="generierung"/>
+               <akn:FRBRauthor GUID="27a969c2-f36d-3866-839d-81de6a4dac83"
+                               eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="2a9e9335-960f-36f2-bbdd-42492779ffef"
+                               eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle GUID="7f7480f8-1892-32a7-8720-5448893ccacc"
+                        eId="meta-1_lebzykl-1"
+                        source="attributsemantik-noch-undefiniert">
+            <akn:eventRef GUID="ad8cdb0d-b70e-3ac2-8f40-bd444cb2e737"
+                          date="2004-07-16"
+                          eId="meta-1_lebzykl-1_ereignis-1"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+            <akn:eventRef GUID="d4936298-2605-3ae9-afc9-7ba484590ad0"
+                          date="0001-01-01"
+                          eId="meta-1_lebzykl-1_ereignis-2"
+                          refersTo="inkrafttreten-mit-noch-unbekanntem-datum"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+         </akn:lifecycle>
+         <akn:temporalData GUID="b31d6adf-4971-3281-99b3-dd4b229899f2"
+                           eId="meta-1_geltzeiten-1"
+                           source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup GUID="91fbfd58-5531-3f64-9a60-9ea7ccdc2937"
+                               eId="meta-1_geltzeiten-1_geltungszeitgr-1">
+               <akn:timeInterval GUID="0c70b8ec-98f2-3a2b-991e-ed644aa83cc7"
+                                 eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-2"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+           <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
+           <akn:proprietary GUID="59bc62af-39ce-3736-b50c-a9c690e5a8db"
+                            eId="meta-1_proprietary-1"
+                            source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>stammform</meta:form>
+               <meta:fassung>neufassung</meta:fassung>
+               <meta:art>bekanntmachungstext</meta:art>
+               <meta:initiant>nicht-vorhanden</meta:initiant>
+               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
+                <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
+                <meta:fna>754-28-1</meta:fna>
+                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                <meta:gesta>nicht-vorhanden</meta:gesta>
+                <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+            </meta:legalDocML.de_metadaten>
+            <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+               <meta-breg:federfuehrung>
+                  <meta-breg:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
+                  <meta-breg:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta-breg:federfuehrend>
+               </meta-breg:federfuehrung>
+            </meta-breg:legalDocML.de_metadaten>
+         </akn:proprietary>
+      </akn:meta>
+       <!-- Einleitung -->
+       <akn:preface GUID="4c6f8f71-5bc5-37c5-a1ca-a94a2c59dd0a" eId="einleitung-1">
+         <akn:block GUID="74cb60bf-6f15-3bf4-a0d6-4c684a3e2985"
+                    eId="einleitung-1_block-1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:docTitle GUID="e5d1c5fb-b037-3dda-8856-cb78aad77991"
+                          eId="einleitung-1_block-1_doctitel-1">Bekanntmachung der Neufassung des Saatgutverkehrsgesetzes</akn:docTitle>
+            <akn:date GUID="b63b69e5-ba69-355f-bbd6-ad878e51aac6"
+                      date="2004-06-16"
+                      eId="einleitung-1_block-1_datum-1"
+                      refersTo="ausfertigung-datum">Vom 16. Juli 2004</akn:date>
+         </akn:block>
+      </akn:preface>
+       <!-- Hauptteil -->
+       <akn:mainBody GUID="bc19945d-1510-32fe-9e8c-fd53d8aefdde" eId="hauptteil-1">
+         <akn:blockList GUID="359b9a54-e273-35e8-b6d8-e67fd1776d90" eId="hauptteil-1_liste-1">
+            <akn:listIntroduction GUID="43edf49b-9bca-3025-b9e0-eedb3ddc68a8"
+                                  eId="hauptteil-1_liste-1_listeneing-1">Auf Grund des<akn:ref GUID="40e9da2d-044a-3ed4-959f-e3aa3cffd2d1"
+                                                                                               eId="hauptteil-1_liste-1_listeneing-1_ref-1"
+                                                                                               href="">Artikels 2 des Dritten Gesetzes zur Änderung des Saatgutverkehrsgesetzes vom 30. Januar 2004 (BGBl. I S. 126)</akn:ref>wird nachstehend der Wortlaut des<akn:ref GUID="4b818b85-4440-3dd3-9c0f-cd6d4e6f3c0b"
+                                                                                                                                                                                                                                                                        eId="hauptteil-1_liste-1_listeneing-1_ref-2"
+                                                                                                                                                                                                                                                                        href="">Saatgutverkehrsgesetzes</akn:ref>in der seit dem 13. Februar 2004 geltenden Fassung bekannt gemacht. Die Neufassung berücksichtigt:</akn:listIntroduction>
+            <akn:item GUID="8fabc398-2ba5-37a9-98b0-5645339c424a"
+                      eId="hauptteil-1_liste-1_listenelem-1">
+               <akn:num GUID="b5e843a8-6178-36ad-b38f-420c0cad88e1"
+                        eId="hauptteil-1_liste-1_listenelem-1_bezeichnung-1">1.</akn:num>
+               <akn:p GUID="8cacbc55-fbcb-3cdc-aa1c-6e13515eff26"
+                      eId="hauptteil-1_liste-1_listenelem-1_text-1">das am 24. August 1985 in Kraft getretene<akn:ref GUID="865725af-031a-3b5d-a91a-24019b0929fb"
+                                                                                                                      eId="hauptteil-1_liste-1_listenelem-1_text-1_ref-1"
+                                                                                                                      href="">Gesetz vom 20. August 1985 (BGBl. I S. 1633)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="49fcc66a-0cde-3f44-a86b-b41591ea446e"
+                      eId="hauptteil-1_liste-1_listenelem-2">
+               <akn:num GUID="59b599c4-f721-3975-a2c3-b52ef7bb53c9"
+                        eId="hauptteil-1_liste-1_listenelem-2_bezeichnung-1">2.</akn:num>
+               <akn:p GUID="495ed1dd-2719-3588-bb46-c925612d4096"
+                      eId="hauptteil-1_liste-1_listenelem-2_text-1">den am 1. Juli 1990 in Kraft getretenen<akn:ref GUID="c9368790-45c0-3b7e-8986-d3c9c6b43c10"
+                                                                                                                    eId="hauptteil-1_liste-1_listenelem-2_text-1_ref-1"
+                                                                                                                    href="">Artikel 14 des Gesetzes vom 28. Juni 1990 (BGBl. I S. 1221)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="13191b97-42e5-3f03-afdf-8e992d1d5f89"
+                      eId="hauptteil-1_liste-1_listenelem-3">
+               <akn:num GUID="1bc89ca6-0aa7-3831-afe5-379790d03ebf"
+                        eId="hauptteil-1_liste-1_listenelem-3_bezeichnung-1">3.</akn:num>
+               <akn:p GUID="8afe1ecf-8606-3aac-93ce-588ff1e7bc03"
+                      eId="hauptteil-1_liste-1_listenelem-3_text-1">den am 31. Juli 1992 in Kraft getretenen<akn:ref GUID="38240619-ed73-30b3-9a49-e61a83c54cb3"
+                                                                                                                     eId="hauptteil-1_liste-1_listenelem-3_text-1_ref-1"
+                                                                                                                     href="">Artikel 1 des Gesetzes vom 23. Juli 1992 (BGBl. I S. 1367)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="8644c1cf-73ef-3d18-bf15-42e374e05812"
+                      eId="hauptteil-1_liste-1_listenelem-4">
+               <akn:num GUID="03ab5b96-2f55-3ccf-b6b2-37e8dc153de8"
+                        eId="hauptteil-1_liste-1_listenelem-4_bezeichnung-1">4.</akn:num>
+               <akn:p GUID="6e5c162f-53e6-3fdc-8672-9e9e416a2205"
+                      eId="hauptteil-1_liste-1_listenelem-4_text-1">den am 1. Januar 1994 in Kraft getretenen<akn:ref GUID="0a47aa10-0600-3910-9f6e-c3de11ba93ba"
+                                                                                                                      eId="hauptteil-1_liste-1_listenelem-4_text-1_ref-1"
+                                                                                                                      href="">Artikel 69 des Gesetzes vom 27. April 1993 (BGBl. I S. 512, 2436)</akn:ref>, dieser wiederum geändert durch den am 3. Dezember 1993 in Kraft getretenen<akn:ref GUID="ff43c89c-9e34-39b3-abf0-44abf907e88a"
+                                                                                                                                                                                                                                                                                              eId="hauptteil-1_liste-1_listenelem-4_text-1_ref-2"
+                                                                                                                                                                                                                                                                                              href="">Artikel 3 des Gesetzes vom 25. November 1993 (BGBl. I S. 1917)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="68a8d7bb-2cb9-3efc-bb4d-55e1744fe20e"
+                      eId="hauptteil-1_liste-1_listenelem-5">
+               <akn:num GUID="9ed69083-7714-3f54-9a0a-73522fb2b13b"
+                        eId="hauptteil-1_liste-1_listenelem-5_bezeichnung-1">5.</akn:num>
+               <akn:p GUID="8a3c9038-bfa0-31e6-92de-efe20de2351a"
+                      eId="hauptteil-1_liste-1_listenelem-5_text-1">den am 3. Dezember 1993 in Kraft getretenen<akn:ref GUID="ee6c6e98-1ce7-3187-9f0d-76da6114496d"
+                                                                                                                        eId="hauptteil-1_liste-1_listenelem-5_text-1_ref-1"
+                                                                                                                        href="">Artikel 2 des Gesetzes vom 25. November 1993 (BGBl. I S. 1917)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="de5ec67c-f531-3915-8b91-78b06c2bf063"
+                      eId="hauptteil-1_liste-1_listenelem-6">
+               <akn:num GUID="77db55ab-a2ae-3174-b8bd-36edba16a400"
+                        eId="hauptteil-1_liste-1_listenelem-6_bezeichnung-1">6.</akn:num>
+               <akn:p GUID="13bd11fc-86d2-37a1-8058-cb368e3b5c03"
+                      eId="hauptteil-1_liste-1_listenelem-6_text-1">den am 1. Januar 1995 in Kraft getretenen<akn:ref GUID="3d59c7d2-d779-3dc6-95ab-46516325ba2b"
+                                                                                                                      eId="hauptteil-1_liste-1_listenelem-6_text-1_ref-1"
+                                                                                                                      href="">Artikel 12 des Gesetzes vom 2. August 1994 (BGBl. I S. 2018)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="5d5c4a04-a176-3990-9b13-bbb8057563a1"
+                      eId="hauptteil-1_liste-1_listenelem-7">
+               <akn:num GUID="4917b3f6-6c70-3cfe-a868-208f381ad69a"
+                        eId="hauptteil-1_liste-1_listenelem-7_bezeichnung-1">7.</akn:num>
+               <akn:p GUID="1a0ebbd4-14f7-3ed2-97ad-cdd890d69548"
+                      eId="hauptteil-1_liste-1_listenelem-7_text-1">den am 1. Januar 1995 in Kraft getretenen<akn:ref GUID="b808fec9-0cf0-397a-9d43-2776159940b1"
+                                                                                                                      eId="hauptteil-1_liste-1_listenelem-7_text-1_ref-1"
+                                                                                                                      href="">Artikel 39 des Gesetzes vom 25. Oktober 1994 (BGBl. I S. 3082)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="57d4b499-3e54-3d69-98de-078844399877"
+                      eId="hauptteil-1_liste-1_listenelem-8">
+               <akn:num GUID="8f0c4ae4-aa13-3ae7-91c0-bcf8ea3469fa"
+                        eId="hauptteil-1_liste-1_listenelem-8_bezeichnung-1">8.</akn:num>
+               <akn:p GUID="3d12710e-f64b-3745-b85e-760c939fcdb6"
+                      eId="hauptteil-1_liste-1_listenelem-8_text-1">den am 28. Juni 2001 in Kraft getretenen<akn:ref GUID="44bdc3fe-fe15-341d-817a-d157d8dcda05"
+                                                                                                                     eId="hauptteil-1_liste-1_listenelem-8_text-1_ref-1"
+                                                                                                                     href="">Artikel 12 des Gesetzes vom 25. Juni 2001 (BGBl. I S. 1215)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="08370088-6105-34c2-8005-0f1a9af0646e"
+                      eId="hauptteil-1_liste-1_listenelem-9">
+               <akn:num GUID="bb6d99f0-ab2c-3482-a4f4-4c710423b24d"
+                        eId="hauptteil-1_liste-1_listenelem-9_bezeichnung-1">9.</akn:num>
+               <akn:p GUID="0293d6dd-6165-3486-b625-c165e9646b41"
+                      eId="hauptteil-1_liste-1_listenelem-9_text-1">den am 1. Januar 2002 in Kraft getretenen<akn:ref GUID="79c36543-35cf-3836-bd8e-d39dfd326c32"
+                                                                                                                      eId="hauptteil-1_liste-1_listenelem-9_text-1_ref-1"
+                                                                                                                      href="">Artikel 6 Nr. 9 des Gesetzes vom 26. November 2001 (BGBl. I S. 3138)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="8d47cfe8-c5c4-34b1-bc34-1abcc982ea43"
+                      eId="hauptteil-1_liste-1_listenelem-10">
+               <akn:num GUID="2a0d8e4d-8628-3632-9a88-8c6d70ae1c69"
+                        eId="hauptteil-1_liste-1_listenelem-10_bezeichnung-1">10.</akn:num>
+               <akn:p GUID="12a995aa-a930-3060-ba5a-c8d58c5904e4"
+                      eId="hauptteil-1_liste-1_listenelem-10_text-1">den am 29. März 2002 in Kraft getretenen<akn:ref GUID="97502ded-0c56-35b8-889c-88a7ca7f6c96"
+                                                                                                                      eId="hauptteil-1_liste-1_listenelem-10_text-1_ref-1"
+                                                                                                                      href="">Artikel 1 des Gesetzes vom 21. März 2002 (BGBl. I S. 1146)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="3199be56-9ca4-3ca3-8642-17cec90a7cd4"
+                      eId="hauptteil-1_liste-1_listenelem-11">
+               <akn:num GUID="ff264aa1-6ee5-38bb-989d-478290542940"
+                        eId="hauptteil-1_liste-1_listenelem-11_bezeichnung-1">11.</akn:num>
+               <akn:p GUID="84c1d2d7-d39f-3249-8748-4567a399f08b"
+                      eId="hauptteil-1_liste-1_listenelem-11_text-1">den am 28. November 2003 in Kraft getretenen<akn:ref GUID="03a6b6da-8b67-3f43-a7cf-547f2495b1e5"
+                                                                                                                          eId="hauptteil-1_liste-1_listenelem-11_text-1_ref-1"
+                                                                                                                          href="">Artikel 147 der Verordnung vom 25. November 2003 (BGBl. I S. 2304)</akn:ref>,</akn:p>
+            </akn:item>
+            <akn:item GUID="4666247d-f5bf-3d21-9f64-ab763871bbaa"
+                      eId="hauptteil-1_liste-1_listenelem-12">
+               <akn:num GUID="dc302e77-a53f-3b17-81f3-8b2dc47a0dcf"
+                        eId="hauptteil-1_liste-1_listenelem-12_bezeichnung-1">12.</akn:num>
+               <akn:p GUID="7624be88-c555-35a1-a30f-5222a8f97f04"
+                      eId="hauptteil-1_liste-1_listenelem-12_text-1">das am 13. Februar 2004 in Kraft getretene eingangs genannte Gesetz</akn:p>
+            </akn:item>
+         </akn:blockList>
+      </akn:mainBody>
+       <!-- Schlussteil -->
+       <akn:conclusions GUID="fbfc7632-6efc-3406-8f06-3a033eed7119" eId="schluss-1">
+         <akn:blockContainer GUID="06cd1071-1830-343f-b5c9-7eaf4f5c8334"
+                             eId="schluss-1_blockcontainer-1">
+            <akn:p GUID="0b270fce-2e4c-306a-8c75-499d7a181451"
+                   eId="schluss-1_blockcontainer-1_text-1">
+               <akn:location GUID="fddf27c1-30a4-3d11-94f8-8c147cb363d3"
+                             eId="schluss-1_blockcontainer-1_text-1_ort-1"
+                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den<akn:date GUID="fc7d66a6-98cf-399d-af61-16d525be58fc"
+                                                                                                            date="2004-07-16"
+                                                                                                            eId="schluss-1_blockcontainer-1_text-1_datum-1"
+                                                                                                            refersTo="ausfertigung-datum">16. Juli 2004</akn:date>
+            </akn:p>
+            <akn:signature GUID="82b97b2b-fcc3-31a9-9567-0ab6154555e5"
+                           eId="schluss-1_blockcontainer-1_signatur-1">
+               <akn:role GUID="454b9db6-97d3-37c6-9a45-5728beb0c2b1"
+                         eId="schluss-1_blockcontainer-1_signatur-1_fktbez-1"
+                         refersTo="attributsemantik-noch-undefiniert">Die Bundesministerin für Verbraucherschutz, Ernährung und Landwirtschaft</akn:role>
+               <akn:person GUID="c986a09e-57db-388a-a9a2-8568d2a23dfd"
+                           eId="schluss-1_blockcontainer-1_signatur-1_person-1"
+                           refersTo="attributsemantik-noch-undefiniert">Renate Künast</akn:person>
+            </akn:signature>
+         </akn:blockContainer>
+      </akn:conclusions>
+   </akn:doc>
+</akn:akomaNtoso>

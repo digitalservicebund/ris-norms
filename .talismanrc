@@ -37,5 +37,7 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: backend/src/test/resources/de/bund/digitalservice/ris/norms/application/service/VerkuendungsImportServiceTest/*/*.pdf
     ignore_detectors: [filecontent]
+  - filename: backend/src/test/resources/de/bund/digitalservice/ris/norms/integration/application/VerkuendungsImportServiceIntegrationTest/*/*.pdf
+    ignore_detectors: [filecontent]
   - filename: backend/src/test/java/de/bund/digitalservice/ris/norms/utils/NodeParserTest.java
     checksum: 37b659328bdbba83886283555c3e3a3892f49218d6d37ac270dff9943e34f44f

@@ -51,7 +51,7 @@
         <akn:documentRef GUID="12f3ab50-e45d-4835-babf-e51a0751b5ca" eId="rdokhauptteil-1_tldokverweis-1_verweis-1" href="eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27/regelungstext-1.xml" showAs="regelungstext"/>
       </akn:component>
       <akn:component GUID="d3928053-fda3-4ec3-8ccf-809c26938f32" eId="rdokhauptteil-1_tldokverweis-2">
-        <akn:documentRef GUID="12f3ab50-e45d-4835-babf-e51a0751b52a" eId="rdokhauptteil-1_tldokverweis-2_verweis-1" href="eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27/unsupported-type.txt" showAs="externes-dokument"/>
+        <akn:documentRef GUID="12f3ab50-e45d-4835-babf-e51a0751b52a" eId="rdokhauptteil-1_tldokverweis-2_verweis-1" href="eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27/externes-dokument-1.pdf" showAs="externes-dokument"/>
       </akn:component>
     </akn:collectionBody>
   </akn:documentCollection>

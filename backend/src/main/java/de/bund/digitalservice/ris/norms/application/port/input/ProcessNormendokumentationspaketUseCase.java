@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,8 @@ public interface ProcessNormendokumentationspaketUseCase {
    *
    * @param query The query containing the processId for the Normendokumentationspaket
    */
-  void processNormendokumentationspaket(ProcessNormendokumentationspaketUseCase.Query query);
+  void processNormendokumentationspaket(ProcessNormendokumentationspaketUseCase.Query query)
+    throws IOException;
 
   /**
    * A record representing the query for processing a Normendokumentationspaket.
@@ -43,8 +45,8 @@ public interface ProcessNormendokumentationspaketUseCase {
    */
   class NotAZipFileException extends NormendokumentationspaketImportFailedException {
 
-    public NotAZipFileException(String message) {
-      super(message);
+    public NotAZipFileException() {
+      super("The uploaded file is not a zip file");
     }
 
     @Override

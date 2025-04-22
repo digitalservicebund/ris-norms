@@ -1,8 +1,10 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
+import de.bund.digitalservice.ris.norms.domain.entity.Bekanntmachung;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
+import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 
@@ -22,6 +24,10 @@ public class DokumentMapper {
     return switch (dokumentDto.getSubtype()) {
       case "regelungstext" -> new Regelungstext(XmlMapper.toDocument(dokumentDto.getXml()));
       case "offene-struktur" -> new OffeneStruktur(XmlMapper.toDocument(dokumentDto.getXml()));
+      case "rechtsetzungsdokument-verkuendungsfassung" -> new Rechtsetzungsdokument(
+        XmlMapper.toDocument(dokumentDto.getXml())
+      );
+      case "bekanntmachungstext" -> new Bekanntmachung(XmlMapper.toDocument(dokumentDto.getXml()));
       default -> throw new IllegalArgumentException(
         "Dokument subtype " + dokumentDto.getSubtype() + " not supported"
       );
