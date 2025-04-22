@@ -52,6 +52,14 @@ const routes: readonly RouteRecordRaw[] = [
             "@/views/verkuendungen/verkuendungDetail/zeitgrenzen/VerkuendungZeitgrenzen.view.vue"
           ),
       },
+      {
+        path: `${createDokumentExpressionEliPathParameter()}/zielnormen`,
+        name: "VerkuendungZielnormen",
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/zielnormen/VerkuendungZielnormen.view.vue"
+          ),
+      },
     ],
   },
 

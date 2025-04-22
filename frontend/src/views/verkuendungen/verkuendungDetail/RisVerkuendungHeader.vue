@@ -63,9 +63,12 @@ const computedFna = computed(() => props.fna ?? "")
         Geltungszeitregeln anlegen
       </RouterLink>
 
-      <span class="ris-link1-bold cursor-not-allowed text-gray-600">
+      <RouterLink
+        :to="{ name: 'VerkuendungZielnormen' }"
+        class="ris-link1-bold"
+      >
         Zielnormen verknüpfen
-      </span>
+      </RouterLink>
     </div>
   </div>
 </template>
