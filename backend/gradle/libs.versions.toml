@@ -2,7 +2,7 @@
 flyway = "11.7.2"
 # @keep
 jacoco = "0.8.11"
-net-javacrumbs-shedlock = "6.3.1"
+net-javacrumbs-shedlock = "6.4.0"
 org-bouncycastle = "1.80"
 org-testcontainers = "1.20.6"
 spring-boot = "3.4.4"
@@ -38,7 +38,7 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.2.1"
-spring-security-test = "org.springframework.security:spring-security-test:6.4.4"
+spring-security-test = "org.springframework.security:spring-security-test:6.4.5"
 # CVE-2023-3635
 squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.11.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
