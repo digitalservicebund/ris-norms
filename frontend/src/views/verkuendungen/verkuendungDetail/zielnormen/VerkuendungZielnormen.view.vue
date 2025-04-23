@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
@@ -9,14 +10,13 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
+import { useGetNormTableOfContents } from "@/services/tocService"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref } from "vue"
-import { useGetNormTableOfContents } from "@/services/tocService"
 import RisDocumentExplorer from "./RisDocumentExplorer.vue"
-import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
@@ -78,6 +78,7 @@ const formattedVerkuendungsdatum = computed(() =>
           :toc-error="tocError"
         />
       </SplitterPanel>
+
       <SplitterPanel
         :size="33"
         :min-size="33"
@@ -88,6 +89,7 @@ const formattedVerkuendungsdatum = computed(() =>
           class="h-fit"
         />
       </SplitterPanel>
+
       <SplitterPanel
         :size="33"
         :min-size="33"
@@ -105,7 +107,7 @@ const formattedVerkuendungsdatum = computed(() =>
 
           <div
             v-if="isFetchingGeltungszeitenHtml"
-            class="flex items-center justify-center"
+            class="mt-24 flex items-center justify-center"
           >
             <RisLoadingSpinner />
           </div>

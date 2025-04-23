@@ -124,7 +124,7 @@ async function onSaveZeitgrenzen() {
 
           <div
             v-if="isFetchingGeltungszeitenHtml"
-            class="flex items-center justify-center"
+            class="mt-24 flex items-center justify-center"
           >
             <RisLoadingSpinner />
           </div>
