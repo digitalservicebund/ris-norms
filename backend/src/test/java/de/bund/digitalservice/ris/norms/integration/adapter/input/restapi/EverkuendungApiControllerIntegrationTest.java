@@ -10,13 +10,11 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.Verkuendu
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungImportProcessesRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -87,16 +85,14 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
         .startedAt(Instant.now())
         .finishedAt(Instant.now())
         .detail(
-          List.of(
-            VerkuendungImportProcessDetail
-              .builder()
-              .type("/errors/job-run-failed")
-              .title(
-                "Tried to import a Normendokumentationspacket the max amount of times but failed"
-              )
-              .detail("none")
-              .build()
-          )
+          """
+          {
+            "type": "/errors/job-run-failed",
+            "title": "Tried to import a Normendokumentationspacket the max amount of times but failed",
+            "detail": "detail message",
+            "additionalProperty": "some-value"
+          }
+          """
         )
         .build();
 
@@ -119,7 +115,8 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
               "Tried to import a Normendokumentationspacket the max amount of times but failed"
             )
         )
-        .andExpect(jsonPath("$.detail").value("none"));
+        .andExpect(jsonPath("$.detail").value("detail message"))
+        .andExpect(jsonPath("$.additionalProperty").value("some-value"));
     }
 
     @Test
@@ -133,16 +130,6 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
         .createdAt(Instant.now())
         .startedAt(Instant.now())
         .finishedAt(Instant.now())
-        .detail(
-          List.of(
-            VerkuendungImportProcessDetail
-              .builder()
-              .type("someString")
-              .title("another string")
-              .detail("none")
-              .build()
-          )
-        )
         .build();
 
       verkuendungImportProcessesRepository.save(

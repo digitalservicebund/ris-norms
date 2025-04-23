@@ -327,4 +327,29 @@ public interface ProcessNormendokumentationspaketUseCase {
       return Map.of("file", fileName, "supportedTypes", List.of("XML", "PDF", "JPG", "PNG", "GIF"));
     }
   }
+
+  /**
+   * An internal error happened
+   */
+  class InternalErrorException extends NormendokumentationspaketImportFailedException {
+
+    public InternalErrorException() {
+      super("A internal error happened. Please contact the norms team.");
+    }
+
+    @Override
+    public URI getType() {
+      return URI.create("/errors/normendokumentationspaket-import-failed/internal-error");
+    }
+
+    @Override
+    public String getTitle() {
+      return "Internal Error";
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+      return Map.of();
+    }
+  }
 }

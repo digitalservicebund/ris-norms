@@ -7,7 +7,6 @@ import static org.mockito.Mockito.*;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
@@ -28,7 +27,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,7 +64,6 @@ class VerkuendungsImportServiceTest {
     UpdateOrSaveVerkuendungPort.class
   );
   private final JobScheduler jobScheduler = mock(JobScheduler.class);
-  private final ObjectMapper objectMapper = mock(ObjectMapper.class);
 
   private final VerkuendungsImportService verkuendungsImportService = new VerkuendungsImportService(
     loadNormPort,
@@ -78,7 +75,6 @@ class VerkuendungsImportServiceTest {
     updateOrSaveVerkuendungPort,
     Fixtures.getLdmlDeValidator(),
     jobScheduler,
-    objectMapper,
     new MediaTypeService()
   );
 
@@ -114,7 +110,7 @@ class VerkuendungsImportServiceTest {
     assertThat(result.getCreatedAt()).isNull();
     assertThat(result.getStartedAt()).isNull();
     assertThat(result.getFinishedAt()).isNull();
-    assertThat(result.getDetail()).isInstanceOf(List.class);
+    assertThat(result.getDetail()).isNull();
   }
 
   @Test
@@ -225,7 +221,7 @@ class VerkuendungsImportServiceTest {
         .saveOrUpdateVerkuendungImportProcess(
           argThat(command ->
             command.status().equals(VerkuendungImportProcess.Status.ERROR) &&
-            command.details().getFirst().getType().equals("/errors/ldml-de-not-schematron-valid")
+            command.details().getType().getPath().equals("/errors/ldml-de-not-schematron-valid")
           )
         );
       verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
@@ -269,8 +265,8 @@ class VerkuendungsImportServiceTest {
             command.status().equals(VerkuendungImportProcess.Status.ERROR) &&
             command
               .details()
-              .getFirst()
               .getType()
+              .getPath()
               .equals(
                 "/errors/normendokumentationspaket-import-failed/missing-rechtsetzungsdokument"
               )
@@ -324,7 +320,7 @@ class VerkuendungsImportServiceTest {
         .saveOrUpdateVerkuendungImportProcess(
           argThat(command ->
             command.status().equals(VerkuendungImportProcess.Status.ERROR) &&
-            command.details().getFirst().getType().equals("/errors/norm-with-eli-exists-already")
+            command.details().getType().getPath().equals("/errors/norm-with-eli-exists-already")
           )
         );
       verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
@@ -370,8 +366,8 @@ class VerkuendungsImportServiceTest {
             command.status().equals(VerkuendungImportProcess.Status.ERROR) &&
             command
               .details()
-              .getFirst()
               .getType()
+              .getPath()
               .equals("/errors/normendokumentationspaket-import-failed/unsupported-file-type")
           )
         );
@@ -416,8 +412,8 @@ class VerkuendungsImportServiceTest {
             command.status().equals(VerkuendungImportProcess.Status.ERROR) &&
             command
               .details()
-              .getFirst()
               .getType()
+              .getPath()
               .equals(
                 "/errors/normendokumentationspaket-import-failed/no-regelungstext-or-bekanntmachungstext"
               )

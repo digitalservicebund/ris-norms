@@ -1,22 +1,15 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,10 +47,8 @@ public class VerkuendungImportProcessDto {
   @Column(name = "finished_at")
   private Instant finishedAt;
 
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "process_id")
-  @Default
-  private List<VerkuendungImportProcessDetailDto> detail = new ArrayList<>();
+  @Column(name = "details")
+  private String details;
 
   /**
    * The different statuses that a background process can have.

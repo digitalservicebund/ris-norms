@@ -12,10 +12,8 @@ import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFo
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import java.io.InputStream;
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -140,16 +138,14 @@ class EverkuendungApiControllerTest {
         .startedAt(now)
         .finishedAt(now.plusSeconds(60))
         .detail(
-          List.of(
-            VerkuendungImportProcessDetail
-              .builder()
-              .type("/errors/job-run-failed")
-              .title(
-                "Tried to import a Normendokumentationspacket the max amount of times but failed"
-              )
-              .detail("none")
-              .build()
-          )
+          """
+          {
+            "type": "/errors/job-run-failed",
+            "title": "Tried to import a Normendokumentationspacket the max amount of times but failed",
+            "detail": "detail message",
+            "additionalProperty": "some-value"
+          }
+          """
         )
         .build();
 
@@ -172,7 +168,8 @@ class EverkuendungApiControllerTest {
               "Tried to import a Normendokumentationspacket the max amount of times but failed"
             )
         )
-        .andExpect(jsonPath("$.detail").value("none"));
+        .andExpect(jsonPath("$.detail").value("detail message"))
+        .andExpect(jsonPath("$.additionalProperty").value("some-value"));
     }
   }
 }

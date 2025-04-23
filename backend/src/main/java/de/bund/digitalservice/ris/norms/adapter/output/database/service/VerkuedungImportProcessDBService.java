@@ -1,24 +1,20 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungImportProcessDetailDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungImportProcessDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.VerkuendungImportProcessMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungImportProcessesRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.application.port.output.SaveVerkuendungImportProcessPort;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * DBService for {@link VerkuendungImportProcess} / {@link VerkuendungImportProcessDto} and {@link
- * VerkuendungImportProcessDetail} / {@link VerkuendungImportProcessDetailDto}
+ * DBService for {@link VerkuendungImportProcess} / {@link VerkuendungImportProcessDto}
  */
 @Slf4j
 @Service
@@ -27,11 +23,14 @@ public class VerkuedungImportProcessDBService
   implements LoadVerkuendungImportProcessPort, SaveVerkuendungImportProcessPort {
 
   private final VerkuendungImportProcessesRepository verkuendungImportProcessesRepository;
+  private final ObjectMapper objectMapper;
 
   public VerkuedungImportProcessDBService(
-    VerkuendungImportProcessesRepository verkuendungImportProcessesRepository
+    VerkuendungImportProcessesRepository verkuendungImportProcessesRepository,
+    ObjectMapper objectMapper
   ) {
     this.verkuendungImportProcessesRepository = verkuendungImportProcessesRepository;
+    this.objectMapper = objectMapper;
   }
 
   @Override
@@ -65,7 +64,7 @@ public class VerkuedungImportProcessDBService
     }
   }
 
-  private static void updateProcessDto(
+  private void updateProcessDto(
     SaveVerkuendungImportProcessPort.Command command,
     VerkuendungImportProcessDto verkuendungImportProcessDto
   ) {
@@ -80,29 +79,11 @@ public class VerkuedungImportProcessDBService
       case SUCCESS -> verkuendungImportProcessDto.setFinishedAt(Instant.now());
       case ERROR -> {
         verkuendungImportProcessDto.setFinishedAt(Instant.now());
-
-        final List<VerkuendungImportProcessDetailDto> incomingDetails = command
-          .details()
-          .stream()
-          .map(VerkuendungImportProcessMapper::mapDetailToDto)
-          .toList();
-
-        final Set<String> existingDetailSet = verkuendungImportProcessDto
-          .getDetail()
-          .stream()
-          .map(VerkuendungImportProcessDetailDto::getDetail)
-          .collect(Collectors.toSet());
-
-        for (VerkuendungImportProcessDetailDto incomingDetail : incomingDetails) {
-          if (!existingDetailSet.contains(incomingDetail.getDetail())) {
-            final VerkuendungImportProcessDetailDto safeDetail = VerkuendungImportProcessDetailDto
-              .builder()
-              .type(incomingDetail.getType())
-              .title(incomingDetail.getTitle())
-              .detail(incomingDetail.getDetail())
-              .build();
-            verkuendungImportProcessDto.getDetail().add(safeDetail);
-          }
+        try {
+          var details = objectMapper.writeValueAsString(command.details());
+          verkuendungImportProcessDto.setDetails(details);
+        } catch (JsonProcessingException e) {
+          log.error("Could not serialize verkuendungImportProcessDto details", e);
         }
       }
       default -> log.error("Unhandled status {}", status);
