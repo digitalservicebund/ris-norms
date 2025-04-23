@@ -16,7 +16,7 @@ fileignoreconfig:
   - filename: frontend/src/plugins/sentry.ts
     checksum: 4878c43ab81701bb51365b2ed2db956cf7e6246d1196a7ae4f769479b7fac488
   - filename: Dockerfile
-    checksum: 8e0dc359fa0262b5307a8877b6a8f59121b2a4d9a6d8264e5649ee0a366428b0
+    checksum: 26a54a3f886b98449f76c7c4c89b706f3cc3054e4d71f19fe7b2bfe93f802f10
   - filename: docker-compose.yaml
     checksum: 252e8ac97929919d356866e02d9d9a0641d466cbe81e4555af54172b0c0bbdc2
   - filename: ldml-extension/fixtures/*.xml
