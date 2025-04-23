@@ -297,4 +297,30 @@ class NormServiceTest {
         );
     }
   }
+
+  @Test
+  void loadZielnormReferences() {
+    // given
+    Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+    );
+
+    when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
+
+    // when
+    var zielnormReferences = service.loadZielnormReferences(
+      new LoadZielnormReferencesUseCase.Query(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+      )
+    );
+
+    // then
+    assertThat(zielnormReferences).hasSize(1);
+    assertThat(zielnormReferences.getFirst().getZielnorm())
+      .hasToString("eli/bund/bgbl-1/1964/s593");
+    assertThat(zielnormReferences.getFirst().getEId())
+      .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+    assertThat(zielnormReferences.getFirst().getGeltungszeit()).isEqualTo("gz-1");
+    assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
+  }
 }
