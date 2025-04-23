@@ -112,7 +112,8 @@ public abstract sealed class Dokument
     final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
     final List<Zeitgrenze> updatedZeitgrenzen = customModsMetadata.updateZeitgrenzen(zeitgrenzen);
     if (!customModsMetadata.getElement().hasChildNodes()) {
-      document.removeChild(customModsMetadata.getElement());
+      customModsMetadata.getElement().getParentNode().removeChild(customModsMetadata.getElement());
+      proprietary.removeMetadataParentIfEmpty(Namespace.METADATEN_RIS);
     }
     return updatedZeitgrenzen;
   }

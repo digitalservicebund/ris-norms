@@ -242,21 +242,41 @@ public class Proprietary {
   public CustomModsMetadata getOrCreateCustomModsMetadata() {
     return this.getCustomModsMetadata()
       .orElseGet(() -> {
+        final Element risMetadaten = getOrCreateMetadataParent(Namespace.METADATEN_RIS);
         final var newElement = NodeCreator.createElement(
           Namespace.METADATEN_NORMS_APPLICATION_MODS,
           "legalDocML.de_metadaten",
-          element
+          risMetadaten
         );
         return new CustomModsMetadata(newElement);
       });
   }
 
-  private String getXpathExpression(final Namespace namespace) {
-    return "Q{" + namespace.getNamespaceUri() + "}legalDocML.de_metadaten";
+  /**
+   * Deletes a metadata parent if it has no childs
+   *
+   * @param namespace - the namespace of the metadata parent
+   */
+  public void removeMetadataParentIfEmpty(final Namespace namespace) {
+    getMetadataParent(namespace)
+      .ifPresent(metadataParent -> {
+        if (!metadataParent.hasChildNodes()) {
+          element.removeChild(metadataParent);
+        }
+      });
   }
 
-  private Optional<Element> getMetadataParent(final Namespace namespace) {
+  /**
+   * Returns the metadata parent, if present
+   * @param namespace of the metadata parent
+   * @return an optional element
+   */
+  public Optional<Element> getMetadataParent(final Namespace namespace) {
     return NodeParser.getElementFromExpression("./" + getXpathExpression(namespace), element);
+  }
+
+  private String getXpathExpression(final Namespace namespace) {
+    return "Q{" + namespace.getNamespaceUri() + "}legalDocML.de_metadaten";
   }
 
   private Element getOrCreateMetadataParent(final Namespace namespace) {

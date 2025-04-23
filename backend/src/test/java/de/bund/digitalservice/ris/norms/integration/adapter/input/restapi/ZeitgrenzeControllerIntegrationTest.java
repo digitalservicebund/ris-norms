@@ -424,5 +424,93 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
       assertThat(dokument.getZeitgrenzen()).isEmpty();
     }
+
+    @Test
+    void itCallsUpdateZeitgrenzenOnXMLWithoutModsMetadata() throws Exception {
+      // Given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
+
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        ZeitgrenzeControllerIntegrationTest.class,
+        "norm-without-mods-metadata.xml"
+      );
+
+      assertThat(regelungstext.getZeitgrenzen()).isEmpty();
+      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
+
+      // When
+      // Then
+      mockMvc
+        .perform(
+          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("[{\"date\": \"2023-12-30\", \"art\": \"AUSSERKRAFT\"}]")
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$", hasSize(1)))
+        .andExpect(jsonPath("$[0].id", is("gz-1")))
+        .andExpect(jsonPath("$[0].date", is("2023-12-30")))
+        .andExpect(jsonPath("$[0].art", is("AUSSERKRAFT")));
+
+      final Optional<DokumentDto> loadedFromDb =
+        dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
+          eli.toString()
+        );
+      assertThat(loadedFromDb).isPresent();
+      final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
+      assertThat(dokument.getZeitgrenzen())
+        .hasSize(1)
+        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
+        .containsExactlyInAnyOrder(
+          tuple("gz-1", LocalDate.parse("2023-12-30"), Zeitgrenze.Art.AUSSERKRAFT)
+        );
+    }
+
+    @Test
+    void itCallsUpdateZeitgrenzenOnXMLWithoutRisMetadata() throws Exception {
+      // Given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
+
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        ZeitgrenzeControllerIntegrationTest.class,
+        "norm-without-ris-metadata.xml"
+      );
+
+      assertThat(regelungstext.getZeitgrenzen()).isEmpty();
+      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
+
+      // When
+      // Then
+      mockMvc
+        .perform(
+          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("[{\"date\": \"2023-12-30\", \"art\": \"AUSSERKRAFT\"}]")
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$", hasSize(1)))
+        .andExpect(jsonPath("$[0].id", is("gz-1")))
+        .andExpect(jsonPath("$[0].date", is("2023-12-30")))
+        .andExpect(jsonPath("$[0].art", is("AUSSERKRAFT")));
+
+      final Optional<DokumentDto> loadedFromDb =
+        dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
+          eli.toString()
+        );
+      assertThat(loadedFromDb).isPresent();
+      final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
+      assertThat(dokument.getZeitgrenzen())
+        .hasSize(1)
+        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
+        .containsExactlyInAnyOrder(
+          tuple("gz-1", LocalDate.parse("2023-12-30"), Zeitgrenze.Art.AUSSERKRAFT)
+        );
+    }
   }
 }

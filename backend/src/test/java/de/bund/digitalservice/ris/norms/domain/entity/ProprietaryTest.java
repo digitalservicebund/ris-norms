@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -997,63 +998,187 @@ class ProprietaryTest {
     }
   }
 
-  @Test
-  void getInkrafttreteDatumEng() {
-    final Proprietary proprietary = new Proprietary(
-      XmlMapper.toElement(
-        """
-         <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-          eId="meta-1_proprietary-1"
-          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-          source="attributsemantik-noch-undefiniert">
-           <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-             <ris:entryIntoForce date="1985-12-25" />
-             <ris:expiry date="1985-12-31" />
-           </ris:legalDocML.de_metadaten>
-         </akn:proprietary>
-        """
-      )
-    );
-    assertThat(proprietary.getInkrafttreteDatum()).contains(LocalDate.parse("1985-12-25"));
+  @Nested
+  class getInkraftAusserkraft {
+
+    @Test
+    void getInkrafttreteDatumEng() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:entryIntoForce date="1985-12-25" />
+               <ris:expiry date="1985-12-31" />
+             </ris:legalDocML.de_metadaten>
+           </akn:proprietary>
+          """
+        )
+      );
+      assertThat(proprietary.getInkrafttreteDatum()).contains(LocalDate.parse("1985-12-25"));
+    }
+
+    @Test
+    void getInkrafttreteDatumDe() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:inkraft date="1985-12-25" />
+               <ris:ausserkraft date="1985-12-31" />
+             </ris:legalDocML.de_metadaten>
+           </akn:proprietary>
+          """
+        )
+      );
+      assertThat(proprietary.getInkrafttreteDatum()).contains(LocalDate.parse("1985-12-25"));
+    }
+
+    @Test
+    void getAusserkrafttreteDatum() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:entryIntoForce date="1985-12-25" />
+               <ris:expiry date="1985-12-31" />
+             </ris:legalDocML.de_metadaten>
+           </akn:proprietary>
+          """
+        )
+      );
+      assertThat(proprietary.getAusserkrafttreteDatum()).contains(LocalDate.parse("1985-12-31"));
+    }
   }
 
-  @Test
-  void getInkrafttreteDatumDe() {
-    final Proprietary proprietary = new Proprietary(
-      XmlMapper.toElement(
-        """
-         <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-          eId="meta-1_proprietary-1"
-          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-          source="attributsemantik-noch-undefiniert">
-           <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-             <ris:inkraft date="1985-12-25" />
-             <ris:ausserkraft date="1985-12-31" />
-           </ris:legalDocML.de_metadaten>
-         </akn:proprietary>
-        """
-      )
-    );
-    assertThat(proprietary.getInkrafttreteDatum()).contains(LocalDate.parse("1985-12-25"));
+  @Nested
+  class getOrCreateCustomModsMetadata {
+
+    @Test
+    void getCustomModsMetadata() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+                <norms:geltungszeiten>
+                  <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
+                </norms:geltungszeiten>
+              </norms:legalDocML.de_metadaten>
+            </ris:legalDocML.de_metadaten>
+           </akn:proprietary>
+          """
+        )
+      );
+      final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
+      assertThat(customModsMetadata).isNotNull();
+      assertThat(customModsMetadata.getElement()).isNotNull();
+      assertThat(customModsMetadata.getZeitgrenzen())
+        .hasSize(1)
+        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
+        .containsExactlyInAnyOrder(
+          tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+        );
+    }
+
+    @Test
+    void createCustomModsMetadataNoMods() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+
+            </ris:legalDocML.de_metadaten>
+           </akn:proprietary>
+          """
+        )
+      );
+      final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
+      assertThat(customModsMetadata).isNotNull();
+      assertThat(customModsMetadata.getElement()).isNotNull();
+      assertThat(customModsMetadata.getZeitgrenzen()).isEmpty();
+    }
+
+    @Test
+    void createCustomModsMetadataNoRisMetadata() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+           </akn:proprietary>
+          """
+        )
+      );
+      final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
+      assertThat(customModsMetadata).isNotNull();
+      assertThat(customModsMetadata.getElement()).isNotNull();
+      assertThat(customModsMetadata.getZeitgrenzen()).isEmpty();
+    }
   }
 
-  @Test
-  void getAusserkrafttreteDatum() {
-    final Proprietary proprietary = new Proprietary(
-      XmlMapper.toElement(
-        """
-         <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-          eId="meta-1_proprietary-1"
-          GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-          source="attributsemantik-noch-undefiniert">
-           <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-             <ris:entryIntoForce date="1985-12-25" />
-             <ris:expiry date="1985-12-31" />
-           </ris:legalDocML.de_metadaten>
-         </akn:proprietary>
-        """
-      )
-    );
-    assertThat(proprietary.getAusserkrafttreteDatum()).contains(LocalDate.parse("1985-12-31"));
+  @Nested
+  class removeMetadataParentIfEmpty {
+
+    @Test
+    void metadataParentIsEmpty() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"/>
+           </akn:proprietary>
+          """
+        )
+      );
+      assertThat(proprietary.getMetadataParent(Namespace.METADATEN_RIS)).isNotEmpty();
+      proprietary.removeMetadataParentIfEmpty(Namespace.METADATEN_RIS);
+      assertThat(proprietary.getMetadataParent(Namespace.METADATEN_RIS)).isEmpty();
+    }
+
+    @Test
+    void metadataParentIsNotEmpty() {
+      final Proprietary proprietary = new Proprietary(
+        XmlMapper.toElement(
+          """
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="meta-1_proprietary-1"
+            GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+            source="attributsemantik-noch-undefiniert">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+                <ris:inkraft>2020-01-01</ris:inkraft>
+            </ris:legalDocML.de_metadaten>
+           </akn:proprietary>
+          """
+        )
+      );
+      assertThat(proprietary.getMetadataParent(Namespace.METADATEN_RIS)).isNotEmpty();
+      proprietary.removeMetadataParentIfEmpty(Namespace.METADATEN_RIS);
+      assertThat(proprietary.getMetadataParent(Namespace.METADATEN_RIS)).isNotEmpty();
+    }
   }
 }
