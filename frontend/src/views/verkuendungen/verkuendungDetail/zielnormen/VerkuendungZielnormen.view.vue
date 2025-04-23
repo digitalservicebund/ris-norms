@@ -10,7 +10,6 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
-import { useGetNormTableOfContents } from "@/services/tocService"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
 import Splitter from "primevue/splitter"
@@ -35,12 +34,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 ])
 
 const {
-  data: tocItems,
-  isFetching: tocIsLoading,
-  error: tocError,
-} = useGetNormTableOfContents(eli)
-
-const {
   data: geltungszeitenHtml,
   isFetching: isFetchingGeltungszeitenHtml,
   error: geltungszeitenHtmlError,
@@ -48,10 +41,9 @@ const {
 
 const {
   data: verkuendung,
-  isFetching: isFetchingVerkuendung,
   error: verkuendungError,
+  isFinished: verkuendungHasFinished,
 } = useGetVerkuendungService(() => eli.value.asNormEli())
-console.log("verkuendung", verkuendung)
 
 const formattedVerkuendungsdatum = computed(() =>
   verkuendung.value?.frbrDateVerkuendung
@@ -63,8 +55,8 @@ const formattedVerkuendungsdatum = computed(() =>
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError, tocError, geltungszeitenHtmlError]"
-    :loading="isFetchingVerkuendung || tocIsLoading"
+    :errors="[verkuendungError, geltungszeitenHtmlError]"
+    :loading="!verkuendungHasFinished"
   >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
@@ -72,11 +64,7 @@ const formattedVerkuendungsdatum = computed(() =>
         :min-size="33"
         class="h-full overflow-auto bg-gray-100"
       >
-        <RisDocumentExplorer
-          :items="tocItems"
-          :toc-is-loading="tocIsLoading"
-          :toc-error="tocError"
-        />
+        <RisDocumentExplorer :eli />
       </SplitterPanel>
 
       <SplitterPanel

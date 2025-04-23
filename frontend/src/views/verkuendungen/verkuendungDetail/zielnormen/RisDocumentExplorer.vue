@@ -1,33 +1,44 @@
 <script setup lang="ts">
-import { computed, ref, watch, nextTick, defineProps } from "vue"
+import RisEmptyState from "@/components/RisEmptyState.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
+import { useEidPathParameter } from "@/composables/useEidPathParameter"
+import { useElementId } from "@/composables/useElementId"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { useGetNormToc } from "@/services/tocService"
+import type { TocItem } from "@/types/toc"
+import Button from "primevue/button"
 import Tree from "primevue/tree"
 import type { TreeNode } from "primevue/treenode"
-import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
-import RisErrorCallout from "@/components/RisErrorCallout.vue"
-import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
+import { computed, nextTick, ref, watch } from "vue"
 import ChevronDownIcon from "~icons/ic/baseline-keyboard-arrow-down"
+import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
 import IcBaselineToc from "~icons/ic/baseline-toc"
 import IcBaselineUnfoldLess from "~icons/ic/baseline-unfold-less"
 import IcBaselineUnfoldMore from "~icons/ic/baseline-unfold-more"
-import Button from "primevue/button"
-import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import type { TableOfContentsItem } from "@/types/tableOfContents"
-import { useElementId } from "@/composables/useElementId"
+
+const { eli } = defineProps<{
+  eli: DokumentExpressionEli
+}>()
 
 const { documentExplorerHeadingId } = useElementId()
 
-const props = defineProps<{
-  items: TableOfContentsItem[] | null
-  tocIsLoading: boolean
-  tocError: unknown
-}>()
+const {
+  data: toc,
+  error: tocError,
+  isFetching: tocIsFetching,
+} = useGetNormToc(eli)
+
+// Selection management -----------------------------------
+// TODO: Simplify this
 
 const selectedEid = useEidPathParameter()
+
 const expandedKeys = ref<Record<string, boolean>>({})
+
 const selectionKeys = ref<Record<string, boolean>>({})
 
-const mapElement = (el: TableOfContentsItem): TreeNode => ({
+const mapElement = (el: TocItem): TreeNode => ({
   key: el.id,
   label: el.marker || "",
   data: {
@@ -37,7 +48,7 @@ const mapElement = (el: TableOfContentsItem): TreeNode => ({
   children: el.children?.map(mapElement) ?? [],
 })
 
-const treeNodes = computed(() => props.items?.map(mapElement) ?? [])
+const treeNodes = computed(() => toc.value?.map(mapElement) ?? [])
 
 // flattens every node
 function flattenKeys(nodes: TreeNode[]): string[] {
@@ -132,24 +143,22 @@ const hasAnyChildren = computed(() =>
 
 <template>
   <aside
-    class="flex h-full flex-col overflow-auto border-r border-gray-400 bg-white px-8 pt-8"
-    aria-labelledby="sidebarNavigation"
+    class="flex h-full flex-col overflow-auto border-gray-400 bg-white"
+    :aria-labelledby="documentExplorerHeadingId"
   >
-    <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
-    <div class="flex items-center">
-      <Button
-        severity="text"
-        disabled
-        class="text-gray-900"
-        @click="resetSelectionKeys"
-      >
+    <div
+      class="mb-8 flex items-center gap-4 border-b border-gray-400 px-4 py-4"
+    >
+      <Button text disabled @click="resetSelectionKeys">
         <template #icon>
           <IcBaselineToc />
         </template>
       </Button>
-      <h1 :id="documentExplorerHeadingId" class="ris-subhead-bold mb-0">
+
+      <h1 :id="documentExplorerHeadingId" class="ris-subhead-bold">
         Änderungsgesetz
       </h1>
+
       <Button
         severity="text"
         class="ml-auto"
@@ -165,50 +174,55 @@ const hasAnyChildren = computed(() =>
         </template>
       </Button>
     </div>
-    <hr class="my-8 border-t border-gray-400" />
-    <div v-if="tocIsLoading" class="m-16 flex items-center justify-center">
+
+    <div v-if="tocIsFetching" class="mt-24 flex items-center justify-center">
       <RisLoadingSpinner />
     </div>
-    <RisErrorCallout v-else-if="tocError" :error="tocError" class="mx-16" />
+
+    <RisErrorCallout v-else-if="tocError" :error="tocError" class="m-16 mt-8" />
+
     <RisEmptyState
-      v-else-if="!items || !items.length"
+      v-else-if="!toc || !toc.length"
       text-content="Keine Artikel gefunden."
-      class="mx-16"
-      variant="simple"
+      class="m-16 mt-8"
     />
-    <Tree
-      v-model:expanded-keys="expandedKeys"
-      v-model:selection-keys="selectionKeys"
-      :value="treeNodes"
-      selection-mode="single"
-      @node-select="handleNodeSelect"
-      @node-unselect="handleNodeUnselect"
-    >
-      <template #default="{ node }">
-        <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
-        <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
-        <span
-          class="w-full truncate"
-          :title="node.data.primaryLabel"
-          tabindex="-1"
-          @click="toggleNode(node)"
-        >
-          {{ node.data.primaryLabel }}
-        </span>
-        <span
-          v-if="node.data.secondaryLabel"
-          class="ris-label2-regular w-full truncate"
-          :title="node.data.secondaryLabel"
-          tabindex="-1"
-          @click="toggleNode(node)"
-        >
-          {{ node.data.secondaryLabel }}
-        </span>
-      </template>
-      <template #nodetoggleicon="{ expanded }">
-        <ChevronDownIcon v-if="!expanded" />
-        <ChevronUpIcon v-else />
-      </template>
-    </Tree>
+
+    <div class="mx-4">
+      <Tree
+        v-model:expanded-keys="expandedKeys"
+        v-model:selection-keys="selectionKeys"
+        :value="treeNodes"
+        selection-mode="single"
+        @node-select="handleNodeSelect"
+        @node-unselect="handleNodeUnselect"
+      >
+        <template #default="{ node }">
+          <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+          <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
+          <span
+            class="w-full truncate"
+            :title="node.data.primaryLabel"
+            tabindex="-1"
+            @click="toggleNode(node)"
+          >
+            {{ node.data.primaryLabel }}
+          </span>
+          <span
+            v-if="node.data.secondaryLabel"
+            class="ris-label2-regular w-full truncate"
+            :title="node.data.secondaryLabel"
+            tabindex="-1"
+            @click="toggleNode(node)"
+          >
+            {{ node.data.secondaryLabel }}
+          </span>
+        </template>
+
+        <template #nodetoggleicon="{ expanded }">
+          <ChevronDownIcon v-if="!expanded" />
+          <ChevronUpIcon v-else />
+        </template>
+      </Tree>
+    </div>
   </aside>
 </template>
