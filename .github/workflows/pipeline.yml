@@ -356,7 +356,7 @@ jobs:
           reportIsDirectory: true
       # Frontend unit test report
       - name: frontend unit test report - download artifact
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@8ea3c2c174f79a56792e9fdd9baad75d27c5d369
         with:
           name: frontend-unit-test-report
           path: tmp/frontend-unit-test-report
@@ -397,7 +397,7 @@ jobs:
           destinationDir: licence-reports/backend/ris-norms
       # ER diagram
       - name: ER-diagram - Download artifact
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@8ea3c2c174f79a56792e9fdd9baad75d27c5d369
         with:
           name: erdiagram
           path: tmp/erdiagram-reports
@@ -408,7 +408,7 @@ jobs:
           destinationDir: entity-relationship-diagrams/ris-norms
       # backend unit test report
       - name: unit test report - download artifact
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@8ea3c2c174f79a56792e9fdd9baad75d27c5d369
         with:
           name: backend-unit-test-report
           path: tmp/backend-unit-test-report
@@ -420,7 +420,7 @@ jobs:
           reportIsDirectory: true
       # backend integration test report
       - name: integration test report - download artifact
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@8ea3c2c174f79a56792e9fdd9baad75d27c5d369
         with:
           name: backend-integration-test-report
           path: tmp/backend-integration-test-report
