@@ -4,7 +4,7 @@ flyway = "11.7.2"
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.4.0"
 org-bouncycastle = "1.80"
-org-testcontainers = "1.20.6"
+org-testcontainers = "1.21.0"
 spring-boot = "3.4.4"
 
 [libraries]
@@ -50,7 +50,7 @@ tika-core = "org.apache.tika:tika-core:3.1.0"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
-sentry = "io.sentry.jvm.gradle:5.3.0"
+sentry = "io.sentry.jvm.gradle:5.4.0"
 sonarqube = "org.sonarqube:6.1.0.5360"
 spotless = "com.diffplug.spotless:7.0.3"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
