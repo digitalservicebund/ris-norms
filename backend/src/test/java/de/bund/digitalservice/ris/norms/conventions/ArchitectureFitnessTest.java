@@ -77,6 +77,8 @@ class ArchitectureFitnessTest {
     "org.xml.sax..",
     "org.slf4j..",
     "org.apache.commons..",
+    "org.springframework.boot.jackson..",
+    "com.fasterxml.jackson..",
   };
 
   @BeforeAll
