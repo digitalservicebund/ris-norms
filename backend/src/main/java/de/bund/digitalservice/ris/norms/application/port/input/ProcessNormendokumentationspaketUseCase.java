@@ -334,7 +334,7 @@ public interface ProcessNormendokumentationspaketUseCase {
   class InternalErrorException extends NormendokumentationspaketImportFailedException {
 
     public InternalErrorException() {
-      super("A internal error happened. Please contact the norms team.");
+      super("An internal error happened. Please contact the norms team.");
     }
 
     @Override
