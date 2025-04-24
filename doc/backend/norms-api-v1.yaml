@@ -225,9 +225,8 @@ paths:
           in: path
           required: true
           description: eId of the element inside the norm
-          example: "hauptteil-1_art-3"
           schema:
-            type: string
+            $ref: "#/components/schemas/EId"
       responses:
         "200":
           description: "The element inside the norm"
@@ -297,7 +296,7 @@ paths:
           required: true
           description: eId of the article
           schema:
-            type: string
+            $ref: "#/components/schemas/EId"
       responses:
         "200":
           description: The article with the requested eId
@@ -367,6 +366,33 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ZeitgrenzeResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /norms/{normExpressionEli}/zielnorm-references:
+    get:
+      tags:
+        - Norm expression
+      summary: Get a list of zielnorm references
+      parameters:
+        - name: normExpressionEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormExpressionEli"
+      responses:
+        "200":
+          description: The list of zielnorm references
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ZielnormReference"
         "400":
           $ref: "#/components/responses/BadRequest"
         "404":
@@ -445,7 +471,7 @@ paths:
           required: true
           description: The eId of the selected single element
           schema:
-            type: string
+            $ref: "#/components/schemas/EId"
       responses:
         "200":
           description: List of proprietary metadata for the single element
@@ -474,7 +500,7 @@ paths:
           required: true
           description: The eId of the selected single element
           schema:
-            type: string
+            $ref: "#/components/schemas/EId"
       requestBody:
         description: The proprietary request schema containing several metadata.
         required: true
@@ -512,8 +538,7 @@ paths:
           required: true
           description: eId of the element in the norm
           schema:
-            type: string
-            example: hauptteil-1_art-3
+            $ref: "#/components/schemas/EId"
       responses:
         "200":
           description: An HTML rendering of the element
@@ -647,6 +672,12 @@ components:
       example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu
       description: ELI identifying a specific expression of a norm
 
+    EId:
+      type: string
+      format: EId
+      example: "hauptteil-1_art-3"
+      description: eId, identifying an element of a norm
+
     Norm:
       type: object
       properties:
@@ -697,7 +728,7 @@ components:
       type: object
       properties:
         eid:
-          type: string
+          $ref: "#/components/schemas/EId"
         enumeration:
           type: string
         title:
@@ -724,6 +755,18 @@ components:
         art:
           type: string
           enum: [INKRAFT, AUSSERKRAFT]
+
+    ZielnormReference:
+      type: object
+      properties:
+        typ:
+          type: string
+        geltungszeit:
+          type: string
+        eId:
+          $ref: "#/components/schemas/EId"
+        zielnorm:
+          $ref: "#/components/schemas/NormExpressionEli"
 
     ReleaseResponse:
       type: object
@@ -846,6 +889,8 @@ components:
       properties:
         id:
           type: string
+          format: EId
+          example: "hauptteil-1_art-3"
           description: The eId of the XML node
         marker:
           type: string

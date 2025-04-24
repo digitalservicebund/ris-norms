@@ -382,4 +382,37 @@ class CustomModsMetadataTest {
         );
     }
   }
+
+  @Test
+  void getZielnormenReferences() {
+    var customModsMetadata = new CustomModsMetadata(
+      toElement(
+        """
+        <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+             <norms:zielnorm-references>
+                 <norms:zielnorm-reference>
+                     <norms:typ>Änderungsvorschrift</norms:typ>
+                     <norms:geltungszeit>gz-1</norms:geltungszeit>
+                     <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                     <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+                 </norms:zielnorm-reference>
+                 <norms:zielnorm-reference>
+                     <norms:typ>Aufhebung</norms:typ>
+                     <norms:geltungszeit>gz-2</norms:geltungszeit>
+                     <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2</norms:eid>
+                     <norms:zielnorm>eli/bund/bgbl-1/2019/789</norms:zielnorm>
+                 </norms:zielnorm-reference>
+             </norms:zielnorm-references>
+        </norms:legalDocML.de_metadaten>
+        """
+      )
+    );
+
+    var zielnormenReferences = customModsMetadata.getZielnormenReferences();
+    assertThat(zielnormenReferences).hasSize(2);
+    assertThat(zielnormenReferences.getFirst().getEId())
+      .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+    assertThat(zielnormenReferences.get(1).getEId())
+      .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
+  }
 }

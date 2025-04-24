@@ -39,16 +39,16 @@
           </xs:complexType>
         </xs:element>
 
-        <xs:element name="verweise" minOccurs="0">
+        <xs:element name="zielnorm-references" minOccurs="0">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="verweis" maxOccurs="unbounded">
+              <xs:element name="zielnorm-reference" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="typ" type="xs:string"/>
                     <xs:element name="geltungszeit" type="xs:IDREF"/>
                     <xs:element name="eid" type="xs:string"/>
-                    <xs:element name="zielgesetz" type="xs:string"/>
+                    <xs:element name="zielnorm" type="xs:string"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>

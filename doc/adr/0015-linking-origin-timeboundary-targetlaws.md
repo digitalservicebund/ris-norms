@@ -24,11 +24,11 @@ We will use a custom metadata structure within the ris metadata node (`<ris:lega
     - An `id` attribute, serving as a reference for modifications.
     - An `art` attribute to specify the type of validity (`inkraft`, `ausserkraft`).
     - A date value, if the time boundary is defined. If date is not yet known (`unbestimmt`), a string identifier chosen by the user will be used.
-  - **`<norms:verweise>`**: Represents the links between amending statements, time boundaries, and target laws, and also includes the type of the reference. It contains a list of `<norms:verweis>` with:
+  - **`<norms:zielnorm-references>`**: Represents the links between amending statements, time boundaries, and target laws, and also includes the type of the reference. It contains a list of `<norms:zielnorm-reference>` with:
     - `<norms:typ>`: The type of the reference (e.g. `Änderungsvorschrift`, `Aufhebung`, `Teiländerung`), which is new to the whole concept.
     - `<norms:geltungszeit>`: A reference to a `norms:geltungszeit`.
     - `<norms:eid>`: The eId of the node within the `akn:body` containing the amending statement.
-    - `<norms:zielgesetz>`: The Work-ELI of the target norm being referenced.
+    - `<norms:zielnorm>`: The Work-ELI of the target norm being referenced.
 
 Example:
 ```
@@ -39,37 +39,37 @@ Example:
         <norms:geltungszeit id="gz-3" art="inkraft">unbestimmt-1</norms:geltungszeit>
         <norms:geltungszeit id="gz-4" art="ausserkraft">unbestimmt-2</norms:geltungszeit>
     </norms:geltungszeiten>
-    <norms:verweise>
-        <norms:verweis>
+    <norms:zielnorm-references>
+        <norms:zielnorm-reference>
             <norms:typ>Änderungsvorschrift</norms:typ>
             <norms:geltungszeit>gz-1</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
-            <norms:zielgesetz>eli/bund/bgbl-1/2021/123</norms:zielgesetz>
-        </norms:verweis>
-        <norms:verweis>
+            <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+        </norms:zielnorm-reference>
+        <norms:zielnorm-reference>
             <norms:typ>Aufhebung</norms:typ>
             <norms:geltungszeit>gz-2</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2</norms:eid>
-            <norms:zielgesetz>eli/bund/bgbl-1/2019/789</norms:zielgesetz>
-        </norms:verweis>
-        <norms:verweis>
+            <norms:zielnorm>eli/bund/bgbl-1/2019/789</norms:zielnorm>
+        </norms:zielnorm-reference>
+        <norms:zielnorm-reference>
             <norms:typ>Teiländerung</norms:typ>
             <norms:geltungszeit>gz-3</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-3</norms:eid>
-            <norms:zielgesetz>eli/bund/bgbl-1/1990/456</norms:zielgesetz>
-        </norms:verweis>
-        <norms:verweis>
+            <norms:zielnorm>eli/bund/bgbl-1/1990/456</norms:zielnorm>
+        </norms:zielnorm-reference>
+        <norms:zielnorm-reference>
             <norms:typ>Änderungsvorschrift</norms:typ>
             <norms:geltungszeit>gz-1</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-4</norms:eid>
-            <norms:zielgesetz>eli/bund/bgbl-1/1990/456</norms:zielgesetz>
-        </norms:verweis>
-    </norms:verweise>
+            <norms:zielnorm>eli/bund/bgbl-1/1990/456</norms:zielnorm>
+        </norms:zielnorm-reference>
+    </norms:zielnorm-references>
 </norms:legalDocML.de_metadaten>
 ```
 This structure ensures:
 - that time boundaries can be stored independently of the modifications (also relevant when not dealing with amending laws)
-- that there will be as many `<norms:verweis>` elements as there are amending statements
+- that there will be as many `<norms:zielnorm-reference>` elements as there are amending statements
 
 ## Consequences
 
@@ -86,7 +86,7 @@ This structure ensures:
 
 The alternatives are ordered from most to least feasible/beneficial:
 
-1. **Annotate the amending statements with two new custom attributes** (`geltungszeit` and `zielgesetz`):
+1. **Annotate the amending statements with two new custom attributes** (`geltungszeit` and `zielnorm`):
    - More "logical" since the amending statements themselves would contain the necessary information.
    - Less centralized.
    - Would require iterating through the entire `akn:body` since the elements containing the annotations (`akn:point`, `akn:paragraph`, etc.) are not known in advance.

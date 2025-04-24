@@ -25,7 +25,8 @@ public class NormService
     LoadNormUseCase,
     LoadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase,
-    LoadRegelungstextUseCase {
+    LoadRegelungstextUseCase,
+    LoadZielnormReferencesUseCase {
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
@@ -117,5 +118,18 @@ public class NormService
       );
 
     return Map.of(normToBeUpdated.getExpressionEli(), savedNorm);
+  }
+
+  @Override
+  public List<ZielnormReference> loadZielnormReferences(LoadZielnormReferencesUseCase.Query query) {
+    return loadNorm(new LoadNormUseCase.Query(query.eli()))
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .stream()
+      .map(CustomModsMetadata::getZielnormenReferences)
+      .flatMap(List::stream)
+      .toList();
   }
 }
