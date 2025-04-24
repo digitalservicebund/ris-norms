@@ -10,8 +10,8 @@ import Tree from "primevue/tree"
 import type { TreeNode } from "primevue/treenode"
 import ChevronUpIcon from "~icons/ic/baseline-keyboard-arrow-up"
 import ChevronDownIcon from "~icons/ic/baseline-keyboard-arrow-down"
-import { useGetNormTableOfContents } from "@/services/tocService"
-import type { TableOfContentsItem } from "@/types/tableOfContents"
+import { useGetNormToc } from "@/services/tocService"
+import type { TocItem } from "@/types/toc"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useRouter } from "vue-router"
 
@@ -23,14 +23,14 @@ const {
   data: tocItems,
   isFetching: tocIsLoading,
   error: tocError,
-} = useGetNormTableOfContents(expressionEli)
+} = useGetNormToc(expressionEli)
 
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
 
 const elementLinks = computed(() => tocItems.value?.map(mapElement) ?? [])
 
-const mapElement = (el: TableOfContentsItem): TreeNode => ({
+const mapElement = (el: TocItem): TreeNode => ({
   key: el.id,
   label: el.marker || "",
   data: {

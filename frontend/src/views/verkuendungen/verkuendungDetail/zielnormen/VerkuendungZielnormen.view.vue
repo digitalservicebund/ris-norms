@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
@@ -8,29 +9,17 @@ import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
-import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import {
-  useGeltungszeitenHtml,
-  useGetZeitgrenzen,
-  usePutZeitgrenzen,
-} from "@/services/zeitgrenzenService"
-import { useToast } from "primevue"
-import Button from "primevue/button"
+import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
-import { computed, ref, watch } from "vue"
-import IcBaselineCheck from "~icons/ic/baseline-check"
-import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
+import { computed, ref } from "vue"
+import RisDocumentExplorer from "./RisDocumentExplorer.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
-const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
-
-const toast = useToast()
-
-const { addErrorToast } = useErrorToast()
+const { geltungszeitenHtmlHeadingId } = useElementId()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -41,14 +30,8 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
         : "...",
     to: `/verkuendungen/${eli.value}`,
   },
-  { key: "zeitgrenzen", title: "Geltungszeitregeln anlegen" },
+  { key: "zeitgrenzen", title: "Zielnormen verknüpfen" },
 ])
-
-const {
-  data: verkuendung,
-  isFetching: isFetchingVerkuendung,
-  error: verkuendungError,
-} = useGetVerkuendungService(() => eli.value.asNormEli())
 
 const {
   data: geltungszeitenHtml,
@@ -57,54 +40,39 @@ const {
 } = useGeltungszeitenHtml(eli)
 
 const {
-  data: zeitgrenzen,
-  error: zeitgrenzenError,
-  isFetching: isFetchingZeitgrenzen,
-} = useGetZeitgrenzen(eli)
-
-const {
-  data: updatedZeitgrenzen,
-  execute: saveZeitgrenzen,
-  error: saveZeitgrenzenError,
-  isFetching: saveZeitgrenzenIsFetching,
-} = usePutZeitgrenzen(eli, zeitgrenzen)
-
-watch(updatedZeitgrenzen, (newVal) => {
-  zeitgrenzen.value = newVal
-})
+  data: verkuendung,
+  error: verkuendungError,
+  isFinished: verkuendungHasFinished,
+} = useGetVerkuendungService(() => eli.value.asNormEli())
 
 const formattedVerkuendungsdatum = computed(() =>
   verkuendung.value?.frbrDateVerkuendung
     ? formatDate(verkuendung.value.frbrDateVerkuendung)
     : undefined,
 )
-
-async function onSaveZeitgrenzen() {
-  await saveZeitgrenzen()
-  if (!saveZeitgrenzenError.value) {
-    toast.add({ summary: "Gespeichert!", severity: "success" })
-  } else addErrorToast(saveZeitgrenzenError)
-}
 </script>
 
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError, zeitgrenzenError]"
-    :loading="isFetchingVerkuendung || isFetchingZeitgrenzen"
+    :errors="[verkuendungError, geltungszeitenHtmlError]"
+    :loading="!verkuendungHasFinished"
   >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
-        :size="66"
+        :size="33"
+        :min-size="33"
+        class="h-full overflow-auto bg-gray-100"
+      >
+        <RisDocumentExplorer :eli class="h-full" />
+      </SplitterPanel>
+
+      <SplitterPanel
+        :size="33"
         :min-size="33"
         class="h-full overflow-auto bg-gray-100 p-24"
       >
-        <section :aria-labelledby="geltungszeitenHeadingId">
-          <h1 :id="geltungszeitenHeadingId" class="ris-subhead-bold mb-24">
-            Geltungszeitregeln anlegen
-          </h1>
-          <RisZeitgrenzenList v-if="zeitgrenzen" v-model="zeitgrenzen" />
-        </section>
+        <RisEmptyState text-content="Bitte wählen Sie einen Artikel aus." />
       </SplitterPanel>
 
       <SplitterPanel
@@ -133,7 +101,6 @@ async function onSaveZeitgrenzen() {
             v-else-if="geltungszeitenHtmlError"
             :error="geltungszeitenHtmlError"
           />
-
           <RisLawPreview
             v-else-if="geltungszeitenHtml"
             :arrow-focus="false"
@@ -143,15 +110,5 @@ async function onSaveZeitgrenzen() {
         </section>
       </SplitterPanel>
     </Splitter>
-
-    <template #headerAction>
-      <Button
-        label="Speichern"
-        :loading="saveZeitgrenzenIsFetching"
-        @click="onSaveZeitgrenzen()"
-      >
-        <template #icon><IcBaselineCheck /></template>
-      </Button>
-    </template>
   </RisViewLayout>
 </template>

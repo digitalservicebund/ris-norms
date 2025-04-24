@@ -1,5 +1,5 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import type { TableOfContentsItem } from "@/types/tableOfContents"
+import type { TocItem } from "@/types/toc"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
@@ -12,17 +12,17 @@ import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
  * @param fetchOptions Optional fetch behavior
  * @returns Reactive fetch wrapper for TOC data
  */
-export function useGetNormTableOfContents(
+export function useGetNormToc(
   eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<TableOfContentsItem[]> {
+): UseFetchReturn<TocItem[]> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}/toc`
   })
 
-  return useApiFetch<TableOfContentsItem[]>(url, {
+  return useApiFetch<TocItem[]>(url, {
     refetch: true,
     ...fetchOptions,
   }).json()
