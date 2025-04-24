@@ -1,8 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
-import java.util.List;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.util.UUID;
 
 /**
@@ -25,11 +24,7 @@ public interface SaveVerkuendungImportProcessPort {
    * @param status of the file import
    * @param details of what went wrong
    */
-  record Command(
-    UUID id,
-    VerkuendungImportProcess.Status status,
-    List<VerkuendungImportProcessDetail> details
-  ) {
+  record Command(UUID id, VerkuendungImportProcess.Status status, NormsAppException details) {
     /**
      * Parameter for saving/updating a {@link VerkuendungImportProcess} object
      *
@@ -37,7 +32,7 @@ public interface SaveVerkuendungImportProcessPort {
      * @param status of the file import
      */
     public Command(UUID id, VerkuendungImportProcess.Status status) {
-      this(id, status, List.of());
+      this(id, status, null);
     }
   }
 }

@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
@@ -21,7 +20,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.ZipUtils;
@@ -64,7 +62,6 @@ public class VerkuendungsImportService
   private final UpdateOrSaveVerkuendungPort updateOrSaveVerkuendungPort;
   private final LdmlDeValidator ldmlDeValidator;
   private final JobScheduler jobScheduler;
-  private final ObjectMapper objectMapper;
   private final MediaTypeService mediaTypeService;
 
   static final List<MediaType> SUPPORTED_MEDIA_TYPES = List.of(
@@ -87,7 +84,6 @@ public class VerkuendungsImportService
     UpdateOrSaveVerkuendungPort updateOrSaveVerkuendungPort,
     LdmlDeValidator ldmlDeValidator,
     JobScheduler jobScheduler,
-    ObjectMapper objectMapper,
     MediaTypeService mediaTypeService
   ) {
     this.loadNormPort = loadNormPort;
@@ -99,7 +95,6 @@ public class VerkuendungsImportService
     this.updateOrSaveVerkuendungPort = updateOrSaveVerkuendungPort;
     this.ldmlDeValidator = ldmlDeValidator;
     this.jobScheduler = jobScheduler;
-    this.objectMapper = objectMapper;
     this.mediaTypeService = mediaTypeService;
   }
 
@@ -181,21 +176,18 @@ public class VerkuendungsImportService
         )
       );
     } catch (Exception e) {
-      List<VerkuendungImportProcessDetail> errors;
       if (e instanceof NormsAppException normsAppException) {
         log.warn(
           "Exception during processing of Normendokumentationspaket: {}",
           query.processId(),
           e
         );
-        errors =
-        List.of(
-          VerkuendungImportProcessDetail
-            .builder()
-            .type(normsAppException.getType().toString())
-            .title(normsAppException.getTitle())
-            .detail(objectMapper.writeValueAsString(normsAppException.getProperties()))
-            .build()
+        saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
+          new SaveVerkuendungImportProcessPort.Command(
+            process.getId(),
+            VerkuendungImportProcess.Status.ERROR,
+            normsAppException
+          )
         );
       } else {
         log.error(
@@ -203,22 +195,14 @@ public class VerkuendungsImportService
           query.processId(),
           e
         );
-        errors =
-        List.of(
-          VerkuendungImportProcessDetail
-            .builder()
-            .type("/errors/normendokumentationspaket-import-failed/internal-error")
-            .title("Internal Error")
-            .build()
+        saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
+          new SaveVerkuendungImportProcessPort.Command(
+            process.getId(),
+            VerkuendungImportProcess.Status.ERROR,
+            new InternalErrorException()
+          )
         );
       }
-      saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
-        new SaveVerkuendungImportProcessPort.Command(
-          process.getId(),
-          VerkuendungImportProcess.Status.ERROR,
-          errors
-        )
-      );
     }
 
     log.info("Finished processing Normendokumentationspaket: {}", query.processId());
@@ -382,18 +366,7 @@ public class VerkuendungsImportService
     String dokumentName,
     byte[] file
   ) {
-    Dokument dokument =
-      switch (dokumentName.split("-")[0]) {
-        case "rechtsetzungsdokument" -> ldmlDeValidator.parseAndValidateRechtsetzungsdokument(
-          new String(file)
-        );
-        case "regelungstext" -> ldmlDeValidator.parseAndValidateRegelungstext(new String(file));
-        case "offenestruktur" -> ldmlDeValidator.parseAndValidateOffeneStruktur(new String(file));
-        case "bekanntmachungstext" -> ldmlDeValidator.parseAndValidateBekanntmachung(
-          new String(file)
-        );
-        default -> throw new InvalidDokumentTypeException(dokumentName);
-      };
+    var dokument = ldmlDeValidator.parseAndValidateDokument(dokumentName, new String(file));
 
     if (!dokument.getManifestationEli().getSubtype().equals(dokumentName.split("\\.")[0])) {
       throw new MismatchBetweenFilenameAndSubtypeException(

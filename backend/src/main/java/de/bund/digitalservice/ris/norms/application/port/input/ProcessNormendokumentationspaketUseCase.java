@@ -66,13 +66,13 @@ public interface ProcessNormendokumentationspaketUseCase {
   }
 
   /**
-   * The zip file does not contain a rechtsetzungsdokument
+   * The ZIP file does not contain a Rechtsetzungsdokument
    */
   class MissingRechtsetzungsdokumentException
     extends NormendokumentationspaketImportFailedException {
 
     public MissingRechtsetzungsdokumentException() {
-      super("The zip file does not contain a rechtsetzungsdokument");
+      super("The ZIP file does not contain a Rechtsetzungsdokument");
     }
 
     @Override
@@ -84,7 +84,7 @@ public interface ProcessNormendokumentationspaketUseCase {
 
     @Override
     public String getTitle() {
-      return "The zip file does not contain a rechtsetzungsdokument";
+      return "The ZIP file does not contain a Rechtsetzungsdokument";
     }
 
     @Override
@@ -120,34 +120,6 @@ public interface ProcessNormendokumentationspaketUseCase {
     @Override
     public Map<String, Object> getProperties() {
       return Map.of("dokumentName", dokumentName);
-    }
-  }
-
-  /**
-   * A Dokument is of an unknown Dokument Type
-   */
-  class InvalidDokumentTypeException extends NormendokumentationspaketImportFailedException {
-
-    private final String fileName;
-
-    public InvalidDokumentTypeException(String fileName) {
-      super("Dokument " + fileName + " is of an unknown dokument type.");
-      this.fileName = fileName;
-    }
-
-    @Override
-    public URI getType() {
-      return URI.create("/errors/normendokumentationspaket-import-failed/invalid-dokument-type");
-    }
-
-    @Override
-    public String getTitle() {
-      return "A Dokument is of an unknown Dokument Type";
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-      return Map.of("fileName", fileName);
     }
   }
 
@@ -353,6 +325,31 @@ public interface ProcessNormendokumentationspaketUseCase {
     @Override
     public Map<String, Object> getProperties() {
       return Map.of("file", fileName, "supportedTypes", List.of("XML", "PDF", "JPG", "PNG", "GIF"));
+    }
+  }
+
+  /**
+   * An internal error happened
+   */
+  class InternalErrorException extends NormendokumentationspaketImportFailedException {
+
+    public InternalErrorException() {
+      super("A internal error happened. Please contact the norms team.");
+    }
+
+    @Override
+    public URI getType() {
+      return URI.create("/errors/normendokumentationspaket-import-failed/internal-error");
+    }
+
+    @Override
+    public String getTitle() {
+      return "Internal Error";
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+      return Map.of();
     }
   }
 }

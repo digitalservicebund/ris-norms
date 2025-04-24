@@ -4,9 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungStatusErrorResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -23,16 +21,14 @@ class VerkuendungStatusMapperTest {
       .startedAt(Instant.now())
       .finishedAt(Instant.now())
       .detail(
-        List.of(
-          VerkuendungImportProcessDetail
-            .builder()
-            .type("/errors/job-run-failed")
-            .title(
-              "Tried to import a Normendokumentationspacket the max amount of times but failed"
-            )
-            .detail("none")
-            .build()
-        )
+        """
+        {
+          "type": "/errors/job-run-failed",
+          "title": "Tried to import a Normendokumentationspacket the max amount of times but failed",
+          "detail": "detail message",
+          "additionalProperty": "some-value"
+        }
+        """
       )
       .build();
 
@@ -44,9 +40,9 @@ class VerkuendungStatusMapperTest {
     assertThat(verkuendungStatusResponseSchema)
       .isInstanceOf(VerkuendungStatusErrorResponseSchema.class);
     assertThat(verkuendungStatusResponseSchema.status()).isEqualTo("error");
-    assertThat(verkuendungStatusResponseSchema.type()).isEqualTo("/errors/job-run-failed");
-    assertThat(verkuendungStatusResponseSchema.title())
-      .isEqualTo("Tried to import a Normendokumentationspacket the max amount of times but failed");
-    assertThat(verkuendungStatusResponseSchema.detail()).isEqualTo("none");
+    assertThat(verkuendungStatusResponseSchema.detail()).contains("/errors/job-run-failed");
+    assertThat(verkuendungStatusResponseSchema.detail())
+      .contains("Tried to import a Normendokumentationspacket the max amount of times but failed");
+    assertThat(verkuendungStatusResponseSchema.detail()).contains("detail message");
   }
 }

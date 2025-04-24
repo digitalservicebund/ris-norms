@@ -4,9 +4,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.Verkuendung
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungStatusProcessingOrSuccessResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /** Mapper class for converting between {@link VerkuendungImportProcess} and {@link VerkuendungStatusResponseSchema}. */
 public class VerkuendungStatusMapper {
@@ -28,27 +25,8 @@ public class VerkuendungStatusMapper {
       );
       case ERROR -> new VerkuendungStatusErrorResponseSchema(
         VerkuendungImportProcess.Status.ERROR.toString(),
-        getType(verkuendungImportProcess),
-        verkuendungImportProcess
-          .getDetail()
-          .stream()
-          .map(VerkuendungImportProcessDetail::getTitle)
-          .collect(Collectors.joining(" ;")),
-        verkuendungImportProcess
-          .getDetail()
-          .stream()
-          .map(VerkuendungImportProcessDetail::getDetail)
-          .collect(Collectors.joining(" ;"))
+        verkuendungImportProcess.getDetail()
       );
     };
-  }
-
-  private static String getType(VerkuendungImportProcess verkuendungImportProcess) {
-    return Optional
-      .of(verkuendungImportProcess)
-      .map(VerkuendungImportProcess::getDetail)
-      .flatMap(list -> list.stream().findFirst())
-      .map(VerkuendungImportProcessDetail::getType)
-      .orElse("");
   }
 }

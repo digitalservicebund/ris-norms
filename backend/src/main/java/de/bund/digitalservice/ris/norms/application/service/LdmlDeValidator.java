@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.InvalidDokumentTypeException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Bekanntmachung;
@@ -92,6 +93,43 @@ public class LdmlDeValidator {
   }
 
   /**
+   * Parse and validate the given dokument. The concrete dokument type is determined based on the dokumentName.
+   *
+   * @param dokumentName the file name of the dokument
+   * @param ldmlDeString the xml string of the dokument
+   * @return the parsed and validated dokument.
+   * @throws LdmlDeNotValidException the dokument is not valid
+   * @throws InvalidDokumentTypeException the dokument name could not be used to determine the dokument type
+   */
+  public Dokument parseAndValidateDokument(String dokumentName, String ldmlDeString) {
+    try {
+      return switch (dokumentName.split("-")[0]) {
+        case "rechtsetzungsdokument" -> parseAndValidateRechtsetzungsdokument(ldmlDeString);
+        case "regelungstext" -> parseAndValidateRegelungstext(ldmlDeString);
+        case "offenestruktur" -> parseAndValidateOffeneStruktur(ldmlDeString);
+        case "bekanntmachungstext" -> parseAndValidateBekanntmachung(ldmlDeString);
+        default -> throw new InvalidDokumentTypeException(dokumentName);
+      };
+    } catch (LdmlDeNotValidException exception) {
+      throw new LdmlDeNotValidException(
+        exception
+          .getErrors()
+          .stream()
+          .map(error ->
+            new LdmlDeNotValidException.ValidationError(
+              error.type(),
+              error.lineNumber(),
+              error.columnNumber(),
+              error.detail(),
+              dokumentName
+            )
+          )
+          .toList()
+      );
+    }
+  }
+
+  /**
    * Parses and validates the given LDML.de XML as a Regelungstext.
    *
    * @param ldmlDeString The XML string of the LDML.de document.
@@ -173,7 +211,7 @@ public class LdmlDeValidator {
         .stream()
         .map(e ->
           new LdmlDeNotValidException.ValidationError(
-            URI.create(e.getMessage().split(":")[0]),
+            URI.create(LdmlDeNotValidException.TYPE + "/").resolve(e.getMessage().split(":")[0]),
             e.getLineNumber(),
             e.getColumnNumber(),
             e.getMessage()
@@ -276,7 +314,8 @@ public class LdmlDeValidator {
           "/errors/ldml-de-not-schematron-valid/%s/%s".formatted(node.getLocalName(), ruleId),
           xPath,
           node.getTextContent(),
-          eId.toString()
+          eId.toString(),
+          dokument.getManifestationEli().toString()
         );
       })
       .toList();

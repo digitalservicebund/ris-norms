@@ -249,15 +249,18 @@ components:
       description: |
         Siehe auch: Schema `ProblemDetail`. Zu den Fehler-URIs, die im Fall eines Verarbeitungsfehlers auftreten können, gehören beispielsweise:
 
-        | URI                                     | Beschreibung                                                                                  |
-        | --------------------------------------- | --------------------------------------------------------------------------------------------- |
-        | `/errors/duplicate-verkuendung`        | Dieses Normendokumentationspaket wurde bereits übermittelt.                                   |
-        | `/errors/process-id-not-found`          | Die Prozess-ID wurde nicht gefunden.                                                          |
-        | `/errors/invalid-archive`               | Die übermittelte Datei ist kein gültiges ZIP-Archiv.                                          |
-        | `/errors/invalid-signature`             | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |
-        | `/errors/invalid-contents`              | Die Dateien im Archiv folgen nicht der erwarteten Benennung.                                  |
-        | `/errors/ldml-de-not-schematron-valid`  | Eine oder mehrere LDML.de-Dateien weisen Schematron-Fehler auf (Warnungen werden akzeptiert). |
-        | `/errors/ldml-de-not-valid`             | Eine oder LDML.de-Dateien weisen XSD-Fehler auf.                                              |
+        | URI                                                                             | Beschreibung                                                                                  |
+        |---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+        | `/errors/norm-with-eli-exists-already`                                          | Es wurde bereits ein Normendokumentationspaket mit der selben ELI hochgeladen                 |
+        | `/errors/process-id-not-found`                                                  | Die Prozess-ID wurde nicht gefunden.                                                          |
+        | `/errors/invalid-signature`                                                     | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |
+        | `/errors/ldml-de-not-schematron-valid`                                          | Eine oder mehrere LDML.de-Dateien weisen Schematron-Fehler auf (Warnungen werden akzeptiert). |
+        | `/errors/ldml-de-not-valid`                                                     | Eine oder LDML.de-Dateien weisen XSD-Fehler auf.                                              |
+        | `/errors/normendokumentationspaket-import-failed/not-a-zip-file`                | Die übermittelte Datei ist kein gültiges ZIP-Archiv.                                          |
+        | `/errors/normendokumentationspaket-import-failed/missing-rechtsetzungsdokument` | Das Archiv beinhaltet kein Rechtsetzungsdokument                                              |
+        | `/errors/normendokumentationspaket-import-failed/missing-referenced-dokument`   | Ein referenziertes Dokument konnte nicht im Archiv gefunden werden                            |
+        | `/errors/normendokumentationspaket-import-failed/invalid-structure-in-zip-file` | Das Archiv hat eine unerwartete Struktur                                                      |
+        | `/errors/normendokumentationspaket-import-failed/unsupported-file-type`         | Eine Datei im Archiv ist in einem nicht unterstützten Format                                  |
       type: object
       required:
         - status
@@ -270,7 +273,7 @@ components:
           type: string
           format: uri
           description: Eine URI, die die Art des Fehlers ausweist.
-          example: /errors/example-error
+          example: /errors/norm-with-eli-exists-already
         title:
           type: string
           description: Eine kurze, menschenlesbare Beschreibung des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
@@ -278,3 +281,72 @@ components:
         detail:
           type: string
           description: Menschenlesbare Details zur Ursache des Problems. Diese Information ist zum Debugging gedacht und sollte nicht in einer Benutzeroberfläche verwendet werden.
+        errors:
+          type: array
+          description: Eine Liste strukturierter Validierungsfehler aus XSD oder Schematron.
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/XsdValidationError"
+              - $ref: "#/components/schemas/SchematronValidationError"
+        extensions:
+          type: object
+          additionalProperties: true
+          description: Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
+    XsdValidationError:
+      type: object
+      description: Fehler bei der XSD-Validierung eines XML-Dokuments
+      required:
+        - type
+        - file
+        - details
+        - line
+        - column
+      properties:
+        type:
+          type: string
+          example: /errors/ldml-de-not-valid/cvc-pattern-valid
+        file:
+          type: string
+          description: Name der Datei, in der der Fehler gefunden wurde.
+          example: regelungstext-1.xml
+        details:
+          type: string
+          description: Die Fehlermeldung des XSD-Parsers.
+          example: "cvc-complex-type.2.4.a: Invalid content was found starting with element 'author'."
+        lineNumber:
+          type: integer
+          description: Zeilennummer des Fehlers im XML.
+          example: 23
+        columnNumber:
+          type: integer
+          description: Spaltennummer des Fehlers im XML.
+          example: 14
+    SchematronValidationError:
+      type: object
+      description: Fehler bei der Schematron-Validierung eines XML-Dokuments
+      required:
+        - type
+        - eli
+        - details
+        - xpath
+        - eId
+      properties:
+        type:
+          type: string
+          example: /errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005
+        eli:
+          type: string
+          description: Manifestation-ELI der Datei, in der der Fehler gefunden wurde.
+          example: eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2025-01-01/regelungstext-1.xml
+        details:
+          type: string
+          description: Die vom Schematron ausgelöste Fehlermeldung.
+          example: Missing required attribute 'value' on <akn:FRBRthis>.
+        xpath:
+          type: string
+          description: XPath zur fehlerverursachenden Node.
+          example: /akn:akomaNtoso/akn:act/akn:meta/akn:identification/akn:FRBRWork/akn:FRBRthis/@value
+        eId:
+          type: string
+          description: Eindeutiger Identifier der Node.
+          example: meta-1_ident-1_frbrwork-1_frbrthis-1

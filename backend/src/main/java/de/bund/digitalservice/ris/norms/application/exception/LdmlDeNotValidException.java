@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 import lombok.Getter;
 
 /**
@@ -51,14 +52,18 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
    * @param lineNumber the line of the xml file that causes the error
    * @param columnNumber the column of the line of the xml file that causes the error
    * @param detail the error message
+   * @param file the name of the file in which this error happened. Might be null if the file is not known.
    */
-  public record ValidationError(URI type, int lineNumber, int columnNumber, String detail)
+  public record ValidationError(
+    URI type,
+    int lineNumber,
+    int columnNumber,
+    String detail,
+    @Nullable String file
+  )
     implements Serializable {
     public ValidationError(URI type, int lineNumber, int columnNumber, String detail) {
-      this.type = URI.create(LdmlDeNotValidException.TYPE + "/").resolve(type);
-      this.lineNumber = lineNumber;
-      this.columnNumber = columnNumber;
-      this.detail = detail;
+      this(type, lineNumber, columnNumber, detail, null);
     }
   }
 }

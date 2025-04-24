@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.conventions;
 
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.belongToAnyOf;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.simpleNameEndingWith;
 import static com.tngtech.archunit.lang.conditions.ArchConditions.*;
@@ -15,6 +16,8 @@ import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
+import de.bund.digitalservice.ris.norms.Application;
+import de.bund.digitalservice.ris.norms.Generated;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +53,7 @@ class ArchitectureFitnessTest {
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value..";
   static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions..";
   static final String UTILS_LAYER_PACKAGES = BASE_PACKAGE + ".utils..";
+  static final String CONFIG_LAYER_PACKAGES = BASE_PACKAGE + ".config..";
 
   static final String[] DOMAIN_LAYER_ALLOWED_PACKAGES = new String[] {
     "kotlin..",
@@ -73,6 +77,8 @@ class ArchitectureFitnessTest {
     "org.xml.sax..",
     "org.slf4j..",
     "org.apache.commons..",
+    "org.springframework.boot.jackson..",
+    "com.fasterxml.jackson..",
   };
 
   @BeforeAll
@@ -372,6 +378,35 @@ class ArchitectureFitnessTest {
       .matching(BASE_PACKAGE + ".adapter.(*)..")
       .should()
       .notDependOnEachOther();
+    rule.check(classes);
+  }
+
+  @Test
+  void configClassesShouldNotBeAccessedByNonConfigClasses() {
+    ArchRule rule = ArchRuleDefinition
+      .classes()
+      .that()
+      .resideInAPackage(CONFIG_LAYER_PACKAGES)
+      .should()
+      .onlyBeAccessed()
+      .byClassesThat()
+      .resideInAPackage(CONFIG_LAYER_PACKAGES);
+    rule.check(classes);
+  }
+
+  @Test
+  void allClassesShouldResideInASpecifiedLayer() {
+    ArchRule rule = ArchRuleDefinition
+      .classes()
+      .that(DescribedPredicate.not(belongToAnyOf(Application.class, Generated.class)))
+      .should()
+      .resideInAnyPackage(
+        ADAPTER_LAYER_PACKAGES,
+        APPLICATION_LAYER_PACKAGES,
+        CONFIG_LAYER_PACKAGES,
+        DOMAIN_LAYER_PACKAGES,
+        UTILS_LAYER_PACKAGES
+      );
     rule.check(classes);
   }
 

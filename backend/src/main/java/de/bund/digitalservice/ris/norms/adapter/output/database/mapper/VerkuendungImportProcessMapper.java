@@ -1,9 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungImportProcessDetailDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.VerkuendungImportProcessDto;
 import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcess;
-import de.bund.digitalservice.ris.norms.domain.entity.VerkuendungImportProcessDetail;
 
 /**
  * Converts background process information for newly uploaded Verkündungen between the DTOs and
@@ -29,13 +27,7 @@ public class VerkuendungImportProcessMapper {
       .createdAt(verkuendungImportProcessDto.getCreatedAt())
       .startedAt(verkuendungImportProcessDto.getStartedAt())
       .finishedAt(verkuendungImportProcessDto.getFinishedAt())
-      .detail(
-        verkuendungImportProcessDto
-          .getDetail()
-          .stream()
-          .map(VerkuendungImportProcessMapper::mapDetailToDomain)
-          .toList()
-      )
+      .detail(verkuendungImportProcessDto.getDetails())
       .build();
   }
 
@@ -55,40 +47,7 @@ public class VerkuendungImportProcessMapper {
       .createdAt(verkuendungImportProcess.getCreatedAt())
       .startedAt(verkuendungImportProcess.getStartedAt())
       .finishedAt(verkuendungImportProcess.getFinishedAt())
-      .detail(
-        verkuendungImportProcess
-          .getDetail()
-          .stream()
-          .map(VerkuendungImportProcessMapper::mapDetailToDto)
-          .toList()
-      )
-      .build();
-  }
-
-  private static VerkuendungImportProcessDetail mapDetailToDomain(
-    final VerkuendungImportProcessDetailDto verkuendungImportProcessDetailDto
-  ) {
-    return VerkuendungImportProcessDetail
-      .builder()
-      .type(verkuendungImportProcessDetailDto.getType())
-      .title(verkuendungImportProcessDetailDto.getTitle())
-      .detail(verkuendungImportProcessDetailDto.getDetail())
-      .build();
-  }
-
-  /**
-   * Maps a detail
-   * @param verkuendungImportProcessDetail detail to map
-   * @return mapped detail
-   */
-  public static VerkuendungImportProcessDetailDto mapDetailToDto(
-    final VerkuendungImportProcessDetail verkuendungImportProcessDetail
-  ) {
-    return VerkuendungImportProcessDetailDto
-      .builder()
-      .type(verkuendungImportProcessDetail.getType())
-      .title(verkuendungImportProcessDetail.getTitle())
-      .detail(verkuendungImportProcessDetail.getDetail())
+      .details(verkuendungImportProcess.getDetail())
       .build();
   }
 

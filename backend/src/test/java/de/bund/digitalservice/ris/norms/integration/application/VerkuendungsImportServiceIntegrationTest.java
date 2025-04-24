@@ -184,10 +184,8 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     assertThat(finishedProcess).isPresent();
     assertThat(finishedProcess.get().getStatus())
       .isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
-    assertThat(finishedProcess.get().getDetail()).hasSize(1);
-    assertThat(finishedProcess.get().getDetail().getFirst().getType())
-      .isEqualTo("/errors/ldml-de-not-schematron-valid");
-    assertThat(finishedProcess.get().getDetail().getFirst().getDetail())
+    assertThat(finishedProcess.get().getDetails()).contains("/errors/ldml-de-not-schematron-valid");
+    assertThat(finishedProcess.get().getDetails())
       .contains("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00071-005");
 
     assertThat(dokumentRepository.findAll()).isEmpty();
@@ -222,14 +220,10 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     assertThat(finishedProcess).isPresent();
     assertThat(finishedProcess.get().getStatus())
       .isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
-    assertThat(finishedProcess.get().getDetail()).hasSize(1);
-    assertThat(finishedProcess.get().getDetail().getFirst().getType())
-      .isEqualTo("/errors/normendokumentationspaket-import-failed/missing-referenced-dokument");
-    assertThat(finishedProcess.get().getDetail().getFirst().getDetail())
-      .isEqualTo(
-        """
-        {"dokumentName":"regelungstext-1.xml"}"""
-      );
+    assertThat(finishedProcess.get().getDetails())
+      .contains("/errors/normendokumentationspaket-import-failed/missing-referenced-dokument");
+    assertThat(finishedProcess.get().getDetails())
+      .contains("\"Referenced Dokument regelungstext-1.xml not found.\"");
 
     assertThat(dokumentRepository.findAll()).isEmpty();
     assertThat(binaryFileRepository.findAll()).isEmpty();
