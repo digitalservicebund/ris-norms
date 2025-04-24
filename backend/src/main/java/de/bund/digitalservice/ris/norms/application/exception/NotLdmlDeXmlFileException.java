@@ -12,7 +12,7 @@ public class NotLdmlDeXmlFileException extends RuntimeException implements Norms
   private final String fileName;
 
   public NotLdmlDeXmlFileException(String fileName) {
-    super("The xml file %s is not a LDML.de xml file.".formatted(fileName));
+    super("The XML file %s is not a LDML.de XML file.".formatted(fileName));
     this.fileName = fileName;
   }
 
@@ -23,7 +23,7 @@ public class NotLdmlDeXmlFileException extends RuntimeException implements Norms
 
   @Override
   public String getTitle() {
-    return "The provided xml file is not a LDML.de xml file";
+    return "The provided XML file is not a LDML.de XML file";
   }
 
   @Override

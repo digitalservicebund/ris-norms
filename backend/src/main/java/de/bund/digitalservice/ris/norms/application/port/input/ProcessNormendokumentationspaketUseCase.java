@@ -66,13 +66,13 @@ public interface ProcessNormendokumentationspaketUseCase {
   }
 
   /**
-   * The zip file does not contain a rechtsetzungsdokument
+   * The ZIP file does not contain a Rechtsetzungsdokument
    */
   class MissingRechtsetzungsdokumentException
     extends NormendokumentationspaketImportFailedException {
 
     public MissingRechtsetzungsdokumentException() {
-      super("The zip file does not contain a rechtsetzungsdokument");
+      super("The ZIP file does not contain a Rechtsetzungsdokument");
     }
 
     @Override
@@ -84,7 +84,7 @@ public interface ProcessNormendokumentationspaketUseCase {
 
     @Override
     public String getTitle() {
-      return "The zip file does not contain a rechtsetzungsdokument";
+      return "The ZIP file does not contain a Rechtsetzungsdokument";
     }
 
     @Override
