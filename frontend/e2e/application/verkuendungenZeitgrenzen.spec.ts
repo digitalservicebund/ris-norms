@@ -162,7 +162,9 @@ test.describe(
       await expect(page.getByText("Seite nicht gefunden")).toBeVisible()
     })
 
-    test("shows an error if the Preview can't be loaded", async ({ page }) => {
+    test("shows an error if the preview of the Geltungszeiten can't be loaded", async ({
+      page,
+    }) => {
       await page.route(
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
         async (route) => {
