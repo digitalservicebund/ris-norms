@@ -236,7 +236,7 @@ class VerkuendungServiceTest {
       // When // Then
       var query = new CreateVerkuendungUseCase.Query(file, false);
       assertThatThrownBy(() -> verkuendungService.createVerkuendung(query))
-        .isInstanceOf(NotLdmlDeXmlFileException.class);
+        .isInstanceOf(CreateVerkuendungUseCase.NotLdmlDeXmlFileException.class);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
@@ -194,14 +195,14 @@ public class NormsAppExceptionHandler {
   }
 
   /**
-   * Exception handler method for handling {@link NotLdmlDeXmlFileException}.
+   * Exception handler method for handling {@link CreateVerkuendungUseCase.NotLdmlDeXmlFileException}.
    *
    * @param e The exception that occurred.
    * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
    */
-  @ExceptionHandler(NotLdmlDeXmlFileException.class)
+  @ExceptionHandler(CreateVerkuendungUseCase.NotLdmlDeXmlFileException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ProblemDetail handleException(final NotLdmlDeXmlFileException e) {
+  public ProblemDetail handleException(final CreateVerkuendungUseCase.NotLdmlDeXmlFileException e) {
     log.error("NotLdmlDeXmlFileException: {}", e.getMessage(), e);
     return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
