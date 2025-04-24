@@ -7,154 +7,309 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
 
 describe("risDocumentExplorer", () => {
-  beforeEach(() => {
-    vi.resetModules()
-  })
-
-  it("shows the table of contents for the ELI", async () => {
-    vi.doMock("@/services/tocService", () => ({
-      useGetNormToc: () => ({
-        data: ref<TocItem[]>([
-          { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
-          { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
-          { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
-        ]),
-        error: ref(null),
-        isFetching: ref(false),
-      }),
-    }))
-
-    const { default: RisDocumentExplorer } = await import(
-      "./RisDocumentExplorer.vue"
-    )
-
-    render(RisDocumentExplorer, {
-      props: {
-        eli: DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        ),
-      },
+  describe("table of contents", () => {
+    beforeEach(() => {
+      vi.resetModules()
     })
 
-    const toc = screen.getByRole("tree")
-    const buttons = within(toc).getAllByRole("button")
+    it("shows the table of contents for the ELI", async () => {
+      vi.doMock("@/services/tocService", () => ({
+        useGetNormToc: () => ({
+          data: ref<TocItem[]>([
+            { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
+            { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
+            { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
+          ]),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
 
-    expect(buttons[0]).toHaveTextContent("§ 1Test 1")
-    expect(buttons[1]).toHaveTextContent("§ 2Test 2")
-    expect(buttons[2]).toHaveTextContent("§ 3Test 3")
-  })
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
 
-  it("shows an error if the table of contents could not be loaded", async () => {
-    vi.doMock("@/services/tocService", () => ({
-      useGetNormToc: () => ({
-        data: ref(null),
-        error: ref<ErrorResponse>({ type: "/errors/example" }),
-        isFetching: ref(false),
-      }),
-    }))
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+        },
+      })
 
-    const { default: RisDocumentExplorer } = await import(
-      "./RisDocumentExplorer.vue"
-    )
+      const toc = screen.getByRole("tree")
+      const buttons = within(toc).getAllByRole("button")
 
-    render(RisDocumentExplorer, {
-      props: {
-        eli: DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        ),
-      },
+      expect(buttons[0]).toHaveTextContent("§ 1Test 1")
+      expect(buttons[1]).toHaveTextContent("§ 2Test 2")
+      expect(buttons[2]).toHaveTextContent("§ 3Test 3")
     })
 
-    expect(screen.queryByRole("tree")).not.toBeInTheDocument()
+    it("shows an error if the table of contents could not be loaded", async () => {
+      vi.doMock("@/services/tocService", () => ({
+        useGetNormToc: () => ({
+          data: ref(null),
+          error: ref<ErrorResponse>({ type: "/errors/example" }),
+          isFetching: ref(false),
+        }),
+      }))
 
-    expect(
-      screen.getByText("Ein unbekannter Fehler ist aufgetreten."),
-    ).toBeInTheDocument()
-  })
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
 
-  it("shows an empty state if the table of contents has no entries", async () => {
-    vi.doMock("@/services/tocService", () => ({
-      useGetNormToc: () => ({
-        data: ref([]),
-        error: ref(null),
-        isFetching: ref(false),
-      }),
-    }))
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+        },
+      })
 
-    const { default: RisDocumentExplorer } = await import(
-      "./RisDocumentExplorer.vue"
-    )
+      expect(screen.queryByRole("tree")).not.toBeInTheDocument()
 
-    render(RisDocumentExplorer, {
-      props: {
-        eli: DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        ),
-      },
+      expect(
+        screen.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      ).toBeInTheDocument()
     })
 
-    expect(screen.queryByRole("tree")).not.toBeInTheDocument()
+    it("shows an empty state if the table of contents has no entries", async () => {
+      vi.doMock("@/services/tocService", () => ({
+        useGetNormToc: () => ({
+          data: ref([]),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
 
-    expect(screen.getByText("Keine Artikel gefunden.")).toBeInTheDocument()
-  })
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
 
-  it("shows a loading spinner while loading", async () => {
-    vi.doMock("@/services/tocService", () => ({
-      useGetNormToc: () => ({
-        data: ref(null),
-        error: ref(null),
-        isFetching: ref(true),
-      }),
-    }))
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+        },
+      })
 
-    const { default: RisDocumentExplorer } = await import(
-      "./RisDocumentExplorer.vue"
-    )
+      expect(screen.queryByRole("tree")).not.toBeInTheDocument()
 
-    render(RisDocumentExplorer, {
-      props: {
-        eli: DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        ),
-      },
+      expect(screen.getByText("Keine Artikel gefunden.")).toBeInTheDocument()
     })
 
-    expect(screen.queryByRole("tree")).not.toBeInTheDocument()
+    it("shows a loading spinner while loading", async () => {
+      vi.doMock("@/services/tocService", () => ({
+        useGetNormToc: () => ({
+          data: ref(null),
+          error: ref(null),
+          isFetching: ref(true),
+        }),
+      }))
 
-    expect(screen.getByRole("status", { name: "Lädt..." })).toBeInTheDocument()
-  })
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
 
-  it("emits an event when an element is clicked", async () => {
-    const user = userEvent.setup()
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+        },
+      })
 
-    vi.doMock("@/services/tocService", () => ({
-      useGetNormToc: () => ({
-        data: ref<TocItem[]>([
-          { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
-          { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
-          { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
-        ]),
-        error: ref(null),
-        isFetching: ref(false),
-      }),
-    }))
+      expect(screen.queryByRole("tree")).not.toBeInTheDocument()
 
-    const { default: RisDocumentExplorer } = await import(
-      "./RisDocumentExplorer.vue"
-    )
-
-    const { emitted } = render(RisDocumentExplorer, {
-      props: {
-        eli: DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        ),
-      },
+      expect(
+        screen.getByRole("status", { name: "Lädt..." }),
+      ).toBeInTheDocument()
     })
 
-    const toc = screen.getByRole("tree")
+    it("emits an event when an element is clicked", async () => {
+      const user = userEvent.setup()
 
-    await user.click(within(toc).getByRole("button", { name: /§ 1/ }))
+      vi.doMock("@/services/tocService", () => ({
+        useGetNormToc: () => ({
+          data: ref<TocItem[]>([
+            { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
+            { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
+            { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
+          ]),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
 
-    expect(emitted("update:eid")).toContainEqual(["eid-1"])
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+        },
+      })
+
+      const toc = screen.getByRole("tree")
+
+      await user.click(within(toc).getByRole("button", { name: /§ 1/ }))
+
+      expect(emitted("update:eid")).toContainEqual(["eid-1"])
+    })
+  })
+
+  describe("element detail", () => {
+    beforeEach(() => {
+      vi.resetModules()
+
+      vi.doMock("@/services/tocService", () => ({
+        useGetNormToc: () => ({
+          data: ref([]),
+          error: ref(null),
+          isFetching: ref(true),
+        }),
+      }))
+    })
+
+    it("shows the element text", async () => {
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref("<p>Artikel content</p>"),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
+
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      expect(screen.getByText("Artikel content")).toBeInTheDocument()
+    })
+
+    it("shows an error if the element HTML could not be loaded", async () => {
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(null),
+          error: ref<ErrorResponse>({ type: "/errors/example" }),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
+
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      expect(
+        screen.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      ).toBeInTheDocument()
+    })
+
+    it("shows an empty state if the element HTML is empty has no entries", async () => {
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(""),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
+
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      expect(
+        screen.getByText("Der Artikel hat keinen Inhalt."),
+      ).toBeInTheDocument()
+    })
+
+    it("shows a loading spinner while loading", async () => {
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(null),
+          error: ref(null),
+          isFetching: ref(true),
+        }),
+      }))
+
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
+
+      render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      expect(
+        screen.getByRole("status", { name: "Lädt..." }),
+      ).toBeInTheDocument()
+    })
+
+    it("navigates back to the table of contents", async () => {
+      const user = userEvent.setup()
+
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref("<p>Artikel content</p>"),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDocumentExplorer } = await import(
+        "./RisDocumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDocumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      await user.click(
+        screen.getByRole("button", { name: "Inhaltsverzeichnis anzeigen" }),
+      )
+
+      expect(emitted("update:eid")).toContainEqual([undefined])
+    })
   })
 })

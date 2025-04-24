@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useElementId } from "@/composables/useElementId"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { useGetElementHtml } from "@/services/elementService"
 import { useGetNormToc } from "@/services/tocService"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
@@ -21,7 +23,11 @@ const { eli } = defineProps<{
 /** eId of the selected element */
 const eid = defineModel<string>("eid")
 
-const { documentExplorerHeadingId } = useElementId()
+const { documentExplorerHeadingId, tocHeadingId } = useElementId()
+
+// Table of contents --------------------------------------
+
+const showToc = computed(() => !eid.value)
 
 const {
   data: toc,
@@ -39,6 +45,14 @@ const treeNodes = computed<TreeNode[]>(() =>
       }))
     : [],
 )
+
+// Detail view --------------------------------------------
+
+const {
+  data: artikelHtml,
+  error: artikelError,
+  isFetching: artikelIsFetching,
+} = useGetElementHtml(eli, eid)
 </script>
 
 <template>
@@ -50,7 +64,17 @@ const treeNodes = computed<TreeNode[]>(() =>
       class="mb-8 flex items-center gap-4 border-b border-gray-400 px-4 py-4"
     >
       <div class="flex h-48 w-48 items-center justify-center text-gray-600">
-        <IcBaselineToc />
+        <Button
+          :disabled="showToc"
+          aria-label="Inhaltsverzeichnis anzeigen"
+          text
+          title="Inhaltsverzeichnis anzeigen"
+          @click="eid = undefined"
+        >
+          <template #icon>
+            <IcBaselineToc />
+          </template>
+        </Button>
       </div>
 
       <h1 :id="documentExplorerHeadingId" class="ris-subhead-bold">
@@ -65,30 +89,64 @@ const treeNodes = computed<TreeNode[]>(() =>
       </Button>
     </div>
 
-    <div v-if="tocIsFetching" class="mt-24 flex items-center justify-center">
-      <RisLoadingSpinner />
-    </div>
+    <!-- Table of contents -->
+    <template v-if="showToc">
+      <div v-if="tocIsFetching" class="mt-24 flex items-center justify-center">
+        <RisLoadingSpinner />
+      </div>
 
-    <RisErrorCallout v-else-if="tocError" :error="tocError" class="m-16 mt-8" />
+      <RisErrorCallout
+        v-else-if="tocError"
+        :error="tocError"
+        class="m-16 mt-8"
+      />
 
-    <RisEmptyState
-      v-else-if="!toc || !toc.length"
-      text-content="Keine Artikel gefunden."
-      class="m-16 mt-8"
-    />
+      <RisEmptyState
+        v-else-if="!toc || !toc.length"
+        text-content="Keine Artikel gefunden."
+        class="m-16 mt-8"
+      />
 
-    <div v-else class="flex-1 overflow-auto">
-      <Tree :value="treeNodes">
-        <template #default="{ node }">
-          <button
-            class="cursor-pointer pl-4 text-left group-hover:underline!"
-            @click="eid = node.key"
-          >
-            <span class="block">{{ node.label }}</span>
-            <span class="block font-normal">{{ node.data.sublabel }}</span>
-          </button>
-        </template>
-      </Tree>
-    </div>
+      <div v-else class="flex-1 overflow-auto">
+        <span :id="tocHeadingId" class="sr-only">Inhaltsverzeichnis</span>
+        <Tree :aria-labelledby="tocHeadingId" :value="treeNodes">
+          <template #default="{ node }">
+            <button
+              class="cursor-pointer pl-4 text-left group-hover:underline!"
+              @click="eid = node.key"
+            >
+              <span class="block">{{ node.label }}</span>
+              <span class="block font-normal">{{ node.data.sublabel }}</span>
+            </button>
+          </template>
+        </Tree>
+      </div>
+    </template>
+
+    <!-- Article detail -->
+    <template v-else>
+      <div
+        v-if="artikelIsFetching"
+        class="mt-24 flex items-center justify-center"
+      >
+        <RisLoadingSpinner />
+      </div>
+
+      <RisErrorCallout
+        v-else-if="artikelError"
+        :error="artikelError"
+        class="m-16 mt-8"
+      />
+
+      <RisEmptyState
+        v-else-if="!artikelHtml"
+        text-content="Der Artikel hat keinen Inhalt."
+        class="m-16 mt-8"
+      />
+
+      <div v-else class="flex-1 overflow-auto">
+        <RisLawPreview :content="artikelHtml" />
+      </div>
+    </template>
   </aside>
 </template>
