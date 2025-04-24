@@ -64,7 +64,7 @@ const formattedVerkuendungsdatum = computed(() =>
         :min-size="33"
         class="h-full overflow-auto bg-gray-100"
       >
-        <RisDocumentExplorer :eli />
+        <RisDocumentExplorer :eli class="h-full" />
       </SplitterPanel>
 
       <SplitterPanel
