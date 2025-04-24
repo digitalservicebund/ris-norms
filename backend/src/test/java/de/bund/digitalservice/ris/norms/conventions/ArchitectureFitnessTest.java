@@ -380,6 +380,19 @@ class ArchitectureFitnessTest {
   }
 
   @Test
+  void configClassesShouldNotBeAccessedByNonConfigClasses() {
+    ArchRule rule = ArchRuleDefinition
+      .classes()
+      .that()
+      .resideInAPackage(CONFIG_LAYER_PACKAGES)
+      .should()
+      .onlyBeAccessed()
+      .byClassesThat()
+      .resideInAPackage(CONFIG_LAYER_PACKAGES);
+    rule.check(classes);
+  }
+
+  @Test
   void allClassesShouldResideInASpecifiedLayer() {
     ArchRule rule = ArchRuleDefinition
       .classes()
