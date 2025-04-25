@@ -26,7 +26,7 @@ RUN --mount=type=secret,id=SENTRY_DNS \
     fi; \
     ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
 
-# pinning jre:latest from 2025-04-17 - last digest without the error of truststore
+# pinning jre:latest from 2025-04-17 - last digest without the error of a missing truststore
 FROM cgr.dev/chainguard/jre@sha256:917ef527b3e90239fa83069122725b16a67a7c97348ab1d8feee982fece9b822
 COPY --from=backend /backend/build/libs/ris-norms-backend-*.jar /app/app.jar
 ENV spring.cloud.bootstrap.enabled=true
