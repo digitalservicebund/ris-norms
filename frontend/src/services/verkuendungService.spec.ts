@@ -135,7 +135,9 @@ describe("verkuendungService", () => {
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useGetZielnormen } = await import("@/services/verkuendungService")
+      const { useGetZielnormReferences } = await import(
+        "@/services/verkuendungService"
+      )
 
       const eli = ref(
         NormExpressionEli.fromString(
@@ -143,7 +145,7 @@ describe("verkuendungService", () => {
         ),
       )
 
-      const { data } = useGetZielnormen(eli)
+      const { data } = useGetZielnormReferences(eli)
 
       expect(data.value).toEqual(mockZielnormen)
       expect(data.value?.length).toBe(2)

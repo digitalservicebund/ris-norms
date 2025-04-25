@@ -31,7 +31,7 @@ export function useGetVerkuendungService(
  *
  * @param eli ELI of the verkuendung
  */
-export function useGetZielnormen(
+export function useGetZielnormReferences(
   eli: MaybeRefOrGetter<NormExpressionEli>,
 ): UseFetchReturn<Norm[]> {
   const url = computed(() => `/verkuendungen/${toValue(eli)}/zielnormen`)

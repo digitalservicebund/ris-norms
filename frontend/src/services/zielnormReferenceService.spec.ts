@@ -1,5 +1,5 @@
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import type { ZielnormReference } from "@/types/zielnorm"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import type { ZielnormReference } from "@/types/zielnormReference"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
@@ -13,7 +13,7 @@ vi.mock("@/lib/auth", () => {
   }
 })
 
-describe("useGetZielnormen", () => {
+describe("useGetZielnormReferences", () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
@@ -43,10 +43,12 @@ describe("useGetZielnormen", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { useGetZielnormen } = await import("./zielnormService")
+    const { useGetZielnormReferences } = await import(
+      "./zielnormReferenceService"
+    )
 
-    const result = useGetZielnormen(
-      DokumentExpressionEli.fromString(
+    const result = useGetZielnormReferences(
+      NormExpressionEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
       ),
     )
@@ -60,10 +62,12 @@ describe("useGetZielnormen", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useGetZielnormen } = await import("./zielnormService")
+    const { useGetZielnormReferences } = await import(
+      "./zielnormReferenceService"
+    )
 
     const eli = ref(undefined)
-    useGetZielnormen(eli)
+    useGetZielnormReferences(eli)
     await flushPromises()
     expect(fetchSpy).not.toHaveBeenCalled()
   })
@@ -73,17 +77,19 @@ describe("useGetZielnormen", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useGetZielnormen } = await import("./zielnormService")
+    const { useGetZielnormReferences } = await import(
+      "./zielnormReferenceService"
+    )
 
     const eli = ref(
-      DokumentExpressionEli.fromString(
+      NormExpressionEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
       ),
     )
-    useGetZielnormen(eli, { immediate: true, refetch: true })
+    useGetZielnormReferences(eli, { immediate: true, refetch: true })
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
-    eli.value = DokumentExpressionEli.fromString(
+    eli.value = NormExpressionEli.fromString(
       "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
     )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
