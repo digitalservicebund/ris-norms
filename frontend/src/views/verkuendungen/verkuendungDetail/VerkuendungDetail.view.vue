@@ -10,7 +10,7 @@ import { useElementId } from "@/composables/useElementId"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import {
   useGetVerkuendungService,
-  useGetZielnormen,
+  useGetZielnormReferences,
 } from "@/services/verkuendungService"
 import { useGetNormHtml } from "@/services/normService"
 import Splitter from "primevue/splitter"
@@ -33,7 +33,7 @@ const {
   data: zielnormen,
   isFetching: isFetchingZielnormen,
   error: zielnormenError,
-} = useGetZielnormen(normExpressionEli)
+} = useGetZielnormReferences(normExpressionEli)
 
 const {
   data: verkuendung,
