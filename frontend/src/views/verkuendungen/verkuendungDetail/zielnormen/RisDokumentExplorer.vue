@@ -7,6 +7,7 @@ import { useElementId } from "@/composables/useElementId"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { useGetElementHtml } from "@/services/elementService"
 import { useGetNormToc } from "@/services/tocService"
+import { useAknElementEidSelection } from "@/views/amending-law/articles/editor/useAknElementEidSelection"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
 import type { TreeNode } from "primevue/treenode"
@@ -53,6 +54,33 @@ const {
   error: artikelError,
   isFetching: artikelIsFetching,
 } = useGetElementHtml(eli, eid)
+
+// const artikelDocument = computed(() =>
+//   artikelHtml.value ? xmlStringToDocument(artikelHtml.value) : undefined,
+// )
+
+// const elementEids = computed(() =>
+//   artikelDocument.value ? getEidsOfElementType(artikelDocument.value, "p") : [],
+// )
+
+const elementEids = computed(() => {
+  if (!artikelHtml.value) return []
+
+  const eIds: string[] = []
+  const dom = new DOMParser().parseFromString(artikelHtml.value, "text/html")
+
+  dom.querySelectorAll(".akn-p").forEach((el) => {
+    if (!(el instanceof HTMLElement) || !el.dataset.eid) return
+    eIds.push(el.dataset.eid)
+  })
+
+  console.log(eIds)
+
+  return eIds
+})
+
+const { values: selectedValues, handleAknElementClick } =
+  useAknElementEidSelection(elementEids)
 </script>
 
 <template>
@@ -145,8 +173,32 @@ const {
       />
 
       <div v-else class="flex-1 overflow-auto">
-        <RisLawPreview :content="artikelHtml" />
+        <RisLawPreview
+          :content="artikelHtml"
+          :selected="selectedValues"
+          @click:akn:p="handleAknElementClick"
+        />
       </div>
     </template>
   </aside>
 </template>
+
+<style scoped>
+:deep(.akn-p) {
+  background-color: var(--color-gray-100);
+  border: 1px dotted var(--color-gray-600);
+  outline-offset: calc(var(--spacing-2) * -1);
+  outline: 2px dotted transparent;
+  padding-inline: var(--spacing-2);
+
+  &:hover {
+    background-color: var(--color-gray-200);
+    outline-color: var(--color-blue-800);
+  }
+}
+
+:deep(.akn-p.selected) {
+  outline-color: var(--color-blue-800);
+  outline-style: solid;
+}
+</style>
