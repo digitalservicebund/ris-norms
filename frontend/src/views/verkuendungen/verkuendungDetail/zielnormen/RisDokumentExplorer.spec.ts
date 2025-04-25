@@ -6,7 +6,7 @@ import { render, screen, within } from "@testing-library/vue"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
 
-describe("risDocumentExplorer", () => {
+describe("risDokumentExplorer", () => {
   describe("table of contents", () => {
     beforeEach(() => {
       vi.resetModules()
@@ -25,11 +25,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -54,11 +54,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -82,11 +82,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -108,11 +108,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -142,11 +142,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      const { emitted } = render(RisDocumentExplorer, {
+      const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -184,11 +184,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -209,11 +209,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -236,11 +236,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -263,11 +263,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      render(RisDocumentExplorer, {
+      render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -292,11 +292,11 @@ describe("risDocumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDocumentExplorer } = await import(
-        "./RisDocumentExplorer.vue"
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
       )
 
-      const { emitted } = render(RisDocumentExplorer, {
+      const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",

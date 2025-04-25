@@ -15,7 +15,7 @@ import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref } from "vue"
-import RisDocumentExplorer from "./RisDocumentExplorer.vue"
+import RisDokumentExplorer from "./RisDokumentExplorer.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
@@ -64,7 +64,7 @@ const formattedVerkuendungsdatum = computed(() =>
         :min-size="33"
         class="h-full overflow-auto bg-gray-100"
       >
-        <RisDocumentExplorer :eli class="h-full" />
+        <RisDokumentExplorer :eli class="h-full" />
       </SplitterPanel>
 
       <SplitterPanel
