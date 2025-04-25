@@ -26,7 +26,8 @@ public class NormService
     LoadRegelungstextXmlUseCase,
     UpdateRegelungstextXmlUseCase,
     LoadRegelungstextUseCase,
-    LoadZielnormReferencesUseCase {
+    LoadZielnormReferencesUseCase,
+    UpdateZielnormReferencesUseCase {
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
@@ -127,9 +128,44 @@ public class NormService
       .getMeta()
       .getProprietary()
       .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getZielnormenReferences)
       .stream()
-      .map(CustomModsMetadata::getZielnormenReferences)
-      .flatMap(List::stream)
+      .flatMap(ZielnormReferences::stream)
       .toList();
+  }
+
+  @Override
+  public List<ZielnormReference> updateZielnormReferences(
+    UpdateZielnormReferencesUseCase.Query query
+  ) {
+    var zielnormReferences = loadNorm(new LoadNormUseCase.Query(query.eli()))
+      .getRegelungstext1()
+      .getMeta()
+      .getOrCreateProprietary()
+      .getOrCreateCustomModsMetadata()
+      .getOrCreateZielnormenReferences();
+
+    query
+      .zielnormReferences()
+      .forEach(zielnormReferenceUpdateData -> {
+        var zielnormReference = zielnormReferences
+          .stream()
+          .filter(reference -> reference.getEId().equals(zielnormReferenceUpdateData.eId()))
+          .findFirst()
+          .orElseGet(() ->
+            zielnormReferences.add(
+              zielnormReferenceUpdateData.typ(),
+              zielnormReferenceUpdateData.geltungszeit(),
+              zielnormReferenceUpdateData.eId(),
+              zielnormReferenceUpdateData.zielnorm()
+            )
+          );
+
+        zielnormReference.setTyp(zielnormReferenceUpdateData.typ());
+        zielnormReference.setGeltungszeit(zielnormReferenceUpdateData.geltungszeit());
+        zielnormReference.setZielnorm(zielnormReferenceUpdateData.zielnorm());
+      });
+
+    return zielnormReferences.stream().toList();
   }
 }

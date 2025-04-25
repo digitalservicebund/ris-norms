@@ -15,7 +15,9 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -322,5 +324,93 @@ class NormServiceTest {
       .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
     assertThat(zielnormReferences.getFirst().getGeltungszeit()).isEqualTo("gz-1");
     assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
+  }
+
+  @Nested
+  class updateZielnormReferences {
+
+    @Test
+    void updateOneAndCreateOne() {
+      // given
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
+
+      // when
+      var zielnormReferences = service.updateZielnormReferences(
+        new UpdateZielnormReferencesUseCase.Query(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
+          List.of(
+            new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
+              "Änderungsvorschrift",
+              "gz-2",
+              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"),
+              NormWorkEli.fromString("eli/bund/bgbl-1/2024/12")
+            ),
+            new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
+              "Änderungsvorschrift",
+              "gz-1",
+              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
+              NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
+            )
+          )
+        )
+      );
+
+      // then
+      assertThat(zielnormReferences).hasSize(2);
+      assertThat(zielnormReferences.getFirst().getZielnorm())
+        .hasToString("eli/bund/bgbl-1/2024/12");
+      assertThat(zielnormReferences.getFirst().getEId())
+        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+      assertThat(zielnormReferences.getFirst().getGeltungszeit()).isEqualTo("gz-2");
+      assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
+      assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
+      assertThat(zielnormReferences.get(1).getEId())
+        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
+      assertThat(zielnormReferences.get(1).getGeltungszeit()).isEqualTo("gz-1");
+      assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
+    }
+
+    @Test
+    void addOne() {
+      // given
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
+
+      // when
+      var zielnormReferences = service.updateZielnormReferences(
+        new UpdateZielnormReferencesUseCase.Query(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
+          List.of(
+            new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
+              "Änderungsvorschrift",
+              "gz-1",
+              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
+              NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
+            )
+          )
+        )
+      );
+
+      // then
+      assertThat(zielnormReferences).hasSize(2);
+      assertThat(zielnormReferences.getFirst().getZielnorm())
+        .hasToString("eli/bund/bgbl-1/1964/s593");
+      assertThat(zielnormReferences.getFirst().getEId())
+        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+      assertThat(zielnormReferences.getFirst().getGeltungszeit()).isEqualTo("gz-1");
+      assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
+      assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
+      assertThat(zielnormReferences.get(1).getEId())
+        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
+      assertThat(zielnormReferences.get(1).getGeltungszeit()).isEqualTo("gz-1");
+      assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
+    }
   }
 }

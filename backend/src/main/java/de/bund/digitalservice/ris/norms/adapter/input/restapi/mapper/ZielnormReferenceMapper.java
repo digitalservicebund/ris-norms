@@ -1,8 +1,10 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReferenceSchema;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateZielnormReferencesUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 
 /**
  * Mapper between {@link ZielnormReference} and {@link ZielnormReferenceSchema}
@@ -15,15 +17,32 @@ public class ZielnormReferenceMapper {
   /**
    * Creates a {@link ZielnormReferenceSchema} instance from a {@link ZielnormReference} entity.
    *
-   * @param norm The input {@link ZielnormReference} entity to be converted.
-   * @return A new {@link ZielnormReferenceSchema} instance mapped from the input {@link Norm}.
+   * @param reference The input {@link ZielnormReference} entity to be converted.
+   * @return A new {@link ZielnormReferenceSchema} instance mapped from the input.
    */
-  public static ZielnormReferenceSchema fromUseCaseData(final ZielnormReference norm) {
+  public static ZielnormReferenceSchema fromUseCaseData(final ZielnormReference reference) {
     return new ZielnormReferenceSchema(
-      norm.getTyp(),
-      norm.getGeltungszeit(),
-      norm.getEId().toString(),
-      norm.getZielnorm().toString()
+      reference.getTyp(),
+      reference.getGeltungszeit(),
+      reference.getEId().toString(),
+      reference.getZielnorm().toString()
+    );
+  }
+
+  /**
+   * Creates a {@link UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData} instance from a {@link ZielnormReferenceSchema} entity.
+   *
+   * @param schema The input {@link ZielnormReferenceSchema} to be converted.
+   * @return A new {@link UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData} instance mapped from the input.
+   */
+  public static UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData toUseCaseData(
+    final ZielnormReferenceSchema schema
+  ) {
+    return new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
+      schema.typ(),
+      schema.geltungszeit(),
+      new EId(schema.eId()),
+      NormWorkEli.fromString(schema.zielnorm())
     );
   }
 }
