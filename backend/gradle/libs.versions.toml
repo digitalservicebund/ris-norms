@@ -8,6 +8,8 @@ org-testcontainers = "1.21.0"
 spring-boot = "3.4.4"
 
 [libraries]
+# CVE-2025-27820
+apache-httpclient5 = "org.apache.httpcomponents.client5:httpclient5:5.4.3"
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.0"
 aws-bom = "software.amazon.awssdk:bom:2.29.52"
 aws-s3 = { module = "software.amazon.awssdk:s3" }

@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
     implementation(libs.tika.core)
+    implementation(libs.apache.httpclient5)
 
     compileOnly(libs.lombok)
 
