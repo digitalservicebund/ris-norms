@@ -75,7 +75,7 @@ test.describe(
       )
 
       await expect(
-        page.getByText("Bitte wählen Sie einen Artikel aus."),
+        page.getByText("Bitte wählen Sie einen Änderungsbefehl aus."),
       ).toBeVisible()
     })
   },

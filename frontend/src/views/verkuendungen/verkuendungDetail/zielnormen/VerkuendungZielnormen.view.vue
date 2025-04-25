@@ -72,7 +72,9 @@ const formattedVerkuendungsdatum = computed(() =>
         :min-size="33"
         class="h-full overflow-auto bg-gray-100 p-24"
       >
-        <RisEmptyState text-content="Bitte wählen Sie einen Artikel aus." />
+        <RisEmptyState
+          text-content="Bitte wählen Sie einen Änderungsbefehl aus."
+        />
       </SplitterPanel>
 
       <SplitterPanel
