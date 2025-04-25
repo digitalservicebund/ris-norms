@@ -80,7 +80,7 @@ paths:
     get:
       tags:
         - Verkuendungen
-      summary: Get the zielnormen of a specific verkuendung
+      summary: Get the list of created expressions of zielnormen of a specific Verkuendung
       parameters:
         - name: expressionEli
           in: path
