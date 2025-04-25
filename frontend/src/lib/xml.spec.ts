@@ -4,12 +4,12 @@ import {
   evaluateXPathOnce,
   xmlNodeToString,
   xmlStringToDocument,
-} from "@/services/xmlService"
+} from "@/lib/xml"
 
 // the evaluateXPathOnce and evaluateXPath methods are mocked in the vitest-setup, to test it here we unmock it.
-vi.unmock("@/services/xmlService")
+vi.unmock("@/lib/xml")
 
-describe("xmlService", () => {
+describe("xml", () => {
   describe("xmlStringToDocument", () => {
     it("should parse xml string", () => {
       const document =

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { createNewRefElement, deleteRef, getNextRefEId } from "@/lib/ref"
-import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
-import { getNodeByEid } from "@/services/ldmldeService"
+import { xmlNodeToString, xmlStringToDocument } from "@/lib/xml"
+import { getNodeByEid } from "@/lib/ldmlde"
 
 describe("getNextRefEId", () => {
   it("creates the correct eId if no ref exists", () => {

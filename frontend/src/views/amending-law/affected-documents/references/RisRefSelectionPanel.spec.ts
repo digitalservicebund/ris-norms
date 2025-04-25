@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/vue"
 import { nextTick, ref } from "vue"
 import RisRefSelectionPanel from "@/views/amending-law/affected-documents/references/RisRefSelectionPanel.vue"
 import { userEvent } from "@testing-library/user-event"
-import { xmlStringToDocument } from "@/services/xmlService"
-import { getNodeByEid } from "@/services/ldmldeService"
+import { xmlStringToDocument } from "@/lib/xml"
+import { getNodeByEid } from "@/lib/ldmlde"
 
 const renderData = ref<string>()
 const renderIsFetching = ref<boolean>()

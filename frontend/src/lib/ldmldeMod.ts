@@ -1,4 +1,4 @@
-import { evaluateXPath } from "@/services/xmlService"
+import { evaluateXPath } from "@/lib/xml"
 
 /**
  * Find the eIds of all akn:mod elements.

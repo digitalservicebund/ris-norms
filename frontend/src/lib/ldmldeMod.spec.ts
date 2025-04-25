@@ -1,6 +1,6 @@
-import { xmlStringToDocument } from "@/services/xmlService"
+import { xmlStringToDocument } from "@/lib/xml"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { getModEIds } from "@/services/ldmldeModService"
+import { getModEIds } from "@/lib/ldmldeMod"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -11,7 +11,7 @@ vi.mock("@/lib/auth", () => {
   }
 })
 
-describe("ldmldeModService", () => {
+describe("ldmldeMod", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()

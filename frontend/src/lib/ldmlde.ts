@@ -1,4 +1,4 @@
-import { evaluateXPathOnce } from "@/services/xmlService"
+import { evaluateXPathOnce } from "@/lib/xml"
 
 /**
  * Get the node with the given eId.

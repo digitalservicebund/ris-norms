@@ -9,9 +9,9 @@ import { useNamespaces } from "xpath"
 
 // The DOM implementation used by our unit tests (jsdom) does not have a good enough xpath support for our tests.
 // Therefore, we need to use a different library to evaluate the xpath.
-vi.mock("@/services/xmlService", async (importOriginal) => ({
+vi.mock("@/lib/xml", async (importOriginal) => ({
   /* eslint-disable-next-line @typescript-eslint/consistent-type-imports -- No other way of getting the type of the entire module */
-  ...(await importOriginal<typeof import("@/services/xmlService")>()),
+  ...(await importOriginal<typeof import("@/lib/xml")>()),
   evaluateXPathOnce: (xpath: string, node: Node) =>
     useNamespaces({
       akn: "http://Inhaltsdaten.LegalDocML.de/1.7.2/",

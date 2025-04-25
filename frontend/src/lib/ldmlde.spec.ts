@@ -1,8 +1,8 @@
-import { xmlStringToDocument } from "@/services/xmlService"
+import { xmlStringToDocument } from "@/lib/xml"
 import { describe, expect, it } from "vitest"
-import { getNodeByEid } from "@/services/ldmldeService"
+import { getNodeByEid } from "@/lib/ldmlde"
 
-describe("ldmldeService", () => {
+describe("ldmlde", () => {
   describe("getNodeByEid", () => {
     it("should parse xml string", () => {
       const document =

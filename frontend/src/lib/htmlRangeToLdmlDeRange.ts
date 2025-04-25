@@ -1,4 +1,4 @@
-import { getNodeByEid } from "@/services/ldmldeService"
+import { getNodeByEid } from "@/lib/ldmlde"
 
 /**
  * Is the node an Element?

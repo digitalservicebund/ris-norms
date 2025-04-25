@@ -6,12 +6,12 @@ import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
 import { createNewRefElement, deleteRef } from "@/lib/ref"
-import { getNodeByEid } from "@/services/ldmldeService"
+import { getNodeByEid } from "@/lib/ldmlde"
 import {
   evaluateXPathOnce,
   xmlNodeToString,
   xmlStringToDocument,
-} from "@/services/xmlService"
+} from "@/lib/xml"
 import { useDebounce } from "@vueuse/core"
 import { computed, ref, triggerRef, watch } from "vue"
 import CloseIcon from "~icons/ic/close"
