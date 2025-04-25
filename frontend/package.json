@@ -58,7 +58,7 @@
     "@testing-library/jest-dom": "~6.6.3",
     "@testing-library/user-event": "~14.6.1",
     "@testing-library/vue": "~8.1.0",
-    "@types/node": "~22.14.0",
+    "@types/node": "~22.15.0",
     "@typescript-eslint/eslint-plugin": "~8.31.0",
     "@typescript-eslint/parser": "~8.31.0",
     "@vitejs/plugin-vue": "~5.2.1",
