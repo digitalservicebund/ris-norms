@@ -237,9 +237,6 @@ paths:
             text/html:
               schema:
                 type: string
-            application/xml:
-              schema:
-                type: string
         "400":
           $ref: "#/components/responses/BadRequest"
         "404":
