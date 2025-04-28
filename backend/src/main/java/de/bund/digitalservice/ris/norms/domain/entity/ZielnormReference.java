@@ -1,10 +1,12 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * A norms:zielnorm-reference. The information about the zielnorm and geltungszeit of an amending command, see also: ADR-0015
@@ -13,7 +15,34 @@ import org.w3c.dom.Element;
 @AllArgsConstructor
 public class ZielnormReference {
 
+  public static final Namespace NAMESPACE = Namespace.METADATEN_NORMS_APPLICATION_MODS;
+  public static final String TAG_NAME = "zielnorm-reference";
+
   private final Element element;
+
+  /**
+   * Creates a new norms:zielnorm-reference element and appends it to the given node.
+   * @param parentNode the node under which a new {@link ZielnormReference} should be created.
+   * @param typ the typ of the reference
+   * @param geltungszeit the id of the geltungszeitregel
+   * @param eId the eId of the element containing the Änderungsbefehl
+   * @param zielnorm the ELI of the zielnorm changed by the Änderungsbefehl
+   * @return the newly created {@link ZielnormReference}
+   */
+  public static ZielnormReference createAndAppend(
+    Node parentNode,
+    String typ,
+    String geltungszeit,
+    EId eId,
+    NormWorkEli zielnorm
+  ) {
+    final var element = NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode);
+    NodeCreator.createElement(NAMESPACE, "typ", element).setTextContent(typ);
+    NodeCreator.createElement(NAMESPACE, "geltungszeit", element).setTextContent(geltungszeit);
+    NodeCreator.createElement(NAMESPACE, "eid", element).setTextContent(eId.toString());
+    NodeCreator.createElement(NAMESPACE, "zielnorm", element).setTextContent(zielnorm.toString());
+    return new ZielnormReference(element);
+  }
 
   /**
    * The type of the reference
@@ -21,6 +50,14 @@ public class ZielnormReference {
    */
   public String getTyp() {
     return NodeParser.getValueFromMandatoryNodeFromExpression("./typ/text()", getElement());
+  }
+
+  /**
+   * Set a new value for the typ
+   * @param typ the typ of the reference
+   */
+  public void setTyp(String typ) {
+    NodeParser.getMandatoryNodeFromExpression("./typ/text()", getElement()).setTextContent(typ);
   }
 
   /**
@@ -32,6 +69,16 @@ public class ZielnormReference {
       "./geltungszeit/text()",
       getElement()
     );
+  }
+
+  /**
+   * Set a new value for the geltungszeit
+   * @param geltungszeit the id of the geltungszeitregel
+   */
+  public void setGeltungszeit(String geltungszeit) {
+    NodeParser
+      .getMandatoryNodeFromExpression("./geltungszeit/text()", getElement())
+      .setTextContent(geltungszeit);
   }
 
   /**
@@ -52,5 +99,15 @@ public class ZielnormReference {
     return NormWorkEli.fromString(
       NodeParser.getValueFromMandatoryNodeFromExpression("./zielnorm/text()", getElement())
     );
+  }
+
+  /**
+   * Set a new value for the zielnorm
+   * @param zielnorm the ELI of the zielnorm
+   */
+  public void setZielnorm(NormWorkEli zielnorm) {
+    NodeParser
+      .getMandatoryNodeFromExpression("./zielnorm/text()", getElement())
+      .setTextContent(zielnorm.toString());
   }
 }

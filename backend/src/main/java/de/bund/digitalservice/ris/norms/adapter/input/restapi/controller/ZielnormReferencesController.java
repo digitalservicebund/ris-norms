@@ -6,11 +6,14 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ZielnormRef
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZeitgrenzeResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReferenceSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormReferencesUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateZielnormReferencesUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ZielnormReferencesController {
 
   private final LoadZielnormReferencesUseCase loadZielnormReferencesUseCase;
+  private final UpdateZielnormReferencesUseCase updateZielnormReferencesUseCase;
 
-  public ZielnormReferencesController(LoadZielnormReferencesUseCase loadZielnormReferencesUseCase) {
+  public ZielnormReferencesController(
+    LoadZielnormReferencesUseCase loadZielnormReferencesUseCase,
+    UpdateZielnormReferencesUseCase updateZielnormReferencesUseCase
+  ) {
     this.loadZielnormReferencesUseCase = loadZielnormReferencesUseCase;
+    this.updateZielnormReferencesUseCase = updateZielnormReferencesUseCase;
   }
 
   /**
@@ -38,6 +46,32 @@ public class ZielnormReferencesController {
     return ResponseEntity.ok(
       loadZielnormReferencesUseCase
         .loadZielnormReferences(new LoadZielnormReferencesUseCase.Query(eli))
+        .stream()
+        .map(ZielnormReferenceMapper::fromUseCaseData)
+        .toList()
+    );
+  }
+
+  /**
+   * Updates the provided references (creates references with new eIds, updates once with existing eIds and does not change any other references) and returns all zielnormen references.
+   *
+   * @param references List of references to update or create
+   * @param eli Eli of the norm whose zielnorm-references should be updated
+   * @return all zielnormen-references of the norm
+   */
+  @PostMapping(produces = { APPLICATION_JSON_VALUE }, consumes = { APPLICATION_JSON_VALUE })
+  public ResponseEntity<List<ZielnormReferenceSchema>> updateReferences(
+    final NormExpressionEli eli,
+    @RequestBody final List<ZielnormReferenceSchema> references
+  ) {
+    return ResponseEntity.ok(
+      updateZielnormReferencesUseCase
+        .updateZielnormReferences(
+          new UpdateZielnormReferencesUseCase.Query(
+            eli,
+            references.stream().map(ZielnormReferenceMapper::toUseCaseData).toList()
+          )
+        )
         .stream()
         .map(ZielnormReferenceMapper::fromUseCaseData)
         .toList()

@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -64,6 +65,110 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("$[0].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
         )
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/1964/s593")));
+    }
+  }
+
+  @Nested
+  class updateReferences {
+
+    @Test
+    void itAddsAndUpdatesReferences() throws Exception {
+      // Given
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          post("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references")
+            .content(
+              """
+              [
+                {
+                  "eId": "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+                  "zielnorm": "eli/bund/bgbl-1/2022/1",
+                  "geltungszeit": "gz-2",
+                  "typ": "Änderungsvorschrift"
+                },
+                {
+                  "eId": "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+                  "zielnorm": "eli/bund/bgbl-1/2023/12",
+                  "geltungszeit": "gz-1",
+                  "typ": "Änderungsvorschrift"
+                }
+              ]
+              """
+            )
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").exists())
+        .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
+        .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-2")))
+        .andExpect(
+          jsonPath("$[0].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
+        )
+        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2022/1")))
+        .andExpect(jsonPath("$[1]").exists())
+        .andExpect(jsonPath("$[1].typ").value(equalTo("Änderungsvorschrift")))
+        .andExpect(jsonPath("$[1].geltungszeit").value(equalTo("gz-1")))
+        .andExpect(
+          jsonPath("$[1].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"))
+        )
+        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")));
+    }
+
+    @Test
+    void itAddsAReferenceWithoutChangingAnExitingOne() throws Exception {
+      // Given
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          post("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references")
+            .content(
+              """
+              [
+                {
+                  "eId": "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+                  "zielnorm": "eli/bund/bgbl-1/2023/12",
+                  "geltungszeit": "gz-1",
+                  "typ": "Änderungsvorschrift"
+                }
+              ]
+              """
+            )
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").exists())
+        .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
+        .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-1")))
+        .andExpect(
+          jsonPath("$[0].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
+        )
+        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/1964/s593")))
+        .andExpect(jsonPath("$[1]").exists())
+        .andExpect(jsonPath("$[1].typ").value(equalTo("Änderungsvorschrift")))
+        .andExpect(jsonPath("$[1].geltungszeit").value(equalTo("gz-1")))
+        .andExpect(
+          jsonPath("$[1].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"))
+        )
+        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")));
     }
   }
 }
