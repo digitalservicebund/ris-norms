@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import type { AknElementClickEvent } from "@/components/RisLawPreview.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useElementId } from "@/composables/useElementId"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import { getEidsOfElementType } from "@/lib/ldmlde"
-import { xmlStringToDocument } from "@/lib/xml"
-import { useGetElementHtml, useGetElementXml } from "@/services/elementService"
+import { useGetElementHtml } from "@/services/elementService"
 import { useGetNormToc } from "@/services/tocService"
-import { useAknElementEidSelection } from "@/views/amending-law/articles/editor/useAknElementEidSelection"
+import { useMultiSelection } from "@/views/amending-law/articles/editor/useMultiSelection"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
 import type { TreeNode } from "primevue/treenode"
@@ -25,6 +24,10 @@ const { eli } = defineProps<{
 
 /** eId of the selected element */
 const eid = defineModel<string>("eid")
+
+const emit = defineEmits<{
+  selectionChange: [selectedElements: string[]]
+}>()
 
 const { documentExplorerHeadingId, tocHeadingId } = useElementId()
 
@@ -57,24 +60,17 @@ const {
   isFetching: artikelHtmlIsFetching,
 } = useGetElementHtml(eli, eid)
 
-const {
-  data: artikelXml,
-  error: artikelXmlError,
-  isFetching: artikelXmlIsFetching,
-} = useGetElementXml(eli, eid)
+const { values, toggle, clear } = useMultiSelection<string>()
 
-const artikelDocument = computed(() =>
-  artikelXml.value ? xmlStringToDocument(artikelXml.value) : undefined,
-)
+function onSelect({ originalEvent, eid }: AknElementClickEvent) {
+  if (originalEvent.metaKey || originalEvent.ctrlKey) toggle(eid)
+  else {
+    clear()
+    toggle(eid)
+  }
 
-const elementEids = computed(() =>
-  artikelDocument.value
-    ? getEidsOfElementType(artikelDocument.value, "paragraph")
-    : [],
-)
-
-const { values: selectedValues, handleAknElementClick } =
-  useAknElementEidSelection(elementEids)
+  emit("selectionChange", values.value)
+}
 </script>
 
 <template>
@@ -148,7 +144,7 @@ const { values: selectedValues, handleAknElementClick } =
     <!-- Article detail -->
     <template v-else>
       <div
-        v-if="artikelHtmlIsFetching || artikelXmlIsFetching"
+        v-if="artikelHtmlIsFetching"
         class="mt-24 flex items-center justify-center"
       >
         <RisLoadingSpinner />
@@ -157,12 +153,6 @@ const { values: selectedValues, handleAknElementClick } =
       <RisErrorCallout
         v-else-if="artikelHtmlError"
         :error="artikelHtmlError"
-        class="m-16 mt-8"
-      />
-
-      <RisErrorCallout
-        v-else-if="artikelXmlError"
-        :error="artikelXmlError"
         class="m-16 mt-8"
       />
 
@@ -175,9 +165,9 @@ const { values: selectedValues, handleAknElementClick } =
       <div v-else class="flex-1 overflow-auto">
         <RisLawPreview
           :content="artikelHtml"
-          :selected="selectedValues"
-          @click:akn:paragraph="handleAknElementClick"
-          @click:akn:point="handleAknElementClick"
+          :selected="values"
+          @click:akn:paragraph="onSelect"
+          @click:akn:point="onSelect"
         />
       </div>
     </template>

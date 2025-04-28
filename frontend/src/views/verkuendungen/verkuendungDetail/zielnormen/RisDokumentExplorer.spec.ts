@@ -182,11 +182,6 @@ describe("risDokumentExplorer", () => {
           error: ref(null),
           isFetching: ref(false),
         }),
-        useGetElementXml: () => ({
-          data: ref("<akn:p>Artikel content</akn:p>"),
-          error: ref(null),
-          isFetching: ref(false),
-        }),
       }))
 
       const { default: RisDokumentExplorer } = await import(
@@ -208,43 +203,6 @@ describe("risDokumentExplorer", () => {
     it("shows an error if the element HTML could not be loaded", async () => {
       vi.doMock("@/services/elementService", () => ({
         useGetElementHtml: () => ({
-          data: ref(null),
-          error: ref<ErrorResponse>({ type: "/errors/example" }),
-          isFetching: ref(false),
-        }),
-        useGetElementXml: () => ({
-          data: ref(null),
-          error: ref(null),
-          isFetching: ref(false),
-        }),
-      }))
-
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
-
-      render(RisDokumentExplorer, {
-        props: {
-          eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-          ),
-          eid: "example-eid",
-        },
-      })
-
-      expect(
-        screen.getByText("Ein unbekannter Fehler ist aufgetreten."),
-      ).toBeInTheDocument()
-    })
-
-    it("shows an error if the element XML could not be loaded", async () => {
-      vi.doMock("@/services/elementService", () => ({
-        useGetElementHtml: () => ({
-          data: ref(null),
-          error: ref(null),
-          isFetching: ref(false),
-        }),
-        useGetElementXml: () => ({
           data: ref(null),
           error: ref<ErrorResponse>({ type: "/errors/example" }),
           isFetching: ref(false),
@@ -276,11 +234,6 @@ describe("risDokumentExplorer", () => {
           error: ref(null),
           isFetching: ref(false),
         }),
-        useGetElementXml: () => ({
-          data: ref(""),
-          error: ref(null),
-          isFetching: ref(false),
-        }),
       }))
 
       const { default: RisDokumentExplorer } = await import(
@@ -307,11 +260,6 @@ describe("risDokumentExplorer", () => {
           data: ref(null),
           error: ref(null),
           isFetching: ref(true),
-        }),
-        useGetElementXml: () => ({
-          data: ref(null),
-          error: ref(null),
-          isFetching: ref(false),
         }),
       }))
 
@@ -342,11 +290,6 @@ describe("risDokumentExplorer", () => {
           error: ref(null),
           isFetching: ref(false),
         }),
-        useGetElementXml: () => ({
-          data: ref("<akn:p>Artikel content</akn:p>"),
-          error: ref(null),
-          isFetching: ref(false),
-        }),
       }))
 
       const { default: RisDokumentExplorer } = await import(
@@ -367,6 +310,165 @@ describe("risDokumentExplorer", () => {
       )
 
       expect(emitted("update:eid")).toContainEqual([undefined])
+    })
+
+    it("selects an element", async () => {
+      const user = userEvent.setup()
+
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+            <ol>
+              <li class="akn-point" data-eid="eid-1">1</li>
+              <li class="akn-point" data-eid="eid-2">2</li>
+              <li class="akn-point" data-eid="eid-3">3</li>
+            </ol>
+            <div class="akn-paragraph" data-eid="eid-4">4</div>
+          `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.click(screen.getByRole("button", { name: "1" }))
+        expect(emitted("selectionChange")).toContainEqual([["eid-1"]])
+      })
+    })
+
+    it("adds an element to the selection when clicking with ctrl", async () => {
+      const user = userEvent.setup()
+
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+              <ol>
+                <li class="akn-point" data-eid="eid-1">1</li>
+                <li class="akn-point" data-eid="eid-2">2</li>
+                <li class="akn-point" data-eid="eid-3">3</li>
+              </ol>
+              <div class="akn-paragraph" data-eid="eid-4">4</div>
+            `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.keyboard("{Control>}")
+        await user.click(screen.getByRole("button", { name: "1" }))
+        await user.click(screen.getByRole("button", { name: "4" }))
+        await user.keyboard("{/Control}")
+        expect(emitted("selectionChange")).toContainEqual([["eid-1", "eid-4"]])
+      })
+    })
+
+    it("adds an element to the selection when clicking with meta", async () => {
+      const user = userEvent.setup()
+
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+                <ol>
+                  <li class="akn-point" data-eid="eid-1">1</li>
+                  <li class="akn-point" data-eid="eid-2">2</li>
+                  <li class="akn-point" data-eid="eid-3">3</li>
+                </ol>
+                <div class="akn-paragraph" data-eid="eid-4">4</div>
+              `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.keyboard("{Meta>}")
+        await user.click(screen.getByRole("button", { name: "1" }))
+        await user.click(screen.getByRole("button", { name: "4" }))
+        await user.keyboard("{/Meta}")
+        expect(emitted("selectionChange")).toContainEqual([["eid-1", "eid-4"]])
+      })
+    })
+
+    it("unselects all other elements", async () => {
+      const user = userEvent.setup()
+
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+              <ol>
+                <li class="akn-point" data-eid="eid-1">1</li>
+                <li class="akn-point" data-eid="eid-2">2</li>
+                <li class="akn-point" data-eid="eid-3">3</li>
+              </ol>
+              <div class="akn-paragraph" data-eid="eid-4">4</div>
+            `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.keyboard("{Control>}")
+        await user.click(screen.getByRole("button", { name: "1" }))
+        await user.click(screen.getByRole("button", { name: "4" }))
+        await user.keyboard("{/Control}")
+        await user.click(screen.getByRole("button", { name: "2" }))
+        expect(emitted("selectionChange")).toContainEqual([["eid-1", "eid-4"]])
+        expect(emitted("selectionChange")).toContainEqual([["eid-2"]])
+      })
     })
   })
 })

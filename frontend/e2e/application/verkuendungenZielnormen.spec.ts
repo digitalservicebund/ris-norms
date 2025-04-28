@@ -43,10 +43,7 @@ test.describe(
       await page.route(
         "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
         async (route) => {
-          await route.fulfill({
-            status: 500,
-            json: {},
-          })
+          await route.fulfill({ status: 500, json: {} })
         },
       )
 
@@ -100,10 +97,7 @@ test.describe("Geltungszeiten-Artikel", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
       async (route) => {
-        await route.fulfill({
-          status: 500,
-          json: {},
-        })
+        await route.fulfill({ status: 500, json: {} })
       },
     )
 
@@ -139,10 +133,7 @@ test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/toc",
       async (route) => {
-        await route.fulfill({
-          status: 500,
-          json: {},
-        })
+        await route.fulfill({ status: 500, json: {} })
       },
     )
 
@@ -161,10 +152,7 @@ test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/toc",
       async (route) => {
-        await route.fulfill({
-          status: 200,
-          json: [],
-        })
+        await route.fulfill({ status: 200, json: [] })
       },
     )
 
@@ -228,10 +216,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1",
       async (route) => {
-        await route.fulfill({
-          status: 200,
-          body: "",
-        })
+        await route.fulfill({ status: 200, body: "" })
       },
     )
 
@@ -248,36 +233,6 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
       page
         .getByRole("complementary", { name: "Änderungsgesetz" })
         .getByText("Der Artikel hat keinen Inhalt."),
-    ).toBeVisible()
-  })
-
-  test("shows an error if the Artikel XML can't be loaded", async ({
-    page,
-  }) => {
-    await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1",
-      async (route) => {
-        if (
-          (await route.request().headerValue("Accept")) === "application/xml"
-        ) {
-          await route.fulfill({ status: 500, json: {} })
-        } else return route.fallback()
-      },
-    )
-
-    await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
-    )
-
-    await page
-      .getByRole("tree", { name: "Inhaltsverzeichnis" })
-      .getByRole("button", { name: /Artikel 1/ })
-      .click()
-
-    await expect(
-      page
-        .getByRole("complementary", { name: "Änderungsgesetz" })
-        .getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
   })
 
