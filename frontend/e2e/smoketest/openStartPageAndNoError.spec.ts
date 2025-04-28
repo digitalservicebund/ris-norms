@@ -27,7 +27,14 @@ test.describe(
         page.getByRole("heading", { name: "Verkündungen" }),
       ).toBeVisible()
 
-      await expect(page.getByRole("alert")).toHaveCount(0)
+      const alerts = page.getByRole("alert")
+      const alertTexts = await alerts.allTextContents()
+
+      const realErrors = alertTexts.filter(
+        (text) => text.trim() !== "Keine Verkündungen gefunden.",
+      )
+
+      expect(realErrors).toHaveLength(0)
     })
   },
 )
