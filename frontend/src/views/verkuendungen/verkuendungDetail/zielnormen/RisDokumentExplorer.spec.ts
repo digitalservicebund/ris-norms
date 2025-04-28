@@ -182,6 +182,11 @@ describe("risDokumentExplorer", () => {
           error: ref(null),
           isFetching: ref(false),
         }),
+        useGetElementXml: () => ({
+          data: ref("<akn:p>Artikel content</akn:p>"),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
       }))
 
       const { default: RisDokumentExplorer } = await import(
@@ -207,6 +212,11 @@ describe("risDokumentExplorer", () => {
           error: ref<ErrorResponse>({ type: "/errors/example" }),
           isFetching: ref(false),
         }),
+        useGetElementXml: () => ({
+          data: ref(null),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
       }))
 
       const { default: RisDokumentExplorer } = await import(
@@ -227,9 +237,46 @@ describe("risDokumentExplorer", () => {
       ).toBeInTheDocument()
     })
 
-    it("shows an empty state if the element HTML is empty has no entries", async () => {
+    it("shows an error if the element XML could not be loaded", async () => {
       vi.doMock("@/services/elementService", () => ({
         useGetElementHtml: () => ({
+          data: ref(null),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+        useGetElementXml: () => ({
+          data: ref(null),
+          error: ref<ErrorResponse>({ type: "/errors/example" }),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+        },
+      })
+
+      expect(
+        screen.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      ).toBeInTheDocument()
+    })
+
+    it("shows an empty state if the element HTML is empty", async () => {
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(""),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+        useGetElementXml: () => ({
           data: ref(""),
           error: ref(null),
           isFetching: ref(false),
@@ -261,6 +308,11 @@ describe("risDokumentExplorer", () => {
           error: ref(null),
           isFetching: ref(true),
         }),
+        useGetElementXml: () => ({
+          data: ref(null),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
       }))
 
       const { default: RisDokumentExplorer } = await import(
@@ -287,6 +339,11 @@ describe("risDokumentExplorer", () => {
       vi.doMock("@/services/elementService", () => ({
         useGetElementHtml: () => ({
           data: ref("<p>Artikel content</p>"),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+        useGetElementXml: () => ({
+          data: ref("<akn:p>Artikel content</akn:p>"),
           error: ref(null),
           isFetching: ref(false),
         }),

@@ -5,7 +5,9 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useElementId } from "@/composables/useElementId"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import { useGetElementHtml } from "@/services/elementService"
+import { getEidsOfElementType } from "@/lib/ldmlde"
+import { xmlStringToDocument } from "@/lib/xml"
+import { useGetElementHtml, useGetElementXml } from "@/services/elementService"
 import { useGetNormToc } from "@/services/tocService"
 import { useAknElementEidSelection } from "@/views/amending-law/articles/editor/useAknElementEidSelection"
 import Button from "primevue/button"
@@ -51,33 +53,25 @@ const treeNodes = computed<TreeNode[]>(() =>
 
 const {
   data: artikelHtml,
-  error: artikelError,
-  isFetching: artikelIsFetching,
+  error: artikelHtmlError,
+  isFetching: artikelHtmlIsFetching,
 } = useGetElementHtml(eli, eid)
 
-// const artikelDocument = computed(() =>
-//   artikelHtml.value ? xmlStringToDocument(artikelHtml.value) : undefined,
-// )
+const {
+  data: artikelXml,
+  error: artikelXmlError,
+  isFetching: artikelXmlIsFetching,
+} = useGetElementXml(eli, eid)
 
-// const elementEids = computed(() =>
-//   artikelDocument.value ? getEidsOfElementType(artikelDocument.value, "p") : [],
-// )
+const artikelDocument = computed(() =>
+  artikelXml.value ? xmlStringToDocument(artikelXml.value) : undefined,
+)
 
-const elementEids = computed(() => {
-  if (!artikelHtml.value) return []
-
-  const eIds: string[] = []
-  const dom = new DOMParser().parseFromString(artikelHtml.value, "text/html")
-
-  dom.querySelectorAll(".akn-p").forEach((el) => {
-    if (!(el instanceof HTMLElement) || !el.dataset.eid) return
-    eIds.push(el.dataset.eid)
-  })
-
-  console.log(eIds)
-
-  return eIds
-})
+const elementEids = computed(() =>
+  artikelDocument.value
+    ? getEidsOfElementType(artikelDocument.value, "paragraph")
+    : [],
+)
 
 const { values: selectedValues, handleAknElementClick } =
   useAknElementEidSelection(elementEids)
@@ -154,15 +148,21 @@ const { values: selectedValues, handleAknElementClick } =
     <!-- Article detail -->
     <template v-else>
       <div
-        v-if="artikelIsFetching"
+        v-if="artikelHtmlIsFetching || artikelXmlIsFetching"
         class="mt-24 flex items-center justify-center"
       >
         <RisLoadingSpinner />
       </div>
 
       <RisErrorCallout
-        v-else-if="artikelError"
-        :error="artikelError"
+        v-else-if="artikelHtmlError"
+        :error="artikelHtmlError"
+        class="m-16 mt-8"
+      />
+
+      <RisErrorCallout
+        v-else-if="artikelXmlError"
+        :error="artikelXmlError"
         class="m-16 mt-8"
       />
 
@@ -176,7 +176,8 @@ const { values: selectedValues, handleAknElementClick } =
         <RisLawPreview
           :content="artikelHtml"
           :selected="selectedValues"
-          @click:akn:p="handleAknElementClick"
+          @click:akn:paragraph="handleAknElementClick"
+          @click:akn:point="handleAknElementClick"
         />
       </div>
     </template>
@@ -184,7 +185,8 @@ const { values: selectedValues, handleAknElementClick } =
 </template>
 
 <style scoped>
-:deep(.akn-p) {
+:deep(.akn-paragraph),
+:deep(.akn-point) {
   background-color: var(--color-gray-100);
   border: 1px dotted var(--color-gray-600);
   outline-offset: calc(var(--spacing-2) * -1);
@@ -197,7 +199,8 @@ const { values: selectedValues, handleAknElementClick } =
   }
 }
 
-:deep(.akn-p.selected) {
+:deep(.akn-paragraph.selected),
+:deep(.akn-point.selected) {
   outline-color: var(--color-blue-800);
   outline-style: solid;
 }
