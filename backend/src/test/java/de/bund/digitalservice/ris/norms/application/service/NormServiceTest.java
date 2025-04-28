@@ -337,6 +337,8 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any())))
+        .thenReturn(Optional.of(norm));
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -384,6 +386,8 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any())))
+        .thenReturn(Optional.of(norm));
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -416,5 +420,29 @@ class NormServiceTest {
 
       verify(updateNormPort, times(1)).updateNorm(any());
     }
+  }
+
+  @Test
+  void deleteZielnormReferences() {
+    // given
+    Norm norm = Fixtures.loadNormFromDisk(
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+    );
+
+    when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
+    when(updateNormPort.updateNorm(new UpdateNormPort.Command(any())))
+      .thenReturn(Optional.of(norm));
+
+    // when
+    var zielnormReferences = service.deleteZielnormReferences(
+      new DeleteZielnormReferencesUseCase.Query(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
+        List.of(new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
+      )
+    );
+
+    // then
+    assertThat(zielnormReferences).isEmpty();
+    verify(updateNormPort, times(1)).updateNorm(any());
   }
 }

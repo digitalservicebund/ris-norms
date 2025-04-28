@@ -1,8 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -190,6 +189,47 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("$[1].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"))
         )
         .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")));
+    }
+  }
+
+  @Nested
+  class deleteReferences {
+
+    @Test
+    void itDeletesAReferences() throws Exception {
+      // Given
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          delete("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references")
+            .content(
+              """
+              [
+                "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+              ]
+              """
+            )
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").doesNotExist());
+
+      mockMvc
+        .perform(
+          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references")
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").doesNotExist());
     }
   }
 }
