@@ -18,7 +18,8 @@ import org.w3c.dom.Node;
  * related to articles), you should use a more specific service.
  */
 @Service
-public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCase {
+public class ElementService
+  implements LoadElementUseCase, LoadElementHtmlUseCase, LoadElementXmlUseCase {
 
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final XsltTransformationService xsltTransformationService;
@@ -81,6 +82,11 @@ public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCas
     return xsltTransformationService.transformLegalDocMlToHtml(
       new TransformLegalDocMlToHtmlUseCase.Query(elementXml, false, false)
     );
+  }
+
+  @Override
+  public String loadElementXml(final LoadElementXmlUseCase.Query query) {
+    return XmlMapper.toString(loadElement(new LoadElementUseCase.Query(query.eli(), query.eid())));
   }
 
   private String getXPathForEid(EId eid) {

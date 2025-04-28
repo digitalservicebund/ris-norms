@@ -29,6 +29,9 @@ class ElementControllerTest {
   @MockitoBean
   private LoadElementHtmlUseCase loadElementHtmlUseCase;
 
+  @MockitoBean
+  private LoadElementXmlUseCase loadElementXmlUseCase;
+
   @Nested
   class getElementHtmlPreview {
 
@@ -95,17 +98,26 @@ class ElementControllerTest {
       // given
       var elementNode =
         """
-            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1"
-                        GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                        period="#meta-1_geltzeiten-1_geltungszeitgr-1"
-                        refersTo="hauptaenderung">
-                        <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
-                            GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                                Artikel 1 </akn:num>
-                        <akn:heading eId="hauptteil-1_art-1_überschrift-1"
-                            GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
-                        </akn:heading>
-                    </akn:article>
+          <akn:article
+            xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+            eId="hauptteil-1_art-1"
+            GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
+            period="#meta-1_geltzeiten-1_geltungszeitgr-1"
+            refersTo="hauptaenderung"
+          >
+            <akn:num
+              eId="hauptteil-1_art-1_bezeichnung-1"
+              GUID="25a9acae-7463-4490-bc3f-8258b629d7e9"
+            >
+              Artikel 1
+            </akn:num>
+            <akn:heading
+              eId="hauptteil-1_art-1_überschrift-1"
+              GUID="92827aa8-8118-4207-9f93-589345f0bab6"
+            >
+              Änderung des Vereinsgesetzes
+            </akn:heading>
+          </akn:article>
         """;
       when(
         loadElementUseCase.loadElement(
@@ -132,6 +144,47 @@ class ElementControllerTest {
         .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("type").value("article"))
         .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
+    }
+  }
+
+  @Nested
+  class getElementXml {
+
+    @Test
+    void returnsElementXml() throws Exception {
+      // given
+      var elementXml =
+        """
+          <?xml version="1.0" encoding="UTF-8"?>
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="hauptaenderung">
+            <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
+            <akn:heading eId="hauptteil-1_art-1_überschrift-1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
+          </akn:article>
+        """;
+
+      when(
+        loadElementXmlUseCase.loadElementXml(
+          new LoadElementXmlUseCase.Query(
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+            ),
+            new EId("hauptteil-1_art-1")
+          )
+        )
+      )
+        .thenReturn(elementXml);
+
+      // when
+      mockMvc
+        .perform(
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+          )
+            .accept(MediaType.APPLICATION_XML_VALUE)
+        )
+        // then
+        .andExpect(status().isOk())
+        .andExpect(content().string(elementXml));
     }
   }
 }

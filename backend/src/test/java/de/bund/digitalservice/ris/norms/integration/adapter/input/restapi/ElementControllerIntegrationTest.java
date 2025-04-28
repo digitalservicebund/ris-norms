@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToCompressingWhiteSpace;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -242,6 +243,121 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("type").value("article"))
         .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
+    }
+  }
+
+  @Nested
+  class getElementXml {
+
+    @Test
+    void returnsNotFoundIfRegelungstextNotFoundByEli() throws Exception {
+      // Given
+      // Nothing
+
+      // When
+      mockMvc
+        .perform(
+          get(
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3"
+          )
+            .accept(MediaType.APPLICATION_XML)
+        )
+        // Then
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
+        .andExpect(jsonPath("title").value("Regelungstext not found"))
+        .andExpect(jsonPath("status").value(404))
+        .andExpect(
+          jsonPath("detail")
+            .value(
+              "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+            )
+        )
+        .andExpect(
+          jsonPath("instance")
+            .value(
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3"
+            )
+        )
+        .andExpect(
+          jsonPath("eli")
+            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        );
+    }
+
+    @Test
+    void returnsNotFoundIfElementNotFoundByEid() throws Exception {
+      // Given
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
+
+      // When
+      mockMvc
+        .perform(
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID"
+          )
+            .accept(MediaType.APPLICATION_XML)
+        )
+        // Then
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("type").value("/errors/element-not-found"))
+        .andExpect(jsonPath("title").value("Element not found"))
+        .andExpect(jsonPath("status").value(404))
+        .andExpect(
+          jsonPath("detail")
+            .value(
+              "Element with eid NONEXISTENT_EID does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+            )
+        )
+        .andExpect(
+          jsonPath("instance")
+            .value(
+              "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID"
+            )
+        )
+        .andExpect(
+          jsonPath("eli").value("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+        )
+        .andExpect(jsonPath("eid").value("NONEXISTENT_EID"));
+    }
+
+    @Test
+    void returnsElementXml() throws Exception {
+      // Given
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
+
+      // When
+      mockMvc
+        .perform(
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1_bezeichnung-1"
+          )
+            .accept(MediaType.APPLICATION_XML)
+        )
+        // Then
+        .andExpect(status().isOk())
+        .andExpect(
+          content()
+            .string(
+              equalToCompressingWhiteSpace(
+                """
+                <?xml version=\"1.0\" encoding=\"UTF-8\"?><akn:num xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.2/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" GUID=\"25a9acae-7463-4490-bc3f-8258b629d7e9\" eId=\"hauptteil-1_art-1_bezeichnung-1\">\n                    Artikel 1</akn:num>
+                """
+              )
+            )
+        );
     }
   }
 }

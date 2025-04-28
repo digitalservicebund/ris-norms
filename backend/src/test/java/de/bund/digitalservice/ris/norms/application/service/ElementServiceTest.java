@@ -165,4 +165,80 @@ class ElementServiceTest {
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
   }
+
+  @Nested
+  class loadElementXml {
+
+    @Test
+    void itLoadsTheElementXml() {
+      // Given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
+      var eid = new EId("preambel-1_formel-1");
+
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
+
+      // When
+      var xml = service.loadElementXml(new LoadElementXmlUseCase.Query(eli, eid));
+
+      // Then
+      assertThat(xml)
+        .containsIgnoringWhitespaces(
+          """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <akn:formula xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" GUID="1b476669-1cbb-4633-a0ed-04783680b841" eId="preambel-1_formel-1" name="attributsemantik-noch-undefiniert" refersTo="eingangsformel">
+              <akn:p GUID="c1793533-b05a-4fc4-be62-bd6c3449c53a" eId="preambel-1_formel-1_text-1">Der Bundestag hat mit Zustimmung des Bundesrates das folgende Gesetz beschlossen:</akn:p>
+            </akn:formula>
+          """
+        );
+
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+    }
+
+    @Test
+    void itThrowsIfNoRegelungstextIsFound() {
+      // Given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
+      var eid = new EId("meta-1");
+      var query = new LoadElementXmlUseCase.Query(eli, eid);
+
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.empty());
+
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementXml(query))
+        .isInstanceOf(RegelungstextNotFoundException.class);
+
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+    }
+
+    @Test
+    void itThrowsIfNoElementIsFound() {
+      // Given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      );
+      var eid = new EId("meta-1000");
+      var query = new LoadElementXmlUseCase.Query(eli, eid);
+
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
+      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
+        .thenReturn(Optional.of(regelungstext));
+
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementXml(query))
+        .isInstanceOf(ElementNotFoundException.class);
+
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+    }
+  }
 }
