@@ -5,7 +5,7 @@ COPY frontend .
 RUN npm ci
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN \
     if [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \
-        SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \
+        export SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \
     fi; \
     npm run build
 
