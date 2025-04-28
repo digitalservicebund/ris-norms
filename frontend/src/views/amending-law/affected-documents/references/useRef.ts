@@ -1,10 +1,6 @@
 import type { MaybeRefOrGetter, Ref, WritableComputedRef } from "vue"
 import { computed, toValue } from "vue"
-import {
-  isElement,
-  xmlNodeToString,
-  xmlStringToDocument,
-} from "@/services/xmlService"
+import { isElement, xmlNodeToString, xmlStringToDocument } from "@/lib/xml"
 
 /**
  * Possible values for the `refersTo` attribute of an akn:ref element.

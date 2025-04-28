@@ -1,4 +1,4 @@
-import { getModEIds } from "@/services/ldmldeModService"
+import { getModEIds } from "@/lib/ldmldeMod"
 import type { ComputedRef, MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 

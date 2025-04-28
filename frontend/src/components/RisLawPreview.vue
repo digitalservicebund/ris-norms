@@ -415,7 +415,7 @@ const slots: SetupContext["slots"] = useSlots()
 .preview-container:focus :deep(.focused) {
   position: relative;
   z-index: 10;
-  outline: var(--spacing-4) solid var(--color-blue-800);
+  outline: var(--spacing-2) solid var(--color-blue-800);
   outline-offset: calc(var(--spacing-2) * -1);
 }
 

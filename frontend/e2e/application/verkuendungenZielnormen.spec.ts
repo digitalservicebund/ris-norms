@@ -43,10 +43,7 @@ test.describe(
       await page.route(
         "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
         async (route) => {
-          await route.fulfill({
-            status: 500,
-            json: {},
-          })
+          await route.fulfill({ status: 500, json: {} })
         },
       )
 
@@ -100,10 +97,7 @@ test.describe("Geltungszeiten-Artikel", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
       async (route) => {
-        await route.fulfill({
-          status: 500,
-          json: {},
-        })
+        await route.fulfill({ status: 500, json: {} })
       },
     )
 
@@ -139,10 +133,7 @@ test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/toc",
       async (route) => {
-        await route.fulfill({
-          status: 500,
-          json: {},
-        })
+        await route.fulfill({ status: 500, json: {} })
       },
     )
 
@@ -161,10 +152,7 @@ test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/toc",
       async (route) => {
-        await route.fulfill({
-          status: 200,
-          json: [],
-        })
+        await route.fulfill({ status: 200, json: [] })
       },
     )
 
@@ -200,10 +188,9 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1",
       async (route) => {
-        await route.fulfill({
-          status: 500,
-          json: {},
-        })
+        if ((await route.request().headerValue("Accept")) === "text/html") {
+          await route.fulfill({ status: 500, json: {} })
+        } else return route.fallback()
       },
     )
 
@@ -229,10 +216,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     await page.route(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1",
       async (route) => {
-        await route.fulfill({
-          status: 200,
-          body: "",
-        })
+        await route.fulfill({ status: 200, body: "" })
       },
     )
 

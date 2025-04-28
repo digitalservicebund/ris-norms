@@ -7,7 +7,7 @@ import {
   isChildNode,
   xmlNodeToString,
   xmlStringToDocument,
-} from "@/services/xmlService"
+} from "@/lib/xml"
 import { useDebounceFn } from "@vueuse/core"
 import { deleteRef } from "@/lib/ref"
 import RisEmptyState from "@/components/RisEmptyState.vue"

@@ -8,8 +8,8 @@ import {
   htmlRenderRangeToLdmlDeRange,
   ldmlRangeToHtmlRenderRange,
 } from "@/lib/htmlRangeToLdmlDeRange"
-import { xmlStringToDocument } from "@/services/xmlService"
-import { getNodeByEid } from "@/services/ldmldeService"
+import { xmlStringToDocument } from "@/lib/xml"
+import { getNodeByEid } from "@/lib/ldmlde"
 
 describe("findHtmlNodeInLdml", () => {
   it("finds the node (element)", () => {

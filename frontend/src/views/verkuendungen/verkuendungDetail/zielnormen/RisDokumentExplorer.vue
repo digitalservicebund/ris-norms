@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import type { AknElementClickEvent } from "@/components/RisLawPreview.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useElementId } from "@/composables/useElementId"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { useGetElementHtml } from "@/services/elementService"
 import { useGetNormToc } from "@/services/tocService"
+import { useMultiSelection } from "@/views/amending-law/articles/editor/useMultiSelection"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
 import type { TreeNode } from "primevue/treenode"
@@ -22,6 +24,10 @@ const { eli } = defineProps<{
 
 /** eId of the selected element */
 const eid = defineModel<string>("eid")
+
+const emit = defineEmits<{
+  selectionChange: [selectedElements: string[]]
+}>()
 
 const { documentExplorerHeadingId, tocHeadingId } = useElementId()
 
@@ -50,9 +56,21 @@ const treeNodes = computed<TreeNode[]>(() =>
 
 const {
   data: artikelHtml,
-  error: artikelError,
-  isFetching: artikelIsFetching,
+  error: artikelHtmlError,
+  isFetching: artikelHtmlIsFetching,
 } = useGetElementHtml(eli, eid)
+
+const { values, toggle, clear } = useMultiSelection<string>()
+
+function onSelect({ originalEvent, eid }: AknElementClickEvent) {
+  if (originalEvent.metaKey || originalEvent.ctrlKey) toggle(eid)
+  else {
+    clear()
+    toggle(eid)
+  }
+
+  emit("selectionChange", values.value)
+}
 </script>
 
 <template>
@@ -126,15 +144,15 @@ const {
     <!-- Article detail -->
     <template v-else>
       <div
-        v-if="artikelIsFetching"
+        v-if="artikelHtmlIsFetching"
         class="mt-24 flex items-center justify-center"
       >
         <RisLoadingSpinner />
       </div>
 
       <RisErrorCallout
-        v-else-if="artikelError"
-        :error="artikelError"
+        v-else-if="artikelHtmlError"
+        :error="artikelHtmlError"
         class="m-16 mt-8"
       />
 
@@ -145,8 +163,35 @@ const {
       />
 
       <div v-else class="flex-1 overflow-auto">
-        <RisLawPreview :content="artikelHtml" />
+        <RisLawPreview
+          :content="artikelHtml"
+          :selected="values"
+          @click:akn:paragraph="onSelect"
+          @click:akn:point="onSelect"
+        />
       </div>
     </template>
   </aside>
 </template>
+
+<style scoped>
+:deep(.akn-paragraph),
+:deep(.akn-point) {
+  background-color: var(--color-gray-100);
+  border: 1px dotted var(--color-gray-600);
+  outline-offset: calc(var(--spacing-2) * -1);
+  outline: 2px dotted transparent;
+  padding-inline: var(--spacing-2);
+
+  &:hover {
+    background-color: var(--color-gray-200);
+    outline-color: var(--color-blue-800);
+  }
+}
+
+:deep(.akn-paragraph.selected),
+:deep(.akn-point.selected) {
+  outline-color: var(--color-blue-800);
+  outline-style: solid;
+}
+</style>

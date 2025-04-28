@@ -1,17 +1,8 @@
-import { xmlStringToDocument } from "@/services/xmlService"
+import { xmlStringToDocument } from "@/lib/xml"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { getModEIds } from "@/services/ldmldeModService"
+import { getModEIds } from "@/lib/ldmldeMod"
 
-vi.mock("@/lib/auth", () => {
-  return {
-    useAuthentication: () => ({
-      addAuthorizationHeader: (init: HeadersInit) => ({ ...init }),
-      tryRefresh: vi.fn().mockReturnValue(true),
-    }),
-  }
-})
-
-describe("ldmldeModService", () => {
+describe("ldmldeMod", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()

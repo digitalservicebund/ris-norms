@@ -3,8 +3,8 @@ import RisRefEditorTable from "@/views/amending-law/affected-documents/reference
 import Button from "primevue/button"
 import RisRefSelectionPanel from "@/views/amending-law/affected-documents/references/RisRefSelectionPanel.vue"
 import { computed, ref, triggerRef, watch } from "vue"
-import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
-import { getNodeByEid } from "@/services/ldmldeService"
+import { xmlNodeToString, xmlStringToDocument } from "@/lib/xml"
+import { getNodeByEid } from "@/lib/ldmlde"
 import { useRoute, useRouter } from "vue-router"
 import { useToast } from "primevue/usetoast"
 

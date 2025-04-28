@@ -5,7 +5,7 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import { useModHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import { useNormXml } from "@/composables/useNormXml"
 import { useGetNormHtml } from "@/services/normService"
-import { xmlStringToDocument } from "@/services/xmlService"
+import { xmlStringToDocument } from "@/lib/xml"
 import { computed, toValue, watch } from "vue"
 import { useRouter } from "vue-router"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"

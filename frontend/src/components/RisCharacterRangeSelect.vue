@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { computed, ref, watch } from "vue"
-import { xmlStringToDocument } from "@/services/xmlService"
+import { xmlStringToDocument } from "@/lib/xml"
 import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import {
   htmlRenderRangeToLdmlDeRange,

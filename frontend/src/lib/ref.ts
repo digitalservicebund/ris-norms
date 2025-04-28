@@ -1,8 +1,4 @@
-import {
-  evaluateXPath,
-  evaluateXPathOnce,
-  isChildNode,
-} from "@/services/xmlService"
+import { evaluateXPath, evaluateXPathOnce, isChildNode } from "@/lib/xml"
 import { v4 as uuidv4 } from "uuid"
 
 /**
