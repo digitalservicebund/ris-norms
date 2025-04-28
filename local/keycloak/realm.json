@@ -34,7 +34,6 @@
         "http://localhost:5173"
       ],
       "clientAuthenticatorType": "client-secret",
-      "secret": "ris-norms-local",
       "protocolMappers": [
         {
           "id": "c4b86c90-3076-49df-9343-0928b135733a",
@@ -54,16 +53,39 @@
           }
         }
       ]
-    }
-  ],
-  "groups": [
+    },
     {
-      "id": "4f928164-2bd4-455a-8fbd-174eeb8ea205",
-      "name": "Norms",
-      "subGroups": [],
-      "attributes": {},
-      "realmRoles": ["norms_user"],
-      "clientRoles": {}
+      "id": "ris-norms-local-e-v",
+      "clientId": "ris-norms-local-e-v",
+      "name": "ris-norms-local-e-v",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "ris-norms-local-e-v",
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "clientAuthenticatorType": "client-secret",
+      "protocol": "openid-connect",
+      "rootUrl": "",
+      "baseUrl": "",
+      "redirectUris": [],
+      "webOrigins": [],
+      "defaultRoles": [],
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "roles"
+          }
+        }
+      ]
     }
   ],
   "users": [
@@ -82,7 +104,21 @@
           "value": "test"
         }
       ],
-      "groups": ["Norms"]
+      "realmRoles": [
+        "norms_user"
+      ]
+    },
+    {
+      "id": "service-account-ris-norms-local-e-v",
+      "username": "service-account-ris-norms-local-e-v",
+      "enabled": true,
+      "emailVerified": true,
+      "serviceAccountClientId": "ris-norms-local-e-v",
+      "realmRoles": [
+        "norms_e_verkuendung"
+      ],
+      "credentials": [],
+      "groups": []
     }
   ]
 }
