@@ -90,7 +90,7 @@ public class BucketService
           changelog.getContent(command.allChanged())
         );
         changelog = null;
-        log.info("Successfully uploaded changelog to public bucket");
+        log.info("Successfully uploaded changelog to bucket %s.".formatted(bucketName));
       } catch (final JsonProcessingException e) {
         log.error(
           "Failed to parse changelog with name %s for bucket %s with error %s".formatted(
