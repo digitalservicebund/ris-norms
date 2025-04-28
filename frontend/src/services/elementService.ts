@@ -5,10 +5,6 @@ import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
-/* -------------------------------------------------- *
- * Individual elements                                *
- * -------------------------------------------------- */
-
 /**
  * Returns any element that can be identified by its ELI and eId as an
  * HTML-rendered preview. Reloads when the parameters change.
@@ -75,6 +71,29 @@ export function useGetElementHtml(
     ...fetchOptions,
     beforeFetch(c) {
       c.options.headers = { ...c.options.headers, Accept: "text/html" }
+    },
+  }).text()
+}
+
+/**
+ * Convenience shorthand for `useElementService` that sets the correct
+ * configuration for getting XML data.
+ *
+ * @param eli ELI of the law containing the element
+ * @param eid eId of the element
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function useGetElementXml(
+  eli: Parameters<typeof useElementService>["0"],
+  eid: Parameters<typeof useElementService>["1"],
+  fetchOptions: Parameters<typeof useElementService>["2"] = {},
+): UseFetchReturn<string> {
+  return useElementService(eli, eid, {
+    refetch: true,
+    ...fetchOptions,
+    beforeFetch(c) {
+      c.options.headers = { ...c.options.headers, Accept: "application/xml" }
     },
   }).text()
 }

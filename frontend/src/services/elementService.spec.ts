@@ -285,4 +285,71 @@ describe("useElementService", () => {
       })
     })
   })
+
+  describe("useGetElementXml", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("loads the data from the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementXml } = await import("./elementService")
+
+      useGetElementXml(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+        "fake_eid",
+      )
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
+          expect.objectContaining({
+            headers: expect.objectContaining({ Accept: "application/xml" }),
+          }),
+        ),
+      )
+    })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementXml } = await import("./elementService")
+
+      const eli = ref(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        ),
+      )
+      useGetElementXml(eli, "fake_eid")
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/xml",
+            }),
+          }),
+        )
+      })
+
+      eli.value = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      )
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1/elements/fake_eid",
+          expect.any(Object),
+        )
+      })
+    })
+  })
 })
