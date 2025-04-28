@@ -2,9 +2,9 @@
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useVerkuendungenService } from "@/services/verkuendungService"
 import Button from "primevue/button"
-import Message from "primevue/message"
 import { RouterLink } from "vue-router"
 import RisVerkuendungListItem from "./RisVerkuendungListItem.vue"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const { isFetching, error, data: amendingLaws } = useVerkuendungenService()
 </script>
@@ -19,10 +19,10 @@ const { isFetching, error, data: amendingLaws } = useVerkuendungenService()
     </header>
 
     <div>
-      <div v-if="amendingLaws?.length === 0">
-        <Message severity="info">Keine Verkündungen gefunden.</Message>
-      </div>
-
+      <RisEmptyState
+        v-if="amendingLaws?.length === 0"
+        text-content="Keine Verkündungen gefunden."
+      />
       <div v-else class="flex flex-col gap-8">
         <RouterLink
           v-for="amendingLaw in amendingLaws"
