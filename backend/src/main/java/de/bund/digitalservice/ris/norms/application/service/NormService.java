@@ -27,7 +27,8 @@ public class NormService
     UpdateRegelungstextXmlUseCase,
     LoadRegelungstextUseCase,
     LoadZielnormReferencesUseCase,
-    UpdateZielnormReferencesUseCase {
+    UpdateZielnormReferencesUseCase,
+    DeleteZielnormReferencesUseCase {
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
@@ -166,6 +167,32 @@ public class NormService
         zielnormReference.setGeltungszeit(zielnormReferenceUpdateData.geltungszeit());
         zielnormReference.setZielnorm(zielnormReferenceUpdateData.zielnorm());
       });
+
+    updateNorm(norm);
+
+    return zielnormReferences.stream().toList();
+  }
+
+  @Override
+  public List<ZielnormReference> deleteZielnormReferences(
+    DeleteZielnormReferencesUseCase.Query query
+  ) {
+    var norm = loadNorm(new LoadNormUseCase.Query(query.eli()));
+    var zielnormReferences = norm
+      .getRegelungstext1()
+      .getMeta()
+      .getOrCreateProprietary()
+      .getOrCreateCustomModsMetadata()
+      .getOrCreateZielnormenReferences();
+
+    query
+      .zielnormReferenceEIds()
+      .forEach(eId ->
+        zielnormReferences
+          .stream()
+          .filter(reference -> reference.getEId().equals(eId))
+          .forEach(zielnormReferences::remove)
+      );
 
     updateNorm(norm);
 

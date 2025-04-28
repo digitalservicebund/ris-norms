@@ -53,6 +53,16 @@ public class ZielnormReferences extends AbstractCollection<ZielnormReference> {
   }
 
   @Override
+  public boolean remove(Object o) {
+    if (!(o instanceof ZielnormReference zielnormReference)) return false;
+
+    if (zielnormReference.getElement().getParentNode() != getElement()) return false;
+
+    getElement().removeChild(zielnormReference.getElement());
+    return true;
+  }
+
+  @Override
   public int size() {
     return (int) stream().count();
   }

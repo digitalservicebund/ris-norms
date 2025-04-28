@@ -432,6 +432,39 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+        - Norm expression
+      summary: Delete zielnorm references
+      parameters:
+        - name: normExpressionEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormExpressionEli"
+      requestBody:
+        description: The eIds for which the zielnorm references that should be deleted.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/EId"
+      responses:
+        "200":
+          description: List of all (remaining) zielnorm references
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ZielnormReference"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /norms/{dokumentExpressionEli}/proprietary:
     get:
