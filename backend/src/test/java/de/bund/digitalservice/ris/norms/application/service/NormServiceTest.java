@@ -372,6 +372,8 @@ class NormServiceTest {
         .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
       assertThat(zielnormReferences.get(1).getGeltungszeit()).isEqualTo("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
+
+      verify(updateNormPort, times(1)).updateNorm(any());
     }
 
     @Test
@@ -411,6 +413,8 @@ class NormServiceTest {
         .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
       assertThat(zielnormReferences.get(1).getGeltungszeit()).isEqualTo("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
+
+      verify(updateNormPort, times(1)).updateNorm(any());
     }
   }
 }

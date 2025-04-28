@@ -138,7 +138,8 @@ public class NormService
   public List<ZielnormReference> updateZielnormReferences(
     UpdateZielnormReferencesUseCase.Query query
   ) {
-    var zielnormReferences = loadNorm(new LoadNormUseCase.Query(query.eli()))
+    var norm = loadNorm(new LoadNormUseCase.Query(query.eli()));
+    var zielnormReferences = norm
       .getRegelungstext1()
       .getMeta()
       .getOrCreateProprietary()
@@ -165,6 +166,8 @@ public class NormService
         zielnormReference.setGeltungszeit(zielnormReferenceUpdateData.geltungszeit());
         zielnormReference.setZielnorm(zielnormReferenceUpdateData.zielnorm());
       });
+
+    updateNorm(norm);
 
     return zielnormReferences.stream().toList();
   }
