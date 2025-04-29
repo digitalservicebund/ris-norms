@@ -19,31 +19,28 @@ import RisDokumentExplorer from "./RisDokumentExplorer.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
-const { geltungszeitenHtmlHeadingId } = useElementId()
+const {
+  data: verkuendung,
+  error: verkuendungError,
+  isFinished: verkuendungHasFinished,
+} = useGetVerkuendungService(() => eli.value.asNormEli())
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "verkuendung",
-    title: () =>
-      verkuendung.value
-        ? (getFrbrDisplayText(verkuendung.value) ?? "...")
-        : "...",
+    title: () => getFrbrDisplayText(verkuendung.value) ?? "...",
     to: `/verkuendungen/${eli.value}`,
   },
-  { key: "zeitgrenzen", title: "Zielnormen verknüpfen" },
+  { key: "zielnormen", title: "Zielnormen verknüpfen" },
 ])
+
+const { geltungszeitenHtmlHeadingId } = useElementId()
 
 const {
   data: geltungszeitenHtml,
   isFetching: isFetchingGeltungszeitenHtml,
   error: geltungszeitenHtmlError,
 } = useGeltungszeitenHtml(eli)
-
-const {
-  data: verkuendung,
-  error: verkuendungError,
-  isFinished: verkuendungHasFinished,
-} = useGetVerkuendungService(() => eli.value.asNormEli())
 
 const formattedVerkuendungsdatum = computed(() =>
   verkuendung.value?.frbrDateVerkuendung
