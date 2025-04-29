@@ -16,4 +16,9 @@ export type Zeitgrenze = {
 
   /** Type of the change happening at that Zeitgrenze */
   art: ZeitgrenzeArt
+
+  /**
+   * Is the zeitgrenze used by a zielnorm-reference?
+   */
+  inUse?: boolean
 }

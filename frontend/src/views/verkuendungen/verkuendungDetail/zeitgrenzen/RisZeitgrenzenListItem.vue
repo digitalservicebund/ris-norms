@@ -84,6 +84,7 @@ const art = computed({
       :id="geltungszeitInputId"
       ref="geltungszeitEl"
       v-model="geltungszeit"
+      :is-read-only="zeitgrenze.inUse"
       fluid
     />
   </label>
@@ -97,11 +98,17 @@ const art = computed({
       fluid
       option-label="label"
       option-value="value"
+      :disabled="zeitgrenze.inUse"
     />
   </label>
 
   <div>
-    <Button :aria-label="deleteButtonHint" text @click="$emit('delete')">
+    <Button
+      :aria-label="deleteButtonHint"
+      text
+      :disabled="zeitgrenze.inUse"
+      @click="$emit('delete')"
+    >
       <template #icon><IcBaselineClear /></template>
     </Button>
   </div>
