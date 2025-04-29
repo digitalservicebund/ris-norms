@@ -8,14 +8,19 @@ import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
+import type { EditableZielnormReference } from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import { useGeltungszeitenHtml } from "@/services/zeitgrenzenService"
+import {
+  useGeltungszeitenHtml,
+  useGetZeitgrenzen,
+} from "@/services/zeitgrenzenService"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref } from "vue"
 import RisDokumentExplorer from "./RisDokumentExplorer.vue"
+import RisZielnormForm from "./RisZielnormForm.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
@@ -34,6 +39,8 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   { key: "zielnormen", title: "Zielnormen verknüpfen" },
 ])
 
+// Geltungszeiten HTML ------------------------------------
+
 const { geltungszeitenHtmlHeadingId } = useElementId()
 
 const {
@@ -47,12 +54,18 @@ const formattedVerkuendungsdatum = computed(() =>
     ? formatDate(verkuendung.value.frbrDateVerkuendung)
     : undefined,
 )
+
+// Editing ------------------------------------------------
+
+const editedZielnormReference = ref<EditableZielnormReference>()
+
+const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
 </script>
 
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError, geltungszeitenHtmlError]"
+    :errors="[verkuendungError, geltungszeitenHtmlError, zeitgrenzenError]"
     :loading="!verkuendungHasFinished"
   >
     <Splitter class="h-full" layout="horizontal">
@@ -70,7 +83,14 @@ const formattedVerkuendungsdatum = computed(() =>
         class="h-full overflow-auto bg-gray-100 p-24"
       >
         <RisEmptyState
+          v-if="!editedZielnormReference"
           text-content="Bitte wählen Sie einen Änderungsbefehl aus."
+        />
+
+        <RisZielnormForm
+          v-else
+          v-model="editedZielnormReference"
+          :zeitgrenzen="zeitgrenzen ?? []"
         />
       </SplitterPanel>
 
