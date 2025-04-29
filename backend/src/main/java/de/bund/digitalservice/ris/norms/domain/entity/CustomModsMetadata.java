@@ -134,14 +134,30 @@ public class CustomModsMetadata {
     return getZeitgrenzen();
   }
 
+  /**
+   * Get the {@link ZielnormReferences} element, if it exists.
+   * @return {@link ZielnormReferences} or empty if none exist
+   */
   public Optional<ZielnormReferences> getZielnormenReferences() {
     return NodeParser
       .getElementFromExpression("./zielnorm-references", getElement())
       .map(ZielnormReferences::new);
   }
 
+  /**
+   * Get the {@link ZielnormReferences} element or create a new one if no such element exists
+   * @return the {@link ZielnormReferences} of the norm
+   */
   public ZielnormReferences getOrCreateZielnormenReferences() {
     return getZielnormenReferences()
       .orElseGet(() -> ZielnormReferences.createAndAppend(getElement()));
+  }
+
+  /**
+   * Remove the {@link ZielnormReferences} element
+   */
+  public void removeZielnormenReferences() {
+    getZielnormenReferences()
+      .ifPresent(zielnormReferences -> getElement().removeChild(zielnormReferences.getElement()));
   }
 }

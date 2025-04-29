@@ -178,12 +178,9 @@ public class NormService
     DeleteZielnormReferencesUseCase.Query query
   ) {
     var norm = loadNorm(new LoadNormUseCase.Query(query.eli()));
-    var zielnormReferences = norm
-      .getRegelungstext1()
-      .getMeta()
-      .getOrCreateProprietary()
-      .getOrCreateCustomModsMetadata()
-      .getOrCreateZielnormenReferences();
+    var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
+    var customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
+    var zielnormReferences = customModsMetadata.getOrCreateZielnormenReferences();
 
     query
       .zielnormReferenceEIds()
@@ -193,6 +190,11 @@ public class NormService
           .filter(reference -> reference.getEId().equals(eId))
           .forEach(zielnormReferences::remove)
       );
+
+    if (zielnormReferences.isEmpty()) {
+      customModsMetadata.removeZielnormenReferences();
+    }
+    proprietary.removeMetadataParentIfEmpty(Namespace.METADATEN_NORMS_APPLICATION_MODS);
 
     updateNorm(norm);
 
