@@ -55,7 +55,7 @@ public class CustomModsMetadata {
             "Missing required attribute 'id' in <geltungszeit> node."
           );
         }
-        final String idAttr = idNode.getNodeValue();
+        final Zeitgrenze.Id idAttr = new Zeitgrenze.Id(idNode.getNodeValue());
         final Node artNode = node.getAttributes().getNamedItem("art");
         if (artNode == null) {
           throw new IllegalArgumentException(

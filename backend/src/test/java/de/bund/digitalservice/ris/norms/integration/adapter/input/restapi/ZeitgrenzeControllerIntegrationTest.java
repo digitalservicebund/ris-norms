@@ -339,7 +339,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
         );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
 
@@ -380,9 +380,17 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .hasSize(3)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple("gz-1", LocalDate.parse("2023-12-30"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-2", LocalDate.parse("2024-01-01"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-3", LocalDate.parse("2025-01-01"), Zeitgrenze.Art.INKRAFT)
+          tuple(
+            new Zeitgrenze.Id("gz-1"),
+            LocalDate.parse("2023-12-30"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(
+            new Zeitgrenze.Id("gz-2"),
+            LocalDate.parse("2024-01-01"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-01-01"), Zeitgrenze.Art.INKRAFT)
         );
     }
 
@@ -400,7 +408,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
         );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
 
@@ -465,7 +473,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple("gz-1", LocalDate.parse("2023-12-30"), Zeitgrenze.Art.AUSSERKRAFT)
+          tuple(
+            new Zeitgrenze.Id("gz-1"),
+            LocalDate.parse("2023-12-30"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          )
         );
     }
 
@@ -509,7 +521,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple("gz-1", LocalDate.parse("2023-12-30"), Zeitgrenze.Art.AUSSERKRAFT)
+          tuple(
+            new Zeitgrenze.Id("gz-1"),
+            LocalDate.parse("2023-12-30"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          )
         );
     }
   }

@@ -32,13 +32,15 @@ public class ZielnormReference {
   public static ZielnormReference createAndAppend(
     Node parentNode,
     String typ,
-    String geltungszeit,
+    Zeitgrenze.Id geltungszeit,
     EId eId,
     NormWorkEli zielnorm
   ) {
     final var element = NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode);
     NodeCreator.createElement(NAMESPACE, "typ", element).setTextContent(typ);
-    NodeCreator.createElement(NAMESPACE, "geltungszeit", element).setTextContent(geltungszeit);
+    NodeCreator
+      .createElement(NAMESPACE, "geltungszeit", element)
+      .setTextContent(geltungszeit.toString());
     NodeCreator.createElement(NAMESPACE, "eid", element).setTextContent(eId.toString());
     NodeCreator.createElement(NAMESPACE, "zielnorm", element).setTextContent(zielnorm.toString());
     return new ZielnormReference(element);
@@ -64,10 +66,9 @@ public class ZielnormReference {
    * The id of the geltungszeit
    * @return the id of the geltungszeit
    */
-  public String getGeltungszeit() {
-    return NodeParser.getValueFromMandatoryNodeFromExpression(
-      "./geltungszeit/text()",
-      getElement()
+  public Zeitgrenze.Id getGeltungszeit() {
+    return new Zeitgrenze.Id(
+      NodeParser.getValueFromMandatoryNodeFromExpression("./geltungszeit/text()", getElement())
     );
   }
 
@@ -75,10 +76,10 @@ public class ZielnormReference {
    * Set a new value for the geltungszeit
    * @param geltungszeit the id of the geltungszeitregel
    */
-  public void setGeltungszeit(String geltungszeit) {
+  public void setGeltungszeit(Zeitgrenze.Id geltungszeit) {
     NodeParser
       .getMandatoryNodeFromExpression("./geltungszeit/text()", getElement())
-      .setTextContent(geltungszeit);
+      .setTextContent(geltungszeit.toString());
   }
 
   /**

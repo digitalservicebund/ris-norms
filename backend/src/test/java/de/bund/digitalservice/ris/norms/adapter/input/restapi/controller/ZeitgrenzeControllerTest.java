@@ -45,13 +45,13 @@ class ZeitgrenzeControllerTest {
       final List<Zeitgrenze> zeitgrenzen = List.of(
         Zeitgrenze
           .builder()
-          .id("gz-1")
+          .id(new Zeitgrenze.Id("gz-1"))
           .art(Zeitgrenze.Art.INKRAFT)
           .date(LocalDate.parse("2025-02-20"))
           .build(),
         Zeitgrenze
           .builder()
-          .id("gz-2")
+          .id(new Zeitgrenze.Id("gz-2"))
           .art(Zeitgrenze.Art.AUSSERKRAFT)
           .date(LocalDate.parse("2023-05-01"))
           .build()
@@ -105,13 +105,13 @@ class ZeitgrenzeControllerTest {
       final List<Zeitgrenze> zeitgrenzen = List.of(
         Zeitgrenze
           .builder()
-          .id("gz-1")
+          .id(new Zeitgrenze.Id("gz-1"))
           .art(Zeitgrenze.Art.INKRAFT)
           .date(LocalDate.parse("2025-02-20"))
           .build(),
         Zeitgrenze
           .builder()
-          .id("gz-2")
+          .id(new Zeitgrenze.Id("gz-2"))
           .art(Zeitgrenze.Art.AUSSERKRAFT)
           .date(LocalDate.parse("2023-05-01"))
           .build()

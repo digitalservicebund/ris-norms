@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class Zeitgrenze {
 
-  private final String id;
+  private final Id id;
   private final LocalDate date;
   private final Art art;
 
@@ -22,6 +22,17 @@ public class Zeitgrenze {
   public enum Art {
     INKRAFT,
     AUSSERKRAFT,
+  }
+
+  /**
+   * Id of a {@link Zeitgrenze}
+   * @param value the value of the id
+   */
+  public record Id(String value) {
+    @Override
+    public String toString() {
+      return value;
+    }
   }
 
   @Override

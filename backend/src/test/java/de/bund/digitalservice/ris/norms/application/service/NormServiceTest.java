@@ -322,7 +322,7 @@ class NormServiceTest {
       .hasToString("eli/bund/bgbl-1/1964/s593");
     assertThat(zielnormReferences.getFirst().getEId())
       .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
-    assertThat(zielnormReferences.getFirst().getGeltungszeit()).isEqualTo("gz-1");
+    assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-1");
     assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
   }
 
@@ -347,13 +347,13 @@ class NormServiceTest {
           List.of(
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
-              "gz-2",
+              new Zeitgrenze.Id("gz-2"),
               new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2024/12")
             ),
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
-              "gz-1",
+              new Zeitgrenze.Id("gz-1"),
               new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
@@ -367,12 +367,12 @@ class NormServiceTest {
         .hasToString("eli/bund/bgbl-1/2024/12");
       assertThat(zielnormReferences.getFirst().getEId())
         .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
-      assertThat(zielnormReferences.getFirst().getGeltungszeit()).isEqualTo("gz-2");
+      assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-2");
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId())
         .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
-      assertThat(zielnormReferences.get(1).getGeltungszeit()).isEqualTo("gz-1");
+      assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
       verify(updateNormPort, times(1)).updateNorm(any());
@@ -396,7 +396,7 @@ class NormServiceTest {
           List.of(
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
-              "gz-1",
+              new Zeitgrenze.Id("gz-1"),
               new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
@@ -410,12 +410,12 @@ class NormServiceTest {
         .hasToString("eli/bund/bgbl-1/1964/s593");
       assertThat(zielnormReferences.getFirst().getEId())
         .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
-      assertThat(zielnormReferences.getFirst().getGeltungszeit()).isEqualTo("gz-1");
+      assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId())
         .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
-      assertThat(zielnormReferences.get(1).getGeltungszeit()).isEqualTo("gz-1");
+      assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
       verify(updateNormPort, times(1)).updateNorm(any());

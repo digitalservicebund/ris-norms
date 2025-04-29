@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReferenceSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZielnormReferencesUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 
@@ -23,7 +24,7 @@ public class ZielnormReferenceMapper {
   public static ZielnormReferenceSchema fromUseCaseData(final ZielnormReference reference) {
     return new ZielnormReferenceSchema(
       reference.getTyp(),
-      reference.getGeltungszeit(),
+      reference.getGeltungszeit().toString(),
       reference.getEId().toString(),
       reference.getZielnorm().toString()
     );
@@ -40,7 +41,7 @@ public class ZielnormReferenceMapper {
   ) {
     return new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
       schema.typ(),
-      schema.geltungszeit(),
+      new Zeitgrenze.Id(schema.geltungszeit()),
       new EId(schema.eId()),
       NormWorkEli.fromString(schema.zielnorm())
     );

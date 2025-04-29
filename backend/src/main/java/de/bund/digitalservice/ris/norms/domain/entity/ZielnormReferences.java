@@ -33,7 +33,12 @@ public class ZielnormReferences extends AbstractCollection<ZielnormReference> {
     return new ZielnormReferences(NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode));
   }
 
-  public ZielnormReference add(String typ, String geltungszeit, EId eId, NormWorkEli zielnorm) {
+  public ZielnormReference add(
+    String typ,
+    Zeitgrenze.Id geltungszeit,
+    EId eId,
+    NormWorkEli zielnorm
+  ) {
     return ZielnormReference.createAndAppend(getElement(), typ, geltungszeit, eId, zielnorm);
   }
 
