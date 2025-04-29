@@ -160,6 +160,7 @@ defineExpose({ focus })
       :auto-clear="false"
       :invalid="effectiveHasError"
       :readonly="isReadOnly"
+      :disabled="isReadOnly"
       class="w-full"
       mask="99.99.9999"
       placeholder="TT.MM.JJJJ"
