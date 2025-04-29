@@ -16,4 +16,6 @@ public class ZeitgrenzeResponseSchema {
   private LocalDate date;
 
   private String art;
+
+  private boolean inUse;
 }

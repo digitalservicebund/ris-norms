@@ -84,7 +84,11 @@ public class CustomModsMetadata {
         } catch (IllegalArgumentException e) {
           throw new IllegalArgumentException("Unknown art value: '" + artAttr + "'", e);
         }
-        return Zeitgrenze.builder().id(idAttr).date(date).art(art).build();
+        boolean inUse = getZielnormenReferences()
+          .stream()
+          .flatMap(ZielnormReferences::stream)
+          .anyMatch(zielnormReference -> zielnormReference.getGeltungszeit().equals(idAttr));
+        return Zeitgrenze.builder().id(idAttr).date(date).art(art).inUse(inUse).build();
       })
       .collect(Collectors.toList());
   }

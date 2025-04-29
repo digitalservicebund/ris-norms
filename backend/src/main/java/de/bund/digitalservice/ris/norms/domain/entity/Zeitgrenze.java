@@ -15,6 +15,10 @@ public class Zeitgrenze {
   private final Id id;
   private final LocalDate date;
   private final Art art;
+  /**
+   * Is the Zeitgrenze in use by a {@link ZielnormReference}?
+   */
+  private final boolean inUse;
 
   /**
    * The possible values for Art

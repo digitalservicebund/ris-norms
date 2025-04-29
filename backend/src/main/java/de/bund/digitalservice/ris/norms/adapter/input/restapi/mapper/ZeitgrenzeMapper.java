@@ -23,6 +23,7 @@ public class ZeitgrenzeMapper {
       .id(zeitgrenze.getId().toString())
       .date(zeitgrenze.getDate())
       .art(zeitgrenze.getArt().name())
+      .inUse(zeitgrenze.isInUse())
       .build();
   }
 

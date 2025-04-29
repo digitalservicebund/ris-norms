@@ -94,7 +94,8 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].id", is("gz-1")))
         .andExpect(jsonPath("$[0].date", is("2017-03-16")))
-        .andExpect(jsonPath("$[0].art", is("INKRAFT")));
+        .andExpect(jsonPath("$[0].art", is("INKRAFT")))
+        .andExpect(jsonPath("$[0].inUse", is(true)));
     }
   }
 
