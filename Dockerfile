@@ -18,12 +18,12 @@ WORKDIR /backend
 
 RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
-RUN --mount=type=secret,id=SENTRY_DNS \
-    --mount=type=secret,id=SENTRY_AUTH_TOKEN \
-    if [ -f /run/secrets/SENTRY_DNS ] && [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \
-        SENTRY_DNS=$(cat /run/secrets/SENTRY_DNS) \
-        SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \
-    fi; \
+RUN --mount=type=secret,id=SENTRY_DSN \
+        --mount=type=secret,id=SENTRY_AUTH_TOKEN \
+        if [ -f /run/secrets/SENTRY_DSN ] && [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \
+            export SENTRY_DSN=$(cat /run/secrets/SENTRY_DSN) \
+                   SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \
+        fi; \
     ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
 
 # pinning jre:latest from 2025-04-17 - last digest without the error of a missing truststore
