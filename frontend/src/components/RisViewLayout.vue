@@ -10,9 +10,9 @@ import { use404Redirect } from "@/composables/use404Redirect"
 import { computed } from "vue"
 
 const {
-  breadcrumbs,
+  breadcrumbs = undefined,
   errors = [],
-  headerBackDestination,
+  headerBackDestination = undefined,
   redirectOn404 = true,
 } = defineProps<{
   /**
