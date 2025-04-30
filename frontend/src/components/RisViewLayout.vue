@@ -9,46 +9,44 @@ import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { use404Redirect } from "@/composables/use404Redirect"
 import { computed } from "vue"
 
-const props = withDefaults(
-  defineProps<{
-    /**
-     * Destination of the back button of the header component. A header will be
-     * shown if either this or `breadcrumbs` is set to a truthy value.
-     */
-    headerBackDestination?: RisHeaderBackDestination
-    /**
-     * List of breadcrumbs to be displayed in the header. A header will be shown
-     * if either this or `headerBackDestination` is set to a truthy value.
-     */
-    breadcrumbs?: HeaderBreadcrumb[]
-    /**
-     * If set to true, will show a full page loading spinner instead of rendering
-     * the default slot.
-     */
-    loading?: boolean
-    /**
-     * If set to a value, will show a full page error message instead of rendering
-     * the default slot. The value will be passed to `RisErrorCallout`. Please
-     * check the `error` prop of that component for more information on possible
-     * error formats and how they will be handled.
-     */
-    errors?: any[] // eslint-disable-line @typescript-eslint/no-explicit-any -- Fetch errors are always any
-    /**
-     * If set to true, will automatically perform a redirect to the 404 page if
-     * `error` has a 404 status.
-     */
-    redirectOn404?: boolean
-  }>(),
-  {
-    headerBackDestination: undefined,
-    breadcrumbs: undefined,
-    loading: false,
-    errors: () => [],
-    redirectOn404: true,
-  },
-)
+const {
+  breadcrumbs,
+  errors = [],
+  headerBackDestination,
+  redirectOn404 = true,
+} = defineProps<{
+  /**
+   * Destination of the back button of the header component. A header will be
+   * shown if either this or `breadcrumbs` is set to a truthy value.
+   */
+  headerBackDestination?: RisHeaderBackDestination
 
-const { breadcrumbs, errors, headerBackDestination, redirectOn404 } = props
+  /**
+   * List of breadcrumbs to be displayed in the header. A header will be shown
+   * if either this or `headerBackDestination` is set to a truthy value.
+   */
+  breadcrumbs?: HeaderBreadcrumb[]
+
+  /**
+   * If set to true, will show a full page loading spinner instead of rendering
+   * the default slot.
+   */
+  loading?: boolean
+
+  /**
+   * If set to a value, will show a full page error message instead of rendering
+   * the default slot. The value will be passed to `RisErrorCallout`. Please
+   * check the `error` prop of that component for more information on possible
+   * error formats and how they will be handled.
+   */
+  errors?: any[] // eslint-disable-line @typescript-eslint/no-explicit-any -- Fetch errors are always any
+
+  /**
+   * If set to true, will automatically perform a redirect to the 404 page if
+   * `error` has a 404 status.
+   */
+  redirectOn404?: boolean
+}>()
 
 const slots = defineSlots<{
   default: never
