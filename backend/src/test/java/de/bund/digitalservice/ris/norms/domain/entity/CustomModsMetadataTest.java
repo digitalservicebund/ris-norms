@@ -80,6 +80,20 @@ class CustomModsMetadataTest {
                 <norms:geltungszeit id="gz-3" art="inkraft">2025-01-01</norms:geltungszeit>
                 <norms:geltungszeit id="gz-4" art="ausserkraft">2026-12-12</norms:geltungszeit>
             </norms:geltungszeiten>
+            <norms:zielnorm-references>
+                 <norms:zielnorm-reference>
+                     <norms:typ>Änderungsvorschrift</norms:typ>
+                     <norms:geltungszeit>gz-1</norms:geltungszeit>
+                     <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                     <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+                 </norms:zielnorm-reference>
+                 <norms:zielnorm-reference>
+                     <norms:typ>Aufhebung</norms:typ>
+                     <norms:geltungszeit>gz-2</norms:geltungszeit>
+                     <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2</norms:eid>
+                     <norms:zielnorm>eli/bund/bgbl-1/2019/789</norms:zielnorm>
+                 </norms:zielnorm-reference>
+             </norms:zielnorm-references>
           </norms:legalDocML.de_metadaten>
           """
         )
@@ -88,24 +102,28 @@ class CustomModsMetadataTest {
       assertThat(customModsMetadata.getZeitgrenzen())
         .hasSize(4)
         .anyMatch(z ->
-          z.getId().equals("gz-1") &&
+          z.getId().toString().equals("gz-1") &&
           z.getArt() == Zeitgrenze.Art.INKRAFT &&
-          z.getDate().equals(LocalDate.parse("2020-01-01"))
+          z.getDate().equals(LocalDate.parse("2020-01-01")) &&
+          z.isInUse()
         )
         .anyMatch(z ->
-          z.getId().equals("gz-2") &&
+          z.getId().toString().equals("gz-2") &&
           z.getArt() == Zeitgrenze.Art.AUSSERKRAFT &&
-          z.getDate().equals(LocalDate.parse("2024-12-12"))
+          z.getDate().equals(LocalDate.parse("2024-12-12")) &&
+          z.isInUse()
         )
         .anyMatch(z ->
-          z.getId().equals("gz-3") &&
+          z.getId().toString().equals("gz-3") &&
           z.getArt() == Zeitgrenze.Art.INKRAFT &&
-          z.getDate().equals(LocalDate.parse("2025-01-01"))
+          z.getDate().equals(LocalDate.parse("2025-01-01")) &&
+          !z.isInUse()
         )
         .anyMatch(z ->
-          z.getId().equals("gz-4") &&
+          z.getId().toString().equals("gz-4") &&
           z.getArt() == Zeitgrenze.Art.AUSSERKRAFT &&
-          z.getDate().equals(LocalDate.parse("2026-12-12"))
+          z.getDate().equals(LocalDate.parse("2026-12-12")) &&
+          !z.isInUse()
         );
     }
 
@@ -252,20 +270,36 @@ class CustomModsMetadataTest {
         .hasSize(4)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactly(
-          tuple("gz-1", LocalDate.parse("2023-05-01"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-2", LocalDate.parse("2024-06-15"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-3", LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-4", LocalDate.parse("2026-11-30"), Zeitgrenze.Art.AUSSERKRAFT)
+          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2023-05-01"), Zeitgrenze.Art.INKRAFT),
+          tuple(
+            new Zeitgrenze.Id("gz-2"),
+            LocalDate.parse("2024-06-15"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT),
+          tuple(
+            new Zeitgrenze.Id("gz-4"),
+            LocalDate.parse("2026-11-30"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          )
         );
 
       // Additionally, verify that the old Zeitgrenze tuples are no longer present.
       assertThat(customModsMetadata.getZeitgrenzen())
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .doesNotContain(
-          tuple("gz-1", LocalDate.parse("2020-01-01"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-2", LocalDate.parse("2024-12-12"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-3", LocalDate.parse("2025-01-01"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-4", LocalDate.parse("2026-12-12"), Zeitgrenze.Art.AUSSERKRAFT)
+          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2020-01-01"), Zeitgrenze.Art.INKRAFT),
+          tuple(
+            new Zeitgrenze.Id("gz-2"),
+            LocalDate.parse("2024-12-12"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-01-01"), Zeitgrenze.Art.INKRAFT),
+          tuple(
+            new Zeitgrenze.Id("gz-4"),
+            LocalDate.parse("2026-12-12"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          )
         );
     }
 
@@ -337,9 +371,13 @@ class CustomModsMetadataTest {
         .hasSize(3)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactly(
-          tuple("gz-1", LocalDate.parse("2023-05-01"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-2", LocalDate.parse("2024-06-15"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-3", LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT)
+          tuple(
+            new Zeitgrenze.Id("gz-1"),
+            LocalDate.parse("2023-05-01"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(new Zeitgrenze.Id("gz-2"), LocalDate.parse("2024-06-15"), Zeitgrenze.Art.INKRAFT),
+          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT)
         );
     }
 
@@ -376,9 +414,13 @@ class CustomModsMetadataTest {
         .hasSize(3)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactly(
-          tuple("gz-1", LocalDate.parse("2023-05-01"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-2", LocalDate.parse("2024-06-15"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-3", LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT)
+          tuple(
+            new Zeitgrenze.Id("gz-1"),
+            LocalDate.parse("2023-05-01"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(new Zeitgrenze.Id("gz-2"), LocalDate.parse("2024-06-15"), Zeitgrenze.Art.INKRAFT),
+          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT)
         );
     }
   }

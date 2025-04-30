@@ -45,15 +45,17 @@ class ZeitgrenzeControllerTest {
       final List<Zeitgrenze> zeitgrenzen = List.of(
         Zeitgrenze
           .builder()
-          .id("gz-1")
+          .id(new Zeitgrenze.Id("gz-1"))
           .art(Zeitgrenze.Art.INKRAFT)
           .date(LocalDate.parse("2025-02-20"))
+          .inUse(false)
           .build(),
         Zeitgrenze
           .builder()
-          .id("gz-2")
+          .id(new Zeitgrenze.Id("gz-2"))
           .art(Zeitgrenze.Art.AUSSERKRAFT)
           .date(LocalDate.parse("2023-05-01"))
+          .inUse(true)
           .build()
       );
 
@@ -67,9 +69,11 @@ class ZeitgrenzeControllerTest {
         .andExpect(jsonPath("$[0].id", is("gz-1")))
         .andExpect(jsonPath("$[0].date", is("2025-02-20")))
         .andExpect(jsonPath("$[0].art", is("INKRAFT")))
+        .andExpect(jsonPath("$[0].inUse", is(false)))
         .andExpect(jsonPath("$[1].id", is("gz-2")))
         .andExpect(jsonPath("$[1].date", is("2023-05-01")))
-        .andExpect(jsonPath("$[1].art", is("AUSSERKRAFT")));
+        .andExpect(jsonPath("$[1].art", is("AUSSERKRAFT")))
+        .andExpect(jsonPath("$[1].inUse", is(true)));
 
       verify(loadZeitgrenzenUseCase, times(1))
         .loadZeitgrenzenFromDokument(any(LoadZeitgrenzenUseCase.Query.class));
@@ -105,13 +109,13 @@ class ZeitgrenzeControllerTest {
       final List<Zeitgrenze> zeitgrenzen = List.of(
         Zeitgrenze
           .builder()
-          .id("gz-1")
+          .id(new Zeitgrenze.Id("gz-1"))
           .art(Zeitgrenze.Art.INKRAFT)
           .date(LocalDate.parse("2025-02-20"))
           .build(),
         Zeitgrenze
           .builder()
-          .id("gz-2")
+          .id(new Zeitgrenze.Id("gz-2"))
           .art(Zeitgrenze.Art.AUSSERKRAFT)
           .date(LocalDate.parse("2023-05-01"))
           .build()

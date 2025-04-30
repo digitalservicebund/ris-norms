@@ -12,9 +12,13 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class Zeitgrenze {
 
-  private final String id;
+  private final Id id;
   private final LocalDate date;
   private final Art art;
+  /**
+   * Is the Zeitgrenze in use by a {@link ZielnormReference}?
+   */
+  private final boolean inUse;
 
   /**
    * The possible values for Art
@@ -22,6 +26,17 @@ public class Zeitgrenze {
   public enum Art {
     INKRAFT,
     AUSSERKRAFT,
+  }
+
+  /**
+   * Id of a {@link Zeitgrenze}
+   * @param value the value of the id
+   */
+  public record Id(String value) {
+    @Override
+    public String toString() {
+      return value;
+    }
   }
 
   @Override

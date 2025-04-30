@@ -144,7 +144,7 @@ class ZielnormReferencesControllerTest {
             assertThat(arg.zielnormReferences().getFirst().eId())
               .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
             assertThat(arg.zielnormReferences().getFirst().typ()).isEqualTo("Änderungsvorschrift");
-            assertThat(arg.zielnormReferences().getFirst().geltungszeit()).isEqualTo("gz-1");
+            assertThat(arg.zielnormReferences().getFirst().geltungszeit()).hasToString("gz-1");
           })
         );
     }

@@ -135,4 +135,25 @@ describe("risZeitgrenzenListItem", () => {
       [{ id: expect.anything(), date: "2025-04-08", art: "INKRAFT" }],
     ])
   })
+
+  it("disables inputs and delete if zeitgrenze is in use", () => {
+    render(RisZeitgrenzenListItem, {
+      props: {
+        index: 0,
+        modelValue: {
+          id: "1",
+          date: "2025-04-08",
+          art: "AUSSERKRAFT",
+          inUse: true,
+        },
+      },
+      global: { stubs: { InputMask: InputText } },
+    })
+
+    expect(screen.getByRole("combobox")).toHaveAttribute("aria-disabled")
+    expect(
+      screen.getByRole("textbox", { name: "Geltungszeit" }),
+    ).toHaveAttribute("readonly")
+    expect(screen.getByRole("button")).toBeDisabled()
+  })
 })

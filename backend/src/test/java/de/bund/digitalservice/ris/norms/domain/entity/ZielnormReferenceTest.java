@@ -40,7 +40,7 @@ class ZielnormReferenceTest {
       )
     );
 
-    assertThat(zielnormReference.getGeltungszeit()).isEqualTo("gz-1");
+    assertThat(zielnormReference.getGeltungszeit()).hasToString("gz-1");
   }
 
   @Test

@@ -55,7 +55,7 @@ public class CustomModsMetadata {
             "Missing required attribute 'id' in <geltungszeit> node."
           );
         }
-        final String idAttr = idNode.getNodeValue();
+        final Zeitgrenze.Id idAttr = new Zeitgrenze.Id(idNode.getNodeValue());
         final Node artNode = node.getAttributes().getNamedItem("art");
         if (artNode == null) {
           throw new IllegalArgumentException(
@@ -84,7 +84,11 @@ public class CustomModsMetadata {
         } catch (IllegalArgumentException e) {
           throw new IllegalArgumentException("Unknown art value: '" + artAttr + "'", e);
         }
-        return Zeitgrenze.builder().id(idAttr).date(date).art(art).build();
+        boolean inUse = getZielnormenReferences()
+          .stream()
+          .flatMap(ZielnormReferences::stream)
+          .anyMatch(zielnormReference -> zielnormReference.getGeltungszeit().equals(idAttr));
+        return Zeitgrenze.builder().id(idAttr).date(date).art(art).inUse(inUse).build();
       })
       .collect(Collectors.toList());
   }

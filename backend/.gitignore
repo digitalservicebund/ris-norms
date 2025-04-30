@@ -41,3 +41,6 @@ lefthook-local.yml
 
 ### macOS ###
 .DS_Store
+
+### Temporary test files ###
+.local-storage-integration-test

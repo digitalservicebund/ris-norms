@@ -20,9 +20,10 @@ public class ZeitgrenzeMapper {
   public static ZeitgrenzeResponseSchema fromUseCaseData(final Zeitgrenze zeitgrenze) {
     return ZeitgrenzeResponseSchema
       .builder()
-      .id(zeitgrenze.getId())
+      .id(zeitgrenze.getId().toString())
       .date(zeitgrenze.getDate())
       .art(zeitgrenze.getArt().name())
+      .inUse(zeitgrenze.isInUse())
       .build();
   }
 

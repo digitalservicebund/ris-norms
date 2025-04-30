@@ -90,7 +90,9 @@ class ZeitgrenzeServiceTest {
       assertThat(zeitgrenzen)
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
-        .containsExactly(tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT));
+        .containsExactly(
+          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+        );
     }
 
     @Test
@@ -116,10 +118,18 @@ class ZeitgrenzeServiceTest {
         .hasSize(4)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-2", LocalDate.parse("2018-04-21"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-3", LocalDate.parse("2019-12-29"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-4", LocalDate.parse("2026-01-01"), Zeitgrenze.Art.AUSSERKRAFT)
+          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT),
+          tuple(
+            new Zeitgrenze.Id("gz-2"),
+            LocalDate.parse("2018-04-21"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2019-12-29"), Zeitgrenze.Art.INKRAFT),
+          tuple(
+            new Zeitgrenze.Id("gz-4"),
+            LocalDate.parse("2026-01-01"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          )
         );
     }
   }
@@ -183,9 +193,13 @@ class ZeitgrenzeServiceTest {
         .hasSize(3)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactly(
-          tuple("gz-1", LocalDate.parse("2023-05-01"), Zeitgrenze.Art.AUSSERKRAFT),
-          tuple("gz-2", LocalDate.parse("2024-06-15"), Zeitgrenze.Art.INKRAFT),
-          tuple("gz-3", LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT)
+          tuple(
+            new Zeitgrenze.Id("gz-1"),
+            LocalDate.parse("2023-05-01"),
+            Zeitgrenze.Art.AUSSERKRAFT
+          ),
+          tuple(new Zeitgrenze.Id("gz-2"), LocalDate.parse("2024-06-15"), Zeitgrenze.Art.INKRAFT),
+          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT)
         );
     }
   }

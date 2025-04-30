@@ -1092,7 +1092,7 @@ class ProprietaryTest {
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple("gz-1", LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
         );
     }
 
