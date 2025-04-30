@@ -25,7 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
@@ -34,15 +33,11 @@ import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.apache.tika.exception.TikaException;
-import org.jetbrains.annotations.NotNull;
 import org.jobrunr.scheduling.JobScheduler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.AbstractResource;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 
 class VerkuendungsImportServiceTest {
 
@@ -65,6 +60,8 @@ class VerkuendungsImportServiceTest {
   );
   private final JobScheduler jobScheduler = mock(JobScheduler.class);
 
+  private final SignatureValidator signatureValidator = mock(SignatureValidator.class);
+
   private final VerkuendungsImportService verkuendungsImportService = new VerkuendungsImportService(
     loadNormPort,
     updateOrSaveNormPort,
@@ -75,7 +72,8 @@ class VerkuendungsImportServiceTest {
     updateOrSaveVerkuendungPort,
     Fixtures.getLdmlDeValidator(),
     jobScheduler,
-    new MediaTypeService()
+    new MediaTypeService(),
+    signatureValidator
   );
 
   VerkuendungsImportServiceTest() throws TikaException, IOException {}
@@ -423,7 +421,7 @@ class VerkuendungsImportServiceTest {
     }
   }
 
-  private Resource loadFolderAsZipResource(String folderName) throws IOException {
+  private byte[] loadFolderAsZipResource(String folderName) throws IOException {
     var folder = new File(
       Fixtures.getResource(VerkuendungsImportServiceTest.class, folderName).getFile()
     );
@@ -457,25 +455,6 @@ class VerkuendungsImportServiceTest {
 
     zipOutputStream.close();
 
-    var byteArray = byteArrayOutputStream.toByteArray();
-    var byteArrayResource = new ByteArrayResource(byteArray);
-
-    // Create a new resource class so we are able to implement getFilename which is not implemented by ByteArrayResource
-    return new AbstractResource() {
-      @Override
-      public @NotNull String getDescription() {
-        return byteArrayResource.getDescription();
-      }
-
-      @Override
-      public @NotNull InputStream getInputStream() throws IOException {
-        return byteArrayResource.getInputStream();
-      }
-
-      @Override
-      public String getFilename() {
-        return folderName + ".zip";
-      }
-    };
+    return byteArrayOutputStream.toByteArray();
   }
 }

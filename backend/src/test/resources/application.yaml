@@ -38,3 +38,7 @@ otc:
 
 sentry:
   environment: local
+
+everkuendung:
+  certificate:
+    path: classpath:certs/test-certificate.pem

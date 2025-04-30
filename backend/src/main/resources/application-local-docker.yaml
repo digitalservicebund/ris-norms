@@ -41,3 +41,7 @@ otc:
 
 sentry:
   environment: local
+
+everkuendung:
+  certificate:
+    path: file:/app/certs/certificate.pem

@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.port.output;
 
 import java.io.IOException;
 import java.util.UUID;
-import org.springframework.core.io.Resource;
 
 /**
  * Interface representing a port for loading the Normendokumentationspaket files.
@@ -29,5 +28,5 @@ public interface LoadNormendokumentationspaketPort {
    * @param file as zip
    * @param signature as sig
    */
-  record Result(Resource file, Resource signature) {}
+  record Result(byte[] file, byte[] signature) {}
 }
