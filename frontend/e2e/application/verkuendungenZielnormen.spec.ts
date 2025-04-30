@@ -261,3 +261,24 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     ).toBeVisible()
   })
 })
+
+test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
+  test("shows an error if the Zeitgrenzen can't be loaded", async ({
+    page,
+  }) => {
+    await page.route(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+      async (route) => {
+        await route.fulfill({ status: 500, json: {} })
+      },
+    )
+
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+    )
+
+    await expect(
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
+    ).toBeVisible()
+  })
+})
