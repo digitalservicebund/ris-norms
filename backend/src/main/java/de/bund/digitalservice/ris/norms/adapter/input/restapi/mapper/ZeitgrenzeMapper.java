@@ -2,9 +2,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZeitgrenzeRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZeitgrenzeResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /** Mapper class for converting between {@link Zeitgrenze} and {@link ZeitgrenzeResponseSchema}. */
 public class ZeitgrenzeMapper {
@@ -28,23 +28,22 @@ public class ZeitgrenzeMapper {
   }
 
   /**
-   * Creates a {@link Zeitgrenze} instances from a {@link ZeitgrenzeRequestSchema} instances.
+   * Creates a {@link UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData} instances from a {@link ZeitgrenzeRequestSchema} instances.
    *
    * @param zeitgrenzeRequestSchemas The input {@link ZeitgrenzeRequestSchema} entity to be converted.
-   * @return A list of {@link Zeitgrenze}.
+   * @return A list of {@link UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData}.
    */
-  public static List<Zeitgrenze> fromRequestSchema(
+  public static List<UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData> fromRequestSchema(
     final List<ZeitgrenzeRequestSchema> zeitgrenzeRequestSchemas
   ) {
     return zeitgrenzeRequestSchemas
       .stream()
       .map(zeitgrenzeResponseSchema ->
-        Zeitgrenze
-          .builder()
-          .date(zeitgrenzeResponseSchema.getDate())
-          .art(Zeitgrenze.Art.valueOf(zeitgrenzeResponseSchema.getArt().name()))
-          .build()
+        new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
+          zeitgrenzeResponseSchema.getDate(),
+          Zeitgrenze.Art.valueOf(zeitgrenzeResponseSchema.getArt().name())
+        )
       )
-      .collect(Collectors.toList());
+      .toList();
   }
 }

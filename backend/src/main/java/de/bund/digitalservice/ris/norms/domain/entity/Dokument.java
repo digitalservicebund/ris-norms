@@ -102,23 +102,6 @@ public abstract sealed class Dokument
   }
 
   /**
-   * Updates the time boundaries in a sorted way under the custom {@link Namespace#METADATEN_NORMS_APPLICATION_MODS}
-   *
-   * @param zeitgrenzen the list of {@link Zeitgrenze}
-   * @return the created and sorted list of {@link Zeitgrenze} with the generated ids
-   */
-  public List<Zeitgrenze> setZeitgrenzen(final List<Zeitgrenze> zeitgrenzen) {
-    final Proprietary proprietary = getMeta().getOrCreateProprietary();
-    final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
-    final List<Zeitgrenze> updatedZeitgrenzen = customModsMetadata.updateZeitgrenzen(zeitgrenzen);
-    if (!customModsMetadata.getElement().hasChildNodes()) {
-      customModsMetadata.getElement().getParentNode().removeChild(customModsMetadata.getElement());
-      proprietary.removeMetadataParentIfEmpty(Namespace.METADATEN_RIS);
-    }
-    return updatedZeitgrenzen;
-  }
-
-  /**
    * Returns the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to return

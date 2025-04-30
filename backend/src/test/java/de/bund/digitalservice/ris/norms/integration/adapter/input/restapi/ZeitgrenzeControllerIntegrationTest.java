@@ -2,8 +2,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,6 +19,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
@@ -327,7 +327,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itCallsUpdateZeitgrenzenAddAndDeleteAndEdit() throws Exception {
+    void itCallsUpdateZeitgrenzenAdd() throws Exception {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
@@ -353,7 +353,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "[" +
-              "{\"date\": \"2023-12-30\", \"art\": \"AUSSERKRAFT\"}," +
+              "{\"date\": \"2017-03-16\", \"art\": \"INKRAFT\"}," +
               "{\"date\": \"2025-01-01\", \"art\": \"INKRAFT\"}," +
               "{\"date\": \"2024-01-01\", \"art\": \"AUSSERKRAFT\"}" +
               "]"
@@ -362,12 +362,10 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(3)))
         .andExpect(jsonPath("$[0].id", is("gz-1")))
-        .andExpect(jsonPath("$[0].date", is("2023-12-30")))
-        .andExpect(jsonPath("$[0].art", is("AUSSERKRAFT")))
-        .andExpect(jsonPath("$[1].id", is("gz-2")))
+        .andExpect(jsonPath("$[0].date", is("2017-03-16")))
+        .andExpect(jsonPath("$[0].art", is("INKRAFT")))
         .andExpect(jsonPath("$[1].date", is("2024-01-01")))
         .andExpect(jsonPath("$[1].art", is("AUSSERKRAFT")))
-        .andExpect(jsonPath("$[2].id", is("gz-3")))
         .andExpect(jsonPath("$[2].date", is("2025-01-01")))
         .andExpect(jsonPath("$[2].art", is("INKRAFT")));
 
@@ -376,23 +374,18 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
           eli.toString()
         );
       assertThat(loadedFromDb).isPresent();
-      final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
-      assertThat(dokument.getZeitgrenzen())
-        .hasSize(3)
-        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
-        .containsExactlyInAnyOrder(
-          tuple(
-            new Zeitgrenze.Id("gz-1"),
-            LocalDate.parse("2023-12-30"),
-            Zeitgrenze.Art.AUSSERKRAFT
-          ),
-          tuple(
-            new Zeitgrenze.Id("gz-2"),
-            LocalDate.parse("2024-01-01"),
-            Zeitgrenze.Art.AUSSERKRAFT
-          ),
-          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-01-01"), Zeitgrenze.Art.INKRAFT)
-        );
+
+      final List<Zeitgrenze> zeitgrenzen = DokumentMapper
+        .mapToDomain(loadedFromDb.get())
+        .getZeitgrenzen();
+      assertThat(zeitgrenzen).hasSize(3);
+      assertThat(zeitgrenzen.getFirst().getDate()).isEqualTo(LocalDate.parse("2017-03-16"));
+      assertThat(zeitgrenzen.getFirst().getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
+      assertThat(zeitgrenzen.getFirst().getId()).isEqualTo(new Zeitgrenze.Id("gz-1"));
+      assertThat(zeitgrenzen.get(1).getDate()).isEqualTo(LocalDate.parse("2024-01-01"));
+      assertThat(zeitgrenzen.get(1).getArt()).isEqualTo(Zeitgrenze.Art.AUSSERKRAFT);
+      assertThat(zeitgrenzen.get(2).getDate()).isEqualTo(LocalDate.parse("2025-01-01"));
+      assertThat(zeitgrenzen.get(2).getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
     }
 
     @Test
@@ -403,7 +396,8 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        ZeitgrenzeControllerIntegrationTest.class,
+        "norm-with-only-unused-geltungszeit.xml"
       );
       assertThat(regelungstext.getZeitgrenzen())
         .hasSize(1)
@@ -460,7 +454,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].id", is("gz-1")))
+        .andExpect(jsonPath("$[0].id", isA(String.class)))
         .andExpect(jsonPath("$[0].date", is("2023-12-30")))
         .andExpect(jsonPath("$[0].art", is("AUSSERKRAFT")));
 
@@ -469,17 +463,13 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
           eli.toString()
         );
       assertThat(loadedFromDb).isPresent();
-      final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
-      assertThat(dokument.getZeitgrenzen())
-        .hasSize(1)
-        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
-        .containsExactlyInAnyOrder(
-          tuple(
-            new Zeitgrenze.Id("gz-1"),
-            LocalDate.parse("2023-12-30"),
-            Zeitgrenze.Art.AUSSERKRAFT
-          )
-        );
+
+      final List<Zeitgrenze> zeitgrenzen = DokumentMapper
+        .mapToDomain(loadedFromDb.get())
+        .getZeitgrenzen();
+      assertThat(zeitgrenzen).hasSize(1);
+      assertThat(zeitgrenzen.getFirst().getDate()).isEqualTo(LocalDate.parse("2023-12-30"));
+      assertThat(zeitgrenzen.getFirst().getArt()).isEqualTo(Zeitgrenze.Art.AUSSERKRAFT);
     }
 
     @Test
@@ -508,7 +498,6 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].id", is("gz-1")))
         .andExpect(jsonPath("$[0].date", is("2023-12-30")))
         .andExpect(jsonPath("$[0].art", is("AUSSERKRAFT")));
 
@@ -520,13 +509,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
       assertThat(dokument.getZeitgrenzen())
         .hasSize(1)
-        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
+        .extracting(Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple(
-            new Zeitgrenze.Id("gz-1"),
-            LocalDate.parse("2023-12-30"),
-            Zeitgrenze.Art.AUSSERKRAFT
-          )
+          tuple(LocalDate.parse("2023-12-30"), Zeitgrenze.Art.AUSSERKRAFT)
         );
     }
   }

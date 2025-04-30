@@ -155,7 +155,7 @@ class ZeitgrenzeServiceTest {
     }
 
     @Test
-    void itCallsLoadZeitgrenzenAndReturnsMultipleZeitgrenzen() {
+    void itUpdatesZeitgrenzen() {
       // Given
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
@@ -167,18 +167,19 @@ class ZeitgrenzeServiceTest {
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
-      final List<Zeitgrenze> newZeitgrenzen = List.of(
-        Zeitgrenze
-          .builder()
-          .art(Zeitgrenze.Art.INKRAFT)
-          .date(LocalDate.parse("2025-02-20"))
-          .build(),
-        Zeitgrenze
-          .builder()
-          .art(Zeitgrenze.Art.AUSSERKRAFT)
-          .date(LocalDate.parse("2023-05-01"))
-          .build(),
-        Zeitgrenze.builder().art(Zeitgrenze.Art.INKRAFT).date(LocalDate.parse("2024-06-15")).build()
+      final List<UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData> newZeitgrenzen = List.of(
+        new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
+          LocalDate.parse("2025-02-20"),
+          Zeitgrenze.Art.INKRAFT
+        ),
+        new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
+          LocalDate.parse("2023-05-01"),
+          Zeitgrenze.Art.AUSSERKRAFT
+        ),
+        new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
+          LocalDate.parse("2017-03-16"),
+          Zeitgrenze.Art.INKRAFT
+        )
       );
       // When
       var updatedZeitgrenze = service.updateZeitgrenzenOfDokument(
@@ -189,18 +190,44 @@ class ZeitgrenzeServiceTest {
       verify(loadRegelungstextPort, times(1))
         .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateDokumentPort, times(1)).updateDokument(any());
-      assertThat(updatedZeitgrenze)
-        .hasSize(3)
-        .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
-        .containsExactly(
-          tuple(
-            new Zeitgrenze.Id("gz-1"),
-            LocalDate.parse("2023-05-01"),
-            Zeitgrenze.Art.AUSSERKRAFT
-          ),
-          tuple(new Zeitgrenze.Id("gz-2"), LocalDate.parse("2024-06-15"), Zeitgrenze.Art.INKRAFT),
-          tuple(new Zeitgrenze.Id("gz-3"), LocalDate.parse("2025-02-20"), Zeitgrenze.Art.INKRAFT)
-        );
+      assertThat(updatedZeitgrenze).hasSize(3);
+      assertThat(updatedZeitgrenze.getFirst().getDate()).isEqualTo(LocalDate.parse("2017-03-16"));
+      assertThat(updatedZeitgrenze.getFirst().getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
+      assertThat(updatedZeitgrenze.getFirst().getId()).isEqualTo(new Zeitgrenze.Id("gz-1")); // id is unchanged
+      assertThat(updatedZeitgrenze.get(1).getDate()).isEqualTo(LocalDate.parse("2023-05-01"));
+      assertThat(updatedZeitgrenze.get(1).getArt()).isEqualTo(Zeitgrenze.Art.AUSSERKRAFT);
+      assertThat(updatedZeitgrenze.get(2).getDate()).isEqualTo(LocalDate.parse("2025-02-20"));
+      assertThat(updatedZeitgrenze.get(2).getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
+    }
+
+    @Test
+    void itThrowsWhenUpdatingZeitgrenzeThatIsInUse() {
+      // Given
+      var eli = DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      );
+
+      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
+
+      // When / Then
+      assertThatThrownBy(() ->
+          service.updateZeitgrenzenOfDokument(
+            new UpdateZeitgrenzenUseCase.Query(
+              eli,
+              List.of(
+                new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
+                  LocalDate.parse("2017-03-16"),
+                  Zeitgrenze.Art.AUSSERKRAFT
+                )
+              )
+            )
+          )
+        )
+        .isInstanceOf(UpdateZeitgrenzenUseCase.ZeitgrenzeCanNotBeDeletedAsItIsUsedException.class);
+      verify(updateDokumentPort, times(0)).updateDokument(any());
     }
   }
 }
