@@ -312,6 +312,43 @@ describe("risDokumentExplorer", () => {
       expect(emitted("update:eid")).toContainEqual([undefined])
     })
 
+    it("shows elements as selected based on the model value", async () => {
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+            <ol>
+              <li class="akn-point" data-eid="eid-1">1</li>
+              <li class="akn-point" data-eid="eid-2">2</li>
+              <li class="akn-point" data-eid="eid-3">3</li>
+            </ol>
+            <div class="akn-paragraph" data-eid="eid-4">4</div>
+          `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+          eidsToEdit: ["eid-1"],
+        },
+      })
+
+      await vi.waitFor(() => {
+        expect(screen.getByRole("button", { name: "1" })).toHaveClass(
+          "selected",
+        )
+      })
+    })
+
     it("selects an element", async () => {
       const user = userEvent.setup()
 
@@ -345,7 +382,7 @@ describe("risDokumentExplorer", () => {
 
       await vi.waitFor(async () => {
         await user.click(screen.getByRole("button", { name: "1" }))
-        expect(emitted("selectionChange")).toContainEqual([["eid-1"]])
+        expect(emitted("update:eids-to-edit")).toContainEqual([["eid-1"]])
       })
     })
 
@@ -385,7 +422,9 @@ describe("risDokumentExplorer", () => {
         await user.click(screen.getByRole("button", { name: "1" }))
         await user.click(screen.getByRole("button", { name: "4" }))
         await user.keyboard("{/Control}")
-        expect(emitted("selectionChange")).toContainEqual([["eid-1", "eid-4"]])
+        expect(emitted("update:eids-to-edit")).toContainEqual([
+          ["eid-1", "eid-4"],
+        ])
       })
     })
 
@@ -425,7 +464,9 @@ describe("risDokumentExplorer", () => {
         await user.click(screen.getByRole("button", { name: "1" }))
         await user.click(screen.getByRole("button", { name: "4" }))
         await user.keyboard("{/Meta}")
-        expect(emitted("selectionChange")).toContainEqual([["eid-1", "eid-4"]])
+        expect(emitted("update:eids-to-edit")).toContainEqual([
+          ["eid-1", "eid-4"],
+        ])
       })
     })
 
@@ -466,8 +507,10 @@ describe("risDokumentExplorer", () => {
         await user.click(screen.getByRole("button", { name: "4" }))
         await user.keyboard("{/Control}")
         await user.click(screen.getByRole("button", { name: "2" }))
-        expect(emitted("selectionChange")).toContainEqual([["eid-1", "eid-4"]])
-        expect(emitted("selectionChange")).toContainEqual([["eid-2"]])
+        expect(emitted("update:eids-to-edit")).toContainEqual([
+          ["eid-1", "eid-4"],
+        ])
+        expect(emitted("update:eids-to-edit")).toContainEqual([["eid-2"]])
       })
     })
   })

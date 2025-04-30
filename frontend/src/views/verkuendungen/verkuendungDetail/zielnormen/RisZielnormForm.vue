@@ -106,12 +106,17 @@ const eli = computed({
     </div>
 
     <footer class="mt-16 flex justify-between gap-8">
-      <Button label="Speichern" :loading @click="$emit('save')">
+      <Button label="Speichern" :disabled="loading" @click="$emit('save')">
         <template #icon>
           <IcBaselineCheck />
         </template>
       </Button>
-      <Button label="Einträge entfernen" text @click="$emit('delete')"></Button>
+      <Button
+        label="Einträge entfernen"
+        text
+        :disabled="loading"
+        @click="$emit('delete')"
+      ></Button>
     </footer>
   </form>
 </template>

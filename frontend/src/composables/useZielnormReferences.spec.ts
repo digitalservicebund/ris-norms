@@ -89,8 +89,7 @@ describe("useZielnormReferences", () => {
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
     )
 
-    expect(refs.value).toEqual({
-      typ: "Änderungsvorschrift",
+    expect(refs).toEqual({
       geltungszeit: "gz-1",
       zielnorm: "eli/bund/bgbl-1/2021/123",
     })
@@ -134,11 +133,7 @@ describe("useZielnormReferences", () => {
 
     const refs = zielnormReferencesForEid("fake-eid")
 
-    expect(refs.value).toEqual({
-      geltungszeit: "",
-      typ: "",
-      zielnorm: "",
-    })
+    expect(refs).toEqual({ geltungszeit: "", zielnorm: "" })
   })
 
   it("should return a Zielnorm reference for multiple eIds with identical data", async () => {
@@ -195,8 +190,7 @@ describe("useZielnormReferences", () => {
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-3",
     )
 
-    expect(refs.value).toEqual({
-      typ: "Änderungsvorschrift",
+    expect(refs).toEqual({
       geltungszeit: "gz-1",
       zielnorm: "eli/bund/bgbl-1/2021/123",
     })
@@ -249,11 +243,7 @@ describe("useZielnormReferences", () => {
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
     )
 
-    expect(refs.value).toEqual({
-      typ: "",
-      geltungszeit: "",
-      zielnorm: "",
-    })
+    expect(refs).toEqual({ geltungszeit: "", zielnorm: "" })
   })
 
   it("should return a new, empty Zielnorm reference for multiple eIds that don't exist", async () => {
@@ -297,11 +287,7 @@ describe("useZielnormReferences", () => {
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
     )
 
-    expect(refs.value).toEqual({
-      typ: "",
-      geltungszeit: "",
-      zielnorm: "",
-    })
+    expect(refs).toEqual({ geltungszeit: "", zielnorm: "" })
   })
 
   it("sets the fetching state while loading Zielnorm references", async () => {

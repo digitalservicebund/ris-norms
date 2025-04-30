@@ -7,7 +7,7 @@ describe("risZielnormForm", () => {
   it("renders the component", () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "", typ: "", zielnorm: "" },
+        modelValue: { geltungszeit: "", zielnorm: "" },
       },
     })
 
@@ -23,7 +23,7 @@ describe("risZielnormForm", () => {
 
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "", typ: "", zielnorm: "" },
+        modelValue: { geltungszeit: "", zielnorm: "" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -47,7 +47,7 @@ describe("risZielnormForm", () => {
 
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "", typ: "", zielnorm: "" },
+        modelValue: { geltungszeit: "", zielnorm: "" },
         zeitgrenzen: [],
       },
     })
@@ -62,7 +62,7 @@ describe("risZielnormForm", () => {
   it("populates the form with the model data", () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -83,7 +83,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -101,7 +101,7 @@ describe("risZielnormForm", () => {
     })
 
     expect(emitted("update:modelValue")).toContainEqual([
-      { geltungszeit: "gz-1", typ: "", zielnorm: "other/eli" },
+      { geltungszeit: "gz-1", zielnorm: "other/eli" },
     ])
   })
 
@@ -110,7 +110,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -126,7 +126,7 @@ describe("risZielnormForm", () => {
     await user.click(screen.getByRole("option", { name: "30.04.2025" }))
 
     expect(emitted("update:modelValue")).toContainEqual([
-      { geltungszeit: "gz-2", typ: "", zielnorm: "eli" },
+      { geltungszeit: "gz-2", zielnorm: "eli" },
     ])
   })
 
@@ -135,7 +135,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
       },
     })
 
@@ -147,23 +147,29 @@ describe("risZielnormForm", () => {
   it("sets the loading state", async () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         loading: true,
       },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).toBeDisabled()
   })
 
   it("does not set the loading state", async () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         loading: false,
       },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).not.toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).not.toBeDisabled()
   })
 
   it("emits an event on delete", async () => {
@@ -171,7 +177,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
       },
     })
 

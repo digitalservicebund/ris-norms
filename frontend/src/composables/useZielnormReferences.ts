@@ -6,7 +6,7 @@ import {
 } from "@/services/zielnormReferenceService"
 import type { ZielnormReference } from "@/types/zielnormReference"
 import type { DeepReadonly, MaybeRefOrGetter, Ref } from "vue"
-import { computed, readonly, ref, toValue, watch } from "vue"
+import { computed, readonly, toValue, watch } from "vue"
 
 /**
  * Provides a unified interface to loading and changing Zielnormen references.
@@ -28,9 +28,7 @@ export type ZielnormReferencesStore = {
    * @param eIds eIds of the elements to look up
    * @returns Editable Zielnormen reference with data from the eIds
    */
-  zielnormReferencesForEid: (
-    ...eIds: string[]
-  ) => Ref<EditableZielnormReference>
+  zielnormReferencesForEid: (...eIds: string[]) => EditableZielnormReference
 
   /**
    * Updates all Zielnormen references related to the specified eIds.
@@ -63,7 +61,7 @@ export type ZielnormReferencesStore = {
   error: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
 }
 
-export type EditableZielnormReference = Omit<ZielnormReference, "eId">
+export type EditableZielnormReference = Omit<ZielnormReference, "eId" | "typ">
 
 /**
  * Provides a unified interface to loading and changing Zielnormen references.
@@ -75,28 +73,35 @@ export function useZielnormReferences(
 ): ZielnormReferencesStore {
   // Data ---------------------------------------------------
 
-  const { data: references, isFetching, error } = useGetZielnormReferences(eli)
+  const {
+    data: references,
+    isFetching,
+    error,
+  } = useGetZielnormReferences(eli, {
+    beforeFetch: () => {
+      resetErrors()
+    },
+  })
 
   function zielnormReferencesForEid(
     ...eIds: string[]
-  ): Ref<EditableZielnormReference> {
+  ): EditableZielnormReference {
     const existingData = (references.value ?? [])
       .filter((i) => eIds.includes(i.eId))
       .map<EditableZielnormReference>((i) => ({
         geltungszeit: i.geltungszeit,
-        typ: i.typ,
         zielnorm: i.zielnorm,
       }))
 
     if (!existingData.length || existingData.length !== eIds.length) {
-      return ref({ geltungszeit: "", typ: "", zielnorm: "" })
+      return { geltungszeit: "", zielnorm: "" }
     }
 
     const [first, ...rest] = existingData
-    if (!rest.length) return ref(first)
+    if (!rest.length) return first
 
     const newReference = rest.reduce((all, current) => {
-      const keys = ["geltungszeit", "typ", "zielnorm"] as const
+      const keys = ["geltungszeit", "zielnorm"] as const
 
       keys.forEach((k) => {
         all[k] = all[k] === current[k] ? all[k] : ""
@@ -105,7 +110,7 @@ export function useZielnormReferences(
       return all
     }, first)
 
-    return ref(newReference)
+    return newReference
   }
 
   // Update -------------------------------------------------
@@ -117,16 +122,25 @@ export function useZielnormReferences(
     execute: execUpdate,
     isFetching: isUpdating,
     error: updateError,
-  } = usePostZielnormReferences(toUpdate, eli)
+  } = usePostZielnormReferences(() => toUpdate, eli, {
+    beforeFetch: () => {
+      resetErrors()
+    },
+  })
 
   async function update(
     data: MaybeRefOrGetter<EditableZielnormReference>,
     ...eIds: string[]
   ) {
     const dataVal = toValue(data)
-    toUpdate = eIds.map<ZielnormReference>((eId) => ({ ...dataVal, eId }))
+
+    toUpdate = eIds.map<ZielnormReference>((eId) => ({
+      ...dataVal,
+      typ: "Änderungsvorschrift",
+      eId,
+    }))
+
     await execUpdate()
-    toUpdate = []
   }
 
   watch(referencesAfterUpdate, (newVal) => {
@@ -142,12 +156,15 @@ export function useZielnormReferences(
     execute: execDelete,
     isFetching: isDeleting,
     error: deleteError,
-  } = useDeleteZielnormReferences(() => Array.from(toRemove), eli)
+  } = useDeleteZielnormReferences(() => Array.from(toRemove), eli, {
+    beforeFetch: () => {
+      resetErrors()
+    },
+  })
 
   async function remove(...eids: string[]) {
     eids.forEach((i) => toRemove.add(i))
     await execDelete()
-    toRemove.clear()
   }
 
   watch(referencesAfterDelete, (newVal) => {
@@ -163,6 +180,12 @@ export function useZielnormReferences(
   const anyError = computed(
     () => [error, updateError, deleteError].find((i) => !!i.value) ?? null,
   )
+
+  function resetErrors() {
+    ;[error, updateError, deleteError].forEach(
+      (error) => (error.value = undefined),
+    )
+  }
 
   return {
     zielnormReferences: readonly(references),

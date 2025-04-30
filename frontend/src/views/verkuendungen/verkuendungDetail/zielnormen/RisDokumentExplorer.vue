@@ -25,9 +25,8 @@ const { eli } = defineProps<{
 /** eId of the selected element */
 const eid = defineModel<string>("eid")
 
-const emit = defineEmits<{
-  selectionChange: [selectedElements: string[]]
-}>()
+/** List of eIds that should be edited */
+const eidsToEdit = defineModel<string[]>("eids-to-edit")
 
 const { documentExplorerHeadingId, tocHeadingId } = useElementId()
 
@@ -69,7 +68,7 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
     toggle(eid)
   }
 
-  emit("selectionChange", values.value)
+  eidsToEdit.value = values.value
 }
 </script>
 
@@ -165,7 +164,7 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
       <div v-else class="flex-1 overflow-auto">
         <RisLawPreview
           :content="artikelHtml"
-          :selected="values"
+          :selected="eidsToEdit"
           @click:akn:paragraph="onSelect"
           @click:akn:point="onSelect"
         />
