@@ -35,15 +35,6 @@ public class CustomModsMetadata {
   }
 
   /**
-   * Get a list of the time boundaries including mandatory "id" and "art" attributes. Current does not support "unbestimmt" cases
-   *
-   * @return a list of {@link Zeitgrenze}
-   */
-  public List<Zeitgrenze> getZeitgrenzen() {
-    return getGeltungszeiten().stream().flatMap(Geltungszeiten::stream).toList();
-  }
-
-  /**
    * Get the collection of {@link Zeitgrenze}n
    * @return the collection of {@link Zeitgrenze}n or empty if none exist.
    */

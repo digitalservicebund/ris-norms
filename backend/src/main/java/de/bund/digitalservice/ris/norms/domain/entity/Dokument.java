@@ -97,8 +97,11 @@ public abstract sealed class Dokument
   public List<Zeitgrenze> getZeitgrenzen() {
     return getMeta()
       .getProprietary()
-      .flatMap(p -> p.getCustomModsMetadata().map(CustomModsMetadata::getZeitgrenzen))
-      .orElse(List.of());
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getGeltungszeiten)
+      .stream()
+      .flatMap(Geltungszeiten::stream)
+      .toList();
   }
 
   /**
