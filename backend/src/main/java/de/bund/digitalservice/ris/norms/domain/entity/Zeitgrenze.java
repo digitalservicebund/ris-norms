@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /** Class representing a time boundary. */
 @Getter
@@ -21,20 +22,26 @@ public class Zeitgrenze {
   public static final String TAG_NAME = "geltungszeit";
 
   private final Element element;
-  private final Function<Zeitgrenze, Boolean> isUseProvider;
+  private final Function<Zeitgrenze, Boolean> isInUseProvider;
 
   /**
-   * Creates a new norms:geltungszeit element and appends it to the norms:geltungszeiten node of the {@link CustomModsMetadata}.
+   * Creates a new norms:geltungszeit element and appends it to the provided {@link Node}
    *
-   * @param geltungszeiten the {@link Geltungszeiten} element that contains the new {@link Zeitgrenze}.
+   * @param parentNode the element that should contain the new {@link Zeitgrenze}
+   * @param isInUseProvider function to determine if a {@link Zeitgrenze} is in use
    * @param art the art of the {@link Zeitgrenze}
    * @param date the date of the {@link Zeitgrenze}
    * @return the newly created {@link Zeitgrenze}
    */
-  public static Zeitgrenze createAndAppend(Geltungszeiten geltungszeiten, Art art, LocalDate date) {
-    final var element = NodeCreator.createElement(NAMESPACE, TAG_NAME, geltungszeiten.getElement());
+  public static Zeitgrenze createAndAppend(
+    Node parentNode,
+    Function<Zeitgrenze, Boolean> isInUseProvider,
+    Art art,
+    LocalDate date
+  ) {
+    final var element = NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode);
 
-    final var zeitgrenze = new Zeitgrenze(element, geltungszeiten::isZeitgrenzeInUse);
+    final var zeitgrenze = new Zeitgrenze(element, isInUseProvider);
 
     zeitgrenze.setArt(art);
     zeitgrenze.setDate(date);
@@ -111,7 +118,7 @@ public class Zeitgrenze {
    * @return true if the {@link Zeitgrenze} is in use.
    */
   public boolean isInUse() {
-    return isUseProvider.apply(this);
+    return isInUseProvider.apply(this);
   }
 
   /**

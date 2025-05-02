@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * A norms:geltungszeiten. A collection of {@link Zeitgrenze}
@@ -28,27 +29,22 @@ public class Geltungszeiten extends AbstractCollection<Zeitgrenze> {
 
   /**
    * Creates a new norms:geltungszeiten element and appends it to the custom mods metadata element.
-   * @param customModsMetadata the node under which a new {@link Geltungszeiten} should be created.
+   * @param parentNode the node under which a new {@link Geltungszeiten} should be created.
+   * @param zeitgrenzeInUseProvider function to determine if a {@link Zeitgrenze} that exists in this {@link Geltungszeiten} is in use
    * @return the newly created {@link Geltungszeiten}
    */
-  public static Geltungszeiten createAndAppend(CustomModsMetadata customModsMetadata) {
+  public static Geltungszeiten createAndAppend(
+    Node parentNode,
+    Function<Zeitgrenze, Boolean> zeitgrenzeInUseProvider
+  ) {
     return new Geltungszeiten(
-      NodeCreator.createElement(NAMESPACE, TAG_NAME, customModsMetadata.getElement()),
-      customModsMetadata::isZeitgrenzeInUse
+      NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode),
+      zeitgrenzeInUseProvider
     );
   }
 
   public void add(Zeitgrenze.Art art, LocalDate date) {
-    Zeitgrenze.createAndAppend(this, art, date);
-  }
-
-  /**
-   * Is the given {@link Zeitgrenze} currently in use?
-   * @param zeitgrenze the {@link Zeitgrenze} to check
-   * @return true if it is in use, false otherwise
-   */
-  public boolean isZeitgrenzeInUse(Zeitgrenze zeitgrenze) {
-    return zeitgrenzeInUseProvider.apply(zeitgrenze);
+    Zeitgrenze.createAndAppend(this.getElement(), this::isZeitgrenzeInUse, art, date);
   }
 
   @NotNull
@@ -79,5 +75,14 @@ public class Geltungszeiten extends AbstractCollection<Zeitgrenze> {
   @Override
   public int size() {
     return (int) stream().count();
+  }
+
+  /**
+   * Is the given {@link Zeitgrenze} currently in use?
+   * @param zeitgrenze the {@link Zeitgrenze} to check
+   * @return true if it is in use, false otherwise
+   */
+  private boolean isZeitgrenzeInUse(Zeitgrenze zeitgrenze) {
+    return zeitgrenzeInUseProvider.apply(zeitgrenze);
   }
 }

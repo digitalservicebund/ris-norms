@@ -60,7 +60,8 @@ public class CustomModsMetadata {
    * @return the collection of {@link Zeitgrenze}n
    */
   public Geltungszeiten getOrCreateGeltungszeiten() {
-    return getGeltungszeiten().orElseGet(() -> Geltungszeiten.createAndAppend(this));
+    return getGeltungszeiten()
+      .orElseGet(() -> Geltungszeiten.createAndAppend(this.getElement(), this::isZeitgrenzeInUse));
   }
 
   /**
