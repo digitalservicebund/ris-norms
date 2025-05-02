@@ -1088,7 +1088,7 @@ class ProprietaryTest {
       final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
       assertThat(customModsMetadata).isNotNull();
       assertThat(customModsMetadata.getElement()).isNotNull();
-      assertThat(customModsMetadata.getZeitgrenzen())
+      assertThat(customModsMetadata.getOrCreateGeltungszeiten())
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
@@ -1115,7 +1115,7 @@ class ProprietaryTest {
       final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
       assertThat(customModsMetadata).isNotNull();
       assertThat(customModsMetadata.getElement()).isNotNull();
-      assertThat(customModsMetadata.getZeitgrenzen()).isEmpty();
+      assertThat(customModsMetadata.getGeltungszeiten()).isEmpty();
     }
 
     @Test
@@ -1134,7 +1134,7 @@ class ProprietaryTest {
       final CustomModsMetadata customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
       assertThat(customModsMetadata).isNotNull();
       assertThat(customModsMetadata.getElement()).isNotNull();
-      assertThat(customModsMetadata.getZeitgrenzen()).isEmpty();
+      assertThat(customModsMetadata.getGeltungszeiten()).isEmpty();
     }
   }
 
