@@ -208,4 +208,61 @@ class CustomModsMetadataTest {
         .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
     }
   }
+
+  @Nested
+  class isZeitgrenzeInUse {
+
+    @Test
+    void itShouldReturnTrueWhenInUse() {
+      var customModsMetadata = new CustomModsMetadata(
+        toElement(
+          """
+          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+               <norms:geltungszeiten>
+                 <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
+               </norms:geltungszeiten>
+               <norms:zielnorm-references>
+                   <norms:zielnorm-reference>
+                       <norms:typ>Änderungsvorschrift</norms:typ>
+                       <norms:geltungszeit>gz-1</norms:geltungszeit>
+                       <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                       <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+                   </norms:zielnorm-reference>
+               </norms:zielnorm-references>
+          </norms:legalDocML.de_metadaten>
+          """
+        )
+      );
+
+      var zeitgrenze = customModsMetadata.getZeitgrenzen().getFirst();
+      assertThat(customModsMetadata.isZeitgrenzeInUse(zeitgrenze)).isTrue();
+    }
+
+    @Test
+    void itShouldReturnFalseWhenInUse() {
+      var customModsMetadata = new CustomModsMetadata(
+        toElement(
+          """
+          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+               <norms:geltungszeiten>
+                 <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
+                 <norms:geltungszeit id="gz-2" art="inkraft">2022-01-01</norms:geltungszeit>
+               </norms:geltungszeiten>
+               <norms:zielnorm-references>
+                   <norms:zielnorm-reference>
+                       <norms:typ>Änderungsvorschrift</norms:typ>
+                       <norms:geltungszeit>gz-2</norms:geltungszeit>
+                       <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                       <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+                   </norms:zielnorm-reference>
+               </norms:zielnorm-references>
+          </norms:legalDocML.de_metadaten>
+          """
+        )
+      );
+
+      var zeitgrenze = customModsMetadata.getZeitgrenzen().getFirst();
+      assertThat(customModsMetadata.isZeitgrenzeInUse(zeitgrenze)).isFalse();
+    }
+  }
 }

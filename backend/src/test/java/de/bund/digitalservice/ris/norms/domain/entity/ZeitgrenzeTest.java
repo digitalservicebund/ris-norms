@@ -1,11 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toElement;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
+import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 
 class ZeitgrenzeTest {
@@ -18,7 +20,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" art="inkraft">2020-01-01</norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThatThrownBy(zeitgrenze::getId)
@@ -34,7 +36,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1">2020-01-01</norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThatThrownBy(zeitgrenze::getArt)
@@ -52,7 +54,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1" art="unknown">2020-01-01</norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThatThrownBy(zeitgrenze::getArt)
@@ -68,7 +70,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1" art="inkraft"></norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThatThrownBy(zeitgrenze::getDate)
@@ -84,7 +86,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1" art="inkraft">2020-01-32</norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThatThrownBy(zeitgrenze::getDate)
@@ -100,7 +102,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThat(zeitgrenze.getId()).isEqualTo(new Zeitgrenze.Id("gz-1"));
@@ -114,7 +116,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThat(zeitgrenze.getDate()).isEqualTo(LocalDate.parse("2020-01-30"));
@@ -128,7 +130,7 @@ class ZeitgrenzeTest {
         <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
       ),
-      null
+      mock()
     );
 
     assertThat(zeitgrenze.getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
@@ -136,28 +138,22 @@ class ZeitgrenzeTest {
 
   @Test
   void isInUse() {
-    var customModsMetadata = new CustomModsMetadata(
-      toElement(
+    Function<Zeitgrenze, Boolean> isInUse = mock();
+
+    when(isInUse.apply(any())).thenReturn(true).thenReturn(false);
+
+    var zeitgrenze = new Zeitgrenze(
+      XmlMapper.toElement(
         """
-        <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
-          <norms:geltungszeiten>
-              <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
-              <norms:geltungszeit id="gz-2" art="ausserkraft">2024-12-12</norms:geltungszeit>
-          </norms:geltungszeiten>
-          <norms:zielnorm-references>
-               <norms:zielnorm-reference>
-                   <norms:typ>Änderungsvorschrift</norms:typ>
-                   <norms:geltungszeit>gz-1</norms:geltungszeit>
-                   <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
-                   <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
-               </norms:zielnorm-reference>
-           </norms:zielnorm-references>
-        </norms:legalDocML.de_metadaten>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
-      )
+      ),
+      isInUse
     );
 
-    assertThat(customModsMetadata.getZeitgrenzen().getFirst().isInUse()).isTrue();
-    assertThat(customModsMetadata.getZeitgrenzen().get(1).isInUse()).isFalse();
+    assertThat(zeitgrenze.isInUse()).isTrue();
+    assertThat(zeitgrenze.isInUse()).isFalse();
+
+    verify(isInUse, times(2)).apply(zeitgrenze);
   }
 }

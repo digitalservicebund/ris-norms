@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.util.AbstractCollection;
 import java.util.Iterator;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,15 +15,16 @@ import org.w3c.dom.Element;
 /**
  * A norms:geltungszeiten. A collection of {@link Zeitgrenze}
  */
-@Getter
 @AllArgsConstructor
 public class Geltungszeiten extends AbstractCollection<Zeitgrenze> {
 
   public static final Namespace NAMESPACE = Namespace.METADATEN_NORMS_APPLICATION_MODS;
   public static final String TAG_NAME = "geltungszeiten";
 
+  @Getter
   private final Element element;
-  private final CustomModsMetadata customModsMetadata;
+
+  private final Function<Zeitgrenze, Boolean> zeitgrenzeInUseProvider;
 
   /**
    * Creates a new norms:geltungszeiten element and appends it to the custom mods metadata element.
@@ -32,12 +34,21 @@ public class Geltungszeiten extends AbstractCollection<Zeitgrenze> {
   public static Geltungszeiten createAndAppend(CustomModsMetadata customModsMetadata) {
     return new Geltungszeiten(
       NodeCreator.createElement(NAMESPACE, TAG_NAME, customModsMetadata.getElement()),
-      customModsMetadata
+      customModsMetadata::isZeitgrenzeInUse
     );
   }
 
   public void add(Zeitgrenze.Art art, LocalDate date) {
-    Zeitgrenze.createAndAppend(getCustomModsMetadata(), art, date);
+    Zeitgrenze.createAndAppend(this, art, date);
+  }
+
+  /**
+   * Is the given {@link Zeitgrenze} currently in use?
+   * @param zeitgrenze the {@link Zeitgrenze} to check
+   * @return true if it is in use, false otherwise
+   */
+  public boolean isZeitgrenzeInUse(Zeitgrenze zeitgrenze) {
+    return zeitgrenzeInUseProvider.apply(zeitgrenze);
   }
 
   @NotNull
@@ -46,7 +57,7 @@ public class Geltungszeiten extends AbstractCollection<Zeitgrenze> {
     return NodeParser
       .getElementsFromExpression("./%s".formatted(Zeitgrenze.TAG_NAME), getElement())
       .stream()
-      .map(zeitgrenzeElement -> new Zeitgrenze(zeitgrenzeElement, customModsMetadata));
+      .map(zeitgrenzenElement -> new Zeitgrenze(zeitgrenzenElement, this::isZeitgrenzeInUse));
   }
 
   @NotNull

@@ -50,7 +50,9 @@ public class CustomModsMetadata {
   public Optional<Geltungszeiten> getGeltungszeiten() {
     return NodeParser
       .getElementFromExpression("./geltungszeiten", getElement())
-      .map(geltungszeitenElement -> new Geltungszeiten(geltungszeitenElement, this));
+      .map(geltungszeitenElement ->
+        new Geltungszeiten(geltungszeitenElement, this::isZeitgrenzeInUse)
+      );
   }
 
   /**
@@ -59,6 +61,19 @@ public class CustomModsMetadata {
    */
   public Geltungszeiten getOrCreateGeltungszeiten() {
     return getGeltungszeiten().orElseGet(() -> Geltungszeiten.createAndAppend(this));
+  }
+
+  /**
+   * Is the given {@link Zeitgrenze} currently in use?
+   * @param zeitgrenze the {@link Zeitgrenze} to check
+   * @return true if it is in use, false otherwise
+   */
+  public boolean isZeitgrenzeInUse(Zeitgrenze zeitgrenze) {
+    return getZielnormenReferences()
+      .stream()
+      .flatMap(ZielnormReferences::stream)
+      .anyMatch(zielnormReference -> zielnormReference.getGeltungszeit().equals(zeitgrenze.getId())
+      );
   }
 
   /**
