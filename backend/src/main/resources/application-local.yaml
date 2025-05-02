@@ -44,4 +44,4 @@ sentry:
 
 everkuendung:
   certificate:
-    path: file:./local/certs/certificate.pem
+    path: file:../local/certs/certificate.pem
