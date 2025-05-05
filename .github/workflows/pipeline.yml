@@ -231,6 +231,7 @@ jobs:
           scan-type: "fs"
           format: "sarif"
           output: "trivy-results-repo.sarif"
+          trivy-config: "./trivy.yaml"
           severity: "CRITICAL,HIGH" #ignored by sarif report
       - name: Check trivy results
         run: |
