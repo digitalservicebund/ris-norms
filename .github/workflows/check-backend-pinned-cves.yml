@@ -79,6 +79,7 @@ jobs:
         with:
           image-ref: my-app:test
           format: "json"
+          trivy-config: "./trivy.yaml"
           output: "trivy-results.json"
 
       - name: Extract CVE IDs
@@ -150,6 +151,7 @@ jobs:
         with:
           image-ref: my-app:test
           format: table
+          trivy-config: "./trivy.yaml"
           exit-code: 1 # if any level of CVE is found, break the pipeline
 
       - name: Commit and Push Changes (if needed)

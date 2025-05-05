@@ -1,0 +1,5 @@
+secrets:
+  - id: private-key
+    paths:
+      - "local/certs/private-key.pem"
+    statement: Private key is only used for local & automated testing and can thus be public

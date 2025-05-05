@@ -17,3 +17,7 @@ otc:
       bucket-name: ris-norms-staging-public-ldml-data
     private:
       bucket-name: ris-norms-staging-private-ldml-public-data
+
+everkuendung:
+  certificate:
+    path: file:/etc/certs/certificate.pem

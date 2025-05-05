@@ -24,3 +24,7 @@ otc:
       bucket-name: ris-norms-prod-private-ldml-data
     prototype:
       bucket-name: ris-norms-prod-prototype-ldml-data
+
+everkuendung:
+  certificate:
+    path: file:/etc/certs/certificate.pem

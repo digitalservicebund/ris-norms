@@ -97,3 +97,18 @@ If the migration takes this long the newly deployed image will take longer to be
 the deployment is currently running a migration by checking argocd. Once the migration has completed successful you can rerun the pipeline and that deployment step should succeed. This will probably need to be
 repeated for every environment. If the migration takes longer than 90 minutes the pod will be restarted and the migration started anew. In this case we need to (temporarily) increase the maximal waiting time
 for the startUp probe in the infra repository.
+
+## Key pair for signing/verifying ZIP
+
+There is an external API developed for the e-Verkündung that accepts a ZIP file. A signature file must also be sent and it's validty will be checked.
+
+For local development the following key pair is used:
+
+```root-project/
+├── local/
+│   └── certs/
+│       └── private-key.pem
+│       └── certificate.pem
+```
+
+For how to create the signature refer to the README of [LegalDocML.de](../LegalDocML.de/1.7.2/README.md)
