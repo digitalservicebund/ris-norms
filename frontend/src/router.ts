@@ -60,6 +60,14 @@ const routes: readonly RouteRecordRaw[] = [
             "@/views/verkuendungen/verkuendungDetail/zielnormen/VerkuendungZielnormen.view.vue"
           ),
       },
+      {
+        path: `${createDokumentExpressionEliPathParameter()}/expressionen-erzeugen`,
+        name: "VerkuendungExpressionenErzeugen",
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/VerkuendungExpressionenErzeugen.view.vue"
+          ),
+      },
     ],
   },
 
