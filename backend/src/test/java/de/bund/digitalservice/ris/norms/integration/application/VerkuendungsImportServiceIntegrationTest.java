@@ -12,14 +12,11 @@ import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendoku
 import de.bund.digitalservice.ris.norms.application.service.VerkuendungsImportService;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseS3MockIntegrationTest;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.security.*;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.Instant;
-import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.zip.CRC32;
@@ -28,8 +25,6 @@ import java.util.zip.ZipOutputStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
@@ -61,8 +56,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
   }
 
   @Test
-  void processNormendokumentationspaket()
-    throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, InvalidKeyException {
+  void processNormendokumentationspaket() throws IOException {
     var processId = UUID.randomUUID();
     storeFolderAsNormendokumentationsPaket(processId, "verkuendung-valid");
 
@@ -97,8 +91,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
   }
 
   @Test
-  void processNormendokumentationspaketWithBekanntmachung()
-    throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, InvalidKeyException {
+  void processNormendokumentationspaketWithBekanntmachung() throws IOException {
     var processId = UUID.randomUUID();
     storeFolderAsNormendokumentationsPaket(processId, "verkuendung-valid-bekanntmachung");
 
@@ -133,8 +126,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
   }
 
   @Test
-  void processNormendokumentationspaketWithExternesDokument()
-    throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, InvalidKeyException {
+  void processNormendokumentationspaketWithExternesDokument() throws IOException {
     var processId = UUID.randomUUID();
     storeFolderAsNormendokumentationsPaket(processId, "verkuendung-valid-with-pdf-teildokument");
 
@@ -169,8 +161,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
   }
 
   @Test
-  void processNormendokumentationspaketWithInvalidSchematron()
-    throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, InvalidKeyException {
+  void processNormendokumentationspaketWithInvalidSchematron() throws IOException {
     var processId = UUID.randomUUID();
     storeFolderAsNormendokumentationsPaket(processId, "verkuendung-invalid-schematron");
 
@@ -203,8 +194,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
   }
 
   @Test
-  void processNormendokumentationspaketWithUnsupportedFiletype()
-    throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, InvalidKeyException {
+  void processNormendokumentationspaketWithUnsupportedFiletype() throws IOException {
     var processId = UUID.randomUUID();
     storeFolderAsNormendokumentationsPaket(
       processId,
@@ -239,56 +229,8 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     assertThat(binaryFileRepository.findAll()).isEmpty();
   }
 
-  @Test
-  void processNormendokumentationspaketWithInvalidSignature()
-    throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, InvalidKeyException {
-    var processId = UUID.randomUUID();
-    storeFolderAsNormendokumentationsPaket(
-      processId,
-      "verkuendung-valid",
-      loadPrivateKey(new ClassPathResource("certs/test-private-key-invalid.pem"))
-    );
-
-    verkuendungImportProcessesRepository.save(
-      new VerkuendungImportProcessDto(
-        processId,
-        VerkuendungImportProcessDto.Status.CREATED,
-        Instant.now(),
-        null,
-        null,
-        null
-      )
-    );
-
-    verkuendungsImportService.processNormendokumentationspaket(
-      new ProcessNormendokumentationspaketUseCase.Query(processId)
-    );
-
-    var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
-    assertThat(finishedProcess).isPresent();
-    assertThat(finishedProcess.get().getStatus())
-      .isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
-    assertThat(finishedProcess.get().getDetails())
-      .contains("/errors/normendokumentationspaket-import-failed/signature-not-valid");
-
-    assertThat(dokumentRepository.findAll()).isEmpty();
-    assertThat(binaryFileRepository.findAll()).isEmpty();
-  }
-
   private void storeFolderAsNormendokumentationsPaket(UUID processId, String folderName)
-    throws InvalidKeySpecException, IOException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
-    storeFolderAsNormendokumentationsPaket(
-      processId,
-      folderName,
-      loadPrivateKey(new ClassPathResource("certs/test-private-key.pem"))
-    );
-  }
-
-  private void storeFolderAsNormendokumentationsPaket(
-    UUID processId,
-    String folderName,
-    PrivateKey privateKey
-  ) throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    throws IOException {
     var processFolder = getEverkuendungPath().resolve(processId.toString());
     processFolder.toFile().mkdirs();
 
@@ -296,8 +238,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
       Fixtures.getResource(VerkuendungsImportServiceIntegrationTest.class, folderName).getFile()
     );
 
-    var zipPath = processFolder.resolve("file.zip");
-    var zipFileOutputStream = new FileOutputStream(zipPath.toFile().toString());
+    var zipFileOutputStream = new FileOutputStream(processFolder.resolve("file.zip").toString());
     var zipOutputStream = new ZipOutputStream(zipFileOutputStream);
 
     for (File file : Objects.requireNonNull(folder.listFiles())) {
@@ -326,27 +267,10 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
 
     zipOutputStream.close();
 
-    // Signature file
-    var zipBytes = Files.readAllBytes(zipPath);
-    var signature = Signature.getInstance("SHA256withRSA");
-    signature.initSign(privateKey);
-    signature.update(zipBytes);
-    var signatureBytes = signature.sign();
-    Files.write(processFolder.resolve("signature.sig"), signatureBytes);
-  }
-
-  private PrivateKey loadPrivateKey(Resource resource)
-    throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-    String key;
-    try (InputStream is = resource.getInputStream()) {
-      key =
-      new String(is.readAllBytes(), StandardCharsets.UTF_8)
-        .replaceAll("-----\\w+ PRIVATE KEY-----", "")
-        .replaceAll("\\s+", "");
-    }
-    byte[] keyBytes = Base64.getDecoder().decode(key);
-    final PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
-    final KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-    return keyFactory.generatePrivate(keySpec);
+    var signatureFileOutputStream = new FileOutputStream(
+      processFolder.resolve("signature.sig").toString()
+    );
+    signatureFileOutputStream.write("signature".getBytes());
+    signatureFileOutputStream.close();
   }
 }

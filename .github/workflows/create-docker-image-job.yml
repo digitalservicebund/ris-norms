@@ -35,7 +35,6 @@ jobs:
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
           format: "sarif"
-          trivy-config: "./trivy.yaml"
           output: "trivy-results.sarif"
       - name: Check trivy results
         run: |

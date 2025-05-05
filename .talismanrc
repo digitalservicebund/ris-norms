@@ -42,13 +42,3 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: backend/src/test/java/de/bund/digitalservice/ris/norms/utils/NodeParserTest.java
     checksum: 37b659328bdbba83886283555c3e3a3892f49218d6d37ac270dff9943e34f44f
-  - filename: backend/src/test/resources/certs/test-certificate.pem
-    checksum: a0861a874da87a6ed7ea53b77529fc7627a07bc5e571a79d13c3076482e83de8
-  - filename: backend/src/test/resources/certs/test-private-key.pem
-    checksum: c9122d78909f9ca1001601f71b2f257272dec888a1ec12f77d6130c519a3c7c1
-  - filename: backend/src/test/resources/certs/test-private-key-invalid.pem
-    checksum: 914c2be1ca0627721b1b4b3e7b2514cb9adaa1b0cf95d7f6475c19006a471ee7
-  - filename: local/certs/certificate.pem
-    checksum: f5ec3e5bb2aad4bfd6023fda792725789bd2d8c72cd6f5c4701f0998310caece
-  - filename: local/certs/private-key.pem
-    checksum: a4e1c0eda6ae4318ae7e5a97ab6910bb0655ca0eab9a6c91a17dff8279b67ec1

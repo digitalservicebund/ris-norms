@@ -33,7 +33,6 @@ services:
         condition: service_healthy
     volumes:
       - ./local-storage:/app/.local-storage
-      - ./local/certs:/app/certs:ro
 
   postgres14:
     extends:

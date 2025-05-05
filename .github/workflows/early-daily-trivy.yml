@@ -34,7 +34,6 @@ jobs:
           scan-type: "fs"
           scan-ref: "./frontend"
           skip-dirs: "node_modules" # See https://github.com/aquasecurity/trivy/issues/1283
-          trivy-config: "./trivy.yaml"
           format: "sarif"
           output: "trivy-results.sarif"
       - name: Check trivy results
@@ -77,7 +76,6 @@ jobs:
           TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db,public.ecr.aws/aquasecurity/trivy-java-db
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
-          trivy-config: "./trivy.yaml"
           format: "sarif"
           output: "trivy-results.sarif"
       - name: Check trivy results
@@ -106,7 +104,6 @@ jobs:
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "cosign-vuln"
-          trivy-config: "./trivy.yaml"
           output: "vuln.json"
       - name: Install cosign
         uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb

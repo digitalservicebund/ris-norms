@@ -6,6 +6,8 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -54,8 +56,13 @@ public class NormenDokumentationsPaketBucketService
 
   @Override
   public Result loadNormendokumentationspaket(LoadNormendokumentationspaketPort.Command command) {
-    byte[] file = loadFromBucket(command.processId() + "/" + ZIP_FILE_NAME);
-    byte[] signature = loadFromBucket(command.processId() + "/" + SIGNATURE_FILE_NAME);
+    Resource file = new ByteArrayResource(
+      loadFromBucket(command.processId() + "/" + ZIP_FILE_NAME)
+    );
+    Resource signature = new ByteArrayResource(
+      loadFromBucket(command.processId() + "/" + SIGNATURE_FILE_NAME)
+    );
+
     return new Result(file, signature);
   }
 

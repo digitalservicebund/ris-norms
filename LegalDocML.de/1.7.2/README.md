@@ -61,11 +61,11 @@ Given this structure:
 ├── folder-b/
 │   └── file-b.xml
 ├── create-archives.sh
-├── private-key.pem
+├── private.pem
 ```
 Running:
 ```bash
-./create-archives.sh private-key.pem
+./create-archives.sh private.pem
 ```
 Produces:
 ```folder-a.zip
@@ -76,10 +76,10 @@ folder-b.sig
 #### Generating a test key pair
 To create a self-signed RSA key pair, use the following command:
 ```bash
-openssl req -x509 -newkey rsa:2048 -keyout private-key.pem -out certificate.pem -days 365 -nodes
+openssl req -x509 -newkey rsa:2048 -keyout private.pem -out public.pem -days 365 -nodes
 ```
 This creates:
-- `private-key.pem`: your private key (used to sign files)
-- `certificate.pem`: your public certificate (used to verify signatures)
+- `private.pem`: your private key (used to sign files)
+- `public.pem`: your public certificate (used to verify signatures)
 
-ℹ️ The script uses OpenSSL with SHA-256 to create signatures, and writes them in binary format.
+ℹ️ The script uses OpenSSL with SHA-256 to create signatures, and writes them in hex format.

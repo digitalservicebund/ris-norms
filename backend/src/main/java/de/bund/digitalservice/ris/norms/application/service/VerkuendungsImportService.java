@@ -26,7 +26,6 @@ import de.bund.digitalservice.ris.norms.utils.ZipUtils;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -39,6 +38,7 @@ import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.jobrunr.scheduling.JobBuilder;
 import org.jobrunr.scheduling.JobScheduler;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +63,6 @@ public class VerkuendungsImportService
   private final LdmlDeValidator ldmlDeValidator;
   private final JobScheduler jobScheduler;
   private final MediaTypeService mediaTypeService;
-  private final SignatureValidator signatureValidator;
 
   static final List<MediaType> SUPPORTED_MEDIA_TYPES = List.of(
     MediaType.APPLICATION_XML,
@@ -85,8 +84,7 @@ public class VerkuendungsImportService
     UpdateOrSaveVerkuendungPort updateOrSaveVerkuendungPort,
     LdmlDeValidator ldmlDeValidator,
     JobScheduler jobScheduler,
-    MediaTypeService mediaTypeService,
-    SignatureValidator signatureValidator
+    MediaTypeService mediaTypeService
   ) {
     this.loadNormPort = loadNormPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -98,7 +96,6 @@ public class VerkuendungsImportService
     this.ldmlDeValidator = ldmlDeValidator;
     this.jobScheduler = jobScheduler;
     this.mediaTypeService = mediaTypeService;
-    this.signatureValidator = signatureValidator;
   }
 
   @Override
@@ -163,9 +160,6 @@ public class VerkuendungsImportService
         new LoadNormendokumentationspaketPort.Command(query.processId())
       );
       var zipFile = files.file();
-      var signatureFile = files.signature();
-
-      signatureValidator.validate(zipFile, signatureFile);
 
       Norm norm = parseAndValidate(zipFile);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
@@ -214,50 +208,50 @@ public class VerkuendungsImportService
     log.info("Finished processing Normendokumentationspaket: {}", query.processId());
   }
 
-  private Norm parseAndValidate(byte[] zipFile)
+  private Norm parseAndValidate(Resource zipFile)
     throws IOException, NormendokumentationspaketImportFailedException, LdmlDeNotValidException, LdmlDeSchematronException {
-    try (ByteArrayInputStream zipInputStream = new ByteArrayInputStream(zipFile)) {
-      validateFileIsZipArchive(zipInputStream);
-      log.debug("File is zip archive.");
-      Map<String, byte[]> files;
-      try {
-        files = ZipUtils.unzipFileWithoutDirectories(zipInputStream);
-      } catch (IllegalArgumentException e) {
-        throw new InvalidStructureInZipFileException(e.getMessage());
-      }
+    validateFileIsZipArchive(zipFile);
+    log.debug("File is zip archive.");
 
-      Norm norm = findParseAndValidateFilesAsNorm(files);
-      ldmlDeValidator.validateSchematron(norm);
-      if (
-        !norm
-          .getRechtsetzungsdokument()
-          .orElseThrow(MissingRechtsetzungsdokumentException::new)
-          .isVerkuendungsfassung()
-      ) {
-        throw new RechtsetzungsdokumentNotAVerkuendungsfassungException();
-      }
-
-      if (norm.getRegelungstexte().isEmpty() && norm.getBekanntmachungen().isEmpty()) {
-        throw new NoRegelungstextOrBekanntmachungstextException();
-      }
-
-      if (loadNormPort.loadNorm(new LoadNormPort.Command(norm.getWorkEli())).isPresent()) {
-        throw new NormExistsAlreadyException(norm.getWorkEli().toString());
-      }
-
-      log.info(
-        "Verified new norm from import: {} with {} Dokumenten and {} Binary files",
-        norm.getManifestationEli(),
-        norm.getDokumente().size(),
-        norm.getBinaryFiles().size()
-      );
-
-      return norm;
+    Map<String, byte[]> files;
+    try {
+      files = ZipUtils.unzipFileWithoutDirectories(zipFile.getInputStream());
+    } catch (IllegalArgumentException e) {
+      throw new InvalidStructureInZipFileException(e.getMessage());
     }
+
+    Norm norm = findParseAndValidateFilesAsNorm(files);
+    ldmlDeValidator.validateSchematron(norm);
+
+    if (
+      !norm
+        .getRechtsetzungsdokument()
+        .orElseThrow(MissingRechtsetzungsdokumentException::new)
+        .isVerkuendungsfassung()
+    ) {
+      throw new RechtsetzungsdokumentNotAVerkuendungsfassungException();
+    }
+
+    if (norm.getRegelungstexte().isEmpty() && norm.getBekanntmachungen().isEmpty()) {
+      throw new NoRegelungstextOrBekanntmachungstextException();
+    }
+
+    if (loadNormPort.loadNorm(new LoadNormPort.Command(norm.getWorkEli())).isPresent()) {
+      throw new NormExistsAlreadyException(norm.getWorkEli().toString());
+    }
+
+    log.info(
+      "Verified new norm from import: {} with {} Dokumenten and {} Binary files",
+      norm.getManifestationEli(),
+      norm.getDokumente().size(),
+      norm.getBinaryFiles().size()
+    );
+
+    return norm;
   }
 
-  private void validateFileIsZipArchive(InputStream fileStream) throws IOException {
-    var mediaType = mediaTypeService.detectMediaType(fileStream);
+  private void validateFileIsZipArchive(Resource file) throws IOException {
+    var mediaType = mediaTypeService.detectMediaType(file.getInputStream());
 
     if (
       mediaType.isEmpty() ||
