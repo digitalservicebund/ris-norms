@@ -30,6 +30,7 @@ import { computed, ref, watch } from "vue"
 import RisDokumentExplorer from "./RisDokumentExplorer.vue"
 import RisZielnormForm from "./RisZielnormForm.vue"
 import { useErrorToast } from "@/lib/errorToast"
+import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 
 const { addErrorToast } = useErrorToast()
 
@@ -77,12 +78,22 @@ const eIdsToEdit = ref<string[]>([])
 const editedZielnormReference = ref<EditableZielnormReference>()
 
 const {
+  zielnormReferences,
   zielnormReferencesForEid,
   updateZielnormReferences,
   deleteZielnormReferences,
   error: zielnormReferencesError,
   isFetching: isFetchingZielnormReferences,
 } = useZielnormReferences(() => eli.value.asNormEli())
+
+const isSelected = (eid: string) => {
+  return eIdsToEdit.value.includes(eid)
+}
+
+const highlightClasses = useZeitgrenzenHighlightClasses(
+  () => [...(zielnormReferences.value ?? [])],
+  isSelected,
+)
 
 watch(eIdsToEdit, (val) => {
   if (!val?.length) editedZielnormReference.value = undefined
@@ -154,6 +165,7 @@ watch(zielnormReferencesError, (val) => {
           v-model:eids-to-edit="eIdsToEdit"
           v-model:eli="eli"
           class="h-full"
+          :e-id-classes="highlightClasses"
         />
       </SplitterPanel>
 

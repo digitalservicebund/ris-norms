@@ -513,5 +513,40 @@ describe("risDokumentExplorer", () => {
         expect(emitted("update:eids-to-edit")).toContainEqual([["eid-2"]])
       })
     })
+
+    it("adds classes for eId highlighting", async () => {
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+            <ol>
+              <li class="akn-point" data-eid="eid-1">1</li>
+              <li class="akn-point" data-eid="eid-2">2</li>
+              <li class="akn-point" data-eid="eid-3">3</li>
+            </ol>
+            <div class="akn-paragraph" data-eid="eid-4">4</div>
+          `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          ),
+          eid: "example-eid",
+          eIdClasses: { "eid-1": ["example"] },
+        },
+      })
+
+      await vi.waitFor(() => {
+        expect(screen.getByRole("button", { name: "1" })).toHaveClass("example")
+      })
+    })
   })
 })
