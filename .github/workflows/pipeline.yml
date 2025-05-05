@@ -230,22 +230,28 @@ jobs:
         with:
           scan-type: "fs"
           format: "sarif"
-          output: "trivy-results.sarif"
+          output: "trivy-results-repo.sarif"
           severity: "CRITICAL,HIGH" #ignored by sarif report
       - name: Check trivy results
         run: |
-          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
+          if grep -qE 'HIGH|CRITICAL' trivy-results-repo.sarif; then
             echo "Vulnerabilities found"
             exit 1
           else
             echo "No significant vulnerabilities found"
             exit 0
           fi
+      - name: Upload trivy-results-repo.sarif as an artifact
+        uses: actions/upload-artifact@v4
+        if: ${{ always () }}
+        with:
+          name: trivy-results-repo.sarif
+          path: trivy-results-repo.sarif
       - name: Upload Trivy scan results to GitHub Security tab
         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: "trivy-results.sarif"
+          sarif_file: "trivy-results-repo.sarif"
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
