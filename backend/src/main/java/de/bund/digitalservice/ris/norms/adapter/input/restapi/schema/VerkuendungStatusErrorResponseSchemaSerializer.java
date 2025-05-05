@@ -1,38 +1,33 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
-import java.util.Map;
 import org.springframework.boot.jackson.JsonComponent;
-import org.springframework.boot.jackson.JsonObjectSerializer;
 
 /**
  * Json Serializer for {@link VerkuendungStatusErrorResponseSchema}
  */
 @JsonComponent
 public class VerkuendungStatusErrorResponseSchemaSerializer
-  extends JsonObjectSerializer<VerkuendungStatusErrorResponseSchema> {
+  extends JsonSerializer<VerkuendungStatusErrorResponseSchema> {
 
   @Override
-  protected void serializeObject(
+  public void serialize(
     VerkuendungStatusErrorResponseSchema value,
     JsonGenerator gen,
-    SerializerProvider provider
+    SerializerProvider serializers
   ) throws IOException {
-    // first write all the data from the error details
+    // we want to add the status field to the json object string already stored in the details
     JsonElement element = JsonParser.parseString(value.detail());
-    for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().asMap().entrySet()) {
-      if (entry.getValue().isJsonPrimitive()) {
-        gen.writeStringField(entry.getKey(), entry.getValue().getAsString());
-      } else {
-        gen.writeObjectField(entry.getKey(), entry.getValue());
-      }
-    }
+    JsonObject jsonObject = element.getAsJsonObject();
 
-    // and then also add the status, so it overwrites any fields that might have also been called status
-    gen.writeObjectField("status", value.status());
+    jsonObject.addProperty("status", value.status());
+
+    gen.writeRaw(jsonObject.toString());
   }
 }
