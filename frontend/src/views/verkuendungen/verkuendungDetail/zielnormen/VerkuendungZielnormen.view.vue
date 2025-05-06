@@ -78,12 +78,14 @@ const eIdsToEdit = ref<string[]>([])
 const editedZielnormReference = ref<EditableZielnormReference>()
 
 const {
+  deleteZielnormReferences,
+  deleteZielnormReferencesError,
+  isFetching: isFetchingZielnormReferences,
+  loadZielnormReferencesError,
+  updateZielnormReferences,
+  updateZielnormReferencesError,
   zielnormReferences,
   zielnormReferencesForEid,
-  updateZielnormReferences,
-  deleteZielnormReferences,
-  error: zielnormReferencesError,
-  isFetching: isFetchingZielnormReferences,
 } = useZielnormReferences(() => eli.value.asNormEli())
 
 const isSelected = (eid: string) => {
@@ -110,8 +112,10 @@ async function onSaveZielnormReferences() {
     ...eIdsToEdit.value,
   )
 
-  if (!zielnormReferencesError.value) {
+  if (!updateZielnormReferencesError.value) {
     addToast({ summary: "Gespeichert!", severity: "success" })
+  } else {
+    addErrorToast(updateZielnormReferencesError.value)
   }
 }
 
@@ -139,20 +143,23 @@ async function onDeleteZielnormReferences() {
   if (!eIdsToEdit.value.length) return
   await deleteZielnormReferences(...eIdsToEdit.value)
   eIdsToEdit.value = []
-  if (!zielnormReferencesError.value) {
+  if (!deleteZielnormReferencesError.value) {
     addToast({ summary: "Gelöscht!", severity: "success" })
+  } else {
+    addErrorToast(deleteZielnormReferencesError.value)
   }
 }
-
-watch(zielnormReferencesError, (val) => {
-  if (val) addErrorToast(val)
-})
 </script>
 
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError, geltungszeitenHtmlError, zeitgrenzenError]"
+    :errors="[
+      verkuendungError,
+      geltungszeitenHtmlError,
+      zeitgrenzenError,
+      loadZielnormReferencesError,
+    ]"
     :loading="!verkuendungHasFinished"
   >
     <Splitter class="h-full" layout="horizontal">

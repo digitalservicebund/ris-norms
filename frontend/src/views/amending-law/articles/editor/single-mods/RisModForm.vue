@@ -74,7 +74,7 @@ const { addErrorToast } = useErrorToast()
 
 function showToast() {
   if (props.updateError) {
-    addErrorToast(props.updateError, sentryTraceId)
+    addErrorToast(props.updateError, { traceId: sentryTraceId })
   } else {
     addToast({
       summary: "Gespeichert!",

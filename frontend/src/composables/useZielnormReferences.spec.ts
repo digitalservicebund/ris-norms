@@ -343,11 +343,11 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { error } = useZielnormReferences(
+    const { loadZielnormReferencesError: loadError } = useZielnormReferences(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
     )
 
-    expect(error.value).toBeTruthy()
+    expect(loadError.value).toBeTruthy()
   })
 
   it("sends updated data to the API and updates the local state", async () => {
@@ -456,11 +456,14 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { error } = useZielnormReferences(
-      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
-    )
+    const { updateZielnormReferencesError: updateError } =
+      useZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
+        ),
+      )
 
-    expect(error.value).toBeTruthy()
+    expect(updateError.value).toBeTruthy()
   })
 
   it("sends eIds to delete to the API and updates the local state", async () => {
@@ -568,10 +571,13 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { error } = useZielnormReferences(
-      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
-    )
+    const { deleteZielnormReferencesError: deleteError } =
+      useZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
+        ),
+      )
 
-    expect(error.value).toBeTruthy()
+    expect(deleteError.value).toBeTruthy()
   })
 })

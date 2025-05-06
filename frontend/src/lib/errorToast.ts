@@ -32,11 +32,16 @@ export function useErrorToast() {
    * This requires a `RisErrorToast` to be present on the page in order to work.
    *
    * @param source Error that should be displayed
-   * @param traceId Optional Sentry trace ID to display
+   * @param options Additional options for the error toast
    */
   function addErrorToast(
     source: MaybeRefOrGetter<any>, // eslint-disable-line @typescript-eslint/no-explicit-any -- Fetch errors are always any
-    traceId?: MaybeRefOrGetter<string | undefined>,
+    options?: {
+      /** Optional Sentry trace ID to display */
+      traceId?: MaybeRefOrGetter<string | undefined>
+      /** Method returning the message to display, receives the mapped error message */
+      message?: (errorTitle: string) => string
+    },
   ) {
     const sourceVal = toValue(source)
 
@@ -44,11 +49,15 @@ export function useErrorToast() {
       ? mapErrorResponse(sourceVal)
       : { title: errorMessages.__fallback__() }
 
+    const summary = options?.message
+      ? options.message(mapped.title)
+      : `Fehler: ${mapped.title}`
+
     const payload: ErrorToastPayload = {
       group: ERROR_TOAST_GROUP,
       severity: "error",
-      summary: `Fehler beim Speichern: ${mapped.title}`,
-      detail: { ...mapped, traceId: toValue(traceId) },
+      summary,
+      detail: { ...mapped, traceId: toValue(options?.traceId) },
     }
 
     add(payload)

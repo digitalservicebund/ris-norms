@@ -55,10 +55,19 @@ export type ZielnormReferencesStore = {
   isFetching: Ref<boolean>
 
   /**
-   * True if the most recent operation threw an error (create, update, or
-   * delete).
+   * Any errors returned from loading the data.
    */
-  error: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
+  loadZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
+
+  /**
+   * Any errors returned from updating the data.
+   */
+  updateZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
+
+  /**
+   * Any errors returned from deleting data.
+   */
+  deleteZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
 }
 
 export type EditableZielnormReference = Omit<ZielnormReference, "eId" | "typ">
@@ -73,15 +82,7 @@ export function useZielnormReferences(
 ): ZielnormReferencesStore {
   // Data ---------------------------------------------------
 
-  const {
-    data: references,
-    isFetching,
-    error,
-  } = useGetZielnormReferences(eli, {
-    beforeFetch: () => {
-      resetErrors()
-    },
-  })
+  const { data: references, isFetching, error } = useGetZielnormReferences(eli)
 
   function zielnormReferencesForEid(
     ...eIds: string[]
@@ -122,11 +123,7 @@ export function useZielnormReferences(
     execute: execUpdate,
     isFetching: isUpdating,
     error: updateError,
-  } = usePostZielnormReferences(() => toUpdate, eli, {
-    beforeFetch: () => {
-      resetErrors()
-    },
-  })
+  } = usePostZielnormReferences(() => toUpdate, eli)
 
   async function update(
     data: MaybeRefOrGetter<EditableZielnormReference>,
@@ -156,11 +153,7 @@ export function useZielnormReferences(
     execute: execDelete,
     isFetching: isDeleting,
     error: deleteError,
-  } = useDeleteZielnormReferences(() => Array.from(toRemove), eli, {
-    beforeFetch: () => {
-      resetErrors()
-    },
-  })
+  } = useDeleteZielnormReferences(() => Array.from(toRemove), eli)
 
   async function remove(...eids: string[]) {
     eids.forEach((i) => toRemove.add(i))
@@ -177,22 +170,14 @@ export function useZielnormReferences(
     [isFetching, isUpdating, isDeleting].some((i) => i.value),
   )
 
-  const anyError = computed(
-    () => [error, updateError, deleteError].find((i) => !!i.value) ?? null,
-  )
-
-  function resetErrors() {
-    ;[error, updateError, deleteError].forEach(
-      (error) => (error.value = undefined),
-    )
-  }
-
   return {
     zielnormReferences: readonly(references),
     zielnormReferencesForEid,
     updateZielnormReferences: update,
     deleteZielnormReferences: remove,
     isFetching: anyFetching,
-    error: anyError,
+    loadZielnormReferencesError: error,
+    updateZielnormReferencesError: updateError,
+    deleteZielnormReferencesError: deleteError,
   }
 }
