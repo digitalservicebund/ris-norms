@@ -3,6 +3,7 @@ import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import { useElementId } from "@/composables/useElementId"
 import type { EditableZielnormReference } from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
+import { getZeitgrenzeArtLabel } from "@/lib/zeitgrenze"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
 import { Button, InputText, Select } from "primevue"
 import { computed } from "vue"
@@ -37,7 +38,7 @@ const zeitgrenzenOptions = computed(() =>
     .filter((i) => !!i.date)
     .map((zeitgrenze, i) => ({
       colorIndex: i,
-      label: formatDate(zeitgrenze.date),
+      label: `${formatDate(zeitgrenze.date)} (${getZeitgrenzeArtLabel(zeitgrenze.art)})`,
       value: zeitgrenze.id,
     })),
 )
@@ -103,7 +104,7 @@ const eli = computed({
         </template>
 
         <template #empty>
-          <div class="px-24 py-16">Keine Geltungszeiten gefunden</div>
+          <div class="px-24 py-16">Keine Zeitgrenzen gefunden</div>
         </template>
       </Select>
     </div>

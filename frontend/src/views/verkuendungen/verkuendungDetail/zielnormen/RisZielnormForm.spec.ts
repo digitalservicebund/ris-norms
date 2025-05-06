@@ -38,8 +38,8 @@ describe("risZielnormForm", () => {
     const options = screen.getAllByRole("option")
 
     expect(options).toHaveLength(2)
-    expect(options[0]).toHaveTextContent("29.04.2025")
-    expect(options[1]).toHaveTextContent("30.04.2025")
+    expect(options[0]).toHaveTextContent("29.04.2025 (Inkrafttreten)")
+    expect(options[1]).toHaveTextContent("30.04.2025 (Außerkrafttreten)")
   })
 
   it("shows an empty state if there are no Zeitgrenzen", async () => {
@@ -56,7 +56,7 @@ describe("risZielnormForm", () => {
       screen.getByRole("combobox", { name: "Geltungszeitregel" }),
     )
 
-    expect(screen.getByText("Keine Geltungszeiten gefunden")).toBeVisible()
+    expect(screen.getByText("Keine Zeitgrenzen gefunden")).toBeVisible()
   })
 
   it("populates the form with the model data", () => {
@@ -75,7 +75,7 @@ describe("risZielnormForm", () => {
     ).toHaveValue("eli")
     expect(
       screen.getByRole("combobox", { name: "Geltungszeitregel" }),
-    ).toHaveTextContent("29.04.2025")
+    ).toHaveTextContent("29.04.2025 (Inkrafttreten)")
   })
 
   it("updates the model when the ELI is changed", async () => {
@@ -123,7 +123,9 @@ describe("risZielnormForm", () => {
         name: "Geltungszeitregel",
       }),
     )
-    await user.click(screen.getByRole("option", { name: "30.04.2025" }))
+    await user.click(
+      screen.getByRole("option", { name: "30.04.2025 (Außerkrafttreten)" }),
+    )
 
     expect(emitted("update:modelValue")).toContainEqual([
       { geltungszeit: "gz-2", zielnorm: "eli" },
