@@ -13,7 +13,10 @@ const { zeitgrenzen = [] } = defineProps<{
   zeitgrenzen?: Zeitgrenze[]
 
   /** When true, shows a loading state on the save button */
-  loading?: boolean
+  updating?: boolean
+
+  /** When true, shows a loading state on the delete button */
+  deleting?: boolean
 }>()
 
 /** Zielnorm reference that should be edited */
@@ -106,15 +109,21 @@ const eli = computed({
     </div>
 
     <footer class="mt-16 flex justify-between gap-8">
-      <Button label="Speichern" :disabled="loading" @click="$emit('save')">
+      <Button
+        :disabled="updating || deleting"
+        :loading="updating"
+        label="Speichern"
+        @click="$emit('save')"
+      >
         <template #icon>
           <IcBaselineCheck />
         </template>
       </Button>
       <Button
+        :disabled="updating || deleting"
+        :loading="deleting"
         label="Einträge entfernen"
         text
-        :disabled="loading"
         @click="$emit('delete')"
       ></Button>
     </footer>

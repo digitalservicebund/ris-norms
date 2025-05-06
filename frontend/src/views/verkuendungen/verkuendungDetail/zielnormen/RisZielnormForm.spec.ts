@@ -144,11 +144,11 @@ describe("risZielnormForm", () => {
     expect(emitted("save")).toBeTruthy()
   })
 
-  it("sets the loading state", async () => {
+  it("sets the updating state", async () => {
     render(RisZielnormForm, {
       props: {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
-        loading: true,
+        updating: true,
       },
     })
 
@@ -158,11 +158,39 @@ describe("risZielnormForm", () => {
     ).toBeDisabled()
   })
 
-  it("does not set the loading state", async () => {
+  it("does not set the updating state", async () => {
     render(RisZielnormForm, {
       props: {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
-        loading: false,
+        updating: false,
+      },
+    })
+
+    expect(screen.getByRole("button", { name: "Speichern" })).not.toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).not.toBeDisabled()
+  })
+
+  it("sets the deleting state", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
+        deleting: true,
+      },
+    })
+
+    expect(screen.getByRole("button", { name: "Speichern" })).toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).toBeDisabled()
+  })
+
+  it("does not set the deleting state", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
+        deleting: false,
       },
     })
 

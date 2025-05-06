@@ -6,7 +6,7 @@ import {
 } from "@/services/zielnormReferenceService"
 import type { ZielnormReference } from "@/types/zielnormReference"
 import type { DeepReadonly, MaybeRefOrGetter, Ref } from "vue"
-import { computed, readonly, toValue, watch } from "vue"
+import { readonly, toValue, watch } from "vue"
 
 /**
  * Provides a unified interface to loading and changing Zielnormen references.
@@ -50,9 +50,19 @@ export type ZielnormReferencesStore = {
   deleteZielnormReferences: (...eIds: string[]) => Promise<void>
 
   /**
-   * True if any network activity is happening (create, update, or delete).
+   * True if while loading data.
    */
-  isFetching: Ref<boolean>
+  isLoadingZielnormReferences: Ref<boolean>
+
+  /**
+   * True if while updating data.
+   */
+  isUpdatingZielnormReferences: Ref<boolean>
+
+  /**
+   * True if while deleting data.
+   */
+  isDeletingZielnormReferences: Ref<boolean>
 
   /**
    * Any errors returned from loading the data.
@@ -164,18 +174,14 @@ export function useZielnormReferences(
     references.value = newVal
   })
 
-  // Utils --------------------------------------------------
-
-  const anyFetching = computed(() =>
-    [isFetching, isUpdating, isDeleting].some((i) => i.value),
-  )
-
   return {
     zielnormReferences: readonly(references),
     zielnormReferencesForEid,
     updateZielnormReferences: update,
     deleteZielnormReferences: remove,
-    isFetching: anyFetching,
+    isLoadingZielnormReferences: isFetching,
+    isUpdatingZielnormReferences: isUpdating,
+    isDeletingZielnormReferences: isDeleting,
     loadZielnormReferencesError: error,
     updateZielnormReferencesError: updateError,
     deleteZielnormReferencesError: deleteError,

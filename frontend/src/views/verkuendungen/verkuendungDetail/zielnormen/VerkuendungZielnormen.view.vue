@@ -80,7 +80,9 @@ const editedZielnormReference = ref<EditableZielnormReference>()
 const {
   deleteZielnormReferences,
   deleteZielnormReferencesError,
-  isFetching: isFetchingZielnormReferences,
+  isLoadingZielnormReferences,
+  isDeletingZielnormReferences,
+  isUpdatingZielnormReferences,
   loadZielnormReferencesError,
   updateZielnormReferences,
   updateZielnormReferencesError,
@@ -160,7 +162,7 @@ async function onDeleteZielnormReferences() {
       zeitgrenzenError,
       loadZielnormReferencesError,
     ]"
-    :loading="!verkuendungHasFinished"
+    :loading="!verkuendungHasFinished || isLoadingZielnormReferences"
   >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
@@ -190,7 +192,8 @@ async function onDeleteZielnormReferences() {
           v-else
           v-model="editedZielnormReference"
           :zeitgrenzen="zeitgrenzen ?? []"
-          :loading="isFetchingZielnormReferences"
+          :deleting="isDeletingZielnormReferences"
+          :updating="isUpdatingZielnormReferences"
           @save="onSaveZielnormReferences()"
           @delete="confirmDeleteZielnormReferences()"
         />

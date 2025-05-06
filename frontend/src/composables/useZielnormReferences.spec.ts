@@ -313,11 +313,11 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { isFetching } = useZielnormReferences(
+    const { isLoadingZielnormReferences } = useZielnormReferences(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
     )
 
-    expect(isFetching.value).toBeTruthy()
+    expect(isLoadingZielnormReferences.value).toBeTruthy()
   })
 
   it("returns errors when loading Zielnorm references", async () => {
@@ -426,11 +426,11 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { isFetching } = useZielnormReferences(
+    const { isUpdatingZielnormReferences } = useZielnormReferences(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
     )
 
-    expect(isFetching.value).toBeTruthy()
+    expect(isUpdatingZielnormReferences.value).toBeTruthy()
   })
 
   it("returns errors when updating Zielnorm references", async () => {
@@ -541,11 +541,11 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { isFetching } = useZielnormReferences(
+    const { isDeletingZielnormReferences } = useZielnormReferences(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
     )
 
-    expect(isFetching.value).toBeTruthy()
+    expect(isDeletingZielnormReferences.value).toBeTruthy()
   })
 
   it("returns errors when deleting Zielnorm references", async () => {
