@@ -273,9 +273,7 @@ test.describe(
         .click()
 
       await page.getByRole("button", { name: "Speichern" }).click()
-      await expect(
-        page.getByText("Fehler beim Speichern: Eingabefehler"),
-      ).toBeVisible()
+      await expect(page.getByText("Fehler: Eingabefehler")).toBeVisible()
     })
 
     test("updates the data on the page with the new data from the backend", async ({
