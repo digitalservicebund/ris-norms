@@ -360,10 +360,8 @@ describe("useZielnormReferences", () => {
       },
     ]
 
-    const updateData = ref<ZielnormReference[]>([])
-    const execute = vi.fn().mockImplementation(() => {
-      updateData.value = fixtures
-    })
+    let payload = undefined
+    let didCallExecute = false
 
     vi.doMock("@/services/zielnormReferenceService", () => ({
       useGetZielnormReferences: () => ({
@@ -371,9 +369,12 @@ describe("useZielnormReferences", () => {
         isFetching: ref(false),
         error: ref<ErrorResponse | null>({ type: "/errors/example" }),
       }),
-      usePostZielnormReferences: () => ({
-        execute,
-        data: updateData,
+      usePostZielnormReferences: (data: () => ZielnormReference[]) => ({
+        execute: vi.fn().mockImplementation(() => {
+          payload = data()
+          didCallExecute = true
+        }),
+        data: ref([]),
         isFetching: ref(false),
         error: ref<ErrorResponse | null>(null),
       }),
@@ -387,20 +388,17 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { updateZielnormReferences, zielnormReferences } =
-      useZielnormReferences(
-        NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
-        ),
-      )
+    const { updateZielnormReferences } = useZielnormReferences(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+    )
 
     await updateZielnormReferences(
       fixtures[0],
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
     )
 
-    expect(execute).toHaveBeenCalled()
-    expect(zielnormReferences.value).toEqual(fixtures)
+    expect(didCallExecute).toBeTruthy()
+    expect(payload).toEqual(fixtures)
   })
 
   it("sets the loading state while updating Zielnormen data", async () => {
@@ -467,19 +465,8 @@ describe("useZielnormReferences", () => {
   })
 
   it("sends eIds to delete to the API and updates the local state", async () => {
-    const fixtures: ZielnormReference[] = [
-      {
-        typ: "Änderungsvorschrift",
-        geltungszeit: "gz-1",
-        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
-        zielnorm: "eli/bund/bgbl-1/2021/123",
-      },
-    ]
-
-    const updateData = ref<ZielnormReference[]>(fixtures)
-    const execute = vi.fn().mockImplementation(() => {
-      updateData.value = fixtures
-    })
+    let payload = undefined
+    let didCallExecute = false
 
     vi.doMock("@/services/zielnormReferenceService", () => ({
       useGetZielnormReferences: () => ({
@@ -493,9 +480,12 @@ describe("useZielnormReferences", () => {
         isFetching: ref(false),
         error: ref<ErrorResponse | null>(null),
       }),
-      useDeleteZielnormReferences: () => ({
-        execute: execute,
-        data: updateData,
+      useDeleteZielnormReferences: (data: () => ZielnormReference[]) => ({
+        execute: vi.fn().mockImplementation(() => {
+          payload = data()
+          didCallExecute = true
+        }),
+        data: ref([]),
         isFetching: ref(false),
         error: ref<ErrorResponse | null>(null),
       }),
@@ -503,19 +493,16 @@ describe("useZielnormReferences", () => {
 
     const { useZielnormReferences } = await import("./useZielnormReferences")
 
-    const { deleteZielnormReferences, zielnormReferences } =
-      useZielnormReferences(
-        NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
-        ),
-      )
+    const { deleteZielnormReferences } = useZielnormReferences(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+    )
 
     await deleteZielnormReferences(
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
     )
 
-    expect(execute).toHaveBeenCalled()
-    expect(zielnormReferences.value).toHaveLength(0)
+    expect(didCallExecute).toBeTruthy()
+    expect(payload).toEqual(["hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"])
   })
 
   it("sets the loading state while deleting Zielnormen data", async () => {
