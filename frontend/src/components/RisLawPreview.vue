@@ -183,13 +183,10 @@ watch(
 
             if (!eid) return
 
-            const elementIndex = interactiveEls.push(htmlElement) - 1
-
             makeElementClickable(
               htmlElement,
               (event) => {
                 event.stopPropagation()
-                focusedEl.value = elementIndex
 
                 emit(`click:akn:${aknElement}`, {
                   eid,
@@ -211,6 +208,16 @@ watch(
             if (typeof label === "string") htmlElement.ariaLabel = label
           })
       })
+
+    if (props.arrowFocus) {
+      container.value?.querySelectorAll("[role=button]").forEach((el) => {
+        if (!(el instanceof HTMLElement)) return
+        const elementIndex = interactiveEls.push(el) - 1
+        el.addEventListener("click", () => {
+          focusedEl.value = elementIndex
+        })
+      })
+    }
   },
   { immediate: true },
 )
