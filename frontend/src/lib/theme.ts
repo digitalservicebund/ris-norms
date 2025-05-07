@@ -3,7 +3,7 @@
 // to RIS UI eventually.
 
 import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
-import type { TreePassThroughOptions } from "primevue"
+import type { ChipPassThroughOptions, TreePassThroughOptions } from "primevue"
 import type { AccordionPassThroughOptions } from "primevue/accordion"
 import type { AccordionContentPassThroughOptions } from "primevue/accordioncontent"
 import type { AccordionHeaderPassThroughOptions } from "primevue/accordionheader"
@@ -37,6 +37,12 @@ const tree: TreePassThroughOptions = {
   },
 }
 
+const chip: ChipPassThroughOptions = {
+  root: {
+    class: tw`rounded-full flex bg-gray-100 py-2 pl-4 pr-8 gap-4 items-center text-center`,
+  },
+}
+
 export default usePassThrough(
   RisUiTheme,
   {
@@ -44,6 +50,7 @@ export default usePassThrough(
     accordionHeader,
     accordionContent,
     tree,
+    chip,
   },
   { mergeProps: false, mergeSections: true },
 )
