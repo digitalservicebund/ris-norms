@@ -185,7 +185,7 @@ async function onDeleteZielnormReferences() {
       >
         <RisEmptyState
           v-if="!editedZielnormReference"
-          text-content="Bitte wählen Sie einen Änderungsbefehl aus."
+          text-content="Bitte wählen Sie einen Artikel aus."
         />
 
         <RisZielnormForm
