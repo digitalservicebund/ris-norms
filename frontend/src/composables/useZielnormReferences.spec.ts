@@ -3,6 +3,7 @@ import type { ErrorResponse } from "@/types/errorResponse"
 import type { ZielnormReference } from "@/types/zielnormReference"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
+import { INDETERMINATE_VALUE } from "./useZielnormReferences"
 
 describe("useZielnormReferences", () => {
   beforeEach(() => {
@@ -196,7 +197,7 @@ describe("useZielnormReferences", () => {
     })
   })
 
-  it("should return a Zielnorm reference for multiple eIds with different data", async () => {
+  it("should return a Zielnorm reference for multiple eIds with different Geltungszeiten", async () => {
     const fixtures: ZielnormReference[] = [
       {
         typ: "Änderungsvorschrift",
@@ -208,7 +209,7 @@ describe("useZielnormReferences", () => {
         typ: "Aufhebung",
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
-        zielnorm: "eli/bund/bgbl-1/2019/789",
+        zielnorm: "eli/bund/bgbl-1/2021/123",
       },
     ]
 
@@ -243,7 +244,63 @@ describe("useZielnormReferences", () => {
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
     )
 
-    expect(refs).toEqual({ geltungszeit: "", zielnorm: "" })
+    expect(refs).toEqual({
+      geltungszeit: INDETERMINATE_VALUE,
+      zielnorm: "eli/bund/bgbl-1/2021/123",
+    })
+  })
+
+  it("should return a Zielnorm reference for multiple eIds with different Zielnormen", async () => {
+    const fixtures: ZielnormReference[] = [
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-1",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+        zielnorm: "eli/bund/bgbl-1/2021/123",
+      },
+      {
+        typ: "Aufhebung",
+        geltungszeit: "gz-1",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+        zielnorm: "eli/bund/bgbl-1/2021/456",
+      },
+    ]
+
+    vi.doMock("@/services/zielnormReferenceService", () => ({
+      useGetZielnormReferences: () => ({
+        data: ref(fixtures),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+      usePostZielnormReferences: () => ({
+        execute: vi.fn(),
+        data: ref(null),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+      useDeleteZielnormReferences: () => ({
+        execute: vi.fn(),
+        data: ref(null),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+    }))
+
+    const { useZielnormReferences } = await import("./useZielnormReferences")
+
+    const { zielnormReferencesForEid } = useZielnormReferences(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+    )
+
+    const refs = zielnormReferencesForEid(
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+    )
+
+    expect(refs).toEqual({
+      geltungszeit: "gz-1",
+      zielnorm: INDETERMINATE_VALUE,
+    })
   })
 
   it("should return a new, empty Zielnorm reference for multiple eIds that don't exist", async () => {
@@ -287,7 +344,10 @@ describe("useZielnormReferences", () => {
       "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
     )
 
-    expect(refs).toEqual({ geltungszeit: "", zielnorm: "" })
+    expect(refs).toEqual({
+      geltungszeit: INDETERMINATE_VALUE,
+      zielnorm: INDETERMINATE_VALUE,
+    })
   })
 
   it("sets the fetching state while loading Zielnorm references", async () => {
@@ -399,6 +459,151 @@ describe("useZielnormReferences", () => {
 
     expect(didCallExecute).toBeTruthy()
     expect(payload).toEqual(fixtures)
+  })
+
+  it("keeps the original data for indeterminate Zielnormen when updating data", async () => {
+    const fixtures: ZielnormReference[] = [
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-1",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+        zielnorm: "eli/bund/bgbl-1/2021/123",
+      },
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-1",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+        zielnorm: "eli/bund/bgbl-1/2021/456",
+      },
+    ]
+
+    let payload = undefined
+    let didCallExecute = false
+
+    vi.doMock("@/services/zielnormReferenceService", () => ({
+      useGetZielnormReferences: () => ({
+        data: ref(fixtures),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+      usePostZielnormReferences: (data: () => ZielnormReference[]) => ({
+        execute: vi.fn().mockImplementation(() => {
+          payload = data()
+          didCallExecute = true
+        }),
+        data: ref([]),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+      useDeleteZielnormReferences: () => ({
+        execute: vi.fn(),
+        data: ref(null),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+    }))
+
+    const { useZielnormReferences } = await import("./useZielnormReferences")
+
+    const { updateZielnormReferences } = useZielnormReferences(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+    )
+
+    await updateZielnormReferences(
+      { geltungszeit: "gz-2", zielnorm: INDETERMINATE_VALUE },
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+    )
+
+    expect(didCallExecute).toBeTruthy()
+    expect(payload).toEqual([
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-2",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+        zielnorm: "eli/bund/bgbl-1/2021/123",
+      },
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-2",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+        zielnorm: "eli/bund/bgbl-1/2021/456",
+      },
+    ])
+  })
+
+  it("keeps the original data for indeterminate Geltungszeiten when updating data", async () => {
+    const fixtures: ZielnormReference[] = [
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-1",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+        zielnorm: "eli/bund/bgbl-1/2021/123",
+      },
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-2",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+        zielnorm: "eli/bund/bgbl-1/2021/123",
+      },
+    ]
+
+    let payload = undefined
+    let didCallExecute = false
+
+    vi.doMock("@/services/zielnormReferenceService", () => ({
+      useGetZielnormReferences: () => ({
+        data: ref(fixtures),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+      usePostZielnormReferences: (data: () => ZielnormReference[]) => ({
+        execute: vi.fn().mockImplementation(() => {
+          payload = data()
+          didCallExecute = true
+        }),
+        data: ref([]),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+      useDeleteZielnormReferences: () => ({
+        execute: vi.fn(),
+        data: ref(null),
+        isFetching: ref(false),
+        error: ref<ErrorResponse | null>(null),
+      }),
+    }))
+
+    const { useZielnormReferences } = await import("./useZielnormReferences")
+
+    const { updateZielnormReferences } = useZielnormReferences(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+    )
+
+    await updateZielnormReferences(
+      {
+        geltungszeit: INDETERMINATE_VALUE,
+        zielnorm: "eli/bund/bgbl-1/2021/456",
+      },
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+    )
+
+    expect(didCallExecute).toBeTruthy()
+    expect(payload).toEqual([
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-1",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+        zielnorm: "eli/bund/bgbl-1/2021/456",
+      },
+      {
+        typ: "Änderungsvorschrift",
+        geltungszeit: "gz-2",
+        eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
+        zielnorm: "eli/bund/bgbl-1/2021/456",
+      },
+    ])
   })
 
   it("sets the loading state while updating Zielnormen data", async () => {

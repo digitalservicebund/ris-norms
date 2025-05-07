@@ -83,6 +83,14 @@ export type ZielnormReferencesStore = {
 export type EditableZielnormReference = Omit<ZielnormReference, "eId" | "typ">
 
 /**
+ * Used in place of an actual value when editing multiple references. A value
+ * will be indeterminate if the selected references have different values. If
+ * the value is not touched in the UI, i.e. still indeterminate when being sent
+ * to the API, it will not be changed.
+ */
+export const INDETERMINATE_VALUE = "__indeterminate__"
+
+/**
  * Provides a unified interface to loading and changing Zielnormen references.
  *
  * @returns Functionality for loading and changing Zielnormen references
@@ -104,8 +112,21 @@ export function useZielnormReferences(
         zielnorm: i.zielnorm,
       }))
 
-    if (!existingData.length || existingData.length !== eIds.length) {
-      return { geltungszeit: "", zielnorm: "" }
+    // Editing a single element for which we don't have data yet = return
+    // completely empty object
+    if (!existingData.length) {
+      return {
+        geltungszeit: "",
+        zielnorm: "",
+      }
+    }
+    // Editing a mix of existing and new elements = assume the data will
+    // be different
+    else if (existingData.length !== eIds.length) {
+      return {
+        geltungszeit: INDETERMINATE_VALUE,
+        zielnorm: INDETERMINATE_VALUE,
+      }
     }
 
     const [first, ...rest] = existingData
@@ -115,7 +136,7 @@ export function useZielnormReferences(
       const keys = ["geltungszeit", "zielnorm"] as const
 
       keys.forEach((k) => {
-        all[k] = all[k] === current[k] ? all[k] : ""
+        all[k] = all[k] === current[k] ? all[k] : INDETERMINATE_VALUE
       })
 
       return all
@@ -135,6 +156,38 @@ export function useZielnormReferences(
     error: updateError,
   } = usePostZielnormReferences(() => toUpdate, eli)
 
+  function cleanIndeterminate(
+    data: EditableZielnormReference,
+  ): EditableZielnormReference {
+    const cleaned = Object.entries(data).map(([k, v]) => [
+      k,
+      v === INDETERMINATE_VALUE ? "" : v,
+    ])
+
+    return Object.fromEntries(cleaned)
+  }
+
+  function lastSavedOrNewValue(
+    lastSavedValue: string,
+    newValue: string,
+  ): string {
+    if (newValue === INDETERMINATE_VALUE) return lastSavedValue
+    else return newValue
+  }
+
+  function restoreLastSavedValue(
+    data: EditableZielnormReference,
+    eId: string,
+  ): EditableZielnormReference {
+    const saved = references.value?.find((i) => i.eId === eId)
+    if (!saved) return cleanIndeterminate(data)
+
+    return {
+      geltungszeit: lastSavedOrNewValue(saved.geltungszeit, data.geltungszeit),
+      zielnorm: lastSavedOrNewValue(saved.zielnorm, data.zielnorm),
+    }
+  }
+
   async function update(
     data: MaybeRefOrGetter<EditableZielnormReference>,
     ...eIds: string[]
@@ -142,7 +195,7 @@ export function useZielnormReferences(
     const dataVal = toValue(data)
 
     toUpdate = eIds.map<ZielnormReference>((eId) => ({
-      ...dataVal,
+      ...restoreLastSavedValue(dataVal, eId),
       typ: "Änderungsvorschrift",
       eId,
     }))

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 import RisZielnormForm from "./RisZielnormForm.vue"
 import { render, screen } from "@testing-library/vue"
 import userEvent from "@testing-library/user-event"
+import { INDETERMINATE_VALUE } from "@/composables/useZielnormReferences"
 
 describe("risZielnormForm", () => {
   it("renders the component", () => {
@@ -129,6 +130,84 @@ describe("risZielnormForm", () => {
 
     expect(emitted("update:modelValue")).toContainEqual([
       { geltungszeit: "gz-2", zielnorm: "eli" },
+    ])
+  })
+
+  it("shows an indeterminate Zeitgrenze", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: INDETERMINATE_VALUE, zielnorm: "eli" },
+        zeitgrenzen: [
+          { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
+          { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
+        ],
+      },
+    })
+
+    expect(
+      screen.getByRole("combobox", { name: "Geltungszeitregel" }),
+    ).toHaveTextContent("Mehrere ausgewählt")
+  })
+
+  it("shows an indeterminate Zielnorm", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: "gz-1", zielnorm: INDETERMINATE_VALUE },
+        zeitgrenzen: [
+          { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
+          { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
+        ],
+      },
+    })
+
+    const textbox = screen.getByRole("textbox", {
+      name: "ELI Zielnormenkomplex",
+    })
+
+    expect(textbox).toHaveAttribute("placeholder", "Mehrere")
+    expect(textbox).toHaveValue("")
+  })
+
+  it("updates indeterminate values", async () => {
+    const user = userEvent.setup()
+
+    const { emitted } = render(RisZielnormForm, {
+      props: {
+        modelValue: {
+          geltungszeit: INDETERMINATE_VALUE,
+          zielnorm: INDETERMINATE_VALUE,
+        },
+        zeitgrenzen: [
+          { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
+          { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
+        ],
+      },
+    })
+
+    const eliInput = screen.getByRole("textbox", {
+      name: "ELI Zielnormenkomplex",
+    })
+
+    await user.type(eliInput, "other/eli", {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 3,
+    })
+
+    expect(emitted("update:modelValue")).toContainEqual([
+      { geltungszeit: INDETERMINATE_VALUE, zielnorm: "other/eli" },
+    ])
+
+    await user.click(
+      screen.getByRole("combobox", {
+        name: "Geltungszeitregel",
+      }),
+    )
+    await user.click(
+      screen.getByRole("option", { name: "30.04.2025 (Außerkrafttreten)" }),
+    )
+
+    expect(emitted("update:modelValue")).toContainEqual([
+      { geltungszeit: "gz-2", zielnorm: "other/eli" },
     ])
   })
 

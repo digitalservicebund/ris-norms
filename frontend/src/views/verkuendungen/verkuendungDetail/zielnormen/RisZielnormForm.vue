@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import { useElementId } from "@/composables/useElementId"
-import type { EditableZielnormReference } from "@/composables/useZielnormReferences"
+import {
+  INDETERMINATE_VALUE,
+  type EditableZielnormReference,
+} from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
 import { getZeitgrenzeArtLabel } from "@/lib/zeitgrenze"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
@@ -33,15 +36,33 @@ defineEmits<{
 
 const { formHeadingId, eliInputId, zeitgrenzeSelectId } = useElementId()
 
-const zeitgrenzenOptions = computed(() =>
-  zeitgrenzen
+type ZeitgrenzeOption = {
+  colorIndex?: number
+  label: string
+  value: string
+  disabled?: boolean
+}
+
+const zeitgrenzenOptions = computed(() => {
+  const options = zeitgrenzen
     .filter((i) => !!i.date)
-    .map((zeitgrenze, i) => ({
+    .map<ZeitgrenzeOption>((zeitgrenze, i) => ({
       colorIndex: i,
       label: `${formatDate(zeitgrenze.date)} (${getZeitgrenzeArtLabel(zeitgrenze.art)})`,
       value: zeitgrenze.id,
-    })),
-)
+    }))
+
+  if (model.value.geltungszeit === INDETERMINATE_VALUE) {
+    options.unshift({
+      colorIndex: undefined,
+      label: "Mehrere ausgewählt",
+      value: INDETERMINATE_VALUE,
+      disabled: true,
+    })
+  }
+
+  return options
+})
 
 function findZeitgrenze(id: string) {
   return zeitgrenzenOptions.value.find((i) => i.value === id)
@@ -60,7 +81,9 @@ const zeitgrenze = computed({
 
 const eli = computed({
   get() {
-    return model.value.zielnorm
+    return model.value.zielnorm === INDETERMINATE_VALUE
+      ? ""
+      : model.value.zielnorm
   },
   set(value) {
     model.value = { ...model.value, zielnorm: value }
@@ -76,7 +99,13 @@ const eli = computed({
 
     <div class="flex flex-col gap-2">
       <label :for="eliInputId">ELI Zielnormenkomplex</label>
-      <InputText :id="eliInputId" v-model="eli" />
+      <InputText
+        :id="eliInputId"
+        v-model="eli"
+        :placeholder="
+          model.zielnorm === INDETERMINATE_VALUE ? 'Mehrere' : undefined
+        "
+      />
     </div>
 
     <div class="flex flex-col gap-2">
@@ -85,10 +114,15 @@ const eli = computed({
         v-model="zeitgrenze"
         :aria-labelledby="zeitgrenzeSelectId"
         :options="zeitgrenzenOptions"
+        option-disabled="disabled"
         option-label="label"
       >
         <template #value="{ value, placeholder }">
-          <div v-if="value" class="flex items-center gap-8">
+          <div
+            v-if="value"
+            class="flex items-center gap-8"
+            :class="{ 'text-gray-800': value.value === INDETERMINATE_VALUE }"
+          >
             <RisHighlightColorSwatch :color-index="value.colorIndex" />
             {{ value.label }}
           </div>
@@ -97,7 +131,10 @@ const eli = computed({
         </template>
 
         <template #option="{ option }">
-          <div class="flex items-center gap-8">
+          <div
+            class="flex items-center gap-8"
+            :class="{ 'text-gray-800': option.value === INDETERMINATE_VALUE }"
+          >
             <RisHighlightColorSwatch :color-index="option.colorIndex" />
             {{ option.label }}
           </div>
