@@ -114,5 +114,3 @@ const items = [
     <RisZielnormenList :items="items"></RisZielnormenList>
   </RisViewLayout>
 </template>
-
-<style scoped></style>
