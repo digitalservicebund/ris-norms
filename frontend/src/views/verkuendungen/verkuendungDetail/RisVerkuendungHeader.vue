@@ -69,6 +69,13 @@ const computedFna = computed(() => props.fna ?? "")
       >
         Zielnormen verknüpfen
       </RouterLink>
+
+      <RouterLink
+        :to="{ name: 'VerkuendungExpressionenErzeugen' }"
+        class="ris-link1-bold"
+      >
+        Expressionen erzeugen
+      </RouterLink>
     </div>
   </div>
 </template>
