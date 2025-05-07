@@ -2,9 +2,9 @@
 import { getHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import { computed } from "vue"
 
-const { colorIndex, size = ["h-20", "w-20"] } = defineProps<{
+const { colorIndex = undefined, size = ["h-20", "w-20"] } = defineProps<{
   /** Index of the highlight color that should be shown. */
-  colorIndex: number
+  colorIndex?: number
 
   /**
    * Width and height of the swatch. These should be Tailwind class names.
@@ -14,7 +14,11 @@ const { colorIndex, size = ["h-20", "w-20"] } = defineProps<{
   size?: [height: string, width: string]
 }>()
 
-const colorClass = computed(() => getHighlightClasses(colorIndex))
+const colorClass = computed(() =>
+  colorIndex !== undefined
+    ? getHighlightClasses(colorIndex)
+    : { default: undefined },
+)
 </script>
 
 <template>

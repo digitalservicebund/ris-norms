@@ -59,14 +59,8 @@ describe("useZeitgrenzenHighlightClasses", () => {
   it("get classes in order of temporal group eIds", () => {
     const classes = useZeitgrenzenHighlightClasses(
       [
-        {
-          eId: "eid-1",
-          temporalGroupEid: "temporal-group-eid-2",
-        },
-        {
-          eId: "eid-2",
-          temporalGroupEid: "temporal-group-eid-1",
-        },
+        { eId: "eid-1", geltungszeit: "gz-2" },
+        { eId: "eid-2", geltungszeit: "gz-1" },
       ],
       () => false,
     )
@@ -98,54 +92,18 @@ describe("useZeitgrenzenHighlightClasses", () => {
   it("when more than 10 dates exist the later dates get the default color", () => {
     const classes = useZeitgrenzenHighlightClasses(
       [
-        {
-          eId: "eid-1",
-          temporalGroupEid: "temporal-group-eid-1",
-        },
-        {
-          eId: "eid-2",
-          temporalGroupEid: "temporal-group-eid-2",
-        },
-        {
-          eId: "eid-3",
-          temporalGroupEid: "temporal-group-eid-3",
-        },
-        {
-          eId: "eid-4",
-          temporalGroupEid: "temporal-group-eid-4",
-        },
-        {
-          eId: "eid-5",
-          temporalGroupEid: "temporal-group-eid-5",
-        },
-        {
-          eId: "eid-6",
-          temporalGroupEid: "temporal-group-eid-6",
-        },
-        {
-          eId: "eid-7",
-          temporalGroupEid: "temporal-group-eid-7",
-        },
-        {
-          eId: "eid-8",
-          temporalGroupEid: "temporal-group-eid-8",
-        },
-        {
-          eId: "eid-9",
-          temporalGroupEid: "temporal-group-eid-9",
-        },
-        {
-          eId: "eid-10",
-          temporalGroupEid: "temporal-group-eid-10",
-        },
-        {
-          eId: "eid-11",
-          temporalGroupEid: "temporal-group-eid-11",
-        },
-        {
-          eId: "eid-12",
-          temporalGroupEid: "temporal-group-eid-12",
-        },
+        { eId: "eid-1", geltungszeit: "gz-1" },
+        { eId: "eid-2", geltungszeit: "gz-2" },
+        { eId: "eid-3", geltungszeit: "gz-3" },
+        { eId: "eid-4", geltungszeit: "gz-4" },
+        { eId: "eid-5", geltungszeit: "gz-5" },
+        { eId: "eid-6", geltungszeit: "gz-6" },
+        { eId: "eid-7", geltungszeit: "gz-7" },
+        { eId: "eid-8", geltungszeit: "gz-8" },
+        { eId: "eid-9", geltungszeit: "gz-9" },
+        { eId: "eid-10", geltungszeit: "gz-10" },
+        { eId: "eid-11", geltungszeit: "gz-11" },
+        { eId: "eid-12", geltungszeit: "gz-12" },
       ],
       () => false,
     )
@@ -176,15 +134,7 @@ describe("useZeitgrenzenHighlightClasses", () => {
 
   it("missing time boundaries get the last color", () => {
     const classes = useZeitgrenzenHighlightClasses(
-      [
-        {
-          eId: "eid-1",
-          temporalGroupEid: "temporal-group-eid-1",
-        },
-        {
-          eId: "eid-2",
-        },
-      ],
+      [{ eId: "eid-1", geltungszeit: "gz-1" }, { eId: "eid-2" }],
       () => false,
     )
 
@@ -215,18 +165,9 @@ describe("useZeitgrenzenHighlightClasses", () => {
   it("elements with the same time boundary get the same color", () => {
     const classes = useZeitgrenzenHighlightClasses(
       [
-        {
-          eId: "eid-1",
-          temporalGroupEid: "temporal-group-eid-2",
-        },
-        {
-          eId: "eid-2",
-          temporalGroupEid: "temporal-group-eid-2",
-        },
-        {
-          eId: "eid-3",
-          temporalGroupEid: "temporal-group-eid-1",
-        },
+        { eId: "eid-1", geltungszeit: "gz-2" },
+        { eId: "eid-2", geltungszeit: "gz-2" },
+        { eId: "eid-3", geltungszeit: "gz-1" },
       ],
       () => false,
     )
@@ -269,18 +210,9 @@ describe("useZeitgrenzenHighlightClasses", () => {
   it("selected elements get different classes", () => {
     const classes = useZeitgrenzenHighlightClasses(
       [
-        {
-          eId: "eid-1",
-          temporalGroupEid: "temporal-group-eid-2",
-        },
-        {
-          eId: "eid-2",
-          temporalGroupEid: "temporal-group-eid-2",
-        },
-        {
-          eId: "eid-3",
-          temporalGroupEid: "temporal-group-eid-1",
-        },
+        { eId: "eid-1", geltungszeit: "gz-2" },
+        { eId: "eid-2", geltungszeit: "gz-2" },
+        { eId: "eid-3", geltungszeit: "gz-1" },
       ],
       () => true,
     )

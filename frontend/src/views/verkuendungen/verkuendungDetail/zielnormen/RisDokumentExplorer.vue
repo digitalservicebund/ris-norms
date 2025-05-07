@@ -17,17 +17,19 @@ import IcBaselineToc from "~icons/ic/baseline-toc"
 import IcBaselineUnfoldLess from "~icons/ic/baseline-unfold-less"
 import IcBaselineUnfoldMore from "~icons/ic/baseline-unfold-more"
 
-const { eli } = defineProps<{
+const { eli, eIdClasses = {} } = defineProps<{
   /** ELI of the document whose contents should be shown */
   eli: DokumentExpressionEli
+
+  /** Highlighting that should be applied to elements in the explorer */
+  eIdClasses?: { [eId: string]: string[] }
 }>()
 
 /** eId of the selected element */
 const eid = defineModel<string>("eid")
 
-const emit = defineEmits<{
-  selectionChange: [selectedElements: string[]]
-}>()
+/** List of eIds that should be edited */
+const eidsToEdit = defineModel<string[]>("eids-to-edit")
 
 const { documentExplorerHeadingId, tocHeadingId } = useElementId()
 
@@ -69,7 +71,7 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
     toggle(eid)
   }
 
-  emit("selectionChange", values.value)
+  eidsToEdit.value = values.value
 }
 </script>
 
@@ -165,7 +167,8 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
       <div v-else class="flex-1 overflow-auto">
         <RisLawPreview
           :content="artikelHtml"
-          :selected="values"
+          :selected="eidsToEdit"
+          :e-id-classes="eIdClasses"
           @click:akn:paragraph="onSelect"
           @click:akn:point="onSelect"
         />
@@ -175,23 +178,25 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
 </template>
 
 <style scoped>
-:deep(.akn-paragraph),
-:deep(.akn-point) {
-  background-color: var(--color-gray-100);
-  border: 1px dotted var(--color-gray-600);
-  outline-offset: calc(var(--spacing-2) * -1);
-  outline: 2px dotted transparent;
-  padding-inline: var(--spacing-2);
+@layer components {
+  :deep(.akn-paragraph),
+  :deep(.akn-point) {
+    background-color: var(--color-gray-100);
+    outline-offset: calc(var(--spacing-2) * -1);
+    outline: 2px dotted var(--color-gray-600);
+    padding-inline: var(--spacing-2);
 
-  &:hover {
-    background-color: var(--color-gray-200);
-    outline-color: var(--color-blue-800);
+    &:hover,
+    &:focus {
+      background-color: var(--color-gray-200);
+      outline-color: var(--color-blue-800);
+    }
+
+    &.selected {
+      background-color: var(--color-gray-400);
+      outline-color: var(--color-blue-800);
+      outline-style: solid;
+    }
   }
-}
-
-:deep(.akn-paragraph.selected),
-:deep(.akn-point.selected) {
-  outline-color: var(--color-blue-800);
-  outline-style: solid;
 }
 </style>

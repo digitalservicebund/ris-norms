@@ -8,7 +8,10 @@ import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
-import type { EditableZielnormReference } from "@/composables/useZielnormReferences"
+import {
+  useZielnormReferences,
+  type EditableZielnormReference,
+} from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
@@ -16,13 +19,26 @@ import {
   useGeltungszeitenHtml,
   useGetZeitgrenzen,
 } from "@/services/zeitgrenzenService"
-import Splitter from "primevue/splitter"
-import SplitterPanel from "primevue/splitterpanel"
-import { computed, ref } from "vue"
+import {
+  ConfirmDialog,
+  Splitter,
+  SplitterPanel,
+  useConfirm,
+  useToast,
+} from "primevue"
+import { computed, ref, watch } from "vue"
 import RisDokumentExplorer from "./RisDokumentExplorer.vue"
 import RisZielnormForm from "./RisZielnormForm.vue"
+import { useErrorToast } from "@/lib/errorToast"
+import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
+
+const { addErrorToast } = useErrorToast()
+
+const { add: addToast } = useToast()
 
 const eli = useDokumentExpressionEliPathParameter()
+
+const confirm = useConfirm()
 
 const {
   data: verkuendung,
@@ -57,16 +73,96 @@ const formattedVerkuendungsdatum = computed(() =>
 
 // Editing ------------------------------------------------
 
+const eIdsToEdit = ref<string[]>([])
+
 const editedZielnormReference = ref<EditableZielnormReference>()
 
+const {
+  deleteZielnormReferences,
+  deleteZielnormReferencesError,
+  isLoadingZielnormReferences,
+  isDeletingZielnormReferences,
+  isUpdatingZielnormReferences,
+  loadZielnormReferencesError,
+  updateZielnormReferences,
+  updateZielnormReferencesError,
+  zielnormReferences,
+  zielnormReferencesForEid,
+} = useZielnormReferences(() => eli.value.asNormEli())
+
+const isSelected = (eid: string) => {
+  return eIdsToEdit.value.includes(eid)
+}
+
+const highlightClasses = useZeitgrenzenHighlightClasses(
+  () => [...(zielnormReferences.value ?? [])],
+  isSelected,
+)
+
+watch(eIdsToEdit, (val) => {
+  if (!val?.length) editedZielnormReference.value = undefined
+  else editedZielnormReference.value = zielnormReferencesForEid(...val)
+})
+
 const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
+
+async function onSaveZielnormReferences() {
+  if (!eIdsToEdit.value.length || !editedZielnormReference.value) return
+
+  await updateZielnormReferences(
+    editedZielnormReference.value,
+    ...eIdsToEdit.value,
+  )
+
+  if (!updateZielnormReferencesError.value) {
+    addToast({ summary: "Gespeichert!", severity: "success" })
+  } else {
+    addErrorToast(updateZielnormReferencesError.value)
+  }
+}
+
+function confirmDeleteZielnormReferences() {
+  confirm.require({
+    header: "Einträge entfernen",
+    message: "Sollen die gewählten Einträge wirklich entfernt werden?",
+    acceptProps: {
+      label: "Entfernen",
+      severity: "danger",
+      autofocus: false,
+    },
+    rejectProps: {
+      label: "Abbrechen",
+      severity: "primary",
+      autofocus: true,
+    },
+    acceptClass: "w-full",
+    rejectClass: "w-full",
+    accept: onDeleteZielnormReferences,
+  })
+}
+
+async function onDeleteZielnormReferences() {
+  if (!eIdsToEdit.value.length) return
+  await deleteZielnormReferences(...eIdsToEdit.value)
+  eIdsToEdit.value = []
+  if (!deleteZielnormReferencesError.value) {
+    addToast({ summary: "Gelöscht!", severity: "success" })
+  } else {
+    addErrorToast(deleteZielnormReferencesError.value)
+  }
+}
 </script>
 
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError, geltungszeitenHtmlError, zeitgrenzenError]"
-    :loading="!verkuendungHasFinished"
+    :errors="[
+      verkuendungError,
+      geltungszeitenHtmlError,
+      zeitgrenzenError,
+      loadZielnormReferencesError,
+    ]"
+    :loading="!verkuendungHasFinished || isLoadingZielnormReferences"
   >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
@@ -74,7 +170,12 @@ const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
         :min-size="33"
         class="h-full overflow-auto bg-gray-100"
       >
-        <RisDokumentExplorer :eli class="h-full" />
+        <RisDokumentExplorer
+          v-model:eids-to-edit="eIdsToEdit"
+          v-model:eli="eli"
+          class="h-full"
+          :e-id-classes="highlightClasses"
+        />
       </SplitterPanel>
 
       <SplitterPanel
@@ -91,6 +192,10 @@ const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
           v-else
           v-model="editedZielnormReference"
           :zeitgrenzen="zeitgrenzen ?? []"
+          :deleting="isDeletingZielnormReferences"
+          :updating="isUpdatingZielnormReferences"
+          @save="onSaveZielnormReferences()"
+          @delete="confirmDeleteZielnormReferences()"
         />
       </SplitterPanel>
 
@@ -130,4 +235,6 @@ const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
       </SplitterPanel>
     </Splitter>
   </RisViewLayout>
+
+  <ConfirmDialog />
 </template>

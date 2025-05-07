@@ -6,7 +6,7 @@ import {
 } from "@/services/zielnormReferenceService"
 import type { ZielnormReference } from "@/types/zielnormReference"
 import type { DeepReadonly, MaybeRefOrGetter, Ref } from "vue"
-import { computed, readonly, ref, toValue, watch } from "vue"
+import { readonly, toValue, watch } from "vue"
 
 /**
  * Provides a unified interface to loading and changing Zielnormen references.
@@ -28,9 +28,7 @@ export type ZielnormReferencesStore = {
    * @param eIds eIds of the elements to look up
    * @returns Editable Zielnormen reference with data from the eIds
    */
-  zielnormReferencesForEid: (
-    ...eIds: string[]
-  ) => Ref<EditableZielnormReference>
+  zielnormReferencesForEid: (...eIds: string[]) => EditableZielnormReference
 
   /**
    * Updates all Zielnormen references related to the specified eIds.
@@ -52,18 +50,45 @@ export type ZielnormReferencesStore = {
   deleteZielnormReferences: (...eIds: string[]) => Promise<void>
 
   /**
-   * True if any network activity is happening (create, update, or delete).
+   * True if while loading data.
    */
-  isFetching: Ref<boolean>
+  isLoadingZielnormReferences: Ref<boolean>
 
   /**
-   * True if the most recent operation threw an error (create, update, or
-   * delete).
+   * True if while updating data.
    */
-  error: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
+  isUpdatingZielnormReferences: Ref<boolean>
+
+  /**
+   * True if while deleting data.
+   */
+  isDeletingZielnormReferences: Ref<boolean>
+
+  /**
+   * Any errors returned from loading the data.
+   */
+  loadZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
+
+  /**
+   * Any errors returned from updating the data.
+   */
+  updateZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
+
+  /**
+   * Any errors returned from deleting data.
+   */
+  deleteZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
 }
 
-export type EditableZielnormReference = Omit<ZielnormReference, "eId">
+export type EditableZielnormReference = Omit<ZielnormReference, "eId" | "typ">
+
+/**
+ * Used in place of an actual value when editing multiple references. A value
+ * will be indeterminate if the selected references have different values. If
+ * the value is not touched in the UI, i.e. still indeterminate when being sent
+ * to the API, it will not be changed.
+ */
+export const INDETERMINATE_VALUE = "__indeterminate__"
 
 /**
  * Provides a unified interface to loading and changing Zielnormen references.
@@ -79,33 +104,45 @@ export function useZielnormReferences(
 
   function zielnormReferencesForEid(
     ...eIds: string[]
-  ): Ref<EditableZielnormReference> {
+  ): EditableZielnormReference {
     const existingData = (references.value ?? [])
       .filter((i) => eIds.includes(i.eId))
       .map<EditableZielnormReference>((i) => ({
         geltungszeit: i.geltungszeit,
-        typ: i.typ,
         zielnorm: i.zielnorm,
       }))
 
-    if (!existingData.length || existingData.length !== eIds.length) {
-      return ref({ geltungszeit: "", typ: "", zielnorm: "" })
+    // Editing a single element for which we don't have data yet = return
+    // completely empty object
+    if (!existingData.length) {
+      return {
+        geltungszeit: "",
+        zielnorm: "",
+      }
+    }
+    // Editing a mix of existing and new elements = assume the data will
+    // be different
+    else if (existingData.length !== eIds.length) {
+      return {
+        geltungszeit: INDETERMINATE_VALUE,
+        zielnorm: INDETERMINATE_VALUE,
+      }
     }
 
     const [first, ...rest] = existingData
-    if (!rest.length) return ref(first)
+    if (!rest.length) return first
 
     const newReference = rest.reduce((all, current) => {
-      const keys = ["geltungszeit", "typ", "zielnorm"] as const
+      const keys = ["geltungszeit", "zielnorm"] as const
 
       keys.forEach((k) => {
-        all[k] = all[k] === current[k] ? all[k] : ""
+        all[k] = all[k] === current[k] ? all[k] : INDETERMINATE_VALUE
       })
 
       return all
     }, first)
 
-    return ref(newReference)
+    return newReference
   }
 
   // Update -------------------------------------------------
@@ -117,16 +154,53 @@ export function useZielnormReferences(
     execute: execUpdate,
     isFetching: isUpdating,
     error: updateError,
-  } = usePostZielnormReferences(toUpdate, eli)
+  } = usePostZielnormReferences(() => toUpdate, eli)
+
+  function cleanIndeterminate(
+    data: EditableZielnormReference,
+  ): EditableZielnormReference {
+    const cleaned = Object.entries(data).map(([k, v]) => [
+      k,
+      v === INDETERMINATE_VALUE ? "" : v,
+    ])
+
+    return Object.fromEntries(cleaned)
+  }
+
+  function lastSavedOrNewValue(
+    lastSavedValue: string,
+    newValue: string,
+  ): string {
+    if (newValue === INDETERMINATE_VALUE) return lastSavedValue
+    else return newValue
+  }
+
+  function restoreLastSavedValue(
+    data: EditableZielnormReference,
+    eId: string,
+  ): EditableZielnormReference {
+    const saved = references.value?.find((i) => i.eId === eId)
+    if (!saved) return cleanIndeterminate(data)
+
+    return {
+      geltungszeit: lastSavedOrNewValue(saved.geltungszeit, data.geltungszeit),
+      zielnorm: lastSavedOrNewValue(saved.zielnorm, data.zielnorm),
+    }
+  }
 
   async function update(
     data: MaybeRefOrGetter<EditableZielnormReference>,
     ...eIds: string[]
   ) {
     const dataVal = toValue(data)
-    toUpdate = eIds.map<ZielnormReference>((eId) => ({ ...dataVal, eId }))
+
+    toUpdate = eIds.map<ZielnormReference>((eId) => ({
+      ...restoreLastSavedValue(dataVal, eId),
+      typ: "Änderungsvorschrift",
+      eId,
+    }))
+
     await execUpdate()
-    toUpdate = []
   }
 
   watch(referencesAfterUpdate, (newVal) => {
@@ -147,29 +221,22 @@ export function useZielnormReferences(
   async function remove(...eids: string[]) {
     eids.forEach((i) => toRemove.add(i))
     await execDelete()
-    toRemove.clear()
   }
 
   watch(referencesAfterDelete, (newVal) => {
     references.value = newVal
   })
 
-  // Utils --------------------------------------------------
-
-  const anyFetching = computed(() =>
-    [isFetching, isUpdating, isDeleting].some((i) => i.value),
-  )
-
-  const anyError = computed(
-    () => [error, updateError, deleteError].find((i) => !!i.value) ?? null,
-  )
-
   return {
     zielnormReferences: readonly(references),
     zielnormReferencesForEid,
     updateZielnormReferences: update,
     deleteZielnormReferences: remove,
-    isFetching: anyFetching,
-    error: anyError,
+    isLoadingZielnormReferences: isFetching,
+    isUpdatingZielnormReferences: isUpdating,
+    isDeletingZielnormReferences: isDeleting,
+    loadZielnormReferencesError: error,
+    updateZielnormReferencesError: updateError,
+    deleteZielnormReferencesError: deleteError,
   }
 }

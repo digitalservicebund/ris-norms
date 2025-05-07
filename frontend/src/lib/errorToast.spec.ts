@@ -36,7 +36,7 @@ describe("errorToast", () => {
 
     expect(add).toHaveBeenCalledWith(
       expect.objectContaining({
-        summary: "Fehler beim Speichern: Error of type /errors/foo",
+        summary: "Fehler: Error of type /errors/foo",
       }),
     )
   })
@@ -48,7 +48,7 @@ describe("errorToast", () => {
 
     expect(add).toHaveBeenCalledWith(
       expect.objectContaining({
-        summary: "Fehler beim Speichern: The fallback message",
+        summary: "Fehler: The fallback message",
       }),
     )
   })
@@ -60,7 +60,7 @@ describe("errorToast", () => {
 
     expect(add).toHaveBeenCalledWith(
       expect.objectContaining({
-        summary: "Fehler beim Speichern: The fallback message",
+        summary: "Fehler: The fallback message",
       }),
     )
   })
@@ -72,7 +72,7 @@ describe("errorToast", () => {
 
     expect(add).toHaveBeenCalledWith(
       expect.objectContaining({
-        summary: "Fehler beim Speichern: The fallback message",
+        summary: "Fehler: The fallback message",
       }),
     )
   })
@@ -80,7 +80,7 @@ describe("errorToast", () => {
   it("includes the trace ID if provided", () => {
     const source: ErrorResponse = { type: "/errors/foo" }
     const { addErrorToast } = useErrorToast()
-    addErrorToast(source, "4711")
+    addErrorToast(source, { traceId: "4711" })
 
     expect(add).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -105,6 +105,18 @@ describe("errorToast", () => {
           message: "Example: example",
           suggestion: "Try again",
         }),
+      }),
+    )
+  })
+
+  it("shows a custom message", () => {
+    const source = undefined
+    const { addErrorToast } = useErrorToast()
+    addErrorToast(source, { message: (err) => `Custom message: ${err}` })
+
+    expect(add).toHaveBeenCalledWith(
+      expect.objectContaining({
+        summary: "Custom message: The fallback message",
       }),
     )
   })

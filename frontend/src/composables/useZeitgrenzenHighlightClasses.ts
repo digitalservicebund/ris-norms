@@ -105,62 +105,46 @@ export function getHighlightClasses(index: number): HighlightClasses {
 }
 
 /**
- * Provides the classes for highlighting elements based on an associated temporal group.
- * These can be used in combination with the eIdClasses param of RisLawPreview.
+ * Provides the classes for highlighting elements based on an associated Zeitgrenze.
+ * These can be used in combination with the `eIdClasses` prop of `RisLawPreview`.
  *
- * @param highlightElements the elements that should be highlighted together with the associated temporal group
- * @param isSelected function returning true when the element with the given eId is currently selected and false otherwise
- * @returns An object containing for each eId an array of classes to apply to the element of that eId
+ * @param highlightElements The elements that should be highlighted
+ * @param isSelected function returning true when the element with the given eId
+ *  is currently selected and false otherwise
+ * @returns An object containing for each eId an array of classes to apply to
+ *  the element of that eId
  */
 export function useZeitgrenzenHighlightClasses(
-  highlightElements: MaybeRefOrGetter<
-    {
-      eId: string
-      temporalGroupEid?: string
-    }[]
-  >,
+  highlightElements: MaybeRefOrGetter<{ eId: string; geltungszeit?: string }[]>,
   isSelected: (eId: string) => boolean,
 ): ComputedRef<{ [eId: string]: string[] }> {
-  const orderedTemporalGroupEIds = computed(() =>
-    [
-      ...new Set(
-        toValue(highlightElements).map(
-          ({ temporalGroupEid }) => temporalGroupEid,
-        ),
-      ),
-    ].toSorted(
+  const ordererdZeitgrenzenEids = computed(() => {
+    return Array.from(
+      new Set(toValue(highlightElements).map((i) => i.geltungszeit)),
+    ).sort(
       (a, b) =>
         // sort by number part of the eId so eid-11 is after eid-3
-        parseInt(a?.match(/\d+$/)?.[0] ?? "0") -
-        parseInt(b?.match(/\d+$/)?.[0] ?? "0"),
-    ),
-  )
+        Number.parseInt(a?.match(/\d+$/)?.[0] ?? "0") -
+        Number.parseInt(b?.match(/\d+$/)?.[0] ?? "0"),
+    )
+  })
 
-  /**
-   * Find the color that should be used for the given time boundary.
-   *
-   * There are 10 numbered colors from 1 to 10 and a default color as a fallback, see tailwind.config.js
-   *
-   * @param eId the temporal group for which the color needs to be determined
-   */
-  function findColorsForTimeBoundary(eId?: string): HighlightClasses {
-    if (eId == null) {
-      return getHighlightClasses(-1)
-    }
+  function findColorsForZeitgrenze(eId?: string): HighlightClasses {
+    if (eId == null) return getHighlightClasses(-1)
 
-    const temporalGroupIndex = orderedTemporalGroupEIds.value.findIndex(
-      (temporalGroupEId) => temporalGroupEId === eId,
+    const zeitgrenzeIndex = ordererdZeitgrenzenEids.value.findIndex(
+      (zeitgrenzeEid) => zeitgrenzeEid === eId,
     )
 
-    return getHighlightClasses(temporalGroupIndex)
+    return getHighlightClasses(zeitgrenzeIndex)
   }
 
   return computed(() =>
     Object.fromEntries(
-      toValue(highlightElements).map(({ eId, temporalGroupEid }) => {
-        const colors = findColorsForTimeBoundary(temporalGroupEid)
-
+      toValue(highlightElements).map(({ eId, geltungszeit }) => {
+        const colors = findColorsForZeitgrenze(geltungszeit)
         const classes = ["px-2", "outline-blue-800"]
+
         if (isSelected(eId)) {
           classes.push(...colors.selected, "outline-2", "outline")
         } else {

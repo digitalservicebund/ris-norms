@@ -204,6 +204,46 @@ describe("risLawPreview", () => {
     expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
   })
 
+  it("should focus nested elements in order", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    render(RisLawPreview, {
+      props: {
+        content: `
+          <div>
+            <div class="akn-foo" data-eid="eid-1">
+              1
+              <div class="akn-bar" data-eid="eid-2">2</div>
+              <div class="akn-bar" data-eid="eid-3">3</div>
+            </div>
+            <div class="akn-foo" data-eid="eid-4">4</div>
+          </div>
+        `,
+      },
+      attrs: {
+        "onClick:akn:foo": handler,
+        "onClick:akn:bar": handler,
+      },
+    })
+
+    await screen.findAllByRole("button")
+
+    await user.tab()
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: /1/ })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "2" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "3" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "4" })).toHaveClass("focused")
+  })
+
   it("should automatically focus the selected element", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()

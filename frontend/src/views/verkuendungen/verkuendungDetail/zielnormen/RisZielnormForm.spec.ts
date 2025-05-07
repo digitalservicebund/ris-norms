@@ -2,12 +2,13 @@ import { describe, expect, it } from "vitest"
 import RisZielnormForm from "./RisZielnormForm.vue"
 import { render, screen } from "@testing-library/vue"
 import userEvent from "@testing-library/user-event"
+import { INDETERMINATE_VALUE } from "@/composables/useZielnormReferences"
 
 describe("risZielnormForm", () => {
   it("renders the component", () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "", typ: "", zielnorm: "" },
+        modelValue: { geltungszeit: "", zielnorm: "" },
       },
     })
 
@@ -23,7 +24,7 @@ describe("risZielnormForm", () => {
 
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "", typ: "", zielnorm: "" },
+        modelValue: { geltungszeit: "", zielnorm: "" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -38,8 +39,8 @@ describe("risZielnormForm", () => {
     const options = screen.getAllByRole("option")
 
     expect(options).toHaveLength(2)
-    expect(options[0]).toHaveTextContent("29.04.2025")
-    expect(options[1]).toHaveTextContent("30.04.2025")
+    expect(options[0]).toHaveTextContent("29.04.2025 (Inkrafttreten)")
+    expect(options[1]).toHaveTextContent("30.04.2025 (Außerkrafttreten)")
   })
 
   it("shows an empty state if there are no Zeitgrenzen", async () => {
@@ -47,7 +48,7 @@ describe("risZielnormForm", () => {
 
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "", typ: "", zielnorm: "" },
+        modelValue: { geltungszeit: "", zielnorm: "" },
         zeitgrenzen: [],
       },
     })
@@ -56,13 +57,13 @@ describe("risZielnormForm", () => {
       screen.getByRole("combobox", { name: "Geltungszeitregel" }),
     )
 
-    expect(screen.getByText("Keine Geltungszeiten gefunden")).toBeVisible()
+    expect(screen.getByText("Keine Zeitgrenzen gefunden")).toBeVisible()
   })
 
   it("populates the form with the model data", () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -75,7 +76,7 @@ describe("risZielnormForm", () => {
     ).toHaveValue("eli")
     expect(
       screen.getByRole("combobox", { name: "Geltungszeitregel" }),
-    ).toHaveTextContent("29.04.2025")
+    ).toHaveTextContent("29.04.2025 (Inkrafttreten)")
   })
 
   it("updates the model when the ELI is changed", async () => {
@@ -83,7 +84,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -101,7 +102,7 @@ describe("risZielnormForm", () => {
     })
 
     expect(emitted("update:modelValue")).toContainEqual([
-      { geltungszeit: "gz-1", typ: "", zielnorm: "other/eli" },
+      { geltungszeit: "gz-1", zielnorm: "other/eli" },
     ])
   })
 
@@ -110,7 +111,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         zeitgrenzen: [
           { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
           { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
@@ -123,10 +124,90 @@ describe("risZielnormForm", () => {
         name: "Geltungszeitregel",
       }),
     )
-    await user.click(screen.getByRole("option", { name: "30.04.2025" }))
+    await user.click(
+      screen.getByRole("option", { name: "30.04.2025 (Außerkrafttreten)" }),
+    )
 
     expect(emitted("update:modelValue")).toContainEqual([
-      { geltungszeit: "gz-2", typ: "", zielnorm: "eli" },
+      { geltungszeit: "gz-2", zielnorm: "eli" },
+    ])
+  })
+
+  it("shows an indeterminate Zeitgrenze", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: INDETERMINATE_VALUE, zielnorm: "eli" },
+        zeitgrenzen: [
+          { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
+          { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
+        ],
+      },
+    })
+
+    expect(
+      screen.getByRole("combobox", { name: "Geltungszeitregel" }),
+    ).toHaveTextContent("Mehrere ausgewählt")
+  })
+
+  it("shows an indeterminate Zielnorm", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: "gz-1", zielnorm: INDETERMINATE_VALUE },
+        zeitgrenzen: [
+          { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
+          { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
+        ],
+      },
+    })
+
+    const textbox = screen.getByRole("textbox", {
+      name: "ELI Zielnormenkomplex",
+    })
+
+    expect(textbox).toHaveAttribute("placeholder", "Mehrere")
+    expect(textbox).toHaveValue("")
+  })
+
+  it("updates indeterminate values", async () => {
+    const user = userEvent.setup()
+
+    const { emitted } = render(RisZielnormForm, {
+      props: {
+        modelValue: {
+          geltungszeit: INDETERMINATE_VALUE,
+          zielnorm: INDETERMINATE_VALUE,
+        },
+        zeitgrenzen: [
+          { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
+          { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
+        ],
+      },
+    })
+
+    const eliInput = screen.getByRole("textbox", {
+      name: "ELI Zielnormenkomplex",
+    })
+
+    await user.type(eliInput, "other/eli", {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 3,
+    })
+
+    expect(emitted("update:modelValue")).toContainEqual([
+      { geltungszeit: INDETERMINATE_VALUE, zielnorm: "other/eli" },
+    ])
+
+    await user.click(
+      screen.getByRole("combobox", {
+        name: "Geltungszeitregel",
+      }),
+    )
+    await user.click(
+      screen.getByRole("option", { name: "30.04.2025 (Außerkrafttreten)" }),
+    )
+
+    expect(emitted("update:modelValue")).toContainEqual([
+      { geltungszeit: "gz-2", zielnorm: "other/eli" },
     ])
   })
 
@@ -135,7 +216,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
       },
     })
 
@@ -144,26 +225,60 @@ describe("risZielnormForm", () => {
     expect(emitted("save")).toBeTruthy()
   })
 
-  it("sets the loading state", async () => {
+  it("sets the updating state", async () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
-        loading: true,
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
+        updating: true,
       },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).toBeDisabled()
   })
 
-  it("does not set the loading state", async () => {
+  it("does not set the updating state", async () => {
     render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
-        loading: false,
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
+        updating: false,
       },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).not.toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).not.toBeDisabled()
+  })
+
+  it("sets the deleting state", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
+        deleting: true,
+      },
+    })
+
+    expect(screen.getByRole("button", { name: "Speichern" })).toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).toBeDisabled()
+  })
+
+  it("does not set the deleting state", async () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
+        deleting: false,
+      },
+    })
+
+    expect(screen.getByRole("button", { name: "Speichern" })).not.toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Einträge entfernen" }),
+    ).not.toBeDisabled()
   })
 
   it("emits an event on delete", async () => {
@@ -171,7 +286,7 @@ describe("risZielnormForm", () => {
 
     const { emitted } = render(RisZielnormForm, {
       props: {
-        modelValue: { geltungszeit: "gz-1", typ: "", zielnorm: "eli" },
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
       },
     })
 

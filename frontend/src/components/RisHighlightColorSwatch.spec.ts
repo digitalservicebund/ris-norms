@@ -25,4 +25,15 @@ describe("risHighlightColorSwatch", () => {
     // eslint-disable-next-line -- Purely visual component, no better selectors available
     expect(container.querySelector(".h-28.w-28")).toBeVisible()
   })
+
+  it("should not show a color when setting the index to undefined", () => {
+    const { container } = render(RisHighlightColorSwatch, {
+      props: {
+        colorIndex: undefined,
+      },
+    })
+
+    // eslint-disable-next-line -- Purely visual component, no better selectors available
+    expect(container.querySelector(".bg-highlight-2-default")).toBeFalsy()
+  })
 })

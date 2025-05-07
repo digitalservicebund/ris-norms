@@ -292,7 +292,7 @@ const { addErrorToast } = useErrorToast()
 
 function showToast() {
   if (saveError.value) {
-    addErrorToast(saveError, sentryTraceId)
+    addErrorToast(saveError, { traceId: sentryTraceId })
   } else {
     addToast({
       summary: "Gespeichert!",

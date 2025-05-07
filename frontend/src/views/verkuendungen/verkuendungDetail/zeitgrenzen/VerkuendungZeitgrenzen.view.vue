@@ -35,10 +35,7 @@ const { addErrorToast } = useErrorToast()
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "verkuendung",
-    title: () =>
-      verkuendung.value
-        ? (getFrbrDisplayText(verkuendung.value) ?? "...")
-        : "...",
+    title: () => getFrbrDisplayText(verkuendung.value) ?? "...",
     to: `/verkuendungen/${eli.value}`,
   },
   { key: "zeitgrenzen", title: "Geltungszeitregeln anlegen" },
