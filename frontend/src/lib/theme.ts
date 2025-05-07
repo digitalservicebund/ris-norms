@@ -21,7 +21,7 @@ const accordionHeader: AccordionHeaderPassThroughOptions = {
     class: tw`group flex gap-14 px-12 py-8 justify-start text-left w-full cursor-pointer disabled:cursor-not-allowed disabled:text-gray-600 focus-visible:outline-4 outline-blue-800 -outline-offset-4 hover:bg-gray-200`,
   },
   toggleicon: {
-    class: tw`order-first relative top-6 rotate-270 group-aria-expanded:rotate-180 text-blue-800`,
+    class: tw`order-first relative top-6 rotate-270 group-aria-expanded:rotate-180 text-blue-800 flex-none`,
   },
 }
 
