@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.8.0"
+flyway = "11.8.1"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.6.0"
@@ -8,7 +8,7 @@ org-testcontainers = "1.21.0"
 spring-boot = "3.4.5"
 
 [libraries]
-archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.0"
+archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
 aws-bom = "software.amazon.awssdk:bom:2.29.52"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
@@ -17,7 +17,7 @@ flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
 google-protobuf-java = "com.google.protobuf:protobuf-java:4.30.2"
-jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.0"
+jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.1"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.38"
@@ -50,7 +50,7 @@ tika-core = "org.apache.tika:tika-core:3.1.0"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
-sentry = "io.sentry.jvm.gradle:5.4.0"
+sentry = "io.sentry.jvm.gradle:5.5.0"
 sonarqube = "org.sonarqube:6.1.0.5360"
 spotless = "com.diffplug.spotless:7.0.3"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
