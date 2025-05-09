@@ -2,7 +2,7 @@
 flyway = "11.8.1"
 # @keep
 jacoco = "0.8.11"
-net-javacrumbs-shedlock = "6.6.0"
+net-javacrumbs-shedlock = "6.6.1"
 org-bouncycastle = "1.80"
 org-testcontainers = "1.21.0"
 spring-boot = "3.4.5"
