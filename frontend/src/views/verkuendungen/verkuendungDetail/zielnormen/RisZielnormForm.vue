@@ -114,6 +114,7 @@ const eli = computed({
         v-model="zeitgrenze"
         :aria-labelledby="zeitgrenzeSelectId"
         :options="zeitgrenzenOptions"
+        placeholder="Keine Geltungszeitregel ausgewählt"
         option-disabled="disabled"
         option-label="label"
       >
@@ -127,7 +128,7 @@ const eli = computed({
             {{ value.label }}
           </div>
 
-          <template v-else>{{ placeholder }}</template>
+          <div v-else class="text-gray-800">{{ placeholder }}</div>
         </template>
 
         <template #option="{ option }">

@@ -101,7 +101,7 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
         Änderungsgesetz
       </h1>
 
-      <Button class="ml-auto" disabled text>
+      <Button class="ml-auto" disabled text aria-label="Erweitern/verkleinern">
         <template #icon>
           <IcBaselineUnfoldLess v-if="false" />
           <IcBaselineUnfoldMore v-else />
