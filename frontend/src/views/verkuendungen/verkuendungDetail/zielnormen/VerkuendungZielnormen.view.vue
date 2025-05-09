@@ -8,11 +8,13 @@ import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
+import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import {
   useZielnormReferences,
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
+import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import {
@@ -29,8 +31,6 @@ import {
 import { computed, ref, watch } from "vue"
 import RisDokumentExplorer from "./RisDokumentExplorer.vue"
 import RisZielnormForm from "./RisZielnormForm.vue"
-import { useErrorToast } from "@/lib/errorToast"
-import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 
 const { addErrorToast } = useErrorToast()
 
@@ -73,6 +73,8 @@ const formattedVerkuendungsdatum = computed(() =>
 
 // Editing ------------------------------------------------
 
+const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
+
 const eIdsToEdit = ref<string[]>([])
 
 const editedZielnormReference = ref<EditableZielnormReference>()
@@ -97,14 +99,13 @@ const isSelected = (eid: string) => {
 const highlightClasses = useZeitgrenzenHighlightClasses(
   () => [...(zielnormReferences.value ?? [])],
   isSelected,
+  () => zeitgrenzen.value ?? [],
 )
 
 watch(eIdsToEdit, (val) => {
   if (!val?.length) editedZielnormReference.value = undefined
   else editedZielnormReference.value = zielnormReferencesForEid(...val)
 })
-
-const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
 
 async function onSaveZielnormReferences() {
   if (!eIdsToEdit.value.length || !editedZielnormReference.value) return

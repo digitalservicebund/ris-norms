@@ -1,4 +1,6 @@
 import { getModEIds } from "@/lib/ldmldeMod"
+import type { Zeitgrenze } from "@/types/zeitgrenze"
+import { keyBy, sortBy } from "lodash"
 import type { ComputedRef, MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 
@@ -117,26 +119,26 @@ export function getHighlightClasses(index: number): HighlightClasses {
 export function useZeitgrenzenHighlightClasses(
   highlightElements: MaybeRefOrGetter<{ eId: string; geltungszeit?: string }[]>,
   isSelected: (eId: string) => boolean,
+  zeitgrenzen: MaybeRefOrGetter<Zeitgrenze[]>,
 ): ComputedRef<{ [eId: string]: string[] }> {
-  const ordererdZeitgrenzenEids = computed(() => {
-    return Array.from(
-      new Set(toValue(highlightElements).map((i) => i.geltungszeit)),
-    ).sort(
-      (a, b) =>
-        // sort by number part of the eId so eid-11 is after eid-3
-        Number.parseInt(a?.match(/\d+$/)?.[0] ?? "0") -
-        Number.parseInt(b?.match(/\d+$/)?.[0] ?? "0"),
+  // Index of Zeitgrenzen, sorted by their date and put into a map with the ID as
+  // the key for easier access later
+  const zeitgrenzenById = computed<
+    Record<string, Zeitgrenze & { index: number }>
+  >(() => {
+    const sortedZeitgrenzen = sortBy(toValue(zeitgrenzen) ?? [], "date").map(
+      (zeitgrenze, i) => ({ ...zeitgrenze, index: i }),
     )
+
+    return keyBy(sortedZeitgrenzen, "id")
   })
 
-  function findColorsForZeitgrenze(eId?: string): HighlightClasses {
-    if (eId == null) return getHighlightClasses(-1)
+  function findColorsForZeitgrenze(id?: string): HighlightClasses {
+    if (!id) return getHighlightClasses(-1)
 
-    const zeitgrenzeIndex = ordererdZeitgrenzenEids.value.findIndex(
-      (zeitgrenzeEid) => zeitgrenzeEid === eId,
+    return getHighlightClasses(
+      id in zeitgrenzenById.value ? zeitgrenzenById.value[id].index : -1,
     )
-
-    return getHighlightClasses(zeitgrenzeIndex)
   }
 
   return computed(() =>
@@ -194,5 +196,8 @@ export function useModHighlightClasses(
     })),
   )
 
-  return useZeitgrenzenHighlightClasses(modsWithTimeBoundaries, isSelected)
+  // Note: Due to the empty Zeitgrenzen array, this will currently always return an
+  // empty list of classes. Leaving it broken since we don't currently use the views
+  // that rely on this, and will most likely remove them soon.
+  return useZeitgrenzenHighlightClasses(modsWithTimeBoundaries, isSelected, [])
 }

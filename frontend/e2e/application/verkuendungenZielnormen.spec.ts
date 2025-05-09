@@ -1,3 +1,4 @@
+import type { Zeitgrenze } from "@/types/zeitgrenze"
 import type { ZielnormReference } from "@/types/zielnormReference"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "playwright/test"
@@ -73,7 +74,7 @@ test.describe(
       )
 
       await expect(
-        page.getByText("Bitte wählen Sie einen Änderungsbefehl aus."),
+        page.getByText("Bitte wählen Sie einen Artikel aus."),
       ).toBeVisible()
     })
   },
@@ -264,18 +265,23 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
 })
 
 test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
+  let zeitgrenzenIds: string[] = []
+
   test.beforeAll(async ({ authenticatedRequest: request }) => {
     // Prepare Zeitgrenzen
-    await request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
-      {
-        data: [
-          { id: "gz-1", date: "2017-03-16", art: "INKRAFT" },
-          { id: "gz-2", date: "2025-05-30", art: "INKRAFT" },
-          { id: "gz-3", date: "2025-06-20", art: "AUSSERKRAFT" },
-        ],
-      },
-    )
+    zeitgrenzenIds = await request
+      .put(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        {
+          data: [
+            { date: "2017-03-16", art: "INKRAFT" },
+            { date: "2025-05-30", art: "INKRAFT" },
+            { date: "2025-06-20", art: "AUSSERKRAFT" },
+          ],
+        },
+      )
+      .then((response) => response.json())
+      .then((zeitgrenzen: Zeitgrenze[]) => zeitgrenzen.map((i) => i.id))
   })
 
   test.beforeEach(async ({ authenticatedRequest: request }) => {
@@ -528,13 +534,13 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
       {
         data: [
           {
-            geltungszeit: "gz-1",
+            geltungszeit: zeitgrenzenIds[0],
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
             eId: "hauptteil-1_art-1_abs-1",
           },
           {
-            geltungszeit: "gz-2",
+            geltungszeit: zeitgrenzenIds[1],
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
             eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
