@@ -9,9 +9,11 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZeitgrenzeR
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,7 @@ public class ZeitgrenzenController {
       loadZeitgrenzenUseCase
         .loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli))
         .stream()
+        .sorted(Comparator.comparing(Zeitgrenze::getDate))
         .map(ZeitgrenzeMapper::fromUseCaseData)
         .toList()
     );
@@ -76,6 +79,7 @@ public class ZeitgrenzenController {
           new UpdateZeitgrenzenUseCase.Query(eli, ZeitgrenzeMapper.fromRequestSchema(zeitgrenzen))
         )
         .stream()
+        .sorted(Comparator.comparing(Zeitgrenze::getDate))
         .map(ZeitgrenzeMapper::fromUseCaseData)
         .toList()
     );
