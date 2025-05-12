@@ -117,7 +117,7 @@ const resetSelectionKeys = () => {
     >
       <RisHeader class="col-span-2">
         <aside
-          class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white px-8 pt-16"
+          class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-x-auto overflow-y-auto border-r border-gray-400 bg-white px-8 pt-16"
           aria-labelledby="sidebarNavigation"
         >
           <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
@@ -131,7 +131,6 @@ const resetSelectionKeys = () => {
           >
             Rahmen
           </router-link>
-          <hr class="mx-16 my-8 border-t border-gray-400" />
           <!-- Content links -->
           <div
             v-if="tocIsLoading"
@@ -152,55 +151,57 @@ const resetSelectionKeys = () => {
             class="mx-16"
             variant="simple"
           />
+          <div class="min-w-max">
+            <hr class="mx-16 my-8 border-t border-gray-400" />
+            <Tree
+              v-model:expanded-keys="expandedKeys"
+              v-model:selection-keys="selectionKeys"
+              :value="treeNodes"
+              selection-mode="single"
+              @node-select="handleNodeSelect"
+              @node-unselect="handleNodeUnselect"
+            >
+              <template #default="{ node }">
+                <router-link
+                  v-if="node.data.route"
+                  :to="node.data.route"
+                  class="inline-block max-w-192 truncate whitespace-nowrap"
+                  :title="node.data.primaryLabel"
+                  tabindex="-1"
+                  @click="toggleNode(node)"
+                >
+                  {{ node.data.primaryLabel }}
+                </router-link>
+                <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+                <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
+                <span
+                  v-else
+                  class="inline-block max-w-192 truncate whitespace-nowrap"
+                  :title="node.data.primaryLabel"
+                  tabindex="-1"
+                  @click="toggleNode(node)"
+                >
+                  {{ node.data.primaryLabel }}
+                </span>
 
-          <Tree
-            v-model:expanded-keys="expandedKeys"
-            v-model:selection-keys="selectionKeys"
-            :value="treeNodes"
-            selection-mode="single"
-            @node-select="handleNodeSelect"
-            @node-unselect="handleNodeUnselect"
-          >
-            <template #default="{ node }">
-              <router-link
-                v-if="node.data.route"
-                :to="node.data.route"
-                class="w-full truncate overflow-hidden text-ellipsis"
-                :title="node.data.primaryLabel"
-                tabindex="-1"
-                @click="toggleNode(node)"
-              >
-                {{ node.data.primaryLabel }}
-              </router-link>
-              <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
-              <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
-              <span
-                v-else
-                class="w-full truncate overflow-hidden text-ellipsis"
-                :title="node.data.primaryLabel"
-                tabindex="-1"
-                @click="toggleNode(node)"
-              >
-                {{ node.data.primaryLabel }}
-              </span>
+                <router-link
+                  v-if="node.data.secondaryLabel"
+                  :to="node.data.route"
+                  class="ris-label2-regular inline-block max-w-192 truncate whitespace-nowrap"
+                  :title="node.data.secondaryLabel"
+                  tabindex="-1"
+                  @click="toggleNode(node)"
+                >
+                  {{ node.data.secondaryLabel }}
+                </router-link>
+              </template>
 
-              <router-link
-                v-if="node.data.secondaryLabel"
-                :to="node.data.route"
-                class="ris-label2-regular w-full truncate overflow-hidden text-ellipsis"
-                :title="node.data.secondaryLabel"
-                tabindex="-1"
-                @click="toggleNode(node)"
-              >
-                {{ node.data.secondaryLabel }}
-              </router-link>
-            </template>
-
-            <template #nodetoggleicon="{ expanded }">
-              <ChevronDownIcon v-if="!expanded" />
-              <ChevronUpIcon v-else />
-            </template>
-          </Tree>
+              <template #nodetoggleicon="{ expanded }">
+                <ChevronDownIcon v-if="!expanded" />
+                <ChevronUpIcon v-else />
+              </template>
+            </Tree>
+          </div>
         </aside>
 
         <RouterView />
