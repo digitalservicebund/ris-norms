@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
-    "@digitalservicebund/ris-ui": "~3.4.0",
+    "@digitalservicebund/ris-ui": "~3.4.3",
     "@sentry/vue": "~9.17.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
@@ -42,7 +42,7 @@
     "immer": "~10.1.1",
     "keycloak-js": "~26.2.0",
     "lodash.sortby": "~4.7.0",
-    "primevue": "4.3.3",
+    "primevue": "~4.3.4",
     "uuid": "~11.1.0",
     "vue": "~3.5.13",
     "vue-router": "~4.5.0"

@@ -22,11 +22,6 @@
       "description": "Allow only patch updates for AWS SDK in the 2.29.x series. With new minor version 2.30.x we have some issue with the integrity checks when communicating with OTC OBS"
     },
     {
-      "matchDepNames": ["primevue"],
-      "allowedVersions": "4.3.3",
-      "description": "v4.3.4 breaks splitter layout, keeping the current version until we found a solution"
-    },
-    {
       "groupName": "all non-major frontend dependencies",
       "matchPaths": [
         "frontend/**"
