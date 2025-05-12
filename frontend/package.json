@@ -42,7 +42,7 @@
     "immer": "~10.1.1",
     "keycloak-js": "~26.2.0",
     "lodash.sortby": "~4.7.0",
-    "primevue": "~4.3.1",
+    "primevue": "4.3.3",
     "uuid": "~11.1.0",
     "vue": "~3.5.13",
     "vue-router": "~4.5.0"
