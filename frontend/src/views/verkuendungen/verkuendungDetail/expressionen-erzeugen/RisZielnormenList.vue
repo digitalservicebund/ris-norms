@@ -21,11 +21,16 @@ const { items } = defineProps<{ items: RisZielnormenListItem[] }>()
 </script>
 
 <template>
-  <Accordion>
-    <AccordionPanel v-for="(item, i) in items" :key="item.title" :value="i">
+  <Accordion class="flex flex-col gap-8 border-0! bg-inherit!">
+    <AccordionPanel
+      v-for="(item, i) in items"
+      :key="item.title"
+      class="border-t border-b border-blue-300 bg-white"
+      :value="i"
+    >
       <AccordionHeader>
         <div>
-          <div class="ris-body1-bold mb-8">
+          <div class="ris-body1-bold">
             <span>{{ item.title }}</span>
             <span v-if="item.shortTitle"> ({{ item.shortTitle }})</span>
           </div>
