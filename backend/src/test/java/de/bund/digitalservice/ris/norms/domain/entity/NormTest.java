@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class NormTest {
 
@@ -281,37 +283,22 @@ class NormTest {
   @Nested
   class isInkraftAt {
 
-    @Test
-    void itReturnsTrueIfTheDateIsAfterInkrafttreteDatum() {
-      // Given
+    @ParameterizedTest
+    @CsvSource(
+      {
+        "1962-01-01,false", // Before inkrafttreteDatum
+        "1964-08-05,true", // Exactly on inkrafttreteDatum
+        "2020-01-01,true", // Well after inkrafttreteDatum
+        "2030-01-01,true", // Exactly on ausserkrafttreteDatum
+        "2030-01-02,false", // After ausserkrafttreteDatum
+      }
+    )
+    void itEvaluatesCorrectlyBasedOnDate(String inputDate, boolean expectedResult) {
       Norm norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
 
-      // When // Then
-      assertThat(norm.isInkraftAt(LocalDate.parse("2020-01-01"))).isTrue();
-    }
-
-    @Test
-    void itReturnsTrueIfTheDateIsBeforeInkrafttreteDatum() {
-      // Given
-      Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
-
-      // When // Then
-      assertThat(norm.isInkraftAt(LocalDate.parse("1962-01-01"))).isFalse();
-    }
-
-    @Test
-    void itReturnsFalseIfTheDateIsAfterAusserkrafttreteDatum() {
-      // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
-
-      // When // Then
-      assertThat(norm.isInkraftAt(LocalDate.parse("2030-01-01"))).isFalse();
+      assertThat(norm.isInkraftAt(LocalDate.parse(inputDate))).isEqualTo(expectedResult);
     }
   }
 

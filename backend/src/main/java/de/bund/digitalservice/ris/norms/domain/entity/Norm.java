@@ -239,8 +239,10 @@ public class Norm {
 
     return (
       inkrafttreteDatum.isPresent() &&
-      inkrafttreteDatum.get().isBefore(date) &&
-      (ausserkrafttreteDatum.isEmpty() || ausserkrafttreteDatum.get().isAfter(date))
+      (inkrafttreteDatum.get().isBefore(date) || inkrafttreteDatum.get().isEqual(date)) &&
+      (ausserkrafttreteDatum.isEmpty() ||
+        ausserkrafttreteDatum.get().isAfter(date) ||
+        ausserkrafttreteDatum.get().isEqual(date))
     );
   }
 
