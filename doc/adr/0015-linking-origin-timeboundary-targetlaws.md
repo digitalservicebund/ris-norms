@@ -21,12 +21,12 @@ We will use a custom metadata structure within the ris metadata node (`<ris:lega
 - A new custom namespace with the URI identifier `http://MetadatenMods.LegalDocML.de/1.7.2/` and the prefix `norms`.
 - Two main sections:
   - **`<norms:geltungszeiten>`**: Defines time boundaries related to the validity of modifications and contains a list of `<norms:geltungszeit>` with:
-    - An `id` attribute, serving as a reference for modifications.
+    - An `id` attribute, serving as a reference for modifications (UUID).
     - An `art` attribute to specify the type of validity (`inkraft`, `ausserkraft`).
     - A date value, if the time boundary is defined. If date is not yet known (`unbestimmt`), a string identifier chosen by the user will be used.
   - **`<norms:zielnorm-references>`**: Represents the links between amending statements, time boundaries, and target laws, and also includes the type of the reference. It contains a list of `<norms:zielnorm-reference>` with:
     - `<norms:typ>`: The type of the reference (e.g. `Änderungsvorschrift`, `Aufhebung`, `Teiländerung`), which is new to the whole concept.
-    - `<norms:geltungszeit>`: A reference to a `norms:geltungszeit`.
+    - `<norms:geltungszeit>`: A reference to a `norms:geltungszeit` using its id.
     - `<norms:eid>`: The eId of the node within the `akn:body` containing the amending statement.
     - `<norms:zielnorm>`: The Work-ELI of the target norm being referenced.
 
@@ -34,33 +34,33 @@ Example:
 ```
 <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
     <norms:geltungszeiten>
-        <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
-        <norms:geltungszeit id="gz-2" art="ausserkraft">2024-12-12</norms:geltungszeit>
-        <norms:geltungszeit id="gz-3" art="inkraft">unbestimmt-1</norms:geltungszeit>
-        <norms:geltungszeit id="gz-4" art="ausserkraft">unbestimmt-2</norms:geltungszeit>
+        <norms:geltungszeit id="3b8a6a6d-9bf8-4b53-90ce-3b4dcf07d6f4" art="inkraft">2020-01-01</norms:geltungszeit>
+        <norms:geltungszeit id="141945d5-b518-4ebe-815e-916fa4e00951" art="ausserkraft">2024-12-12</norms:geltungszeit>
+        <norms:geltungszeit id="3f3d2782-3b54-44d5-b75a-690a83f7f163" art="inkraft">unbestimmt-1</norms:geltungszeit>
+        <norms:geltungszeit id="91624270-3efe-462f-952f-f5a2149de356" art="ausserkraft">unbestimmt-2</norms:geltungszeit>
     </norms:geltungszeiten>
     <norms:zielnorm-references>
         <norms:zielnorm-reference>
             <norms:typ>Änderungsvorschrift</norms:typ>
-            <norms:geltungszeit>gz-1</norms:geltungszeit>
+            <norms:geltungszeit>3b8a6a6d-9bf8-4b53-90ce-3b4dcf07d6f4</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
             <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
         </norms:zielnorm-reference>
         <norms:zielnorm-reference>
             <norms:typ>Aufhebung</norms:typ>
-            <norms:geltungszeit>gz-2</norms:geltungszeit>
+            <norms:geltungszeit>141945d5-b518-4ebe-815e-916fa4e00951</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2</norms:eid>
             <norms:zielnorm>eli/bund/bgbl-1/2019/789</norms:zielnorm>
         </norms:zielnorm-reference>
         <norms:zielnorm-reference>
             <norms:typ>Teiländerung</norms:typ>
-            <norms:geltungszeit>gz-3</norms:geltungszeit>
+            <norms:geltungszeit>3f3d2782-3b54-44d5-b75a-690a83f7f163</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-3</norms:eid>
             <norms:zielnorm>eli/bund/bgbl-1/1990/456</norms:zielnorm>
         </norms:zielnorm-reference>
         <norms:zielnorm-reference>
             <norms:typ>Änderungsvorschrift</norms:typ>
-            <norms:geltungszeit>gz-1</norms:geltungszeit>
+            <norms:geltungszeit>3b8a6a6d-9bf8-4b53-90ce-3b4dcf07d6f4</norms:geltungszeit>
             <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-4</norms:eid>
             <norms:zielnorm>eli/bund/bgbl-1/1990/456</norms:zielnorm>
         </norms:zielnorm-reference>
