@@ -37,7 +37,7 @@ class ZeitgrenzeControllerTest {
   class getZeitgrenzen {
 
     @Test
-    void getZeitgrenzenReturnsCorrectData() throws Exception {
+    void getZeitgrenzenReturnsCorrectDataInOrder() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
@@ -47,7 +47,9 @@ class ZeitgrenzeControllerTest {
           <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
             <norms:geltungszeiten>
                 <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
-                <norms:geltungszeit id="gz-2" art="ausserkraft">2024-12-12</norms:geltungszeit>
+                <norms:geltungszeit id="gz-2" art="ausserkraft">2024-01-01</norms:geltungszeit>
+                <norms:geltungszeit id="gz-3" art="inkraft">2019-01-01</norms:geltungszeit>
+                <norms:geltungszeit id="gz-4" art="ausserkraft">2025-01-01</norms:geltungszeit>
             </norms:geltungszeiten>
             <norms:zielnorm-references>
                  <norms:zielnorm-reference>
@@ -69,15 +71,23 @@ class ZeitgrenzeControllerTest {
       mockMvc
         .perform(get("/api/v1/norms/{eli}/zeitgrenzen", eli).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", hasSize(2)))
-        .andExpect(jsonPath("$[0].id", is("gz-1")))
-        .andExpect(jsonPath("$[0].date", is("2020-01-01")))
+        .andExpect(jsonPath("$", hasSize(4)))
+        .andExpect(jsonPath("$[0].id", is("gz-3")))
+        .andExpect(jsonPath("$[0].date", is("2019-01-01")))
         .andExpect(jsonPath("$[0].art", is("INKRAFT")))
-        .andExpect(jsonPath("$[0].inUse", is(true)))
-        .andExpect(jsonPath("$[1].id", is("gz-2")))
-        .andExpect(jsonPath("$[1].date", is("2024-12-12")))
-        .andExpect(jsonPath("$[1].art", is("AUSSERKRAFT")))
-        .andExpect(jsonPath("$[1].inUse", is(false)));
+        .andExpect(jsonPath("$[0].inUse", is(false)))
+        .andExpect(jsonPath("$[1].id", is("gz-1")))
+        .andExpect(jsonPath("$[1].date", is("2020-01-01")))
+        .andExpect(jsonPath("$[1].art", is("INKRAFT")))
+        .andExpect(jsonPath("$[1].inUse", is(true)))
+        .andExpect(jsonPath("$[2].id", is("gz-2")))
+        .andExpect(jsonPath("$[2].date", is("2024-01-01")))
+        .andExpect(jsonPath("$[2].art", is("AUSSERKRAFT")))
+        .andExpect(jsonPath("$[2].inUse", is(false)))
+        .andExpect(jsonPath("$[3].id", is("gz-4")))
+        .andExpect(jsonPath("$[3].date", is("2025-01-01")))
+        .andExpect(jsonPath("$[3].art", is("AUSSERKRAFT")))
+        .andExpect(jsonPath("$[3].inUse", is(false)));
 
       verify(loadZeitgrenzenUseCase, times(1))
         .loadZeitgrenzenFromDokument(any(LoadZeitgrenzenUseCase.Query.class));
@@ -139,13 +149,13 @@ class ZeitgrenzeControllerTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(2)))
-        .andExpect(jsonPath("$[0].id", is("gz-1")))
-        .andExpect(jsonPath("$[0].date", is("2025-02-20")))
-        .andExpect(jsonPath("$[0].art", is("INKRAFT")))
+        .andExpect(jsonPath("$[0].id", is("gz-2")))
+        .andExpect(jsonPath("$[0].date", is("2023-05-01")))
+        .andExpect(jsonPath("$[0].art", is("AUSSERKRAFT")))
         .andExpect(jsonPath("$[0].inUse", is(false)))
-        .andExpect(jsonPath("$[1].id", is("gz-2")))
-        .andExpect(jsonPath("$[1].date", is("2023-05-01")))
-        .andExpect(jsonPath("$[1].art", is("AUSSERKRAFT")))
+        .andExpect(jsonPath("$[1].id", is("gz-1")))
+        .andExpect(jsonPath("$[1].date", is("2025-02-20")))
+        .andExpect(jsonPath("$[1].art", is("INKRAFT")))
         .andExpect(jsonPath("$[1].inUse", is(false)));
 
       verify(updateZeitgrenzenUseCase, times(1))
