@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +72,7 @@ public final class NormExpressionEli implements NormEli, Comparable<NormExpressi
       .matcher(expressionEli);
 
     if (!matcher.matches()) {
-      throw new IllegalArgumentException("Invalid expression Eli");
+      throw new InvalidEliException(NormExpressionEli.class, expressionEli);
     }
 
     return new NormExpressionEli(

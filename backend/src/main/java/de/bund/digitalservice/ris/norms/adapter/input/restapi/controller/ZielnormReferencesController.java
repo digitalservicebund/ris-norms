@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateZielnormRef
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -68,7 +69,7 @@ public class ZielnormReferencesController {
   @PostMapping(produces = { APPLICATION_JSON_VALUE }, consumes = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ZielnormReferenceSchema>> updateReferences(
     final NormExpressionEli eli,
-    @RequestBody final List<ZielnormReferenceSchema> references
+    @RequestBody @Valid final List<ZielnormReferenceSchema> references
   ) {
     return ResponseEntity.ok(
       updateZielnormReferencesUseCase
