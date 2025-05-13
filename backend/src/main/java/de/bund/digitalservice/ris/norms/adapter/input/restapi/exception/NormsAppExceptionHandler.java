@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -244,6 +245,19 @@ public class NormsAppExceptionHandler {
   public ProblemDetail handleException(final ImportProcessNotFoundException e) {
     log.error("ImportProcessNotFoundException: {}", e.getMessage(), e);
     return createProblemDetail(e, HttpStatus.NOT_FOUND);
+  }
+
+  /**
+   * Exception handler method for handling {@link ImportProcessNotFoundException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
+   */
+  @ExceptionHandler(InvalidEliException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final InvalidEliException e) {
+    log.error("InvalidEliException: {}", e.getMessage(), e);
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   private static ProblemDetail createProblemDetail(NormsAppException e, HttpStatus status) {

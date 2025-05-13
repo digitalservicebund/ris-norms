@@ -138,4 +138,11 @@ export const errorMessages = {
     title: "Invalide LDML.de-Datei",
     message: "Das LDML.de 1.7.2-Dokument ist nicht gültig.",
   }),
+
+  "/errors/invalid-eli": (
+    e: ErrorResponse<{ eliType: string; eli: string }>,
+  ) => ({
+    title: "Invalide ELI",
+    message: `Die angegebene ${e.eliType} "${e.eli}" ist nicht gültig.`,
+  }),
 } satisfies ErrorResponseMapping

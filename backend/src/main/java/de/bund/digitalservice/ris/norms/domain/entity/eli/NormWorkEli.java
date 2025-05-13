@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
 import java.net.URI;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -38,7 +39,7 @@ public final class NormWorkEli implements NormEli, Comparable<NormWorkEli> {
       .matcher(workEli);
 
     if (!matcher.matches()) {
-      throw new IllegalArgumentException("Invalid work Eli");
+      throw new InvalidEliException(NormWorkEli.class, workEli);
     }
 
     return new NormWorkEli(
