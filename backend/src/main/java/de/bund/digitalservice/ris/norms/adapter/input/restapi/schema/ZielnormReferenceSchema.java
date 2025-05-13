@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Schema for a {@link ZielnormReference}
@@ -10,8 +11,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
  * @param zielnorm the work eli of the zielnorm
  */
 public record ZielnormReferenceSchema(
-  String typ,
-  String geltungszeit,
-  String eId,
-  String zielnorm
+  @NotEmpty String typ,
+  @NotEmpty String geltungszeit,
+  @NotEmpty String eId,
+  @NotEmpty String zielnorm
 ) {}
