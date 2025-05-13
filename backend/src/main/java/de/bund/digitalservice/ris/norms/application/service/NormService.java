@@ -258,15 +258,15 @@ public class NormService
   ) {
     var geltungszeiten = findGeltungszeitenForZielnorm(verkuendungNorm, zielnormWorkEli);
 
-    LocalDate earliestGeltungszeit = geltungszeiten
-      .stream()
-      .sorted()
-      .findFirst()
-      .orElseThrow(() -> new RuntimeException("Geltungszeit nicht gefunden"));
+    var earliestGeltungszeit = geltungszeiten.stream().sorted().findFirst();
+
+    if (earliestGeltungszeit.isEmpty()) {
+      return List.of();
+    }
 
     var relevantExistingExpressions = collectRelevantExistingExpressions(
       zielnormWorkEli,
-      earliestGeltungszeit
+      earliestGeltungszeit.get()
     );
 
     List<ZielnormPreview.Expression> expressions = new ArrayList<>();
