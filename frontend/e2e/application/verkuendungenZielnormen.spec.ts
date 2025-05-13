@@ -74,7 +74,7 @@ test.describe(
       )
 
       await expect(
-        page.getByText("Bitte wählen Sie einen Artikel aus."),
+        page.getByText("Bitte wählen Sie einen Artikel und eine Änderung aus."),
       ).toBeVisible()
     })
   },
@@ -700,7 +700,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
 
     await expect(page.getByText("Gelöscht")).toBeVisible()
     await expect(
-      page.getByText("Bitte wählen Sie einen Artikel aus"),
+      page.getByText("Bitte wählen Sie einen Artikel und eine Änderung aus."),
     ).toBeVisible()
   })
 
@@ -752,7 +752,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
 
     await expect(page.getByText("Gelöscht")).toBeVisible()
     await expect(
-      page.getByText("Bitte wählen Sie einen Artikel aus"),
+      page.getByText("Bitte wählen Sie einen Artikel und eine Änderung aus."),
     ).toBeVisible()
   })
 
