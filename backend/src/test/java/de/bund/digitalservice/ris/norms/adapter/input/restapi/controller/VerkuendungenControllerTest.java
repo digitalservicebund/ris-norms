@@ -14,8 +14,10 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendun
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenPreviewUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
@@ -49,6 +51,9 @@ class VerkuendungenControllerTest {
 
   @MockitoBean
   private LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
+
+  @MockitoBean
+  private LoadZielnormenPreviewUseCase loadZielnormenPreviewUseCase;
 
   @Nested
   class getAllVerkuendungen {
@@ -338,6 +343,102 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("type", equalTo("/errors/internal-server-error")))
         .andExpect(jsonPath("title", equalTo("Internal Server Error")))
         .andExpect(jsonPath("detail", equalTo("An unexpected error has occurred")));
+    }
+  }
+
+  @Nested
+  class getZielnormenPreview {
+
+    @Test
+    void itShouldReturnZielnormenPreview() throws Exception {
+      // Given
+      when(loadZielnormenPreviewUseCase.loadZielnormenPreview(any()))
+        .thenReturn(
+          List.of(
+            new LoadZielnormenPreviewUseCase.ZielnormPreview(
+              NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+              "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+              "Vereinsgesetz",
+              List.of(
+                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+                  true,
+                  true,
+                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+                ),
+                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
+                  false,
+                  false,
+                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+                ),
+                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
+                  true,
+                  true,
+                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+                ),
+                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
+                  false,
+                  false,
+                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.SYSTEM
+                )
+              )
+            )
+          )
+        );
+
+      // When
+      mockMvc
+        .perform(
+          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview")
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(
+          jsonPath("$[0].title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts")
+        )
+        .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("$[0].expressions[0].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].createdBy").value("andere Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[1].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[2].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(true))
+        .andExpect(jsonPath("$[0].expressions[2].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[2].createdBy").value("andere Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[3].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[3].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[3].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[3].createdBy").value("System"))
+        .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
+        .andExpect(jsonPath("$[1]").doesNotExist());
+
+      verify(loadZielnormenPreviewUseCase, times(1))
+        .loadZielnormenPreview(
+          new LoadZielnormenPreviewUseCase.Query(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+          )
+        );
     }
   }
 }

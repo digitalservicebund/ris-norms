@@ -4,15 +4,19 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.VerkuendungResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ZielnormenPreviewResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormenPreviewResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendungenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenPreviewUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
+import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.io.IOException;
 import java.util.List;
@@ -30,13 +34,15 @@ public class VerkuendungenController {
   private final LoadNormUseCase loadNormUseCase;
   private final LoadVerkuendungUseCase loadVerkuendungUseCase;
   private final LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
+  private final LoadZielnormenPreviewUseCase loadZielnormenPreviewUseCase;
 
   public VerkuendungenController(
     LoadAllVerkuendungenUseCase loadAllVerkuendungenUseCase,
     CreateVerkuendungUseCase createVerkuendungUseCase,
     LoadNormUseCase loadNormUseCase,
     LoadVerkuendungUseCase loadVerkuendungUseCase,
-    LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase
+    LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase,
+    LoadZielnormenPreviewUseCase loadZielnormenPreviewUseCase
   ) {
     this.loadAllVerkuendungenUseCase = loadAllVerkuendungenUseCase;
     this.createVerkuendungUseCase = createVerkuendungUseCase;
@@ -44,6 +50,7 @@ public class VerkuendungenController {
     this.loadVerkuendungUseCase = loadVerkuendungUseCase;
     this.loadNormExpressionsAffectedByVerkuendungUseCase =
     loadNormExpressionsAffectedByVerkuendungUseCase;
+    this.loadZielnormenPreviewUseCase = loadZielnormenPreviewUseCase;
   }
 
   /**
@@ -107,6 +114,30 @@ public class VerkuendungenController {
       );
 
     return ResponseEntity.ok(zielnormen.stream().map(NormResponseMapper::fromUseCaseData).toList());
+  }
+
+  /**
+   * Get the list of zielnorm expressions that should be set to gegenstandslos or be created when applying all the currently existing {@link ZielnormReference}s of the Verkündung
+   * @param eli the expression eli of the Verkündung
+   * @return A {@link ResponseEntity} containing the list of zielnorm expressions
+   *     <p>Returns HTTP 200 (OK) and the list of zielnorm expressions on successful execution.
+   *     <p>Returns HTTP 404 (Not Found) if the Verkündung is not found.
+   */
+  @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
+  @GetMapping(
+    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen-preview",
+    produces = APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<List<ZielnormenPreviewResponseSchema>> getZielnormenPreview(
+    NormExpressionEli eli
+  ) {
+    return ResponseEntity.ok(
+      loadZielnormenPreviewUseCase
+        .loadZielnormenPreview(new LoadZielnormenPreviewUseCase.Query(eli))
+        .stream()
+        .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
+        .toList()
+    );
   }
 
   /**
