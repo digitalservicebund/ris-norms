@@ -383,15 +383,13 @@
                <ris:art start="1970-01-01" end="2023-12-29">regelungstext</ris:art>
                <ris:typ start="1970-01-01" end="2023-12-29">gesetz</ris:typ>
                <ris:subtyp start="1970-01-01" end="2023-12-29">Rechtsverordnung</ris:subtyp>
-               <ris:artDerNorm start="2024-01-01" end="unbestimmt">ÄN,SN</ris:artDerNorm>
-               <ris:artDerNorm>SN</ris:artDerNorm>
-               <ris:artDerNorm start="1970-01-01" end="2023-12-31">SN,ÜN</ris:artDerNorm>
                <ris:bezeichnungInVorlage start="1970-01-01"
                                          end="2023-12-29">Testbezeichnung nach meiner Vorlage</ris:bezeichnungInVorlage>
                <ris:normgeber start="1970-01-01" end="2023-12-29">BEO - Berlin (Ost)</ris:normgeber>
                <ris:beschliessendesOrgan start="1970-01-01" end="2023-12-29"
                                          qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</ris:beschliessendesOrgan>
                <ris:organisationsEinheit start="1970-01-01" end="2023-12-29">Einheit 1</ris:organisationsEinheit>
+              <ris:artDerNorm>SN</ris:artDerNorm>
                <ris:einzelelement href="#hauptteil-1_abschnitt-1_uabschnitt-1_art-1">
                   <ris:artDerNorm>ÄN</ris:artDerNorm>
                </ris:einzelelement>
