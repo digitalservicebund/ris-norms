@@ -238,9 +238,8 @@ public class Norm {
       .flatMap(Proprietary::getAusserkrafttreteDatum);
 
     return (
-      inkrafttreteDatum.isPresent() &&
-      inkrafttreteDatum.get().isBefore(date) &&
-      (ausserkrafttreteDatum.isEmpty() || ausserkrafttreteDatum.get().isAfter(date))
+      inkrafttreteDatum.map(d -> !d.isAfter(date)).orElse(false) &&
+      ausserkrafttreteDatum.map(d -> !d.isBefore(date)).orElse(true)
     );
   }
 
