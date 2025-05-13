@@ -154,14 +154,14 @@
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:entryIntoForce date="1964-09-21" />
                <ris:bezeichnungInVorlage start="1964-09-21"
                                          end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
-               <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
                <ris:normgeber start="1964-09-21" end="unbestimmt">DEU</ris:normgeber>
                <ris:beschliessendesOrgan start="1964-09-21" end="unbestimmt"
                                          qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
                <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
+                <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
+                <ris:entryIntoForce date="1964-09-21" />
                <ris:expiry date="2030-01-01" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>

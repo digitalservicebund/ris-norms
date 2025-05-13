@@ -20,7 +20,7 @@
              schemaLocation="./norms-application-only-metadata.xsd"/>
   <xs:element name="legalDocML.de_metadaten">
     <xs:complexType>
-      <xs:choice maxOccurs="unbounded">
+      <xs:sequence>
         <xs:element name="fna" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="art" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="typ" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
@@ -42,7 +42,7 @@
         <xs:element name="standangabe" type="StandangabeType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="bedingtesInkrafttreten" type="EmptyType" minOccurs="0" maxOccurs="1"/>
         <xs:any minOccurs="0" namespace="http://MetadatenMods.LegalDocML.de/1.7.2/"/>
-      </xs:choice>
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 
