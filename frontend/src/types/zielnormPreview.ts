@@ -1,9 +1,12 @@
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
+
 /**
  * Detail of an expression in the Zielnorm preview.
  */
 export type ZielnormPreviewExpression = {
   /** ELI of the expression */
-  normExpressionEli: string
+  normExpressionEli: NormExpressionEli
 
   /** Will the expression be gegenstandslos once the zielnorm-references are applied? */
   isGegenstandslos: boolean
@@ -30,7 +33,7 @@ export type ZielnormPreviewExpression = {
  */
 export type ZielnormPreview = {
   /** ELI of the Zielnorm */
-  normWorkEli: string
+  normWorkEli: NormWorkEli
 
   /** Title of the Zielnorm */
   title: string

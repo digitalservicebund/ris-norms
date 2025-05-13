@@ -1,5 +1,5 @@
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
-import type { ZielnormPreview } from "@/types/zielnormPreview"
+import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
@@ -20,7 +20,7 @@ describe("useGetZielnormPreview", () => {
   })
 
   it("provides the data from the API", async () => {
-    const fixture: ZielnormPreview[] = [
+    const fixture = [
       {
         title: "Beispielnorm",
         shortTitle: "Beispielnorm",
@@ -55,7 +55,29 @@ describe("useGetZielnormPreview", () => {
     const result = useGetZielnormPreview(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
     )
-    expect(result.data.value).toStrictEqual(fixture)
+    expect(result.data.value).toEqual([
+      {
+        title: "Beispielnorm",
+        shortTitle: "Beispielnorm",
+        normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2025/1"),
+        expressions: [],
+      },
+      {
+        title: "Beispielnorm 2",
+        shortTitle: "Beispielnorm 2",
+        normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2025/2"),
+        expressions: [
+          {
+            createdBy: "diese Verkündung",
+            isCreated: true,
+            isGegenstandslos: false,
+            normExpressionEli: NormExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+            ),
+          },
+        ],
+      },
+    ])
 
     vi.doUnmock("@/services/apiService")
   })
