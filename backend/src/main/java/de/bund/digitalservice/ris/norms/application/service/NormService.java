@@ -4,8 +4,8 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadPublishedNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -38,20 +38,20 @@ public class NormService
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
-  private final LoadPublishedNormExpressionElisPort loadPublishedNormExpressionElisPort;
+  private final LoadNormExpressionElisPort loadNormExpressionElisPort;
   private final EliService eliService;
 
   public NormService(
     LoadNormPort loadNormPort,
     UpdateNormPort updateNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
-    LoadPublishedNormExpressionElisPort loadPublishedNormExpressionElisPort,
+    LoadNormExpressionElisPort loadNormExpressionElisPort,
     EliService eliService
   ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
-    this.loadPublishedNormExpressionElisPort = loadPublishedNormExpressionElisPort;
+    this.loadNormExpressionElisPort = loadNormExpressionElisPort;
     this.eliService = eliService;
   }
 
@@ -370,16 +370,14 @@ public class NormService
 
   /**
    * Collect all expressions that need to be overwritten when creating the expressions for the Verkündung.
-   * This includes all non-gegenstandlose expressions after (or at) the first geltungszeitgrenze that are already published.
+   * This includes all non-gegenstandlose expressions after (or at) the first geltungszeitgrenze.
    */
   private List<NormExpressionEli> collectRelevantExistingExpressions(
     NormWorkEli zielnormWorkEli,
     LocalDate earliestGeltungszeit
   ) {
-    return loadPublishedNormExpressionElisPort
-      .loadPublishedNormExpressionElis(
-        new LoadPublishedNormExpressionElisPort.Command(zielnormWorkEli)
-      )
+    return loadNormExpressionElisPort
+      .loadNormExpressionElis(new LoadNormExpressionElisPort.Command(zielnormWorkEli))
       .stream()
       .filter(normExpressionEli ->
         normExpressionEli.getPointInTime().isAfter(earliestGeltungszeit.minusDays(1))

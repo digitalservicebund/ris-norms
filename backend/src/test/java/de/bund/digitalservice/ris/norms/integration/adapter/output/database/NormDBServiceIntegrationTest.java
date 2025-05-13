@@ -9,9 +9,9 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Dokum
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.NormDBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadPublishedNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -404,10 +404,8 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       normManifestationRepository.save(normDto);
 
       // When
-      final List<NormExpressionEli> publishedNorms = normDBService.loadPublishedNormExpressionElis(
-        new LoadPublishedNormExpressionElisPort.Command(
-          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
-        )
+      final List<NormExpressionEli> publishedNorms = normDBService.loadNormExpressionElis(
+        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
 
       // Then

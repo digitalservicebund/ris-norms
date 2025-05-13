@@ -9,8 +9,8 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadPublishedNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -31,8 +31,8 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
-  final LoadPublishedNormExpressionElisPort loadPublishedNormExpressionElisPort = mock(
-    LoadPublishedNormExpressionElisPort.class
+  final LoadNormExpressionElisPort loadNormExpressionElisPort = mock(
+    LoadNormExpressionElisPort.class
   );
   final EliService eliService = mock(EliService.class);
 
@@ -40,7 +40,7 @@ class NormServiceTest {
     loadNormPort,
     updateNormPort,
     loadRegelungstextPort,
-    loadPublishedNormExpressionElisPort,
+    loadNormExpressionElisPort,
     eliService
   );
 
@@ -475,8 +475,7 @@ class NormServiceTest {
             )
           )
         );
-      when(loadPublishedNormExpressionElisPort.loadPublishedNormExpressionElis(any()))
-        .thenReturn(List.of());
+      when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(List.of());
       when(eliService.findNextExpressionEli(any(), any(), any()))
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"));
 
@@ -516,9 +515,9 @@ class NormServiceTest {
         );
       verify(loadNormPort, times(1))
         .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")));
-      verify(loadPublishedNormExpressionElisPort, times(1))
-        .loadPublishedNormExpressionElis(
-          new LoadPublishedNormExpressionElisPort.Command(
+      verify(loadNormExpressionElisPort, times(1))
+        .loadNormExpressionElis(
+          new LoadNormExpressionElisPort.Command(
             NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
           )
         );
@@ -562,7 +561,7 @@ class NormServiceTest {
             Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
           )
         );
-      when(loadPublishedNormExpressionElisPort.loadPublishedNormExpressionElis(any()))
+      when(loadNormExpressionElisPort.loadNormExpressionElis(any()))
         .thenReturn(
           List.of(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"), // a new expression for this date should be created
@@ -659,9 +658,9 @@ class NormServiceTest {
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
           )
         );
-      verify(loadPublishedNormExpressionElisPort, times(1))
-        .loadPublishedNormExpressionElis(
-          new LoadPublishedNormExpressionElisPort.Command(
+      verify(loadNormExpressionElisPort, times(1))
+        .loadNormExpressionElis(
+          new LoadNormExpressionElisPort.Command(
             NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
           )
         );
