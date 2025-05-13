@@ -101,6 +101,31 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /verkuendungen/{expressionEli}/zielnormen-preview:
+    get:
+      tags:
+        - Verkuendungen
+      summary: Get the list of zielnorm expressions that should be set to gegenstandslos or be created when applying all the currently existing ZielnormReferences of the Verkündung
+      parameters:
+        - name: expressionEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormExpressionEli"
+      responses:
+        "200":
+          description: List of Zielnormen Preview Informations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ZielnormenPreview"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /{expressionEli}/releases:
     get:
       summary: Get the releases of a specific norm expression
@@ -738,6 +763,12 @@ components:
       example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu
       description: ELI identifying a specific expression of a norm
 
+    NormWorkEli:
+      type: string
+      format: NormWorkEli
+      example: eli/bund/bgbl-1/2021/s4
+      description: ELI identifying a specific norm (the whole work)
+
     EId:
       type: string
       format: EId
@@ -833,6 +864,40 @@ components:
           $ref: "#/components/schemas/EId"
         zielnorm:
           $ref: "#/components/schemas/NormExpressionEli"
+
+    ZielnormenPreview:
+      type: object
+      properties:
+        normWorkEli:
+          $ref: "#/components/schemas/NormWorkEli"
+        title:
+          type: string
+        shortTitle:
+          type: string
+        expressions:
+          type: array
+          items:
+            type: object
+            properties:
+              normExpressionEli:
+                $ref: "#/components/schemas/NormExpressionEli"
+              isGegenstandslos:
+                type: boolean
+                description: Will the expression be gegenstandslos once the zielnorm-references are applied?
+              isCreated:
+                type: boolean
+                description: Does this expression already exist in the system?
+              createdBy:
+                type: string
+                description: >
+                  Explanation for the reason that this expression will be set to gegenstandslos or be created
+                   * "andere Verkündung" - An existing expression, created by a different Verkündung, that will be set to gegenstandslos
+                   * "diese Verkündung" - It's created due to a ZielnormReference that uses this date
+                   * "System" - It's created automatically by the system. Usually when replacing a now gegenstandslose expression
+                enum:
+                  - "diese Verkündung"
+                  - "andere Verkündung"
+                  - "System"
 
     ReleaseResponse:
       type: object
