@@ -23,7 +23,7 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.38"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.17.0"
 postgresql = "org.postgresql:postgresql:42.7.5"
-prometheus = "io.micrometer:micrometer-registry-prometheus:1.14.6"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.0"
 saxon-he = "net.sf.saxon:Saxon-HE:12.6"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
