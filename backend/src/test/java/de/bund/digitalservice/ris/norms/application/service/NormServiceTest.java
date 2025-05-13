@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundExcept
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadPublishedNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -17,6 +18,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,8 +31,18 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
+  final LoadPublishedNormExpressionElisPort loadPublishedNormExpressionElisPort = mock(
+    LoadPublishedNormExpressionElisPort.class
+  );
+  final EliService eliService = mock(EliService.class);
 
-  final NormService service = new NormService(loadNormPort, updateNormPort, loadRegelungstextPort);
+  final NormService service = new NormService(
+    loadNormPort,
+    updateNormPort,
+    loadRegelungstextPort,
+    loadPublishedNormExpressionElisPort,
+    eliService
+  );
 
   @Nested
   class loadNorm {
@@ -444,5 +456,215 @@ class NormServiceTest {
     // then
     assertThat(zielnormReferences).isEmpty();
     verify(updateNormPort, times(1)).updateNorm(any());
+  }
+
+  @Nested
+  class loadZielnormPreview {
+
+    @Test
+    void itShouldGenerateCorrectElisForNoExistingExpressions() {
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(any())))
+        .thenReturn(Optional.of(norm))
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        );
+      when(loadPublishedNormExpressionElisPort.loadPublishedNormExpressionElis(any()))
+        .thenReturn(List.of());
+      when(eliService.findNextExpressionEli(any(), any(), any()))
+        .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"));
+
+      var preview = service.loadZielnormenPreview(
+        new LoadZielnormenPreviewUseCase.Query(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+
+      assertThat(preview).hasSize(1);
+      assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/1964/s593");
+      assertThat(preview.getFirst().title())
+        .hasToString("Gesetz zur Regelung des öffentlichen Vereinsrechts");
+      assertThat(preview.getFirst().shortTitle()).hasToString("Vereinsgesetz");
+      assertThat(preview.getFirst().expressions())
+        .hasSize(1)
+        .containsExactly(
+          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+            false,
+            false,
+            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+          )
+        );
+
+      verify(eliService, times(1))
+        .findNextExpressionEli(
+          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+          LocalDate.parse("2017-03-16"),
+          "deu"
+        );
+      verify(loadNormPort, times(1))
+        .loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+          )
+        );
+      verify(loadNormPort, times(1))
+        .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")));
+      verify(loadPublishedNormExpressionElisPort, times(1))
+        .loadPublishedNormExpressionElis(
+          new LoadPublishedNormExpressionElisPort.Command(
+            NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
+          )
+        );
+    }
+
+    @Test
+    void itShouldGenerateCorrectElisForExistingExpressions() {
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(any())))
+        .thenReturn(Optional.of(norm))
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
+          )
+        )
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-03-16-1.xml")
+          )
+        )
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              NormServiceTest.class,
+              "vereinsgesetz-2017-03-21-1-gegenstandlos.xml"
+            )
+          )
+        )
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              NormServiceTest.class,
+              "vereinsgesetz-2017-04-16-1-gegenstandlos.xml"
+            )
+          )
+        )
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
+          )
+        );
+      when(loadPublishedNormExpressionElisPort.loadPublishedNormExpressionElis(any()))
+        .thenReturn(
+          List.of(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"), // a new expression for this date should be created
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu"), // should be ignored as it is gegenstandlos
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu"), // should be ignored as it is gegenstandlos
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu") // a new expression for this date should be created
+          )
+        );
+      when(eliService.findNextExpressionEli(any(), any(), any()))
+        .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"))
+        .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"));
+
+      var preview = service.loadZielnormenPreview(
+        new LoadZielnormenPreviewUseCase.Query(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+
+      assertThat(preview).hasSize(1);
+      assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/1964/s593");
+      assertThat(preview.getFirst().title())
+        .hasToString("Gesetz zur Regelung des öffentlichen Vereinsrechts");
+      assertThat(preview.getFirst().shortTitle()).hasToString("Vereinsgesetz");
+      assertThat(preview.getFirst().expressions())
+        .hasSize(4)
+        .containsExactly(
+          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+            true,
+            true,
+            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+          ),
+          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
+            false,
+            false,
+            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+          ),
+          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
+            true,
+            true,
+            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+          ),
+          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
+            false,
+            false,
+            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.SYSTEM
+          )
+        );
+
+      verify(eliService, times(1))
+        .findNextExpressionEli(
+          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+          LocalDate.parse("2017-03-16"),
+          "deu"
+        );
+      verify(eliService, times(1))
+        .findNextExpressionEli(
+          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+          LocalDate.parse("2017-04-16"),
+          "deu"
+        );
+      verify(loadNormPort, times(1))
+        .loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+          )
+        );
+      verify(loadNormPort, times(1))
+        .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")));
+      verify(loadNormPort, times(1))
+        .loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+          )
+        );
+      verify(loadNormPort, times(1))
+        .loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu")
+          )
+        );
+      verify(loadNormPort, times(1))
+        .loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
+          )
+        );
+      verify(loadNormPort, times(1))
+        .loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
+          )
+        );
+      verify(loadPublishedNormExpressionElisPort, times(1))
+        .loadPublishedNormExpressionElis(
+          new LoadPublishedNormExpressionElisPort.Command(
+            NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
+          )
+        );
+    }
   }
 }

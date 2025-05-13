@@ -325,6 +325,8 @@ class ArchitectureFitnessTest {
       .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
       .and(new IsNotRecordClass())
       .and()
+      .areNotEnums()
+      .and()
       .areNotAssignableTo(Exception.class)
       .should(ArchCondition.from((haveASingleMethod)))
       .andShould(bePublic());
@@ -345,6 +347,12 @@ class ArchitectureFitnessTest {
       .that()
       .areDeclaredInClassesThat()
       .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
+      .and()
+      .areDeclaredInClassesThat()
+      .areNotInnerClasses()
+      .and()
+      .areDeclaredInClassesThat()
+      .areNotEnums()
       .and()
       .doNotHaveName("equals")
       .should(

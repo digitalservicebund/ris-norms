@@ -5,13 +5,17 @@ import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundExcept
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadPublishedNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Predicate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,21 +31,28 @@ public class NormService
     UpdateRegelungstextXmlUseCase,
     LoadRegelungstextUseCase,
     LoadZielnormReferencesUseCase,
+    LoadZielnormenPreviewUseCase,
     UpdateZielnormReferencesUseCase,
     DeleteZielnormReferencesUseCase {
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
+  private final LoadPublishedNormExpressionElisPort loadPublishedNormExpressionElisPort;
+  private final EliService eliService;
 
   public NormService(
     LoadNormPort loadNormPort,
     UpdateNormPort updateNormPort,
-    LoadRegelungstextPort loadRegelungstextPort
+    LoadRegelungstextPort loadRegelungstextPort,
+    LoadPublishedNormExpressionElisPort loadPublishedNormExpressionElisPort,
+    EliService eliService
   ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
+    this.loadPublishedNormExpressionElisPort = loadPublishedNormExpressionElisPort;
+    this.eliService = eliService;
   }
 
   @Override
@@ -199,5 +210,185 @@ public class NormService
     updateNorm(norm);
 
     return zielnormReferences.stream().toList();
+  }
+
+  @Override
+  public List<ZielnormPreview> loadZielnormenPreview(LoadZielnormenPreviewUseCase.Query query) {
+    var verkuendungNorm = loadNorm(new LoadNormUseCase.Query(query.eli()));
+
+    List<NormWorkEli> zielnormWorkElis = verkuendungNorm
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getZielnormenReferences)
+      .stream()
+      .flatMap(ZielnormReferences::stream)
+      .map(ZielnormReference::getZielnorm)
+      .distinct()
+      .toList();
+
+    return zielnormWorkElis
+      .stream()
+      .map(zielnormWorkEli -> {
+        var latestZielnormExpression = loadNorm(new LoadNormUseCase.Query(zielnormWorkEli));
+        return new ZielnormPreview(
+          zielnormWorkEli,
+          latestZielnormExpression.getTitle().orElse(null),
+          latestZielnormExpression.getShortTitle().orElse(null),
+          generateZielnormPreviewExpressions(verkuendungNorm, zielnormWorkEli)
+        );
+      })
+      .toList();
+  }
+
+  /**
+   * Generate the preview list of expressions for a specific Zielnorm
+   * <br/>
+   * This list includes the expressions that needs to be created for the dates of the changes of the Verkündung, as well
+   * as the existing expression that need to be set to gegenstandlos and the expressions replacing these.
+   * <br/>
+   * Every existing expression of a date after the first change to the Zielnorm needs to be set to gegenstandlos and a
+   * new expression needs to be created as this expression than needs to include the changes of the now gegenstandlose
+   * expression as well as the once from the previous changes due to the Verkündung.
+   */
+  private List<ZielnormPreview.Expression> generateZielnormPreviewExpressions(
+    Norm verkuendungNorm,
+    NormWorkEli zielnormWorkEli
+  ) {
+    var geltungszeiten = findGeltungszeitenForZielnorm(verkuendungNorm, zielnormWorkEli);
+
+    LocalDate earliestGeltungszeit = geltungszeiten
+      .stream()
+      .sorted()
+      .findFirst()
+      .orElseThrow(() -> new RuntimeException("Geltungszeit nicht gefunden"));
+
+    var relevantExistingExpressions = collectRelevantExistingExpressions(
+      zielnormWorkEli,
+      earliestGeltungszeit
+    );
+
+    List<ZielnormPreview.Expression> expressions = new ArrayList<>();
+
+    relevantExistingExpressions.forEach(expression -> {
+      expressions.add(
+        new ZielnormPreview.Expression(
+          expression,
+          true,
+          true,
+          ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+        )
+      );
+
+      expressions.add(
+        new ZielnormPreview.Expression(
+          eliService.findNextExpressionEli(
+            expression.asWorkEli(),
+            expression.getPointInTime(),
+            expression.getLanguage()
+          ),
+          false,
+          false,
+          ZielnormPreview.CreatedBy.SYSTEM
+        )
+      );
+    });
+
+    geltungszeiten
+      .stream()
+      .sorted()
+      .forEach(date -> {
+        // find a possible already created entry that was created as a replacement for an existing expression. If we also created such an entry for a Geltungszeitregel we need to change the createdBy to "diese Verkündung"
+        var existingEntry = expressions
+          .stream()
+          .filter(expression ->
+            expression.normExpressionEli().getPointInTime().equals(date) &&
+            expression.normExpressionEli().getLanguage().equals("deu") &&
+            expression.createdBy().equals(ZielnormPreview.CreatedBy.SYSTEM)
+          )
+          .findFirst();
+
+        if (existingEntry.isPresent()) {
+          expressions.remove(existingEntry.get());
+          expressions.add(
+            new ZielnormPreview.Expression(
+              existingEntry.get().normExpressionEli(),
+              false,
+              false,
+              ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+            )
+          );
+        } else {
+          expressions.add(
+            new ZielnormPreview.Expression(
+              eliService.findNextExpressionEli(zielnormWorkEli, date, "deu"),
+              false,
+              false,
+              ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+            )
+          );
+        }
+      });
+
+    return expressions
+      .stream()
+      .sorted(Comparator.comparing(ZielnormPreview.Expression::normExpressionEli))
+      .toList();
+  }
+
+  /**
+   * Find the dates of all geltungszeiten that are used by changes of the specific zielnorm
+   */
+  private List<LocalDate> findGeltungszeitenForZielnorm(
+    Norm verkuendungNorm,
+    NormWorkEli zielnormWorkEli
+  ) {
+    return verkuendungNorm
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getZielnormenReferences)
+      .stream()
+      .flatMap(ZielnormReferences::stream)
+      .filter(zielnormReference -> zielnormReference.getZielnorm().equals(zielnormWorkEli))
+      .map(ZielnormReference::getGeltungszeit)
+      .distinct()
+      .map(geltungszeitId ->
+        verkuendungNorm
+          .getRegelungstext1()
+          .getZeitgrenzen()
+          .stream()
+          .filter(geltungszeit -> geltungszeit.getId().equals(geltungszeitId))
+          .findFirst()
+          .orElseThrow(RuntimeException::new)
+          .getDate()
+      )
+      .toList();
+  }
+
+  /**
+   * Collect all expressions that need to be overwritten when creating the expressions for the Verkündung.
+   * This includes all non-gegenstandlose expressions after (or at) the first geltungszeitgrenze that are already published.
+   */
+  private List<NormExpressionEli> collectRelevantExistingExpressions(
+    NormWorkEli zielnormWorkEli,
+    LocalDate earliestGeltungszeit
+  ) {
+    return loadPublishedNormExpressionElisPort
+      .loadPublishedNormExpressionElis(
+        new LoadPublishedNormExpressionElisPort.Command(zielnormWorkEli)
+      )
+      .stream()
+      .filter(normExpressionEli ->
+        normExpressionEli.getPointInTime().isAfter(earliestGeltungszeit.minusDays(1))
+      )
+      .flatMap(normExpressionEli ->
+        loadNormPort.loadNorm(new LoadNormPort.Command(normExpressionEli)).stream()
+      )
+      .filter(Predicate.not(Norm::isGegenstandlos))
+      .map(Norm::getExpressionEli)
+      .toList();
   }
 }
