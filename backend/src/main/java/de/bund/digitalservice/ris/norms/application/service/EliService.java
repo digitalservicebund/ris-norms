@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.time.LocalDate;
@@ -13,15 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class EliService {
 
-  private final LoadNormUseCase loadNormUseCase;
+  private final LoadNormPort loadNormPort;
 
-  public EliService(LoadNormUseCase loadNormUseCase) {
-    this.loadNormUseCase = loadNormUseCase;
+  public EliService(LoadNormPort loadNormPort) {
+    this.loadNormPort = loadNormPort;
   }
 
   /**
    * Finds the next available {@link NormExpressionEli} for the given date and language.
-   * Uses the lowest available the version number that is not in use.
+   * Uses the lowest available version number that is not in use.
    *
    * @param workEli     the work eli that should be used as the base for the expression eli
    * @param pointInTime the date of the verkündung.
@@ -36,11 +35,10 @@ public class EliService {
     var expressionEli = NormExpressionEli.fromWorkEli(workEli, pointInTime, 1, language);
 
     for (int i = 0; i < 1000; i++) {
-      try {
-        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(expressionEli));
-        expressionEli.setVersion(expressionEli.getVersion() + 1);
-      } catch (NormNotFoundException e) {
+      if (loadNormPort.loadNorm(new LoadNormPort.Command(expressionEli)).isEmpty()) {
         return expressionEli;
+      } else {
+        expressionEli.setVersion(expressionEli.getVersion() + 1);
       }
     }
 
