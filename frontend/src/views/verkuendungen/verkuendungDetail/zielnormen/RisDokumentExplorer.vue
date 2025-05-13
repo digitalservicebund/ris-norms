@@ -80,9 +80,7 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
     class="flex flex-col overflow-hidden border-gray-400 bg-white"
     :aria-labelledby="documentExplorerHeadingId"
   >
-    <div
-      class="mb-8 flex items-center gap-4 border-b border-gray-400 px-4 py-4"
-    >
+    <div class="flex items-center gap-4 border-b border-gray-400 px-4 py-4">
       <div class="flex h-48 w-48 items-center justify-center text-gray-600">
         <Button
           :disabled="showToc"
