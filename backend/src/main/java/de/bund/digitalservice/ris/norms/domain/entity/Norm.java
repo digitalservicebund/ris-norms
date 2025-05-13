@@ -243,6 +243,19 @@ public class Norm {
     );
   }
 
+  /**
+   * Is this norm gegenstandlos?
+   * @return true if it is.
+   */
+  public boolean isGegenstandlos() {
+    // TODO: (Malte Laukötter, 2025-05-13) ldml_de 1.8 -> this will be stored exclusively in the rechtsetzungsdokument
+    return getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getGegenstandlos)
+      .isPresent();
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

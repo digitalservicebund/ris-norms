@@ -219,6 +219,19 @@ public class Proprietary {
   }
 
   /**
+   * Get the gegenstandlos metadata element (if it exists). If it exists it implies that the norm is gegenstandslos.
+   * @return the {@link Gegenstandlos} element or empty if the norm is not gegenstandslos
+   */
+  public Optional<Gegenstandlos> getGegenstandlos() {
+    return getMetadataParent(Gegenstandlos.NAMESPACE)
+      .flatMap(metadataElement ->
+        NodeParser
+          .getElementFromExpression("./%s".formatted(Gegenstandlos.TAG_NAME), metadataElement)
+          .map(Gegenstandlos::new)
+      );
+  }
+
+  /**
    * Gets the custom norms-application-only mods metadata.
    * @return {@link Optional} with the {@link CustomModsMetadata}
    */

@@ -323,4 +323,24 @@ class NormTest {
       assertThat(offenestrukturen).hasSize(1).contains(offeneStruktur1);
     }
   }
+
+  @Nested
+  class isGegenstandlos {
+
+    @Test
+    void itReturnsFalseForNonGegenstandsloseNorm() {
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
+
+      assertThat(norm.isGegenstandlos()).isFalse();
+    }
+
+    @Test
+    void itReturnsTrueForGegenstandsloseNorm() {
+      Norm norm = Fixtures.loadNormFromDisk(NormTest.class, "vereinsgesetz-gegenstandlos.xml");
+
+      assertThat(norm.isGegenstandlos()).isTrue();
+    }
+  }
 }
