@@ -4,8 +4,8 @@ import AccordionContent from "primevue/accordioncontent"
 import AccordionHeader from "primevue/accordionheader"
 import AccordionPanel from "primevue/accordionpanel"
 import Button from "primevue/button"
-import type { RisZielnormExpressionsTableItem } from "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/RisZielnormExpressionsTable.vue"
-import RisZielnormExpressionsTable from "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/RisZielnormExpressionsTable.vue"
+import type { RisZielnormExpressionsTableItem } from "./RisZielnormExpressionsTable.vue"
+import RisZielnormExpressionsTable from "./RisZielnormExpressionsTable.vue"
 
 /** Input data to the Zielnormen list. */
 export type RisZielnormenListItem = {

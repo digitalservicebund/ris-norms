@@ -1,11 +1,11 @@
-import { describe, expect, it } from "vitest"
-import { render, screen } from "@testing-library/vue"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
-import RisZielnormenList from "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/RisZielnormenList.vue"
+import { render, screen } from "@testing-library/vue"
+import { describe, expect, it } from "vitest"
+import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
-describe("risZielnormenList", () => {
+describe("risZielnormenPreviewList", () => {
   it("renders all entries with infos", () => {
-    render(RisZielnormenList, {
+    render(RisZielnormenPreviewList, {
       props: {
         items: [
           {
@@ -44,7 +44,7 @@ describe("risZielnormenList", () => {
   })
 
   it("clicking on entry reveals table and button for creating new expressions", async () => {
-    render(RisZielnormenList, {
+    render(RisZielnormenPreviewList, {
       props: {
         items: [
           {

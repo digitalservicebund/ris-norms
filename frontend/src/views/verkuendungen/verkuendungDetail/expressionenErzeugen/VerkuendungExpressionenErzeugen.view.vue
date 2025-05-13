@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
-import { useGetVerkuendungService } from "@/services/verkuendungService"
-import { ref } from "vue"
-import { getFrbrDisplayText } from "@/lib/frbr"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import RisZielnormenList from "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/RisZielnormenList.vue"
+import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { getFrbrDisplayText } from "@/lib/frbr"
+import { useGetVerkuendungService } from "@/services/verkuendungService"
+import { ref } from "vue"
+import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
@@ -111,6 +111,6 @@ const items = [
     :errors="[verkuendungError]"
     :loading="!verkuendungHasFinished"
   >
-    <RisZielnormenList :items="items"></RisZielnormenList>
+    <RisZielnormenPreviewList :items="items"></RisZielnormenPreviewList>
   </RisViewLayout>
 </template>

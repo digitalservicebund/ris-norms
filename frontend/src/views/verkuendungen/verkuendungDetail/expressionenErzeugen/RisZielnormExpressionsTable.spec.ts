@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest"
-import { render, screen, within } from "@testing-library/vue"
-import RisZielnormExpressionsTable from "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/RisZielnormExpressionsTable.vue"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { render, screen, within } from "@testing-library/vue"
+import { describe, expect, it } from "vitest"
+import RisZielnormExpressionsTable from "./RisZielnormExpressionsTable.vue"
 
 describe("risZielnormExpressionsTable", () => {
   it("renders table with infos", () => {
