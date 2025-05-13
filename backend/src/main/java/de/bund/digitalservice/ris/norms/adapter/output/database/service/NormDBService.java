@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Dokum
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -35,7 +36,8 @@ public class NormDBService
     UpdateNormPort,
     UpdateOrSaveNormPort,
     DeleteNormPort,
-    LoadNormManifestationElisByPublishStatePort {
+    LoadNormManifestationElisByPublishStatePort,
+    LoadNormExpressionElisPort {
 
   private final DokumentRepository dokumentRepository;
   private final NormManifestationRepository normManifestationRepository;
@@ -197,6 +199,17 @@ public class NormDBService
       .findManifestationElisByPublishState(command.publishState())
       .stream()
       .map(NormManifestationEli::fromString)
+      .toList();
+  }
+
+  @Override
+  public List<NormExpressionEli> loadNormExpressionElis(
+    LoadNormExpressionElisPort.Command command
+  ) {
+    return normManifestationRepository
+      .findExpressionElisByWorkEli(command.eli().toString())
+      .stream()
+      .map(NormExpressionEli::fromString)
       .toList();
   }
 }

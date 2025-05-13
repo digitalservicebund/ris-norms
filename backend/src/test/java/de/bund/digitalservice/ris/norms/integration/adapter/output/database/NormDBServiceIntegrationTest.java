@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Dokum
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.NormDBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -366,6 +367,53 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(publishedNorms).isNotEmpty().hasSize(1);
+    }
+  }
+
+  @Nested
+  class loadPublishedNormExpressionElis {
+
+    @Test
+    void itLoadsPublishedNormExpressionElis() {
+      // Given
+
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
+      );
+      var normDto = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        .orElseThrow();
+      normDto.setPublishState(NormPublishState.PUBLISHED);
+      normManifestationRepository.save(normDto);
+
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-1.xml"
+          )
+        )
+      );
+      var normDto2 = normManifestationRepository
+        .findByManifestationEli("eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16")
+        .orElseThrow();
+      normDto2.setPublishState(NormPublishState.PUBLISHED);
+      normManifestationRepository.save(normDto);
+
+      // When
+      final List<NormExpressionEli> publishedNorms = normDBService.loadNormExpressionElis(
+        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
+
+      // Then
+      assertThat(publishedNorms)
+        .hasSize(1)
+        .containsExactly(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        );
     }
   }
 }

@@ -5,21 +5,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.time.LocalDate;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class EliServiceTest {
 
-  private final LoadNormUseCase loadNormUseCase = mock(LoadNormUseCase.class);
-  private final EliService eliService = new EliService(loadNormUseCase);
+  private final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  private final EliService eliService = new EliService(loadNormPort);
 
   @Test
   void findNextExpressionEli() {
-    when(loadNormUseCase.loadNorm(any())).thenThrow(new NormNotFoundException(""));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
     var eli = eliService.findNextExpressionEli(
       NormWorkEli.fromString("eli/bund/bgbl-1/1990/s2954"),
@@ -32,13 +32,15 @@ class EliServiceTest {
 
   @Test
   void findNextExpressionEliVersion1AlreadyInUse() {
-    when(loadNormUseCase.loadNorm(any()))
+    when(loadNormPort.loadNorm(any()))
       .thenReturn(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        Optional.of(
+          Fixtures.loadNormFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
       )
-      .thenThrow(new NormNotFoundException(""));
+      .thenReturn(Optional.empty());
 
     var eli = eliService.findNextExpressionEli(
       NormWorkEli.fromString("eli/bund/bgbl-1/1990/s2954"),

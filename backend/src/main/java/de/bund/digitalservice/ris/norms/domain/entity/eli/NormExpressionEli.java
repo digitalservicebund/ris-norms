@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * European legislation identifier on expression level for a norm
@@ -21,7 +22,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public final class NormExpressionEli implements NormEli {
+public final class NormExpressionEli implements NormEli, Comparable<NormExpressionEli> {
 
   private String agent;
   private String year;
@@ -119,5 +120,10 @@ public final class NormExpressionEli implements NormEli {
   @Override
   public int hashCode() {
     return Objects.hash(toString());
+  }
+
+  @Override
+  public int compareTo(@NotNull NormExpressionEli o) {
+    return String.CASE_INSENSITIVE_ORDER.compare(this.toString(), o.toString());
   }
 }

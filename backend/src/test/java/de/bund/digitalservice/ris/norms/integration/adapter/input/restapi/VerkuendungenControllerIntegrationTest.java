@@ -558,4 +558,132 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(diff.hasDifferences()).isFalse();
     }
   }
+
+  @Nested
+  class getZielnormenPreview {
+
+    @Test
+    void itShouldReturnZielnormenPreviewForNoExistingExpressions() throws Exception {
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
+        )
+      );
+
+      mockMvc
+        .perform(
+          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview")
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(
+          jsonPath("$[0].title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts")
+        )
+        .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("$[0].expressions[0].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[0].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[0].createdBy").value("diese Verkündung"));
+    }
+
+    @Test
+    void itShouldReturnZielnormenPreviewForExistingExpressions() throws Exception {
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(
+          Fixtures.loadRegelungstextFromDisk(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          )
+        )
+      );
+      loadAndSaveNormFixture(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-16-1.xml",
+        NormPublishState.PUBLISHED
+      );
+      loadAndSaveNormFixture(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-21-1-gegenstandlos.xml",
+        NormPublishState.PUBLISHED
+      );
+      loadAndSaveNormFixture(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-04-16-1-gegenstandlos.xml",
+        NormPublishState.PUBLISHED
+      );
+      loadAndSaveNormFixture(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-04-16-2.xml",
+        NormPublishState.PUBLISHED
+      );
+
+      mockMvc
+        .perform(
+          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview")
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(
+          jsonPath("$[0].title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts")
+        )
+        .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("$[0].expressions[0].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].createdBy").value("andere Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[1].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[2].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(true))
+        .andExpect(jsonPath("$[0].expressions[2].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[2].createdBy").value("andere Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[3].normExpressionEli")
+            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu")
+        )
+        .andExpect(jsonPath("$[0].expressions[3].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[3].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[3].createdBy").value("System"))
+        .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
+        .andExpect(jsonPath("$[1]").doesNotExist());
+    }
+
+    private void loadAndSaveNormFixture(
+      Class<?> clazz,
+      String fileName,
+      NormPublishState publishState
+    ) {
+      final Norm norm = Fixtures.loadNormFromDisk(clazz, fileName);
+      dokumentRepository.save(DokumentMapper.mapToDto(norm.getRegelungstext1()));
+      var normDto = normManifestationRepository
+        .findByManifestationEli(norm.getManifestationEli().toString())
+        .orElseThrow();
+      normDto.setPublishState(publishState);
+      normManifestationRepository.save(normDto);
+    }
+  }
 }

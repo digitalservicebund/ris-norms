@@ -69,4 +69,14 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
   List<String> findManifestationElisByPublishState(
     @Param("publishState") final NormPublishState normPublishState
   );
+
+  /**
+   * Retrieves the expression elis of all expressions of the norm.
+   * @param normWorkEli the eli of the norm
+   * @return a {@link List} of expression elis
+   */
+  @Query(
+    "SELECT DISTINCT n.expressionEli FROM NormManifestationDto n WHERE n.workEli = :normWorkEli"
+  )
+  List<String> findExpressionElisByWorkEli(@Param("normWorkEli") final String normWorkEli);
 }

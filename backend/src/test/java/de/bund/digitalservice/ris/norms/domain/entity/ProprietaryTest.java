@@ -1181,4 +1181,23 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataParent(Namespace.METADATEN_RIS)).isNotEmpty();
     }
   }
+
+  @Test
+  void getGegenstandlos() {
+    final Proprietary proprietary = new Proprietary(
+      XmlMapper.toElement(
+        """
+        <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
+          <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
+            <meta:gegenstandlos seit="2020-01-01" />
+          </meta:legalDocML.de_metadaten>
+        </akn:proprietary>
+        """
+      )
+    );
+
+    assertThat(proprietary.getGegenstandlos()).isPresent();
+    assertThat(proprietary.getGegenstandlos().get().getSinceDate())
+      .isEqualTo(LocalDate.parse("2020-01-01"));
+  }
 }
