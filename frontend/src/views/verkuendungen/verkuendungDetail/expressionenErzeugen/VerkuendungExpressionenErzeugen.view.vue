@@ -39,6 +39,8 @@ const {
     :errors="[verkuendungError, previewError]"
     :loading="!verkuendungHasFinished || !previewIsFinished"
   >
+    <h1 class="sr-only">Expressionen erzeugen</h1>
+
     <RisZielnormenPreviewList
       v-if="previewData?.length"
       :items="previewData"
