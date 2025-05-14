@@ -4,11 +4,13 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
@@ -36,6 +38,7 @@ public class NormService
     DeleteZielnormReferencesUseCase {
 
   private final LoadNormPort loadNormPort;
+  private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
@@ -43,12 +46,14 @@ public class NormService
 
   public NormService(
     LoadNormPort loadNormPort,
+    LoadNormByGuidPort loadNormByGuidPort,
     UpdateNormPort updateNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     LoadNormExpressionElisPort loadNormExpressionElisPort,
     EliService eliService
   ) {
     this.loadNormPort = loadNormPort;
+    this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.loadNormExpressionElisPort = loadNormExpressionElisPort;
@@ -57,9 +62,14 @@ public class NormService
 
   @Override
   public Norm loadNorm(final LoadNormUseCase.Query query) {
-    return loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+    return switch (query) {
+      case EliQuery(NormEli eli) -> loadNormPort
+        .loadNorm(new LoadNormPort.Command(eli))
+        .orElseThrow(() -> new NormNotFoundException(eli.toString()));
+      case GuidQuery(UUID guid) -> loadNormByGuidPort
+        .loadNormByGuid(new LoadNormByGuidPort.Command(guid))
+        .orElseThrow(() -> new NormNotFoundException(guid.toString()));
+    };
   }
 
   @Override
@@ -135,7 +145,7 @@ public class NormService
 
   @Override
   public List<ZielnormReference> loadZielnormReferences(LoadZielnormReferencesUseCase.Query query) {
-    return loadNorm(new LoadNormUseCase.Query(query.eli()))
+    return loadNorm(new LoadNormUseCase.EliQuery(query.eli()))
       .getRegelungstext1()
       .getMeta()
       .getProprietary()
@@ -150,7 +160,7 @@ public class NormService
   public List<ZielnormReference> updateZielnormReferences(
     UpdateZielnormReferencesUseCase.Query query
   ) {
-    var norm = loadNorm(new LoadNormUseCase.Query(query.eli()));
+    var norm = loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
     var zielnormReferences = norm
       .getRegelungstext1()
       .getMeta()
@@ -188,7 +198,7 @@ public class NormService
   public List<ZielnormReference> deleteZielnormReferences(
     DeleteZielnormReferencesUseCase.Query query
   ) {
-    var norm = loadNorm(new LoadNormUseCase.Query(query.eli()));
+    var norm = loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
     var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
     var customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
     var zielnormReferences = customModsMetadata.getOrCreateZielnormenReferences();
@@ -214,7 +224,7 @@ public class NormService
 
   @Override
   public List<ZielnormPreview> loadZielnormenPreview(LoadZielnormenPreviewUseCase.Query query) {
-    var verkuendungNorm = loadNorm(new LoadNormUseCase.Query(query.eli()));
+    var verkuendungNorm = loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
 
     List<NormWorkEli> zielnormWorkElis = verkuendungNorm
       .getRegelungstext1()
@@ -231,7 +241,7 @@ public class NormService
     return zielnormWorkElis
       .stream()
       .map(zielnormWorkEli -> {
-        var latestZielnormExpression = loadNorm(new LoadNormUseCase.Query(zielnormWorkEli));
+        var latestZielnormExpression = loadNorm(new LoadNormUseCase.EliQuery(zielnormWorkEli));
         return new ZielnormPreview(
           zielnormWorkEli,
           latestZielnormExpression.getTitle().orElse(null),

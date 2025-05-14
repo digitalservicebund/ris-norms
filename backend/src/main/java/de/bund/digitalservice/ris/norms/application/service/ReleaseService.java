@@ -69,7 +69,7 @@ public class ReleaseService
   @Override
   @Transactional
   public Release releaseNormExpression(ReleaseNormExpressionUseCase.Query query) {
-    var normToPublish = normService.loadNorm(new LoadNormUseCase.Query(query.eli()));
+    var normToPublish = normService.loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
 
     // Delete the files from a previous release of the same norm if they are still queued for publishing.
     var deletedReleases = deleteQueuedReleasesPort.deleteQueuedReleases(

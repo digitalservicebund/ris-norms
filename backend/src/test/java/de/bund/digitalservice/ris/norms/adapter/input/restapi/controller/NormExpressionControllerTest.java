@@ -77,10 +77,8 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("frbrDateVerkuendung").value(equalTo("1964-08-05")));
 
       verify(loadNormUseCase, times(1)).loadNorm(
-        argThat(query ->
-          query
-            .eli()
-            .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        new LoadNormUseCase.EliQuery(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
     }

@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
+import java.util.UUID;
 
 /**
  * Interface representing the use case for loading a {@link Norm}. Implementations of this interface
@@ -12,17 +13,26 @@ public interface LoadNormUseCase {
   /**
    * Retrieves a norm based on the provided query.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the norm.
+   * @param query The query containing the ELI (European Legislation Identifier) or GUID of the norm.
    * @return The loaded {@link Norm}
    * @throws NormNotFoundException if {@link Norm} could not be found
    */
   Norm loadNorm(Query query);
 
   /**
-   * A record representing the query for loading a norm. The query includes the ELI (European
-   * Legislation Identifier) to identify the norm.
-   *
-   * @param eli The ELI (European Legislation Identifier) used to identify the norm in the query.
+   * The query for loading a norm.
    */
-  record Query(NormEli eli) {}
+  sealed interface Query permits EliQuery, GuidQuery {}
+
+  /**
+   * The query for loading a norm based on an eli.
+   * @param eli the eli to identify the norm
+   */
+  record EliQuery(NormEli eli) implements Query {}
+
+  /**
+   * The query for loading a norm based on a guid.
+   * @param guid the guid to identify the norm expression
+   */
+  record GuidQuery(UUID guid) implements Query {}
 }

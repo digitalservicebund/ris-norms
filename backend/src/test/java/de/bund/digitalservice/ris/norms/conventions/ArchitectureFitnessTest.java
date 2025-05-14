@@ -215,7 +215,9 @@ class ArchitectureFitnessTest {
   void implementationInputPortsOnlyAllowedInTheApplicationPackageAsServices() {
     DescribedPredicate<JavaClass> predicate = JavaClass.Predicates.resideInAPackage(
       INPUT_PORT_LAYER_PACKAGES
-    ).and(JavaClass.Predicates.INTERFACES);
+    )
+      .and(JavaClass.Predicates.INTERFACES)
+      .and(DescribedPredicate.not(JavaClass.Predicates.NESTED_CLASSES));
     ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .implement(predicate)
@@ -308,6 +310,8 @@ class ArchitectureFitnessTest {
       .and(new IsNotRecordClass())
       .and()
       .areNotEnums()
+      .and()
+      .areNotNestedClasses()
       .and()
       .areNotAssignableTo(Exception.class)
       .should(ArchCondition.from((haveASingleMethod)))

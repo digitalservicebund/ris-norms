@@ -25,7 +25,6 @@ try {
     })
     .use(ToastService)
     .use(ConfirmationService)
-    .use(router)
     .use(Sentry, { environment: env.name, router })
 
   // Configure authentication
@@ -35,6 +34,9 @@ try {
     clientId: env.authClientId,
     realm: env.authRealm,
   })
+
+  // Initialize the router after the authentication, otherwise the redirect between guids and elis doesn't work as the request to figure out the eli is not possible
+  app.use(router)
 
   // If all initialization succeeds, mount app
   app.mount("#app")

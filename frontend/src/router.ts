@@ -1,6 +1,8 @@
 import { createDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
-import type { RouteRecordRaw } from "vue-router"
+import type { RouteRecordRaw, NavigationGuardWithThis } from "vue-router"
 import { createRouter, createWebHistory } from "vue-router"
+import { toValue } from "vue"
+import { useNormGuidService } from "@/services/normGuidService"
 
 /**
  * The regular expressions for the eId is based on the definitions from
@@ -14,6 +16,27 @@ import { createRouter, createWebHistory } from "vue-router"
  */
 const ARTICLE_EID_ROUTE_PATH =
   ":eid((?:[a-zäöüß0-9]+-[1-9]{1}[0-9]*_\\)*(?:art\\)-[1-9]{1}[0-9]*)"
+
+const GUID_ROUTE_PATH = `:guid([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})`
+
+/**
+ * Replace a guid in the path of the route with the eli of the expression
+ */
+const beforeRouteEnterGuidToEliRedirect: NavigationGuardWithThis<
+  undefined
+> = async (to) => {
+  const guid: string = to.params.guid as string
+  console.log(`Redirecting GUID to ELI: ${guid}`)
+
+  const { data } = await useNormGuidService(guid)
+  const eli = toValue(data)?.eli
+
+  if (eli == null) {
+    return { name: "NotFound" }
+  }
+
+  return { path: to.path.replace(guid, eli) }
+}
 
 const routes: readonly RouteRecordRaw[] = [
   {
@@ -68,6 +91,11 @@ const routes: readonly RouteRecordRaw[] = [
             "@/views/verkuendungen/verkuendungDetail/expressionenErzeugen/VerkuendungExpressionenErzeugen.view.vue"
           ),
       },
+      {
+        path: `${GUID_ROUTE_PATH}/:any(.*)*`,
+        component: () => null,
+        beforeEnter: beforeRouteEnterGuidToEliRedirect,
+      },
     ],
   },
 
@@ -106,6 +134,12 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
 
+  {
+    path: `/${GUID_ROUTE_PATH}/:any(.*)*`,
+    component: () => null,
+    beforeEnter: beforeRouteEnterGuidToEliRedirect,
+  },
+
   // Legacy routes - these are leftovers from an earlier version of the
   // application and will be removed soon
   {
@@ -136,6 +170,11 @@ const routes: readonly RouteRecordRaw[] = [
               import("@/views/amending-law/publishing/Publishing.view.vue"),
           },
         ],
+      },
+      {
+        path: `${GUID_ROUTE_PATH}/:any(.*)*`,
+        component: () => null,
+        beforeEnter: beforeRouteEnterGuidToEliRedirect,
       },
     ],
   },

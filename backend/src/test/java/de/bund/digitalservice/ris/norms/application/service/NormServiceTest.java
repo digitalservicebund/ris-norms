@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
@@ -23,12 +24,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class NormServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final LoadNormExpressionElisPort loadNormExpressionElisPort = mock(
@@ -38,6 +41,7 @@ class NormServiceTest {
 
   final NormService service = new NormService(
     loadNormPort,
+    loadNormByGuidPort,
     updateNormPort,
     loadRegelungstextPort,
     loadNormExpressionElisPort,
@@ -57,7 +61,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var returnedNorm = service.loadNorm(new LoadNormUseCase.Query(eli));
+      var returnedNorm = service.loadNorm(new LoadNormUseCase.EliQuery(eli));
 
       // Then
       verify(loadNormPort, times(1)).loadNorm(
@@ -67,10 +71,32 @@ class NormServiceTest {
     }
 
     @Test
+    void itCallsLoadNormByGuidAndReturnsNorm() {
+      // Given
+      var norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      );
+      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(norm));
+
+      // When
+      var returnedNorm = service.loadNorm(
+        new LoadNormUseCase.GuidQuery(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"))
+      );
+
+      // Then
+      verify(loadNormByGuidPort, times(1)).loadNormByGuid(
+        argThat(argument ->
+          Objects.equals(argument.guid(), UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"))
+        )
+      );
+      assertThat(returnedNorm).isEqualTo(norm);
+    }
+
+    @Test
     void itThrowsWhenNormIsNotFound() {
       // Given
       var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
-      var query = new LoadNormUseCase.Query(eli);
+      var query = new LoadNormUseCase.EliQuery(eli);
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When

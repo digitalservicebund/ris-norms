@@ -189,12 +189,9 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("dateAusfertigung").value("1964-08-05"))
         .andExpect(jsonPath("importedAt").value("2025-03-13T15:00:00Z"));
 
-      verify(loadVerkuendungUseCase, times(1)).loadVerkuendung(
-        argThat(argument -> Objects.equals(argument.eli(), normEli))
-      );
-      verify(loadNormUseCase, times(1)).loadNorm(
-        argThat(argument -> Objects.equals(argument.eli(), normEli))
-      );
+      verify(loadVerkuendungUseCase, times(1))
+        .loadVerkuendung(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+      verify(loadNormUseCase, times(1)).loadNorm(new LoadNormUseCase.EliQuery(normEli));
     }
 
     @Test
