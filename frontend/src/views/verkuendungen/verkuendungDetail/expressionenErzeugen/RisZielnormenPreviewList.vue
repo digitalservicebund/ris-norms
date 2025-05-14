@@ -43,7 +43,7 @@ const { items } = defineProps<{ items: RisZielnormenListItem[] }>()
             :items="item.expressions"
           ></RisZielnormExpressionsTable>
 
-          <Button class="my-12" label="Expressionen erzeugen"></Button>
+          <Button class="my-12" label="Expressionen erzeugen" disabled></Button>
         </div>
 
         <div v-else class="ris-body2-regular px-14 py-12">
