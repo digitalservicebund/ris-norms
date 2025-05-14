@@ -1,7 +1,8 @@
-import type { Zeitgrenze } from "@/types/zeitgrenze"
-import type { ZielnormReference } from "@/types/zielnormReference"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { setZeitgrenzen, setZielnormReferences } from "@e2e/pages/verkuendung"
 import { test } from "@e2e/utils/testWithAuth"
-import { expect } from "playwright/test"
+import { expect } from "@playwright/test"
 
 test.describe(
   "showing the Zielnormen page for a Verkündung",
@@ -269,32 +270,26 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
 
   test.beforeAll(async ({ authenticatedRequest: request }) => {
     // Prepare Zeitgrenzen
-    zeitgrenzenIds = await request
-      .put(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
-        {
-          data: [
-            { date: "2017-03-16", art: "INKRAFT" },
-            { date: "2025-05-30", art: "INKRAFT" },
-            { date: "2025-06-20", art: "AUSSERKRAFT" },
-          ],
-        },
-      )
-      .then((response) => response.json())
-      .then((zeitgrenzen: Zeitgrenze[]) => zeitgrenzen.map((i) => i.id))
+    zeitgrenzenIds = await setZeitgrenzen(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      ),
+      [
+        { id: "", date: "2017-03-16", art: "INKRAFT" },
+        { id: "", date: "2025-05-30", art: "INKRAFT" },
+        { id: "", date: "2025-06-20", art: "AUSSERKRAFT" },
+      ],
+      request,
+    )
   })
 
   test.beforeEach(async ({ authenticatedRequest: request }) => {
-    const existingReferences = await request
-      .get(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-      )
-      .then((response) => response.json())
-      .then((refs: ZielnormReference[]) => refs.map((i) => i.eId))
-
-    await request.delete(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-      { data: existingReferences },
+    setZielnormReferences(
+      NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+      ),
+      null,
+      request,
     )
   })
 
@@ -468,24 +463,25 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     page,
     authenticatedRequest: request,
   }) => {
-    await request.post(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-      {
-        data: [
-          {
-            geltungszeit: "gz-1",
-            zielnorm: "eli/bund/bgbl-1/2021/123",
-            typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
-          },
-          {
-            geltungszeit: "gz-1",
-            zielnorm: "eli/bund/bgbl-1/2021/123",
-            typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
-          },
-        ],
-      },
+    await setZielnormReferences(
+      NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+      ),
+      [
+        {
+          geltungszeit: zeitgrenzenIds[0],
+          zielnorm: "eli/bund/bgbl-1/2021/123",
+          typ: "Änderungsvorschrift",
+          eId: "hauptteil-1_art-1_abs-1",
+        },
+        {
+          geltungszeit: zeitgrenzenIds[0],
+          zielnorm: "eli/bund/bgbl-1/2021/123",
+          typ: "Änderungsvorschrift",
+          eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+        },
+      ],
+      request,
     )
 
     await page.goto(

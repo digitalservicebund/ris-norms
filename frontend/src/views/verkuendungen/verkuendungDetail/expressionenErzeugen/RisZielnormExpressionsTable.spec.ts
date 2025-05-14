@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest"
-import { render, screen, within } from "@testing-library/vue"
-import RisZielnormExpressionsTable from "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/RisZielnormExpressionsTable.vue"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { render, screen, within } from "@testing-library/vue"
+import { describe, expect, it } from "vitest"
+import RisZielnormExpressionsTable from "./RisZielnormExpressionsTable.vue"
 
 describe("risZielnormExpressionsTable", () => {
   it("renders table with infos", () => {
@@ -14,7 +14,7 @@ describe("risZielnormExpressionsTable", () => {
             ),
             isGegenstandslos: false,
             isCreated: true,
-            erzeugtDurch: "diese Verkündung",
+            createdBy: "diese Verkündung",
           },
           {
             normExpressionEli: NormExpressionEli.fromString(
@@ -22,7 +22,7 @@ describe("risZielnormExpressionsTable", () => {
             ),
             isGegenstandslos: true,
             isCreated: true,
-            erzeugtDurch: "andere Verkündung",
+            createdBy: "andere Verkündung",
           },
           {
             normExpressionEli: NormExpressionEli.fromString(
@@ -30,7 +30,7 @@ describe("risZielnormExpressionsTable", () => {
             ),
             isGegenstandslos: false,
             isCreated: false,
-            erzeugtDurch: "System",
+            createdBy: "System",
           },
           {
             normExpressionEli: NormExpressionEli.fromString(
@@ -38,7 +38,7 @@ describe("risZielnormExpressionsTable", () => {
             ),
             isGegenstandslos: false,
             isCreated: false,
-            erzeugtDurch: "diese Verkündung",
+            createdBy: "diese Verkündung",
           },
         ],
       },

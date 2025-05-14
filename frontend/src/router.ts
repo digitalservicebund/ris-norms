@@ -65,7 +65,7 @@ const routes: readonly RouteRecordRaw[] = [
         name: "VerkuendungExpressionenErzeugen",
         component: () =>
           import(
-            "@/views/verkuendungen/verkuendungDetail/expressionen-erzeugen/VerkuendungExpressionenErzeugen.view.vue"
+            "@/views/verkuendungen/verkuendungDetail/expressionenErzeugen/VerkuendungExpressionenErzeugen.view.vue"
           ),
       },
     ],
