@@ -28,6 +28,8 @@ class NormResponseMapperTest {
     assertThat(result.getFrbrNumber()).isEqualTo("s593");
     assertThat(result.getFrbrDateVerkuendung()).isEqualTo("1964-08-05");
     assertThat(result.getFna()).isEqualTo("754-28-1");
+    assertThat(result.getVorherigeVersionId()).isEqualTo("30c19ca3-cf77-4ff9-8623-0cf60abac28e");
+    assertThat(result.getNachfolgendeVersionId()).isNull();
   }
 
   @Test

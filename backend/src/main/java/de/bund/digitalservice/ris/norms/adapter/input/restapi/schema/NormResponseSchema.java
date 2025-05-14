@@ -29,4 +29,8 @@ public class NormResponseSchema {
   private String frbrDateVerkuendung;
 
   private String status;
+
+  private String nachfolgendeVersionId;
+
+  private String vorherigeVersionId;
 }

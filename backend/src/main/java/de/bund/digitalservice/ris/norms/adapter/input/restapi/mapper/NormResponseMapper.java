@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import java.util.UUID;
 
 /** Mapper class for converting between {@link Norm} and {@link NormResponseSchema}. */
 public class NormResponseMapper {
@@ -33,6 +34,24 @@ public class NormResponseMapper {
           .orElse(null)
       )
       .status("status-not-yet-implemented")
+      .vorherigeVersionId(
+        norm
+          .getRegelungstext1()
+          .getMeta()
+          .getFRBRExpression()
+          .getFRBRaliasPreviousVersionId()
+          .map(UUID::toString)
+          .orElse(null)
+      )
+      .nachfolgendeVersionId(
+        norm
+          .getRegelungstext1()
+          .getMeta()
+          .getFRBRExpression()
+          .getFRBRaliasNextVersionId()
+          .map(UUID::toString)
+          .orElse(null)
+      )
       .build();
   }
 }
