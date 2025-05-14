@@ -13,7 +13,7 @@ import dayjs from "dayjs"
 export type RisZielnormExpressionsTableItem = {
   normExpressionEli: NormExpressionEli
   isGegenstandslos: boolean
-  erzeugtDurch: string
+  createdBy: string
   isCreated: boolean
 }
 
@@ -29,7 +29,7 @@ const { items } = defineProps<{ items: RisZielnormExpressionsTableItem[] }>()
 function itemIsCreatedByThisVerkuendung(
   item: RisZielnormExpressionsTableItem,
 ): boolean {
-  return item.erzeugtDurch === "diese Verkündung"
+  return item.createdBy === "diese Verkündung"
 }
 
 const internalItems = computed(() => {
@@ -125,7 +125,7 @@ function formatDate(date: Date | undefined): string {
     </Column>
     <Column
       header-class="text-gray-900 font-light"
-      field="erzeugtDurch"
+      field="createdBy"
       header="erzeugt durch"
     >
       <template #body="{ data }">
@@ -133,7 +133,7 @@ function formatDate(date: Date | undefined): string {
           :class="{
             'font-bold': !data.isGegenstandslos,
           }"
-          >{{ data.erzeugtDurch }}</span
+          >{{ data.createdBy }}</span
         >
       </template>
     </Column>

@@ -2,11 +2,12 @@
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
+import { useGetZielnormPreview } from "@/services/zielnormPreviewService"
 import { ref } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
@@ -25,92 +26,27 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   { key: "expressionen-erzeugen", title: "Expressionen erzeugen" },
 ])
 
-const items = [
-  {
-    title: "Luftverkehrsteuergesetz",
-    shortTitle: "LuftVStG",
-    expressions: [
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2023-01-01/1/deu",
-        ),
-        isGegenstandslos: false,
-        isCreated: true,
-        erzeugtDurch: "diese Verkündung",
-      },
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2024-01-01/1/deu",
-        ),
-        isGegenstandslos: true,
-        isCreated: true,
-        erzeugtDurch: "andere Verkündung",
-      },
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2024-01-01/2/deu",
-        ),
-        isGegenstandslos: false,
-        isCreated: false,
-        erzeugtDurch: "System",
-      },
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2024-05-01/1/deu",
-        ),
-        isGegenstandslos: false,
-        isCreated: false,
-        erzeugtDurch: "diese Verkündung",
-      },
-    ],
-  },
-  {
-    title: "Luftverkehrsteuergesetz 2",
-    shortTitle: "LuftVStG",
-    expressions: [
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2023-01-01/1/deu",
-        ),
-        isGegenstandslos: false,
-        isCreated: true,
-        erzeugtDurch: "diese Verkündung",
-      },
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2024-01-01/1/deu",
-        ),
-        isGegenstandslos: true,
-        isCreated: true,
-        erzeugtDurch: "andere Verkündung",
-      },
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2024-01-01/2/deu",
-        ),
-        isGegenstandslos: false,
-        isCreated: false,
-        erzeugtDurch: "System",
-      },
-      {
-        normExpressionEli: NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2010/s1885/2024-05-01/1/deu",
-        ),
-        isGegenstandslos: false,
-        isCreated: false,
-        erzeugtDurch: "diese Verkündung",
-      },
-    ],
-  },
-]
+const {
+  data: previewData,
+  error: previewError,
+  isFinished: previewIsFinished,
+} = useGetZielnormPreview(() => eli.value.asNormEli())
 </script>
 
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError]"
-    :loading="!verkuendungHasFinished"
+    :errors="[verkuendungError, previewError]"
+    :loading="!verkuendungHasFinished || !previewIsFinished"
   >
-    <RisZielnormenPreviewList :items="items"></RisZielnormenPreviewList>
+    <RisZielnormenPreviewList
+      v-if="previewData?.length"
+      :items="previewData"
+    ></RisZielnormenPreviewList>
+
+    <RisEmptyState
+      v-else
+      text-content="Bisher werden keine Expressionen erzeugt. Verknüpfen Sie Zielnormen, um neue Expressionen für diese Normen zu erzeugen."
+    />
   </RisViewLayout>
 </template>
