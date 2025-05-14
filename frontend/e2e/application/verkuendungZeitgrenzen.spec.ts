@@ -1,3 +1,4 @@
+import type { ZielnormReference } from "@/types/zielnormReference"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
@@ -5,6 +6,22 @@ test.describe(
   "showing the Zeitgrenzen page for a Verkündung",
   { tag: ["@RISDEV-4007"] },
   () => {
+    test.beforeAll(async ({ authenticatedRequest: request }) => {
+      // Delete all Zielnormen references so manipulating Zeitgrenzen is not
+      // going to be restricted (e.g. due to Zeitgrenzen being referenced)
+      const existingReferences = await request
+        .get(
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
+        )
+        .then((response) => response.json())
+        .then((refs: ZielnormReference[]) => refs.map((i) => i.eId))
+
+      await request.delete(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
+        { data: existingReferences },
+      )
+    })
+
     test.beforeEach(async ({ authenticatedRequest: request }) => {
       // Set initial Zeitgrenzen data
       await request.put(

@@ -1,3 +1,4 @@
+import type { ZielnormReference } from "@/types/zielnormReference"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
@@ -5,6 +6,48 @@ test.describe(
   "shows the preview of expressions that will be created",
   { tag: ["@RISDEV-7180"] },
   () => {
+    test.beforeAll(async ({ authenticatedRequest: request }) => {
+      // Prepare Zeitgrenzen
+      await request.put(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        {
+          data: [
+            { date: "2017-03-16", art: "INKRAFT" },
+            { date: "2025-05-30", art: "INKRAFT" },
+            { date: "2025-06-20", art: "AUSSERKRAFT" },
+          ],
+        },
+      )
+    })
+
+    test.beforeEach(async ({ authenticatedRequest: request }) => {
+      const existingReferences = await request
+        .get(
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
+        )
+        .then((response) => response.json())
+        .then((refs: ZielnormReference[]) => refs.map((i) => i.eId))
+
+      await request.delete(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
+        { data: existingReferences },
+      )
+
+      await request.post(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
+        {
+          data: [
+            {
+              geltungszeit: "gz-1",
+              zielnorm: "eli/bund/bgbl-1/1964/s593",
+              typ: "Änderungsvorschrift",
+              eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            },
+          ],
+        },
+      )
+    })
+
     test("opens the page and shows the data", async ({ page }) => {
       await page.goto(
         "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
