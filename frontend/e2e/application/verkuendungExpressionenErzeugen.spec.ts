@@ -1,4 +1,6 @@
-import type { ZielnormReference } from "@/types/zielnormReference"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { setZeitgrenzen, setZielnormReferences } from "@e2e/pages/verkuendung"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
@@ -7,44 +9,40 @@ test.describe(
   { tag: ["@RISDEV-7180"] },
   () => {
     test.beforeAll(async ({ authenticatedRequest: request }) => {
+      await setZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        ),
+        null,
+        request,
+      )
+
       // Prepare Zeitgrenzen
-      await request.put(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
-        {
-          data: [
-            { date: "2017-03-16", art: "INKRAFT" },
-            { date: "2025-05-30", art: "INKRAFT" },
-            { date: "2025-06-20", art: "AUSSERKRAFT" },
-          ],
-        },
-      )
-    })
-
-    test.beforeEach(async ({ authenticatedRequest: request }) => {
-      const existingReferences = await request
-        .get(
-          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-        )
-        .then((response) => response.json())
-        .then((refs: ZielnormReference[]) => refs.map((i) => i.eId))
-
-      await request.delete(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-        { data: existingReferences },
+      const zeitgrenzenIds = await setZeitgrenzen(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        ),
+        [
+          { id: "", date: "2017-03-16", art: "INKRAFT" },
+          { id: "", date: "2025-05-30", art: "INKRAFT" },
+          { id: "", date: "2025-06-20", art: "AUSSERKRAFT" },
+        ],
+        request,
       )
 
-      await request.post(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-        {
-          data: [
-            {
-              geltungszeit: "gz-1",
-              zielnorm: "eli/bund/bgbl-1/1964/s593",
-              typ: "Änderungsvorschrift",
-              eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
-            },
-          ],
-        },
+      await setZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        ),
+        [
+          {
+            geltungszeit: zeitgrenzenIds[0],
+            zielnorm: "eli/bund/bgbl-1/1964/s593",
+            typ: "Änderungsvorschrift",
+            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+          },
+        ],
+        request,
       )
     })
 

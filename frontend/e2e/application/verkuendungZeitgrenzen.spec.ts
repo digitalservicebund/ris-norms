@@ -1,4 +1,6 @@
-import type { ZielnormReference } from "@/types/zielnormReference"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { setZeitgrenzen, setZielnormReferences } from "@e2e/pages/verkuendung"
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
@@ -7,26 +9,23 @@ test.describe(
   { tag: ["@RISDEV-4007"] },
   () => {
     test.beforeAll(async ({ authenticatedRequest: request }) => {
-      // Delete all Zielnormen references so manipulating Zeitgrenzen is not
-      // going to be restricted (e.g. due to Zeitgrenzen being referenced)
-      const existingReferences = await request
-        .get(
-          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-        )
-        .then((response) => response.json())
-        .then((refs: ZielnormReference[]) => refs.map((i) => i.eId))
-
-      await request.delete(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-        { data: existingReferences },
+      await setZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        ),
+        null,
+        request,
       )
     })
 
     test.beforeEach(async ({ authenticatedRequest: request }) => {
       // Set initial Zeitgrenzen data
-      await request.put(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
-        { data: [{ id: "gz-1", date: "2017-03-16", art: "INKRAFT" }] },
+      await setZeitgrenzen(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        ),
+        [{ id: "gz-1", date: "2017-03-16", art: "INKRAFT" }],
+        request,
       )
     })
 
