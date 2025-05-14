@@ -163,13 +163,11 @@
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                <ris:subtyp>rechtsverordnung</ris:subtyp>
-               <ris:entryIntoForce date="1964-09-21" />
                <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
                <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
                <ris:normgeber>DEU</ris:normgeber>
                <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
                <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
-               <ris:expiry date="2030-01-01" />
                <ris:inkraft date="1964-08-05" />
                <ris:ausserkraft date="2030-01-01" />
                <ris:standangabe type="stand">zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351</ris:standangabe>

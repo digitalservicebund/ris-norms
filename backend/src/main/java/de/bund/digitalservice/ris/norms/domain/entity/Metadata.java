@@ -44,11 +44,8 @@ public enum Metadata {
     true
   ),
   ORGANISATIONS_EINHEIT(Namespace.METADATEN_RIS, "./organisationsEinheit", "organisationsEinheit"),
-  // TODO 2025-03-18 Victor: remove the _ENG once migration only sends _DE
-  EXPIRY_ENG(Namespace.METADATEN_RIS, "./expiry/@date", "date", true),
-  EXPIRY_DE(Namespace.METADATEN_RIS, "./ausserkraft/@date", "date", true),
-  ENTRY_INTO_FORCE_ENG(Namespace.METADATEN_RIS, "./entryIntoForce/@date", "date", true),
-  ENTRY_INTO_FORCE_DE(Namespace.METADATEN_RIS, "./inkraft/@date", "date", true),
+  AUSSERKRAFT(Namespace.METADATEN_RIS, "./ausserkraft/@date", "date", true),
+  INKRAFT(Namespace.METADATEN_RIS, "./inkraft/@date", "date", true),
   STANDANGABE(Namespace.METADATEN_RIS, "./standangabe", "standangabe"),
   VOLLZITAT(Namespace.METADATEN_RIS, "./vollzitat", "vollzitat");
 

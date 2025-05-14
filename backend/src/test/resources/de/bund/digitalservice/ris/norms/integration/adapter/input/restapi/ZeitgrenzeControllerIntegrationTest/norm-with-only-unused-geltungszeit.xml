@@ -177,7 +177,6 @@
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:entryIntoForce date="2017-03-16" />
                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
                  <norms:geltungszeiten>
                    <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>

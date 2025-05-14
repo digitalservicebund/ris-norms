@@ -154,7 +154,7 @@
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:entryIntoForce date="1964-09-21" />
+               <ris:inkraft date="1964-09-21" />
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

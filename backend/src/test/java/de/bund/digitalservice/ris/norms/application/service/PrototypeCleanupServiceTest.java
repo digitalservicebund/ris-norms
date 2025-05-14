@@ -85,12 +85,7 @@ class PrototypeCleanupServiceTest {
     )
       .isEmpty();
     assertThat(
-      norm
-        .getRegelungstext1()
-        .getMeta()
-        .getProprietary()
-        .get()
-        .getMetadataValue(Metadata.ENTRY_INTO_FORCE_ENG)
+      norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.INKRAFT)
     )
       .isEmpty();
     assertThat(
@@ -99,20 +94,7 @@ class PrototypeCleanupServiceTest {
         .getMeta()
         .getProprietary()
         .get()
-        .getMetadataValue(Metadata.EXPIRY_ENG)
-    )
-      .isEmpty();
-    assertThat(
-      norm
-        .getRegelungstext1()
-        .getMeta()
-        .getProprietary()
-        .get()
-        .getMetadataValue(Metadata.ENTRY_INTO_FORCE_DE)
-    )
-      .isEmpty();
-    assertThat(
-      norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.EXPIRY_DE)
+        .getMetadataValue(Metadata.AUSSERKRAFT)
     )
       .isEmpty();
     assertThat(

@@ -171,8 +171,6 @@
                <ris:einzelelement href="#hauptteil-1_art-1">
                  <ris:artDerNorm>SN</ris:artDerNorm>
                </ris:einzelelement>
-               <ris:entryIntoForce date="1964-09-21" />
-               <ris:expiry date="2030-01-01" />
                <ris:inkraft date="1964-08-05" />
                <ris:ausserkraft date="2030-01-01" />
                <ris:vollzitat>Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)</ris:vollzitat>
