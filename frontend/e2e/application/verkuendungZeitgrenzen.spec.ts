@@ -1,5 +1,5 @@
 import { test } from "@e2e/utils/testWithAuth"
-import { expect } from "playwright/test"
+import { expect } from "@playwright/test"
 
 test.describe(
   "showing the Zeitgrenzen page for a Verkündung",

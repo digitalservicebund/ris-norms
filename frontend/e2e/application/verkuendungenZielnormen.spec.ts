@@ -1,7 +1,7 @@
 import type { Zeitgrenze } from "@/types/zeitgrenze"
 import type { ZielnormReference } from "@/types/zielnormReference"
 import { test } from "@e2e/utils/testWithAuth"
-import { expect } from "playwright/test"
+import { expect } from "@playwright/test"
 
 test.describe(
   "showing the Zielnormen page for a Verkündung",
