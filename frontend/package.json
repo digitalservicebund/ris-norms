@@ -27,13 +27,13 @@
     "audit:licences": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },
   "engines": {
-    "node": "22.15.0",
+    "node": "22.15.1",
     "npm": "11.3.0"
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
     "@digitalservicebund/ris-ui": "~3.4.3",
-    "@sentry/vue": "~9.18.0",
+    "@sentry/vue": "~9.19.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
     "@vueuse/core": "~13.2.0",
