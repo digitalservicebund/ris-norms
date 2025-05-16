@@ -50,7 +50,7 @@ public class NormExpressionController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<NormResponseSchema> getNorm(final DokumentExpressionEli eli) {
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.asNormEli()));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(eli.asNormEli()));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 

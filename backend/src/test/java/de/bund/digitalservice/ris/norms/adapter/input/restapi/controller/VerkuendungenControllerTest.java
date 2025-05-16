@@ -139,7 +139,7 @@ class VerkuendungenControllerTest {
       );
       when(loadNormUseCase.loadNorm(any()))
         .thenReturn(norm1)
-        .thenThrow(new NormNotFoundException(verkuendung2.getEli().toString()));
+        .thenThrow(new NormNotFoundException(verkuendung2.getEli()));
 
       // When // Then
       mockMvc
@@ -192,9 +192,7 @@ class VerkuendungenControllerTest {
       verify(loadVerkuendungUseCase, times(1)).loadVerkuendung(
         argThat(argument -> Objects.equals(argument.eli(), normEli))
       );
-      verify(loadNormUseCase, times(1)).loadNorm(
-        argThat(argument -> Objects.equals(argument.eli(), normEli))
-      );
+      verify(loadNormUseCase, times(1)).loadNorm(new LoadNormUseCase.EliQuery(normEli));
     }
 
     @Test

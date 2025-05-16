@@ -34,7 +34,7 @@ public class ArticleService
   public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
     var regelungstext = loadRegelungstextPort
       .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     return regelungstext
       .getArticles()
@@ -67,7 +67,7 @@ public class ArticleService
   ) {
     List<Article> articles = loadRegelungstextPort
       .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().toString()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()))
       .getArticles();
 
     if (query.refersTo() != null) {

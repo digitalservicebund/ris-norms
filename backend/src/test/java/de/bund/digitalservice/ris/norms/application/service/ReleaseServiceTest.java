@@ -3,11 +3,11 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
@@ -70,9 +70,9 @@ class ReleaseServiceTest {
     var savedRelease = new Release(Instant.now(), List.of(manifestationOfNormToQueue));
 
     when(deleteQueuedReleasesPort.deleteQueuedReleases(any())).thenReturn(List.of());
-    when(
-      normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli())))
-    ).thenReturn(norm);
+    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+      norm
+    );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
       manifestationOfNormToQueue
     );
@@ -166,9 +166,9 @@ class ReleaseServiceTest {
       "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
     );
 
-    when(
-      normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli())))
-    ).thenReturn(norm);
+    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+      norm
+    );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
       manifestationOfNormToQueue
     );
@@ -220,9 +220,9 @@ class ReleaseServiceTest {
       "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
     );
 
-    when(
-      normService.loadNorm(argThat(command -> command.eli().equals(norm.getExpressionEli())))
-    ).thenReturn(norm);
+    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+      norm
+    );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
       manifestationOfNormToQueue
     );

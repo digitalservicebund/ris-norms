@@ -70,7 +70,7 @@ public class VerkuendungenController {
       .stream()
       .map(verkuendung -> {
         try {
-          var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(verkuendung.getEli()));
+          var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(verkuendung.getEli()));
           return VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm);
         } catch (NormNotFoundException e) {
           throw new VerkuendungWithoutNormException(verkuendung.getEli().toString());
@@ -96,7 +96,7 @@ public class VerkuendungenController {
   )
   public ResponseEntity<VerkuendungResponseSchema> getVerkuendung(NormExpressionEli eli) {
     var verkuendung = loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Query(eli));
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(verkuendung.getEli()));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(verkuendung.getEli()));
     return ResponseEntity.ok(VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm));
   }
 
@@ -161,7 +161,7 @@ public class VerkuendungenController {
     var verkuendung = createVerkuendungUseCase.createVerkuendung(
       new CreateVerkuendungUseCase.Query(file, force)
     );
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(verkuendung.getEli()));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(verkuendung.getEli()));
     return ResponseEntity.ok(VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm));
   }
 }
