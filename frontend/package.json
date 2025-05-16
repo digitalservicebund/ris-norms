@@ -27,7 +27,7 @@
     "audit:licences": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },
   "engines": {
-    "node": "22.15.1",
+    "node": "24.0.2",
     "npm": "11.3.0"
   },
   "dependencies": {
