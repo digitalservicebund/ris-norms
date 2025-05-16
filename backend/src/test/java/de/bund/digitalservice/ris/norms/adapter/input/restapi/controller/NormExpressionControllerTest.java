@@ -78,7 +78,7 @@ class NormExpressionControllerTest {
 
       verify(loadNormUseCase, times(1)).loadNorm(
         new LoadNormUseCase.EliQuery(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
     }
@@ -88,7 +88,11 @@ class NormExpressionControllerTest {
       // Given
 
       // When
-      when(loadNormUseCase.loadNorm(any())).thenThrow(new NormNotFoundException("eli/of/norm"));
+      when(loadNormUseCase.loadNorm(any())).thenThrow(
+        new NormNotFoundException(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        )
+      );
 
       // When // Then
       mockMvc
@@ -101,13 +105,17 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
         .andExpect(jsonPath("title").value(equalTo("Norm not found")))
         .andExpect(jsonPath("status").value(equalTo(404)))
-        .andExpect(jsonPath("detail").value(equalTo("Norm with eli eli/of/norm does not exist")))
+        .andExpect(
+          jsonPath("detail").value(
+            equalTo("Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu does not exist")
+          )
+        )
         .andExpect(
           jsonPath("instance").value(
             equalTo("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
           )
         )
-        .andExpect(jsonPath("eli").value(equalTo("eli/of/norm")));
+        .andExpect(jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")));
     }
   }
 

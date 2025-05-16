@@ -65,10 +65,10 @@ public class NormService
     return switch (query) {
       case EliQuery(NormEli eli) -> loadNormPort
         .loadNorm(new LoadNormPort.Command(eli))
-        .orElseThrow(() -> new NormNotFoundException(eli.toString()));
+        .orElseThrow(() -> new NormNotFoundException(eli));
       case GuidQuery(UUID guid) -> loadNormByGuidPort
         .loadNormByGuid(new LoadNormByGuidPort.Command(guid))
-        .orElseThrow(() -> new NormNotFoundException(guid.toString()));
+        .orElseThrow(() -> new NormNotFoundException(guid));
     };
   }
 
@@ -94,7 +94,7 @@ public class NormService
 
     var existingNorm = loadNormPort
       .loadNorm(new LoadNormPort.Command(query.eli().asNormEli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().asNormEli().toString()));
+      .orElseThrow(() -> new NormNotFoundException(query.eli().asNormEli()));
     var existingRegelungstext = existingNorm
       .getRegelungstextByEli(query.eli())
       .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
@@ -137,8 +137,7 @@ public class NormService
 
     Norm savedNorm = updateNormPort
       .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
-      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli().toString())
-      );
+      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
 
     return Map.of(normToBeUpdated.getExpressionEli(), savedNorm);
   }

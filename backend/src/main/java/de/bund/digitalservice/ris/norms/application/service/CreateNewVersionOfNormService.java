@@ -182,7 +182,7 @@ public class CreateNewVersionOfNormService {
     );
 
     if (previousExpression.isEmpty()) {
-      throw new NormNotFoundException(previousVersionId.toString());
+      throw new NormNotFoundException(previousVersionId);
     }
 
     return previousExpression.get();
