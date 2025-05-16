@@ -28,7 +28,7 @@
   },
   "engines": {
     "node": "24.0.2",
-    "npm": "11.3.0"
+    "npm": "11.4.0"
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
