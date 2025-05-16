@@ -165,10 +165,14 @@ public class VerkuendungService
       .getMeta()
       .getProprietary()
       .flatMap(Proprietary::getCustomModsMetadata)
-      .map(CustomModsMetadata::getAmendedNormExpressionElis)
-      .orElse(List.of());
+      .flatMap(CustomModsMetadata::getAmendedNormExpressions);
+
+    if (affectedExpressionElis.isEmpty()) {
+      return List.of();
+    }
 
     return affectedExpressionElis
+      .get()
       .stream()
       .map(eli -> {
         var norm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));

@@ -30,7 +30,7 @@ class CustomModsMetadataTest {
         )
       );
 
-      assertThat(customModsMetadata.getAmendedNormExpressionElis())
+      assertThat(customModsMetadata.getOrCreateAmendedNormExpressions())
         .hasSize(5)
         .contains(NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"))
         .contains(NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2024-01-11/2/deu"))
