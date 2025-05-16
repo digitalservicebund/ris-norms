@@ -24,7 +24,7 @@ lombok = "org.projectlombok:lombok:1.18.38"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.17.0"
 postgresql = "org.postgresql:postgresql:42.7.5"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.0"
-saxon-he = "net.sf.saxon:Saxon-HE:12.6"
+saxon-he = "net.sf.saxon:Saxon-HE:12.7"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
 shedlockJdbc = { module = "net.javacrumbs.shedlock:shedlock-provider-jdbc-template", version.ref = "net-javacrumbs-shedlock" }
