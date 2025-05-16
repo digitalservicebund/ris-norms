@@ -23,7 +23,7 @@
     },
     {
       "groupName": "all non-major frontend dependencies",
-      "matchPaths": [
+      "matchFileNames": [
         "frontend/**"
       ],
       "matchUpdateTypes": [
@@ -42,7 +42,7 @@
     },
     {
       "groupName": "all non-major backend dependencies",
-      "matchPaths": [
+      "matchFileNames": [
         "backend/**"
       ],
       "matchUpdateTypes": [
