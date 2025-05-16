@@ -23,7 +23,7 @@
     },
     {
       "groupName": "all non-major frontend dependencies",
-      "matchPaths": [
+      "matchFileNames": [
         "frontend/**"
       ],
       "matchUpdateTypes": [
@@ -42,7 +42,7 @@
     },
     {
       "groupName": "all non-major backend dependencies",
-      "matchPaths": [
+      "matchFileNames": [
         "backend/**"
       ],
       "matchUpdateTypes": [
@@ -58,6 +58,16 @@
       ],
       "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
       "automergeType": "pr"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": "build.gradle.kts",
+      "matchStrings": [
+        "\"(?<depName>^\"+)\" to \"(?<currentValue>[^\"]+)\", // npm dependency"
+      ],
+      "datasourceTemplate": "npm",
     }
   ]
 }

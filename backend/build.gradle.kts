@@ -243,8 +243,8 @@ spotless {
         removeUnusedImports()
         prettier(
             mapOf(
-                "prettier" to "3.5.3",
-                "prettier-plugin-java" to "2.6.7",
+                "prettier" to "3.5.3", // npm dependency
+                "prettier-plugin-java" to "2.6.7", // npm dependency
             ),
         ).config(
             mapOf(
@@ -269,8 +269,8 @@ spotless {
         )
         prettier(
             mapOf(
-                "prettier" to "2.6.1",
-                "prettier-plugin-sh" to "0.7.1",
+                "prettier" to "2.6.1", // npm dependency
+                "prettier-plugin-sh" to "0.7.1", // npm dependency
             ),
         ).config(mapOf("keySeparator" to "="))
     }
@@ -279,8 +279,8 @@ spotless {
         targetExclude("**/gradle-wrapper.properties")
         prettier(
             mapOf(
-                "prettier" to "2.6.1",
-                "prettier-plugin-properties" to "0.1.0",
+                "prettier" to "2.6.1", // npm dependency
+                "prettier-plugin-properties" to "0.1.0", // npm dependency
             ),
         ).config(
             mapOf(
