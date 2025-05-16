@@ -33,7 +33,9 @@ class S3MockClientTest {
       paths.forEach(path -> {
         try {
           Files.delete(path);
-        } catch (IOException e) {}
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       });
     }
   }
