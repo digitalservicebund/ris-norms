@@ -341,7 +341,9 @@ public class NormService
         }
       });
 
-    return expressions
+    var updatedExpressions = calculateIsCreated(expressions);
+
+    return updatedExpressions
       .stream()
       .sorted(Comparator.comparing(ZielnormPreview.Expression::normExpressionEli))
       .toList();
@@ -397,5 +399,34 @@ public class NormService
       .filter(Predicate.not(Norm::isGegenstandlos))
       .map(Norm::getExpressionEli)
       .toList();
+  }
+
+  /** check whether the expression is already stored in the database and set the isCreated flag */
+  private List<ZielnormPreview.Expression> calculateIsCreated(
+    List<ZielnormPreview.Expression> expressions
+  ) {
+    var updatedExpressions = new ArrayList<ZielnormPreview.Expression>();
+    expressions.forEach(expression -> {
+      if (
+        loadNormPort.loadNorm(new LoadNormPort.Command(expression.normExpressionEli())).isPresent()
+      ) {
+        var updatedExpression = new ZielnormPreview.Expression(
+          expression.normExpressionEli(),
+          expression.isGegenstandslos(),
+          true,
+          expression.createdBy()
+        );
+        updatedExpressions.add(updatedExpression);
+      } else {
+        var updatedExpression = new ZielnormPreview.Expression(
+          expression.normExpressionEli(),
+          expression.isGegenstandslos(),
+          false,
+          expression.createdBy()
+        );
+        updatedExpressions.add(updatedExpression);
+      }
+    });
+    return updatedExpressions;
   }
 }

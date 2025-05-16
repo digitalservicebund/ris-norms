@@ -466,8 +466,33 @@ class NormServiceTest {
       Norm norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(any())))
-        .thenReturn(Optional.of(norm))
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+          )
+        )
+      )
+        .thenReturn(Optional.of(norm));
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        )
+      )
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        );
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+          )
+        )
+      )
         .thenReturn(
           Optional.of(
             Fixtures.loadNormFromDisk(
@@ -528,18 +553,55 @@ class NormServiceTest {
       Norm norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(any())))
-        .thenReturn(Optional.of(norm))
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+          )
+        )
+      )
+        .thenReturn(Optional.of(norm));
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        )
+      )
         .thenReturn(
           Optional.of(
             Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
           )
+        );
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
+          )
         )
+      )
+        .thenReturn(
+          Optional.of(
+            Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
+          )
+        );
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+          )
+        )
+      )
         .thenReturn(
           Optional.of(
             Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-03-16-1.xml")
           )
+        );
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu")
+          )
         )
+      )
         .thenReturn(
           Optional.of(
             Fixtures.loadNormFromDisk(
@@ -547,7 +609,14 @@ class NormServiceTest {
               "vereinsgesetz-2017-03-21-1-gegenstandlos.xml"
             )
           )
+        );
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
+          )
         )
+      )
         .thenReturn(
           Optional.of(
             Fixtures.loadNormFromDisk(
@@ -555,12 +624,8 @@ class NormServiceTest {
               "vereinsgesetz-2017-04-16-1-gegenstandlos.xml"
             )
           )
-        )
-        .thenReturn(
-          Optional.of(
-            Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
-          )
         );
+
       when(loadNormExpressionElisPort.loadNormExpressionElis(any()))
         .thenReturn(
           List.of(
@@ -638,7 +703,7 @@ class NormServiceTest {
         );
       verify(loadNormPort, times(1))
         .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")));
-      verify(loadNormPort, times(1))
+      verify(loadNormPort, times(2))
         .loadNorm(
           new LoadNormPort.Command(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
@@ -656,7 +721,7 @@ class NormServiceTest {
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
           )
         );
-      verify(loadNormPort, times(1))
+      verify(loadNormPort, times(2))
         .loadNorm(
           new LoadNormPort.Command(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
