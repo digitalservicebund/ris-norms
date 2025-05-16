@@ -1,23 +1,23 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormenPreviewResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenPreviewUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenUseCase;
 
 /**
- * Mapper between {@link LoadZielnormenPreviewUseCase.ZielnormPreview} and {@link ZielnormenPreviewResponseSchema}
+ * Mapper between {@link LoadZielnormenUseCase.ZielnormPreview} and {@link ZielnormenPreviewResponseSchema}
  */
 public class ZielnormenPreviewResponseMapper {
 
   private ZielnormenPreviewResponseMapper() {}
 
   /**
-   * Creates a {@link ZielnormenPreviewResponseSchema} instance from a {@link LoadZielnormenPreviewUseCase.ZielnormPreview} entity.
+   * Creates a {@link ZielnormenPreviewResponseSchema} instance from a {@link LoadZielnormenUseCase.ZielnormPreview} entity.
    *
-   * @param zielnormPreview The input {@link LoadZielnormenPreviewUseCase.ZielnormPreview} entity to be converted.
+   * @param zielnormPreview The input {@link LoadZielnormenUseCase.ZielnormPreview} entity to be converted.
    * @return A new {@link ZielnormenPreviewResponseSchema}.
    */
   public static ZielnormenPreviewResponseSchema fromUseCaseData(
-    final LoadZielnormenPreviewUseCase.ZielnormPreview zielnormPreview
+    final LoadZielnormenUseCase.ZielnormPreview zielnormPreview
   ) {
     return new ZielnormenPreviewResponseSchema(
       zielnormPreview.normWorkEli().toString(),
@@ -32,7 +32,7 @@ public class ZielnormenPreviewResponseMapper {
   }
 
   private static ZielnormenPreviewResponseSchema.Expression fromUseCaseData(
-    final LoadZielnormenPreviewUseCase.ZielnormPreview.Expression zielnormPreviewExpression
+    final LoadZielnormenUseCase.ZielnormPreview.Expression zielnormPreviewExpression
   ) {
     return new ZielnormenPreviewResponseSchema.Expression(
       zielnormPreviewExpression.normExpressionEli().toString(),
@@ -43,7 +43,7 @@ public class ZielnormenPreviewResponseMapper {
   }
 
   private static String fromUseCaseData(
-    final LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy createdBy
+    final LoadZielnormenUseCase.ZielnormPreview.CreatedBy createdBy
   ) {
     return switch (createdBy) {
       case SYSTEM -> "System";
