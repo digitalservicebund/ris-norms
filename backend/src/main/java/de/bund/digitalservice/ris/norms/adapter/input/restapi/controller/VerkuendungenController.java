@@ -2,12 +2,14 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.springframework.http.MediaType.*;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.exception.VerkuendungWithoutNormException;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.VerkuendungResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ZielnormenPreviewResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormenPreviewResponseSchema;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendungenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
@@ -67,8 +69,12 @@ public class VerkuendungenController {
       .loadAllVerkuendungen()
       .stream()
       .map(verkuendung -> {
-        var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(verkuendung.getEli()));
-        return VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm);
+        try {
+          var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(verkuendung.getEli()));
+          return VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm);
+        } catch (NormNotFoundException e) {
+          throw new VerkuendungWithoutNormException(verkuendung.getEli().toString());
+        }
       })
       .toList();
     return ResponseEntity.ok(responseSchemas);

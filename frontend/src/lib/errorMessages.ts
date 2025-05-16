@@ -145,4 +145,8 @@ export const errorMessages = {
     title: "Invalide ELI",
     message: `Die angegebene ${e.eliType} "${e.eli}" ist nicht gültig.`,
   }),
+  "/errors/verkuendung-without-norm": (e: ErrorResponse<{ eli: string }>) => ({
+    title: "Verkündung hat keine Norm",
+    message: `Die Verkündung "${e.eli}" existiert, aber die dazugehörige Norm fehlt.`,
+  }),
 } satisfies ErrorResponseMapping

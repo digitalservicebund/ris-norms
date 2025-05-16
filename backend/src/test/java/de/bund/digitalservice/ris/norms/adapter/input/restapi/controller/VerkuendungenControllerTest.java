@@ -8,6 +8,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.VerkuendungNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendungenUseCase;
@@ -112,6 +113,40 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[1].frbrDateVerkuendung", equalTo("2024-01-18")))
         .andExpect(jsonPath("$[1].dateAusfertigung", equalTo("2024-01-15")))
         .andExpect(jsonPath("$[1].importedAt", equalTo("2025-03-13T16:00:00Z")));
+    }
+
+    @Test
+    void itThrowsVerkuendungWithoutNorm() throws Exception {
+      // Given
+      var norm1 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      );
+      var verkuendung1 = Verkuendung
+        .builder()
+        .eli(norm1.getExpressionEli())
+        .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
+        .build();
+
+      var norm2 = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
+      );
+      var verkuendung2 = Verkuendung
+        .builder()
+        .eli(norm2.getExpressionEli())
+        .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
+        .build();
+
+      // When
+      when(loadAllVerkuendungenUseCase.loadAllVerkuendungen())
+        .thenReturn(List.of(verkuendung1, verkuendung2));
+      when(loadNormUseCase.loadNorm(any()))
+        .thenReturn(norm1)
+        .thenThrow(new NormNotFoundException(verkuendung2.getEli().toString()));
+
+      // When // Then
+      mockMvc
+        .perform(get("/api/v1/verkuendungen").accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnprocessableEntity());
     }
   }
 

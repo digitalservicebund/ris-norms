@@ -260,6 +260,18 @@ public class NormsAppExceptionHandler {
     return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
+  /**
+   * Exception handler method for handling {@link VerkuendungWithoutNormException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status and the exception message.
+   */
+  @ExceptionHandler(VerkuendungWithoutNormException.class)
+  public ProblemDetail handleException(final VerkuendungWithoutNormException e) {
+    log.error("VerkuendungWithoutNormException: {}", e.getMessage(), e);
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+  }
+
   private static ProblemDetail createProblemDetail(NormsAppException e, HttpStatus status) {
     final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
     problemDetail.setType(e.getType());
