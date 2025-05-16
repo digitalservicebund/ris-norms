@@ -1,12 +1,9 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.util.List;
 import java.util.Optional;
 import lombok.Getter;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Class representing the norms-application-only metadata
@@ -21,19 +18,23 @@ public class CustomModsMetadata {
   }
 
   /**
-   * Get a list of all the norm expressions that have been amended bfy this norm
-   *
-   * @return all norm expression elis amended by this norm
+   * Get the collection norm expressions that have been amended by this norm
+   * @return all norm expression elis amended by this norm or empty if none exist
    */
-  public List<NormExpressionEli> getAmendedNormExpressionElis() {
-    return NodeParser.getNodesFromExpression(
-      "./amended-norm-expressions/norm-expression/text()",
-      element
-    )
-      .stream()
-      .map(Node::getNodeValue)
-      .map(NormExpressionEli::fromString)
-      .toList();
+  public Optional<AmendedNormExpressions> getAmendedNormExpressions() {
+    return NodeParser.getElementFromExpression(
+      "./%s".formatted(AmendedNormExpressions.TAG_NAME),
+      getElement()
+    ).map(AmendedNormExpressions::new);
+  }
+
+  /**
+   * Get the collection norm expressions that have been amended by this norm
+   * @return all norm expression elis amended by this norm or a Set that can be used to add new once
+   */
+  public AmendedNormExpressions getOrCreateAmendedNormExpressions() {
+    return getAmendedNormExpressions()
+      .orElseGet(() -> AmendedNormExpressions.createAndAppend(getElement()));
   }
 
   /**
