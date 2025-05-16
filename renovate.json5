@@ -63,9 +63,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": "build.gradle.kts",
+      "managerFilePatterns": "/(^|/)build\\.gradle\\.kts",
       "matchStrings": [
-        "\"(?<depName>^\"+)\" to \"(?<currentValue>[^\"]+)\", // npm dependency"
+        "\"(?<depName>[^\"]+)\" to \"(?<currentValue>[^\"]+)\", \\/\\/ npm dependency"
       ],
       "datasourceTemplate": "npm",
     }
