@@ -65,11 +65,9 @@ public final class NormExpressionEli implements NormEli, Comparable<NormExpressi
    * @return the eli
    */
   public static NormExpressionEli fromString(String expressionEli) {
-    Matcher matcher = Pattern
-      .compile(
-        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)"
-      )
-      .matcher(expressionEli);
+    Matcher matcher = Pattern.compile(
+      "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)"
+    ).matcher(expressionEli);
 
     if (!matcher.matches()) {
       throw new InvalidEliException(NormExpressionEli.class, expressionEli);

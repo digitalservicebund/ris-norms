@@ -100,8 +100,9 @@ class NormManifestationEliTest {
       var eli = NormManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03"
       );
-      assertThat(eli.withoutPointInTimeManifestation())
-        .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu");
+      assertThat(eli.withoutPointInTimeManifestation()).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"
+      );
     }
   }
 

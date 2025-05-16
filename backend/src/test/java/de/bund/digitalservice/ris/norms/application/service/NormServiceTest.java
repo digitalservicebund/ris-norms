@@ -60,8 +60,9 @@ class NormServiceTest {
       var returnedNorm = service.loadNorm(new LoadNormUseCase.Query(eli));
 
       // Then
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadNormPort, times(1)).loadNorm(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(returnedNorm).isEqualTo(norm);
     }
 
@@ -73,12 +74,11 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      assertThatThrownBy(() -> service.loadNorm(query))
-        // Then
-        .isInstanceOf(NormNotFoundException.class);
+      assertThatThrownBy(() -> service.loadNorm(query)).isInstanceOf(NormNotFoundException.class); // Then
 
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadNormPort, times(1)).loadNorm(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
     }
   }
 
@@ -103,8 +103,9 @@ class NormServiceTest {
       );
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(returnedRegelungstext).isEqualTo(regelungstext);
     }
 
@@ -118,12 +119,14 @@ class NormServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When
-      assertThatThrownBy(() -> service.loadRegelungstext(query))
+      assertThatThrownBy(() -> service.loadRegelungstext(query)).isInstanceOf(
         // Then
-        .isInstanceOf(RegelungstextNotFoundException.class);
+        RegelungstextNotFoundException.class
+      );
 
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
     }
   }
 
@@ -145,8 +148,9 @@ class NormServiceTest {
       var xml = service.loadRegelungstextXml(new LoadRegelungstextXmlUseCase.Query(eli));
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(xml).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
     }
 
@@ -160,9 +164,10 @@ class NormServiceTest {
       var query = new LoadRegelungstextXmlUseCase.Query(eli);
 
       // When
-      assertThatThrownBy(() -> service.loadRegelungstextXml(query))
+      assertThatThrownBy(() -> service.loadRegelungstextXml(query)).isInstanceOf(
         // then
-        .isInstanceOf(RegelungstextNotFoundException.class);
+        RegelungstextNotFoundException.class
+      );
     }
   }
 
@@ -184,8 +189,7 @@ class NormServiceTest {
       var oldNorm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      var newNorm = Norm
-        .builder()
+      var newNorm = Norm.builder()
         .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(newXml))))
         .build();
 
@@ -198,10 +202,12 @@ class NormServiceTest {
       );
 
       // Then
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
-      verify(updateNormPort, times(1))
-        .updateNorm(argThat(argument -> argument.norm().equals(newNorm)));
+      verify(loadNormPort, times(1)).loadNorm(
+        argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
+      );
+      verify(updateNormPort, times(1)).updateNorm(
+        argThat(argument -> argument.norm().equals(newNorm))
+      );
       assertThat(result).contains("Neuer Title");
     }
 
@@ -221,12 +227,14 @@ class NormServiceTest {
       var query = new UpdateRegelungstextXmlUseCase.Query(eli, newXml);
 
       // When
-      assertThatThrownBy(() -> service.updateRegelungstextXml(query))
+      assertThatThrownBy(() -> service.updateRegelungstextXml(query)).isInstanceOf(
         // then
-        .isInstanceOf(NormNotFoundException.class);
+        NormNotFoundException.class
+      );
 
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadNormPort, times(1)).loadNorm(
+        argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
+      );
       verify(updateNormPort, times(0)).updateNorm(any());
     }
 
@@ -252,8 +260,9 @@ class NormServiceTest {
       );
 
       // Then
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadNormPort, times(1)).loadNorm(
+        argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
+      );
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
@@ -281,8 +290,9 @@ class NormServiceTest {
       );
 
       // Then
-      verify(loadNormPort, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli())));
+      verify(loadNormPort, times(1)).loadNorm(
+        argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
+      );
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
@@ -298,17 +308,17 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
-      when(updateNormPort.updateNorm(new UpdateNormPort.Command(norm)))
-        .thenReturn(Optional.of(norm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(norm))).thenReturn(
+        Optional.of(norm)
+      );
 
       // when
       service.updateNorm(norm);
 
       // then
-      verify(updateNormPort, times(1))
-        .updateNorm(
-          argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(norm)))
-        );
+      verify(updateNormPort, times(1)).updateNorm(
+        argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(norm)))
+      );
     }
   }
 
@@ -330,10 +340,12 @@ class NormServiceTest {
 
     // then
     assertThat(zielnormReferences).hasSize(1);
-    assertThat(zielnormReferences.getFirst().getZielnorm())
-      .hasToString("eli/bund/bgbl-1/1964/s593");
-    assertThat(zielnormReferences.getFirst().getEId())
-      .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+    assertThat(zielnormReferences.getFirst().getZielnorm()).hasToString(
+      "eli/bund/bgbl-1/1964/s593"
+    );
+    assertThat(zielnormReferences.getFirst().getEId()).hasToString(
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+    );
     assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-1");
     assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
   }
@@ -349,8 +361,9 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any())))
-        .thenReturn(Optional.of(norm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any()))).thenReturn(
+        Optional.of(norm)
+      );
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -375,15 +388,18 @@ class NormServiceTest {
 
       // then
       assertThat(zielnormReferences).hasSize(2);
-      assertThat(zielnormReferences.getFirst().getZielnorm())
-        .hasToString("eli/bund/bgbl-1/2024/12");
-      assertThat(zielnormReferences.getFirst().getEId())
-        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+      assertThat(zielnormReferences.getFirst().getZielnorm()).hasToString(
+        "eli/bund/bgbl-1/2024/12"
+      );
+      assertThat(zielnormReferences.getFirst().getEId()).hasToString(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+      );
       assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-2");
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
-      assertThat(zielnormReferences.get(1).getEId())
-        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
+      assertThat(zielnormReferences.get(1).getEId()).hasToString(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+      );
       assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
@@ -398,8 +414,9 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any())))
-        .thenReturn(Optional.of(norm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any()))).thenReturn(
+        Optional.of(norm)
+      );
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -418,15 +435,18 @@ class NormServiceTest {
 
       // then
       assertThat(zielnormReferences).hasSize(2);
-      assertThat(zielnormReferences.getFirst().getZielnorm())
-        .hasToString("eli/bund/bgbl-1/1964/s593");
-      assertThat(zielnormReferences.getFirst().getEId())
-        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+      assertThat(zielnormReferences.getFirst().getZielnorm()).hasToString(
+        "eli/bund/bgbl-1/1964/s593"
+      );
+      assertThat(zielnormReferences.getFirst().getEId()).hasToString(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+      );
       assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
-      assertThat(zielnormReferences.get(1).getEId())
-        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
+      assertThat(zielnormReferences.get(1).getEId()).hasToString(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+      );
       assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
@@ -442,8 +462,9 @@ class NormServiceTest {
     );
 
     when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
-    when(updateNormPort.updateNorm(new UpdateNormPort.Command(any())))
-      .thenReturn(Optional.of(norm));
+    when(updateNormPort.updateNorm(new UpdateNormPort.Command(any()))).thenReturn(
+      Optional.of(norm)
+    );
 
     // when
     var zielnormReferences = service.deleteZielnormReferences(
@@ -476,8 +497,9 @@ class NormServiceTest {
           )
         );
       when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(List.of());
-      when(eliService.findNextExpressionEli(any(), any(), any()))
-        .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"));
+      when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+      );
 
       var preview = service.loadZielnormenPreview(
         new LoadZielnormenPreviewUseCase.Query(
@@ -487,8 +509,9 @@ class NormServiceTest {
 
       assertThat(preview).hasSize(1);
       assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/1964/s593");
-      assertThat(preview.getFirst().title())
-        .hasToString("Gesetz zur Regelung des öffentlichen Vereinsrechts");
+      assertThat(preview.getFirst().title()).hasToString(
+        "Gesetz zur Regelung des öffentlichen Vereinsrechts"
+      );
       assertThat(preview.getFirst().shortTitle()).hasToString("Vereinsgesetz");
       assertThat(preview.getFirst().expressions())
         .hasSize(1)
@@ -501,26 +524,22 @@ class NormServiceTest {
           )
         );
 
-      verify(eliService, times(1))
-        .findNextExpressionEli(
-          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
-          LocalDate.parse("2017-03-16"),
-          "deu"
-        );
-      verify(loadNormPort, times(1))
-        .loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
-          )
-        );
-      verify(loadNormPort, times(1))
-        .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")));
-      verify(loadNormExpressionElisPort, times(1))
-        .loadNormExpressionElis(
-          new LoadNormExpressionElisPort.Command(
-            NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
-          )
-        );
+      verify(eliService, times(1)).findNextExpressionEli(
+        NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+        LocalDate.parse("2017-03-16"),
+        "deu"
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
+      verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
+        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
     }
 
     @Test
@@ -561,15 +580,14 @@ class NormServiceTest {
             Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
           )
         );
-      when(loadNormExpressionElisPort.loadNormExpressionElis(any()))
-        .thenReturn(
-          List.of(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"), // a new expression for this date should be created
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu"), // should be ignored as it is gegenstandlos
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu"), // should be ignored as it is gegenstandlos
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu") // a new expression for this date should be created
-          )
-        );
+      when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(
+        List.of(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"), // a new expression for this date should be created
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu"), // should be ignored as it is gegenstandlos
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu"), // should be ignored as it is gegenstandlos
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu") // a new expression for this date should be created
+        )
+      );
       when(eliService.findNextExpressionEli(any(), any(), any()))
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"))
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"));
@@ -582,8 +600,9 @@ class NormServiceTest {
 
       assertThat(preview).hasSize(1);
       assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/1964/s593");
-      assertThat(preview.getFirst().title())
-        .hasToString("Gesetz zur Regelung des öffentlichen Vereinsrechts");
+      assertThat(preview.getFirst().title()).hasToString(
+        "Gesetz zur Regelung des öffentlichen Vereinsrechts"
+      );
       assertThat(preview.getFirst().shortTitle()).hasToString("Vereinsgesetz");
       assertThat(preview.getFirst().expressions())
         .hasSize(4)
@@ -614,56 +633,47 @@ class NormServiceTest {
           )
         );
 
-      verify(eliService, times(1))
-        .findNextExpressionEli(
-          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
-          LocalDate.parse("2017-03-16"),
-          "deu"
-        );
-      verify(eliService, times(1))
-        .findNextExpressionEli(
-          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
-          LocalDate.parse("2017-04-16"),
-          "deu"
-        );
-      verify(loadNormPort, times(1))
-        .loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
-          )
-        );
-      verify(loadNormPort, times(1))
-        .loadNorm(new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")));
-      verify(loadNormPort, times(1))
-        .loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
-          )
-        );
-      verify(loadNormPort, times(1))
-        .loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu")
-          )
-        );
-      verify(loadNormPort, times(1))
-        .loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
-          )
-        );
-      verify(loadNormPort, times(1))
-        .loadNorm(
-          new LoadNormPort.Command(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
-          )
-        );
-      verify(loadNormExpressionElisPort, times(1))
-        .loadNormExpressionElis(
-          new LoadNormExpressionElisPort.Command(
-            NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
-          )
-        );
+      verify(eliService, times(1)).findNextExpressionEli(
+        NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+        LocalDate.parse("2017-03-16"),
+        "deu"
+      );
+      verify(eliService, times(1)).findNextExpressionEli(
+        NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+        LocalDate.parse("2017-04-16"),
+        "deu"
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+        )
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu")
+        )
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
+        )
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
+        )
+      );
+      verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
+        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
     }
   }
 }

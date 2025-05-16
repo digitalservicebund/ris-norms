@@ -37,13 +37,9 @@ public record Href(@JsonValue String value) {
       return Optional.empty();
     }
 
-    return Optional
-      .of(
-        Arrays
-          .stream(value().split("/"))
-          .limit(NUMBER_OF_ELI_PARTS)
-          .collect(Collectors.joining("/"))
-      )
+    return Optional.of(
+      Arrays.stream(value().split("/")).limit(NUMBER_OF_ELI_PARTS).collect(Collectors.joining("/"))
+    )
       .map(Href::removeFileExtension)
       .map(DokumentExpressionEli::fromString);
   }

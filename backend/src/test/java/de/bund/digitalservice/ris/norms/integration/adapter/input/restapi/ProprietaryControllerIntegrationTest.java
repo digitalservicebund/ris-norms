@@ -54,20 +54,19 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
-            )
+          jsonPath("detail").value(
+            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
+          )
         )
         .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         );
     }
 
@@ -208,20 +207,19 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
-            )
+          jsonPath("detail").value(
+            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
+          )
         )
         .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         );
     }
 
@@ -282,16 +280,19 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("ÄN,ÜN");
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DDR");
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("LT");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("false");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "false"
+      );
       assertThat(proprietary.getRessort(LocalDate.parse("2019-11-22"))).contains("new ressort");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Andere Organisationseinheit"
+      );
     }
 
     @Test
@@ -486,14 +487,16 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("ÄN,ÜN");
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DDR");
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Andere Organisationseinheit"
+      );
     }
 
     @Test
@@ -552,16 +555,20 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DEU");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN))
-        .contains("Bundestag");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("true");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains(
+        "Bundestag"
+      );
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "true"
+      );
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Organisationseinheit"
+      );
     }
   }
 
@@ -579,8 +586,9 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isNotFound())
@@ -588,20 +596,19 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
-            )
+          jsonPath("detail").value(
+            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
+          )
         )
         .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         );
     }
 
@@ -625,8 +632,9 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isOk())
@@ -653,8 +661,9 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isOk())
@@ -680,8 +689,9 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isOk())
@@ -714,20 +724,19 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Dokument not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
-            )
+          jsonPath("detail").value(
+            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
+          )
         )
         .andExpect(
-          jsonPath("eli")
-            .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         );
     }
 

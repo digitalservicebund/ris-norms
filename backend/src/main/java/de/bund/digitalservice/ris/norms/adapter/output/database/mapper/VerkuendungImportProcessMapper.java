@@ -20,8 +20,7 @@ public class VerkuendungImportProcessMapper {
   public static VerkuendungImportProcess mapToDomain(
     final VerkuendungImportProcessDto verkuendungImportProcessDto
   ) {
-    return VerkuendungImportProcess
-      .builder()
+    return VerkuendungImportProcess.builder()
       .id(verkuendungImportProcessDto.getId())
       .status(mapStatusToDomain(verkuendungImportProcessDto.getStatus()))
       .createdAt(verkuendungImportProcessDto.getCreatedAt())
@@ -40,8 +39,7 @@ public class VerkuendungImportProcessMapper {
   public static VerkuendungImportProcessDto mapToDto(
     final VerkuendungImportProcess verkuendungImportProcess
   ) {
-    return VerkuendungImportProcessDto
-      .builder()
+    return VerkuendungImportProcessDto.builder()
       .id(verkuendungImportProcess.getId())
       .status(mapStatusToDto(verkuendungImportProcess.getStatus()))
       .createdAt(verkuendungImportProcess.getCreatedAt())

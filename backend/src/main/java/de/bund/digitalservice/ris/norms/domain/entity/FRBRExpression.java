@@ -33,9 +33,10 @@ public class FRBRExpression extends FRBR {
    * @param eli - the new ELI
    */
   public void setEli(final DokumentExpressionEli eli) {
-    NodeParser
-      .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
-      .setAttribute(VALUE_ATTIBUTE, eli.toString());
+    NodeParser.getMandatoryElementFromExpression("./FRBRthis", this.getElement()).setAttribute(
+      VALUE_ATTIBUTE,
+      eli.toString()
+    );
   }
 
   /**
@@ -44,9 +45,9 @@ public class FRBRExpression extends FRBR {
    * @return The version of the norm
    */
   public Optional<Integer> getFRBRVersionNumber() {
-    return NodeParser
-      .getValueFromExpression("./FRBRversionNumber/@value", this.getElement())
-      .map(Integer::parseInt);
+    return NodeParser.getValueFromExpression("./FRBRversionNumber/@value", this.getElement()).map(
+      Integer::parseInt
+    );
   }
 
   /**
@@ -55,9 +56,10 @@ public class FRBRExpression extends FRBR {
    * @param version the new version
    */
   public void setFRBRVersionNumber(final Integer version) {
-    NodeParser
-      .getMandatoryElementFromExpression("./FRBRversionNumber", this.getElement())
-      .setAttribute(VALUE_ATTIBUTE, version.toString());
+    NodeParser.getMandatoryElementFromExpression(
+      "./FRBRversionNumber",
+      this.getElement()
+    ).setAttribute(VALUE_ATTIBUTE, version.toString());
   }
 
   /**
@@ -66,9 +68,10 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public Optional<UUID> getFRBRaliasPreviousVersionId() {
-    return NodeParser
-      .getValueFromExpression("./FRBRalias[@name='vorherige-version-id']/@value", getElement())
-      .map(UUID::fromString);
+    return NodeParser.getValueFromExpression(
+      "./FRBRalias[@name='vorherige-version-id']/@value",
+      getElement()
+    ).map(UUID::fromString);
   }
 
   /**
@@ -77,8 +80,7 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasPreviousVersionId(final UUID uuid) {
-    NodeParser
-      .getElementFromExpression("./FRBRalias[@name='vorherige-version-id']", getElement())
+    NodeParser.getElementFromExpression("./FRBRalias[@name='vorherige-version-id']", getElement())
       .orElseGet(() -> {
         final Element newElement = NodeCreator.createElementWithEidAndGuid(
           "akn:FRBRalias",
@@ -116,9 +118,10 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasCurrentVersionId(final UUID uuid) {
-    NodeParser
-      .getMandatoryElementFromExpression("./FRBRalias[@name='aktuelle-version-id']", getElement())
-      .setAttribute(VALUE_ATTIBUTE, uuid.toString());
+    NodeParser.getMandatoryElementFromExpression(
+      "./FRBRalias[@name='aktuelle-version-id']",
+      getElement()
+    ).setAttribute(VALUE_ATTIBUTE, uuid.toString());
   }
 
   /**
@@ -127,9 +130,10 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public Optional<UUID> getFRBRaliasNextVersionId() {
-    return NodeParser
-      .getValueFromExpression("./FRBRalias[@name='nachfolgende-version-id']/@value", getElement())
-      .map(UUID::fromString);
+    return NodeParser.getValueFromExpression(
+      "./FRBRalias[@name='nachfolgende-version-id']/@value",
+      getElement()
+    ).map(UUID::fromString);
   }
 
   /**
@@ -138,8 +142,10 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasNextVersionId(final UUID uuid) {
-    NodeParser
-      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getElement())
+    NodeParser.getElementFromExpression(
+      "./FRBRalias[@name='nachfolgende-version-id']",
+      getElement()
+    )
       .orElseGet(() -> {
         final Element nextVersionAlias = NodeCreator.createElementWithEidAndGuid(
           "akn:FRBRalias",
@@ -162,9 +168,10 @@ public class FRBRExpression extends FRBR {
    *
    */
   public void deleteAliasNextVersionId() {
-    NodeParser
-      .getElementFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getElement())
-      .ifPresent(node -> node.getParentNode().removeChild(node));
+    NodeParser.getElementFromExpression(
+      "./FRBRalias[@name='nachfolgende-version-id']",
+      getElement()
+    ).ifPresent(node -> node.getParentNode().removeChild(node));
   }
 
   /**

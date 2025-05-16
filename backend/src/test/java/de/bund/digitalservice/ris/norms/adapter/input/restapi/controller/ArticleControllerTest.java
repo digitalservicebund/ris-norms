@@ -49,14 +49,16 @@ class ArticleControllerTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
-      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
-        .thenReturn(regelungstext.getArticles());
+      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any())).thenReturn(
+        regelungstext.getArticles()
+      );
 
       // When
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
@@ -66,17 +68,16 @@ class ArticleControllerTest {
         .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
         .andExpect(jsonPath("$[2]").doesNotExist());
 
-      verify(loadArticlesFromDokumentUseCase, times(1))
-        .loadArticlesFromDokument(
-          argThat(argument ->
-            Objects.equals(
-              argument.eli(),
-              DokumentExpressionEli.fromString(
-                "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
-              )
+      verify(loadArticlesFromDokumentUseCase, times(1)).loadArticlesFromDokument(
+        argThat(argument ->
+          Objects.equals(
+            argument.eli(),
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
             )
           )
-        );
+        )
+      );
     }
 
     @Test
@@ -88,16 +89,16 @@ class ArticleControllerTest {
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
 
-      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any()))
-        .thenThrow(new MandatoryNodeNotFoundException("example-xpath", "example/eli"));
+      when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any())).thenThrow(
+        new MandatoryNodeNotFoundException("example-xpath", "example/eli")
+      );
 
       // When
       mockMvc
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
-          )
-            .accept(MediaType.APPLICATION_JSON)
+          ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isUnprocessableEntity());
@@ -114,8 +115,9 @@ class ArticleControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadSpecificArticlesXmlFromDokumentUseCase.loadSpecificArticlesXmlFromDokument(any()))
-        .thenReturn(List.of(xml));
+      when(
+        loadSpecificArticlesXmlFromDokumentUseCase.loadSpecificArticlesXmlFromDokument(any())
+      ).thenReturn(List.of(xml));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When
@@ -128,8 +130,9 @@ class ArticleControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
         .andExpect(content().string("<div>\n" + html + "\n</div>\n"));
 
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-        .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
+      verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
+        argThat(query -> query.xml().equals(xml))
+      );
     }
   }
 
@@ -150,24 +153,22 @@ class ArticleControllerTest {
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
-          )
-            .accept(MediaType.APPLICATION_JSON)
+          ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("eid").value("hauptteil-1_art-1"));
 
-      verify(loadRegelungstextUseCase, times(1))
-        .loadRegelungstext(
-          argThat(argument ->
-            Objects.equals(
-              argument.eli(),
-              DokumentExpressionEli.fromString(
-                "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
-              )
+      verify(loadRegelungstextUseCase, times(1)).loadRegelungstext(
+        argThat(argument ->
+          Objects.equals(
+            argument.eli(),
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
             )
           )
-        );
+        )
+      );
     }
 
     @Test
@@ -185,23 +186,21 @@ class ArticleControllerTest {
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-4523"
-          )
-            .accept(MediaType.APPLICATION_JSON)
+          ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isNotFound());
 
-      verify(loadRegelungstextUseCase, times(1))
-        .loadRegelungstext(
-          argThat(argument ->
-            Objects.equals(
-              argument.eli(),
-              DokumentExpressionEli.fromString(
-                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-              )
+      verify(loadRegelungstextUseCase, times(1)).loadRegelungstext(
+        argThat(argument ->
+          Objects.equals(
+            argument.eli(),
+            DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
             )
           )
-        );
+        )
+      );
     }
   }
 
@@ -224,8 +223,7 @@ class ArticleControllerTest {
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
-          )
-            .accept(MediaType.TEXT_HTML)
+          ).accept(MediaType.TEXT_HTML)
         )
         // Then
         .andExpect(status().isOk())

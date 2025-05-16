@@ -23,8 +23,7 @@ public class ReleaseResponseMapper {
    *     Release}.
    */
   public static ReleaseResponseSchema fromRelease(final Release release) {
-    return ReleaseResponseSchema
-      .builder()
+    return ReleaseResponseSchema.builder()
       .releaseAt(release.getReleasedAt())
       .norms(
         release

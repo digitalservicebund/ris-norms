@@ -37,8 +37,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
     @Test
     void itLoadsAProcessWithoutDetails() {
       // Given
-      var dto = VerkuendungImportProcessDto
-        .builder()
+      var dto = VerkuendungImportProcessDto.builder()
         .id(UUID.randomUUID())
         .status(VerkuendungImportProcessDto.Status.ERROR)
         .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
@@ -65,8 +64,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
 
     @Test
     void itLoadsAProcessWithDetails() {
-      var dto = VerkuendungImportProcessDto
-        .builder()
+      var dto = VerkuendungImportProcessDto.builder()
         .id(UUID.randomUUID())
         .status(VerkuendungImportProcessDto.Status.ERROR)
         .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
@@ -135,8 +133,10 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
       // Then
       assertThat(resultProcess).isNotNull();
       assertThat(resultProcess.getStatus()).isEqualTo(VerkuendungImportProcess.Status.CREATED);
-      assertThat(resultProcess.getCreatedAt())
-        .isBetween(Instant.now().minusSeconds(30), Instant.now());
+      assertThat(resultProcess.getCreatedAt()).isBetween(
+        Instant.now().minusSeconds(30),
+        Instant.now()
+      );
       assertThat(resultProcess.getStartedAt()).isNull();
       assertThat(resultProcess.getFinishedAt()).isNull();
       assertThat(resultProcess.getDetail()).isNull();
@@ -146,8 +146,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
     void itUpdatesAProcessWithNewDetails() {
       // Given
       // Initial process with no details
-      var initialProcess = VerkuendungImportProcess
-        .builder()
+      var initialProcess = VerkuendungImportProcess.builder()
         .id(UUID.randomUUID())
         .status(VerkuendungImportProcess.Status.PROCESSING)
         .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
@@ -180,10 +179,13 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
       assertThat(reloadedFromDb.getStatus()).isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
       assertThat(reloadedFromDb.getCreatedAt()).isEqualTo(initialProcess.getCreatedAt());
       assertThat(reloadedFromDb.getStartedAt()).isEqualTo(initialProcess.getStartedAt());
-      assertThat(reloadedFromDb.getFinishedAt())
-        .isBetween(Instant.now().minusSeconds(30), Instant.now());
-      assertThat(reloadedFromDb.getDetails())
-        .contains("/errors/normendokumentationspaket-import-failed/not-a-zip-file");
+      assertThat(reloadedFromDb.getFinishedAt()).isBetween(
+        Instant.now().minusSeconds(30),
+        Instant.now()
+      );
+      assertThat(reloadedFromDb.getDetails()).contains(
+        "/errors/normendokumentationspaket-import-failed/not-a-zip-file"
+      );
     }
   }
 }

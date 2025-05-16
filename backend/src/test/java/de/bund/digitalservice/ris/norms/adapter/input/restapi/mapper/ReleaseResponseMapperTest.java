@@ -13,8 +13,7 @@ class ReleaseResponseMapperTest {
 
   @Test
   void canMapVerkuendungAndEffectedNorms() {
-    var release = Release
-      .builder()
+    var release = Release.builder()
       .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
       .publishedNorms(
         List.of(

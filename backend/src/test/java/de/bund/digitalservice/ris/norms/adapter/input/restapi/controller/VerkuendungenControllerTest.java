@@ -65,8 +65,7 @@ class VerkuendungenControllerTest {
       var norm1 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
-      var verkuendung1 = Verkuendung
-        .builder()
+      var verkuendung1 = Verkuendung.builder()
         .eli(norm1.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
@@ -74,15 +73,15 @@ class VerkuendungenControllerTest {
       var norm2 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
       );
-      var verkuendung2 = Verkuendung
-        .builder()
+      var verkuendung2 = Verkuendung.builder()
         .eli(norm2.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
 
       // When
-      when(loadAllVerkuendungenUseCase.loadAllVerkuendungen())
-        .thenReturn(List.of(verkuendung1, verkuendung2));
+      when(loadAllVerkuendungenUseCase.loadAllVerkuendungen()).thenReturn(
+        List.of(verkuendung1, verkuendung2)
+      );
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm1).thenReturn(norm2);
 
       // When // Then
@@ -121,8 +120,7 @@ class VerkuendungenControllerTest {
       var norm1 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
-      var verkuendung1 = Verkuendung
-        .builder()
+      var verkuendung1 = Verkuendung.builder()
         .eli(norm1.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
@@ -130,15 +128,15 @@ class VerkuendungenControllerTest {
       var norm2 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
       );
-      var verkuendung2 = Verkuendung
-        .builder()
+      var verkuendung2 = Verkuendung.builder()
         .eli(norm2.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
 
       // When
-      when(loadAllVerkuendungenUseCase.loadAllVerkuendungen())
-        .thenReturn(List.of(verkuendung1, verkuendung2));
+      when(loadAllVerkuendungenUseCase.loadAllVerkuendungen()).thenReturn(
+        List.of(verkuendung1, verkuendung2)
+      );
       when(loadNormUseCase.loadNorm(any()))
         .thenReturn(norm1)
         .thenThrow(new NormNotFoundException(verkuendung2.getEli().toString()));
@@ -160,8 +158,7 @@ class VerkuendungenControllerTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       var normEli = norm.getExpressionEli();
-      var verkuendung = Verkuendung
-        .builder()
+      var verkuendung = Verkuendung.builder()
         .eli(normEli)
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
@@ -170,8 +167,7 @@ class VerkuendungenControllerTest {
         loadVerkuendungUseCase.loadVerkuendung(
           new LoadVerkuendungUseCase.Query(norm.getExpressionEli())
         )
-      )
-        .thenReturn(verkuendung);
+      ).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When
@@ -193,10 +189,12 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("dateAusfertigung").value("1964-08-05"))
         .andExpect(jsonPath("importedAt").value("2025-03-13T15:00:00Z"));
 
-      verify(loadVerkuendungUseCase, times(1))
-        .loadVerkuendung(argThat(argument -> Objects.equals(argument.eli(), normEli)));
-      verify(loadNormUseCase, times(1))
-        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+      verify(loadVerkuendungUseCase, times(1)).loadVerkuendung(
+        argThat(argument -> Objects.equals(argument.eli(), normEli))
+      );
+      verify(loadNormUseCase, times(1)).loadNorm(
+        argThat(argument -> Objects.equals(argument.eli(), normEli))
+      );
     }
 
     @Test
@@ -207,8 +205,9 @@ class VerkuendungenControllerTest {
       );
       var normEli = norm.getExpressionEli();
       // When
-      when(loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Query(normEli)))
-        .thenThrow(new VerkuendungNotFoundException(normEli.toString()));
+      when(
+        loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Query(normEli))
+      ).thenThrow(new VerkuendungNotFoundException(normEli.toString()));
 
       // When
       mockMvc
@@ -218,8 +217,9 @@ class VerkuendungenControllerTest {
         // Then
         .andExpect(status().isNotFound());
 
-      verify(loadVerkuendungUseCase, times(1))
-        .loadVerkuendung(argThat(argument -> Objects.equals(argument.eli(), normEli)));
+      verify(loadVerkuendungUseCase, times(1)).loadVerkuendung(
+        argThat(argument -> Objects.equals(argument.eli(), normEli))
+      );
       verify(loadNormUseCase, times(0)).loadNorm(any());
     }
   }
@@ -237,14 +237,14 @@ class VerkuendungenControllerTest {
         loadNormExpressionsAffectedByVerkuendungUseCase.loadNormExpressionsAffectedByVerkuendung(
           any()
         )
-      )
-        .thenReturn(List.of(zielnorm1));
+      ).thenReturn(List.of(zielnorm1));
 
       // When
       mockMvc
         .perform(
-          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2025/2/2025-01-05/1/deu/zielnormen")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2025/2/2025-01-05/1/deu/zielnormen").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         // Then
         .andExpect(status().isOk())
@@ -258,15 +258,17 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[0].fna").value("754-28-1"))
         .andExpect(jsonPath("$[0].status").value("status-not-yet-implemented"));
 
-      verify(loadNormExpressionsAffectedByVerkuendungUseCase, times(1))
-        .loadNormExpressionsAffectedByVerkuendung(
-          argThat(argument ->
-            Objects.equals(
-              argument.eli(),
-              NormExpressionEli.fromString("eli/bund/bgbl-1/2025/2/2025-01-05/1/deu")
-            )
+      verify(
+        loadNormExpressionsAffectedByVerkuendungUseCase,
+        times(1)
+      ).loadNormExpressionsAffectedByVerkuendung(
+        argThat(argument ->
+          Objects.equals(
+            argument.eli(),
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2025/2/2025-01-05/1/deu")
           )
-        );
+        )
+      );
     }
   }
 
@@ -286,8 +288,7 @@ class VerkuendungenControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var verkuendung = Verkuendung
-        .builder()
+      var verkuendung = Verkuendung.builder()
         .eli(norm.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
@@ -323,8 +324,7 @@ class VerkuendungenControllerTest {
         "text/plain",
         new ByteArrayInputStream(xmlContent.getBytes())
       );
-      var verkuendung = Verkuendung
-        .builder()
+      var verkuendung = Verkuendung.builder()
         .eli(norm.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
@@ -363,8 +363,9 @@ class VerkuendungenControllerTest {
       var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
 
       when(createVerkuendungUseCase.createVerkuendung(any())).thenReturn(verkuendung);
-      when(loadNormUseCase.loadNorm(any()))
-        .thenThrow(new RuntimeException("Should not be visible in the output"));
+      when(loadNormUseCase.loadNorm(any())).thenThrow(
+        new RuntimeException("Should not be visible in the output")
+      );
 
       // When // Then
       mockMvc
@@ -387,48 +388,48 @@ class VerkuendungenControllerTest {
     @Test
     void itShouldReturnZielnormenPreview() throws Exception {
       // Given
-      when(loadZielnormenPreviewUseCase.loadZielnormenPreview(any()))
-        .thenReturn(
-          List.of(
-            new LoadZielnormenPreviewUseCase.ZielnormPreview(
-              NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
-              "Gesetz zur Regelung des öffentlichen Vereinsrechts",
-              "Vereinsgesetz",
-              List.of(
-                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
-                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
-                  true,
-                  true,
-                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
-                ),
-                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
-                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
-                  false,
-                  false,
-                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
-                ),
-                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
-                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
-                  true,
-                  true,
-                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
-                ),
-                new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
-                  NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
-                  false,
-                  false,
-                  LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.SYSTEM
-                )
+      when(loadZielnormenPreviewUseCase.loadZielnormenPreview(any())).thenReturn(
+        List.of(
+          new LoadZielnormenPreviewUseCase.ZielnormPreview(
+            NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+            "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+            "Vereinsgesetz",
+            List.of(
+              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+                true,
+                true,
+                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+              ),
+              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
+                false,
+                false,
+                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+              ),
+              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
+                true,
+                true,
+                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+              ),
+              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+                NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
+                false,
+                false,
+                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.SYSTEM
               )
             )
           )
-        );
+        )
+      );
 
       // When
       mockMvc
         .perform(
-          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
@@ -438,29 +439,33 @@ class VerkuendungenControllerTest {
         )
         .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
         .andExpect(
-          jsonPath("$[0].expressions[0].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+          jsonPath("$[0].expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(true))
         .andExpect(jsonPath("$[0].expressions[0].isCreated").value(true))
         .andExpect(jsonPath("$[0].expressions[0].createdBy").value("andere Verkündung"))
         .andExpect(
-          jsonPath("$[0].expressions[1].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu")
+          jsonPath("$[0].expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[1].isCreated").value(false))
         .andExpect(jsonPath("$[0].expressions[1].createdBy").value("diese Verkündung"))
         .andExpect(
-          jsonPath("$[0].expressions[2].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
+          jsonPath("$[0].expressions[2].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(true))
         .andExpect(jsonPath("$[0].expressions[2].isCreated").value(true))
         .andExpect(jsonPath("$[0].expressions[2].createdBy").value("andere Verkündung"))
         .andExpect(
-          jsonPath("$[0].expressions[3].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu")
+          jsonPath("$[0].expressions[3].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[3].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[3].isCreated").value(false))
@@ -468,12 +473,11 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
 
-      verify(loadZielnormenPreviewUseCase, times(1))
-        .loadZielnormenPreview(
-          new LoadZielnormenPreviewUseCase.Query(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
-          )
-        );
+      verify(loadZielnormenPreviewUseCase, times(1)).loadZielnormenPreview(
+        new LoadZielnormenPreviewUseCase.Query(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
     }
   }
 }

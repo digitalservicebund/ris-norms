@@ -154,8 +154,7 @@ public enum EIdPartType {
    * @return the type part of the last element of the eId for the given element
    */
   static Optional<EIdPartType> forAknElement(Node aknElement) {
-    return Arrays
-      .stream(EIdPartType.values())
+    return Arrays.stream(EIdPartType.values())
       .filter(partType -> partType.aknElements.contains(aknElement.getNodeName()))
       .findFirst();
   }

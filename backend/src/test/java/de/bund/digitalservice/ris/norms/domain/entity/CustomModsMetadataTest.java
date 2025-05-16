@@ -69,10 +69,12 @@ class CustomModsMetadataTest {
     assertThat(zielnormenReferences).isPresent();
 
     assertThat(zielnormenReferences.get()).hasSize(2);
-    assertThat(zielnormenReferences.get().stream().toList().getFirst().getEId())
-      .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
-    assertThat(zielnormenReferences.get().stream().toList().get(1).getEId())
-      .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
+    assertThat(zielnormenReferences.get().stream().toList().getFirst().getEId()).hasToString(
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+    );
+    assertThat(zielnormenReferences.get().stream().toList().get(1).getEId()).hasToString(
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+    );
   }
 
   @Nested
@@ -121,10 +123,12 @@ class CustomModsMetadataTest {
       assertThat(zielnormenReferences).isPresent();
 
       assertThat(zielnormenReferences.get()).hasSize(2);
-      assertThat(zielnormenReferences.get().stream().toList().getFirst().getEId())
-        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
-      assertThat(zielnormenReferences.get().stream().toList().get(1).getEId())
-        .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
+      assertThat(zielnormenReferences.get().stream().toList().getFirst().getEId()).hasToString(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+      );
+      assertThat(zielnormenReferences.get().stream().toList().get(1).getEId()).hasToString(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+      );
     }
   }
 

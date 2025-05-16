@@ -67,8 +67,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("[0]").doesNotExist());
@@ -100,8 +101,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .orElseThrow();
 
       releaseRepository.save(
-        ReleaseDto
-          .builder()
+        ReleaseDto.builder()
           .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
           .norms(List.of(amendingNorm, affectedNorm))
           .build()
@@ -110,8 +110,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         // Then
         .andExpect(status().isOk())
@@ -141,8 +142,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          post("/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         // then
         .andExpect(status().isNotFound())
@@ -150,8 +152,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value("Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu does not exist")
+          jsonPath("detail").value(
+            "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu does not exist"
+          )
         )
         .andExpect(
           jsonPath("instance").value("/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
@@ -173,8 +176,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("releaseAt").exists())
@@ -194,8 +198,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(LocalDate.now().toString())
       );
       assertThat(publishedManifestationOfAmendingNorm).isPresent();
-      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
-        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState()).isEqualTo(
+        NormPublishState.QUEUED_FOR_PUBLISH
+      );
 
       var newUnpublishedManifestationOfAmendingNorm =
         normManifestationRepository.findByManifestationEli(
@@ -204,8 +209,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
             )
         );
       assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
-      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
-        .isEqualTo(NormPublishState.UNPUBLISHED);
+      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState()).isEqualTo(
+        NormPublishState.UNPUBLISHED
+      );
 
       // 1 queued for publish norms + 1 newly created manifestations for further work. The original amending norm should no longer exist
       assertThat(dokumentRepository.findAll()).hasSize(2);
@@ -226,16 +232,18 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk());
 
       // release norm a second time
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          post("/api/v1/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk());
 
@@ -243,8 +251,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(LocalDate.now().toString())
       );
       assertThat(publishedManifestationOfAmendingNorm).isPresent();
-      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState())
-        .isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
+      assertThat(publishedManifestationOfAmendingNorm.get().getPublishState()).isEqualTo(
+        NormPublishState.QUEUED_FOR_PUBLISH
+      );
 
       var newUnpublishedManifestationOfAmendingNorm =
         normManifestationRepository.findByManifestationEli(
@@ -253,8 +262,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
             )
         );
       assertThat(newUnpublishedManifestationOfAmendingNorm).isPresent();
-      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState())
-        .isEqualTo(NormPublishState.UNPUBLISHED);
+      assertThat(newUnpublishedManifestationOfAmendingNorm.get().getPublishState()).isEqualTo(
+        NormPublishState.UNPUBLISHED
+      );
 
       // 1 queued for publish norms + 1 newly created manifestations for further work. The original amending norm should no longer exist
       assertThat(dokumentRepository.findAll()).hasSize(2);
@@ -276,8 +286,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          post("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")));
@@ -288,8 +299,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
         )
-      )
-        .isNotEmpty();
+      ).isNotEmpty();
 
       assertThat(
         normManifestationRepository.findByManifestationEli(
@@ -317,8 +327,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          post("/api/v1/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-schematron-valid")));
@@ -329,8 +340,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
         )
-      )
-        .isNotEmpty();
+      ).isNotEmpty();
       assertThat(
         normManifestationRepository.findByManifestationEli(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"

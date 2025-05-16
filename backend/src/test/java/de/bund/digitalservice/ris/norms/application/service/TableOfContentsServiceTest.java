@@ -30,9 +30,10 @@ class TableOfContentsServiceTest {
 
     when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> tableOfContentsService.loadTocFromRegelungstext(query))
+    assertThatThrownBy(() -> tableOfContentsService.loadTocFromRegelungstext(query)).isInstanceOf(
       // then
-      .isInstanceOf(RegelungstextNotFoundException.class);
+      RegelungstextNotFoundException.class
+    );
   }
 
   @Test
@@ -52,15 +53,14 @@ class TableOfContentsServiceTest {
     );
 
     // Then
-    verify(loadRegelungstextPort, times(1))
-      .loadRegelungstext(
-        argThat(command ->
-          Objects.equals(
-            command.eli().toString(),
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-          )
+    verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+      argThat(command ->
+        Objects.equals(
+          command.eli().toString(),
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
         )
-      );
+      )
+    );
     // Assert overall structure size
     assertThat(toc).hasSize(1);
 
@@ -114,8 +114,9 @@ class TableOfContentsServiceTest {
 
     // Verify first subsection inside section
     TableOfContentsItem subsection1 = section1.children().getFirst();
-    assertThat(subsection1.id())
-      .hasToString("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1");
+    assertThat(subsection1.id()).hasToString(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1"
+    );
     assertThat(subsection1.marker()).isEqualTo("Unterabschnitt 1");
     assertThat(subsection1.heading()).isEqualTo("Überschrift Unterabschnitt");
     assertThat(subsection1.type()).isEqualTo("subsection");
@@ -123,8 +124,9 @@ class TableOfContentsServiceTest {
 
     // Verify second subsection inside section
     TableOfContentsItem subsection2 = section1.children().getLast();
-    assertThat(subsection2.id())
-      .hasToString("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-2");
+    assertThat(subsection2.id()).hasToString(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-2"
+    );
     assertThat(subsection2.marker()).isEqualTo("Unterabschnitt 2");
     assertThat(subsection2.heading()).isEqualTo("Überschrift Unterabschnitt");
     assertThat(subsection2.type()).isEqualTo("subsection");
@@ -132,8 +134,9 @@ class TableOfContentsServiceTest {
 
     // Verify first title inside subsection
     TableOfContentsItem title1 = subsection1.children().getFirst();
-    assertThat(title1.id())
-      .hasToString("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1");
+    assertThat(title1.id()).hasToString(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1"
+    );
     assertThat(title1.marker()).isEqualTo("Titel 1");
     assertThat(title1.heading()).isEqualTo("Überschrift Titel");
     assertThat(title1.type()).isEqualTo("title");
@@ -141,8 +144,9 @@ class TableOfContentsServiceTest {
 
     // Verify first subtitle inside title
     TableOfContentsItem subtitle1 = title1.children().getFirst();
-    assertThat(subtitle1.id())
-      .hasToString("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1");
+    assertThat(subtitle1.id()).hasToString(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1"
+    );
     assertThat(subtitle1.marker()).isEqualTo("Untertitel 1");
     assertThat(subtitle1.heading()).isEqualTo("Überschrift Untertitel");
     assertThat(subtitle1.type()).isEqualTo("subtitle");
@@ -150,10 +154,9 @@ class TableOfContentsServiceTest {
 
     // Verify first article inside subtitle
     TableOfContentsItem article1 = subtitle1.children().getFirst();
-    assertThat(article1.id())
-      .hasToString(
-        "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-1"
-      );
+    assertThat(article1.id()).hasToString(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-1"
+    );
     assertThat(article1.marker()).isEqualTo("§ 1");
     assertThat(article1.heading()).isEqualTo("Anwendungsbereich");
     assertThat(article1.type()).isEqualTo("article");
@@ -161,10 +164,9 @@ class TableOfContentsServiceTest {
 
     // Verify article 2 inside subtitle
     TableOfContentsItem article2 = subtitle1.children().getLast();
-    assertThat(article2.id())
-      .hasToString(
-        "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-2"
-      );
+    assertThat(article2.id()).hasToString(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1_art-2"
+    );
     assertThat(article2.marker()).isEqualTo("§ 2");
     assertThat(article2.heading()).isEqualTo("Paragrafenüberschrift");
     assertThat(article2.type()).isEqualTo("article");
@@ -172,8 +174,9 @@ class TableOfContentsServiceTest {
 
     // Verify article 3 inside subsection 2
     TableOfContentsItem article3 = subsection2.children().getFirst();
-    assertThat(article3.id())
-      .hasToString("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-2_art-1");
+    assertThat(article3.id()).hasToString(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-2_art-1"
+    );
     assertThat(article3.marker()).isEqualTo("§ 3");
     assertThat(article3.heading()).isEqualTo("Grafik");
     assertThat(article3.type()).isEqualTo("article");

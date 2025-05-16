@@ -52,15 +52,18 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("organ 1");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("true");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "true"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DE");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Andere Organisationseinheit"
+      );
     }
 
     @Test
@@ -150,8 +153,7 @@ class ProprietaryTest {
           Metadata.ART_DER_NORM,
           new EId("hauptteil-1_abschnitt-0_art-1")
         )
-      )
-        .contains("SN");
+      ).contains("SN");
     }
 
     @Test
@@ -177,8 +179,7 @@ class ProprietaryTest {
           Metadata.ART_DER_NORM,
           new EId("hauptteil-1_abschnitt-0_art-1")
         )
-      )
-        .isEmpty();
+      ).isEmpty();
     }
 
     @Test
@@ -201,8 +202,7 @@ class ProprietaryTest {
           Metadata.ART_DER_NORM,
           new EId("hauptteil-1_abschnitt-0_art-1")
         )
-      )
-        .isEmpty();
+      ).isEmpty();
     }
 
     @Test
@@ -223,8 +223,7 @@ class ProprietaryTest {
           Metadata.ART_DER_NORM,
           new EId("hauptteil-1_abschnitt-0_art-1")
         )
-      )
-        .isEmpty();
+      ).isEmpty();
     }
   }
 
@@ -251,12 +250,15 @@ class ProprietaryTest {
         )
       );
       assertThat(proprietary.getRessort(LocalDate.parse("1990-01-01"))).isEmpty();
-      assertThat(proprietary.getRessort(LocalDate.parse("2002-10-01")))
-        .contains("Bundesministerium der Justiz");
-      assertThat(proprietary.getRessort(LocalDate.parse("2022-12-01")))
-        .contains("Bundesministerium des Innern und für Heimat");
-      assertThat(proprietary.getRessort(LocalDate.parse("2024-06-18")))
-        .contains("Bundesministerium des Innern und für Heimat");
+      assertThat(proprietary.getRessort(LocalDate.parse("2002-10-01"))).contains(
+        "Bundesministerium der Justiz"
+      );
+      assertThat(proprietary.getRessort(LocalDate.parse("2022-12-01"))).contains(
+        "Bundesministerium des Innern und für Heimat"
+      );
+      assertThat(proprietary.getRessort(LocalDate.parse("2024-06-18"))).contains(
+        "Bundesministerium des Innern und für Heimat"
+      );
     }
 
     @Test
@@ -352,15 +354,18 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("organ 1");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("true");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "true"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DE");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Andere Organisationseinheit"
+      );
 
       proprietary.setMetadataValue(Metadata.FNA, "new-fna");
       proprietary.setMetadataValue(Metadata.TYP, "new-gesetz");
@@ -385,20 +390,25 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("new-gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG))
-        .contains("new-verkuendungsfassung");
+      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains(
+        "new-verkuendungsfassung"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp-updated");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage-updated");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage-updated"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("new-SN,ÄN,ÜN");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN))
-        .contains("new-organ 1");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("false");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains(
+        "new-organ 1"
+      );
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "false"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("new-DE");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("new-Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "new-Andere Organisationseinheit"
+      );
     }
 
     @Test
@@ -455,20 +465,25 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("new-gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG))
-        .contains("new-verkuendungsfassung");
+      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains(
+        "new-verkuendungsfassung"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp-updated");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage-updated");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage-updated"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("new-SN,ÄN,ÜN");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN))
-        .contains("new-organ 1");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("false");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains(
+        "new-organ 1"
+      );
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "false"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("new-DE");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("new-Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "new-Andere Organisationseinheit"
+      );
     }
 
     @Test
@@ -521,20 +536,25 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("new-gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG))
-        .contains("new-verkuendungsfassung");
+      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains(
+        "new-verkuendungsfassung"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp-updated");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage-updated");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage-updated"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("new-SN,ÄN,ÜN");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN))
-        .contains("new-organ 1");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("false");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains(
+        "new-organ 1"
+      );
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "false"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("new-DE");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("new-Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "new-Andere Organisationseinheit"
+      );
     }
 
     @Test
@@ -572,15 +592,18 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("organ 1");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("true");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "true"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DE");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Andere Organisationseinheit"
+      );
 
       proprietary.setMetadataValue(Metadata.TYP, "");
       proprietary.setMetadataValue(Metadata.FNA, "");
@@ -644,15 +667,18 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
       assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("new-bezeichnungInVorlage");
+      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "new-bezeichnungInVorlage"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
       assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("organ 1");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR))
-        .contains("true");
+      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
+        "true"
+      );
       assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DE");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Andere Organisationseinheit");
+      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Andere Organisationseinheit"
+      );
 
       proprietary.setMetadataValue(Metadata.TYP, null);
       proprietary.setMetadataValue(Metadata.FNA, null);
@@ -1175,7 +1201,8 @@ class ProprietaryTest {
     );
 
     assertThat(proprietary.getGegenstandlos()).isPresent();
-    assertThat(proprietary.getGegenstandlos().get().getSinceDate())
-      .isEqualTo(LocalDate.parse("2020-01-01"));
+    assertThat(proprietary.getGegenstandlos().get().getSinceDate()).isEqualTo(
+      LocalDate.parse("2020-01-01")
+    );
   }
 }

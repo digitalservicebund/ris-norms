@@ -35,11 +35,9 @@ public final class DokumentWorkEli implements DokumentEli, Comparable<DokumentWo
    * @return the eli
    */
   public static DokumentWorkEli fromString(String workEli) {
-    Matcher matcher = Pattern
-      .compile(
-        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<subtype>[^/]+)"
-      )
-      .matcher(workEli);
+    Matcher matcher = Pattern.compile(
+      "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<subtype>[^/]+)"
+    ).matcher(workEli);
 
     if (!matcher.matches()) {
       throw new InvalidEliException(DokumentWorkEli.class, workEli);

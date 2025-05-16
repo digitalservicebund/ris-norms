@@ -25,8 +25,7 @@ public class ResourceService implements LoadPortalPublishingAllowListPort {
       "classpath:portal-prototype-publishing-allowlist.txt"
     ) Resource portalPrototypePublishingAllowlist
   ) throws IOException {
-    this.publishingAllowlist =
-    new BufferedReader(
+    this.publishingAllowlist = new BufferedReader(
       new InputStreamReader(
         portalPrototypePublishingAllowlist.getInputStream(),
         StandardCharsets.UTF_8

@@ -61,8 +61,7 @@ public class NormenDokumentationsPaketBucketService
 
   private void uploadToBucket(final String key, final RequestBody requestBody) {
     try {
-      final PutObjectRequest request = PutObjectRequest
-        .builder()
+      final PutObjectRequest request = PutObjectRequest.builder()
         .bucket(bucketName)
         .key(key)
         .build();
@@ -79,8 +78,7 @@ public class NormenDokumentationsPaketBucketService
 
   private byte[] loadFromBucket(final String key) {
     try {
-      final GetObjectRequest request = GetObjectRequest
-        .builder()
+      final GetObjectRequest request = GetObjectRequest.builder()
         .bucket(bucketName)
         .key(key)
         .build();

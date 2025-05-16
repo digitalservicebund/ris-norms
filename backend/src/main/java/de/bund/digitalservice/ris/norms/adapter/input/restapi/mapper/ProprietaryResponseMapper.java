@@ -27,8 +27,7 @@ public class ProprietaryResponseMapper {
     final Proprietary proprietary,
     final LocalDate dateForRessort
   ) {
-    return ProprietaryFrameSchema
-      .builder()
+    return ProprietaryFrameSchema.builder()
       .fna(proprietary.getMetadataValue(Metadata.FNA).orElse(null))
       .art(proprietary.getMetadataValue(Metadata.ART).orElse(null))
       .typ(proprietary.getMetadataValue(Metadata.TYP).orElse(null))
@@ -65,8 +64,7 @@ public class ProprietaryResponseMapper {
     final Proprietary proprietary,
     final EId eid
   ) {
-    return ProprietarySingleElementSchema
-      .builder()
+    return ProprietarySingleElementSchema.builder()
       .artDerNorm(proprietary.getMetadataValue(Metadata.ART_DER_NORM, eid).orElse(null))
       .build();
   }

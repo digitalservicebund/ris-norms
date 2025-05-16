@@ -169,8 +169,7 @@ class NormTest {
   @Test
   void shouldBeUnpublishedByDefaultWhenCreatedUsingBuild() {
     // Given
-    final Norm norm = Norm
-      .builder()
+    final Norm norm = Norm.builder()
       .dokumente(
         Set.of(
           new Regelungstext(

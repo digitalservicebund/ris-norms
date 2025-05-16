@@ -26,8 +26,10 @@ public class CustomModsMetadata {
    * @return all norm expression elis amended by this norm
    */
   public List<NormExpressionEli> getAmendedNormExpressionElis() {
-    return NodeParser
-      .getNodesFromExpression("./amended-norm-expressions/norm-expression/text()", element)
+    return NodeParser.getNodesFromExpression(
+      "./amended-norm-expressions/norm-expression/text()",
+      element
+    )
       .stream()
       .map(Node::getNodeValue)
       .map(NormExpressionEli::fromString)
@@ -39,11 +41,9 @@ public class CustomModsMetadata {
    * @return the collection of {@link Zeitgrenze}n or empty if none exist.
    */
   public Optional<Geltungszeiten> getGeltungszeiten() {
-    return NodeParser
-      .getElementFromExpression("./geltungszeiten", getElement())
-      .map(geltungszeitenElement ->
-        new Geltungszeiten(geltungszeitenElement, this::isZeitgrenzeInUse)
-      );
+    return NodeParser.getElementFromExpression("./geltungszeiten", getElement()).map(
+      geltungszeitenElement -> new Geltungszeiten(geltungszeitenElement, this::isZeitgrenzeInUse)
+    );
   }
 
   /**
@@ -73,9 +73,9 @@ public class CustomModsMetadata {
    * @return {@link ZielnormReferences} or empty if none exist
    */
   public Optional<ZielnormReferences> getZielnormenReferences() {
-    return NodeParser
-      .getElementFromExpression("./zielnorm-references", getElement())
-      .map(ZielnormReferences::new);
+    return NodeParser.getElementFromExpression("./zielnorm-references", getElement()).map(
+      ZielnormReferences::new
+    );
   }
 
   /**

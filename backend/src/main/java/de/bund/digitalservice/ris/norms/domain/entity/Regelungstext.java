@@ -42,12 +42,10 @@ public non-sealed class Regelungstext extends Dokument {
    * @return The short title
    */
   public Optional<String> getShortTitle() {
-    return NodeParser
-      .getValueFromExpression(
-        "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]",
-        getDocument()
-      )
-      .or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", getDocument()));
+    return NodeParser.getValueFromExpression(
+      "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]",
+      getDocument()
+    ).or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", getDocument()));
   }
 
   /**

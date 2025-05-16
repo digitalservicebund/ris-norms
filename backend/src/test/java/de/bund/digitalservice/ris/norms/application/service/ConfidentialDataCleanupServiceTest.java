@@ -18,8 +18,9 @@ class ConfidentialDataCleanupServiceTest {
     );
     var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
 
-    assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-      .contains("Aktuelle Organisationseinheit");
+    assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+      "Aktuelle Organisationseinheit"
+    );
 
     // When
     confidentialDataCleanupService.clean(norm);

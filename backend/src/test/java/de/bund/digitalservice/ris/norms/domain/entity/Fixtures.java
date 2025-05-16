@@ -238,18 +238,18 @@ public class Fixtures {
   }
 
   public static URL getResource(String fileName) {
-    return Optional
-      .ofNullable(Fixtures.class.getResource(FIXTURES_RESOURCE_FOLDER + "/" + fileName))
-      .orElseThrow(() -> new RuntimeException("Could not find fixture " + fileName));
+    return Optional.ofNullable(
+      Fixtures.class.getResource(FIXTURES_RESOURCE_FOLDER + "/" + fileName)
+    ).orElseThrow(() -> new RuntimeException("Could not find fixture " + fileName));
   }
 
   public static URL getResource(Class<?> clazz, String fileName) {
-    return Optional
-      .ofNullable(clazz.getResource(clazz.getSimpleName() + "/" + fileName))
-      .orElseThrow(() ->
-        new RuntimeException(
-          "Could not find fixture " + fileName + " in test resources for class " + clazz.getName()
-        )
-      );
+    return Optional.ofNullable(
+      clazz.getResource(clazz.getSimpleName() + "/" + fileName)
+    ).orElseThrow(() ->
+      new RuntimeException(
+        "Could not find fixture " + fileName + " in test resources for class " + clazz.getName()
+      )
+    );
   }
 }

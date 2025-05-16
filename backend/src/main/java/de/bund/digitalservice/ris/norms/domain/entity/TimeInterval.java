@@ -48,8 +48,7 @@ public class TimeInterval {
    * @return The eId of the event ref of this temporal group
    */
   public Optional<String> getEventRefEId() {
-    return NodeParser
-      .getValueFromExpression("./@start", this.element)
+    return NodeParser.getValueFromExpression("./@start", this.element)
       .map(Href::new)
       .flatMap(Href::getEId)
       .map(EId::toString);

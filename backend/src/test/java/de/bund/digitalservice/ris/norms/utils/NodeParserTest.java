@@ -102,8 +102,8 @@ class NodeParserTest {
     void throwWhenNoNodeIsFound() {
       Node node = XmlMapper.toDocument("<test>testValue</test>");
       String expression = "/bla";
-      assertThatThrownBy(() -> NodeParser.getMandatoryNodeFromExpression(expression, node))
-        .isInstanceOf(MandatoryNodeNotFoundException.class);
+      assertThatThrownBy(() -> NodeParser.getMandatoryNodeFromExpression(expression, node)
+      ).isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }
 
@@ -122,8 +122,8 @@ class NodeParserTest {
     void throwWhenNoElementIsFound() {
       Node node = XmlMapper.toDocument("<test>testValue</test>");
       String expression = "/test/text()";
-      assertThatThrownBy(() -> NodeParser.getMandatoryElementFromExpression(expression, node))
-        .isInstanceOf(MandatoryNodeNotFoundException.class);
+      assertThatThrownBy(() -> NodeParser.getMandatoryElementFromExpression(expression, node)
+      ).isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }
 
@@ -205,9 +205,9 @@ class NodeParserTest {
 
     @Test
     void createsListOfNodesForMultipleElements() {
-      Node node = XmlMapper
-        .toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
-        .getFirstChild();
+      Node node = XmlMapper.toDocument(
+        "<foo><test>testValue</test><test>testValue2</test></foo>"
+      ).getFirstChild();
       var nodes = NodeParser.nodeListToList(node.getChildNodes());
       assertThat(nodes).hasSize(2);
     }

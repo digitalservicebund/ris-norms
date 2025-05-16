@@ -65,11 +65,9 @@ public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCas
       .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
 
-    return NodeParser
-      .getNodeFromExpression(xPath, regelungstext.getDocument())
-      .orElseThrow(() ->
-        new ElementNotFoundException(query.eli().toString(), query.eid().toString())
-      );
+    return NodeParser.getNodeFromExpression(xPath, regelungstext.getDocument()).orElseThrow(() ->
+      new ElementNotFoundException(query.eli().toString(), query.eid().toString())
+    );
   }
 
   @Override

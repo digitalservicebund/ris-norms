@@ -46,8 +46,9 @@ class ArticleServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
       var eid = new EId("hauptteil-1_art-1");
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // when
@@ -65,13 +66,15 @@ class ArticleServiceTest {
       );
       var eid = new EId("meta-1");
       var query = new LoadArticleHtmlUseCase.Query(eli, eid);
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.empty());
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.empty());
 
       // when
-      assertThatThrownBy(() -> articleService.loadArticleHtml(query))
+      assertThatThrownBy(() -> articleService.loadArticleHtml(query)).isInstanceOf(
         // then
-        .isInstanceOf(NormNotFoundException.class);
+        NormNotFoundException.class
+      );
     }
 
     @Test
@@ -85,15 +88,18 @@ class ArticleServiceTest {
       );
       var eid = new EId("eid-1_not-1_in-1_norm-1");
       var query = new LoadArticleHtmlUseCase.Query(eli, eid);
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.of(regelungstext));
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.of(regelungstext));
 
       // when
-      assertThatThrownBy(() -> articleService.loadArticleHtml(query))
+      assertThatThrownBy(() -> articleService.loadArticleHtml(query)).isInstanceOf(
         // then
-        .isInstanceOf(ArticleNotFoundException.class);
+        ArticleNotFoundException.class
+      );
     }
   }
 
@@ -133,8 +139,9 @@ class ArticleServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() -> articleService.loadArticlesFromDokument(query))
-        .isInstanceOf(RegelungstextNotFoundException.class);
+      assertThatThrownBy(() -> articleService.loadArticlesFromDokument(query)).isInstanceOf(
+        RegelungstextNotFoundException.class
+      );
     }
 
     @Test
@@ -180,8 +187,9 @@ class ArticleServiceTest {
       );
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(xmls).isNotEmpty();
       assertThat(xmls.getFirst()).contains("hauptteil-1_art-1");
       assertThat(xmls.get(1)).contains("hauptteil-1_art-2");
@@ -197,12 +205,12 @@ class ArticleServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query))
-        // Then
-        .isInstanceOf(NormNotFoundException.class);
+      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query)
+      ).isInstanceOf(NormNotFoundException.class); // Then
 
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
     }
 
     @Test
@@ -223,8 +231,9 @@ class ArticleServiceTest {
       );
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(xmls).isNotEmpty();
       assertThat(xmls.getFirst()).contains("hauptteil-1_art-2");
     }
@@ -244,14 +253,15 @@ class ArticleServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query))
+      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query)
+      ).isInstanceOf(
         // Then
-        .isInstanceOf(
-          LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
-        );
+        LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
+      );
 
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
     }
 
     @Test
@@ -269,14 +279,15 @@ class ArticleServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query))
+      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query)
+      ).isInstanceOf(
         // Then
-        .isInstanceOf(
-          LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
-        );
+        LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
+      );
 
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
     }
   }
 }

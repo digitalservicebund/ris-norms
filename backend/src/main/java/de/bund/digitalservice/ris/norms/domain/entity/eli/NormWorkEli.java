@@ -34,9 +34,9 @@ public final class NormWorkEli implements NormEli, Comparable<NormWorkEli> {
    * @return the eli
    */
   public static NormWorkEli fromString(String workEli) {
-    Matcher matcher = Pattern
-      .compile("eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)")
-      .matcher(workEli);
+    Matcher matcher = Pattern.compile(
+      "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)"
+    ).matcher(workEli);
 
     if (!matcher.matches()) {
       throw new InvalidEliException(NormWorkEli.class, workEli);

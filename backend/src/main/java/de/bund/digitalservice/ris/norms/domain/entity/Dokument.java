@@ -132,8 +132,10 @@ public abstract sealed class Dokument
    * @return a List of filenames
    */
   public List<String> getReferencedDokumentAndBinaryFileFileNames() {
-    return NodeParser
-      .getNodesFromExpression("//componentRef/@src|//documentRef/@href|//img/@src", document)
+    return NodeParser.getNodesFromExpression(
+      "//componentRef/@src|//documentRef/@href|//img/@src",
+      document
+    )
       .stream()
       .map(Node::getNodeValue)
       .map(value -> {

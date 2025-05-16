@@ -27,8 +27,10 @@ public class Changelog {
   private final String fileName;
 
   public Changelog() {
-    this.fileName =
-    Paths.get(FOLDER, FILE_NAME_FORMAT.formatted(Instant.now().toString())).toString();
+    this.fileName = Paths.get(
+      FOLDER,
+      FILE_NAME_FORMAT.formatted(Instant.now().toString())
+    ).toString();
   }
 
   /**

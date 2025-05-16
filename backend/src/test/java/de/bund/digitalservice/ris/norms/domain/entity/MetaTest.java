@@ -94,8 +94,9 @@ class MetaTest {
       )
     );
 
-    assertThatThrownBy(meta::getFRBRManifestation)
-      .isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(meta::getFRBRManifestation).isInstanceOf(
+      MandatoryNodeNotFoundException.class
+    );
   }
 
   @Test
@@ -271,8 +272,9 @@ class MetaTest {
     );
 
     assertThat(meta.getOrCreateLifecycle()).isNotNull();
-    assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("GUID"))
-      .isEqualTo("4b31c2c4-6ecc-4f29-9f79-18149603114b");
+    assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("GUID")).isEqualTo(
+      "4b31c2c4-6ecc-4f29-9f79-18149603114b"
+    );
   }
 
   @Test
@@ -303,14 +305,17 @@ class MetaTest {
 
     assertThat(meta.getOrCreateLifecycle()).isNotNull();
     assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("GUID")).isNotNull();
-    assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("eId"))
-      .isEqualTo("meta-1_lebzykl-1");
-    assertThat(meta.getOrCreateLifecycle().getElement().getNextSibling())
-      .isEqualTo(meta.getProprietary().orElseThrow().getElement());
+    assertThat(meta.getOrCreateLifecycle().getElement().getAttribute("eId")).isEqualTo(
+      "meta-1_lebzykl-1"
+    );
+    assertThat(meta.getOrCreateLifecycle().getElement().getNextSibling()).isEqualTo(
+      meta.getProprietary().orElseThrow().getElement()
+    );
 
     // calling it twice does not create another lifecycle element
-    assertThat(meta.getOrCreateLifecycle().getElement())
-      .isEqualTo(meta.getOrCreateLifecycle().getElement());
+    assertThat(meta.getOrCreateLifecycle().getElement()).isEqualTo(
+      meta.getOrCreateLifecycle().getElement()
+    );
   }
 
   @Test

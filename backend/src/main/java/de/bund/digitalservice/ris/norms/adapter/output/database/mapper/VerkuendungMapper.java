@@ -17,8 +17,7 @@ public class VerkuendungMapper {
    * @return A new {@link Verkuendung} mapped from the input {@link VerkuendungDto}.
    */
   public static Verkuendung mapToDomain(final VerkuendungDto verkuendungDto) {
-    return Verkuendung
-      .builder()
+    return Verkuendung.builder()
       .eli(NormExpressionEli.fromString(verkuendungDto.getEliNormExpression()))
       .importTimestamp(verkuendungDto.getImportTimestamp())
       .build();

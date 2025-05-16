@@ -24,7 +24,8 @@ class EIdPartTypeTest {
     // when
     var partType = EIdPartType.forAknElement(node);
     // then
-    assertThat(partType)
-      .hasValueSatisfying(part -> assertThat(part.getName()).isEqualTo(eIdPartName));
+    assertThat(partType).hasValueSatisfying(part ->
+      assertThat(part.getName()).isEqualTo(eIdPartName)
+    );
   }
 }

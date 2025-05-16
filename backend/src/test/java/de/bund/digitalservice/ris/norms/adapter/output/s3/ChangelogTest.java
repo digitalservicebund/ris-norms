@@ -12,8 +12,9 @@ class ChangelogTest {
   void createsChangelogWithGivenDate() {
     final Changelog changelog = new Changelog();
     assertThat(changelog.getFileName()).isNotEmpty();
-    assertThat(changelog.getFileName())
-      .matches("changelogs/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z-norms\\.json");
+    assertThat(changelog.getFileName()).matches(
+      "changelogs/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z-norms\\.json"
+    );
   }
 
   @Test
@@ -36,8 +37,9 @@ class ChangelogTest {
     assertThat(changelog.getContent(false)).isEqualTo("{}");
     changelog.addContent(Changelog.CHANGED, "eli/norm/to/add");
     changelog.addContent(Changelog.DELETED, "eli/norm/to/delete");
-    assertThat(changelog.getContent(false))
-      .isEqualTo("{\"deleted\":[\"eli/norm/to/delete\"],\"changed\":[\"eli/norm/to/add\"]}");
+    assertThat(changelog.getContent(false)).isEqualTo(
+      "{\"deleted\":[\"eli/norm/to/delete\"],\"changed\":[\"eli/norm/to/add\"]}"
+    );
   }
 
   @Test
@@ -45,8 +47,9 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     changelog.setContent("{\"changed\":[\"eli/norm/to/add\"]}");
     changelog.addContent(Changelog.CHANGED, "eli/another-norm/to/add");
-    assertThat(changelog.getContent(false))
-      .isEqualTo("{\"changed\":[\"eli/another-norm/to/add\",\"eli/norm/to/add\"]}");
+    assertThat(changelog.getContent(false)).isEqualTo(
+      "{\"changed\":[\"eli/another-norm/to/add\",\"eli/norm/to/add\"]}"
+    );
   }
 
   @Test
@@ -54,8 +57,9 @@ class ChangelogTest {
     final Changelog changelog = new Changelog();
     changelog.setContent("{\"changed\":[\"eli/norm/to/add\"]}");
     changelog.addContent(Changelog.DELETED, "eli/another-norm/to/add");
-    assertThat(changelog.getContent(false))
-      .isEqualTo("{\"deleted\":[\"eli/another-norm/to/add\"],\"changed\":[\"eli/norm/to/add\"]}");
+    assertThat(changelog.getContent(false)).isEqualTo(
+      "{\"deleted\":[\"eli/another-norm/to/add\"],\"changed\":[\"eli/norm/to/add\"]}"
+    );
   }
 
   @Test

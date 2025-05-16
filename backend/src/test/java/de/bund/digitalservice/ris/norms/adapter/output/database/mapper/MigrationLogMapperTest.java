@@ -13,8 +13,7 @@ class MigrationLogMapperTest {
   @Test
   void itShouldMapToDomain() {
     // Given
-    var dtoObj = MigrationLogDto
-      .builder()
+    var dtoObj = MigrationLogDto.builder()
       .id(UUID.randomUUID())
       .size(5)
       .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
@@ -34,8 +33,7 @@ class MigrationLogMapperTest {
   @Test
   void itShouldMapToDtos() {
     // Given
-    var domainObj = MigrationLog
-      .builder()
+    var domainObj = MigrationLog.builder()
       .id(UUID.randomUUID())
       .size(5)
       .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))

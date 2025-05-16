@@ -83,16 +83,14 @@ class ArchitectureFitnessTest {
 
   @BeforeAll
   static void setUp() {
-    classes =
-    new ClassFileImporter()
+    classes = new ClassFileImporter()
       .withImportOption(Predefined.DO_NOT_INCLUDE_TESTS)
       .importPackages("de.bund.digitalservice.ris.norms");
   }
 
   @Test
   void packagesShouldBeFreeOfCycles() {
-    SliceRule rule = SlicesRuleDefinition
-      .slices()
+    SliceRule rule = SlicesRuleDefinition.slices()
       .matching("de.bund.digitalservice.ris.norms.(*)")
       .should()
       .beFreeOfCycles();
@@ -101,8 +99,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void domainClassesShouldOnlyDependOnDomainUtilsOrSpecificStandardLibraries() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(DOMAIN_LAYER_PACKAGES)
       .should(
@@ -117,8 +114,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(UTILS_LAYER_PACKAGES)
       .should()
@@ -129,8 +125,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void allClassesOfDomainShouldBeSortedIntoPackages() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(DOMAIN_LAYER_PACKAGES)
       .should()
@@ -141,8 +136,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void controllerClassesShouldNotResideOutsideOfAdapterPackage() {
-    ArchRule rule = ArchRuleDefinition
-      .noClasses()
+    ArchRule rule = ArchRuleDefinition.noClasses()
       .that()
       .areAnnotatedWith(Controller.class)
       .or()
@@ -154,8 +148,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void controllerClassesShouldNotDependOnEachOther() {
-    ArchRule rule = ArchRuleDefinition
-      .noClasses()
+    ArchRule rule = ArchRuleDefinition.noClasses()
       .that()
       .haveSimpleNameEndingWith("Controller")
       .should()
@@ -172,8 +165,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void controllerClassesShouldOnlyHaveUseCasesFields() {
-    ArchRule rule = ArchRuleDefinition
-      .noClasses()
+    ArchRule rule = ArchRuleDefinition.noClasses()
       .that()
       .haveSimpleNameEndingWith("Controller")
       .and()
@@ -191,8 +183,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void onlyRepositoryInterfacesAllowed() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(ADAPTER_LAYER_PACKAGES)
       .and()
@@ -204,11 +195,10 @@ class ArchitectureFitnessTest {
 
   @Test
   void implementationOutputPortsOnlyAllowedInTheAdapterPackageAsRepositories() {
-    DescribedPredicate<JavaClass> predicate = JavaClass.Predicates
-      .resideInAPackage(OUTPUT_PORT_LAYER_PACKAGES)
-      .and(JavaClass.Predicates.INTERFACES);
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    DescribedPredicate<JavaClass> predicate = JavaClass.Predicates.resideInAPackage(
+      OUTPUT_PORT_LAYER_PACKAGES
+    ).and(JavaClass.Predicates.INTERFACES);
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .implement(predicate)
       .should()
@@ -223,11 +213,10 @@ class ArchitectureFitnessTest {
 
   @Test
   void implementationInputPortsOnlyAllowedInTheApplicationPackageAsServices() {
-    DescribedPredicate<JavaClass> predicate = JavaClass.Predicates
-      .resideInAPackage(INPUT_PORT_LAYER_PACKAGES)
-      .and(JavaClass.Predicates.INTERFACES);
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    DescribedPredicate<JavaClass> predicate = JavaClass.Predicates.resideInAPackage(
+      INPUT_PORT_LAYER_PACKAGES
+    ).and(JavaClass.Predicates.INTERFACES);
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .implement(predicate)
       .should()
@@ -239,8 +228,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void repositoryInRepositoryPackageAreInterfacesWhichExtendJpaRepository() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(REPOSITORY_LAYER_PACKAGES)
       .and()
@@ -254,8 +242,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void applicationPackageShouldNotDependOnAdapterPackage() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(APPLICATION_LAYER_PACKAGES)
       .should()
@@ -266,8 +253,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void outputPortMayNotDependOnApplicationLayerExceptions() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(ADAPTER_OUTPUT)
       .should()
@@ -278,8 +264,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void allClassesOfTheApplicationShouldBeSortedIntoTheFollowingPackages() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(APPLICATION_LAYER_PACKAGES)
       .should()
@@ -294,8 +279,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void portsAreInterfaces() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that(
         (resideInAPackage(INPUT_PORT_LAYER_PACKAGES).and(simpleNameEndingWith("UseCase"))).or(
             resideInAPackage(OUTPUT_PORT_LAYER_PACKAGES).and(simpleNameEndingWith("Port"))
@@ -307,8 +291,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void portsShouldNotDependOnEachOther() {
-    SliceRule rule = SlicesRuleDefinition
-      .slices()
+    SliceRule rule = SlicesRuleDefinition.slices()
       .matching(BASE_PACKAGE + ".application.port.(*)..")
       .should()
       .notDependOnEachOther();
@@ -319,8 +302,7 @@ class ArchitectureFitnessTest {
   void portsHaveASinglePublicMethodOnly() {
     final HaveExactNumberOfMethods haveASingleMethod = new HaveExactNumberOfMethods(1);
 
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
       .and(new IsNotRecordClass())
@@ -342,8 +324,7 @@ class ArchitectureFitnessTest {
     final HaveExactNumberOfParameters haveASingleParameter = new HaveExactNumberOfParameters(1);
     final HaveExactNumberOfParameters haveNoParameters = new HaveExactNumberOfParameters(0);
 
-    ArchRule rule = ArchRuleDefinition
-      .methods()
+    ArchRule rule = ArchRuleDefinition.methods()
       .that()
       .areDeclaredInClassesThat()
       .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
@@ -367,8 +348,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void applicationServicesDoNotImplementOutputPorts() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(SERVICE_LAYER_PACKAGES)
       .and()
@@ -381,8 +361,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void adaptersShouldNotDependOnEachOther() {
-    SliceRule rule = SlicesRuleDefinition
-      .slices()
+    SliceRule rule = SlicesRuleDefinition.slices()
       .matching(BASE_PACKAGE + ".adapter.(*)..")
       .should()
       .notDependOnEachOther();
@@ -391,8 +370,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void configClassesShouldNotBeAccessedByNonConfigClasses() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that()
       .resideInAPackage(CONFIG_LAYER_PACKAGES)
       .should()
@@ -404,8 +382,7 @@ class ArchitectureFitnessTest {
 
   @Test
   void allClassesShouldResideInASpecifiedLayer() {
-    ArchRule rule = ArchRuleDefinition
-      .classes()
+    ArchRule rule = ArchRuleDefinition.classes()
       .that(DescribedPredicate.not(belongToAnyOf(Application.class, Generated.class)))
       .should()
       .resideInAnyPackage(
@@ -485,8 +462,10 @@ class ArchitectureFitnessTest {
 
     final Set<String> useCaseInterfaces = classes
       .stream()
-      .filter(javaClass ->
-        javaClass.isInterface() && javaClass.getPackageName().startsWith(INPUT_PORT_LAYER_PACKAGES)
+      .filter(
+        javaClass ->
+          javaClass.isInterface() &&
+          javaClass.getPackageName().startsWith(INPUT_PORT_LAYER_PACKAGES)
       )
       .map(JavaClass::getName)
       .collect(Collectors.toSet());

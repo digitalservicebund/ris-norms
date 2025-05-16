@@ -35,8 +35,7 @@ class EidConsistencyGuardianTest {
     EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
-    final Diff diff = DiffBuilder
-      .compare(Input.from(correctedDocument))
+    final Diff diff = DiffBuilder.compare(Input.from(correctedDocument))
       .withTest(Input.from(document))
       .ignoreWhitespace()
       .build();
@@ -82,8 +81,7 @@ class EidConsistencyGuardianTest {
       </root>
       """;
 
-    final Diff diff = DiffBuilder
-      .compare(Input.from(correctedDocument))
+    final Diff diff = DiffBuilder.compare(Input.from(correctedDocument))
       .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
       .ignoreWhitespace()
       .build();
@@ -129,8 +127,7 @@ class EidConsistencyGuardianTest {
           </root>
       """;
 
-    final Diff diff = DiffBuilder
-      .compare(Input.from(correctedDocument))
+    final Diff diff = DiffBuilder.compare(Input.from(correctedDocument))
       .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
       .ignoreWhitespace()
       .build();
@@ -169,8 +166,7 @@ class EidConsistencyGuardianTest {
           </root>
       """;
 
-    final Diff diff = DiffBuilder
-      .compare(Input.from(correctedDocument))
+    final Diff diff = DiffBuilder.compare(Input.from(correctedDocument))
       .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
       .ignoreWhitespace()
       .build();
@@ -209,8 +205,7 @@ class EidConsistencyGuardianTest {
           </root>
       """;
 
-    final Diff diff = DiffBuilder
-      .compare(Input.from(correctedDocument))
+    final Diff diff = DiffBuilder.compare(Input.from(correctedDocument))
       .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
       .ignoreWhitespace()
       .build();
@@ -237,8 +232,7 @@ class EidConsistencyGuardianTest {
       "complex-ldml-with-corrected-eids.xml"
     );
 
-    final Diff diff = DiffBuilder
-      .compare(Input.from(correctedDocument))
+    final Diff diff = DiffBuilder.compare(Input.from(correctedDocument))
       .withTest(Input.from(XmlMapper.toDocument(exectedResult)))
       .ignoreWhitespace()
       .build();

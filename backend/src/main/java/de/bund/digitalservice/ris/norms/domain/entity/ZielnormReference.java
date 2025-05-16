@@ -38,9 +38,9 @@ public class ZielnormReference {
   ) {
     final var element = NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode);
     NodeCreator.createElement(NAMESPACE, "typ", element).setTextContent(typ);
-    NodeCreator
-      .createElement(NAMESPACE, "geltungszeit", element)
-      .setTextContent(geltungszeit.toString());
+    NodeCreator.createElement(NAMESPACE, "geltungszeit", element).setTextContent(
+      geltungszeit.toString()
+    );
     NodeCreator.createElement(NAMESPACE, "eid", element).setTextContent(eId.toString());
     NodeCreator.createElement(NAMESPACE, "zielnorm", element).setTextContent(zielnorm.toString());
     return new ZielnormReference(element);
@@ -77,9 +77,9 @@ public class ZielnormReference {
    * @param geltungszeit the id of the geltungszeitregel
    */
   public void setGeltungszeit(Zeitgrenze.Id geltungszeit) {
-    NodeParser
-      .getMandatoryNodeFromExpression("./geltungszeit/text()", getElement())
-      .setTextContent(geltungszeit.toString());
+    NodeParser.getMandatoryNodeFromExpression("./geltungszeit/text()", getElement()).setTextContent(
+      geltungszeit.toString()
+    );
   }
 
   /**
@@ -107,8 +107,8 @@ public class ZielnormReference {
    * @param zielnorm the ELI of the zielnorm
    */
   public void setZielnorm(NormWorkEli zielnorm) {
-    NodeParser
-      .getMandatoryNodeFromExpression("./zielnorm/text()", getElement())
-      .setTextContent(zielnorm.toString());
+    NodeParser.getMandatoryNodeFromExpression("./zielnorm/text()", getElement()).setTextContent(
+      zielnorm.toString()
+    );
   }
 }

@@ -51,7 +51,8 @@ class DokumentDtoTest {
     // Then
     assertThat(violations)
       .hasSize(1)
-      .extracting(violation -> violation.getPropertyPath().toString() + " " + violation.getMessage()
+      .extracting(
+        violation -> violation.getPropertyPath().toString() + " " + violation.getMessage()
       )
       .containsExactlyInAnyOrder("xml must not be null");
   }

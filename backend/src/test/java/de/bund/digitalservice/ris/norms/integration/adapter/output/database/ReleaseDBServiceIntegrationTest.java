@@ -71,8 +71,9 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       assertThat(releases).hasSize(1);
       assertThat(releases.getFirst().getNorms()).hasSize(1);
-      assertThat(releases.getFirst().getNorms().getFirst().getManifestationEli())
-        .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+      assertThat(releases.getFirst().getNorms().getFirst().getManifestationEli()).isEqualTo(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
+      );
     }
   }
 
@@ -95,8 +96,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
       normDto = normManifestationRepository.save(normDto);
 
-      var release = Release
-        .builder()
+      var release = Release.builder()
         .publishedNorms(
           List.of(
             Fixtures.loadNormFromDisk(
@@ -149,8 +149,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
       normDto = normManifestationRepository.save(normDto);
 
-      var release = Release
-        .builder()
+      var release = Release.builder()
         .publishedNorms(
           List.of(
             Fixtures.loadNormFromDisk(
@@ -176,10 +175,11 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       assertThat(releases).hasSize(1);
       assertThat(releases.getFirst().getPublishedNorms()).hasSize(1);
-      assertThat(releases.getFirst().getPublishedNorms().getFirst().getManifestationEli())
-        .isEqualTo(
-          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
-        );
+      assertThat(
+        releases.getFirst().getPublishedNorms().getFirst().getManifestationEli()
+      ).isEqualTo(
+        NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+      );
     }
 
     @Test
@@ -197,8 +197,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
         .orElseThrow();
       normDto.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
       normDto = normManifestationRepository.save(normDto);
-      var release = Release
-        .builder()
+      var release = Release.builder()
         .publishedNorms(
           List.of(
             Fixtures.loadNormFromDisk(
@@ -221,8 +220,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var normDto2 = normManifestationRepository
         .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15")
         .orElseThrow();
-      var release2 = Release
-        .builder()
+      var release2 = Release.builder()
         .publishedNorms(
           List.of(
             Fixtures.loadNormFromDisk(
@@ -248,15 +246,15 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       assertThat(releases).hasSize(2);
       assertThat(releases.getFirst().getPublishedNorms()).hasSize(1);
-      assertThat(releases.getFirst().getPublishedNorms().getFirst().getManifestationEli())
-        .isEqualTo(
-          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
-        );
+      assertThat(
+        releases.getFirst().getPublishedNorms().getFirst().getManifestationEli()
+      ).isEqualTo(
+        NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+      );
       assertThat(releases.get(1).getPublishedNorms()).hasSize(1);
-      assertThat(releases.get(1).getPublishedNorms().getFirst().getManifestationEli())
-        .isEqualTo(
-          NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15")
-        );
+      assertThat(releases.get(1).getPublishedNorms().getFirst().getManifestationEli()).isEqualTo(
+        NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15")
+      );
     }
   }
 }

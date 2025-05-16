@@ -37,24 +37,23 @@ class LdmlDeElementSorterTest {
 
     ldmlDeElementSorter.sortElements(element);
 
-    final Diff diff = DiffBuilder
-      .compare(
-        Input.from(
-          """
-              <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1"
-                          GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                          period="#meta-1_geltzeiten-1_geltungszeitgr-1"
-                          refersTo="hauptaenderung">
-                          <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
-                              GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                                  Artikel 1 </akn:num>
-                          <akn:heading eId="hauptteil-1_art-1_überschrift-1"
-                              GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
-                          </akn:heading>
-                      </akn:article>
-          """
-        )
+    final Diff diff = DiffBuilder.compare(
+      Input.from(
+        """
+            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1"
+                        GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
+                        period="#meta-1_geltzeiten-1_geltungszeitgr-1"
+                        refersTo="hauptaenderung">
+                        <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
+                            GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
+                                Artikel 1 </akn:num>
+                        <akn:heading eId="hauptteil-1_art-1_überschrift-1"
+                            GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
+                        </akn:heading>
+                    </akn:article>
+        """
       )
+    )
       .withTest(Input.from(element))
       .normalizeWhitespace()
       .build();
@@ -74,8 +73,9 @@ class LdmlDeElementSorterTest {
 
     ldmlDeElementSorter.sortElements(regelungstext.getDocument().getDocumentElement());
 
-    final Diff diff = DiffBuilder
-      .compare(Input.from(Fixtures.loadRegelungstextFromDisk(regelungstextFile).getDocument()))
+    final Diff diff = DiffBuilder.compare(
+      Input.from(Fixtures.loadRegelungstextFromDisk(regelungstextFile).getDocument())
+    )
       .withTest(Input.from(regelungstext.getDocument()))
       .normalizeWhitespace()
       .ignoreComments()

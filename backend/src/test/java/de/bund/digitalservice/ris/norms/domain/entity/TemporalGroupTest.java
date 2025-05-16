@@ -64,7 +64,8 @@ class TemporalGroupTest {
 
     // then
     assertThat(temporalData.getTemporalGroups()).hasSize(1);
-    assertThat(EId.fromMandatoryNode(temporalGroup.getElement()))
-      .isEqualTo(new EId("meta-1_geltzeiten-1_geltungszeitgr-1"));
+    assertThat(EId.fromMandatoryNode(temporalGroup.getElement())).isEqualTo(
+      new EId("meta-1_geltzeiten-1_geltungszeitgr-1")
+    );
   }
 }

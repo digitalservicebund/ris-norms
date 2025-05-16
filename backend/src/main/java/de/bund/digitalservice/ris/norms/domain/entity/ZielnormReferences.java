@@ -45,8 +45,10 @@ public class ZielnormReferences extends AbstractCollection<ZielnormReference> {
   @NotNull
   @Override
   public Stream<ZielnormReference> stream() {
-    return NodeParser
-      .getElementsFromExpression("./%s".formatted(ZielnormReference.TAG_NAME), getElement())
+    return NodeParser.getElementsFromExpression(
+      "./%s".formatted(ZielnormReference.TAG_NAME),
+      getElement()
+    )
       .stream()
       .map(ZielnormReference::new);
   }

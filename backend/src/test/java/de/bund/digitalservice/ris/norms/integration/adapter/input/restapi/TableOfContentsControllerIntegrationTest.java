@@ -47,20 +47,19 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
       .andExpect(jsonPath("title").value("Regelungstext not found"))
       .andExpect(jsonPath("status").value(404))
       .andExpect(
-        jsonPath("detail")
-          .value(
-            "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
-          )
+        jsonPath("detail").value(
+          "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+        )
       )
       .andExpect(
-        jsonPath("instance")
-          .value(
-            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/toc"
-          )
+        jsonPath("instance").value(
+          "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/toc"
+        )
       )
       .andExpect(
-        jsonPath("eli")
-          .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")
+        jsonPath("eli").value(
+          "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        )
       );
   }
 

@@ -55,22 +55,23 @@ class PortalPrototypePublishServiceTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
 
-    when(loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any()))
-      .thenReturn(List.of(norm1.getManifestationEli()));
+    when(
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+    ).thenReturn(List.of(norm1.getManifestationEli()));
     when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm1));
-    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort())
-      .thenReturn(List.of("Vereinsgesetz"));
+    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort()).thenReturn(
+      List.of("Vereinsgesetz")
+    );
 
     // When
     portalPrototypePublishService.publishNormsToPortalPrototype();
 
     // Then
-    verify(publishNormPort, times(1))
-      .publishNorm(
-        assertArg(arg -> {
-          assertThat(arg.norm().getManifestationEli()).isEqualTo(norm1.getManifestationEli());
-        })
-      );
+    verify(publishNormPort, times(1)).publishNorm(
+      assertArg(arg -> {
+        assertThat(arg.norm().getManifestationEli()).isEqualTo(norm1.getManifestationEli());
+      })
+    );
     verify(confidentialDataCleanupService, times(1)).clean(any());
     verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
     verify(publishChangelogPort, times(1)).publishChangelogs(any());
@@ -83,11 +84,13 @@ class PortalPrototypePublishServiceTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
 
-    when(loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any()))
-      .thenReturn(List.of(norm1.getManifestationEli()));
+    when(
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+    ).thenReturn(List.of(norm1.getManifestationEli()));
     when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm1));
-    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort())
-      .thenReturn(List.of("ErbbauRG"));
+    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort()).thenReturn(
+      List.of("ErbbauRG")
+    );
 
     // When
     portalPrototypePublishService.publishNormsToPortalPrototype();
@@ -109,11 +112,13 @@ class PortalPrototypePublishServiceTest {
     when(norm.getManifestationEli()).thenReturn(eli);
     when(norm.isInkraftAt(any())).thenReturn(false);
     when(norm.getShortTitle()).thenReturn(Optional.of("Vereinsgesetz"));
-    when(loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any()))
-      .thenReturn(List.of(eli));
+    when(
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+    ).thenReturn(List.of(eli));
     when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort())
-      .thenReturn(List.of("Vereinsgesetz"));
+    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort()).thenReturn(
+      List.of("Vereinsgesetz")
+    );
 
     // When
     portalPrototypePublishService.publishNormsToPortalPrototype();

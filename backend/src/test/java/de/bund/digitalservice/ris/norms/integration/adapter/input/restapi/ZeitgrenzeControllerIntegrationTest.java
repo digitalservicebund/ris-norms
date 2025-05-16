@@ -59,16 +59,14 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
-            )
+          jsonPath("detail").value(
+            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
+          )
         )
         .andExpect(
           jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist")
@@ -122,16 +120,14 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
-            )
+          jsonPath("detail").value(
+            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
+          )
         )
         .andExpect(
           jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist")
@@ -164,10 +160,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(jsonPath("detail").value("Date must not be null"))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+          )
         );
     }
 
@@ -197,10 +192,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(jsonPath("detail").value("Art must not be null"))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+          )
         );
     }
 
@@ -222,10 +216,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Bad Request"))
         .andExpect(jsonPath("status").value(400))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+          )
         );
     }
 
@@ -247,10 +240,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Bad Request"))
         .andExpect(jsonPath("status").value(400))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+          )
         );
     }
 
@@ -279,10 +271,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(jsonPath("detail").value("Not all combinations of date + art are unique."))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+          )
         );
     }
 
@@ -319,10 +310,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(jsonPath("detail").value("A maximum of 100 time boundaries is supported"))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+          )
         );
     }
 
@@ -375,9 +365,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         );
       assertThat(loadedFromDb).isPresent();
 
-      final List<Zeitgrenze> zeitgrenzen = DokumentMapper
-        .mapToDomain(loadedFromDb.get())
-        .getZeitgrenzen();
+      final List<Zeitgrenze> zeitgrenzen = DokumentMapper.mapToDomain(
+        loadedFromDb.get()
+      ).getZeitgrenzen();
       assertThat(zeitgrenzen).hasSize(3);
       assertThat(zeitgrenzen.getFirst().getDate()).isEqualTo(LocalDate.parse("2017-03-16"));
       assertThat(zeitgrenzen.getFirst().getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
@@ -464,9 +454,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         );
       assertThat(loadedFromDb).isPresent();
 
-      final List<Zeitgrenze> zeitgrenzen = DokumentMapper
-        .mapToDomain(loadedFromDb.get())
-        .getZeitgrenzen();
+      final List<Zeitgrenze> zeitgrenzen = DokumentMapper.mapToDomain(
+        loadedFromDb.get()
+      ).getZeitgrenzen();
       assertThat(zeitgrenzen).hasSize(1);
       assertThat(zeitgrenzen.getFirst().getDate()).isEqualTo(LocalDate.parse("2023-12-30"));
       assertThat(zeitgrenzen.getFirst().getArt()).isEqualTo(Zeitgrenze.Art.AUSSERKRAFT);

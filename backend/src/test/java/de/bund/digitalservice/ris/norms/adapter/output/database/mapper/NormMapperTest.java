@@ -25,8 +25,7 @@ class NormMapperTest {
     var regelungstext1Xml = Fixtures.loadTextFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
     );
-    var dokumentDto1 = DokumentDto
-      .builder()
+    var dokumentDto1 = DokumentDto.builder()
       .xml(regelungstext1Xml)
       .subtype("regelungstext")
       .build();
@@ -34,8 +33,7 @@ class NormMapperTest {
     var regelungstext2Xml = Fixtures.loadTextFromDisk(
       "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
     );
-    var dokumentDto2 = DokumentDto
-      .builder()
+    var dokumentDto2 = DokumentDto.builder()
       .xml(regelungstext2Xml)
       .subtype("regelungstext")
       .build();
@@ -43,8 +41,7 @@ class NormMapperTest {
     var offenestrukturXml = Fixtures.loadTextFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
     );
-    var offenestrukturDto = DokumentDto
-      .builder()
+    var offenestrukturDto = DokumentDto.builder()
       .xml(offenestrukturXml)
       .subtype("offene-struktur")
       .build();
@@ -63,8 +60,7 @@ class NormMapperTest {
 
     // When
     final Norm norm = NormManifestationMapper.mapToDomain(
-      NormManifestationDto
-        .builder()
+      NormManifestationDto.builder()
         .dokumente(List.of(dokumentDto1, dokumentDto2, offenestrukturDto))
         .binaryFiles(List.of(binaryFileDto))
         .publishState(NormPublishState.QUEUED_FOR_PUBLISH)
@@ -73,21 +69,19 @@ class NormMapperTest {
 
     // Then
     assertThat(norm.getPublishState()).isEqualTo(NormPublishState.QUEUED_FOR_PUBLISH);
-    assertThat(norm.getDokumente())
-      .containsExactlyInAnyOrder(
-        new Regelungstext(XmlMapper.toDocument(regelungstext1Xml)),
-        new Regelungstext(XmlMapper.toDocument(regelungstext2Xml)),
-        new OffeneStruktur(XmlMapper.toDocument(offenestrukturXml))
-      );
-    assertThat(norm.getBinaryFiles())
-      .containsExactlyInAnyOrder(
-        new BinaryFile(
-          DokumentManifestationEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
-          ),
-          binaryFileFixture.getContent()
-        )
-      );
+    assertThat(norm.getDokumente()).containsExactlyInAnyOrder(
+      new Regelungstext(XmlMapper.toDocument(regelungstext1Xml)),
+      new Regelungstext(XmlMapper.toDocument(regelungstext2Xml)),
+      new OffeneStruktur(XmlMapper.toDocument(offenestrukturXml))
+    );
+    assertThat(norm.getBinaryFiles()).containsExactlyInAnyOrder(
+      new BinaryFile(
+        DokumentManifestationEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
+        ),
+        binaryFileFixture.getContent()
+      )
+    );
   }
 
   @Test
@@ -108,8 +102,7 @@ class NormMapperTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
       )
     );
-    var norm = Norm
-      .builder()
+    var norm = Norm.builder()
       .dokumente(Set.of(regelungstext1, regelungstext2, offeneStruktur))
       .binaryFiles(Set.of(binaryFile))
       .publishState(NormPublishState.PUBLISHED)

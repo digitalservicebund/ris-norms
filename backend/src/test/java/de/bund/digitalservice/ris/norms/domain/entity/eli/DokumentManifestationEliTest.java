@@ -36,8 +36,9 @@ class DokumentManifestationEliTest {
       var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
-      assertThat(eli)
-        .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml");
+      assertThat(eli).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+      );
     }
 
     @Test
@@ -57,8 +58,9 @@ class DokumentManifestationEliTest {
       var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
-      assertThat(eli.toUri())
-        .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml");
+      assertThat(eli.toUri()).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+      );
     }
 
     @Test
@@ -66,8 +68,9 @@ class DokumentManifestationEliTest {
       var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
       );
-      assertThat(eli.toUri())
-        .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml");
+      assertThat(eli.toUri()).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+      );
     }
   }
 
@@ -115,8 +118,9 @@ class DokumentManifestationEliTest {
       var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
-      assertThat(eli.withoutPointInTimeManifestation())
-        .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml");
+      assertThat(eli.withoutPointInTimeManifestation()).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+      );
     }
   }
 
@@ -128,8 +132,9 @@ class DokumentManifestationEliTest {
       var eli = DokumentManifestationEli.fromString(
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
       );
-      assertThat(eli.asExpressionEli())
-        .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1");
+      assertThat(eli.asExpressionEli()).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"
+      );
     }
   }
 
@@ -157,8 +162,9 @@ class DokumentManifestationEliTest {
         LocalDate.parse("2022-01-01"),
         "xml"
       );
-      assertThat(eli)
-        .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml");
+      assertThat(eli).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml"
+      );
     }
   }
 
@@ -169,8 +175,9 @@ class DokumentManifestationEliTest {
       "regelungstext-1",
       "xml"
     );
-    assertThat(eli)
-      .hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml");
+    assertThat(eli).hasToString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml"
+    );
   }
 
   @Test

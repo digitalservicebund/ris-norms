@@ -34,14 +34,14 @@ class ElementControllerTest {
 
     @Test
     void itThrowsXmlProcessingException() throws Exception {
-      when(loadElementHtmlUseCase.loadElementHtml(any()))
-        .thenThrow(new XmlProcessingException("Error message", null));
+      when(loadElementHtmlUseCase.loadElementHtml(any())).thenThrow(
+        new XmlProcessingException("Error message", null)
+      );
       mockMvc
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
-          )
-            .accept(MediaType.TEXT_HTML)
+          ).accept(MediaType.TEXT_HTML)
         )
         // then
         .andExpect(status().isInternalServerError())
@@ -50,10 +50,9 @@ class ElementControllerTest {
         .andExpect(jsonPath("status").value(500))
         .andExpect(jsonPath("detail").value("Error message"))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+          )
         );
     }
 
@@ -70,16 +69,14 @@ class ElementControllerTest {
             new EId("hauptteil-1_art-1")
           )
         )
-      )
-        .thenReturn(elementHtml);
+      ).thenReturn(elementHtml);
 
       // when
       mockMvc
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
-          )
-            .accept(MediaType.TEXT_HTML)
+          ).accept(MediaType.TEXT_HTML)
         )
         // then
         .andExpect(status().isOk())
@@ -116,16 +113,14 @@ class ElementControllerTest {
             new EId("hauptteil-1_art-1")
           )
         )
-      )
-        .thenReturn(XmlMapper.toElement(elementNode));
+      ).thenReturn(XmlMapper.toElement(elementNode));
 
       // when
       mockMvc
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
-          )
-            .accept(MediaType.APPLICATION_JSON)
+          ).accept(MediaType.APPLICATION_JSON)
         )
         // then
         .andExpect(status().isOk())

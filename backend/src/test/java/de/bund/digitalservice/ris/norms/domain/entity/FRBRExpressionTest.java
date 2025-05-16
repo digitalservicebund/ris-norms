@@ -28,8 +28,9 @@ class FRBRExpressionTest {
       )
     );
 
-    assertThat(frbrExpression.getFRBRaliasPreviousVersionId().map(UUID::toString))
-      .contains("123577e5-66ba-48f5-a6eb-db40bcfd6b87");
+    assertThat(frbrExpression.getFRBRaliasPreviousVersionId().map(UUID::toString)).contains(
+      "123577e5-66ba-48f5-a6eb-db40bcfd6b87"
+    );
   }
 
   @Test
@@ -106,8 +107,9 @@ class FRBRExpressionTest {
       )
     );
 
-    assertThat(frbrExpression.getFRBRaliasCurrentVersionId().toString())
-      .hasToString("ba44d2ae-0e73-44ba-850a-932ab2fa553f");
+    assertThat(frbrExpression.getFRBRaliasCurrentVersionId().toString()).hasToString(
+      "ba44d2ae-0e73-44ba-850a-932ab2fa553f"
+    );
   }
 
   @Test
@@ -124,8 +126,9 @@ class FRBRExpressionTest {
       )
     );
 
-    assertThatThrownBy(frbrExpression::getFRBRaliasCurrentVersionId)
-      .isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(frbrExpression::getFRBRaliasCurrentVersionId).isInstanceOf(
+      MandatoryNodeNotFoundException.class
+    );
   }
 
   @Test
@@ -164,8 +167,9 @@ class FRBRExpressionTest {
       )
     );
 
-    assertThat(frbrExpression.getFRBRaliasNextVersionId().get().toString())
-      .hasToString("931577e5-66ba-48f5-a6eb-db40bcfd6b87");
+    assertThat(frbrExpression.getFRBRaliasNextVersionId().get().toString()).hasToString(
+      "931577e5-66ba-48f5-a6eb-db40bcfd6b87"
+    );
   }
 
   @Test
@@ -281,8 +285,9 @@ class FRBRExpressionTest {
       )
     );
 
-    assertThat(frbrExpression.getEli())
-      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+    assertThat(frbrExpression.getEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+    );
   }
 
   @Test
@@ -304,8 +309,9 @@ class FRBRExpressionTest {
       DokumentExpressionEli.fromString("eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/regelungstext-1")
     );
 
-    assertThat(frbrExpression.getEli())
-      .hasToString("eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/regelungstext-1");
+    assertThat(frbrExpression.getEli()).hasToString(
+      "eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/regelungstext-1"
+    );
   }
 
   @Test
@@ -341,8 +347,9 @@ class FRBRExpressionTest {
       )
     );
 
-    assertThatThrownBy(frbrExpression::getFBRDate)
-      .isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(frbrExpression::getFBRDate).isInstanceOf(
+      MandatoryNodeNotFoundException.class
+    );
   }
 
   @Test
@@ -421,8 +428,9 @@ class FRBRExpressionTest {
 
     frbrExpression.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
 
-    assertThat(NodeParser.getValueFromExpression("//FRBRauthor/@href", element))
-      .contains("recht.bund.de/institution/bundespraesident");
+    assertThat(NodeParser.getValueFromExpression("//FRBRauthor/@href", element)).contains(
+      "recht.bund.de/institution/bundespraesident"
+    );
   }
 
   @Test

@@ -26,8 +26,9 @@ class FRBRManifestationTest {
       )
     );
 
-    assertThat(frbrManifestation.getEli())
-      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2020-01-01/regelungstext-1.xml");
+    assertThat(frbrManifestation.getEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2020-01-01/regelungstext-1.xml"
+    );
   }
 
   @Test
@@ -51,8 +52,9 @@ class FRBRManifestationTest {
       )
     );
 
-    assertThat(frbrManifestation.getEli())
-      .hasToString("eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/2025-01-01/regelungstext-1.xml");
+    assertThat(frbrManifestation.getEli()).hasToString(
+      "eli/bund/bgbl-1/2025/1/2025-01-01/1/deu/2025-01-01/regelungstext-1.xml"
+    );
   }
 
   @Test
@@ -71,8 +73,9 @@ class FRBRManifestationTest {
       )
     );
 
-    assertThat(frbrManifestation.getURI())
-      .isEqualTo(URI.create("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"));
+    assertThat(frbrManifestation.getURI()).isEqualTo(
+      URI.create("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+    );
   }
 
   @Test
@@ -93,8 +96,9 @@ class FRBRManifestationTest {
 
     frbrManifestation.setURI(URI.create("eli/bund/bgbl-1/1964/s593/2024-02-02/1/deu"));
 
-    assertThat(frbrManifestation.getURI())
-      .hasToString("eli/bund/bgbl-1/1964/s593/2024-02-02/1/deu");
+    assertThat(frbrManifestation.getURI()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/2024-02-02/1/deu"
+    );
   }
 
   @Test
@@ -130,8 +134,9 @@ class FRBRManifestationTest {
       )
     );
 
-    assertThatThrownBy(frbrManifestation::getFBRDate)
-      .isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(frbrManifestation::getFBRDate).isInstanceOf(
+      MandatoryNodeNotFoundException.class
+    );
   }
 
   @Test

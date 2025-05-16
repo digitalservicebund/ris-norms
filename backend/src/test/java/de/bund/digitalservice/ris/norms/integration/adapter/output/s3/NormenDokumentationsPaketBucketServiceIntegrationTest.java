@@ -49,15 +49,13 @@ class NormenDokumentationsPaketBucketServiceIntegrationTest extends BaseS3MockIn
       Files.exists(
         getEverkuendungPath().resolve("b6a825ce-e065-4e24-918a-6f9e6c7fafdf").resolve("file.zip")
       )
-    )
-      .isTrue();
+    ).isTrue();
     assertThat(
       Files.exists(
         getEverkuendungPath()
           .resolve("b6a825ce-e065-4e24-918a-6f9e6c7fafdf")
           .resolve("signature.sig")
       )
-    )
-      .isTrue();
+    ).isTrue();
   }
 }

@@ -16,8 +16,7 @@ public class ReleaseMapper {
    * @return A new {@link Release} mapped from the input {@link ReleaseDto}.
    */
   public static Release mapToDomain(final ReleaseDto releaseDto) {
-    return Release
-      .builder()
+    return Release.builder()
       .releasedAt(releaseDto.getReleasedAt())
       .publishedNorms(
         releaseDto.getNorms().stream().map(NormManifestationMapper::mapToDomain).toList()

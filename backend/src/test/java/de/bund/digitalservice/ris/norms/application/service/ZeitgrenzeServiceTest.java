@@ -42,8 +42,8 @@ class ZeitgrenzeServiceTest {
 
       // When / Then
       assertThatThrownBy(() ->
-          service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli))
-        )
+        service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli))
+      )
         .isInstanceOf(RegelungstextNotFoundException.class)
         .hasMessageContaining(eli.toString());
     }
@@ -64,8 +64,9 @@ class ZeitgrenzeServiceTest {
       var zeitgrenzen = service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli));
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(zeitgrenzen).isEmpty();
     }
 
@@ -85,8 +86,9 @@ class ZeitgrenzeServiceTest {
       var zeitgrenzen = service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli));
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(zeitgrenzen)
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
@@ -112,8 +114,9 @@ class ZeitgrenzeServiceTest {
       var zeitgrenzen = service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli));
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       assertThat(zeitgrenzen)
         .hasSize(4)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
@@ -147,8 +150,8 @@ class ZeitgrenzeServiceTest {
 
       // When / Then
       assertThatThrownBy(() ->
-          service.updateZeitgrenzenOfDokument(new UpdateZeitgrenzenUseCase.Query(eli, any()))
-        )
+        service.updateZeitgrenzenOfDokument(new UpdateZeitgrenzenUseCase.Query(eli, any()))
+      )
         .isInstanceOf(RegelungstextNotFoundException.class)
         .hasMessageContaining(eli.toString());
       verify(updateDokumentPort, times(0)).updateDokument(any());
@@ -187,8 +190,9 @@ class ZeitgrenzeServiceTest {
       );
 
       // Then
-      verify(loadRegelungstextPort, times(1))
-        .loadRegelungstext(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+        argThat(argument -> Objects.equals(argument.eli(), eli))
+      );
       verify(updateDokumentPort, times(1)).updateDokument(any());
       assertThat(updatedZeitgrenze).hasSize(3);
       assertThat(updatedZeitgrenze.getFirst().getDate()).isEqualTo(LocalDate.parse("2017-03-16"));
@@ -214,19 +218,18 @@ class ZeitgrenzeServiceTest {
 
       // When / Then
       assertThatThrownBy(() ->
-          service.updateZeitgrenzenOfDokument(
-            new UpdateZeitgrenzenUseCase.Query(
-              eli,
-              List.of(
-                new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
-                  LocalDate.parse("2017-03-16"),
-                  Zeitgrenze.Art.AUSSERKRAFT
-                )
+        service.updateZeitgrenzenOfDokument(
+          new UpdateZeitgrenzenUseCase.Query(
+            eli,
+            List.of(
+              new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
+                LocalDate.parse("2017-03-16"),
+                Zeitgrenze.Art.AUSSERKRAFT
               )
             )
           )
         )
-        .isInstanceOf(UpdateZeitgrenzenUseCase.ZeitgrenzeCanNotBeDeletedAsItIsUsedException.class);
+      ).isInstanceOf(UpdateZeitgrenzenUseCase.ZeitgrenzeCanNotBeDeletedAsItIsUsedException.class);
       verify(updateDokumentPort, times(0)).updateDokument(any());
     }
   }

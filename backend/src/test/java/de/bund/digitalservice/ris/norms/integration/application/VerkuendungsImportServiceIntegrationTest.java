@@ -83,16 +83,18 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
     assertThat(finishedProcess).isPresent();
-    assertThat(finishedProcess.get().getStatus())
-      .isEqualTo(VerkuendungImportProcessDto.Status.SUCCESS);
+    assertThat(finishedProcess.get().getStatus()).isEqualTo(
+      VerkuendungImportProcessDto.Status.SUCCESS
+    );
 
     assertThat(dokumentRepository.findAll()).hasSize(2);
     assertThat(binaryFileRepository.findAll()).hasSize(1);
     assertThat(verkuendungRepository.findAll())
       .hasSize(1)
       .anySatisfy(verkuendungDto ->
-        assertThat(verkuendungDto.getEliNormExpression())
-          .isEqualTo("eli/bund/bgbl-1/2024/107/2024-03-27/1/deu")
+        assertThat(verkuendungDto.getEliNormExpression()).isEqualTo(
+          "eli/bund/bgbl-1/2024/107/2024-03-27/1/deu"
+        )
       );
   }
 
@@ -119,16 +121,18 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
     assertThat(finishedProcess).isPresent();
-    assertThat(finishedProcess.get().getStatus())
-      .isEqualTo(VerkuendungImportProcessDto.Status.SUCCESS);
+    assertThat(finishedProcess.get().getStatus()).isEqualTo(
+      VerkuendungImportProcessDto.Status.SUCCESS
+    );
 
     assertThat(dokumentRepository.findAll()).hasSize(3);
     assertThat(binaryFileRepository.findAll()).isEmpty();
     assertThat(verkuendungRepository.findAll())
       .hasSize(1)
       .anySatisfy(verkuendungDto ->
-        assertThat(verkuendungDto.getEliNormExpression())
-          .isEqualTo("eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu")
+        assertThat(verkuendungDto.getEliNormExpression()).isEqualTo(
+          "eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu"
+        )
       );
   }
 
@@ -155,16 +159,18 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
     assertThat(finishedProcess).isPresent();
-    assertThat(finishedProcess.get().getStatus())
-      .isEqualTo(VerkuendungImportProcessDto.Status.SUCCESS);
+    assertThat(finishedProcess.get().getStatus()).isEqualTo(
+      VerkuendungImportProcessDto.Status.SUCCESS
+    );
 
     assertThat(dokumentRepository.findAll()).hasSize(2);
     assertThat(binaryFileRepository.findAll()).hasSize(1);
     assertThat(verkuendungRepository.findAll())
       .hasSize(1)
       .anySatisfy(verkuendungDto ->
-        assertThat(verkuendungDto.getEliNormExpression())
-          .isEqualTo("eli/bund/bgbl-1/2024/107/2024-03-27/1/deu")
+        assertThat(verkuendungDto.getEliNormExpression()).isEqualTo(
+          "eli/bund/bgbl-1/2024/107/2024-03-27/1/deu"
+        )
       );
   }
 
@@ -191,11 +197,13 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
     assertThat(finishedProcess).isPresent();
-    assertThat(finishedProcess.get().getStatus())
-      .isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
+    assertThat(finishedProcess.get().getStatus()).isEqualTo(
+      VerkuendungImportProcessDto.Status.ERROR
+    );
     assertThat(finishedProcess.get().getDetails()).contains("/errors/ldml-de-not-schematron-valid");
-    assertThat(finishedProcess.get().getDetails())
-      .contains("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00071-005");
+    assertThat(finishedProcess.get().getDetails()).contains(
+      "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00071-005"
+    );
 
     assertThat(dokumentRepository.findAll()).isEmpty();
     assertThat(binaryFileRepository.findAll()).isEmpty();
@@ -228,12 +236,15 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
     assertThat(finishedProcess).isPresent();
-    assertThat(finishedProcess.get().getStatus())
-      .isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
-    assertThat(finishedProcess.get().getDetails())
-      .contains("/errors/normendokumentationspaket-import-failed/missing-referenced-dokument");
-    assertThat(finishedProcess.get().getDetails())
-      .contains("\"Referenced Dokument regelungstext-1.xml not found.\"");
+    assertThat(finishedProcess.get().getStatus()).isEqualTo(
+      VerkuendungImportProcessDto.Status.ERROR
+    );
+    assertThat(finishedProcess.get().getDetails()).contains(
+      "/errors/normendokumentationspaket-import-failed/missing-referenced-dokument"
+    );
+    assertThat(finishedProcess.get().getDetails()).contains(
+      "\"Referenced Dokument regelungstext-1.xml not found.\""
+    );
 
     assertThat(dokumentRepository.findAll()).isEmpty();
     assertThat(binaryFileRepository.findAll()).isEmpty();
@@ -266,10 +277,12 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
     assertThat(finishedProcess).isPresent();
-    assertThat(finishedProcess.get().getStatus())
-      .isEqualTo(VerkuendungImportProcessDto.Status.ERROR);
-    assertThat(finishedProcess.get().getDetails())
-      .contains("/errors/normendokumentationspaket-import-failed/signature-not-valid");
+    assertThat(finishedProcess.get().getStatus()).isEqualTo(
+      VerkuendungImportProcessDto.Status.ERROR
+    );
+    assertThat(finishedProcess.get().getDetails()).contains(
+      "/errors/normendokumentationspaket-import-failed/signature-not-valid"
+    );
 
     assertThat(dokumentRepository.findAll()).isEmpty();
     assertThat(binaryFileRepository.findAll()).isEmpty();
@@ -339,8 +352,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
     String key;
     try (InputStream is = resource.getInputStream()) {
-      key =
-      new String(is.readAllBytes(), StandardCharsets.UTF_8)
+      key = new String(is.readAllBytes(), StandardCharsets.UTF_8)
         .replaceAll("-----\\w+ PRIVATE KEY-----", "")
         .replaceAll("\\s+", "");
     }

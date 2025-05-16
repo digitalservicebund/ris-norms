@@ -44,10 +44,9 @@ public class NormManifestationControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML));
 
-      verify(loadRegelungstextXmlUseCase, times(1))
-        .loadRegelungstextXml(
-          new LoadRegelungstextXmlUseCase.Query(DokumentManifestationEli.fromString(eli))
-        );
+      verify(loadRegelungstextXmlUseCase, times(1)).loadRegelungstextXml(
+        new LoadRegelungstextXmlUseCase.Query(DokumentManifestationEli.fromString(eli))
+      );
     }
   }
 }

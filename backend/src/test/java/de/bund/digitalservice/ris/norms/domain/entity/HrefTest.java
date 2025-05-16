@@ -61,12 +61,11 @@ class HrefTest {
       var eli = href.getExpressionEli();
 
       // then
-      assertThat(eli)
-        .contains(
-          DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
-        );
+      assertThat(eli).contains(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        )
+      );
     }
   }
 
@@ -229,10 +228,9 @@ class HrefTest {
         .buildAbsolute();
 
       // then
-      assertThat(href)
-        .hasToString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
-        );
+      assertThat(href).hasToString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1/100-126.xml"
+      );
     }
 
     @Test
@@ -249,8 +247,9 @@ class HrefTest {
         .buildAbsolute();
 
       // then
-      assertThat(href)
-        .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1.xml");
+      assertThat(href).hasToString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/art-20_abs-1.xml"
+      );
     }
   }
 }

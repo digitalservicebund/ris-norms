@@ -58,8 +58,9 @@ class ZielnormReferenceTest {
       )
     );
 
-    assertThat(zielnormReference.getEId())
-      .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
+    assertThat(zielnormReference.getEId()).hasToString(
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+    );
   }
 
   @Test

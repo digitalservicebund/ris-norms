@@ -76,12 +76,11 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       assertThat(normOptional)
         .isPresent()
         .satisfies(normDb ->
-          assertThat(normDb)
-            .contains(
-              Fixtures.loadNormFromDisk(
-                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-              )
+          assertThat(normDb).contains(
+            Fixtures.loadNormFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
             )
+          )
         );
     }
 
@@ -149,12 +148,11 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional)
-        .contains(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        );
+      assertThat(normOptional).contains(
+        Fixtures.loadNormFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      );
     }
 
     @Test
@@ -176,12 +174,11 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional)
-        .contains(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        );
+      assertThat(normOptional).contains(
+        Fixtures.loadNormFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      );
     }
 
     @Test
@@ -210,12 +207,11 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional)
-        .contains(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
-          )
-        );
+      assertThat(normOptional).contains(
+        Fixtures.loadNormFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+        )
+      );
     }
 
     @Test
@@ -235,12 +231,11 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       // Then
-      assertThat(normOptional)
-        .contains(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        );
+      assertThat(normOptional).contains(
+        Fixtures.loadNormFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        )
+      );
     }
   }
 

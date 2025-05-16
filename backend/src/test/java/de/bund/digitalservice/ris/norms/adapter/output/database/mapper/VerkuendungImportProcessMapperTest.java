@@ -13,8 +13,7 @@ class VerkuendungImportProcessMapperTest {
   @Test
   void itShouldMapToDomain() {
     // Given
-    var dto = VerkuendungImportProcessDto
-      .builder()
+    var dto = VerkuendungImportProcessDto.builder()
       .id(UUID.randomUUID())
       .status(VerkuendungImportProcessDto.Status.ERROR)
       .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
@@ -47,8 +46,7 @@ class VerkuendungImportProcessMapperTest {
   @Test
   void itShouldMapToDomainWithEmptyDetails() {
     // Given
-    var dto = VerkuendungImportProcessDto
-      .builder()
+    var dto = VerkuendungImportProcessDto.builder()
       .id(UUID.randomUUID())
       .status(VerkuendungImportProcessDto.Status.ERROR)
       .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
@@ -71,8 +69,7 @@ class VerkuendungImportProcessMapperTest {
   @Test
   void itShouldMapToDto() {
     // Given
-    var entity = VerkuendungImportProcess
-      .builder()
+    var entity = VerkuendungImportProcess.builder()
       .id(UUID.randomUUID())
       .status(VerkuendungImportProcess.Status.ERROR)
       .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
@@ -106,8 +103,7 @@ class VerkuendungImportProcessMapperTest {
   @Test
   void itShouldMapToDtoWithEmptyDetails() {
     // Given
-    var entity = VerkuendungImportProcess
-      .builder()
+    var entity = VerkuendungImportProcess.builder()
       .id(UUID.randomUUID())
       .status(VerkuendungImportProcess.Status.ERROR)
       .createdAt(Instant.parse("2025-03-26T09:00:00Z"))
@@ -130,23 +126,19 @@ class VerkuendungImportProcessMapperTest {
   @Test
   void itMapsStatusesCorrectlyToDoamin() {
     // Given
-    var createdDto = VerkuendungImportProcessDto
-      .builder()
+    var createdDto = VerkuendungImportProcessDto.builder()
       .status(VerkuendungImportProcessDto.Status.CREATED)
       .build();
 
-    var processingDto = VerkuendungImportProcessDto
-      .builder()
+    var processingDto = VerkuendungImportProcessDto.builder()
       .status(VerkuendungImportProcessDto.Status.PROCESSING)
       .build();
 
-    var errorDto = VerkuendungImportProcessDto
-      .builder()
+    var errorDto = VerkuendungImportProcessDto.builder()
       .status(VerkuendungImportProcessDto.Status.ERROR)
       .build();
 
-    var successDto = VerkuendungImportProcessDto
-      .builder()
+    var successDto = VerkuendungImportProcessDto.builder()
       .status(VerkuendungImportProcessDto.Status.SUCCESS)
       .build();
 
@@ -166,23 +158,19 @@ class VerkuendungImportProcessMapperTest {
   @Test
   void itMapsStatusesCorrectlyToDto() {
     // Given
-    var createdEntity = VerkuendungImportProcess
-      .builder()
+    var createdEntity = VerkuendungImportProcess.builder()
       .status(VerkuendungImportProcess.Status.CREATED)
       .build();
 
-    var processingEntity = VerkuendungImportProcess
-      .builder()
+    var processingEntity = VerkuendungImportProcess.builder()
       .status(VerkuendungImportProcess.Status.PROCESSING)
       .build();
 
-    var errorEntity = VerkuendungImportProcess
-      .builder()
+    var errorEntity = VerkuendungImportProcess.builder()
       .status(VerkuendungImportProcess.Status.ERROR)
       .build();
 
-    var successEntity = VerkuendungImportProcess
-      .builder()
+    var successEntity = VerkuendungImportProcess.builder()
       .status(VerkuendungImportProcess.Status.SUCCESS)
       .build();
 

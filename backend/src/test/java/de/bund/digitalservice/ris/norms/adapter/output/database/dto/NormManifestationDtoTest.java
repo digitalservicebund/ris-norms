@@ -11,8 +11,7 @@ class NormManifestationDtoTest {
   @Test
   void shouldBeUnpublishedByDefaultWhenCreatedUsingBuilder() {
     // Given
-    final NormManifestationDto dokumentDto = NormManifestationDto
-      .builder()
+    final NormManifestationDto dokumentDto = NormManifestationDto.builder()
       .dokumente(List.of())
       .build();
 

@@ -84,11 +84,12 @@ public class ArticleController {
         new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, refersTo)
       )
       .stream()
-      .map(xml ->
-        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
-          ) +
-        "\n"
+      .map(
+        xml ->
+          this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+              new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
+            ) +
+          "\n"
       )
       .reduce("", String::concat);
 

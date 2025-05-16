@@ -49,8 +49,9 @@ class EIdTest {
       // given
       var eid = new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
       // when // then
-      assertThat(eid.getParent())
-        .contains(new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3"));
+      assertThat(eid.getParent()).contains(
+        new EId("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3")
+      );
     }
   }
 
@@ -98,8 +99,9 @@ class EIdTest {
     );
 
     // when/then
-    assertThatThrownBy(() -> EId.fromMandatoryNode(node))
-      .isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(() -> EId.fromMandatoryNode(node)).isInstanceOf(
+      MandatoryNodeNotFoundException.class
+    );
   }
 
   @Nested
@@ -118,10 +120,9 @@ class EIdTest {
       // when
       var optionalEId = EId.forNode(node);
       // then
-      assertThat(optionalEId)
-        .hasValueSatisfying(eId -> {
-          assertThat(eId.value()).isEqualTo(expectedEId);
-        });
+      assertThat(optionalEId).hasValueSatisfying(eId -> {
+        assertThat(eId.value()).isEqualTo(expectedEId);
+      });
     }
 
     @Test
@@ -132,11 +133,11 @@ class EIdTest {
       // when
       var optionalEId = EId.forNode(node.getFirstChild());
       // then
-      assertThat(optionalEId)
-        .hasValueSatisfying(eId -> {
-          assertThat(eId.value())
-            .isEqualTo("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1");
-        });
+      assertThat(optionalEId).hasValueSatisfying(eId -> {
+        assertThat(eId.value()).isEqualTo(
+          "hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1"
+        );
+      });
     }
 
     @Test
@@ -147,11 +148,11 @@ class EIdTest {
       // when
       var optionalEId = EId.forNode(node.getChildNodes().item(2));
       // then
-      assertThat(optionalEId)
-        .hasValueSatisfying(eId -> {
-          assertThat(eId.value())
-            .isEqualTo("hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-2");
-        });
+      assertThat(optionalEId).hasValueSatisfying(eId -> {
+        assertThat(eId.value()).isEqualTo(
+          "hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-2"
+        );
+      });
     }
   }
 }

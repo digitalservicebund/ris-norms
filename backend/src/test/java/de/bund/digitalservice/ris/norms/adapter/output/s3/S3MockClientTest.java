@@ -33,9 +33,7 @@ class S3MockClientTest {
       paths.forEach(path -> {
         try {
           Files.delete(path);
-        } catch (IOException e) {
-          // Ignore
-        }
+        } catch (IOException e) {}
       });
     }
   }
@@ -62,10 +60,12 @@ class S3MockClientTest {
 
     // Then
     assertThat(response.contents()).hasSize(2);
-    assertThat(response.contents().stream().anyMatch(s3Object -> s3Object.key().equals(key1)))
-      .isTrue();
-    assertThat(response.contents().stream().anyMatch(s3Object -> s3Object.key().equals(key2)))
-      .isTrue();
+    assertThat(
+      response.contents().stream().anyMatch(s3Object -> s3Object.key().equals(key1))
+    ).isTrue();
+    assertThat(
+      response.contents().stream().anyMatch(s3Object -> s3Object.key().equals(key2))
+    ).isTrue();
   }
 
   @Test
@@ -161,8 +161,7 @@ class S3MockClientTest {
       ObjectIdentifier.builder().key(normalKey2).build()
     );
 
-    final DeleteObjectsRequest deleteRequest = DeleteObjectsRequest
-      .builder()
+    final DeleteObjectsRequest deleteRequest = DeleteObjectsRequest.builder()
       .delete(d -> d.objects(objectsToDelete))
       .build();
 
@@ -177,15 +176,13 @@ class S3MockClientTest {
         .deleted()
         .stream()
         .anyMatch(deletedObject -> deletedObject.key().equals(normalKey1))
-    )
-      .isTrue();
+    ).isTrue();
     assertThat(
       deleteResponse
         .deleted()
         .stream()
         .anyMatch(deletedObject -> deletedObject.key().equals(normalKey2))
-    )
-      .isTrue();
+    ).isTrue();
 
     // Check that the deleted files are actually removed from the local storage (mocked S3)
     assertThat(Files.exists(tempDirectory.resolve(normalKey1))).isFalse();

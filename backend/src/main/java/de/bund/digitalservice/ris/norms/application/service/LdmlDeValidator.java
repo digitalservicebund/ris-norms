@@ -56,8 +56,8 @@ public class LdmlDeValidator {
     try {
       Source xsltSource = new StreamSource(schematronXslt.getInputStream());
       xsltSource.setSystemId(schematronXslt.getURL().toString());
-      this.schematronValidationTransformer =
-      new TransformerFactoryImpl().newTransformer(xsltSource);
+      this.schematronValidationTransformer = new TransformerFactoryImpl()
+        .newTransformer(xsltSource);
     } catch (IOException | TransformerConfigurationException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
@@ -273,12 +273,10 @@ public class LdmlDeValidator {
     var successfulReportMessages = NodeParser.nodeListToList(successfulReports).stream();
 
     var xPathEIdCache = new HashMap<String, EId>();
-    var errors = Stream
-      .concat(failedAssertMessages, successfulReportMessages)
+    var errors = Stream.concat(failedAssertMessages, successfulReportMessages)
       .filter(node ->
         // Allow warnings
-        Optional
-          .ofNullable(node.getAttributes().getNamedItem("role"))
+        Optional.ofNullable(node.getAttributes().getNamedItem("role"))
           .map(role -> !role.getNodeValue().equals("warn"))
           // This should not happen, but if it does, assume the message should be included, i.e. only exclude items
           // if they're explicitly declared as "warn"
@@ -292,20 +290,16 @@ public class LdmlDeValidator {
         // Find the eId of the node responsible for this problem. Sometimes the location
         // points to an attribute, so we might need to move up in the element tree to
         // find the eId.
-        EId eId = xPathEIdCache.computeIfAbsent(
-          xPath + "/ancestor-or-self::*/@eId",
-          key ->
-            new EId(
-              NodeParser
-                .getNodesFromExpression(key, dokument.getDocument())
-                .stream()
-                .map(Node::getNodeValue)
-                .reduce("", (a, b) -> a.length() > b.length() ? a : b)
-            )
+        EId eId = xPathEIdCache.computeIfAbsent(xPath + "/ancestor-or-self::*/@eId", key ->
+          new EId(
+            NodeParser.getNodesFromExpression(key, dokument.getDocument())
+              .stream()
+              .map(Node::getNodeValue)
+              .reduce("", (a, b) -> a.length() > b.length() ? a : b)
+          )
         );
 
-        String ruleId = Optional
-          .ofNullable(node.getAttributes().getNamedItem("id"))
+        String ruleId = Optional.ofNullable(node.getAttributes().getNamedItem("id"))
           // for some rules (the verkündungsfassung specific once) the rule id is not added to the sch:assert but only to the sch:rule so we need to get the id from the svrl:fired-rule before the svrl:failed-assert in the validation result
           .orElseGet(() -> node.getPreviousSibling().getAttributes().getNamedItem("id"))
           .getNodeValue();

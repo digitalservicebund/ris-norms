@@ -71,8 +71,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsAllVerkuendungenNorm() throws Exception {
       // Given
-      var verkuendung = Verkuendung
-        .builder()
+      var verkuendung = Verkuendung.builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
         .build();
       dokumentRepository.save(
@@ -116,8 +115,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       var normEli = regelungstext.getExpressionEli().asNormEli();
-      var verkuendung = Verkuendung
-        .builder()
+      var verkuendung = Verkuendung.builder()
         .eli(normEli)
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
@@ -164,8 +162,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsAllZielnormen() throws Exception {
       // Given
 
-      var verkuendung = Verkuendung
-        .builder()
+      var verkuendung = Verkuendung.builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
         .build();
       dokumentRepository.save(
@@ -187,8 +184,9 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         // Then
         .andExpect(status().isOk())
@@ -247,8 +245,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
         )
-      )
-        .isPresent();
+      ).isPresent();
     }
 
     @Test
@@ -276,8 +273,10 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       var verkuendung = verkuendungRepository.findByEliNormExpression(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"
       );
-      assertThat(verkuendung.get().getImportTimestamp())
-        .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES));
+      assertThat(verkuendung.get().getImportTimestamp()).isCloseTo(
+        Instant.now(),
+        new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES)
+      );
     }
 
     @Test
@@ -509,8 +508,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var verkuendung = Verkuendung
-        .builder()
+      var verkuendung = Verkuendung.builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
         .build();
       verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
@@ -542,15 +540,12 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
       assertThat(dokumentDto).isPresent();
-      final Diff diff = DiffBuilder
-        .compare(Input.from(dokumentDto.get().getXml()))
+      final Diff diff = DiffBuilder.compare(Input.from(dokumentDto.get().getXml()))
         .withTest(
           Input.from(
-            Fixtures
-              .loadRegelungstextFromDisk(
-                "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-              )
-              .getDocument()
+            Fixtures.loadRegelungstextFromDisk(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            ).getDocument()
           )
         )
         .ignoreWhitespace()
@@ -581,8 +576,9 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
@@ -591,8 +587,9 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
         .andExpect(
-          jsonPath("$[0].expressions[0].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+          jsonPath("$[0].expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[0].isCreated").value(false))
@@ -631,8 +628,9 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          get("/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
@@ -641,29 +639,33 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
         .andExpect(
-          jsonPath("$[0].expressions[0].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+          jsonPath("$[0].expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(true))
         .andExpect(jsonPath("$[0].expressions[0].isCreated").value(true))
         .andExpect(jsonPath("$[0].expressions[0].createdBy").value("andere Verkündung"))
         .andExpect(
-          jsonPath("$[0].expressions[1].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu")
+          jsonPath("$[0].expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[1].isCreated").value(false))
         .andExpect(jsonPath("$[0].expressions[1].createdBy").value("diese Verkündung"))
         .andExpect(
-          jsonPath("$[0].expressions[2].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
+          jsonPath("$[0].expressions[2].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(true))
         .andExpect(jsonPath("$[0].expressions[2].isCreated").value(true))
         .andExpect(jsonPath("$[0].expressions[2].createdBy").value("andere Verkündung"))
         .andExpect(
-          jsonPath("$[0].expressions[3].normExpressionEli")
-            .value("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu")
+          jsonPath("$[0].expressions[3].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"
+          )
         )
         .andExpect(jsonPath("$[0].expressions[3].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[3].isCreated").value(false))

@@ -30,8 +30,9 @@ public class FRBRManifestation extends FRBR {
    * @param eli - the new ELI
    */
   public void setEli(final DokumentManifestationEli eli) {
-    NodeParser
-      .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
-      .setAttribute(VALUE_ATTIBUTE, eli.toString());
+    NodeParser.getMandatoryElementFromExpression("./FRBRthis", this.getElement()).setAttribute(
+      VALUE_ATTIBUTE,
+      eli.toString()
+    );
   }
 }

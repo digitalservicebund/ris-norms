@@ -29,8 +29,9 @@ class BinaryFileMapperTest {
 
     // Then
     assertThat(binaryFile.getContent()).isEqualTo(binaryFileFixture.getContent());
-    assertThat(binaryFile.getDokumentManifestationEli())
-      .hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png");
+    assertThat(binaryFile.getDokumentManifestationEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
+    );
   }
 
   @Test
@@ -47,7 +48,8 @@ class BinaryFileMapperTest {
 
     // Then
     assertThat(binaryFileDto.getContent()).isEqualTo(binaryFile.getContent());
-    assertThat(binaryFileDto.getEliDokumentManifestation())
-      .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png");
+    assertThat(binaryFileDto.getEliDokumentManifestation()).isEqualTo(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
+    );
   }
 }

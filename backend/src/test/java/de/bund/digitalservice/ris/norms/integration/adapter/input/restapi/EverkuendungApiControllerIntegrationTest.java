@@ -77,8 +77,7 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
     void itRetrievesVerkuendungError() throws Exception {
       // given
       UUID processId = UUID.randomUUID();
-      VerkuendungImportProcess verkuendungImportProcess = VerkuendungImportProcess
-        .builder()
+      VerkuendungImportProcess verkuendungImportProcess = VerkuendungImportProcess.builder()
         .id(processId)
         .status(VerkuendungImportProcess.Status.ERROR)
         .createdAt(Instant.now())
@@ -103,17 +102,17 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
       // when/then
       mockMvc
         .perform(
-          get("/api/v1/external/verkuendungen/status/{processId}", processId)
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/external/verkuendungen/status/{processId}", processId).accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.status").value("error"))
         .andExpect(jsonPath("$.type").value("/errors/job-run-failed"))
         .andExpect(
-          jsonPath("$.title")
-            .value(
-              "Tried to import a Normendokumentationspacket the max amount of times but failed"
-            )
+          jsonPath("$.title").value(
+            "Tried to import a Normendokumentationspacket the max amount of times but failed"
+          )
         )
         .andExpect(jsonPath("$.detail").value("detail message"))
         .andExpect(jsonPath("$.additionalProperty").value("some-value"));
@@ -123,8 +122,7 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
     void itRetrievesSuccessOnlyHasStatus() throws Exception {
       // given
       UUID processId = UUID.randomUUID();
-      VerkuendungImportProcess verkuendungImportProcess = VerkuendungImportProcess
-        .builder()
+      VerkuendungImportProcess verkuendungImportProcess = VerkuendungImportProcess.builder()
         .id(processId)
         .status(VerkuendungImportProcess.Status.SUCCESS)
         .createdAt(Instant.now())
@@ -139,8 +137,9 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
       // when/then
       mockMvc
         .perform(
-          get("/api/v1/external/verkuendungen/status/{processId}", processId)
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/external/verkuendungen/status/{processId}", processId).accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.verkuendungStatus").value("success"))
@@ -156,8 +155,8 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
   }
 
   private void assertFileExists(String processId, String filename) {
-    Assertions
-      .assertThat(Files.exists(getEverkuendungPath().resolve(processId).resolve(filename)))
-      .isTrue();
+    Assertions.assertThat(
+      Files.exists(getEverkuendungPath().resolve(processId).resolve(filename))
+    ).isTrue();
   }
 }

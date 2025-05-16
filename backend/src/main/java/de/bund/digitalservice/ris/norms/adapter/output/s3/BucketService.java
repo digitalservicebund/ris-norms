@@ -161,8 +161,7 @@ public class BucketService
     final RequestBody requestBody
   ) {
     try {
-      final PutObjectRequest request = PutObjectRequest
-        .builder()
+      final PutObjectRequest request = PutObjectRequest.builder()
         .bucket(bucketName)
         .key(key)
         .build();
@@ -202,8 +201,7 @@ public class BucketService
     final DokumentManifestationEli eli
   ) {
     try {
-      final DeleteObjectRequest request = DeleteObjectRequest
-        .builder()
+      final DeleteObjectRequest request = DeleteObjectRequest.builder()
         .bucket(bucketName)
         .key(eli.toString())
         .build();
@@ -240,8 +238,7 @@ public class BucketService
     Instant lastChangeBefore
   ) {
     try {
-      ListObjectsV2Request listRequest = ListObjectsV2Request
-        .builder()
+      ListObjectsV2Request listRequest = ListObjectsV2Request.builder()
         .bucket(bucketName)
         .prefix("eli")
         .build();
@@ -261,8 +258,7 @@ public class BucketService
           }
         }
         if (!objectsToDelete.isEmpty()) {
-          final DeleteObjectsRequest deleteRequest = DeleteObjectsRequest
-            .builder()
+          final DeleteObjectsRequest deleteRequest = DeleteObjectsRequest.builder()
             .bucket(bucketName)
             .delete(d -> d.objects(objectsToDelete))
             .build();
@@ -273,8 +269,10 @@ public class BucketService
           );
         }
 
-        listRequest =
-        listRequest.toBuilder().continuationToken(listResponse.nextContinuationToken()).build();
+        listRequest = listRequest
+          .toBuilder()
+          .continuationToken(listResponse.nextContinuationToken())
+          .build();
       } while (listResponse.isTruncated() != null && listResponse.isTruncated());
       log.info("Successfully deleted {} objects in bucket {}", objectsDeleted, bucketName);
     } catch (Exception e) {
@@ -290,8 +288,7 @@ public class BucketService
   private Changelog loadChangelog(final S3Client s3Client, final String bucketName) {
     final Changelog newChangelog = new Changelog();
     try {
-      final GetObjectRequest getRequest = GetObjectRequest
-        .builder()
+      final GetObjectRequest getRequest = GetObjectRequest.builder()
         .bucket(bucketName)
         .key(newChangelog.getFileName())
         .build();

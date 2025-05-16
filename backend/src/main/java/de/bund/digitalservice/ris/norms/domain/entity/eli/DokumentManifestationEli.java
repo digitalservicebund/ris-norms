@@ -81,11 +81,9 @@ public final class DokumentManifestationEli
    * @return the eli
    */
   public static DokumentManifestationEli fromString(String manifestationEli) {
-    Matcher matcher = Pattern
-      .compile(
-        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)(/(?<pointInTimeManifestation>[^/.]+))?/(?<subtype>[^/.]+)\\.(?<format>[^/.]+)"
-      )
-      .matcher(manifestationEli);
+    Matcher matcher = Pattern.compile(
+      "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)(/(?<pointInTimeManifestation>[^/.]+))?/(?<subtype>[^/.]+)\\.(?<format>[^/.]+)"
+    ).matcher(manifestationEli);
 
     if (!matcher.matches()) {
       throw new InvalidEliException(DokumentManifestationEli.class, manifestationEli);

@@ -64,8 +64,10 @@ class VerkuendungDBServiceIntegrationTest extends BaseIntegrationTest {
       .ignoringFields("importTimestamp")
       .isEqualTo(verkuendung);
 
-    assertThat(verkuendungOptional.get().getImportTimestamp())
-      .isCloseTo(Instant.now(), new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES));
+    assertThat(verkuendungOptional.get().getImportTimestamp()).isCloseTo(
+      Instant.now(),
+      new TemporalUnitWithinOffset(5, ChronoUnit.MINUTES)
+    );
   }
 
   @Test
@@ -86,13 +88,11 @@ class VerkuendungDBServiceIntegrationTest extends BaseIntegrationTest {
       )
     );
 
-    var verkuendung1 = Verkuendung
-      .builder()
+    var verkuendung1 = Verkuendung.builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
       .build();
     verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung1));
-    var verkuendung2 = Verkuendung
-      .builder()
+    var verkuendung2 = Verkuendung.builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
       .build();
     verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung2));
@@ -116,8 +116,7 @@ class VerkuendungDBServiceIntegrationTest extends BaseIntegrationTest {
         )
       )
     );
-    var verkuendung = Verkuendung
-      .builder()
+    var verkuendung = Verkuendung.builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
       .build();
 

@@ -59,13 +59,15 @@ class NormExpressionControllerTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli")
-            .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))
+          jsonPath("eli").value(
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
         .andExpect(
           jsonPath("title").value(equalTo("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
@@ -74,14 +76,13 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("frbrName").value(equalTo("BGBl. I")))
         .andExpect(jsonPath("frbrDateVerkuendung").value(equalTo("1964-08-05")));
 
-      verify(loadNormUseCase, times(1))
-        .loadNorm(
-          argThat(query ->
-            query
-              .eli()
-              .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
-          )
-        );
+      verify(loadNormUseCase, times(1)).loadNorm(
+        argThat(query ->
+          query
+            .eli()
+            .equals(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        )
+      );
     }
 
     @Test
@@ -94,8 +95,9 @@ class NormExpressionControllerTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
@@ -103,10 +105,9 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("status").value(equalTo(404)))
         .andExpect(jsonPath("detail").value(equalTo("Norm with eli eli/of/norm does not exist")))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              equalTo("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            )
+          jsonPath("instance").value(
+            equalTo("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         )
         .andExpect(jsonPath("eli").value(equalTo("eli/of/norm")));
     }
@@ -152,10 +153,9 @@ class NormExpressionControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
         .andExpect(content().string(html));
 
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-        .transformLegalDocMlToHtml(
-          argThat(query -> query.xml().equals(xml) && !query.showMetadata())
-        );
+      verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
+        argThat(query -> query.xml().equals(xml) && !query.showMetadata())
+      );
     }
 
     @Test
@@ -175,10 +175,9 @@ class NormExpressionControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
         .andExpect(content().string(html));
 
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-        .transformLegalDocMlToHtml(
-          argThat(query -> query.xml().equals(xml) && query.showMetadata())
-        );
+      verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
+        argThat(query -> query.xml().equals(xml) && query.showMetadata())
+      );
     }
   }
 
@@ -206,8 +205,9 @@ class NormExpressionControllerTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
         .andExpect(content().string(xml));
 
-      verify(updateRegelungstextXmlUseCase, times(1))
-        .updateRegelungstextXml(argThat(query -> query.xml().equals(xml)));
+      verify(updateRegelungstextXmlUseCase, times(1)).updateRegelungstextXml(
+        argThat(query -> query.xml().equals(xml))
+      );
     }
 
     @Test
@@ -216,8 +216,9 @@ class NormExpressionControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any()))
-        .thenThrow(new InvalidUpdateException("Error Message"));
+      when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any())).thenThrow(
+        new InvalidUpdateException("Error Message")
+      );
 
       // When // Then
       mockMvc
@@ -234,12 +235,14 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("status").value(422))
         .andExpect(jsonPath("detail").value("Error Message"))
         .andExpect(
-          jsonPath("instance")
-            .value("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+          )
         );
 
-      verify(updateRegelungstextXmlUseCase, times(1))
-        .updateRegelungstextXml(argThat(query -> query.xml().equals(xml)));
+      verify(updateRegelungstextXmlUseCase, times(1)).updateRegelungstextXml(
+        argThat(query -> query.xml().equals(xml))
+      );
     }
 
     @Test
@@ -248,8 +251,9 @@ class NormExpressionControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any()))
-        .thenThrow(new MandatoryNodeNotFoundException("example-xpath", "example/eli"));
+      when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any())).thenThrow(
+        new MandatoryNodeNotFoundException("example-xpath", "example/eli")
+      );
 
       // When
       mockMvc
@@ -277,8 +281,9 @@ class NormExpressionControllerTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type").value(equalTo("/errors/necessary-value-missing")))
@@ -286,10 +291,9 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("status").value(equalTo(422)))
         .andExpect(jsonPath("detail").value(equalTo("ValueNotFound")))
         .andExpect(
-          jsonPath("instance")
-            .value(
-              equalTo("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            )
+          jsonPath("instance").value(
+            equalTo("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          )
         );
     }
   }

@@ -26,8 +26,7 @@ public class VerkuendungResponseMapper {
     final Verkuendung verkuendung,
     final Norm norm
   ) {
-    return VerkuendungResponseSchema
-      .builder()
+    return VerkuendungResponseSchema.builder()
       .eli(norm.getRegelungstext1().getExpressionEli().toString())
       .title(norm.getTitle().orElse(null))
       .frbrName(norm.getRegelungstext1().getMeta().getFRBRWork().getFRBRname().orElse(null))
