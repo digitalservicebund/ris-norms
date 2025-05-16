@@ -269,7 +269,7 @@ spotless {
         )
         prettier(
             mapOf(
-                "prettier" to "2.8.8", // npm dependency
+                "prettier" to "3.5.3", // npm dependency
                 "prettier-plugin-sh" to "0.17.4", // npm dependency
             ),
         ).config(mapOf("keySeparator" to "="))
@@ -279,7 +279,7 @@ spotless {
         targetExclude("**/gradle-wrapper.properties")
         prettier(
             mapOf(
-                "prettier" to "2.8.8", // npm dependency
+                "prettier" to "3.5.3", // npm dependency
                 "prettier-plugin-properties" to "0.3.0", // npm dependency
             ),
         ).config(
