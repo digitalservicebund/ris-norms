@@ -274,20 +274,6 @@ spotless {
             ),
         ).config(mapOf("keySeparator" to "="))
     }
-    format("properties") {
-        target("**/*.properties")
-        targetExclude("**/gradle-wrapper.properties")
-        prettier(
-            mapOf(
-                "prettier" to "3.5.3", // npm dependency
-                "prettier-plugin-properties" to "0.3.0", // npm dependency
-            ),
-        ).config(
-            mapOf(
-                "keySeparator" to "=",
-            ),
-        )
-    }
 }
 
 sonar {
