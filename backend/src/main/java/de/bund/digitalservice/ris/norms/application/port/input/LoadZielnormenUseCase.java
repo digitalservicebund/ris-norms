@@ -7,23 +7,35 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /**
- *  Use case for getting information about the Zielnormen that will be created or set to gegenstandslos when applying the {@link ZielnormReference}s of the given Verkündung.
+ *  Use case for getting information about the expressions of Zielnormen that will be created
+ *  or set to gegenstandslos when applying the {@link ZielnormReference}s (containing the geltungszeit)
+ *  to the given Verkündung.
  */
-public interface LoadZielnormenPreviewUseCase {
+public interface LoadZielnormenUseCase {
   /**
    * Retrieves information about the Zielnormen that will be created or set to gegenstandslos.
    *
    * @param query Query used for identifying the norm
    * @return The preview information
    */
-  List<ZielnormPreview> loadZielnormenPreview(Query query);
+  List<ZielnormPreview> loadZielnormen(Query query);
 
   /**
-   * Contains the parameters needed for identifying the Verkündung.
+   * Contains the parameters needed for identifying the Verkündung and if the created expressions should actually be saved to the database.
    *
    * @param eli The ELI used to identify the Verkündung
+   * @param dryRun If true, the preview will be generated without making any changes to the database
    */
-  record Query(NormExpressionEli eli) {}
+  record Query(NormExpressionEli eli, boolean dryRun) {
+    /**
+     * Constructor with default value for dryRun.
+     *
+     * @param eli The ELI used to identify the Verkündung
+     */
+    public Query(NormExpressionEli eli) {
+      this(eli, true);
+    }
+  }
 
   /**
    * Information about the Zielnorm that will be created or set to gegenstandslos when applying the {@link ZielnormReference}s of the given Verkündung

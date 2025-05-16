@@ -15,7 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendun
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenPreviewUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
@@ -54,7 +54,7 @@ class VerkuendungenControllerTest {
   private LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
 
   @MockitoBean
-  private LoadZielnormenPreviewUseCase loadZielnormenPreviewUseCase;
+  private LoadZielnormenUseCase loadZielnormenUseCase;
 
   @Nested
   class getAllVerkuendungen {
@@ -386,36 +386,36 @@ class VerkuendungenControllerTest {
     @Test
     void itShouldReturnZielnormenPreview() throws Exception {
       // Given
-      when(loadZielnormenPreviewUseCase.loadZielnormenPreview(any())).thenReturn(
+      when(loadZielnormenUseCase.loadZielnormen(any())).thenReturn(
         List.of(
-          new LoadZielnormenPreviewUseCase.ZielnormPreview(
+          new LoadZielnormenUseCase.ZielnormPreview(
             NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
             "Gesetz zur Regelung des öffentlichen Vereinsrechts",
             "Vereinsgesetz",
             List.of(
-              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+              new LoadZielnormenUseCase.ZielnormPreview.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
                 true,
                 true,
-                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
               ),
-              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+              new LoadZielnormenUseCase.ZielnormPreview.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
                 false,
                 false,
-                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
               ),
-              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+              new LoadZielnormenUseCase.ZielnormPreview.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
                 true,
                 true,
-                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
               ),
-              new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+              new LoadZielnormenUseCase.ZielnormPreview.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
                 false,
                 false,
-                LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.SYSTEM
+                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.SYSTEM
               )
             )
           )
@@ -471,8 +471,8 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
 
-      verify(loadZielnormenPreviewUseCase, times(1)).loadZielnormenPreview(
-        new LoadZielnormenPreviewUseCase.Query(
+      verify(loadZielnormenUseCase, times(1)).loadZielnormen(
+        new LoadZielnormenUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );

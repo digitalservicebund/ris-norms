@@ -527,8 +527,8 @@ class NormServiceTest {
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
       );
 
-      var preview = service.loadZielnormenPreview(
-        new LoadZielnormenPreviewUseCase.Query(
+      var preview = service.loadZielnormen(
+        new LoadZielnormenUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -542,11 +542,11 @@ class NormServiceTest {
       assertThat(preview.getFirst().expressions())
         .hasSize(1)
         .containsExactly(
-          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+          new LoadZielnormenUseCase.ZielnormPreview.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             false,
             false,
-            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
           )
         );
 
@@ -618,8 +618,8 @@ class NormServiceTest {
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"))
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"));
 
-      var preview = service.loadZielnormenPreview(
-        new LoadZielnormenPreviewUseCase.Query(
+      var preview = service.loadZielnormen(
+        new LoadZielnormenUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -633,29 +633,29 @@ class NormServiceTest {
       assertThat(preview.getFirst().expressions())
         .hasSize(4)
         .containsExactly(
-          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+          new LoadZielnormenUseCase.ZielnormPreview.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             true,
             true,
-            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
           ),
-          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+          new LoadZielnormenUseCase.ZielnormPreview.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
             false,
             false,
-            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
           ),
-          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+          new LoadZielnormenUseCase.ZielnormPreview.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
             true,
             true,
-            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
           ),
-          new LoadZielnormenPreviewUseCase.ZielnormPreview.Expression(
+          new LoadZielnormenUseCase.ZielnormPreview.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
             false,
             false,
-            LoadZielnormenPreviewUseCase.ZielnormPreview.CreatedBy.SYSTEM
+            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.SYSTEM
           )
         );
 
@@ -700,6 +700,22 @@ class NormServiceTest {
       verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
         new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
+    }
+  }
+
+  @Nested
+  class loadAndSaveZielnormen {
+
+    @Test
+    void itShouldRunloadAndSaveZielnormen() {
+      LoadZielnormenUseCase.Query query = new LoadZielnormenUseCase.Query(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
+        false
+      );
+
+      assertThatThrownBy(() -> service.loadZielnormen(query))
+        .isInstanceOf(UnsupportedOperationException.class)
+        .hasMessage("Not yet implemented");
     }
   }
 }
