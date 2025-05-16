@@ -46,8 +46,7 @@ public abstract class BaseIntegrationTest {
     .withPassword("pass");
 
   static {
-    keycloak =
-    new KeycloakContainer()
+    keycloak = new KeycloakContainer()
       .withRealmImportFile("de/bund/digitalservice/ris/norms/keycloak/realm-export.json");
     keycloak.start();
   }
@@ -56,13 +55,11 @@ public abstract class BaseIntegrationTest {
   static void registerDynamicProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
     registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-    registry.add(
-      "spring.datasource.url",
-      () ->
-        "jdbc:postgresql://localhost:%d/%s".formatted(
-            postgreSQLContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
-            postgreSQLContainer.getDatabaseName()
-          )
+    registry.add("spring.datasource.url", () ->
+      "jdbc:postgresql://localhost:%d/%s".formatted(
+          postgreSQLContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
+          postgreSQLContainer.getDatabaseName()
+        )
     );
 
     registry.add(

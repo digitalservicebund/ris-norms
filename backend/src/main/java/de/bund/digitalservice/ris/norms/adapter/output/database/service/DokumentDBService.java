@@ -74,7 +74,8 @@ public class DokumentDBService
 
   @Override
   public Optional<Regelungstext> loadRegelungstext(LoadRegelungstextPort.Command command) {
-    return this.loadDokument(new LoadDokumentPort.Command(command.eli()))
-      .map(Regelungstext.class::cast);
+    return this.loadDokument(new LoadDokumentPort.Command(command.eli())).map(
+        Regelungstext.class::cast
+      );
   }
 }

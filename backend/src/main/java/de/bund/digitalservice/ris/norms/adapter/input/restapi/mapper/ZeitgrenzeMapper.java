@@ -18,8 +18,7 @@ public class ZeitgrenzeMapper {
    * @return A new {@link ZeitgrenzeResponseSchema}.
    */
   public static ZeitgrenzeResponseSchema fromUseCaseData(final Zeitgrenze zeitgrenze) {
-    return ZeitgrenzeResponseSchema
-      .builder()
+    return ZeitgrenzeResponseSchema.builder()
       .id(zeitgrenze.getId().toString())
       .date(zeitgrenze.getDate())
       .art(zeitgrenze.getArt().name())

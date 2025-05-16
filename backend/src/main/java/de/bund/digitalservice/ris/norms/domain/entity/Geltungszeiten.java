@@ -50,8 +50,7 @@ public class Geltungszeiten extends AbstractCollection<Zeitgrenze> {
   @NotNull
   @Override
   public Stream<Zeitgrenze> stream() {
-    return NodeParser
-      .getElementsFromExpression("./%s".formatted(Zeitgrenze.TAG_NAME), getElement())
+    return NodeParser.getElementsFromExpression("./%s".formatted(Zeitgrenze.TAG_NAME), getElement())
       .stream()
       .map(zeitgrenzenElement -> new Zeitgrenze(zeitgrenzenElement, this::isZeitgrenzeInUse));
   }

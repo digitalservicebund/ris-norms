@@ -31,9 +31,10 @@ public class FRBRWork extends FRBR {
    * @param eli - the new ELI
    */
   public void setEli(final DokumentWorkEli eli) {
-    NodeParser
-      .getMandatoryElementFromExpression("./FRBRthis", this.getElement())
-      .setAttribute(VALUE_ATTIBUTE, eli.toString());
+    NodeParser.getMandatoryElementFromExpression("./FRBRthis", this.getElement()).setAttribute(
+      VALUE_ATTIBUTE,
+      eli.toString()
+    );
   }
 
   /**

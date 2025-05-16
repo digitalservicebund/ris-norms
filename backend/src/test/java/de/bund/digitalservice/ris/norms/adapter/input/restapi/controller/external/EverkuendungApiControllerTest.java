@@ -41,8 +41,9 @@ class EverkuendungApiControllerTest {
     @Test
     void itShouldReturnOk() throws Exception {
       UUID processId = UUID.randomUUID();
-      when(storeNormendokumentationspaketUseCase.storeNormendokumentationspaket(any()))
-        .thenReturn(processId);
+      when(storeNormendokumentationspaketUseCase.storeNormendokumentationspaket(any())).thenReturn(
+        processId
+      );
 
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -67,13 +68,12 @@ class EverkuendungApiControllerTest {
         .andExpect(status().isAccepted())
         .andExpect(jsonPath("$.processId").value(processId.toString()));
 
-      verify(storeNormendokumentationspaketUseCase, times(1))
-        .storeNormendokumentationspaket(
-          assertArg(query -> {
-            assertThat(query.file().getFilename()).isEqualTo("normendokumentationspaket.zip");
-            assertThat(query.signature().getFilename()).isEqualTo("signature.sig");
-          })
-        );
+      verify(storeNormendokumentationspaketUseCase, times(1)).storeNormendokumentationspaket(
+        assertArg(query -> {
+          assertThat(query.file().getFilename()).isEqualTo("normendokumentationspaket.zip");
+          assertThat(query.signature().getFilename()).isEqualTo("signature.sig");
+        })
+      );
     }
   }
 
@@ -85,8 +85,7 @@ class EverkuendungApiControllerTest {
       // given
       Instant now = Instant.now();
       UUID processId = UUID.randomUUID();
-      VerkuendungImportProcess status = VerkuendungImportProcess
-        .builder()
+      VerkuendungImportProcess status = VerkuendungImportProcess.builder()
         .id(processId)
         .status(VerkuendungImportProcess.Status.PROCESSING)
         .createdAt(now.minusSeconds(60))
@@ -100,8 +99,9 @@ class EverkuendungApiControllerTest {
 
       mockMvc
         .perform(
-          get("/api/v1/external/verkuendungen/status/{processId}", processId)
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/external/verkuendungen/status/{processId}", processId).accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.verkuendungStatus").value("processing"));
@@ -119,8 +119,9 @@ class EverkuendungApiControllerTest {
 
       mockMvc
         .perform(
-          get("/api/v1/external/verkuendungen/status/{processId}", processId)
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/external/verkuendungen/status/{processId}", processId).accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isNotFound());
     }
@@ -130,8 +131,7 @@ class EverkuendungApiControllerTest {
       // given
       Instant now = Instant.now();
       UUID processId = UUID.randomUUID();
-      VerkuendungImportProcess status = VerkuendungImportProcess
-        .builder()
+      VerkuendungImportProcess status = VerkuendungImportProcess.builder()
         .id(processId)
         .status(VerkuendungImportProcess.Status.ERROR)
         .createdAt(now.minusSeconds(60))
@@ -156,17 +156,17 @@ class EverkuendungApiControllerTest {
 
       mockMvc
         .perform(
-          get("/api/v1/external/verkuendungen/status/{processId}", processId)
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/external/verkuendungen/status/{processId}", processId).accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.status").value("error"))
         .andExpect(jsonPath("$.type").value("/errors/job-run-failed"))
         .andExpect(
-          jsonPath("$.title")
-            .value(
-              "Tried to import a Normendokumentationspacket the max amount of times but failed"
-            )
+          jsonPath("$.title").value(
+            "Tried to import a Normendokumentationspacket the max amount of times but failed"
+          )
         )
         .andExpect(jsonPath("$.detail").value("detail message"))
         .andExpect(jsonPath("$.additionalProperty").value("some-value"));

@@ -27,8 +27,7 @@ class XmlMapperTest {
         .getAttributes()
         .getNamedItem("name")
         .getNodeValue()
-    )
-      .isEqualTo("regelungstext");
+    ).isEqualTo("regelungstext");
   }
 
   @Test

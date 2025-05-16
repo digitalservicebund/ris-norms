@@ -19,8 +19,7 @@ public class NormManifestationMapper {
    * @return A new {@link Norm} mapped from the input {@link NormManifestationDto}.
    */
   public static Norm mapToDomain(@Nonnull final NormManifestationDto normManifestationDto) {
-    return Norm
-      .builder()
+    return Norm.builder()
       .dokumente(
         normManifestationDto
           .getDokumente()
@@ -46,8 +45,7 @@ public class NormManifestationMapper {
    * @return A new {@link NormManifestationDto} mapped from the input {@link Norm}.
    */
   public static NormManifestationDto mapToDto(final Norm norm) {
-    return NormManifestationDto
-      .builder()
+    return NormManifestationDto.builder()
       .publishState(norm.getPublishState())
       .dokumente(norm.getDokumente().stream().map(DokumentMapper::mapToDto).toList())
       .binaryFiles(norm.getBinaryFiles().stream().map(BinaryFileMapper::mapToDto).toList())

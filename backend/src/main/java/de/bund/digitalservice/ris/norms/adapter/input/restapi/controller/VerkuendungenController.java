@@ -51,7 +51,7 @@ public class VerkuendungenController {
     this.loadNormUseCase = loadNormUseCase;
     this.loadVerkuendungUseCase = loadVerkuendungUseCase;
     this.loadNormExpressionsAffectedByVerkuendungUseCase =
-    loadNormExpressionsAffectedByVerkuendungUseCase;
+      loadNormExpressionsAffectedByVerkuendungUseCase;
     this.loadZielnormenPreviewUseCase = loadZielnormenPreviewUseCase;
   }
 

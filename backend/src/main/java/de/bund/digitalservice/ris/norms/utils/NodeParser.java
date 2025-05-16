@@ -90,8 +90,9 @@ public final class NodeParser {
     String xPathExpression,
     Node sourceNode
   ) {
-    return getValueFromExpression(xPathExpression, sourceNode)
-      .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
+    return getValueFromExpression(xPathExpression, sourceNode).orElseThrow(() ->
+      throwMandatoryNotFoundException(xPathExpression, sourceNode)
+    );
   }
 
   /**
@@ -165,14 +166,13 @@ public final class NodeParser {
     String xPathExpression,
     Node sourceNode
   ) {
-    return getNodeFromExpression(xPathExpression, sourceNode)
-      .flatMap(node -> {
-        if (node instanceof Element element) {
-          return Optional.of(element);
-        }
+    return getNodeFromExpression(xPathExpression, sourceNode).flatMap(node -> {
+      if (node instanceof Element element) {
+        return Optional.of(element);
+      }
 
-        return Optional.empty();
-      });
+      return Optional.empty();
+    });
   }
 
   /**
@@ -185,8 +185,9 @@ public final class NodeParser {
    * @return the Node identified by the <code>xPathExpression</code>
    */
   public static Node getMandatoryNodeFromExpression(String xPathExpression, Node sourceNode) {
-    return getNodeFromExpression(xPathExpression, sourceNode)
-      .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
+    return getNodeFromExpression(xPathExpression, sourceNode).orElseThrow(() ->
+      throwMandatoryNotFoundException(xPathExpression, sourceNode)
+    );
   }
 
   /**
@@ -199,8 +200,9 @@ public final class NodeParser {
    * @return the Element identified by the <code>xPathExpression</code>
    */
   public static Element getMandatoryElementFromExpression(String xPathExpression, Node sourceNode) {
-    return getElementFromExpression(xPathExpression, sourceNode)
-      .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
+    return getElementFromExpression(xPathExpression, sourceNode).orElseThrow(() ->
+      throwMandatoryNotFoundException(xPathExpression, sourceNode)
+    );
   }
 
   /**
@@ -235,8 +237,9 @@ public final class NodeParser {
 
     final var hasContent = nodeListToList(node.getChildNodes())
       .stream()
-      .anyMatch(childNode ->
-        childNode.getNodeType() != Node.TEXT_NODE || !childNode.getTextContent().trim().isEmpty()
+      .anyMatch(
+        childNode ->
+          childNode.getNodeType() != Node.TEXT_NODE || !childNode.getTextContent().trim().isEmpty()
       );
 
     return !hasContent;
@@ -262,12 +265,10 @@ public final class NodeParser {
   }
 
   private static Optional<String> getEli(final Document document) {
-    return NodeParser
-      .getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
-      .or(() ->
-        NodeParser
-          .getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
-          .map(m -> m.replace(".xml", ""))
-      );
+    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document).or(() ->
+      NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document).map(m ->
+        m.replace(".xml", "")
+      )
+    );
   }
 }

@@ -128,8 +128,7 @@ public class OtcObsConfig {
 
   private S3Client createS3Client(final String accessKeyId, final String secretAccessKey)
     throws URISyntaxException {
-    return S3Client
-      .builder()
+    return S3Client.builder()
       .credentialsProvider(
         StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey))
       )

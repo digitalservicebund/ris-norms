@@ -119,8 +119,7 @@ public class ReleaseService
     );
     updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(nextManifestationOfNorm));
 
-    var release = Release
-      .builder()
+    var release = Release.builder()
       .publishedNorms(List.of(manifestationToPublish))
       .releasedAt(Instant.now())
       .build();

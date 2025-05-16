@@ -41,8 +41,7 @@ public class TemporalGroup {
    * @return the TimeInterval node as {@link TimeInterval}
    */
   public TimeInterval getTimeInterval() {
-    return NodeParser
-      .getElementFromExpression("./timeInterval", element)
+    return NodeParser.getElementFromExpression("./timeInterval", element)
       .map(TimeInterval::new)
       .orElseThrow();
   }

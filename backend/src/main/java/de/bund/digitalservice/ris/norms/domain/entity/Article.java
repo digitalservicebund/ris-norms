@@ -64,9 +64,9 @@ public class Article {
    * @return The ELI of the affected document of the article
    */
   public Optional<DokumentExpressionEli> getAffectedDocumentEli() {
-    return NodeParser
-      .getValueFromExpression(AFFECTED_DOCUMENT_XPATH, this.element)
-      .map(DokumentExpressionEli::fromString);
+    return NodeParser.getValueFromExpression(AFFECTED_DOCUMENT_XPATH, this.element).map(
+      DokumentExpressionEli::fromString
+    );
   }
 
   /**

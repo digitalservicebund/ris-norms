@@ -13,8 +13,7 @@ class VerkuendungStatusMapperTest {
   @Test
   void toVerkuendungStatusResponse() {
     // given
-    VerkuendungImportProcess verkuendungImportProcess = VerkuendungImportProcess
-      .builder()
+    VerkuendungImportProcess verkuendungImportProcess = VerkuendungImportProcess.builder()
       .id(UUID.randomUUID())
       .status(VerkuendungImportProcess.Status.ERROR)
       .createdAt(Instant.now())
@@ -37,12 +36,14 @@ class VerkuendungStatusMapperTest {
       (VerkuendungStatusErrorResponseSchema) VerkuendungStatusMapper.fromVerkuendungImportProcess(
         verkuendungImportProcess
       );
-    assertThat(verkuendungStatusResponseSchema)
-      .isInstanceOf(VerkuendungStatusErrorResponseSchema.class);
+    assertThat(verkuendungStatusResponseSchema).isInstanceOf(
+      VerkuendungStatusErrorResponseSchema.class
+    );
     assertThat(verkuendungStatusResponseSchema.status()).isEqualTo("error");
     assertThat(verkuendungStatusResponseSchema.detail()).contains("/errors/job-run-failed");
-    assertThat(verkuendungStatusResponseSchema.detail())
-      .contains("Tried to import a Normendokumentationspacket the max amount of times but failed");
+    assertThat(verkuendungStatusResponseSchema.detail()).contains(
+      "Tried to import a Normendokumentationspacket the max amount of times but failed"
+    );
     assertThat(verkuendungStatusResponseSchema.detail()).contains("detail message");
   }
 }

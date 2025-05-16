@@ -61,7 +61,7 @@ public class XsdSchemaService {
     this.metadatenXsdSchema = metadatenXsdSchema;
     this.regelungstextVerkuendungsfassungXsdSchema = regelungstextVerkuendungsfassungXsdSchema;
     this.risNormsRegelungstextVerkuendungsfassungXsdSchema =
-    risNormsRegelungstextVerkuendungsfassungXsdSchema;
+      risNormsRegelungstextVerkuendungsfassungXsdSchema;
     this.risNormsBekanntmachungXsdSchema = risNormsBekanntmachungXsdSchema;
     this.risNormsOffeneStrukturXsdSchema = risNormsOffeneStrukturXsdSchema;
     this.risNormsRechtsetzungsdokumentXsdSchema = risNormsRechtsetzungsdokumentXsdSchema;
@@ -72,14 +72,13 @@ public class XsdSchemaService {
    * @return a list of all the xsd Schemas.
    */
   public List<Document> loadLdmlDeSchemaDocuments() {
-    return Stream
-      .of(
-        baukastenXsdSchema,
-        metadatenXsdSchema,
-        regelungstextVerkuendungsfassungXsdSchema,
-        risNormsRegelungstextVerkuendungsfassungXsdSchema,
-        risNormsOffeneStrukturXsdSchema
-      )
+    return Stream.of(
+      baukastenXsdSchema,
+      metadatenXsdSchema,
+      regelungstextVerkuendungsfassungXsdSchema,
+      risNormsRegelungstextVerkuendungsfassungXsdSchema,
+      risNormsOffeneStrukturXsdSchema
+    )
       .map(this::loadDocumentForResource)
       .toList();
   }

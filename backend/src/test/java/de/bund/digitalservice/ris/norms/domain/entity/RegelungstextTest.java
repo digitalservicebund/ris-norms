@@ -31,8 +31,9 @@ class RegelungstextTest {
     final var actualEli = regelungstext.getWorkEli();
 
     // then
-    assertThat(actualEli)
-      .isEqualTo(DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1"));
+    assertThat(actualEli).isEqualTo(
+      DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1")
+    );
   }
 
   @Test
@@ -85,8 +86,9 @@ class RegelungstextTest {
 
     final var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
 
-    assertThatThrownBy(regelungstext::getExpressionEli)
-      .isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(regelungstext::getExpressionEli).isInstanceOf(
+      MandatoryNodeNotFoundException.class
+    );
   }
 
   @Test
@@ -245,12 +247,9 @@ class RegelungstextTest {
     assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
     assertThat(actualArticles.get(0).getEid()).hasToString("hauptteil-1_art-1");
-    assertThat(actualArticles.get(0).getAffectedDocumentEli())
-      .contains(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
-        )
-      );
+    assertThat(actualArticles.get(0).getAffectedDocumentEli()).contains(
+      DokumentExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+    );
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
     assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
@@ -348,9 +347,10 @@ class RegelungstextTest {
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      final Node parentNode = NodeParser
-        .getNodeFromExpression("//act/meta", regelungstext.getDocument())
-        .orElseThrow();
+      final Node parentNode = NodeParser.getNodeFromExpression(
+        "//act/meta",
+        regelungstext.getDocument()
+      ).orElseThrow();
 
       // when
       final Node createdNode = NodeCreator.createElementWithEidAndGuid("akn:analysis", parentNode);
@@ -358,10 +358,10 @@ class RegelungstextTest {
       // then
       assertThat(
         NodeParser.getNodeFromExpression("//act/meta/analysis", regelungstext.getDocument())
-      )
-        .contains(createdNode);
-      assertThat(NodeParser.getValueFromExpression("@eId", createdNode))
-        .contains("meta-1_analysis-1");
+      ).contains(createdNode);
+      assertThat(NodeParser.getValueFromExpression("@eId", createdNode)).contains(
+        "meta-1_analysis-1"
+      );
     }
   }
 
@@ -382,8 +382,7 @@ class RegelungstextTest {
       assertThat(temporalData).isNotNull();
       assertThat(
         NodeParser.getNodeFromExpression("//act//temporalData", regelungstext.getDocument())
-      )
-        .contains(temporalData.getElement());
+      ).contains(temporalData.getElement());
     }
 
     @Test
@@ -398,8 +397,9 @@ class RegelungstextTest {
 
       // then
       assertThat(temporalData).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getElement()))
-        .contains("0b03ee18-0131-47ec-bd46-519d60209cc7");
+      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getElement())).contains(
+        "0b03ee18-0131-47ec-bd46-519d60209cc7"
+      );
     }
   }
 
@@ -418,8 +418,9 @@ class RegelungstextTest {
       regelungstext.deleteByEId("meta-1_ident-1_frbrmanifestation-1_frbrthis-1");
 
       // then
-      assertThatThrownBy(regelungstext::getExpressionEli)
-        .isInstanceOf(MandatoryNodeNotFoundException.class);
+      assertThatThrownBy(regelungstext::getExpressionEli).isInstanceOf(
+        MandatoryNodeNotFoundException.class
+      );
     }
   }
 

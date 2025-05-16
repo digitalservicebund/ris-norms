@@ -302,10 +302,11 @@ public class NormService
         // find a possible already created entry that was created as a replacement for an existing expression. If we also created such an entry for a Geltungszeitregel we need to change the createdBy to "diese Verkündung"
         var existingEntry = expressions
           .stream()
-          .filter(expression ->
-            expression.normExpressionEli().getPointInTime().equals(date) &&
-            expression.normExpressionEli().getLanguage().equals("deu") &&
-            expression.createdBy().equals(ZielnormPreview.CreatedBy.SYSTEM)
+          .filter(
+            expression ->
+              expression.normExpressionEli().getPointInTime().equals(date) &&
+              expression.normExpressionEli().getLanguage().equals("deu") &&
+              expression.createdBy().equals(ZielnormPreview.CreatedBy.SYSTEM)
           )
           .findFirst();
 

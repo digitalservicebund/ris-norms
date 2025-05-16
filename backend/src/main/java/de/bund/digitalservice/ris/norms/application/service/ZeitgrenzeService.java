@@ -57,9 +57,10 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
     geltungszeiten.forEach(zeitgrenze -> {
       var matchingZeitgrenzenUpdate = zeitgrenzenUpdatesToProcess
         .stream()
-        .filter(zeitgrenzenUpdateData ->
-          zeitgrenzenUpdateData.art() == zeitgrenze.getArt() &&
-          zeitgrenzenUpdateData.date().isEqual(zeitgrenze.getDate())
+        .filter(
+          zeitgrenzenUpdateData ->
+            zeitgrenzenUpdateData.art() == zeitgrenze.getArt() &&
+            zeitgrenzenUpdateData.date().isEqual(zeitgrenze.getDate())
         )
         .findAny();
 

@@ -29,8 +29,9 @@ public class Proprietary {
    * @return the value or an optional empty
    */
   public Optional<String> getMetadataValue(final Metadata metadata) {
-    return getMetadataParent(metadata.getNamespace())
-      .flatMap(e -> NodeParser.getValueFromExpression(metadata.getXpath(), e));
+    return getMetadataParent(metadata.getNamespace()).flatMap(e ->
+      NodeParser.getValueFromExpression(metadata.getXpath(), e)
+    );
   }
 
   /**
@@ -111,8 +112,7 @@ public class Proprietary {
         metadataNode.setTextContent(newValue);
       } else {
         einzelElement.removeChild(metadataNode);
-        boolean hasElementChildren = IntStream
-          .range(0, einzelElement.getChildNodes().getLength())
+        boolean hasElementChildren = IntStream.range(0, einzelElement.getChildNodes().getLength())
           .mapToObj(i -> einzelElement.getChildNodes().item(i))
           .anyMatch(node -> node.getNodeType() == Node.ELEMENT_NODE);
         if (!hasElementChildren) {
@@ -131,71 +131,69 @@ public class Proprietary {
     final Element parent = getOrCreateMetadataParent(Metadata.FEDERFUEHRUNG.getNamespace());
 
     // 1. Check if an element already exists for this date
-    NodeParser
-      .getNodeFromExpression(
-        String.format("%s[@ab='%s']", Metadata.FEDERFUEHRUNG.getXpath(), date.toString()),
-        parent
-      )
-      .ifPresentOrElse(
-        nodeFound -> {
-          if (StringUtils.isNotEmpty(newValue)) {
-            nodeFound.setTextContent(newValue);
-          } else {
-            nodeFound.getParentNode().removeChild(nodeFound);
-          }
-        },
-        () -> {
-          if (StringUtils.isNotEmpty(newValue)) {
-            // 2. Get the previous and next nodes
-            final List<Element> federfuehrendNodes = NodeParser.getElementsFromExpression(
-              Metadata.FEDERFUEHRUNG.getXpath(),
-              parent
-            );
-
-            // Find the closest previous and next nodes based on @ab attribute
-            final Optional<Element> previousNode = federfuehrendNodes
-              .stream()
-              .filter(f -> LocalDate.parse(f.getAttribute("ab")).isBefore(date))
-              .max(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
-
-            final Optional<Element> nextNode = federfuehrendNodes
-              .stream()
-              .filter(f -> LocalDate.parse(f.getAttribute("ab")).isAfter(date))
-              .min(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
-
-            // 3. Create the new <meta:federfuehrend> element
-            final Element federfuehrungNode = NodeParser
-              .getElementFromExpression("./federfuehrung", parent)
-              .orElseGet(() ->
-                NodeCreator.createElement(
-                  Metadata.FEDERFUEHRUNG.getNamespace(),
-                  "federfuehrung",
-                  parent
-                )
-              );
-            final Element newElement = NodeCreator.createElement(
-              Metadata.FEDERFUEHRUNG.getNamespace(),
-              Metadata.FEDERFUEHRUNG.getTag(),
-              federfuehrungNode
-            );
-            newElement.setTextContent(newValue);
-            newElement.setAttribute("ab", date.toString());
-
-            // Set "bis" attribute based on the next node
-            if (nextNode.isPresent()) {
-              final LocalDate nextStart = LocalDate
-                .parse(nextNode.get().getAttribute("ab"))
-                .minusDays(1);
-              newElement.setAttribute("bis", nextStart.toString());
-            } else {
-              newElement.setAttribute("bis", "unbestimmt");
-            }
-            // Set "bis" of the previous node to (date - 1) if exists
-            previousNode.ifPresent(value -> value.setAttribute("bis", date.minusDays(1).toString())
-            );
-          }
+    NodeParser.getNodeFromExpression(
+      String.format("%s[@ab='%s']", Metadata.FEDERFUEHRUNG.getXpath(), date.toString()),
+      parent
+    ).ifPresentOrElse(
+      nodeFound -> {
+        if (StringUtils.isNotEmpty(newValue)) {
+          nodeFound.setTextContent(newValue);
+        } else {
+          nodeFound.getParentNode().removeChild(nodeFound);
         }
-      );
+      },
+      () -> {
+        if (StringUtils.isNotEmpty(newValue)) {
+          // 2. Get the previous and next nodes
+          final List<Element> federfuehrendNodes = NodeParser.getElementsFromExpression(
+            Metadata.FEDERFUEHRUNG.getXpath(),
+            parent
+          );
+
+          // Find the closest previous and next nodes based on @ab attribute
+          final Optional<Element> previousNode = federfuehrendNodes
+            .stream()
+            .filter(f -> LocalDate.parse(f.getAttribute("ab")).isBefore(date))
+            .max(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
+
+          final Optional<Element> nextNode = federfuehrendNodes
+            .stream()
+            .filter(f -> LocalDate.parse(f.getAttribute("ab")).isAfter(date))
+            .min(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
+
+          // 3. Create the new <meta:federfuehrend> element
+          final Element federfuehrungNode = NodeParser.getElementFromExpression(
+            "./federfuehrung",
+            parent
+          ).orElseGet(() ->
+            NodeCreator.createElement(
+              Metadata.FEDERFUEHRUNG.getNamespace(),
+              "federfuehrung",
+              parent
+            )
+          );
+          final Element newElement = NodeCreator.createElement(
+            Metadata.FEDERFUEHRUNG.getNamespace(),
+            Metadata.FEDERFUEHRUNG.getTag(),
+            federfuehrungNode
+          );
+          newElement.setTextContent(newValue);
+          newElement.setAttribute("ab", date.toString());
+
+          // Set "bis" attribute based on the next node
+          if (nextNode.isPresent()) {
+            final LocalDate nextStart = LocalDate.parse(
+              nextNode.get().getAttribute("ab")
+            ).minusDays(1);
+            newElement.setAttribute("bis", nextStart.toString());
+          } else {
+            newElement.setAttribute("bis", "unbestimmt");
+          }
+          // Set "bis" of the previous node to (date - 1) if exists
+          previousNode.ifPresent(value -> value.setAttribute("bis", date.minusDays(1).toString()));
+        }
+      }
+    );
   }
 
   /**
@@ -219,12 +217,12 @@ public class Proprietary {
    * @return the {@link Gegenstandlos} element or empty if the norm is not gegenstandslos
    */
   public Optional<Gegenstandlos> getGegenstandlos() {
-    return getMetadataParent(Gegenstandlos.NAMESPACE)
-      .flatMap(metadataElement ->
-        NodeParser
-          .getElementFromExpression("./%s".formatted(Gegenstandlos.TAG_NAME), metadataElement)
-          .map(Gegenstandlos::new)
-      );
+    return getMetadataParent(Gegenstandlos.NAMESPACE).flatMap(metadataElement ->
+      NodeParser.getElementFromExpression(
+        "./%s".formatted(Gegenstandlos.TAG_NAME),
+        metadataElement
+      ).map(Gegenstandlos::new)
+    );
   }
 
   /**
@@ -232,15 +230,13 @@ public class Proprietary {
    * @return {@link Optional} with the {@link CustomModsMetadata}
    */
   public Optional<CustomModsMetadata> getCustomModsMetadata() {
-    return NodeParser
-      .getElementFromExpression(
-        "./" +
-        getXpathExpression(Namespace.METADATEN_RIS) +
-        "/" +
-        getXpathExpression(Namespace.METADATEN_NORMS_APPLICATION_MODS),
-        element
-      )
-      .map(CustomModsMetadata::new);
+    return NodeParser.getElementFromExpression(
+      "./" +
+      getXpathExpression(Namespace.METADATEN_RIS) +
+      "/" +
+      getXpathExpression(Namespace.METADATEN_NORMS_APPLICATION_MODS),
+      element
+    ).map(CustomModsMetadata::new);
   }
 
   /**
@@ -267,12 +263,11 @@ public class Proprietary {
    * @param namespace - the namespace of the metadata parent
    */
   public void removeMetadataParentIfEmpty(final Namespace namespace) {
-    getMetadataParent(namespace)
-      .ifPresent(metadataParent -> {
-        if (!metadataParent.hasChildNodes()) {
-          element.removeChild(metadataParent);
-        }
-      });
+    getMetadataParent(namespace).ifPresent(metadataParent -> {
+      if (!metadataParent.hasChildNodes()) {
+        element.removeChild(metadataParent);
+      }
+    });
   }
 
   /**
@@ -289,9 +284,10 @@ public class Proprietary {
   }
 
   private Element getOrCreateMetadataParent(final Namespace namespace) {
-    return NodeParser
-      .getElementFromExpression("./" + getXpathExpression(namespace), element)
-      .orElseGet(() -> NodeCreator.createElement(namespace, "legalDocML.de_metadaten", element));
+    return NodeParser.getElementFromExpression(
+      "./" + getXpathExpression(namespace),
+      element
+    ).orElseGet(() -> NodeCreator.createElement(namespace, "legalDocML.de_metadaten", element));
   }
 
   private Element getOrCreateNode(final Element parent, final Metadata metadata) {
@@ -304,45 +300,45 @@ public class Proprietary {
       // Find or create the element
       Optional<Element> child = NodeParser.getElementFromExpression("./" + part, current);
       final Element finalCurrent = current;
-      current =
-      child.orElseGet(() -> NodeCreator.createElement(metadata.getNamespace(), part, finalCurrent));
+      current = child.orElseGet(() ->
+        NodeCreator.createElement(metadata.getNamespace(), part, finalCurrent)
+      );
     }
     return current;
   }
 
   private Element getOrCreateEinzelElement(final Element parent, final EId eId) {
-    return NodeParser
-      .getElementFromExpression("./einzelelement[@href='#%s']".formatted(eId.toString()), parent)
-      .orElseGet(() -> {
-        Element einzelElement = NodeCreator.createElement(
-          Namespace.METADATEN_RIS,
-          "einzelelement",
-          parent
-        );
-        einzelElement.setAttribute("href", "#" + eId);
-        return einzelElement;
-      });
+    return NodeParser.getElementFromExpression(
+      "./einzelelement[@href='#%s']".formatted(eId.toString()),
+      parent
+    ).orElseGet(() -> {
+      Element einzelElement = NodeCreator.createElement(
+        Namespace.METADATEN_RIS,
+        "einzelelement",
+        parent
+      );
+      einzelElement.setAttribute("href", "#" + eId);
+      return einzelElement;
+    });
   }
 
   private Optional<Element> findRessortElementByDate(final LocalDate date) {
-    return getMetadataParent(Metadata.FEDERFUEHRUNG.getNamespace())
-      .flatMap(parent ->
-        NodeParser
-          .getElementsFromExpression(Metadata.FEDERFUEHRUNG.getXpath(), parent)
-          .stream()
-          .filter(child -> {
-            final String startAttr = child.getAttribute("ab");
-            final String endAttr = child.getAttribute("bis");
-            final LocalDate startDate = LocalDate.parse(startAttr);
-            final LocalDate endDate = endAttr.equals("unbestimmt")
-              ? LocalDate.MAX
-              : LocalDate.parse(endAttr);
-            return (
-              (date.equals(startDate) || date.isAfter(startDate)) &&
-              (date.equals(endDate) || date.isBefore(endDate))
-            );
-          })
-          .findFirst()
-      );
+    return getMetadataParent(Metadata.FEDERFUEHRUNG.getNamespace()).flatMap(parent ->
+      NodeParser.getElementsFromExpression(Metadata.FEDERFUEHRUNG.getXpath(), parent)
+        .stream()
+        .filter(child -> {
+          final String startAttr = child.getAttribute("ab");
+          final String endAttr = child.getAttribute("bis");
+          final LocalDate startDate = LocalDate.parse(startAttr);
+          final LocalDate endDate = endAttr.equals("unbestimmt")
+            ? LocalDate.MAX
+            : LocalDate.parse(endAttr);
+          return (
+            (date.equals(startDate) || date.isAfter(startDate)) &&
+            (date.equals(endDate) || date.isBefore(endDate))
+          );
+        })
+        .findFirst()
+    );
   }
 }

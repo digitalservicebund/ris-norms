@@ -31,10 +31,9 @@ class ReferenceServiceTest {
       ReferenceServiceTest.class,
       "NormWithReferencesFound.xml"
     );
-    final Diff diff = DiffBuilder
-      .compare(
-        Input.from(XmlMapper.toDocument(XmlMapper.toString(norm.getRegelungstext1().getDocument())))
-      )
+    final Diff diff = DiffBuilder.compare(
+      Input.from(XmlMapper.toDocument(XmlMapper.toString(norm.getRegelungstext1().getDocument())))
+    )
       .ignoreElementContentWhitespace()
       .withTest(Input.from(expectedUpdatedRegelungstext.getDocument()))
       .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))
@@ -57,8 +56,7 @@ class ReferenceServiceTest {
       ReferenceServiceTest.class,
       "NormWithReferencesInNumToSkip.xml"
     );
-    final Diff diff = DiffBuilder
-      .compare(Input.from(norm.getRegelungstext1().getDocument()))
+    final Diff diff = DiffBuilder.compare(Input.from(norm.getRegelungstext1().getDocument()))
       .withTest(Input.from(sameNormReload.getDocument()))
       .ignoreWhitespace()
       .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))

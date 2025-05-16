@@ -25,8 +25,7 @@ class PrototypeCleanupServiceTest {
     prototypeCleanupService.clean(norm);
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.SUBTYP)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -34,8 +33,7 @@ class PrototypeCleanupServiceTest {
         .getProprietary()
         .get()
         .getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -43,16 +41,13 @@ class PrototypeCleanupServiceTest {
         .getProprietary()
         .get()
         .getMetadataValue(Metadata.ART_DER_NORM)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.NORMGEBER)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.SUBTYP)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -60,12 +55,10 @@ class PrototypeCleanupServiceTest {
         .getProprietary()
         .get()
         .getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.NORMGEBER)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -73,8 +66,7 @@ class PrototypeCleanupServiceTest {
         .getProprietary()
         .get()
         .getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -82,12 +74,10 @@ class PrototypeCleanupServiceTest {
         .getProprietary()
         .get()
         .getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.INKRAFT)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -95,8 +85,7 @@ class PrototypeCleanupServiceTest {
         .getProprietary()
         .get()
         .getMetadataValue(Metadata.AUSSERKRAFT)
-    )
-      .isEmpty();
+    ).isEmpty();
     assertThat(
       norm
         .getRegelungstext1()
@@ -104,12 +93,10 @@ class PrototypeCleanupServiceTest {
         .getProprietary()
         .get()
         .getMetadataValue(Metadata.STANDANGABE)
-    )
-      .contains("zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351");
+    ).contains("zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351");
     assertThat(
       norm.getRegelungstext1().getMeta().getProprietary().get().getMetadataValue(Metadata.VOLLZITAT)
-    )
-      .contains("Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)");
+    ).contains("Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)");
   }
 
   @Test
@@ -119,17 +106,17 @@ class PrototypeCleanupServiceTest {
     );
 
     prototypeCleanupService.clean(norm);
-    List<Node> proprietyChildNodes = NodeParser
-      .nodeListToList(
-        norm.getRegelungstext1().getMeta().getProprietary().get().getElement().getChildNodes()
-      )
+    List<Node> proprietyChildNodes = NodeParser.nodeListToList(
+      norm.getRegelungstext1().getMeta().getProprietary().get().getElement().getChildNodes()
+    )
       .stream()
       .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
       .toList();
 
     assertThat(proprietyChildNodes).hasSize(1);
-    assertThat(proprietyChildNodes.getFirst().getNamespaceURI())
-      .isEqualTo(Namespace.METADATEN_RIS.getNamespaceUri());
+    assertThat(proprietyChildNodes.getFirst().getNamespaceURI()).isEqualTo(
+      Namespace.METADATEN_RIS.getNamespaceUri()
+    );
   }
 
   @Test
@@ -139,17 +126,17 @@ class PrototypeCleanupServiceTest {
     );
 
     prototypeCleanupService.clean(norm);
-    List<Node> notes = NodeParser
-      .nodeListToList(
-        norm.getRegelungstext1().getMeta().getElement().getElementsByTagName("akn:note")
-      )
+    List<Node> notes = NodeParser.nodeListToList(
+      norm.getRegelungstext1().getMeta().getElement().getElementsByTagName("akn:note")
+    )
       .stream()
       .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
       .toList();
 
     assertThat(notes).hasSize(1);
-    assertThat(notes.getFirst().getAttributes().getNamedItem("refersTo").getNodeValue())
-      .isEqualTo("kommentierende-fussnote");
+    assertThat(notes.getFirst().getAttributes().getNamedItem("refersTo").getNodeValue()).isEqualTo(
+      "kommentierende-fussnote"
+    );
   }
 
   @Test
@@ -160,10 +147,9 @@ class PrototypeCleanupServiceTest {
     norm.getRegelungstext1().deleteByEId("meta-1_editfnote-1");
 
     prototypeCleanupService.clean(norm);
-    List<Node> notes = NodeParser
-      .nodeListToList(
-        norm.getRegelungstext1().getMeta().getElement().getElementsByTagName("akn:note")
-      )
+    List<Node> notes = NodeParser.nodeListToList(
+      norm.getRegelungstext1().getMeta().getElement().getElementsByTagName("akn:note")
+    )
       .stream()
       .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
       .toList();
@@ -171,8 +157,7 @@ class PrototypeCleanupServiceTest {
     assertThat(notes).isEmpty();
     assertThat(
       NodeParser.getNodesFromExpression("//notes", norm.getRegelungstext1().getMeta().getElement())
-    )
-      .isEmpty();
+    ).isEmpty();
   }
 
   @Test

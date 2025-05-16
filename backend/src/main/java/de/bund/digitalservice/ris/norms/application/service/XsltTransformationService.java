@@ -43,11 +43,11 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
       String inputXml = query.xml();
       if (query.snippet()) {
         inputXml =
-        "<akn:akomaNtoso xmlns:akn=\"" +
-        Namespace.INHALTSDATEN.getNamespaceUri() +
-        "\">" +
-        inputXml +
-        "</akn:akomaNtoso>";
+          "<akn:akomaNtoso xmlns:akn=\"" +
+          Namespace.INHALTSDATEN.getNamespaceUri() +
+          "\">" +
+          inputXml +
+          "</akn:akomaNtoso>";
       }
       StringWriter output = new StringWriter();
       transformer.transform(

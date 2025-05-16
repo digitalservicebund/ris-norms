@@ -71,8 +71,7 @@ public class ArticleService
       .getArticles();
 
     if (query.refersTo() != null) {
-      articles =
-      articles
+      articles = articles
         .stream()
         .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
         .toList();

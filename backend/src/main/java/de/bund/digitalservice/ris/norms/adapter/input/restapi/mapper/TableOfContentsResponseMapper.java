@@ -28,8 +28,7 @@ public class TableOfContentsResponseMapper {
     if (item == null) {
       return null;
     }
-    final TableOfContentsResponseSchema schema = TableOfContentsResponseSchema
-      .builder()
+    final TableOfContentsResponseSchema schema = TableOfContentsResponseSchema.builder()
       .id(item.id().toString())
       .marker(item.marker())
       .heading(item.heading())

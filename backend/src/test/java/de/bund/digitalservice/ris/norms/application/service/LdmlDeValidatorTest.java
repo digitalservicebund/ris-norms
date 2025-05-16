@@ -51,8 +51,9 @@ class LdmlDeValidatorTest {
       );
 
       // When // Then
-      assertThatThrownBy(() -> ldmlDeValidator.validateXSDSchema(norm))
-        .isInstanceOf(LdmlDeNotValidException.class);
+      assertThatThrownBy(() -> ldmlDeValidator.validateXSDSchema(norm)).isInstanceOf(
+        LdmlDeNotValidException.class
+      );
     }
   }
 
@@ -76,8 +77,7 @@ class LdmlDeValidatorTest {
           "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
           regelungstext.getDocument()
         )
-      )
-        .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml");
+      ).isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml");
     }
 
     @Test
@@ -137,10 +137,9 @@ class LdmlDeValidatorTest {
           "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
           rechtsetzungsdokument.getDocument()
         )
-      )
-        .isEqualTo(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
-        );
+      ).isEqualTo(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
+      );
     }
   }
 
@@ -167,10 +166,9 @@ class LdmlDeValidatorTest {
           "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
           dokument.getDocument()
         )
-      )
-        .isEqualTo(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
-        );
+      ).isEqualTo(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
+      );
       assertThat(dokument).isInstanceOf(Rechtsetzungsdokument.class);
     }
 
@@ -181,9 +179,8 @@ class LdmlDeValidatorTest {
       );
 
       assertThatThrownBy(() ->
-          ldmlDeValidator.parseAndValidateDokument("unknown-dokument-name-1.xml", xml)
-        )
-        .isInstanceOf(InvalidDokumentTypeException.class);
+        ldmlDeValidator.parseAndValidateDokument("unknown-dokument-name-1.xml", xml)
+      ).isInstanceOf(InvalidDokumentTypeException.class);
     }
   }
 

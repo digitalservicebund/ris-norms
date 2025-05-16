@@ -79,17 +79,14 @@ public class PrototypeCleanupService {
       node.getParentNode().removeChild(node);
     }
 
-    NodeParser
-      .getNodesFromExpression("./notes", metadataElement)
-      .forEach(notesNode -> {
-        boolean hasElementChildren = IntStream
-          .range(0, notesNode.getChildNodes().getLength())
-          .mapToObj(i -> notesNode.getChildNodes().item(i))
-          .anyMatch(node -> node.getNodeType() == Node.ELEMENT_NODE);
-        if (!hasElementChildren) {
-          notesNode.getParentNode().removeChild(notesNode);
-        }
-      });
+    NodeParser.getNodesFromExpression("./notes", metadataElement).forEach(notesNode -> {
+      boolean hasElementChildren = IntStream.range(0, notesNode.getChildNodes().getLength())
+        .mapToObj(i -> notesNode.getChildNodes().item(i))
+        .anyMatch(node -> node.getNodeType() == Node.ELEMENT_NODE);
+      if (!hasElementChildren) {
+        notesNode.getParentNode().removeChild(notesNode);
+      }
+    });
   }
 
   private void cleanLifecycleEvents(Dokument dokument) {
@@ -103,17 +100,14 @@ public class PrototypeCleanupService {
   }
 
   private void deleteMetaData(Dokument dokument, String namespaceUri) {
-    NodeParser
-      .getElementFromExpression(
-        "//Q{" + namespaceUri + "}legalDocML.de_metadaten",
-        dokument.getDocument()
-      )
-      .ifPresent(element -> element.getParentNode().removeChild(element));
+    NodeParser.getElementFromExpression(
+      "//Q{" + namespaceUri + "}legalDocML.de_metadaten",
+      dokument.getDocument()
+    ).ifPresent(element -> element.getParentNode().removeChild(element));
   }
 
   private static String createXpathAllDsProprietaryExceptAllowedOnes() {
-    String shouldStayConcat = ALLOWED_METADATA
-      .stream()
+    String shouldStayConcat = ALLOWED_METADATA.stream()
       .map(s -> "self::" + s) // Prefix each element with "self::"
       .collect(Collectors.joining(" or "));
     return "./*[not(" + shouldStayConcat + ")]";

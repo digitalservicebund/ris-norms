@@ -203,7 +203,8 @@ class FRBRWorkTest {
 
     frbrWork.setFRBRAuthor("recht.bund.de/institution/bundespraesident");
 
-    assertThat(NodeParser.getValueFromExpression("//FRBRauthor/@href", element))
-      .contains("recht.bund.de/institution/bundespraesident");
+    assertThat(NodeParser.getValueFromExpression("//FRBRauthor/@href", element)).contains(
+      "recht.bund.de/institution/bundespraesident"
+    );
   }
 }

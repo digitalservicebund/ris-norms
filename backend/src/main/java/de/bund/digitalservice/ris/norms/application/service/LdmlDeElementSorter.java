@@ -49,13 +49,11 @@ public class LdmlDeElementSorter {
   public void sortElements(Element element) {
     sortChildElements(element);
 
-    NodeParser
-      .nodeListToList(element.getChildNodes())
-      .forEach(child -> {
-        if (child.getNodeType() == Node.ELEMENT_NODE) {
-          sortElements((Element) child);
-        }
-      });
+    NodeParser.nodeListToList(element.getChildNodes()).forEach(child -> {
+      if (child.getNodeType() == Node.ELEMENT_NODE) {
+        sortElements((Element) child);
+      }
+    });
   }
 
   private void sortChildElements(Element element) {
@@ -193,8 +191,10 @@ public class LdmlDeElementSorter {
     var types = schemas
       .stream()
       .map(schema ->
-        NodeParser
-          .getNodesFromExpression("//element[@name = \"%s\"]/@type".formatted(tagName), schema)
+        NodeParser.getNodesFromExpression(
+          "//element[@name = \"%s\"]/@type".formatted(tagName),
+          schema
+        )
           .stream()
           .map(Node::getNodeValue)
           .collect(Collectors.toSet())

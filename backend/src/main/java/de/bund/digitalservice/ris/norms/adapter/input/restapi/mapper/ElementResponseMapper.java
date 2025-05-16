@@ -32,9 +32,16 @@ public class ElementResponseMapper {
     if (staticNodeTitles.containsKey(nodeTypeName)) {
       title = staticNodeTitles.get(nodeTypeName);
     } else if (
-      Set
-        .of("ARTICLE", "BOOK", "PART", "CHAPTER", "SECTION", "SUBSECTION", "TITLE", "SUBTITLE")
-        .contains(nodeTypeName)
+      Set.of(
+        "ARTICLE",
+        "BOOK",
+        "PART",
+        "CHAPTER",
+        "SECTION",
+        "SUBSECTION",
+        "TITLE",
+        "SUBTITLE"
+      ).contains(nodeTypeName)
     ) {
       var num = NodeParser.getValueFromExpression("./num", node).orElse("").strip();
       var heading = NodeParser.getValueFromExpression("./heading", node).orElse("").strip();
@@ -53,8 +60,7 @@ public class ElementResponseMapper {
    * @return A new {@link ElementResponseSchema} instance mapped from the input.
    */
   public static ElementResponseSchema fromElementNode(final Node node) {
-    return ElementResponseSchema
-      .builder()
+    return ElementResponseSchema.builder()
       .title(getNodeTitle(node))
       .eid(EId.fromMandatoryNode(node).value())
       .type(getNodeType(node))

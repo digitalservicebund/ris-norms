@@ -53,8 +53,9 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
@@ -171,8 +172,9 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
@@ -225,8 +227,9 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").doesNotExist());

@@ -29,8 +29,9 @@ class RenderingControllerTest {
 
     @Test
     void itThrowsXmlProcessingException() throws Exception {
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-        .thenThrow(new XmlProcessingException("Error message", null));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenThrow(
+        new XmlProcessingException("Error message", null)
+      );
 
       mockMvc
         .perform(
@@ -50,8 +51,9 @@ class RenderingControllerTest {
 
     @Test
     void getHtmlPreviewWithShowMetadataTrue() throws Exception {
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-        .thenReturn("<html></html>");
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(
+        "<html></html>"
+      );
 
       mockMvc
         .perform(
@@ -65,16 +67,16 @@ class RenderingControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().string("<html></html>"));
 
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-        .transformLegalDocMlToHtml(
-          new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", true, false)
-        );
+      verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
+        new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", true, false)
+      );
     }
 
     @Test
     void getHtmlPreviewWithShowMetadataFalse() throws Exception {
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-        .thenReturn("<html></html>");
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(
+        "<html></html>"
+      );
 
       mockMvc
         .perform(
@@ -88,16 +90,16 @@ class RenderingControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().string("<html></html>"));
 
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-        .transformLegalDocMlToHtml(
-          new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, false)
-        );
+      verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
+        new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, false)
+      );
     }
 
     @Test
     void getHtmlPreviewWithSnippetTrue() throws Exception {
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-        .thenReturn("<html></html>");
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(
+        "<html></html>"
+      );
       mockMvc
         .perform(
           post("/api/v1/renderings")
@@ -110,10 +112,9 @@ class RenderingControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().string("<html></html>"));
 
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-        .transformLegalDocMlToHtml(
-          new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, true)
-        );
+      verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
+        new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, true)
+      );
     }
   }
 }

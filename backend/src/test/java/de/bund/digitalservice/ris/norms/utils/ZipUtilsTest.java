@@ -17,8 +17,7 @@ class ZipUtilsTest {
       Objects.requireNonNull(
         ZipUtilsTest.class.getResource(ZipUtilsTest.class.getSimpleName() + "/" + name)
       )
-    )
-      .getInputStream();
+    ).getInputStream();
   }
 
   @Nested

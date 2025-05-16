@@ -74,8 +74,7 @@ public class S3MockClient implements S3Client {
             // If the file is not under 'eli', return only the file name
             key = path.getFileName().toString();
           }
-          return S3Object
-            .builder()
+          return S3Object.builder()
             .key(key)
             .lastModified(Instant.ofEpochMilli(path.toFile().lastModified()))
             .build();
@@ -99,8 +98,7 @@ public class S3MockClient implements S3Client {
       : localStorageDirectory.resolve(getObjectRequest.key());
     try {
       byte[] fileBytes = Files.readAllBytes(filePath);
-      final GetObjectResponse getObjectResponse = GetObjectResponse
-        .builder()
+      final GetObjectResponse getObjectResponse = GetObjectResponse.builder()
         .contentLength((long) fileBytes.length)
         .build();
       return responseTransformer.transform(

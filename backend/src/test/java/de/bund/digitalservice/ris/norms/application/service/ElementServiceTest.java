@@ -41,8 +41,9 @@ class ElementServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.of(regelungstext));
 
       // When
       var element = service.loadElement(new LoadElementUseCase.Query(eli, eid));
@@ -62,12 +63,14 @@ class ElementServiceTest {
       var eid = new EId("meta-1");
       var query = new LoadElementUseCase.Query(eli, eid);
 
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.empty());
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElement(query))
-        .isInstanceOf(RegelungstextNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElement(query)).isInstanceOf(
+        RegelungstextNotFoundException.class
+      );
 
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
@@ -84,12 +87,14 @@ class ElementServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.of(regelungstext));
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElement(query))
-        .isInstanceOf(ElementNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElement(query)).isInstanceOf(
+        ElementNotFoundException.class
+      );
 
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
@@ -109,8 +114,9 @@ class ElementServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
@@ -132,12 +138,14 @@ class ElementServiceTest {
       var eid = new EId("meta-1");
       var query = new LoadElementHtmlUseCase.Query(eli, eid);
 
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.empty());
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementHtml(query))
-        .isInstanceOf(RegelungstextNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElementHtml(query)).isInstanceOf(
+        RegelungstextNotFoundException.class
+      );
 
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }
@@ -154,13 +162,15 @@ class ElementServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
+      when(
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+      ).thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When / Then
-      assertThatThrownBy(() -> service.loadElementHtml(query))
-        .isInstanceOf(ElementNotFoundException.class);
+      assertThatThrownBy(() -> service.loadElementHtml(query)).isInstanceOf(
+        ElementNotFoundException.class
+      );
 
       verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
     }

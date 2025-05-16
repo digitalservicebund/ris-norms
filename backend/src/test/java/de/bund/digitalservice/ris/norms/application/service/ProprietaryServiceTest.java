@@ -46,9 +46,10 @@ class ProprietaryServiceTest {
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
       // then
-      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromDokument(query))
+      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromDokument(query)).isInstanceOf(
         // then
-        .isInstanceOf(DokumentNotFoundException.class);
+        DokumentNotFoundException.class
+      );
     }
 
     @Test
@@ -61,8 +62,9 @@ class ProprietaryServiceTest {
         ProprietaryServiceTest.class,
         "vereinsgesetz-without-proprietary.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
-        .thenReturn(Optional.of(regelungsTextWithoutProprietary));
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+        Optional.of(regelungsTextWithoutProprietary)
+      );
 
       // when
       var result = proprietaryService.loadProprietaryFromDokument(
@@ -82,8 +84,9 @@ class ProprietaryServiceTest {
       var regelungsText = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
-        .thenReturn(Optional.of(regelungsText));
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+        Optional.of(regelungsText)
+      );
       // when
       var result = proprietaryService.loadProprietaryFromDokument(
         new LoadProprietaryFromDokumentUseCase.Query(eli)
@@ -121,9 +124,8 @@ class ProprietaryServiceTest {
         );
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromDokument(query))
-        // then
-        .isInstanceOf(DokumentNotFoundException.class);
+      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromDokument(query)
+      ).isInstanceOf(DokumentNotFoundException.class); // then
     }
 
     @Test
@@ -135,8 +137,9 @@ class ProprietaryServiceTest {
       var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
-        .thenReturn(Optional.of(regelungsTextWithoutProprietary));
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+        Optional.of(regelungsTextWithoutProprietary)
+      );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
@@ -144,8 +147,7 @@ class ProprietaryServiceTest {
         updateDokumentPort.updateDokument(
           new UpdateDokumentPort.Command(regelungsTextWithoutProprietary)
         )
-      )
-        .thenReturn(Optional.of(regelungsTextWithProprietary));
+      ).thenReturn(Optional.of(regelungsTextWithProprietary));
 
       // when
       var result = proprietaryService.updateProprietaryFrameFromDokument(
@@ -173,16 +175,19 @@ class ProprietaryServiceTest {
       assertThat(result.getMetadataValue(Metadata.TYP)).contains("gesetz");
       assertThat(result.getMetadataValue(Metadata.ART)).contains("regelungstext");
       assertThat(result.getMetadataValue(Metadata.SUBTYP)).contains("rechtsverordnung");
-      assertThat(result.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE))
-        .contains("Bezeichnung gemäß Vorlage");
+      assertThat(result.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
+        "Bezeichnung gemäß Vorlage"
+      );
       assertThat(result.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
       assertThat(result.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("Bundestag");
       assertThat(result.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains("true");
       assertThat(result.getMetadataValue(Metadata.STAAT)).contains("DEU");
-      assertThat(result.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT))
-        .contains("Aktuelle Organisationseinheit");
-      assertThat(result.getRessort(LocalDate.parse("2002-10-02")))
-        .contains("Bundesministerium der Justiz");
+      assertThat(result.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
+        "Aktuelle Organisationseinheit"
+      );
+      assertThat(result.getRessort(LocalDate.parse("2002-10-02"))).contains(
+        "Bundesministerium der Justiz"
+      );
     }
   }
 
@@ -204,9 +209,8 @@ class ProprietaryServiceTest {
         );
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietarySingleElementFromDokument(query))
-        // then
-        .isInstanceOf(DokumentNotFoundException.class);
+      assertThatThrownBy(() -> proprietaryService.updateProprietarySingleElementFromDokument(query)
+      ).isInstanceOf(DokumentNotFoundException.class); // then
     }
 
     @Test
@@ -219,13 +223,15 @@ class ProprietaryServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli)))
-        .thenReturn(Optional.of(regelungstext));
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+        Optional.of(regelungstext)
+      );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(updateDokumentPort.updateDokument(new UpdateDokumentPort.Command(regelungstext)))
-        .thenReturn(Optional.of(regelungsTextWithProprietary));
+      when(
+        updateDokumentPort.updateDokument(new UpdateDokumentPort.Command(regelungstext))
+      ).thenReturn(Optional.of(regelungsTextWithProprietary));
 
       // when
       var result = proprietaryService.updateProprietarySingleElementFromDokument(

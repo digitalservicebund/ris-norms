@@ -40,11 +40,9 @@ public final class DokumentExpressionEli implements DokumentEli, Comparable<Doku
    * @return the eli
    */
   public static DokumentExpressionEli fromString(String expressionEli) {
-    Matcher matcher = Pattern
-      .compile(
-        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)/(?<subtype>[^/.]+)"
-      )
-      .matcher(expressionEli);
+    Matcher matcher = Pattern.compile(
+      "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)/(?<subtype>[^/.]+)"
+    ).matcher(expressionEli);
 
     if (!matcher.matches()) {
       throw new InvalidEliException(DokumentExpressionEli.class, expressionEli);

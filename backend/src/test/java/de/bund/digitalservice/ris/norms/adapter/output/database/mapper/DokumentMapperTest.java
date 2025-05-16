@@ -40,7 +40,8 @@ class DokumentMapperTest {
 
     // Then
     assertThat(dokumentDto).isNotNull();
-    assertThat(XmlMapper.toDocument(dokumentDto.getXml()).isEqualNode(regelungstext.getDocument()))
-      .isTrue();
+    assertThat(
+      XmlMapper.toDocument(dokumentDto.getXml()).isEqualNode(regelungstext.getDocument())
+    ).isTrue();
   }
 }

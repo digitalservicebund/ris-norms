@@ -117,8 +117,7 @@ public class VerkuendungsImportService
     );
 
     jobScheduler.create(
-      JobBuilder
-        .aJob()
+      JobBuilder.aJob()
         .withId(processId)
         .withName("Process Normendokumentationspaket")
         .<ProcessNormendokumentationspaketUseCase>withDetails(service ->
@@ -150,8 +149,7 @@ public class VerkuendungsImportService
       .loadVerkuendungImportProcess(new LoadVerkuendungImportProcessPort.Command(query.processId()))
       .orElseThrow(() -> new RuntimeException("Could not load verkuendung import process"));
 
-    process =
-    saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
+    process = saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
       new SaveVerkuendungImportProcessPort.Command(
         process.getId(),
         VerkuendungImportProcess.Status.PROCESSING

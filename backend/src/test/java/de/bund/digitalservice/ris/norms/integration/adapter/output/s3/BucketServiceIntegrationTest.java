@@ -185,28 +185,26 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
 
     if (contains) {
       assertThat(set).isNotNull();
-      assertThat(set)
-        .containsAll(
-          norm
-            .getDokumente()
-            .stream()
-            .map(Dokument::getManifestationEli)
-            .map(DokumentManifestationEli::toString)
-            .toList()
-        );
+      assertThat(set).containsAll(
+        norm
+          .getDokumente()
+          .stream()
+          .map(Dokument::getManifestationEli)
+          .map(DokumentManifestationEli::toString)
+          .toList()
+      );
     } else {
       if (set == null) {
         return;
       }
-      assertThat(set)
-        .containsAll(
-          norm
-            .getDokumente()
-            .stream()
-            .map(Dokument::getManifestationEli)
-            .map(DokumentManifestationEli::toString)
-            .toList()
-        );
+      assertThat(set).containsAll(
+        norm
+          .getDokumente()
+          .stream()
+          .map(Dokument::getManifestationEli)
+          .map(DokumentManifestationEli::toString)
+          .toList()
+      );
     }
   }
 }

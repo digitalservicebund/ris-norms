@@ -311,8 +311,9 @@ class ElementResponseMapperTest {
 
     // Then
     assertThat(output.getTitle()).isEqualTo("Titel 1 Überschrift Titel");
-    assertThat(output.getEid())
-      .isEqualTo("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1");
+    assertThat(output.getEid()).isEqualTo(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1"
+    );
     assertThat(output.getType()).isEqualTo("title");
   }
 
@@ -349,8 +350,9 @@ class ElementResponseMapperTest {
 
     // Then
     assertThat(output.getTitle()).isEqualTo("Untertitel 1 Überschrift Untertitel");
-    assertThat(output.getEid())
-      .isEqualTo("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1");
+    assertThat(output.getEid()).isEqualTo(
+      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1"
+    );
     assertThat(output.getType()).isEqualTo("subtitle");
   }
 
@@ -448,7 +450,8 @@ class ElementResponseMapperTest {
     );
 
     // When
-    assertThatThrownBy(() -> ElementResponseMapper.fromElementNode(node))
-      .isInstanceOf(MandatoryNodeNotFoundException.class);
+    assertThatThrownBy(() -> ElementResponseMapper.fromElementNode(node)).isInstanceOf(
+      MandatoryNodeNotFoundException.class
+    );
   }
 }

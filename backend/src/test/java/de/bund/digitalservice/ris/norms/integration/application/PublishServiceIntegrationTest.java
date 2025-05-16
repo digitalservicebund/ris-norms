@@ -49,10 +49,9 @@ class PublishServiceIntegrationTest extends BaseS3MockIntegrationTest {
     var loaded = normManifestationRepository.findByManifestationEli(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
-    assertThat(loaded)
-      .hasValueSatisfying(loadedNormDto ->
-        assertThat(loadedNormDto.getPublishState()).isEqualTo(NormPublishState.PUBLISHED)
-      );
+    assertThat(loaded).hasValueSatisfying(loadedNormDto ->
+      assertThat(loadedNormDto.getPublishState()).isEqualTo(NormPublishState.PUBLISHED)
+    );
     final Path publicFilePath = getPublicPath(norm.getRegelungstext1().getManifestationEli());
     assertThat(Files.exists(publicFilePath)).isTrue();
     final Path privateFilePath = getPrivatePath(norm.getRegelungstext1());

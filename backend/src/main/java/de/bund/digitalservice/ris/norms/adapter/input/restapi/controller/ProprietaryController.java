@@ -39,7 +39,7 @@ public class ProprietaryController {
     this.loadProprietaryFromDokumentUseCase = loadProprietaryFromDokumentUseCase;
     this.updateProprietaryFrameFromDokumentUseCase = updateProprietaryFrameFromDokumentUseCase;
     this.updateProprietarySingleElementFromDokumentUseCase =
-    updateProprietarySingleElementFromDokumentUseCase;
+      updateProprietarySingleElementFromDokumentUseCase;
   }
 
   /**

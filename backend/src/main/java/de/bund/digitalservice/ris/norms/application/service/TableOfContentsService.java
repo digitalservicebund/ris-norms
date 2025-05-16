@@ -81,8 +81,7 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
     );
 
     // heading (article has it optional)
-    final String heading = NodeParser
-      .getElementFromExpression("./heading", element)
+    final String heading = NodeParser.getElementFromExpression("./heading", element)
       .map(e -> cleanText(e.getTextContent()))
       .orElse(null);
 

@@ -64,8 +64,9 @@ class ZeitgrenzeControllerTest {
         )
       );
 
-      when(loadZeitgrenzenUseCase.loadZeitgrenzenFromDokument(any()))
-        .thenReturn(customModsMetadata.getOrCreateGeltungszeiten().stream().toList());
+      when(loadZeitgrenzenUseCase.loadZeitgrenzenFromDokument(any())).thenReturn(
+        customModsMetadata.getOrCreateGeltungszeiten().stream().toList()
+      );
 
       // When // Then
       mockMvc
@@ -89,8 +90,9 @@ class ZeitgrenzeControllerTest {
         .andExpect(jsonPath("$[3].art", is("AUSSERKRAFT")))
         .andExpect(jsonPath("$[3].inUse", is(false)));
 
-      verify(loadZeitgrenzenUseCase, times(1))
-        .loadZeitgrenzenFromDokument(any(LoadZeitgrenzenUseCase.Query.class));
+      verify(loadZeitgrenzenUseCase, times(1)).loadZeitgrenzenFromDokument(
+        any(LoadZeitgrenzenUseCase.Query.class)
+      );
     }
 
     @Test
@@ -98,8 +100,9 @@ class ZeitgrenzeControllerTest {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-      when(loadZeitgrenzenUseCase.loadZeitgrenzenFromDokument(any()))
-        .thenReturn(Collections.emptyList());
+      when(loadZeitgrenzenUseCase.loadZeitgrenzenFromDokument(any())).thenReturn(
+        Collections.emptyList()
+      );
 
       // When // Then
       mockMvc
@@ -107,8 +110,9 @@ class ZeitgrenzeControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", empty()));
 
-      verify(loadZeitgrenzenUseCase, times(1))
-        .loadZeitgrenzenFromDokument(any(LoadZeitgrenzenUseCase.Query.class));
+      verify(loadZeitgrenzenUseCase, times(1)).loadZeitgrenzenFromDokument(
+        any(LoadZeitgrenzenUseCase.Query.class)
+      );
     }
   }
 
@@ -133,8 +137,9 @@ class ZeitgrenzeControllerTest {
         )
       );
 
-      when(updateZeitgrenzenUseCase.updateZeitgrenzenOfDokument(any()))
-        .thenReturn(customModsMetadata.getOrCreateGeltungszeiten().stream().toList());
+      when(updateZeitgrenzenUseCase.updateZeitgrenzenOfDokument(any())).thenReturn(
+        customModsMetadata.getOrCreateGeltungszeiten().stream().toList()
+      );
 
       // When // Then
       mockMvc
@@ -158,8 +163,9 @@ class ZeitgrenzeControllerTest {
         .andExpect(jsonPath("$[1].art", is("INKRAFT")))
         .andExpect(jsonPath("$[1].inUse", is(false)));
 
-      verify(updateZeitgrenzenUseCase, times(1))
-        .updateZeitgrenzenOfDokument(any(UpdateZeitgrenzenUseCase.Query.class));
+      verify(updateZeitgrenzenUseCase, times(1)).updateZeitgrenzenOfDokument(
+        any(UpdateZeitgrenzenUseCase.Query.class)
+      );
     }
 
     @Test
@@ -167,8 +173,9 @@ class ZeitgrenzeControllerTest {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-      when(updateZeitgrenzenUseCase.updateZeitgrenzenOfDokument(any()))
-        .thenReturn(Collections.emptyList());
+      when(updateZeitgrenzenUseCase.updateZeitgrenzenOfDokument(any())).thenReturn(
+        Collections.emptyList()
+      );
 
       // When // Then
       mockMvc
@@ -182,8 +189,9 @@ class ZeitgrenzeControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", empty()));
 
-      verify(updateZeitgrenzenUseCase, times(1))
-        .updateZeitgrenzenOfDokument(any(UpdateZeitgrenzenUseCase.Query.class));
+      verify(updateZeitgrenzenUseCase, times(1)).updateZeitgrenzenOfDokument(
+        any(UpdateZeitgrenzenUseCase.Query.class)
+      );
     }
   }
 }

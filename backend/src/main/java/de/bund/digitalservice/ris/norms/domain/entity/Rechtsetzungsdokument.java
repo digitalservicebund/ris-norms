@@ -28,8 +28,9 @@ public non-sealed class Rechtsetzungsdokument extends Dokument {
    * @return true if it is a Verkündungsfassung
    */
   public boolean isVerkuendungsfassung() {
-    return NodeParser
-      .getValueFromMandatoryNodeFromExpression("//documentCollection/@name", getDocument())
-      .equals("rechtsetzungsdokument-verkuendungsfassung");
+    return NodeParser.getValueFromMandatoryNodeFromExpression(
+      "//documentCollection/@name",
+      getDocument()
+    ).equals("rechtsetzungsdokument-verkuendungsfassung");
   }
 }

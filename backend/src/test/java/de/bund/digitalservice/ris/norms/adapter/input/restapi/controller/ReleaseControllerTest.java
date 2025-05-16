@@ -46,21 +46,22 @@ class ReleaseControllerTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       List<Release> releases = List.of(
-        Release
-          .builder()
+        Release.builder()
           .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
           .publishedNorms(List.of(norm1, norm2))
           .build()
       );
 
-      when(loadReleasesByNormExpressionEliUseCase.loadReleasesByNormExpressionEli(any()))
-        .thenReturn(releases);
+      when(
+        loadReleasesByNormExpressionEliUseCase.loadReleasesByNormExpressionEli(any())
+      ).thenReturn(releases);
 
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("[0].releaseAt", equalTo("2024-01-02T10:20:30Z")))
@@ -93,8 +94,7 @@ class ReleaseControllerTest {
       var norm2 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      var release = Release
-        .builder()
+      var release = Release.builder()
         .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
         .publishedNorms(List.of(norm1, norm2))
         .build();

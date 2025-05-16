@@ -19,8 +19,9 @@ class NormResponseMapperTest {
     final NormResponseSchema result = NormResponseMapper.fromUseCaseData(norm);
 
     // Then
-    assertThat(result.getEli())
-      .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+    assertThat(result.getEli()).isEqualTo(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+    );
     assertThat(result.getTitle()).isEqualTo("Gesetz zur Regelung des öffentlichen Vereinsrechts");
     assertThat(result.getShortTitle()).isEqualTo("Vereinsgesetz");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
@@ -40,8 +41,9 @@ class NormResponseMapperTest {
     final NormResponseSchema result = NormResponseMapper.fromUseCaseData(norm);
 
     // Then
-    assertThat(result.getEli())
-      .isEqualTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-1");
+    assertThat(result.getEli()).isEqualTo(
+      "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-1"
+    );
     assertThat(result.getTitle()).isEqualTo("Gesetz zur Änderung des Lobbyregistergesetzes");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("10");

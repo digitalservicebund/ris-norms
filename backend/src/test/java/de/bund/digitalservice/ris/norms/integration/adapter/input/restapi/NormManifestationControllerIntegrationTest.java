@@ -68,16 +68,14 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Regelungstext not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml does not exist"
-            )
+          jsonPath("detail").value(
+            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          )
         )
         .andExpect(jsonPath("eli").value(eli));
     }
@@ -102,16 +100,14 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("No static resource found"))
         .andExpect(jsonPath("status").value(500))
         .andExpect(
-          jsonPath("detail")
-            .value(
-              "No static resource api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf."
-            )
+          jsonPath("detail").value(
+            "No static resource api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf."
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value(
-              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf"
-            )
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf"
+          )
         );
     }
   }

@@ -43,12 +43,10 @@ public class Norm {
 
   public Norm(Norm norm) {
     this.publishState = NormPublishState.UNPUBLISHED;
-    this.dokumente =
-    norm.getDokumente() != null
+    this.dokumente = norm.getDokumente() != null
       ? norm.getDokumente().stream().map(Dokument::copy).collect(Collectors.toSet())
       : new HashSet<>();
-    this.binaryFiles =
-    norm.getBinaryFiles() != null
+    this.binaryFiles = norm.getBinaryFiles() != null
       ? norm
         .getBinaryFiles()
         .stream()

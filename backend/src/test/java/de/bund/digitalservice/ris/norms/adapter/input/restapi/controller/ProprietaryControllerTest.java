@@ -54,8 +54,7 @@ class ProprietaryControllerTest {
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenThrow(new DokumentNotFoundException(eli.toString()));
+      ).thenThrow(new DokumentNotFoundException(eli.toString()));
       // when
       mockMvc
         .perform(
@@ -71,18 +70,16 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var proprietary = Fixtures
-        .loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+      var proprietary = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      )
         .getMeta()
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenReturn(proprietary);
+      ).thenReturn(proprietary);
 
       // when
       mockMvc
@@ -110,19 +107,17 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var proprietary = Fixtures
-        .loadRegelungstextFromDisk(
-          ProprietaryControllerTest.class,
-          "vereinsgesetz-with-invalid-proprietary-metadata.xml"
-        )
+      var proprietary = Fixtures.loadRegelungstextFromDisk(
+        ProprietaryControllerTest.class,
+        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+      )
         .getMeta()
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenReturn(proprietary);
+      ).thenReturn(proprietary);
 
       // when
       mockMvc
@@ -161,8 +156,7 @@ class ProprietaryControllerTest {
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenReturn(proprietary);
+      ).thenReturn(proprietary);
 
       // when
       mockMvc
@@ -223,8 +217,9 @@ class ProprietaryControllerTest {
         )
       );
 
-      when(updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any()))
-        .thenReturn(proprietary);
+      when(
+        updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
+      ).thenReturn(proprietary);
 
       // When // Then
       mockMvc
@@ -260,9 +255,12 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"))
         .andExpect(jsonPath("ressort").value("new ressort"));
 
-      verify(updateProprietaryFrameFromDokumentUseCase, times(1))
-        .updateProprietaryFrameFromDokument(
-          argThat(query ->
+      verify(
+        updateProprietaryFrameFromDokumentUseCase,
+        times(1)
+      ).updateProprietaryFrameFromDokument(
+        argThat(
+          query ->
             query
               .dokumentExpressionEli()
               .toString()
@@ -278,8 +276,8 @@ class ProprietaryControllerTest {
             query.inputMetadata().qualifizierterMehrheit().equals(true) &&
             query.inputMetadata().organisationsEinheit().equals("Andere Organisationseinheit") &&
             query.inputMetadata().ressort().equals("new ressort")
-          )
-        );
+        )
+      );
     }
 
     @Test
@@ -287,8 +285,9 @@ class ProprietaryControllerTest {
       // given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-      when(updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any()))
-        .thenThrow(new DokumentNotFoundException("Document not found"));
+      when(
+        updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
+      ).thenThrow(new DokumentNotFoundException("Document not found"));
 
       // When // Then
       mockMvc
@@ -329,13 +328,13 @@ class ProprietaryControllerTest {
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenThrow(new DokumentNotFoundException(eli.toString()));
+      ).thenThrow(new DokumentNotFoundException(eli.toString()));
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isNotFound());
@@ -349,24 +348,23 @@ class ProprietaryControllerTest {
       );
       var eid = "hauptteil-1_art-1";
 
-      var proprietary = Fixtures
-        .loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+      var proprietary = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      )
         .getMeta()
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenReturn(proprietary);
+      ).thenReturn(proprietary);
 
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isOk())
@@ -381,25 +379,24 @@ class ProprietaryControllerTest {
       );
       var eid = "hauptteil-1_art-1";
 
-      var proprietary = Fixtures
-        .loadRegelungstextFromDisk(
-          ProprietaryControllerTest.class,
-          "vereinsgesetz-with-invalid-proprietary-metadata.xml"
-        )
+      var proprietary = Fixtures.loadRegelungstextFromDisk(
+        ProprietaryControllerTest.class,
+        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+      )
         .getMeta()
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenReturn(proprietary);
+      ).thenReturn(proprietary);
 
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isOk())
@@ -414,24 +411,23 @@ class ProprietaryControllerTest {
       );
       var eid = "hauptteil-1_art-1";
 
-      var proprietary = Fixtures
-        .loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
-        )
+      var proprietary = Fixtures.loadRegelungstextFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+      )
         .getMeta()
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Query(eli)
         )
-      )
-        .thenReturn(proprietary);
+      ).thenReturn(proprietary);
 
       // when
       mockMvc
         .perform(
-          get("/api/v1/norms/" + eli + "/proprietary/" + eid)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+          get("/api/v1/norms/" + eli + "/proprietary/" + eid).accept(
+            MediaType.APPLICATION_JSON_VALUE
+          )
         )
         // then
         .andExpect(status().isOk())
@@ -467,8 +463,7 @@ class ProprietaryControllerTest {
         updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(
           any()
         )
-      )
-        .thenReturn(proprietary);
+      ).thenReturn(proprietary);
 
       // When // Then
       mockMvc
@@ -482,17 +477,20 @@ class ProprietaryControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("artDerNorm").value("SN"));
 
-      verify(updateProprietarySingleElementFromDokumentUseCase, times(1))
-        .updateProprietarySingleElementFromDokument(
-          argThat(query ->
+      verify(
+        updateProprietarySingleElementFromDokumentUseCase,
+        times(1)
+      ).updateProprietarySingleElementFromDokument(
+        argThat(
+          query ->
             query
               .dokumentExpressionEli()
               .toString()
               .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
             query.eid().equals(eid) &&
             query.inputMetadata().artDerNorm().equals("SN")
-          )
-        );
+        )
+      );
     }
 
     @Test
@@ -505,8 +503,7 @@ class ProprietaryControllerTest {
         updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(
           any()
         )
-      )
-        .thenThrow(new DokumentNotFoundException("Document not found"));
+      ).thenThrow(new DokumentNotFoundException("Document not found"));
 
       // When // Then
       mockMvc

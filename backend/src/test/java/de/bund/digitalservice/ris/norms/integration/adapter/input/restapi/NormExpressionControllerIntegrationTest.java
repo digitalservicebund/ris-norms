@@ -56,8 +56,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            .accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         .andExpect(status().isOk())
         .andExpect(
@@ -83,13 +84,15 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-            .accept(MediaType.APPLICATION_XML)
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
+            MediaType.APPLICATION_XML
+          )
         )
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//*[@eId='einleitung-1_doktitel-1_text-1_doctitel-1']")
-            .string("Gesetz zur Regelung des öffentlichen Vereinsrechts")
+          xpath("//*[@eId='einleitung-1_doktitel-1_text-1_doctitel-1']").string(
+            "Gesetz zur Regelung des öffentlichen Vereinsrechts"
+          )
         );
     }
 
@@ -107,8 +110,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
-            .accept(MediaType.TEXT_HTML)
+          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1").accept(
+            MediaType.TEXT_HTML
+          )
         )
         .andExpect(status().isOk())
         .andExpect(
@@ -144,8 +148,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .perform(
           get(
             "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?showMetadata=true"
-          )
-            .accept(MediaType.TEXT_HTML)
+          ).accept(MediaType.TEXT_HTML)
         )
         .andExpect(status().isOk())
         .andExpect(
@@ -193,12 +196,14 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
-          jsonPath("detail")
-            .value("Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu does not exist")
+          jsonPath("detail").value(
+            "Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu does not exist"
+          )
         )
         .andExpect(
-          jsonPath("instance")
-            .value("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+          )
         )
         .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu"));
     }
@@ -231,8 +236,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(422))
         .andExpect(jsonPath("detail").value("Changing the ELI is not supported."))
         .andExpect(
-          jsonPath("instance")
-            .value("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         );
     }
 
@@ -265,8 +271,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(422))
         .andExpect(jsonPath("detail").value("Changing the GUID is not supported."))
         .andExpect(
-          jsonPath("instance")
-            .value("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("instance").value(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          )
         );
     }
 

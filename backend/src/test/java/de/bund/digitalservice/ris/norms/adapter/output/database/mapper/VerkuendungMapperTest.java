@@ -13,8 +13,7 @@ class VerkuendungMapperTest {
   @Test
   void itShouldMapToDomain() {
     // Given
-    var verkuendungDto = VerkuendungDto
-      .builder()
+    var verkuendungDto = VerkuendungDto.builder()
       .eliNormExpression("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       .importTimestamp(Instant.parse("2025-03-12T12:00:00.0Z"))
       .build();
@@ -31,8 +30,7 @@ class VerkuendungMapperTest {
   @Test
   void itShouldMapToDto() {
     // Given
-    var verkuendung = Verkuendung
-      .builder()
+    var verkuendung = Verkuendung.builder()
       .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
       .importTimestamp(Instant.parse("2025-03-12T12:00:00.0Z"))
       .build();

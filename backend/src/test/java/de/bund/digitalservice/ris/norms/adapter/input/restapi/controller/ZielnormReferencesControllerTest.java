@@ -42,28 +42,28 @@ class ZielnormReferencesControllerTest {
 
     @Test
     void itReturnsReferences() throws Exception {
-      when(loadZielnormReferencesUseCase.loadZielnormReferences(any()))
-        .thenReturn(
-          List.of(
-            new ZielnormReference(
-              XmlMapper.toElement(
-                """
-                <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
-                   <norms:typ>Änderungsvorschrift</norms:typ>
-                   <norms:geltungszeit>gz-1</norms:geltungszeit>
-                   <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
-                   <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
-                </norms:zielnorm-reference>
-                """
-              )
+      when(loadZielnormReferencesUseCase.loadZielnormReferences(any())).thenReturn(
+        List.of(
+          new ZielnormReference(
+            XmlMapper.toElement(
+              """
+              <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+                 <norms:typ>Änderungsvorschrift</norms:typ>
+                 <norms:geltungszeit>gz-1</norms:geltungszeit>
+                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                 <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+              </norms:zielnorm-reference>
+              """
             )
           )
-        );
+        )
+      );
 
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zielnorm-references")
-            .accept(MediaType.APPLICATION_JSON)
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zielnorm-references"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
@@ -74,12 +74,11 @@ class ZielnormReferencesControllerTest {
         )
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
 
-      verify(loadZielnormReferencesUseCase, times(1))
-        .loadZielnormReferences(
-          assertArg(arg -> {
-            assertThat(arg.eli()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
-          })
-        );
+      verify(loadZielnormReferencesUseCase, times(1)).loadZielnormReferences(
+        assertArg(arg -> {
+          assertThat(arg.eli()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
+        })
+      );
     }
   }
 
@@ -88,23 +87,22 @@ class ZielnormReferencesControllerTest {
 
     @Test
     void itUpdatesReferences() throws Exception {
-      when(updateZielnormReferencesUseCase.updateZielnormReferences(any()))
-        .thenReturn(
-          List.of(
-            new ZielnormReference(
-              XmlMapper.toElement(
-                """
-                <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
-                   <norms:typ>Änderungsvorschrift</norms:typ>
-                   <norms:geltungszeit>gz-1</norms:geltungszeit>
-                   <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
-                   <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
-                </norms:zielnorm-reference>
-                """
-              )
+      when(updateZielnormReferencesUseCase.updateZielnormReferences(any())).thenReturn(
+        List.of(
+          new ZielnormReference(
+            XmlMapper.toElement(
+              """
+              <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+                 <norms:typ>Änderungsvorschrift</norms:typ>
+                 <norms:geltungszeit>gz-1</norms:geltungszeit>
+                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                 <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+              </norms:zielnorm-reference>
+              """
             )
           )
-        );
+        )
+      );
 
       mockMvc
         .perform(
@@ -133,20 +131,21 @@ class ZielnormReferencesControllerTest {
         )
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
 
-      verify(updateZielnormReferencesUseCase, times(1))
-        .updateZielnormReferences(
-          assertArg(arg -> {
-            assertThat(arg.eli()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
+      verify(updateZielnormReferencesUseCase, times(1)).updateZielnormReferences(
+        assertArg(arg -> {
+          assertThat(arg.eli()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
 
-            assertThat(arg.zielnormReferences()).hasSize(1);
-            assertThat(arg.zielnormReferences().getFirst().zielnorm())
-              .hasToString("eli/bund/bgbl-1/2021/123");
-            assertThat(arg.zielnormReferences().getFirst().eId())
-              .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
-            assertThat(arg.zielnormReferences().getFirst().typ()).isEqualTo("Änderungsvorschrift");
-            assertThat(arg.zielnormReferences().getFirst().geltungszeit()).hasToString("gz-1");
-          })
-        );
+          assertThat(arg.zielnormReferences()).hasSize(1);
+          assertThat(arg.zielnormReferences().getFirst().zielnorm()).hasToString(
+            "eli/bund/bgbl-1/2021/123"
+          );
+          assertThat(arg.zielnormReferences().getFirst().eId()).hasToString(
+            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+          );
+          assertThat(arg.zielnormReferences().getFirst().typ()).isEqualTo("Änderungsvorschrift");
+          assertThat(arg.zielnormReferences().getFirst().geltungszeit()).hasToString("gz-1");
+        })
+      );
     }
   }
 
@@ -155,23 +154,22 @@ class ZielnormReferencesControllerTest {
 
     @Test
     void itDeletesReferences() throws Exception {
-      when(deleteZielnormReferencesUseCase.deleteZielnormReferences(any()))
-        .thenReturn(
-          List.of(
-            new ZielnormReference(
-              XmlMapper.toElement(
-                """
-                <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
-                   <norms:typ>Änderungsvorschrift</norms:typ>
-                   <norms:geltungszeit>gz-1</norms:geltungszeit>
-                   <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-3</norms:eid>
-                   <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
-                </norms:zielnorm-reference>
-                """
-              )
+      when(deleteZielnormReferencesUseCase.deleteZielnormReferences(any())).thenReturn(
+        List.of(
+          new ZielnormReference(
+            XmlMapper.toElement(
+              """
+              <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+                 <norms:typ>Änderungsvorschrift</norms:typ>
+                 <norms:geltungszeit>gz-1</norms:geltungszeit>
+                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-3</norms:eid>
+                 <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+              </norms:zielnorm-reference>
+              """
             )
           )
-        );
+        )
+      );
 
       mockMvc
         .perform(
@@ -196,18 +194,19 @@ class ZielnormReferencesControllerTest {
         )
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
 
-      verify(deleteZielnormReferencesUseCase, times(1))
-        .deleteZielnormReferences(
-          assertArg(arg -> {
-            assertThat(arg.eli()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
+      verify(deleteZielnormReferencesUseCase, times(1)).deleteZielnormReferences(
+        assertArg(arg -> {
+          assertThat(arg.eli()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
 
-            assertThat(arg.zielnormReferenceEIds()).hasSize(2);
-            assertThat(arg.zielnormReferenceEIds().getFirst())
-              .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1");
-            assertThat(arg.zielnormReferenceEIds().get(1))
-              .hasToString("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2");
-          })
-        );
+          assertThat(arg.zielnormReferenceEIds()).hasSize(2);
+          assertThat(arg.zielnormReferenceEIds().getFirst()).hasToString(
+            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+          );
+          assertThat(arg.zielnormReferenceEIds().get(1)).hasToString(
+            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+          );
+        })
+      );
     }
   }
 }

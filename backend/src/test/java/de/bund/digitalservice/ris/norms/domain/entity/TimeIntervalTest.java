@@ -56,8 +56,9 @@ class TimeIntervalTest {
 
     // then
     assertThat(timeInterval.getEventRefEId()).contains("meta-1_lebzykl-1_ereignis-2");
-    assertThat(EId.fromMandatoryNode(timeInterval.getElement()))
-      .isEqualTo(new EId("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"));
+    assertThat(EId.fromMandatoryNode(timeInterval.getElement())).isEqualTo(
+      new EId("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1")
+    );
     assertThat(temporalGroup.getTimeInterval().getElement()).isEqualTo(timeInterval.getElement());
   }
 }

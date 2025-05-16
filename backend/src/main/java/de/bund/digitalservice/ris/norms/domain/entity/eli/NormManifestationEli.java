@@ -134,11 +134,9 @@ public final class NormManifestationEli implements NormEli, Comparable<NormManif
    * @return the eli
    */
   public static NormManifestationEli fromString(String manifestationEli) {
-    Matcher matcher = Pattern
-      .compile(
-        "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)(/(?<pointInTimeManifestation>[^/.]+))?"
-      )
-      .matcher(manifestationEli);
+    Matcher matcher = Pattern.compile(
+      "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)(/(?<pointInTimeManifestation>[^/.]+))?"
+    ).matcher(manifestationEli);
 
     if (!matcher.matches()) {
       throw new InvalidEliException(NormManifestationEli.class, manifestationEli);
