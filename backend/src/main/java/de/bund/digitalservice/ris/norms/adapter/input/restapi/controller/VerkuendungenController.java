@@ -15,7 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendun
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenPreviewUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
@@ -36,7 +36,7 @@ public class VerkuendungenController {
   private final LoadNormUseCase loadNormUseCase;
   private final LoadVerkuendungUseCase loadVerkuendungUseCase;
   private final LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
-  private final LoadZielnormenPreviewUseCase loadZielnormenPreviewUseCase;
+  private final LoadZielnormenUseCase loadZielnormenUseCase;
 
   public VerkuendungenController(
     LoadAllVerkuendungenUseCase loadAllVerkuendungenUseCase,
@@ -44,7 +44,7 @@ public class VerkuendungenController {
     LoadNormUseCase loadNormUseCase,
     LoadVerkuendungUseCase loadVerkuendungUseCase,
     LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase,
-    LoadZielnormenPreviewUseCase loadZielnormenPreviewUseCase
+    LoadZielnormenUseCase loadZielnormenUseCase
   ) {
     this.loadAllVerkuendungenUseCase = loadAllVerkuendungenUseCase;
     this.createVerkuendungUseCase = createVerkuendungUseCase;
@@ -52,7 +52,7 @@ public class VerkuendungenController {
     this.loadVerkuendungUseCase = loadVerkuendungUseCase;
     this.loadNormExpressionsAffectedByVerkuendungUseCase =
     loadNormExpressionsAffectedByVerkuendungUseCase;
-    this.loadZielnormenPreviewUseCase = loadZielnormenPreviewUseCase;
+    this.loadZielnormenUseCase = loadZielnormenUseCase;
   }
 
   /**
@@ -138,8 +138,8 @@ public class VerkuendungenController {
     NormExpressionEli eli
   ) {
     return ResponseEntity.ok(
-      loadZielnormenPreviewUseCase
-        .loadZielnormenPreview(new LoadZielnormenPreviewUseCase.Query(eli))
+      loadZielnormenUseCase
+        .loadZielnormen(new LoadZielnormenUseCase.Query(eli))
         .stream()
         .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
         .toList()

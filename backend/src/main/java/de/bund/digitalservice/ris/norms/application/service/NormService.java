@@ -31,7 +31,7 @@ public class NormService
     UpdateRegelungstextXmlUseCase,
     LoadRegelungstextUseCase,
     LoadZielnormReferencesUseCase,
-    LoadZielnormenPreviewUseCase,
+    LoadZielnormenUseCase,
     UpdateZielnormReferencesUseCase,
     DeleteZielnormReferencesUseCase {
 
@@ -213,7 +213,15 @@ public class NormService
   }
 
   @Override
-  public List<ZielnormPreview> loadZielnormenPreview(LoadZielnormenPreviewUseCase.Query query) {
+  public List<ZielnormPreview> loadZielnormen(LoadZielnormenUseCase.Query query) {
+    if (query.dryRun()) return loadZielnormenPreview(query); else return loadAndSaveZielnormen();
+  }
+
+  private List<ZielnormPreview> loadAndSaveZielnormen() {
+    throw new UnsupportedOperationException("Not yet implemented");
+  }
+
+  private List<ZielnormPreview> loadZielnormenPreview(LoadZielnormenUseCase.Query query) {
     var verkuendungNorm = loadNorm(new LoadNormUseCase.Query(query.eli()));
 
     List<NormWorkEli> zielnormWorkElis = verkuendungNorm
@@ -243,14 +251,14 @@ public class NormService
   }
 
   /**
-   * Generate the preview list of expressions for a specific Zielnorm
-   * <br/>
-   * This list includes the expressions that needs to be created for the dates of the changes of the Verkündung, as well
-   * as the existing expression that need to be set to gegenstandlos and the expressions replacing these.
-   * <br/>
-   * Every existing expression of a date after the first change to the Zielnorm needs to be set to gegenstandlos and a
-   * new expression needs to be created as this expression than needs to include the changes of the now gegenstandlose
-   * expression as well as the once from the previous changes due to the Verkündung.
+   * Generate the preview list of expressions for a specific Zielnorm <br>
+   * This list includes the expressions that needs to be created for the dates of the changes of the
+   * Verkündung, as well as the existing expression that need to be set to gegenstandlos and the
+   * expressions replacing these. <br>
+   * Every existing expression of a date after the first change to the Zielnorm needs to be set to
+   * gegenstandlos and a new expression needs to be created as this expression than needs to include
+   * the changes of the now gegenstandlose expression as well as the once from the previous changes
+   * due to the Verkündung.
    */
   private List<ZielnormPreview.Expression> generateZielnormPreviewExpressions(
     Norm verkuendungNorm,
@@ -299,7 +307,9 @@ public class NormService
       .stream()
       .sorted()
       .forEach(date -> {
-        // find a possible already created entry that was created as a replacement for an existing expression. If we also created such an entry for a Geltungszeitregel we need to change the createdBy to "diese Verkündung"
+        // find a possible already created entry that was created as a replacement for an
+        // existing expression. If we also created such an entry for a Geltungszeitregel we
+        // need to change the createdBy to "diese Verkündung"
         var existingEntry = expressions
           .stream()
           .filter(expression ->
@@ -337,9 +347,7 @@ public class NormService
       .toList();
   }
 
-  /**
-   * Find the dates of all geltungszeiten that are used by changes of the specific zielnorm
-   */
+  /** Find the dates of all geltungszeiten that are used by changes of the specific zielnorm */
   private List<LocalDate> findGeltungszeitenForZielnorm(
     Norm verkuendungNorm,
     NormWorkEli zielnormWorkEli
@@ -369,8 +377,9 @@ public class NormService
   }
 
   /**
-   * Collect all expressions that need to be overwritten when creating the expressions for the Verkündung.
-   * This includes all non-gegenstandlose expressions after (or at) the first geltungszeitgrenze.
+   * Collect all expressions that need to be overwritten when creating the expressions for the
+   * Verkündung. This includes all non-gegenstandlose expressions after (or at) the first
+   * geltungszeitgrenze.
    */
   private List<NormExpressionEli> collectRelevantExistingExpressions(
     NormWorkEli zielnormWorkEli,
