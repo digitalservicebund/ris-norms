@@ -243,8 +243,8 @@ spotless {
         removeUnusedImports()
         prettier(
             mapOf(
-                "prettier" to "3.0.3",
-                "prettier-plugin-java" to "2.3.0",
+                "prettier" to "3.5.3",
+                "prettier-plugin-java" to "2.6.7",
             ),
         ).config(
             mapOf(
