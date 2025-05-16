@@ -57,6 +57,11 @@ paths:
                   type: string
                   format: binary
                   description: "Digitale Signatur für das Archiv. Die Signatur wird mit dem Algorithmus **SHA256withRSA** erstellt, bei dem der Daten-Hash mit SHA-256 erstellt und mit einem RSA-Schlüssel signiert wird."
+            encoding:
+              file:
+                contentType: application/zip
+              signature:
+                contentType: application/octet-stream
       responses:
         "202":
           description: Die Verkündung wurde erfolgreich an NeuRIS übermittelt. Sie wird jetzt im Hintergrund verarbeitet. Die Antwort enthält eine Prozess-ID, mit deren Hilfe der Status am Endpunkt `/verkuendungen/status/{processId}` abgefragt werden kann.
