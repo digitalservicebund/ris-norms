@@ -17,7 +17,7 @@ import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useGetZeitgrenzen } from "@/services/zeitgrenzenService"
 import { ConfirmDialog, Splitter, SplitterPanel } from "primevue"
 import { computed, ref, watch } from "vue"
-import RisDokumentExplorer from "../../../../components/RisDokumentExplorer.vue"
+import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
 import { useGetNormToc } from "@/services/tocService"
@@ -25,8 +25,6 @@ import type { TreeNode } from "primevue/treenode"
 import { useGetNorm } from "@/services/normService"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useNormXml } from "@/composables/useNormXml"
-import type { EditorView } from "@codemirror/view"
-import { SearchCursor } from "@codemirror/search"
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
@@ -44,26 +42,10 @@ function toggleNode(node: TreeNode) {
   expandedKeys.value[node.key] = !expandedKeys.value[node.key]
 }
 
-const editorView = ref<EditorView | null>(null)
+const codeEditorRef = ref<InstanceType<typeof RisCodeEditor> | null>(null)
 
 const gotoEid = (eid: string) => {
-  if (!editorView.value) return
-
-  const cursor = new SearchCursor(editorView.value.state.doc, `eId="${eid}"`)
-  if (!cursor.next()) return
-
-  const { from, to } = cursor.value
-  editorView.value.dispatch({
-    selection: { anchor: from, head: to },
-  })
-  requestAnimationFrame(() => {
-    const rect = editorView.value!.lineBlockAt(from)
-    editorView.value!.scrollDOM.scrollTo({
-      top: rect.top - editorView.value!.scrollDOM.clientHeight / 2,
-      left: 0, // optional: center x if needed
-      behavior: "smooth",
-    })
-  })
+  codeEditorRef.value?.scrollToText(`eId="${eid}"`)
 }
 
 // BREADCRUMBS
@@ -191,10 +173,7 @@ watch(eIdsToEdit, (val) => {
           class="m-16 mt-8"
         />
         <div v-else class="flex-1 overflow-auto p-10">
-          <h2
-            :id="tocHeadingId"
-            class="ris-body1-bold mb-10 pt-20 pl-20 text-blue-800"
-          >
+          <h2 :id="tocHeadingId" class="ris-body1-bold mb-10 pt-10 pl-20">
             Inhaltsübersicht
           </h2>
           <Tree
@@ -242,9 +221,9 @@ watch(eIdsToEdit, (val) => {
           class="m-16 mt-8"
         />
         <RisCodeEditor
+          ref="codeEditorRef"
           class="h-full border-2 border-blue-800"
           :model-value="currentXml"
-          @ready="(view) => (editorView = view)"
         />
       </SplitterPanel>
 

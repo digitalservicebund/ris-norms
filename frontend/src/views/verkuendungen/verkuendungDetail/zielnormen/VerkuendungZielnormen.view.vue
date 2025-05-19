@@ -29,7 +29,7 @@ import {
   useToast,
 } from "primevue"
 import { computed, ref, watch } from "vue"
-import RisDokumentExplorer from "../../../../components/RisDokumentExplorer.vue"
+import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
 import RisZielnormForm from "./RisZielnormForm.vue"
 
 const { addErrorToast } = useErrorToast()

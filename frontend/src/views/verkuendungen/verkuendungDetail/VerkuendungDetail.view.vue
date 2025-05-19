@@ -111,7 +111,7 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
             <div v-else class="flex flex-col">
               <RisZielnormenList
                 :items="groupedZielnormen"
-                :verkuendungeli="verkuendung?.eli ?? ''"
+                :verkuendung-eli="verkuendung?.eli ?? ''"
               />
             </div>
           </template>

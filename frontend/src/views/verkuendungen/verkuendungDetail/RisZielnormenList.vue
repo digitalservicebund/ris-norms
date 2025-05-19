@@ -35,9 +35,9 @@ type MappedRisZielnormenListItem = Omit<
   }>
 }
 
-const { items, verkuendungeli } = defineProps<{
+const { items, verkuendungEli } = defineProps<{
   items: RisZielnormenListItem[]
-  verkuendungeli: string
+  verkuendungEli: string
 }>()
 
 function formatDate(dateString: string | undefined): string {
@@ -109,7 +109,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
                 <Column field="normExpressionEli" header="ELI">
                   <template #body="{ data }">
                     <RouterLink
-                      :to="`/verkuendungen/${verkuendungeli}/textkonsolidierung/${data.documentExpressionEli}`"
+                      :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${data.documentExpressionEli}`"
                       class="ris-link2-regular"
                     >
                       {{ data.normExpressionEli }}

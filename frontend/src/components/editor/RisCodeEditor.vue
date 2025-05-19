@@ -3,9 +3,8 @@ import { useCodemirrorVueEditableExtension } from "@/components/editor/composabl
 import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
 import { xml } from "@codemirror/lang-xml"
 import { basicSetup, EditorView } from "codemirror"
-import { computed, ref, shallowRef, watch } from "vue"
-
-const emit = defineEmits<(e: "ready", view: EditorView) => void>()
+import { computed, ref, shallowRef, watch, nextTick } from "vue"
+import { SearchCursor } from "@codemirror/search"
 
 /**
  * The xml content of the editor. Triggers an update event when the content changes.
@@ -95,10 +94,31 @@ watch(
       ],
       parent: editorElement.value,
     })
-    emit("ready", editorView.value)
   },
   { immediate: true },
 )
+
+function scrollToText(text: string) {
+  if (!editorView.value) return
+
+  const cursor = new SearchCursor(editorView.value.state.doc, text)
+  if (!cursor.next()) return
+
+  const { from, to } = cursor.value
+  editorView.value.dispatch({
+    selection: { anchor: from, head: to },
+  })
+
+  nextTick(() => {
+    const rect = editorView.value!.lineBlockAt(from)
+    editorView.value!.scrollDOM.scrollTo({
+      top: rect.top - editorView.value!.scrollDOM.clientHeight / 2,
+      behavior: "smooth",
+    })
+  })
+}
+
+defineExpose({ scrollToText })
 </script>
 
 <template>
