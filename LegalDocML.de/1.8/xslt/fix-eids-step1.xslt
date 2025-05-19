@@ -1038,6 +1038,7 @@
         </xsl:call-template>
     </xsl:template>
 
+    <!-- MISSING (as it is not important for the files we are converting): "Im Fall von akn:article wird die Positionsangabe in diesem Fall allerdings im Kontext des beinhaltenden Elternelements ermittelt, sondern innerhalb des gesamten Dokuments." -->
 
     <xsl:template name="updateEIdOrdinal">
         <xsl:param name="partName" required="yes"/>
