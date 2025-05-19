@@ -361,7 +361,7 @@
     <xsl:template mode="step1" match="akn:authorialNote">
         <xsl:param name="parentEId" required="no"/>
         <xsl:call-template name="updateEIdOrdinal">
-            <xsl:with-param name="partName">fnote</xsl:with-param>
+            <xsl:with-param name="partName">amtlfnote</xsl:with-param>
             <xsl:with-param name="parentEId" select="$parentEId"/>
         </xsl:call-template>
     </xsl:template>
