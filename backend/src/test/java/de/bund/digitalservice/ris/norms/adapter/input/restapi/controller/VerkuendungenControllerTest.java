@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.VerkuendungNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateZielnormenExpressionsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendungenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
@@ -54,7 +54,7 @@ class VerkuendungenControllerTest {
   private LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
 
   @MockitoBean
-  private LoadZielnormenUseCase loadZielnormenUseCase;
+  private CreateZielnormenExpressionsUseCase createZielnormenExpressionsUseCase;
 
   @Nested
   class getAllVerkuendungen {
@@ -386,36 +386,36 @@ class VerkuendungenControllerTest {
     @Test
     void itShouldReturnZielnormenPreview() throws Exception {
       // Given
-      when(loadZielnormenUseCase.loadZielnormen(any())).thenReturn(
+      when(createZielnormenExpressionsUseCase.createZielnormExpressions(any())).thenReturn(
         List.of(
-          new LoadZielnormenUseCase.ZielnormPreview(
+          new CreateZielnormenExpressionsUseCase.Zielnorm(
             NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
             "Gesetz zur Regelung des öffentlichen Vereinsrechts",
             "Vereinsgesetz",
             List.of(
-              new LoadZielnormenUseCase.ZielnormPreview.Expression(
+              new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
                 true,
                 true,
-                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+                CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.OTHER_VERKUENDUNG
               ),
-              new LoadZielnormenUseCase.ZielnormPreview.Expression(
+              new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
                 false,
                 false,
-                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+                CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.THIS_VERKUENDUNG
               ),
-              new LoadZielnormenUseCase.ZielnormPreview.Expression(
+              new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
                 true,
                 true,
-                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+                CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.OTHER_VERKUENDUNG
               ),
-              new LoadZielnormenUseCase.ZielnormPreview.Expression(
+              new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
                 false,
                 false,
-                LoadZielnormenUseCase.ZielnormPreview.CreatedBy.SYSTEM
+                CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.SYSTEM
               )
             )
           )
@@ -471,8 +471,8 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
 
-      verify(loadZielnormenUseCase, times(1)).loadZielnormen(
-        new LoadZielnormenUseCase.Query(
+      verify(createZielnormenExpressionsUseCase, times(1)).createZielnormExpressions(
+        new CreateZielnormenExpressionsUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );

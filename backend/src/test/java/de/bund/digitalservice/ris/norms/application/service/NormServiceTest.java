@@ -506,7 +506,7 @@ class NormServiceTest {
   }
 
   @Nested
-  class loadZielnormPreview {
+  class loadZielnorm {
 
     @Test
     void itShouldGenerateCorrectElisForNoExistingExpressions() {
@@ -549,8 +549,8 @@ class NormServiceTest {
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
       );
 
-      var preview = service.loadZielnormen(
-        new LoadZielnormenUseCase.Query(
+      var preview = service.createZielnormExpressions(
+        new CreateZielnormenExpressionsUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -564,11 +564,11 @@ class NormServiceTest {
       assertThat(preview.getFirst().expressions())
         .hasSize(1)
         .containsExactly(
-          new LoadZielnormenUseCase.ZielnormPreview.Expression(
+          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             false,
             false,
-            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.THIS_VERKUENDUNG
           )
         );
 
@@ -673,8 +673,8 @@ class NormServiceTest {
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"))
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"));
 
-      var preview = service.loadZielnormen(
-        new LoadZielnormenUseCase.Query(
+      var preview = service.createZielnormExpressions(
+        new CreateZielnormenExpressionsUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -688,29 +688,29 @@ class NormServiceTest {
       assertThat(preview.getFirst().expressions())
         .hasSize(4)
         .containsExactly(
-          new LoadZielnormenUseCase.ZielnormPreview.Expression(
+          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             true,
             true,
-            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.OTHER_VERKUENDUNG
           ),
-          new LoadZielnormenUseCase.ZielnormPreview.Expression(
+          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
             false,
             false,
-            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.THIS_VERKUENDUNG
           ),
-          new LoadZielnormenUseCase.ZielnormPreview.Expression(
+          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
             true,
             true,
-            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
+            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.OTHER_VERKUENDUNG
           ),
-          new LoadZielnormenUseCase.ZielnormPreview.Expression(
+          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
             false,
             false,
-            LoadZielnormenUseCase.ZielnormPreview.CreatedBy.SYSTEM
+            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.SYSTEM
           )
         );
 
@@ -732,7 +732,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
-      verify(loadNormPort, times(2)).loadNorm(
+      verify(loadNormPort, times(1)).loadNorm(
         new LoadNormPort.Command(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
         )
@@ -747,7 +747,7 @@ class NormServiceTest {
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
         )
       );
-      verify(loadNormPort, times(2)).loadNorm(
+      verify(loadNormPort, times(1)).loadNorm(
         new LoadNormPort.Command(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
         )
@@ -763,12 +763,12 @@ class NormServiceTest {
 
     @Test
     void itShouldRunloadAndSaveZielnormen() {
-      LoadZielnormenUseCase.Query query = new LoadZielnormenUseCase.Query(
+      CreateZielnormenExpressionsUseCase.Query query = new CreateZielnormenExpressionsUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
         false
       );
 
-      assertThatThrownBy(() -> service.loadZielnormen(query))
+      assertThatThrownBy(() -> service.createZielnormExpressions(query))
         .isInstanceOf(UnsupportedOperationException.class)
         .hasMessage("Not yet implemented");
     }
