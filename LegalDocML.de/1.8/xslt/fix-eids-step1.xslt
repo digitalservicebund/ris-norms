@@ -1082,7 +1082,7 @@
                  select="replace($num-step2-part1, '(\()(\d+[a-z]*)(\))', '$2')"/>
         <xsl:variable name="num-step3" select="translate($num-step2-part2, '-_.', '~~~')"/>
         <xsl:variable name="partCount"
-                      select="encode-for-uri($num-step3)"/>
+                      select="lower-case(encode-for-uri($num-step3))"/>
 
         <xsl:variable name="newEId">
             <xsl:choose>
