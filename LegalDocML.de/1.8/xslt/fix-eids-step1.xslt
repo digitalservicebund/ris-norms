@@ -753,7 +753,7 @@
     <xsl:template mode="step1" match="akn:preamble">
         <xsl:param name="parentEId" required="no"/>
         <xsl:call-template name="updateEIdOrdinal">
-            <xsl:with-param name="partName">preambel</xsl:with-param>
+            <xsl:with-param name="partName">präambel</xsl:with-param>
             <xsl:with-param name="parentEId" select="$parentEId"/>
         </xsl:call-template>
     </xsl:template>
@@ -1034,6 +1034,14 @@
         <xsl:param name="parentEId" required="no"/>
         <xsl:call-template name="updateEIdOrdinal">
             <xsl:with-param name="partName">marker</xsl:with-param>
+            <xsl:with-param name="parentEId" select="$parentEId"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template mode="step1" match="akn:note">
+        <xsl:param name="parentEId" required="no"/>
+        <xsl:call-template name="updateEIdOrdinal">
+            <xsl:with-param name="partName">editfnote</xsl:with-param>
             <xsl:with-param name="parentEId" select="$parentEId"/>
         </xsl:call-template>
     </xsl:template>
