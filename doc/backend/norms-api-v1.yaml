@@ -101,7 +101,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /verkuendungen/{expressionEli}/zielnormen-preview:
+  /verkuendungen/{expressionEli}/zielnormen/expressions/preview:
     get:
       tags:
         - Verkuendungen
@@ -120,7 +120,32 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ZielnormenPreview"
+                  $ref: "#/components/schemas/Zielnormen"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /verkuendungen/{expressionEli}/zielnormen/expressions/create:
+    post:
+      tags:
+        - Verkuendungen
+      summary: Create expressions of a zielnorm that should be set to gegenstandslos or be created when applying all the currently existing ZielnormReferences of the Verkündung
+      parameters:
+        - name: expressionEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormExpressionEli"
+      responses:
+        "200":
+          description: List of Zielnormen with all changed expressions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Zielnormen"
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
@@ -865,8 +890,9 @@ components:
         zielnorm:
           $ref: "#/components/schemas/NormExpressionEli"
 
-    ZielnormenPreview:
+    Zielnormen:
       type: object
+      description: Summarizing the newly created expressions for a Zielnorm after applying a Verkuendung
       properties:
         normWorkEli:
           $ref: "#/components/schemas/NormWorkEli"
@@ -883,7 +909,7 @@ components:
                 $ref: "#/components/schemas/NormExpressionEli"
               isGegenstandslos:
                 type: boolean
-                description: Will the expression be gegenstandslos once the zielnorm-references are applied?
+                description: Is the expression gegenstandslos?
               isCreated:
                 type: boolean
                 description: Does this expression already exist in the system?
