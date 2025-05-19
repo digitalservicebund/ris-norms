@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	##################################################################################
+	Discovery Metadaten&#x2D;Struktur für nichtdefinierte Metadaten auf LDML.de&#x2D;Ebene
+	2024 Copyright (C) 2024 Digitalservice GmbH des Bundes
+	##################################################################################
+-->
+<?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.7.2/ ../metadata.xsd">
+   <akn:documentCollection name="/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument">
+      <akn:meta GUID="abdbe370-5da2-429d-980a-6e774cfe57c7" eId="meta-n1">
+         <akn:identification eId="meta-n1_ident-n1"
+                             GUID="a4dd74bd-557a-4dfd-94de-34a5bd11c4d3"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="8207c9b1-dd11-48d4-8d16-fdffd757c7d4">
+               <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
+                             GUID="7c6a0c3f-0abd-43c9-b6f9-5ba7ded1a255"
+                             value="eli/bund/bgbl-1/2000/s717/rechtsetzungsdokument-1.xml"/>
+               <akn:FRBRuri eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
+                            GUID="aae4b16f-16a9-4c2c-ac43-49ab52211f23"
+                            value="eli/bund/bgbl-1/2000/s717"/>
+               <akn:FRBRalias eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"
+                              GUID="86760fe4-c171-412c-836d-27c48049ff95"
+                              name="übergreifende-id"
+                              value="2c1a6ec9-7161-4e2f-8999-91219180d992"/>
+               <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
+                             GUID="a19b88b1-9ae2-469f-8a3b-ded6e104eb61"
+                             date="2000-05-10"
+                             name="verkuendungsfassung-ausfertigungsdatum"/>
+               <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
+                             GUID="8a6b5a91-d80d-4abc-b4f8-d8958e8e193d"
+                             date="2000-05-10"
+                             name="verkuendungsfassung-verkuendungsdatum"/>
+               <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
+                               GUID="2dfd83fe-cddf-47fe-aaec-e419102d3905"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"
+                                GUID="dba4fe23-7cf1-4711-8adb-c3f7dd5f4ec3"
+                                value="de"/>
+               <akn:FRBRnumber eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"
+                               GUID="bd3ac0e9-cb2f-49ad-a429-215e6aec7111"
+                               value="s717"/>
+               <akn:FRBRname eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"
+                             GUID="625a5f11-b53f-4b33-9079-65d807d8293e"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
+                                GUID="4d5147c7-1e7d-475f-ac0e-d77836a94237"
+                                value="rechtsetzungsdokument-1.xml"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="06e3d7aa-c96f-45df-955a-4044a67e046b">
+               <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
+                             GUID="3a4cda5e-6a85-4ef3-9b97-1640e6227ba1"
+                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/rechtsetzungsdokument-1.xml"/>
+               <akn:FRBRuri eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
+                            GUID="418f7101-6595-4b98-adfb-6dbda2fd5deb"
+                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu"/>
+               <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
+                              GUID="4f0bb043-8429-48b8-b3f6-5e137ef7b175"
+                              name="aktuelle-version-id"
+                              value="53d31e3c-5c46-4e96-8017-b0db064561a2"/>
+               <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"
+                              GUID="6e1ba8e7-a753-4d55-9a81-b1249238da9a"
+                              name="nachfolgende-version-id"
+                              value="5d84cd1d-3575-4a03-bb6c-f17834e392fe"/>
+               <akn:FRBRauthor eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               GUID="345bc2f4-5160-4235-bb9b-e9b4896ff6a5"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             GUID="e120adc6-b377-4db9-b8c1-9ed291dbac43"
+                             date="2021-06-02"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 GUID="0f572090-49eb-413b-9027-8a5f48ce2f60"
+                                 language="deu"/>
+               <akn:FRBRversionNumber eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      GUID="eb358cf8-702c-4c7f-adfc-731c72b2797a"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation eId="meta-n1_ident-n1_frbrmanifestation-n1"
+                                   GUID="5a0eab2b-f350-42ac-a06c-75c88e4a1d98">
+               <akn:FRBRthis eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
+                             GUID="cb1846f1-286a-4be1-bd08-dbf08cc77d91"
+                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/rechtsetzungsdokument-1.xml"/>
+               <akn:FRBRuri eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
+                            GUID="b6256ef5-df3f-4d06-8e5e-cfab300bfc91"
+                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/rechtsetzungsdokument-1.xml"/>
+               <akn:FRBRdate eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
+                             GUID="3f088c94-0a32-4730-98c7-4bd31997606c"
+                             date="2021-06-02"
+                             name="generierung"/>
+               <akn:FRBRauthor eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               GUID="c7983bfe-df26-4022-9452-aa0a7dba8ecc"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
+                               GUID="e1be06a9-aee5-49dd-b4f5-77ac5a353a7b"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:proprietary GUID="a2017d4c-c5ab-4310-80ce-dbd69b6b1b80"
+                          source="attributsemantik-noch-undefiniert"
+                          eId="meta-n1_proprietary-n1">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+               <meta:initiant>nicht-vorhanden</meta:initiant>
+               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
+               <meta:fna>611-1-1</meta:fna>
+               <meta:gesta>nicht-vorhanden</meta:gesta>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
+      </akn:meta>
+      <akn:collectionBody GUID="a21bc976-b71e-48f7-94ca-b855ecce7e2d" eId="rdokhauptteil-n1">
+         <akn:component GUID="a1b48f11-c8e2-419a-98f3-934257354aa1" eId="rdokhauptteil-n1_tldokverweis-n1">
+            <akn:documentRef GUID="df73a7e9-5670-4fb3-8d6b-8c5ef8c612e2"
+                             href="regelungstext-1.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
+                             eId="rdokhauptteil-n1_tldokverweis-n1_verweis-n1"/>
+         </akn:component>
+      </akn:collectionBody>
+   </akn:documentCollection>
+</akn:akomaNtoso>

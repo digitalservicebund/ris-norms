@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="2024-01-18"
-                             GUID="1b1dbc3a-1bed-47ac-9407-028456584e6b"
+                             GUID="00c16494-dbcb-40c5-88dd-4ccfd2e440b8"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="6090dee2-33c2-4fc5-965d-457cbb7aa03f"
@@ -757,12 +757,7 @@
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
             </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>bundesregierung</meta:initiant>
-               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
-               <meta:fna>1101-13</meta:fna>
-               <meta:gesta>B041</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            
             <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                <meta-breg:federfuehrung>
                   <meta-breg:federfuehrend ab="2024-01-15" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
@@ -788,16 +783,16 @@
                       eId="einleitung-n1_block-n1_datum-n1">Vom 15. Januar 2024</akn:date>
          </akn:block>
       </akn:preface>
-      <akn:preamble GUID="fdd1ee6c-91b4-4da0-b973-b560ca5112f8" eId="preambel-n1">
+      <akn:preamble GUID="fdd1ee6c-91b4-4da0-b973-b560ca5112f8" eId="präambel-n1">
          <akn:formula refersTo="eingangsformel"
                       name="attributsemantik-noch-undefiniert"
                       GUID="0ab23f5d-1552-4361-8b83-65e2ef838de2"
-                      eId="preambel-n1_formel-n1">
+                      eId="präambel-n1_formel-n1">
             <akn:p GUID="04d48da3-0dd1-470d-94d8-428ba96b2f77"
-                   eId="preambel-n1_formel-n1_text-n1">Der <akn:organization title="Bundestag"
+                   eId="präambel-n1_formel-n1_text-n1">Der <akn:organization title="Bundestag"
                                  refersTo="attributsemantik-noch-undefiniert"
                                  GUID="575dab2b-c1cd-412e-a892-de35a8ef2c4e"
-                                 eId="preambel-n1_formel-n1_text-n1_org-n1">Bundestag</akn:organization> hat das folgende Gesetz beschlossen:</akn:p>
+                                 eId="präambel-n1_formel-n1_text-n1_org-n1">Bundestag</akn:organization> hat das folgende Gesetz beschlossen:</akn:p>
          </akn:formula>
       </akn:preamble>
       <akn:body GUID="48ec2a6d-a806-47ec-b1d3-84a12c1aa097" eId="hauptteil-n1">
@@ -2798,7 +2793,8 @@
                          GUID="1a8f914f-b823-4bf1-bfa2-7d1dc68d375b"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">15. Januar 2024</akn:date>
             </akn:p>
-            <akn:p GUID="184d9c06-eb99-42e1-8e67-69a040c9bc3f" eId="schluss-n1_blockcontainer-n1_text-n2">
+            <akn:p GUID="2daad920-a9de-4c32-b54a-1d1eb7f1d777"
+                   eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="77bfaece-3a84-4d46-a782-ac70e41b0ca4"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
                   <akn:role refersTo="attributsemantik-noch-undefiniert"
@@ -2809,7 +2805,8 @@
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="d63886b5-41cd-4384-b707-876ddb6297f8" eId="schluss-n1_blockcontainer-n1_text-n3">
+            <akn:p GUID="3546fc3c-1ac2-4d26-ab71-ed6eb3847786"
+                   eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="036681a5-c983-4e84-af48-5fb0c64548fc"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
                   <akn:role refersTo="attributsemantik-noch-undefiniert"
@@ -2820,7 +2817,8 @@
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="99048c46-57da-461f-96a2-e3b7bd7d80fd" eId="schluss-n1_blockcontainer-n1_text-n4">
+            <akn:p GUID="680a04c9-a888-404d-a47b-e51d5f6ec087"
+                   eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="61751c33-6912-4410-8f97-fff3c936fd0b"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
                   <akn:role refersTo="attributsemantik-noch-undefiniert"

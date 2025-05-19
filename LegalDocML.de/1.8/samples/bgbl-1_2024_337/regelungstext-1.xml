@@ -25,7 +25,7 @@
                              date="2024-10-31"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="73ff7ae4-f729-47a0-a4eb-ae978a1d4c71"
+               <akn:FRBRdate GUID="8bb3553f-e199-4cee-90a5-fe5230d68eab"
                              date="2024-10-31"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -250,12 +250,7 @@
                <meta:typ>verordnung</meta:typ>
                <meta:form>mantelform</meta:form>
             </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>nicht-vorhanden</meta:initiant>
-               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
-               <meta:fna>7610-20-1</meta:fna>
-               <meta:gesta>nicht-vorhanden</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="a31d3141-e4bd-4137-8f2b-3ec7929892c9" eId="einleitung-n1">
@@ -277,13 +272,13 @@
                       refersTo="ausfertigung-datum">Vom 28. Oktober 2024</akn:date>
          </akn:block>
       </akn:preface>
-      <akn:preamble GUID="01b6c34f-9a6a-4e10-9e65-58d3b5ed6121" eId="preambel-n1">
+      <akn:preamble GUID="01b6c34f-9a6a-4e10-9e65-58d3b5ed6121" eId="präambel-n1">
          <akn:citations GUID="d4f684cf-ab94-46c0-83b8-6cabbaa16fa5"
-                        eId="preambel-n1_ernormen-n1">
+                        eId="präambel-n1_ernormen-n1">
             <akn:citation GUID="505941fd-0949-433b-83bf-b3e1ba5a5e45"
-                          eId="preambel-n1_ernormen-n1_ernorm-n1">
+                          eId="präambel-n1_ernormen-n1_ernorm-n1">
                <akn:p GUID="01183ce7-b94b-4f58-bf6c-5b47087d8425"
-                      eId="preambel-n1_ernormen-n1_ernorm-n1_text-n1">Auf Grund des § 33 Absatz 1 Satz 1 Nummer 1 bis 3 und Satz 2 des Einlagensicherungsgesetzes vom 28. Mai 2015 (BGBl. I S. 786) verordnet das Bundesministerium der Finanzen nach Anhörung der Entschädigungseinrichtung deutscher Banken GmbH:</akn:p>
+                      eId="präambel-n1_ernormen-n1_ernorm-n1_text-n1">Auf Grund des § 33 Absatz 1 Satz 1 Nummer 1 bis 3 und Satz 2 des Einlagensicherungsgesetzes vom 28. Mai 2015 (BGBl. I S. 786) verordnet das Bundesministerium der Finanzen nach Anhörung der Entschädigungseinrichtung deutscher Banken GmbH:</akn:p>
             </akn:citation>
          </akn:citations>
       </akn:preamble>
@@ -1036,7 +1031,8 @@
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
                          refersTo="ausfertigung-datum">28. Oktober 2024</akn:date>
             </akn:p>
-            <akn:p GUID="23e2d60a-6727-4e7c-be3f-46760092076c" eId="schluss-n1_blockcontainer-n1_text-n2">
+            <akn:p GUID="bb4bd8cf-0812-442b-9812-2c368e33d5f6"
+                   eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="3ac74ab3-cf71-4577-8b88-11eb1f693c58"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
                   <akn:role GUID="cadfeb17-e492-4ba2-8c7a-ea409ca115b8"

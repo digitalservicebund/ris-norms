@@ -25,7 +25,7 @@
                              date="2025-04-02"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="cca5bc47-7cfa-4980-b2b3-2b0e5c36ed03"
+               <akn:FRBRdate GUID="ca13b5ea-8418-44e2-9531-95c71ea8287e"
                              date="2025-04-02"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>

@@ -25,7 +25,7 @@
                              date="2024-01-24"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="224b3f5d-0f9e-4205-a4c5-966b24b0ce83"
+               <akn:FRBRdate GUID="380580bb-55e8-45b8-ab90-a2d99db9835e"
                              date="2024-01-24"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -436,12 +436,7 @@
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
             </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>nicht-vorhanden</meta:initiant>
-               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
-               <meta:fna>neu: 51-15; 205-3, 51-1, 51-7-1, 51-1-32, 2030-25, 53-4, 53-12, 53-10, 51-7</meta:fna>
-               <meta:gesta>H002</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="4b6b1f2a-b771-44e9-9c10-3aa795359b4c" eId="einleitung-n1">
@@ -466,110 +461,110 @@
                       refersTo="ausfertigung-datum">Vom 22. Januar 2024</akn:date>
          </akn:block>
       </akn:preface>
-      <akn:preamble GUID="8ed73cdd-6d30-4e29-a54e-ba6450b65b31" eId="preambel-n1">
+      <akn:preamble GUID="8ed73cdd-6d30-4e29-a54e-ba6450b65b31" eId="präambel-n1">
          <akn:formula GUID="091d9542-98de-4014-bc5c-9ab48f1f3b75"
-                      eId="preambel-n1_formel-n1"
+                      eId="präambel-n1_formel-n1"
                       name="attributsemantik-noch-undefiniert"
                       refersTo="eingangsformel">
             <akn:p GUID="ac762386-edac-4944-939d-0c428c6592c3"
-                   eId="preambel-n1_formel-n1_text-n1">Der Bundestag hat das folgende Gesetz beschlossen:</akn:p>
+                   eId="präambel-n1_formel-n1_text-n1">Der Bundestag hat das folgende Gesetz beschlossen:</akn:p>
          </akn:formula>
          <akn:blockContainer GUID="08aaa508-1f69-4d15-82f0-e6497ad617ab"
-                             eId="preambel-n1_blockcontainer-n1"
+                             eId="präambel-n1_blockcontainer-n1"
                              refersTo="inhaltsuebersicht">
             <akn:heading GUID="eb6450ba-8d0c-48b3-8847-3acfdb71bff6"
-                         eId="preambel-n1_blockcontainer-n1_überschrift-n1">Inhaltsübersicht</akn:heading>
+                         eId="präambel-n1_blockcontainer-n1_überschrift-n1">Inhaltsübersicht</akn:heading>
             <akn:toc GUID="6f7ecc76-62e6-4452-9156-5eb809d08649"
-                     eId="preambel-n1_blockcontainer-n1_inhuebs-n1">
+                     eId="präambel-n1_blockcontainer-n1_inhuebs-n1">
                <akn:tocItem GUID="f92558c4-303a-400b-af95-5edee118ae59"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1"
                             href="#"
                             level="1">
                   <akn:span GUID="cd5b7a2a-afd1-4eb4-9474-c0d85b9f7320"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1_span-n1">Artikel 1</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1_span-n1">Artikel 1</akn:span>
                   <akn:span GUID="bf944184-66fd-4681-a009-5787a12b716a"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1_span-n2">Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1_span-n2">Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="3570c64e-922b-4823-8e5b-6b1db9d140ea"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n2"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n2"
                             href="#"
                             level="1">
                   <akn:span GUID="55f80bf2-b7f9-4175-88d9-5b0303e78620"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n2_span-n1">Artikel 2</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n2_span-n1">Artikel 2</akn:span>
                   <akn:span GUID="9e5b322e-f558-4e97-872f-13436f5f084a"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n2_span-n2">Änderung des Bundesgleichstellungsgesetzes</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n2_span-n2">Änderung des Bundesgleichstellungsgesetzes</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="433e8037-2fd6-40a1-ab74-691a3aac3a66"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n3"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n3"
                             href="#"
                             level="1">
                   <akn:span GUID="2b585497-69ec-4873-82eb-1620d085fab4"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n3_span-n1">Artikel 3</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n3_span-n1">Artikel 3</akn:span>
                   <akn:span GUID="ff5efff6-dbd6-45a2-a767-9b784faf3ebf"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n3_span-n2">Änderung des Soldatengesetzes</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n3_span-n2">Änderung des Soldatengesetzes</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="4ba2d83b-399c-466d-8137-b068ce3a547c"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n4"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n4"
                             href="#"
                             level="1">
                   <akn:span GUID="5e6e99df-3d44-4956-a205-b39da90d8b8f"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n4_span-n1">Artikel 4</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n4_span-n1">Artikel 4</akn:span>
                   <akn:span GUID="9aaa0c96-efad-43e5-9da4-c43527878a4f"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n4_span-n2">Änderung der Gleichstellungsbeauftragten-Wahlverordnung Soldatinnen</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n4_span-n2">Änderung der Gleichstellungsbeauftragten-Wahlverordnung Soldatinnen</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="21fddd85-2cf7-42f8-8b0a-7a6aa275dc31"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n5"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n5"
                             href="#"
                             level="1">
                   <akn:span GUID="bd3419f9-6473-4e19-be4d-426ab281dab0"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n5_span-n1">Artikel 5</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n5_span-n1">Artikel 5</akn:span>
                   <akn:span GUID="9ec4c2dd-4578-45cf-abc8-e433a65b4f38"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n5_span-n2">Änderung der Soldaten-Haushaltshilfen-Verordnung</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n5_span-n2">Änderung der Soldaten-Haushaltshilfen-Verordnung</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="b768e444-2891-474a-b401-f1c8319484ba"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n6"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n6"
                             href="#"
                             level="1">
                   <akn:span GUID="10b38502-a790-4634-93cb-70b1aadbc9bb"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n6_span-n1">Artikel 6</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n6_span-n1">Artikel 6</akn:span>
                   <akn:span GUID="52a3eb7c-aad3-4a3e-ad44-bbd45d36adc8"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n6_span-n2">Änderung des Beamtenversorgungsgesetzes</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n6_span-n2">Änderung des Beamtenversorgungsgesetzes</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="69edde4f-1302-4cd6-b6f1-cac20e3634af"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n7"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n7"
                             href="#"
                             level="1">
                   <akn:span GUID="dd042d6c-1628-4528-a20e-f8c578f3f16f"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n7_span-n1">Artikel 7</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n7_span-n1">Artikel 7</akn:span>
                   <akn:span GUID="5b90bb05-4f8e-46f6-9226-48fe8113bcd3"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n7_span-n2">Änderung des Soldatenversorgungsgesetzes</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n7_span-n2">Änderung des Soldatenversorgungsgesetzes</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="9ea6556b-87a3-4847-9d1b-645dc5764042"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n8"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n8"
                             href="#"
                             level="1">
                   <akn:span GUID="149857da-d054-4100-9985-1d1f424aab06"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n8_span-n1">Artikel 8</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n8_span-n1">Artikel 8</akn:span>
                   <akn:span GUID="14eb423a-0e94-4495-9ee2-f255560c8db3"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n8_span-n2">Änderung des Soldatenversorgungsgesetzes</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n8_span-n2">Änderung des Soldatenversorgungsgesetzes</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="53d488aa-29ac-47e4-9735-8ee8d255b8f8"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n9"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n9"
                             href="#"
                             level="1">
                   <akn:span GUID="81f53feb-d28f-4ba4-9bb0-0c1438197da6"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n9_span-n1">Artikel 9</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n9_span-n1">Artikel 9</akn:span>
                   <akn:span GUID="0dfcc50f-5fed-408a-a510-7a212612cc57"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n9_span-n2">Änderung des Unterhaltssicherungsgesetzes</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n9_span-n2">Änderung des Unterhaltssicherungsgesetzes</akn:span>
                </akn:tocItem>
                <akn:tocItem GUID="214ddb25-58c2-47b4-ab6a-eee44b3bec20"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n10"
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n10"
                             href="#"
                             level="1">
                   <akn:span GUID="1ac9a330-e9e4-46c3-8a1d-ffeafa96f5b7"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n10_span-n1">Artikel 10</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n10_span-n1">Artikel 10</akn:span>
                   <akn:span GUID="d62d8bd9-f096-4b08-a917-60bdf5601573"
-                            eId="preambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n10_span-n2">Inkrafttreten, Außerkrafttreten</akn:span>
+                            eId="präambel-n1_blockcontainer-n1_inhuebs-n1_eintrag-n10_span-n2">Inkrafttreten, Außerkrafttreten</akn:span>
                </akn:tocItem>
             </akn:toc>
          </akn:blockContainer>
@@ -2651,7 +2646,8 @@
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
                          refersTo="ausfertigung-datum">22. Januar 2024</akn:date>
             </akn:p>
-            <akn:p GUID="1fd0f9b1-df26-4a67-8b3d-20d295597032" eId="schluss-n1_blockcontainer-n1_text-n2">
+            <akn:p GUID="71100632-d472-4a59-8b9c-286f583ec90d"
+                   eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="131413d3-ca44-44f4-9801-6d201a284e69"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
                   <akn:role GUID="60fb91f4-3be5-41b0-8311-3a05be352846"
@@ -2662,7 +2658,8 @@
                               refersTo="attributsemantik-noch-undefiniert">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="7e2ca20c-0117-4208-a1db-5e484cb0fe85" eId="schluss-n1_blockcontainer-n1_text-n3">
+            <akn:p GUID="4dc9fad5-fbd9-4bb6-890f-f82c49084826"
+                   eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="5f538819-6efe-4fcd-9453-38f61e90b90a"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
                   <akn:role GUID="00cd358c-418a-44cf-81c3-c7f523a56473"
@@ -2673,7 +2670,8 @@
                               refersTo="attributsemantik-noch-undefiniert">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="323a0184-ae4d-4540-ab48-39944dc93d8d" eId="schluss-n1_blockcontainer-n1_text-n4">
+            <akn:p GUID="6f4b4287-3555-4783-b6cc-13d0a7805fd6"
+                   eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="7824ff3d-de5d-4d3f-9c11-daad82360358"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
                   <akn:role GUID="ce4b6cac-03a7-41cf-94ae-eb86534574a7"
@@ -2684,7 +2682,8 @@
                               refersTo="attributsemantik-noch-undefiniert">Boris Pistorius</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="0f3e18b8-f8a4-4aac-8f66-bab103553173" eId="schluss-n1_blockcontainer-n1_text-n5">
+            <akn:p GUID="a1c0c371-19b3-434e-ae67-ad06922329d4"
+                   eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature GUID="8d20b71e-9cad-4302-96a8-6d1d84e57026"
                               eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1">
                   <akn:role GUID="a663ac7f-2341-4f62-8e89-bf41e1087a9f"
@@ -2695,7 +2694,8 @@
                               refersTo="attributsemantik-noch-undefiniert">Nancy Faeser</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="4ad528b3-b856-43d7-85df-0ab5a905951c" eId="schluss-n1_blockcontainer-n1_text-n6">
+            <akn:p GUID="fed13c2f-18d3-4f57-8f36-ba7be67ed0c6"
+                   eId="schluss-n1_blockcontainer-n1_text-n6">
                <akn:signature GUID="396e0e01-35c0-4509-94af-38f7615163d9"
                               eId="schluss-n1_blockcontainer-n1_text-n6_signatur-n1">
                   <akn:role GUID="f46417ff-31d2-4107-b197-05d5a29bd0c1"

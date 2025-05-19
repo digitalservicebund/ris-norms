@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="1000-01-03"
-                             GUID="28846b19-dad7-4990-adcd-cd34a85bcdcc"
+                             GUID="4be33d92-bd40-4b7e-bb10-ed0fe7fa1f0b"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="a25bcc40-ccce-411c-b076-c278ce81bca3"

@@ -37,7 +37,7 @@
                              date="2020-12-23"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="68da4059-eb3a-48dd-b73f-3eb9a35ce4b0"
+               <akn:FRBRdate GUID="f7bbc507-2ccd-4fa2-9644-954f8e2c2cfe"
                              date="2020-12-23"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -161,12 +161,12 @@
                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2">
                   <akn:p GUID="5b8aa5a8-f3db-3437-98ca-92ee0694653f"
                          eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1">Delegierte Verordnung (EU) 2020/1272 der Kommission zur Änderung und Berichtigung der Delegierten Verordnung (EU) 2019/979 zur Ergänzung der Verordnung (EU) 2017/1129 des Europäischen Parlaments und des Rates durch technische Regulierungsstandards für wesentliche Finanzinformationen in der Zusammenfassung des Prospekts, die Veröffentlichung und Klassifizierung von Prospekten, die Werbung für Wertpapiere, Nachträge zum prospekt und das Notifizierungsportal<akn:authorialNote GUID="6e996713-dd2d-33af-bc42-edb14ed36bcd"
-                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1_fnote-n1"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1_amtlfnote-n1"
                                         marker="(1)"
                                         placement="bottom"
                                         placementBase="">
                         <akn:p GUID="273a5bbf-a158-325e-a853-554966a65c49"
-                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1_fnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
                      </akn:authorialNote>
                   </akn:p>
                </akn:td>
@@ -205,12 +205,12 @@
                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2">
                   <akn:p GUID="cb63da37-954c-3a26-95a9-7c7b211ee85b"
                          eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1">Delegierte Verordnung (EU) 2020/1273 der Kommission zur Änderung und Berichtigung der Delegierten Verordnung (EU) 2019/980 zur Ergänzung der Verordnung (EU) 2017/1129 des Europäischen Parlaments und des Rates hinsichtlich der Aufmachung, des Inhalts, der Prüfung und der Billigung des Prospekts, der beim öffentlichen Angebot von Wertpapieren oder bei deren Zulassung zum Handel an einem geregelten Markt zu veröffentlichen ist<akn:authorialNote GUID="ce5a0690-cc5d-328a-892b-f18061582dab"
-                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1_fnote-n1"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1_amtlfnote-n1"
                                         marker="(1)"
                                         placement="bottom"
                                         placementBase="">
                         <akn:p GUID="8c1293bb-e491-3515-9df7-9121f4a3ef07"
-                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1_fnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
                      </akn:authorialNote>
                   </akn:p>
                </akn:td>
@@ -321,12 +321,12 @@
                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2">
                   <akn:p GUID="28d1fdc6-1021-3b04-b458-13c3facccba3"
                          eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1">Durchführungsverordnung (EU) 2020/1276 der Kommission zur Nichterneuerung der Genehmigung für den Wirkstoff Bromoxynil gemäß der Verordnung (EG) Nr. 1107/2009 des Europäischen Parlaments und des Rates über das Inverkehrbringen von Pflanzenschutzmitteln und zur Änderung des Anhangs der Durchführungsverordnung (EU) Nr. 540/2011 der Kommission<akn:authorialNote GUID="555cf5d0-771d-32a5-b20b-c0099b05e603"
-                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1_fnote-n1"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1_amtlfnote-n1"
                                         marker="(1)"
                                         placement="bottom"
                                         placementBase="">
                         <akn:p GUID="80b8c399-2c5e-33f1-b491-5b599ba8f5db"
-                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1_fnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
                      </akn:authorialNote>
                   </akn:p>
                </akn:td>
@@ -401,12 +401,12 @@
                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2">
                   <akn:p GUID="32750326-81f8-332f-acaa-9f302d3f6061"
                          eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1">Durchführungsverordnung (EU) 2020/1280 der Kommission zur Nichterneuerung der Genehmigung für den Wirkstoff Benalaxyl gemäß der Verordnung (EG) Nr. 1107/2009 des Europäischen Parlaments und des Rates über das Inverkehrbringen von Pflanzenschutzmitteln und zur Änderung des Anhangs der Durchführungsverordnung (EU) Nr. 540/2011 der Kommission<akn:authorialNote GUID="241a8b2b-1623-3ba2-9ff6-95d066ea6b87"
-                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1_fnote-n1"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1_amtlfnote-n1"
                                         marker="(1)"
                                         placement="bottom"
                                         placementBase="">
                         <akn:p GUID="f38796ca-ab7f-351f-a5d4-fc29003b3d64"
-                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1_fnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
                      </akn:authorialNote>
                   </akn:p>
                </akn:td>

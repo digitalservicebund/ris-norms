@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTE: This amending law references the target law from BGBl. 1 1000 Nr. 2 -->
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../schema-1.7.2/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../../schema-1.7.2/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../schema-1.7.2/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+   <akn:documentCollection name="/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument">
+      <akn:meta GUID="b1354a61-e665-4dee-84cf-9bfcab117226" eId="meta-n1">
+         <akn:identification source="attributsemantik-noch-undefiniert"
+                             GUID="59da48c6-0656-498d-8b1c-9c23ed33b87f"
+                             eId="meta-n1_ident-n1">
+            <akn:FRBRWork GUID="81ed635b-e745-48c1-852b-2cff7f1b636f" eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/rechtsetzungsdokument-1.xml"
+                             GUID="5ff0096b-fe5c-4e99-b5e8-e03594b61fab"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/5"
+                            GUID="35460c6c-0573-47d5-b837-00d1a8963c9b"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"/>
+               <akn:FRBRalias name="übergreifende-id"
+                              value="b19f68a3-3df8-4246-b2a9-812d4f28ac17"
+                              GUID="a8d5fea6-49a0-451b-9658-23381c63632c"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"/>
+               <akn:FRBRdate name="verkuendungsfassung-ausfertigungsdatum"
+                             date="1000-01-05"
+                             GUID="7c17403c-6432-46f0-924a-834b55aa7801"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
+               <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
+                             date="1000-01-05"
+                             GUID="4c6e4b4f-353a-4808-bfe8-56be4f86f93e"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
+               <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
+                               GUID="f7eb2a24-405c-478a-b5a1-30001dfc43ca"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"/>
+               <akn:FRBRcountry value="de"
+                                GUID="2795951d-a3c2-4465-a012-35ccd28cf0b8"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"/>
+               <akn:FRBRnumber value="5"
+                               GUID="bff6ce90-5f9b-405f-84ac-fbdfe298328d"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"/>
+               <akn:FRBRname value="bgbl-1"
+                             GUID="3bbb4324-2be0-4732-8c26-30495cd035da"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"/>
+               <akn:FRBRsubtype value="rechtsetzungsdokument-1.xml"
+                                GUID="c159019f-3714-4d7f-8d3a-e86b6cf0e2f6"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="fe8b792d-797a-49de-9d1e-b2e512e3dfd0" eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/rechtsetzungsdokument-1.xml"
+                             GUID="d4e5aea0-e435-4383-80e8-f2969bbbd11c"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu"
+                            GUID="ac90fbdd-be5a-4078-bc5a-8adb5a3e0c82"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"/>
+               <akn:FRBRalias name="aktuelle-version-id"
+                              value="0fac37d2-e894-4931-849c-31a2b12b7340"
+                              GUID="32becdb3-f3a8-49f8-ab52-9d52fce271a6"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"/>
+               <akn:FRBRalias name="nachfolgende-version-id"
+                              value="3d55e864-7f66-421b-a559-7cf57dc0cf35"
+                              GUID="70f38c36-10bd-4619-990b-862f660ddac8"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"/>
+               <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
+                               GUID="e7a82446-4c93-469e-935f-47a539730a7a"
+                               eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"/>
+               <akn:FRBRdate name="verkuendung"
+                             date="1000-01-05"
+                             GUID="32e7ba41-687f-435c-a0f4-0922f6cf77db"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"/>
+               <akn:FRBRlanguage language="deu"
+                                 GUID="bf141912-f873-4763-ba4e-80a3bf18beda"
+                                 eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"/>
+               <akn:FRBRversionNumber value="1"
+                                      GUID="0d459c59-c513-4efd-bc4f-f7c2cd3304d6"
+                                      eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="37146c14-b657-4f9a-94dd-8cf55de8ff75"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/1000-01-05/rechtsetzungsdokument-1.xml"
+                             GUID="58323e04-06ee-49f0-a41a-4431c8a86964"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/1000-01-05/rechtsetzungsdokument-1.xml"
+                            GUID="582acfea-b9fe-4001-a2cb-7986e430c67f"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
+               <akn:FRBRdate name="generierung"
+                             date="1000-01-05"
+                             GUID="d11ff2bd-b5f6-4a6e-ac35-aa18b2a81106"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"/>
+               <akn:FRBRauthor href="recht.bund.de"
+                               GUID="4b14eab9-540a-4f16-9e88-215b56689928"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"/>
+               <akn:FRBRformat value="xml"
+                               GUID="2203eb9c-3a74-414f-b3de-3ef0b74ff4cf"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+      </akn:meta>
+      <akn:collectionBody GUID="596b38ec-5a7f-4ef5-a90a-8b47c1712e13" eId="rdokhauptteil-n1">
+         <akn:component GUID="f65b6a86-4cab-469f-a812-ca82b97264a2" eId="rdokhauptteil-n1_tldokverweis-n1">
+            <akn:documentRef GUID="db0913f4-b43b-4ab8-9d6f-f4055f00abd7"
+                             href="regelungstext-1.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
+                             eId="rdokhauptteil-n1_tldokverweis-n1_verweis-n1"/>
+         </akn:component>
+      </akn:collectionBody>
+   </akn:documentCollection>
+</akn:akomaNtoso>

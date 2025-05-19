@@ -41,7 +41,7 @@
                              date="1964-08-05"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="bc3a5ff4-43a9-4a6c-949c-4615ac688997"
+                             GUID="bfb10780-619e-432e-a86c-6ac450bb48b3"
                              date="1964-08-05"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -149,12 +149,7 @@
                <meta:typ>gesetz</meta:typ>
                <meta:form>stammform</meta:form>
             </meta:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>nicht-vorhanden</meta:initiant>
-               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
-               <meta:fna>754-28-1</meta:fna>
-               <meta:gesta>nicht-vorhanden</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                <meta:federfuehrung>
                   <meta:federfuehrend ab="1964-08-05" bis="unbestimmt">nicht-vorhanden</meta:federfuehrend>
@@ -199,12 +194,12 @@
          </akn:block>
       </akn:preface>
       <!-- Eingangsformel + Inhaltsübersicht -->
-      <akn:preamble eId="preambel-n1" GUID="d3023c46-1e74-4c1f-b101-b29898267f71">
-         <akn:formula eId="preambel-n1_formel-n1"
+      <akn:preamble eId="präambel-n1" GUID="d3023c46-1e74-4c1f-b101-b29898267f71">
+         <akn:formula eId="präambel-n1_formel-n1"
                       GUID="1b476669-1cbb-4633-a0ed-04783680b841"
                       refersTo="eingangsformel"
                       name="attributsemantik-noch-undefiniert">
-            <akn:p eId="preambel-n1_formel-n1_text-n1"
+            <akn:p eId="präambel-n1_formel-n1_text-n1"
                    GUID="c1793533-b05a-4fc4-be62-bd6c3449c53a">Der Bundestag hat mit Zustimmung des Bundesrates das folgende Gesetz beschlossen:</akn:p>
          </akn:formula>
       </akn:preamble>
@@ -319,7 +314,8 @@
                          refersTo="ausfertigung-datum"
                          date="1964-08-05">5. August 1964</akn:date>
             </akn:p>
-            <akn:p GUID="f6ea1830-a05d-43cb-9432-b335676f0c91" eId="schluss-n1_blockcontainer-n1_text-n2">
+            <akn:p GUID="2341358c-502e-4108-afc6-09a68bffceea"
+                   eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1"
                               GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_fktbez-n1"
@@ -330,7 +326,8 @@
                               refersTo="attributsemantik-noch-undefiniert">Lübke</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="72d22c2d-bfba-41dc-b604-9afe2337ec52" eId="schluss-n1_blockcontainer-n1_text-n3">
+            <akn:p GUID="4dd31cd6-7f56-438f-a409-a1b6dbbd1e5d"
+                   eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1"
                               GUID="2c6c0dc9-32b6-46ee-a1fa-9b8a0bc7c193">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_fktbez-n1"
@@ -341,7 +338,8 @@
                               refersTo="attributsemantik-noch-undefiniert">Mende</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="e76318d8-774d-44b7-a250-64ad3cdd9a21" eId="schluss-n1_blockcontainer-n1_text-n4">
+            <akn:p GUID="a6f3e4b5-936b-4d29-9b77-73677e976811"
+                   eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1"
                               GUID="669a4ce1-2782-4623-8af7-83e7bcf0917a">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1_fktbez-n1"
@@ -352,7 +350,8 @@
                               refersTo="attributsemantik-noch-undefiniert">Hermann Höcherl</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="e2f4c063-e5ec-4db9-8dc5-e980097f4ba9" eId="schluss-n1_blockcontainer-n1_text-n5">
+            <akn:p GUID="ba74a162-dd81-4d7f-a092-fa939eec535a"
+                   eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1"
                               GUID="22a6ce3d-3ae9-4189-bfed-d544efe7e50b">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1_fktbez-n1"

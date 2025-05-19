@@ -1,10 +1,13 @@
 SAXON_HE="$HOME/Downloads/SaxonHE12-7J/saxon-he-12.7.jar"
 
-FOLDER_OLD="../1.7.2/fixtures"
-FOLDER_NEW="../1.8/fixtures"
+# FOLDER_OLD="../1.7.2/fixtures"
+# FOLDER_NEW="../1.8/fixtures"
 
 # FOLDER_OLD="../1.7.2/schema-extension-fixtures"
 # FOLDER_NEW="../1.8/schema-extension-fixtures"
+
+FOLDER_OLD="../1.7.2/samples"
+FOLDER_NEW="../1.8/samples"
 
 for filepath in $FOLDER_OLD/**/*.xml; do
   new_filepath=${filepath/$FOLDER_OLD/$FOLDER_NEW}
@@ -33,6 +36,7 @@ for filepath in $FOLDER_OLD/**/*.xml; do
   done < "$filepath.tmp" > "$filepath.tmp2"
 
   rm "$filepath.tmp"
+  mkdir -p "$(dirname "$new_filepath")"
   mv "$filepath.tmp2" "$new_filepath"
 
   new_filename=${new_filepath##*/}
