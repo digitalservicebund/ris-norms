@@ -6,11 +6,8 @@
   xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
   xmlns:meta_bundesregierung_old="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/"
   xmlns:meta_old="http://Metadaten.LegalDocML.de/1.7.2/"
-  xmlns:meta_regelungstext="http://MetadatenRegelungstext.LegalDocML.de/1.8/"
-  xmlns:meta_rechtsetzungsdokument="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/"
   xmlns:meta_neuris_old="http://MetadatenRIS.LegalDocML.de/1.7.2/"
   xmlns:meta_neuris_mods_old="http://MetadatenMods.LegalDocML.de/1.7.2/"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   exclude-result-prefixes="#all"
 >
     <xsl:output method="xml" indent="yes"/>
@@ -97,6 +94,7 @@
       </xsl:element>
       <xsl:element name="{name()}">
          <xsl:apply-templates select='@* | node()'/>
+         <xsl:attribute name="GUID" select="'REPLACE_WITH_NEW_UUID'" />
          <xsl:attribute name="name">verkuendungsfassung-verkuendungsdatum</xsl:attribute>
       </xsl:element>
   </xsl:template>
@@ -108,6 +106,7 @@
       </xsl:element>
       <xsl:element name="{name()}">
          <xsl:apply-templates select='@* | node()'/>
+         <xsl:attribute name="GUID" select="'REPLACE_WITH_NEW_UUID'" />
          <xsl:attribute name="name">neufassung-verkuendungsdatum</xsl:attribute>
       </xsl:element>
   </xsl:template>
@@ -127,6 +126,7 @@
 
   <xsl:template match="akn_old:signature">
     <xsl:element name="akn:p">
+      <xsl:attribute name="GUID" select="'REPLACE_WITH_NEW_UUID'" />
 
       <xsl:element name="akn:signature">
          <xsl:apply-templates select='@* | node()'/>
@@ -135,7 +135,4 @@
   </xsl:template>
 
   <xsl:template match="akn_old:container/@refersTo" />
-
-  <!-- todo: fix duplicated guids -->
-  <!-- todo: fix elis -->
 </xsl:stylesheet>

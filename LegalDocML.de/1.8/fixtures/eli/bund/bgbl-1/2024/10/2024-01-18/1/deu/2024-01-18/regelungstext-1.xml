@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="2024-01-18"
-                             GUID="49d55fa0-b415-4d9e-948e-d6f67dbcee54"
+                             GUID="1b1dbc3a-1bed-47ac-9407-028456584e6b"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="6090dee2-33c2-4fc5-965d-457cbb7aa03f"
@@ -2798,7 +2798,7 @@
                          GUID="1a8f914f-b823-4bf1-bfa2-7d1dc68d375b"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">15. Januar 2024</akn:date>
             </akn:p>
-            <akn:p eId="schluss-n1_blockcontainer-n1_text-n2">
+            <akn:p GUID="184d9c06-eb99-42e1-8e67-69a040c9bc3f" eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="77bfaece-3a84-4d46-a782-ac70e41b0ca4"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
                   <akn:role refersTo="attributsemantik-noch-undefiniert"
@@ -2809,7 +2809,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p eId="schluss-n1_blockcontainer-n1_text-n3">
+            <akn:p GUID="d63886b5-41cd-4384-b707-876ddb6297f8" eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="036681a5-c983-4e84-af48-5fb0c64548fc"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
                   <akn:role refersTo="attributsemantik-noch-undefiniert"
@@ -2820,7 +2820,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p eId="schluss-n1_blockcontainer-n1_text-n4">
+            <akn:p GUID="99048c46-57da-461f-96a2-e3b7bd7d80fd" eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="61751c33-6912-4410-8f97-fff3c936fd0b"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
                   <akn:role refersTo="attributsemantik-noch-undefiniert"

@@ -41,7 +41,7 @@
                              date="1964-08-05"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a"
+                             GUID="fe66cec9-de93-4dd9-be93-35c09769d252"
                              date="1964-08-05"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -332,7 +332,7 @@
                          refersTo="ausfertigung-datum"
                          date="1964-08-05">5. August 1964</akn:date>
             </akn:p>
-            <akn:p eId="schluss-n1_blockcontainer-n1_text-n2">
+            <akn:p GUID="a2569ed4-2471-4c64-b40c-2982ef7a08d0" eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1"
                               GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_fktbez-n1"
@@ -343,7 +343,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Lübke</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p eId="schluss-n1_blockcontainer-n1_text-n3">
+            <akn:p GUID="48256ecd-472d-4645-a17c-8a80fe54113d" eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1"
                               GUID="2c6c0dc9-32b6-46ee-a1fa-9b8a0bc7c193">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_fktbez-n1"
@@ -354,7 +354,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Mende</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p eId="schluss-n1_blockcontainer-n1_text-n4">
+            <akn:p GUID="16c13eaa-4138-4edf-858b-d42d778f7d12" eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1"
                               GUID="669a4ce1-2782-4623-8af7-83e7bcf0917a">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1_fktbez-n1"
@@ -365,7 +365,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Hermann Höcherl</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p eId="schluss-n1_blockcontainer-n1_text-n5">
+            <akn:p GUID="acbbe5b7-6de8-4f4f-a8df-a22f1f3e2631" eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1"
                               GUID="22a6ce3d-3ae9-4189-bfed-d544efe7e50b">
                   <akn:role eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1_fktbez-n1"
