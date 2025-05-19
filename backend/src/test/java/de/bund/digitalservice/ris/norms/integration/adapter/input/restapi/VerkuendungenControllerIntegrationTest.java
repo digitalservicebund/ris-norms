@@ -577,7 +577,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview"
+            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -629,7 +629,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview"
+            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())

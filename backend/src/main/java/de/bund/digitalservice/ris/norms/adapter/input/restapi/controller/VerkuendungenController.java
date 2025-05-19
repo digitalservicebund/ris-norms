@@ -131,7 +131,7 @@ public class VerkuendungenController {
    */
   @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
   @GetMapping(
-    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen-preview",
+    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen/expressions/preview",
     produces = APPLICATION_JSON_VALUE
   )
   public ResponseEntity<List<ZielnormenPreviewResponseSchema>> getZielnormenPreview(
