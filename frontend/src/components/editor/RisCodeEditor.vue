@@ -5,6 +5,8 @@ import { xml } from "@codemirror/lang-xml"
 import { basicSetup, EditorView } from "codemirror"
 import { computed, ref, shallowRef, watch } from "vue"
 
+const emit = defineEmits<(e: "ready", view: EditorView) => void>()
+
 /**
  * The xml content of the editor. Triggers an update event when the content changes.
  */
@@ -93,6 +95,7 @@ watch(
       ],
       parent: editorElement.value,
     })
+    emit("ready", editorView.value)
   },
   { immediate: true },
 )
