@@ -170,7 +170,7 @@
   <xs:simpleType name="eId-verweis">
     <xs:restriction base="xs:string">
       <xs:pattern
-        value="#(([a-zäöüß0-9]+-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)_)*((para|art|preambel|einleitung|schluss)-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)"/>
+        value="#(([a-zäöüß0-9]+-[nz][a-zäöüß0-9%~]+(\.[a-zäöüß0-9]+)*)_)*((art|preambel|einleitung|schluss)-[nz][a-zäöüß0-9%~]+(\.[a-zäöüß0-9%~]+)*)"/>
     </xs:restriction>
   </xs:simpleType>
 
