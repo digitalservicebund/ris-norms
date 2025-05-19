@@ -1,38 +1,34 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormenPreviewResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormenUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateZielnormenExpressionsUseCase;
 
 /**
- * Mapper between {@link LoadZielnormenUseCase.ZielnormPreview} and {@link ZielnormenPreviewResponseSchema}
+ * Mapper between {@link CreateZielnormenExpressionsUseCase.Zielnorm} and {@link ZielnormenPreviewResponseSchema}
  */
 public class ZielnormenPreviewResponseMapper {
 
   private ZielnormenPreviewResponseMapper() {}
 
   /**
-   * Creates a {@link ZielnormenPreviewResponseSchema} instance from a {@link LoadZielnormenUseCase.ZielnormPreview} entity.
+   * Creates a {@link ZielnormenPreviewResponseSchema} instance from a {@link CreateZielnormenExpressionsUseCase.Zielnorm} entity.
    *
-   * @param zielnormPreview The input {@link LoadZielnormenUseCase.ZielnormPreview} entity to be converted.
+   * @param zielnorm The input {@link CreateZielnormenExpressionsUseCase.Zielnorm} entity to be converted.
    * @return A new {@link ZielnormenPreviewResponseSchema}.
    */
   public static ZielnormenPreviewResponseSchema fromUseCaseData(
-    final LoadZielnormenUseCase.ZielnormPreview zielnormPreview
+    final CreateZielnormenExpressionsUseCase.Zielnorm zielnorm
   ) {
     return new ZielnormenPreviewResponseSchema(
-      zielnormPreview.normWorkEli().toString(),
-      zielnormPreview.title(),
-      zielnormPreview.shortTitle(),
-      zielnormPreview
-        .expressions()
-        .stream()
-        .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
-        .toList()
+      zielnorm.normWorkEli().toString(),
+      zielnorm.title(),
+      zielnorm.shortTitle(),
+      zielnorm.expressions().stream().map(ZielnormenPreviewResponseMapper::fromUseCaseData).toList()
     );
   }
 
   private static ZielnormenPreviewResponseSchema.Expression fromUseCaseData(
-    final LoadZielnormenUseCase.ZielnormPreview.Expression zielnormPreviewExpression
+    final CreateZielnormenExpressionsUseCase.Zielnorm.Expression zielnormPreviewExpression
   ) {
     return new ZielnormenPreviewResponseSchema.Expression(
       zielnormPreviewExpression.normExpressionEli().toString(),
@@ -43,7 +39,7 @@ public class ZielnormenPreviewResponseMapper {
   }
 
   private static String fromUseCaseData(
-    final LoadZielnormenUseCase.ZielnormPreview.CreatedBy createdBy
+    final CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy createdBy
   ) {
     return switch (createdBy) {
       case SYSTEM -> "System";

@@ -7,18 +7,23 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /**
- *  Use case for getting information about the expressions of Zielnormen that will be created
- *  or set to gegenstandslos when applying the {@link ZielnormReference}s (containing the geltungszeit)
- *  to the given Verkündung.
+ * Use case for creating the expressions of a {@link List} of Zielnormen (targeted legal norms) in response to changes introduced by a specified Verkündung (enactment).
+ * <p>
+ * A Verkündung contains new temporal boundaries (Zeitgrenzen) and references to Zielnormen it affects.
+ * This use case updates these Zielnormen by creating new expressions or marking existing expressions as {@code gegenstandslos}
+ * (obsolete/irrelevant) according to the new legal situation.
+ * <p>
+ * If the {@code dryRun} flag is set to {@code true}, the updates (creations and deactivations of expressions)
+ * are not persisted in the database and are only returned as a preview. Otherwise, the changes are saved permanently.
  */
-public interface LoadZielnormenUseCase {
+public interface CreateZielnormenExpressionsUseCase {
   /**
-   * Retrieves information about the Zielnormen that will be created or set to gegenstandslos.
+   * Creates or sets to gegenstandslos the expressions of a Zielnorm according to the Verkündung that changes them.
    *
-   * @param query Query used for identifying the norm
-   * @return The preview information
+   * @param query Query used for identifying the Verkündung and if the created expressions should actually be saved to the database.
+   * @return a shortened form of the affected Zielnorms with the expressions that were created or set to gegenstandslos.
    */
-  List<ZielnormPreview> loadZielnormen(Query query);
+  List<Zielnorm> createZielnormExpressions(Query query);
 
   /**
    * Contains the parameters needed for identifying the Verkündung and if the created expressions should actually be saved to the database.
@@ -38,23 +43,23 @@ public interface LoadZielnormenUseCase {
   }
 
   /**
-   * Information about the Zielnorm that will be created or set to gegenstandslos when applying the {@link ZielnormReference}s of the given Verkündung
+   * Selected Zielnorm information
    * @param normWorkEli the eli of the Zielnorm
    * @param title the title of the Zielnorm
    * @param shortTitle the short title of the Zielnorm
    * @param expressions the expressions of the Zielnorm that will be either created of set to gegenstandslos
    */
-  record ZielnormPreview(
+  record Zielnorm(
     NormWorkEli normWorkEli,
     @Nullable String title,
     @Nullable String shortTitle,
     List<Expression> expressions
   ) {
     /**
-     * Information on one expression of the Zielnorm
+     * Selected information on the expression that was created or set to gegenstandslos.
      * @param normExpressionEli the eli of the expression
-     * @param isGegenstandslos will the expression be gegenstandslos once the zielnorm-references are applied
-     * @param isCreated does this expression already exist in the system
+     * @param isGegenstandslos will the expression be gegenstandslos
+     * @param isCreated did this expression already exist in the database before this run
      * @param createdBy the thing that created or creates this expression
      */
     public record Expression(
@@ -65,7 +70,7 @@ public interface LoadZielnormenUseCase {
     ) {}
 
     /**
-     * Explanation for the reason that this expression will be set to gegenstandslos or be created
+     * The reason that this expression will be set to gegenstandslos or be created
      */
     public enum CreatedBy {
       /**
@@ -73,7 +78,7 @@ public interface LoadZielnormenUseCase {
        */
       SYSTEM,
       /**
-       * It's created due to a {@link ZielnormReference} that uses this date
+       * It's created due to a {@link ZielnormReference} (Zeitgrenze) that uses this date
        */
       THIS_VERKUENDUNG,
       /**

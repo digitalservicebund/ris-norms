@@ -33,7 +33,7 @@ public class NormService
     UpdateRegelungstextXmlUseCase,
     LoadRegelungstextUseCase,
     LoadZielnormReferencesUseCase,
-    LoadZielnormenUseCase,
+    CreateZielnormenExpressionsUseCase,
     UpdateZielnormReferencesUseCase,
     DeleteZielnormReferencesUseCase {
 
@@ -222,16 +222,16 @@ public class NormService
   }
 
   @Override
-  public List<ZielnormPreview> loadZielnormen(LoadZielnormenUseCase.Query query) {
+  public List<Zielnorm> createZielnormExpressions(CreateZielnormenExpressionsUseCase.Query query) {
     if (query.dryRun()) return loadZielnormenPreview(query);
     else return loadAndSaveZielnormen();
   }
 
-  private List<ZielnormPreview> loadAndSaveZielnormen() {
+  private List<Zielnorm> loadAndSaveZielnormen() {
     throw new UnsupportedOperationException("Not yet implemented");
   }
 
-  private List<ZielnormPreview> loadZielnormenPreview(LoadZielnormenUseCase.Query query) {
+  private List<Zielnorm> loadZielnormenPreview(CreateZielnormenExpressionsUseCase.Query query) {
     var verkuendungNorm = loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
 
     List<NormWorkEli> zielnormWorkElis = verkuendungNorm
@@ -250,7 +250,7 @@ public class NormService
       .stream()
       .map(zielnormWorkEli -> {
         var latestZielnormExpression = loadNorm(new LoadNormUseCase.EliQuery(zielnormWorkEli));
-        return new ZielnormPreview(
+        return new Zielnorm(
           zielnormWorkEli,
           latestZielnormExpression.getTitle().orElse(null),
           latestZielnormExpression.getShortTitle().orElse(null),
@@ -270,7 +270,7 @@ public class NormService
    * the changes of the now gegenstandlose expression as well as the once from the previous changes
    * due to the Verkündung.
    */
-  private List<ZielnormPreview.Expression> generateZielnormPreviewExpressions(
+  private List<Zielnorm.Expression> generateZielnormPreviewExpressions(
     Norm verkuendungNorm,
     NormWorkEli zielnormWorkEli
   ) {
@@ -287,20 +287,15 @@ public class NormService
       earliestGeltungszeit.get()
     );
 
-    List<ZielnormPreview.Expression> expressions = new ArrayList<>();
+    List<Zielnorm.Expression> expressions = new ArrayList<>();
 
     relevantExistingExpressions.forEach(expression -> {
       expressions.add(
-        new ZielnormPreview.Expression(
-          expression,
-          true,
-          true,
-          ZielnormPreview.CreatedBy.OTHER_VERKUENDUNG
-        )
+        new Zielnorm.Expression(expression, true, true, Zielnorm.CreatedBy.OTHER_VERKUENDUNG)
       );
 
       expressions.add(
-        new ZielnormPreview.Expression(
+        new Zielnorm.Expression(
           eliService.findNextExpressionEli(
             expression.asWorkEli(),
             expression.getPointInTime(),
@@ -308,7 +303,7 @@ public class NormService
           ),
           false,
           false,
-          ZielnormPreview.CreatedBy.SYSTEM
+          Zielnorm.CreatedBy.SYSTEM
         )
       );
     });
@@ -326,27 +321,27 @@ public class NormService
             expression ->
               expression.normExpressionEli().getPointInTime().equals(date) &&
               expression.normExpressionEli().getLanguage().equals("deu") &&
-              expression.createdBy().equals(ZielnormPreview.CreatedBy.SYSTEM)
+              expression.createdBy().equals(Zielnorm.CreatedBy.SYSTEM)
           )
           .findFirst();
 
         if (existingEntry.isPresent()) {
           expressions.remove(existingEntry.get());
           expressions.add(
-            new ZielnormPreview.Expression(
+            new Zielnorm.Expression(
               existingEntry.get().normExpressionEli(),
               false,
               false,
-              ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+              Zielnorm.CreatedBy.THIS_VERKUENDUNG
             )
           );
         } else {
           expressions.add(
-            new ZielnormPreview.Expression(
+            new Zielnorm.Expression(
               eliService.findNextExpressionEli(zielnormWorkEli, date, "deu"),
               false,
               false,
-              ZielnormPreview.CreatedBy.THIS_VERKUENDUNG
+              Zielnorm.CreatedBy.THIS_VERKUENDUNG
             )
           );
         }
@@ -354,7 +349,7 @@ public class NormService
 
     return expressions
       .stream()
-      .sorted(Comparator.comparing(ZielnormPreview.Expression::normExpressionEli))
+      .sorted(Comparator.comparing(Zielnorm.Expression::normExpressionEli))
       .toList();
   }
 
