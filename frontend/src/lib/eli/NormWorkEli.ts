@@ -29,4 +29,10 @@ export class NormWorkEli {
   toString(): string {
     return `eli/bund/${this.agent}/${this.year}/${this.naturalIdentifier}`
   }
+
+  equals(other: NormWorkEli): boolean {
+    if (other === this) return true
+    else if (!(other instanceof NormWorkEli)) return false
+    else return other.toString() === this.toString()
+  }
 }
