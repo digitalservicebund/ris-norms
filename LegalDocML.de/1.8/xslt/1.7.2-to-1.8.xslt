@@ -124,6 +124,19 @@
     <xsl:attribute name="showAs">/akn/ontology/de/concept/documenttype/bund/bekanntmachungstext</xsl:attribute>
   </xsl:template>
 
+  <xsl:template match="akn_old:componentRef[@showAs='regelungstext']/@showAs">
+    <xsl:attribute name="showAs">/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung</xsl:attribute>
+  </xsl:template>
+  <xsl:template match="akn_old:componentRef[@showAs='offene-struktur']/@showAs">
+    <xsl:attribute name="showAs">/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext</xsl:attribute>
+  </xsl:template>
+  <xsl:template match="akn_old:componentRef[@showAs='externes-dokument']/@showAs">
+    <xsl:attribute name="showAs">/akn/ontology/de/concept/documenttype/bund/sonstiges-dokument</xsl:attribute>
+  </xsl:template>
+  <xsl:template match="akn_old:componentRef[@showAs='bekanntmachungstext']/@showAs">
+    <xsl:attribute name="showAs">/akn/ontology/de/concept/documenttype/bund/bekanntmachungstext</xsl:attribute>
+  </xsl:template>
+
   <xsl:template match="akn_old:signature">
     <xsl:element name="akn:p">
       <xsl:attribute name="GUID" select="'REPLACE_WITH_NEW_UUID'" />
