@@ -35,7 +35,10 @@ type MappedRisZielnormenListItem = Omit<
   }>
 }
 
-const { items } = defineProps<{ items: RisZielnormenListItem[] }>()
+const { items, verkuendungeli } = defineProps<{
+  items: RisZielnormenListItem[]
+  verkuendungeli?: string
+}>()
 
 function formatDate(dateString: string | undefined): string {
   return dateString
@@ -57,6 +60,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
       const normEli = NormExpressionEli.fromString(expr.eli)
       return {
         normExpressionEli: normEli.toString(),
+        documentExpressionEli: expr.eli,
         formattedDate: {
           label: formatDate(normEli.pointInTime),
           colorIndex: i,
@@ -102,7 +106,18 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
                 :value="item.expressions"
                 data-key="eli"
               >
-                <Column field="normExpressionEli" header="ELI"></Column>
+                <Column field="normExpressionEli" header="ELI">
+                  <template #body="{ data }">
+                    <RouterLink
+                      :to="{
+                        path: `/${data.documentExpressionEli}/textkonsolidierung`,
+                        query: { sourceVerkuendungEli: verkuendungeli },
+                      }"
+                    >
+                      {{ data.normExpressionEli }}
+                    </RouterLink>
+                  </template>
+                </Column>
                 <Column field="formattedDate" header="Datum">
                   <template #body="{ data }">
                     <div class="flex items-center gap-8">

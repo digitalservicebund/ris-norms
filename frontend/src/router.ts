@@ -133,6 +133,14 @@ const routes: readonly RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: `/${createDokumentExpressionEliPathParameter()}/textkonsolidierung`,
+    name: "ExpressionTextkonsolidierungEditor",
+    component: () =>
+      import(
+        "@/views/expression/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"
+      ),
+  },
 
   {
     path: `/${GUID_ROUTE_PATH}/:any(.*)*`,
