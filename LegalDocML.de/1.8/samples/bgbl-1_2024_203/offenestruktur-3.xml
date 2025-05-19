@@ -1,47 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2024 I Nr. 203 vom 21.06.2024. (https://www.recht.bund.de/eli/bund/bgbl-1/2024/203) -->
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-offenestruktur.xsd">
-  <akn:doc name="offene-struktur">
-    <akn:meta GUID="71f03fd4-eaaf-49c7-854b-fd050ea86e2b" eId="meta-1">
-      <akn:identification GUID="2090b7e4-7bc9-469c-9872-5d15aba60883" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
-        <akn:FRBRWork GUID="7508565e-0183-459e-90dc-8c289658e6b0" eId="meta-1_ident-1_frbrwork-1">
-          <akn:FRBRthis GUID="9f26815f-d833-4b58-9477-2a5dc14bc7b7" eId="meta-1_ident-1_frbrwork-1_frbrthis-1" value="eli/bund/bgbl-1/2024/203/offenestruktur-3"/>
-          <akn:FRBRuri GUID="81a9e3f3-e8c0-4f87-a58e-2198c3d3d3b7" eId="meta-1_ident-1_frbrwork-1_frbruri-1" value="eli/bund/bgbl-1/2024/203"/>
-          <akn:FRBRalias GUID="478265ef-a6f9-424e-b5a1-ec5b46d83717" eId="meta-1_ident-1_frbrwork-1_frbralias-1" name="übergreifende-id" value="478265ef-a6f9-424e-b5a1-ec5b46d83717"/>
-          <akn:FRBRdate GUID="5fb52d7a-064d-482f-b0ba-c0fdac06d585" date="2024-06-21" eId="meta-1_ident-1_frbrwork-1_frbrdate-1" name="verkuendungsfassung"/>
-          <akn:FRBRauthor GUID="446e1411-2bc0-4ea5-b273-7ed2425c7298" eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
-          <akn:FRBRcountry GUID="db7cad39-471d-4f78-bf2a-31f89415d245" eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" value="de"/>
-          <akn:FRBRnumber GUID="2144c56a-e0df-4dc6-97c1-8ba619970f20" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" value="203"/>
-          <akn:FRBRname GUID="68aa650e-1e41-48de-9495-f44099795702" eId="meta-1_ident-1_frbrwork-1_frbrname-1" value="bgbl-1"/>
-          <akn:FRBRsubtype GUID="c10a95ee-c4cb-4958-bb26-7232cc5060ad" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="offenestruktur-3"/>
-        </akn:FRBRWork>
-        <akn:FRBRExpression GUID="2a950e8b-d741-486b-8ab9-b695b8d0e5b0" eId="meta-1_ident-1_frbrexpression-1">
-          <akn:FRBRthis GUID="087b3062-4eb0-460d-a7a8-11de6d757a23" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-3"/>
-          <akn:FRBRuri GUID="a1a6a868-e385-4603-a6fc-ce8b4f1b6ae4" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu"/>
-          <akn:FRBRalias GUID="be6646a9-0a48-45d2-8057-eceb8541a7c1" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="be6646a9-0a48-45d2-8057-eceb8541a7c1"/>
-          <akn:FRBRauthor GUID="366cb821-3a3b-4ca1-aae7-1d911954a89a" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
-          <akn:FRBRdate GUID="c971a8c6-bffe-4f34-a925-865cf9b4e8f3" date="2024-06-21" eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" name="verkuendung"/>
-          <akn:FRBRlanguage GUID="47744937-2483-49a7-8c64-57ac2936ac4d" eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" language="deu"/>
-          <akn:FRBRversionNumber GUID="29ff8b85-80e2-4b1f-b462-f374187fce12" eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1" value="1"/>
-        </akn:FRBRExpression>
-        <akn:FRBRManifestation GUID="4348e801-aeba-474f-bfa0-46ca726c108c" eId="meta-1_ident-1_frbrmanifestation-1">
-          <akn:FRBRthis GUID="18cbf871-3473-4142-b3eb-c1a1f3a83dd8" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/offenestruktur-3.xml"/>
-          <akn:FRBRuri GUID="42904b38-db17-46f9-90b6-acb3b8e31bd0" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/offenestruktur-3.xml"/>
-          <akn:FRBRdate GUID="0080c93b-8deb-45e4-befe-0d74b36d8ed0" date="2024-06-21" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
-          <akn:FRBRauthor GUID="9c6899e9-e26f-40ad-a21b-27772b6c8951" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
-          <akn:FRBRformat GUID="92072aae-825f-4dfe-9ded-24e02980c23f" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
-        </akn:FRBRManifestation>
-      </akn:identification>
-    </akn:meta>
-    <akn:preface GUID="a403560e-38bc-4556-911d-2a363c2e0a12" eId="einleitung-1">
-      <akn:block GUID="3cb5dbf3-40d5-4cdb-b5ad-fca2c20bccb9" eId="einleitung-1_block-1" name="attributsemantik-noch-undefiniert">
-        <akn:docTitle GUID="6853618c-94d6-47d2-af10-bde2bf84bb4c" eId="einleitung-1_block-1_doctitel-1">Anlage 3 (zu § 1 Absatz 2)Entwurf einer richterlichen Durchsuchungsanordnung und <akn:br GUID="14f11932-d647-430c-821a-0cd0e5c36c68" eId="einleitung-1_block-1_doctitel-1_br-1"/>einer richterlichen Anordnung der Vollstreckung zur Nachtzeit <akn:br GUID="a8c18305-3dc6-482d-95d9-16af5149602c" eId="einleitung-1_block-1_doctitel-1_br-2"/>und an Sonn- und Feiertagen</akn:docTitle>
-      </akn:block>
-    </akn:preface>
-    <akn:mainBody GUID="8e19d1cc-0749-4462-bde8-84c7cd4c65b3" eId="hauptteil-1">
-      <akn:componentRef GUID="97658450-a736-4fde-b575-62b0872c3959" eId="hauptteil-1_stfmverweis-1" showAs="externes-dokument" src="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-2.pdf"/>
-      <akn:componentRef GUID="e23b6b7a-35ec-4d1c-8eb3-3f2fbcfe4c6b" eId="hauptteil-1_stfmverweis-2" showAs="externes-dokument" src="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-3.pdf"/>
-    </akn:mainBody>
-  </akn:doc>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-offenestruktur.xsd">
+   <akn:doc name="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext">
+      <akn:meta GUID="71f03fd4-eaaf-49c7-854b-fd050ea86e2b" eId="meta-n1">
+         <akn:identification GUID="2090b7e4-7bc9-469c-9872-5d15aba60883"
+                             eId="meta-n1_ident-n1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="7508565e-0183-459e-90dc-8c289658e6b0"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis GUID="9f26815f-d833-4b58-9477-2a5dc14bc7b7"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/offenestruktur-3"/>
+               <akn:FRBRuri GUID="81a9e3f3-e8c0-4f87-a58e-2198c3d3d3b7"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203"/>
+               <akn:FRBRalias GUID="478265ef-a6f9-424e-b5a1-ec5b46d83717"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"
+                              name="übergreifende-id"
+                              value="478265ef-a6f9-424e-b5a1-ec5b46d83717"/>
+               <akn:FRBRdate GUID="5fb52d7a-064d-482f-b0ba-c0fdac06d585"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
+                             name="verkuendungsfassung-ausfertigungsdatum"/>
+               <akn:FRBRdate GUID="a974c40f-ed7a-4645-98be-71d7548b49e2"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
+                             name="verkuendungsfassung-verkuendungsdatum"/>
+               <akn:FRBRauthor GUID="446e1411-2bc0-4ea5-b273-7ed2425c7298"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="db7cad39-471d-4f78-bf2a-31f89415d245"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="2144c56a-e0df-4dc6-97c1-8ba619970f20"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"
+                               value="203"/>
+               <akn:FRBRname GUID="68aa650e-1e41-48de-9495-f44099795702"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="c10a95ee-c4cb-4958-bb26-7232cc5060ad"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
+                                value="offenestruktur-3"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="2a950e8b-d741-486b-8ab9-b695b8d0e5b0"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis GUID="087b3062-4eb0-460d-a7a8-11de6d757a23"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-3"/>
+               <akn:FRBRuri GUID="a1a6a868-e385-4603-a6fc-ce8b4f1b6ae4"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu"/>
+               <akn:FRBRalias GUID="be6646a9-0a48-45d2-8057-eceb8541a7c1"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
+                              name="aktuelle-version-id"
+                              value="be6646a9-0a48-45d2-8057-eceb8541a7c1"/>
+               <akn:FRBRauthor GUID="366cb821-3a3b-4ca1-aae7-1d911954a89a"
+                               eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate GUID="c971a8c6-bffe-4f34-a925-865cf9b4e8f3"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage GUID="47744937-2483-49a7-8c64-57ac2936ac4d"
+                                 eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 language="deu"/>
+               <akn:FRBRversionNumber GUID="29ff8b85-80e2-4b1f-b462-f374187fce12"
+                                      eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="4348e801-aeba-474f-bfa0-46ca726c108c"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis GUID="18cbf871-3473-4142-b3eb-c1a1f3a83dd8"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/offenestruktur-3.xml"/>
+               <akn:FRBRuri GUID="42904b38-db17-46f9-90b6-acb3b8e31bd0"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/offenestruktur-3.xml"/>
+               <akn:FRBRdate GUID="0080c93b-8deb-45e4-befe-0d74b36d8ed0"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
+                             name="generierung"/>
+               <akn:FRBRauthor GUID="9c6899e9-e26f-40ad-a21b-27772b6c8951"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="92072aae-825f-4dfe-9ded-24e02980c23f"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+      </akn:meta>
+      <akn:preface GUID="a403560e-38bc-4556-911d-2a363c2e0a12" eId="einleitung-n1">
+         <akn:block GUID="3cb5dbf3-40d5-4cdb-b5ad-fca2c20bccb9"
+                    eId="einleitung-n1_block-n1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:docTitle GUID="6853618c-94d6-47d2-af10-bde2bf84bb4c"
+                          eId="einleitung-n1_block-n1_doctitel-n1">Anlage 3 (zu § 1 Absatz 2)Entwurf einer richterlichen Durchsuchungsanordnung und <akn:br GUID="14f11932-d647-430c-821a-0cd0e5c36c68"
+                       eId="einleitung-n1_block-n1_doctitel-n1_br-n1"/>einer richterlichen Anordnung der Vollstreckung zur Nachtzeit <akn:br GUID="a8c18305-3dc6-482d-95d9-16af5149602c"
+                       eId="einleitung-n1_block-n1_doctitel-n1_br-n2"/>und an Sonn- und Feiertagen</akn:docTitle>
+         </akn:block>
+      </akn:preface>
+      <akn:mainBody GUID="8e19d1cc-0749-4462-bde8-84c7cd4c65b3" eId="hauptteil-n1">
+         <akn:componentRef GUID="97658450-a736-4fde-b575-62b0872c3959"
+                           eId="hauptteil-n1_stfmverweis-n1"
+                           showAs="/akn/ontology/de/concept/documenttype/bund/sonstiges-dokument"
+                           src="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-2.pdf"/>
+         <akn:componentRef GUID="e23b6b7a-35ec-4d1c-8eb3-3f2fbcfe4c6b"
+                           eId="hauptteil-n1_stfmverweis-n2"
+                           showAs="/akn/ontology/de/concept/documenttype/bund/sonstiges-dokument"
+                           src="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-3.pdf"/>
+      </akn:mainBody>
+   </akn:doc>
 </akn:akomaNtoso>
