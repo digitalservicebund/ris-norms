@@ -17,7 +17,7 @@ import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useGetZeitgrenzen } from "@/services/zeitgrenzenService"
 import { ConfirmDialog, Splitter, SplitterPanel } from "primevue"
 import { computed, ref, watch } from "vue"
-import RisDokumentExplorer from "../../verkuendungen/verkuendungDetail/zielnormen/RisDokumentExplorer.vue"
+import RisDokumentExplorer from "../../../../components/RisDokumentExplorer.vue"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
 import { useGetNormToc } from "@/services/tocService"
@@ -25,12 +25,12 @@ import type { TreeNode } from "primevue/treenode"
 import { useGetNorm } from "@/services/normService"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useNormXml } from "@/composables/useNormXml"
-import { useRoute } from "vue-router"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import { EditorView } from "@codemirror/view"
+import type { EditorView } from "@codemirror/view"
 import { SearchCursor } from "@codemirror/search"
 
-const eli = useDokumentExpressionEliPathParameter()
+const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
+const expressionEli = useDokumentExpressionEliPathParameter("expression")
+
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
 
@@ -48,34 +48,27 @@ const editorView = ref<EditorView | null>(null)
 
 const gotoEid = (eid: string) => {
   if (!editorView.value) return
-  const cursor = new SearchCursor(editorView.value.state.doc, eid)
-  if (cursor.next()) {
-    const { from, to } = cursor.value
-    editorView.value.dispatch({
-      selection: { anchor: from, head: to },
-      effects: EditorView.scrollIntoView(from, { y: "center", yMargin: 100 }),
+
+  const cursor = new SearchCursor(editorView.value.state.doc, `eId="${eid}"`)
+  if (!cursor.next()) return
+
+  const { from, to } = cursor.value
+  editorView.value.dispatch({
+    selection: { anchor: from, head: to },
+  })
+  requestAnimationFrame(() => {
+    const rect = editorView.value!.lineBlockAt(from)
+    editorView.value!.scrollDOM.scrollTo({
+      top: rect.top - editorView.value!.scrollDOM.clientHeight / 2,
+      left: 0, // optional: center x if needed
+      behavior: "smooth",
     })
-  }
+  })
 }
 
 // BREADCRUMBS
-const route = useRoute()
-const sourceVerkuendungEli = computed(() =>
-  route.query.sourceVerkuendungEli?.toString(),
-)
-
 const sourceVerkuendungNormEli = computed(() => {
-  if (!sourceVerkuendungEli.value) return eli.value.asNormEli()
-
-  return DokumentExpressionEli.fromString(
-    sourceVerkuendungEli.value,
-  ).asNormEli()
-})
-
-const sourceVerkuendungDokumentExpressionEli = computed(() => {
-  if (!sourceVerkuendungEli.value) return eli.value
-
-  return DokumentExpressionEli.fromString(sourceVerkuendungEli.value)
+  return verkuendungEli.value.asNormEli()
 })
 
 const {
@@ -88,13 +81,13 @@ const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(eli)
+} = useGetNorm(expressionEli)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "verkuendung",
     title: () => getFrbrDisplayText(verkuendung.value) ?? "...",
-    to: `/verkuendungen/${sourceVerkuendungEli.value}`,
+    to: `/verkuendungen/${verkuendungEli.value}`,
   },
   {
     key: "norm",
@@ -111,7 +104,7 @@ const {
   data: toc,
   error: tocError,
   isFetching: tocIsFetching,
-} = useGetNormToc(eli)
+} = useGetNormToc(expressionEli)
 
 const treeNodes = computed<TreeNode[]>(() =>
   toc.value?.length
@@ -130,7 +123,7 @@ const {
   data: xml,
   isFetching: isFetchingXml,
   error: loadXmlError,
-} = useNormXml(eli)
+} = useNormXml(expressionEli)
 
 const currentXml = ref("")
 watch(xml, (xml) => {
@@ -140,14 +133,15 @@ watch(xml, (xml) => {
 })
 
 // RIS DOCUMENT EXPLORER
-const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
+const { data: zeitgrenzen, error: zeitgrenzenError } =
+  useGetZeitgrenzen(expressionEli)
 
 const eIdsToEdit = ref<string[]>([])
 
 const editedZielnormReference = ref<EditableZielnormReference>()
 
 const { zielnormReferences, zielnormReferencesForEid } = useZielnormReferences(
-  () => sourceVerkuendungDokumentExpressionEli.value.asNormEli(),
+  () => verkuendungEli.value.asNormEli(),
 )
 
 const isSelected = (eid: string) => {
@@ -176,7 +170,7 @@ watch(eIdsToEdit, (val) => {
       <SplitterPanel
         :size="20"
         :min-size="20"
-        class="h-full overflow-auto bg-gray-100"
+        class="h-full overflow-auto bg-white"
       >
         <div
           v-if="tocIsFetching"
@@ -248,20 +242,16 @@ watch(eIdsToEdit, (val) => {
           class="m-16 mt-8"
         />
         <RisCodeEditor
-          class="h-full"
+          class="h-full border-2 border-blue-800"
           :model-value="currentXml"
           @ready="(view) => (editorView = view)"
         />
       </SplitterPanel>
 
-      <SplitterPanel
-        :size="40"
-        :min-size="40"
-        class="h-full overflow-auto p-24"
-      >
+      <SplitterPanel :size="40" :min-size="40" class="h-full overflow-auto">
         <RisDokumentExplorer
           v-model:eids-to-edit="eIdsToEdit"
-          v-model:eli="sourceVerkuendungDokumentExpressionEli"
+          v-model:eli="verkuendungEli"
           class="h-full"
           :e-id-classes="highlightClasses"
           :disable-selection="true"

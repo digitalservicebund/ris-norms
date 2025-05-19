@@ -54,6 +54,14 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/verkuendungen/Verkuendungen.view.vue"),
       },
       {
+        path: `/verkuendungen/${createDokumentExpressionEliPathParameter("verkuendung")}/textkonsolidierung/${createDokumentExpressionEliPathParameter("expression")}`,
+        name: "VerkuendungExpressionTextkonsolidierungEditor",
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"
+          ),
+      },
+      {
         path: "upload",
         name: "VerkuendungUpload",
         component: () =>
@@ -133,14 +141,14 @@ const routes: readonly RouteRecordRaw[] = [
       },
     ],
   },
-  {
-    path: `/${createDokumentExpressionEliPathParameter()}/textkonsolidierung`,
-    name: "ExpressionTextkonsolidierungEditor",
-    component: () =>
-      import(
-        "@/views/expression/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"
-      ),
-  },
+  // {
+  //   path: `/${createDokumentExpressionEliPathParameter()}/textkonsolidierung`,
+  //   name: "ExpressionTextkonsolidierungEditor",
+  //   component: () =>
+  //     import(
+  //       "@/views/verkuendungen/verkuendungDetail/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"
+  //     ),
+  // },
 
   {
     path: `/${GUID_ROUTE_PATH}/:any(.*)*`,
