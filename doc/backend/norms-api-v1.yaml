@@ -1010,10 +1010,8 @@ components:
           format: uri
           description: "The api call URI that triggered the exception."
           example: "/api/v1/norms/this-is-not-an-eli"
-        extensions:
-          type: object
-          additionalProperties: true
-          description: "Optional additional fields to convey extra information."
+      # Optional additional fields to convey extra information.
+      additionalProperties: true
 
     TableOfContentsResponse:
       type: object
