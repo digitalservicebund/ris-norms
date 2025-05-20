@@ -2,7 +2,7 @@
 <!-- NOTE: THIS FILES CONTAINS ERRORS AND SHOULD NOT BE USED ANYMORE. -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="bbb5e6be-08f2-4dc3-b17a-529e09f8da8b" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -26,7 +26,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="1990-12-20"
-                             GUID="2429cc60-8aaf-43f5-9351-1e3ade08558b"
+                             GUID="65bbe064-4516-4d85-ac00-664119fea386"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="c4224a7b-531c-422b-8e8e-bcfe2aea142e"
@@ -3000,7 +3000,7 @@
                          GUID="b53a788a-173d-4131-babc-d95c67525883"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">12. Dezember 2022</akn:date>
             </akn:p>
-            <akn:p GUID="588521cd-28dc-47bb-827e-a15c5d188c16"
+            <akn:p GUID="4372c866-0358-4f88-8823-fc145c139645"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="d4f24d4f-df43-4a8c-ac1f-d6e5cba5c081"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">

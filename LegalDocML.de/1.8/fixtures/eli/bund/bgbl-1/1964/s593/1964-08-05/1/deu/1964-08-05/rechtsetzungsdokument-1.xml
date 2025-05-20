@@ -11,10 +11,10 @@
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
-<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-rechtsetzungsdokument.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-rechtsetzungsdokument.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:documentCollection name="/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument">
 <!-- Metadaten-->
       <akn:meta GUID="7e471fc2-8aa5-317d-9529-9bce2e3ec9d0" eId="meta-n1">
@@ -37,7 +37,7 @@
                              date="1964-08-05"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="ea4b514b-b7b6-44c5-93cd-683245a1b32c"
+               <akn:FRBRdate GUID="adddf74b-699e-424b-a3ad-5182603b7cdc"
                              date="1964-08-05"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>

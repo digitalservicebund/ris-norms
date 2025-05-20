@@ -2,7 +2,7 @@
 <!-- NOTE: This amending law references the target law from BGBl. 1 1000 Nr. 2 -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../schema-1.7.2/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../../schema-1.7.2/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../schema-1.7.2/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="2c157731-1105-4c33-8432-24f14793438f" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -26,7 +26,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="1000-01-06"
-                             GUID="9b67c376-1740-47a1-8955-2c1fa0d71515"
+                             GUID="e6403cde-7637-43c9-8695-26e07bc7e4b1"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="a63d84bd-4ed9-4e82-9931-27fc7a86eac4"

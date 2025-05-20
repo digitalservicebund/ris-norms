@@ -2,7 +2,7 @@
 <!-- NOTE: THIS FILES CONTAINS ERRORS AND SHOULD NOT BE USED ANYMORE. -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="7d114872-0205-4560-86a2-4ab193d2bd76" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -26,7 +26,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="2023-12-29"
-                             GUID="54a5c967-6f1e-44da-98ed-536e3a5a3ff1"
+                             GUID="b1411cac-0e85-412f-819d-ad0d54bd1ba2"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="0fb1aeb5-66cb-4cb6-a872-62a0556c190a"
@@ -337,7 +337,7 @@
                          GUID="65eb3c2e-49b4-44ad-84ec-d2ba2e41cf05"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">23. Dezember 2023</akn:date>
             </akn:p>
-            <akn:p GUID="66c98410-2deb-4b3c-b14f-bb89c31dac51"
+            <akn:p GUID="23fd7ae0-2083-4641-9900-448a4a83833d"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="47b48211-5903-451c-91e8-65480cfdcb99"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
@@ -349,7 +349,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="25342e65-08df-48fe-8a2e-1abd1e4482dc"
+            <akn:p GUID="ae3b148d-79c7-42cb-8eeb-c8b64d4ab885"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="b0eb4e28-10a2-4893-9b98-0e6c6170dcea"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
@@ -361,7 +361,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="53764de5-7ecb-4271-a6d4-a8d3ece1a74d"
+            <akn:p GUID="7c33777f-b68b-4062-891d-b7d35eca33a3"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="5f53ffd4-85f1-4816-a48f-b5cc0e3a8234"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../../../../../../../../schemas/1.7.2/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2025 I Nr. 101 vom 02.04.2025. (https://www.recht.bund.de/eli/bund/bgbl-1/2025/101) -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../../../../../../../schemas/1.7.2/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../../../../../../../schemas/1.7.2/legalDocML.de-rechtsetzungsdokument.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-rechtsetzungsdokument.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:documentCollection name="/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument">
       <akn:meta GUID="c0d82366-642f-4fe7-9b09-26867b5da120" eId="meta-n1">
          <akn:identification GUID="2c190fa5-cc30-4d24-b35b-2b5b15555ed3"
@@ -25,7 +25,7 @@
                              date="2025-04-02"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="e3933955-54ac-4851-86c2-4ef30fb32197"
+               <akn:FRBRdate GUID="2a5a8f4b-fee5-476a-b9a1-0c7c3d5d73cb"
                              date="2025-04-02"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>

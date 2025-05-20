@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2024 I Nr. 203 vom 21.06.2024. (https://www.recht.bund.de/eli/bund/bgbl-1/2024/203) -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-offenestruktur.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-offenestruktur.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:doc name="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext">
       <akn:meta GUID="150be590-4660-4b5d-be02-f97746bf7b1b" eId="meta-n1">
          <akn:identification GUID="795723b2-7dca-4a4a-b95a-05c260bd84c1"
@@ -25,7 +25,7 @@
                              date="2024-06-21"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="2d1b496e-86d5-45b8-8ca6-6015517ebcce"
+               <akn:FRBRdate GUID="4c90ce40-7bd5-47ac-9ec7-f167dd636c78"
                              date="2024-06-21"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>

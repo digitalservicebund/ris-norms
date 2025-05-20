@@ -8,6 +8,7 @@
   xmlns:meta_old="http://Metadaten.LegalDocML.de/1.7.2/"
   xmlns:meta_neuris_old="http://MetadatenRIS.LegalDocML.de/1.7.2/"
   xmlns:meta_neuris_mods_old="http://MetadatenMods.LegalDocML.de/1.7.2/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   exclude-result-prefixes="#all"
 >
     <xsl:output method="xml" indent="yes"/>
@@ -148,4 +149,20 @@
   </xsl:template>
 
   <xsl:template match="akn_old:container/@refersTo" />
+
+  <xsl:template match="@xsi:schemaLocation">
+    <xsl:if test="//akn_old:doc[@name='offene-struktur']">
+      <xsl:attribute name="xsi:schemaLocation">http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-offenestruktur.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd</xsl:attribute>
+    </xsl:if>
+    <xsl:if test="//akn_old:documentCollection[@name='rechtsetzungsdokument-verkuendungsfassung']">
+      <xsl:attribute name="xsi:schemaLocation">http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-rechtsetzungsdokument.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd</xsl:attribute>
+    </xsl:if>
+    <xsl:if test="//akn_old:act[@name='regelungstext']">
+      <xsl:attribute name="xsi:schemaLocation">http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd</xsl:attribute>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="processing-instruction('xml-model')">
+    <xsl:processing-instruction name="xml-model">href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"</xsl:processing-instruction>
+  </xsl:template>
 </xsl:stylesheet>

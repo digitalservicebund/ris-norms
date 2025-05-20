@@ -11,10 +11,10 @@
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
-<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../../../../../../../../../../../Documents/NeuRis/LegalDocML.de/LegalDocML.de 1.7.2/Grammatiken/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-offenestruktur.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-offenestruktur.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:doc name="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext">
 <!-- Metadaten -->
       <akn:meta GUID="2564ceb2-dc74-3c1b-9c93-2dbf9a3cc718" eId="meta-n1">
@@ -37,7 +37,7 @@
                              date="2020-12-23"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="1b75d3f3-2ded-4474-b6f6-6d6b2e88708d"
+               <akn:FRBRdate GUID="7d2e0c6e-c963-4436-9764-a4a722d9efbd"
                              date="2020-12-23"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>

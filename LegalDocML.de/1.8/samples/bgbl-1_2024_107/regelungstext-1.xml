@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2024 I Nr. 107 vom 27.03.2024. (https://www.recht.bund.de/eli/bund/bgbl-1/2024/107) -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="86404d9e-bcf3-4e28-8cd8-7855c55f5041" eId="meta-n1">
          <akn:identification GUID="8014e290-c99c-4095-8e85-7390fcede89d"
@@ -25,7 +25,7 @@
                              date="2024-03-27"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="84dd8ba6-1b1b-4c15-8221-50dfece68099"
+               <akn:FRBRdate GUID="91691aa3-3bdd-4a4d-835c-71df981d4538"
                              date="2024-03-27"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -1520,7 +1520,7 @@
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
                          refersTo="ausfertigung-datum">27. März 2024</akn:date>
             </akn:p>
-            <akn:p GUID="40506b4e-9a03-4eff-ae10-483b678df5c4"
+            <akn:p GUID="7968f7a2-36c3-4d59-8a8d-58f464d9de16"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="30cdf640-2e1b-448e-b88f-bd863ba96b6f"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
@@ -1532,7 +1532,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Manuela Schwesig</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="423709ec-fd6e-4278-98cc-4d4484a5ef06"
+            <akn:p GUID="a76b8b99-9852-4021-b68a-fd4ff2fa4bc3"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="5bcc363b-808e-4863-9b38-a95888bea1c7"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
@@ -1544,7 +1544,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="e8b9b8c9-8354-48cf-b8fb-ca286b5d4ffc"
+            <akn:p GUID="9dac48e7-34eb-4fc9-9bd5-37bf62c706e5"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="5a4b554c-aaf9-4df7-b20f-9eb4c7448c15"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
@@ -1556,7 +1556,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Christian Lindner</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="14b020f9-5c9a-4e18-a214-7e3e7da3d32b"
+            <akn:p GUID="3c259128-58bb-451a-9cc4-314c009583d7"
                    eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature GUID="0bab97ef-6d51-4b72-8c06-5f17857b6440"
                               eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1">

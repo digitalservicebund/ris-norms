@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="afba58e6-ff5e-4d11-a9d5-b4ddb506a3dc" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="2024-01-18"
-                             GUID="097e0eda-b191-4e4b-96d9-f6a2da8b2ae6"
+                             GUID="63beac5d-678c-4c02-a5cb-642276582e97"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="6090dee2-33c2-4fc5-965d-457cbb7aa03f"
@@ -2793,7 +2793,7 @@
                          GUID="1a8f914f-b823-4bf1-bfa2-7d1dc68d375b"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">15. Januar 2024</akn:date>
             </akn:p>
-            <akn:p GUID="467a9e3e-cc41-4692-b638-d919162b120d"
+            <akn:p GUID="46a13e8a-7453-4e0f-a147-0d9d073f5054"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="77bfaece-3a84-4d46-a782-ac70e41b0ca4"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
@@ -2805,7 +2805,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="19259f59-d6a5-41ed-8d09-a6c67feb2ab2"
+            <akn:p GUID="9dba6621-121d-4d10-b465-82e59d23eae8"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="036681a5-c983-4e84-af48-5fb0c64548fc"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
@@ -2817,7 +2817,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="531849bb-54da-453d-a4b5-bc8276ec6c1c"
+            <akn:p GUID="f83f1b7f-a177-4543-ade4-2894956ae436"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="61751c33-6912-4410-8f97-fff3c936fd0b"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">

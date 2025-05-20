@@ -14,10 +14,10 @@
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
-<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <!-- Metadaten -->
       <akn:meta eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
@@ -41,7 +41,7 @@
                              date="1964-08-05"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="353a59d4-805d-4f38-accd-6e9c192dc49e"
+                             GUID="c51c4df4-a894-4ba3-a09c-93f06d732d5b"
                              date="1964-08-05"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -314,7 +314,7 @@
                          refersTo="ausfertigung-datum"
                          date="1964-08-05">5. August 1964</akn:date>
             </akn:p>
-            <akn:p GUID="d2aaaba8-dbe5-4388-8c8e-e6208fa8641f"
+            <akn:p GUID="dafa1cc2-dbca-4fb8-a16e-7a7015267e28"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1"
                               GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad">
@@ -326,7 +326,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Lübke</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="c0491cd6-43b8-49c2-9255-8b6d5e3b1484"
+            <akn:p GUID="d3f5cbaf-160e-42a8-a68e-7efd7cc78f1f"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1"
                               GUID="2c6c0dc9-32b6-46ee-a1fa-9b8a0bc7c193">
@@ -338,7 +338,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Mende</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="f6542bb7-6c1d-462a-9dfb-8afebeabc601"
+            <akn:p GUID="97f70fcd-cb41-40f4-a935-3b2131e8f50c"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1"
                               GUID="669a4ce1-2782-4623-8af7-83e7bcf0917a">
@@ -350,7 +350,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Hermann Höcherl</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="d7f3c506-f791-4acb-b170-b213f44ddcdb"
+            <akn:p GUID="15a5651b-eade-486e-8c49-257f74ccfe97"
                    eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1"
                               GUID="22a6ce3d-3ae9-4189-bfed-d544efe7e50b">
