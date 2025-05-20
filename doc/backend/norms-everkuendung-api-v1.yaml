@@ -195,6 +195,8 @@ components:
       description: |
         Der Antwort-Typ `ProblemDetail` implementiert [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) als einheitliches Format für die Kommunikation verschiedener Arten von Fehlern. Weitere Informationen zur Verwendung bei NeuRIS Normen finden sich [ADR 12: Error responses](https://github.com/digitalservicebund/ris-norms/blob/main/doc/adr/0012-error-responses.md).
 
+        **Hinweis:** Dieses Fehlerobjekt kann zusätzliche, problemspezifische Felder auf der Root-Ebene enthalten, die weitere Details zur Ursache des Fehlers liefern.
+
         Zu den möglichen Fehler-URIs gehören beispielsweise:
 
         | URI                                           | Beschreibung                                             |
@@ -228,10 +230,8 @@ components:
           format: uri
           description: Der API-Aufruf, der den Fehler ausgelöst hat.
           example: /api/v1/beispiel-endpunkt
-        extensions:
-          type: object
-          additionalProperties: true
-          description: Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
+      # Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
+      additionalProperties: true
     VerkuendungAccepted:
       type: object
       required:
@@ -255,7 +255,11 @@ components:
           enum: ["created", "processing", "success"]
     VerkuendungStatusError:
       description: |
-        Siehe auch: Schema `ProblemDetail`. Zu den Fehler-URIs, die im Fall eines Verarbeitungsfehlers auftreten können, gehören beispielsweise:
+        Siehe auch: Schema `ProblemDetail`.
+
+        **Hinweis:** Dieses Fehlerobjekt kann zusätzliche, problemspezifische Felder auf der Root-Ebene enthalten, die weitere Details zur Ursache des Fehlers liefern.
+
+        Zu den Fehler-URIs, die im Fall eines Verarbeitungsfehlers auftreten können, gehören beispielsweise:
 
         | URI                                                                             | Beschreibung                                                                                  |
         |---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -296,10 +300,8 @@ components:
             oneOf:
               - $ref: "#/components/schemas/XsdValidationError"
               - $ref: "#/components/schemas/SchematronValidationError"
-        extensions:
-          type: object
-          additionalProperties: true
-          description: Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
+      # Weitere Informationen, die die Ursache des Fehlers präzisieren. Ob und in welcher Form dieses Feld vorliegt, unterscheidet sich je nach Art des Fehlers.
+      additionalProperties: true
     XsdValidationError:
       type: object
       description: Fehler bei der XSD-Validierung eines XML-Dokuments
