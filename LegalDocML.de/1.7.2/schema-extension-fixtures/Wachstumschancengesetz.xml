@@ -120,6 +120,12 @@
                           source="attributsemantik-noch-undefiniert"
                           type="amendment"
                           refersTo="inkrafttreten"/>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
+                          GUID="85e92fc8-b381-47bb-a476-c45fa2794336"
+                          date="2023-02-01"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"
+                          refersTo="inkrafttreten"/>
          </akn:lifecycle>
          <akn:analysis source="attributsemantik-noch-undefiniert"
                        eId="meta-1_analysis-1"
@@ -169,6 +175,13 @@
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
                                  GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac75f"
                                  start="#meta-1_lebzykl-1_ereignis-3"
+                                 refersTo="geltungszeit"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3"
+                               GUID="0477223f-0f4e-4f79-9656-5ff7d2afd934">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
+                                 GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac7ff"
+                                 start="#meta-1_lebzykl-1_ereignis-4"
                                  refersTo="geltungszeit"/>
             </akn:temporalGroup>
          </akn:temporalData>

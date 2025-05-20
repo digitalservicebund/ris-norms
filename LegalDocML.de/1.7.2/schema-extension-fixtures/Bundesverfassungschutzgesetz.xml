@@ -157,16 +157,6 @@
          <akn:proprietary eId="meta-1_proprietary-1"
                           GUID="33fc7615-4c37-4101-9184-a14185ee3ec2"
                           source="attributsemantik-noch-undefiniert">
-            </akn:proprietary>
-         <akn:proprietary source="attributsemantik-noch-undefiniert"
-                          eId="meta-1_proprietary-2"
-                          GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-               <ris:celex/>
-               <ris:interne-referenz href="#hauptteil-1_abschnitt-1_bezeichnung-1">
-                  <ris:normgeber>normgeber-a</ris:normgeber>
-               </ris:interne-referenz>
-            </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface eId="einleitung-1" GUID="59a7267f-11bf-464e-a884-15c0bbd17416">
