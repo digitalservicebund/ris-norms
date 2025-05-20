@@ -1,13 +1,13 @@
 SAXON_HE="$HOME/Downloads/SaxonHE12-7J/saxon-he-12.7.jar"
 
-# FOLDER_OLD="../1.7.2/fixtures"
-# FOLDER_NEW="../1.8/fixtures"
+FOLDER_OLD="../1.7.2/fixtures"
+FOLDER_NEW="../1.8/fixtures"
 
 # FOLDER_OLD="../1.7.2/schema-extension-fixtures"
 # FOLDER_NEW="../1.8/schema-extension-fixtures"
 
-FOLDER_OLD="../1.7.2/samples"
-FOLDER_NEW="../1.8/samples"
+# FOLDER_OLD="../1.7.2/samples"
+# FOLDER_NEW="../1.8/samples"
 
 for filepath in $FOLDER_OLD/**/*.xml; do
   new_filepath=${filepath/$FOLDER_OLD/$FOLDER_NEW}
@@ -74,8 +74,13 @@ for filepath in $FOLDER_OLD/**/*.xml; do
     xmllint --noout --schema legalDocML.de-risnorms-rechtsetzungsdokument.xsd $filepath_rechtsetzungsdokument
   fi
 
-  if [[ ${new_filename%-*} = "regelungstext" ]]; then
+  if [[ ${new_filename%-*} != "rechtsetzungsdokument" ]]; then
     cat "$new_filepath" | java -jar $SAXON_HE -s:- -xsl:./xslt/remove-rechtsetzungsdokument-metadata.xslt > "$new_filepath.tmp"
+    mv "$new_filepath.tmp" "$new_filepath"
+  fi;
+
+  if [[ ${new_filename%-*} != "regelungstext" ]]; then
+    cat "$new_filepath" | java -jar $SAXON_HE -s:- -xsl:./xslt/remove-regelungstext-metadata.xslt > "$new_filepath.tmp"
     mv "$new_filepath.tmp" "$new_filepath"
   fi;
 
