@@ -25,7 +25,7 @@
                              date="2024-06-21"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="f61654b0-b568-4ae5-9561-ddd442fefd44"
+               <akn:FRBRdate GUID="1d95b5d8-109a-41cf-9ff2-6aa5ec382840"
                              date="2024-06-21"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -346,7 +346,7 @@
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
                          refersTo="ausfertigung-datum">17. Juni 2024</akn:date>
             </akn:p>
-            <akn:p GUID="cce79a56-6eeb-4254-bdc0-ded94e4d97e1"
+            <akn:p GUID="100bd9c3-1b0c-4eb9-944e-d8629a759423"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="060605a8-0105-4ca6-b729-dc6c787dc463"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">

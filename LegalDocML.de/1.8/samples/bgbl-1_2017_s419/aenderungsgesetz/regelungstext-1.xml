@@ -40,7 +40,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="2017-03-15"
-                             GUID="06dcfd60-c1da-4ace-aebf-d6ae8112e0f6"
+                             GUID="eb0911e2-19bf-40cf-9ae0-5ab916f37ef3"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="adf802a2-afc5-4849-903c-8c2a0fe38f60"
@@ -320,7 +320,7 @@
                          GUID="21a8c2b4-132e-443d-8829-0281f501662c"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">5. August 1964</akn:date>
             </akn:p>
-            <akn:p GUID="12ed3425-aa4e-48ab-a0ad-fd957af7f8c8"
+            <akn:p GUID="41789a48-fd19-4676-98c9-6fa2356fa344"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="de157062-cbef-4aea-b551-d6933bafb9f2"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
@@ -332,7 +332,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1">Lübke</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="bf84c7b6-65ba-428d-81fe-08bd0c9faa14"
+            <akn:p GUID="ed05dfb8-0031-40c1-9576-b0ae0e25e161"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="664798ee-d823-4f80-8889-07e9e1aa930e"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
@@ -344,7 +344,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1">Mende</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="d7c9cb78-2ae5-4392-948c-3ce403364894"
+            <akn:p GUID="a4040dc5-82b2-46a3-b39c-74fe7e12cf69"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="d93b360f-d646-4ef0-858e-b18b4f404d7c"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
@@ -356,7 +356,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1_person-n1">Hermann Höcherl</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="f2be6f92-86c0-4ae7-9496-3a50bcfdf3c6"
+            <akn:p GUID="6cdec27d-98a0-4fea-9a2d-d1fb760ef077"
                    eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature GUID="c24ce8dc-8ee1-4b14-904b-36fd90e36fcc"
                               eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1">

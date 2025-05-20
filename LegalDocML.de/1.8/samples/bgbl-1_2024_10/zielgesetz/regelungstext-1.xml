@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="2021-04-16"
-                             GUID="c83ee784-95a3-45d1-9e24-bcb59d39cbd1"
+                             GUID="09b69766-6df0-4822-b19f-6578c1ed80fe"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="9127781e-1cdf-4257-9b45-d3494ca0ae68"
@@ -1239,7 +1239,7 @@
                          GUID="f7055fba-c88e-41d8-8f4a-1c0516e39ee4"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">16. April 2021</akn:date>
             </akn:p>
-            <akn:p GUID="374e2158-72ce-4e0d-824b-49c3909d4344"
+            <akn:p GUID="5c702253-0996-4f7f-ab1c-419e960fb989"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="85b0f98e-8f9a-4d27-a412-966a9a03f10d"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
@@ -1251,7 +1251,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="95203fda-c11b-4ad5-9a84-66c9f522a586"
+            <akn:p GUID="53f216dc-0555-4273-b2c2-a58d3ed4c857"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="28934663-f4c7-4412-a6c8-342fbfbf3d53"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
@@ -1263,7 +1263,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1">Dr. Angela Merkel</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="865629a4-0831-4913-913e-e81287befaca"
+            <akn:p GUID="1e6796e3-c478-4dfd-861a-b04b7713c0cb"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="acd822c5-437c-4c1c-9c71-cebd509640bb"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
@@ -1275,7 +1275,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1_person-n1">Horst Seehofer</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="2b8e50d1-9126-48be-a0ba-0e279d1e5e98"
+            <akn:p GUID="5df712ad-eb2b-4a15-ac45-40ceec1ac8aa"
                    eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature GUID="74b952ff-637e-4b8f-8f7e-d80216658a5f"
                               eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1">

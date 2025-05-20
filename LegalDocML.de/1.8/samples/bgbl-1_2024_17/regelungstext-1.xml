@@ -25,7 +25,7 @@
                              date="2024-01-24"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="380580bb-55e8-45b8-ab90-a2d99db9835e"
+               <akn:FRBRdate GUID="cbcad1ae-a239-4fb8-a04a-cbe8c31c6941"
                              date="2024-01-24"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -2646,7 +2646,7 @@
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
                          refersTo="ausfertigung-datum">22. Januar 2024</akn:date>
             </akn:p>
-            <akn:p GUID="71100632-d472-4a59-8b9c-286f583ec90d"
+            <akn:p GUID="d93523fd-cfc9-4abd-ae49-98610d96fc51"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="131413d3-ca44-44f4-9801-6d201a284e69"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
@@ -2658,7 +2658,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="4dc9fad5-fbd9-4bb6-890f-f82c49084826"
+            <akn:p GUID="5936f672-f47a-4a52-a76b-0c5873443dea"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="5f538819-6efe-4fcd-9453-38f61e90b90a"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
@@ -2670,7 +2670,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="6f4b4287-3555-4783-b6cc-13d0a7805fd6"
+            <akn:p GUID="c3397d8c-486d-4329-b9c6-b8da3a24cf2b"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="7824ff3d-de5d-4d3f-9c11-daad82360358"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
@@ -2682,7 +2682,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Boris Pistorius</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="a1c0c371-19b3-434e-ae67-ad06922329d4"
+            <akn:p GUID="d52e74c0-64e6-47d2-bc1d-b5f161e1a76e"
                    eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature GUID="8d20b71e-9cad-4302-96a8-6d1d84e57026"
                               eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1">
@@ -2694,7 +2694,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Nancy Faeser</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="fed13c2f-18d3-4f57-8f36-ba7be67ed0c6"
+            <akn:p GUID="002433a9-3e26-45f8-9655-5c519afd9757"
                    eId="schluss-n1_blockcontainer-n1_text-n6">
                <akn:signature GUID="396e0e01-35c0-4509-94af-38f7615163d9"
                               eId="schluss-n1_blockcontainer-n1_text-n6_signatur-n1">

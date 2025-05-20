@@ -37,7 +37,7 @@
                              date="2020-12-23"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="f7bbc507-2ccd-4fa2-9644-954f8e2c2cfe"
+               <akn:FRBRdate GUID="1b75d3f3-2ded-4474-b6f6-6d6b2e88708d"
                              date="2020-12-23"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -73,6 +73,19 @@
                               eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"
                               name="nachfolgende-version-id"
                               value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b"/>
+               <akn:FRBRauthor eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               GUID="b6ee5aa8-8950-4b81-be73-0f468c62c509"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             GUID="1bfbd095-93f3-4674-8096-be18041cbc65"
+                             date="1964-08-05"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 GUID="69cb29f5-3d31-48a4-8b48-14b1f23b64fb"
+                                 language="deu"/>
+               <akn:FRBRversionNumber eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      GUID="e346f244-30e0-40fa-81d0-ff21c4f34fb3"
+                                      value="1"/>
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="109b6ab7-0de9-3d09-a454-6e9530f90c28"
                                    eId="meta-n1_ident-n1_frbrmanifestation-n1">
@@ -86,6 +99,9 @@
                              date="1964-08-05"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
                              name="generierung"/>
+               <akn:FRBRauthor eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               GUID="5bbaf2cc-d861-4a57-b019-c4596b816673"
+                               href="recht.bund.de"/>
                <akn:FRBRformat GUID="0c83024a-6c2d-3858-82a6-68b1d7076245"
                                eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
                                value="xml"/>

@@ -25,7 +25,7 @@
                              date="1990-12-20"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="bb10e734-9717-4e3f-a00a-cc58cdce1123"
+                             GUID="8538f5cd-b975-41ed-8394-a32913b7d9f7"
                              date="1990-12-20"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -161,16 +161,6 @@
          <akn:proprietary eId="meta-n1_proprietary-n1"
                           GUID="33fc7615-4c37-4101-9184-a14185ee3ec2"
                           source="attributsemantik-noch-undefiniert">
-            </akn:proprietary>
-         <akn:proprietary source="attributsemantik-noch-undefiniert"
-                          eId="meta-n1_proprietary-n2"
-                          GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
-               <ris:celex/>
-               <ris:interne-referenz href="#hauptteil-n1_abschnitt-n1_bezeichnung-n1">
-                  <ris:normgeber>normgeber-a</ris:normgeber>
-               </ris:interne-referenz>
-            </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface eId="einleitung-n1" GUID="59a7267f-11bf-464e-a884-15c0bbd17416">

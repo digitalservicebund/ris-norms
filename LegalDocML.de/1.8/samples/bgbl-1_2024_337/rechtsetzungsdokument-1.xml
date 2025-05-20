@@ -25,7 +25,7 @@
                              date="2024-10-31"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="ae14698d-6b8e-4615-b4cb-f132d258375c"
+               <akn:FRBRdate GUID="e066d391-0225-44e0-969f-01a5e4381438"
                              date="2024-10-31"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -94,10 +94,7 @@
          <akn:proprietary GUID="dada9545-55cb-4fa0-b0da-2c70d7656a7f"
                           eId="meta-n1_proprietary-n1"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>verordnung</meta:typ>
-               <meta:form>mantelform</meta:form>
-            </meta:legalDocML.de_metadaten>
+            
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
                <meta:initiant>nicht-vorhanden</meta:initiant>
                <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>

@@ -25,7 +25,7 @@
                              date="2025-04-02"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="ca13b5ea-8418-44e2-9531-95c71ea8287e"
+               <akn:FRBRdate GUID="e3933955-54ac-4851-86c2-4ef30fb32197"
                              date="2025-04-02"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -94,10 +94,7 @@
          <akn:proprietary GUID="0711f1c5-f057-46ab-b640-afa8a7343c6b"
                           eId="meta-n1_proprietary-n1"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>stammform</meta:form>
-            </meta:legalDocML.de_metadaten>
+            
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
                <meta:initiant>nicht-vorhanden</meta:initiant>
                <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
