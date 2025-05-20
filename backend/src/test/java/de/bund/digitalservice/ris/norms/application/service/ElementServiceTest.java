@@ -46,7 +46,7 @@ class ElementServiceTest {
       ).thenReturn(Optional.of(regelungstext));
 
       // When
-      var element = service.loadElement(new LoadElementUseCase.Query(eli, eid));
+      var element = service.loadElement(new LoadElementUseCase.Options(eli, eid));
 
       // Then
       assertThat(NodeParser.getValueFromExpression("./@eId", element)).contains(eid.toString());
@@ -61,7 +61,7 @@ class ElementServiceTest {
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1");
-      var query = new LoadElementUseCase.Query(eli, eid);
+      var query = new LoadElementUseCase.Options(eli, eid);
 
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
@@ -82,7 +82,7 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1000");
-      var query = new LoadElementUseCase.Query(eli, eid);
+      var query = new LoadElementUseCase.Options(eli, eid);
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
@@ -120,7 +120,7 @@ class ElementServiceTest {
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html = service.loadElementHtml(new LoadElementHtmlUseCase.Query(eli, eid));
+      var html = service.loadElementHtml(new LoadElementHtmlUseCase.Options(eli, eid));
 
       // Then
       assertThat(html).contains("<div></div>");
@@ -136,7 +136,7 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1");
-      var query = new LoadElementHtmlUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlUseCase.Options(eli, eid);
 
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
@@ -157,7 +157,7 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1000");
-      var query = new LoadElementHtmlUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlUseCase.Options(eli, eid);
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"

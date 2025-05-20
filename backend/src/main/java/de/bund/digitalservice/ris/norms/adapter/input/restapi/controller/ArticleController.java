@@ -54,7 +54,7 @@ public class ArticleController {
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ArticleResponseSchema>> getArticles(final DokumentExpressionEli eli) {
     final var articles = loadArticlesFromDokumentUseCase
-      .loadArticlesFromDokument(new LoadArticlesFromDokumentUseCase.Query(eli))
+      .loadArticlesFromDokument(new LoadArticlesFromDokumentUseCase.Options(eli))
       .stream()
       .map(ArticleResponseMapper::fromNormArticle)
       .toList();
@@ -81,13 +81,13 @@ public class ArticleController {
   ) {
     String articles = loadSpecificArticlesXmlFromDokumentUseCase
       .loadSpecificArticlesXmlFromDokument(
-        new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, refersTo)
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, refersTo)
       )
       .stream()
       .map(
         xml ->
           this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-              new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
+              new TransformLegalDocMlToHtmlUseCase.Options(xml, false, false)
             ) +
           "\n"
       )
@@ -114,7 +114,7 @@ public class ArticleController {
     @PathVariable final EId eid
   ) {
     final var regelungstext = loadRegelungstextUseCase.loadRegelungstext(
-      new LoadRegelungstextUseCase.Query(eli)
+      new LoadRegelungstextUseCase.Options(eli)
     );
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper
@@ -142,7 +142,7 @@ public class ArticleController {
     final DokumentExpressionEli eli,
     @PathVariable final EId eid
   ) {
-    var query = new LoadArticleHtmlUseCase.Query(eli, eid);
+    var query = new LoadArticleHtmlUseCase.Options(eli, eid);
     var articleHtml = loadArticleHtmlUseCase.loadArticleHtml(query);
     return ResponseEntity.ok(articleHtml);
   }

@@ -70,7 +70,7 @@ class ReleaseServiceTest {
     var savedRelease = new Release(Instant.now(), List.of(manifestationOfNormToQueue));
 
     when(deleteQueuedReleasesPort.deleteQueuedReleases(any())).thenReturn(List.of());
-    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+    when(normService.loadNorm(new LoadNormUseCase.EliOptions(norm.getExpressionEli()))).thenReturn(
       norm
     );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
@@ -83,7 +83,7 @@ class ReleaseServiceTest {
 
     // When
     var returnedRelease = releaseService.releaseNormExpression(
-      new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli())
+      new ReleaseNormExpressionUseCase.Options(norm.getExpressionEli())
     );
 
     // Then
@@ -138,7 +138,7 @@ class ReleaseServiceTest {
     // When
     var instantBeforeRelease = Instant.now();
     releaseService.releaseNormExpression(
-      new ReleaseNormExpressionUseCase.Query(
+      new ReleaseNormExpressionUseCase.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       )
     );
@@ -166,7 +166,7 @@ class ReleaseServiceTest {
       "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
     );
 
-    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+    when(normService.loadNorm(new LoadNormUseCase.EliOptions(norm.getExpressionEli()))).thenReturn(
       norm
     );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
@@ -179,7 +179,7 @@ class ReleaseServiceTest {
       new LdmlDeNotValidException(List.of())
     );
 
-    var query = new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseNormExpressionUseCase.Options(norm.getExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseNormExpression(query)).isInstanceOf(
@@ -220,7 +220,7 @@ class ReleaseServiceTest {
       "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
     );
 
-    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+    when(normService.loadNorm(new LoadNormUseCase.EliOptions(norm.getExpressionEli()))).thenReturn(
       norm
     );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
@@ -233,7 +233,7 @@ class ReleaseServiceTest {
       .when(ldmlDeValidator)
       .validateSchematron(any(Norm.class));
 
-    var query = new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseNormExpressionUseCase.Options(norm.getExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseNormExpression(query)).isInstanceOf(
@@ -274,7 +274,7 @@ class ReleaseServiceTest {
 
       // When
       var releases = releaseService.loadReleasesByNormExpressionEli(
-        new LoadReleasesByNormExpressionEliUseCase.Query(
+        new LoadReleasesByNormExpressionEliUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );

@@ -63,17 +63,17 @@ public class ReleaseService
    * <p></p>
    * NOTE: This is currently not taking care of updating the "nachfolgende-version-id".
    *
-   * @param query The query specifying the {@link Verkuendung} to be loaded.
+   * @param options The options specifying the {@link Verkuendung} to be loaded.
    * @return The information about the Verkuendung published.
    */
   @Override
   @Transactional
-  public Release releaseNormExpression(ReleaseNormExpressionUseCase.Query query) {
-    var normToPublish = normService.loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
+  public Release releaseNormExpression(ReleaseNormExpressionUseCase.Options options) {
+    var normToPublish = normService.loadNorm(new LoadNormUseCase.EliOptions(options.eli()));
 
     // Delete the files from a previous release of the same norm if they are still queued for publishing.
     var deletedReleases = deleteQueuedReleasesPort.deleteQueuedReleases(
-      new DeleteQueuedReleasesPort.Command(query.eli())
+      new DeleteQueuedReleasesPort.Command(options.eli())
     );
     deletedReleases
       .stream()
@@ -129,10 +129,10 @@ public class ReleaseService
 
   @Override
   public List<Release> loadReleasesByNormExpressionEli(
-    LoadReleasesByNormExpressionEliUseCase.Query query
+    LoadReleasesByNormExpressionEliUseCase.Options options
   ) {
     return loadReleasesByNormExpressionEliPort.loadReleasesByNormExpressionEli(
-      new LoadReleasesByNormExpressionEliPort.Command(query.eli())
+      new LoadReleasesByNormExpressionEliPort.Command(options.eli())
     );
   }
 }

@@ -59,7 +59,7 @@ class XsltTransformationServiceTest {
     when(xsltResource.getURL()).thenReturn(URL.of(URI.create("https://example.com/"), null));
 
     var result = xsltTransformationService.transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", false, false)
+      new TransformLegalDocMlToHtmlUseCase.Options("<data>Test</data>", false, false)
     );
 
     assertThat(result).isEqualToIgnoringWhitespace("<span>Test</span>");
@@ -98,7 +98,7 @@ class XsltTransformationServiceTest {
     when(xsltResource.getURL()).thenReturn(URL.of(URI.create("https://example.com/"), null));
 
     var result = xsltTransformationService.transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", true, false)
+      new TransformLegalDocMlToHtmlUseCase.Options("<data>Test</data>", true, false)
     );
 
     assertThat(result).isEqualToIgnoringWhitespace(
@@ -144,7 +144,7 @@ class XsltTransformationServiceTest {
     when(xsltResource.getURL()).thenReturn(URL.of(URI.create("https://example.com/"), null));
 
     var result = xsltTransformationService.transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", false, false)
+      new TransformLegalDocMlToHtmlUseCase.Options("<data>Test</data>", false, false)
     );
 
     assertThat(result).isEqualToIgnoringWhitespace(
@@ -178,7 +178,7 @@ class XsltTransformationServiceTest {
 
     var throwable = catchThrowable(() ->
       xsltTransformationService.transformLegalDocMlToHtml(
-        new TransformLegalDocMlToHtmlUseCase.Query("<data><invalid xml</data>", false, false)
+        new TransformLegalDocMlToHtmlUseCase.Options("<data><invalid xml</data>", false, false)
       )
     );
 
@@ -208,7 +208,7 @@ class XsltTransformationServiceTest {
     );
 
     var result = new XsltTransformationService(resource).transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, snippet)
+      new TransformLegalDocMlToHtmlUseCase.Options(xml, showMetadata, snippet)
     );
 
     assertThat(result).isEqualToIgnoringWhitespace(expectedHtml);
@@ -236,7 +236,7 @@ class XsltTransformationServiceTest {
     );
 
     var result = new XsltTransformationService(resource).transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, snippet)
+      new TransformLegalDocMlToHtmlUseCase.Options(xml, showMetadata, snippet)
     );
 
     assertThat(result).isNotEmpty();

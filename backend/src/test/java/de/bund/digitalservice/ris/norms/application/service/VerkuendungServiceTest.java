@@ -83,7 +83,7 @@ class VerkuendungServiceTest {
       var norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      final var query = new LoadVerkuendungUseCase.Query(
+      final var query = new LoadVerkuendungUseCase.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
@@ -102,7 +102,7 @@ class VerkuendungServiceTest {
     @Test
     void itThrowsVerkuendungNotFoundExceptionIfNormDoesNotExist() {
       // given
-      final var query = new LoadVerkuendungUseCase.Query(
+      final var query = new LoadVerkuendungUseCase.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
 
@@ -130,7 +130,7 @@ class VerkuendungServiceTest {
 
       // When
       var loadedVerkuendung = verkuendungService.loadVerkuendung(
-        new LoadVerkuendungUseCase.Query(
+        new LoadVerkuendungUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -190,7 +190,7 @@ class VerkuendungServiceTest {
 
       // When
       var verkuendung = verkuendungService.createVerkuendung(
-        new CreateVerkuendungUseCase.Query(file, false)
+        new CreateVerkuendungUseCase.Options(file, false)
       );
 
       // Then
@@ -212,7 +212,7 @@ class VerkuendungServiceTest {
       );
 
       // When // Then
-      var query = new CreateVerkuendungUseCase.Query(file, false);
+      var query = new CreateVerkuendungUseCase.Options(file, false);
       assertThatThrownBy(() -> verkuendungService.createVerkuendung(query)).isInstanceOf(
         NotAXmlFileException.class
       );
@@ -235,7 +235,7 @@ class VerkuendungServiceTest {
       );
 
       // When // Then
-      var query = new CreateVerkuendungUseCase.Query(file, false);
+      var query = new CreateVerkuendungUseCase.Options(file, false);
       assertThatThrownBy(() -> verkuendungService.createVerkuendung(query)).isInstanceOf(
         CreateVerkuendungUseCase.NotLdmlDeXmlFileException.class
       );
@@ -286,7 +286,7 @@ class VerkuendungServiceTest {
         );
 
       // When // Then
-      var query = new CreateVerkuendungUseCase.Query(file, false);
+      var query = new CreateVerkuendungUseCase.Options(file, false);
       assertThatThrownBy(() -> verkuendungService.createVerkuendung(query)).isInstanceOf(
         NormExistsAlreadyException.class
       );
@@ -333,7 +333,7 @@ class VerkuendungServiceTest {
       ).thenReturn(Optional.of(norm));
 
       // When // Then
-      var query = new CreateVerkuendungUseCase.Query(file, false);
+      var query = new CreateVerkuendungUseCase.Options(file, false);
       assertThatThrownBy(() -> verkuendungService.createVerkuendung(query)).isInstanceOf(
         NormWithGuidAlreadyExistsException.class
       );
@@ -357,7 +357,7 @@ class VerkuendungServiceTest {
       );
 
       // When // Then
-      var query = new CreateVerkuendungUseCase.Query(file, false);
+      var query = new CreateVerkuendungUseCase.Options(file, false);
       assertThatThrownBy(() -> verkuendungService.createVerkuendung(query)).isInstanceOf(
         LdmlDeNotValidException.class
       );
@@ -403,7 +403,7 @@ class VerkuendungServiceTest {
         .validateSchematron(regelungstext);
 
       // When // Then
-      var query = new CreateVerkuendungUseCase.Query(file, false);
+      var query = new CreateVerkuendungUseCase.Options(file, false);
       assertThatThrownBy(() -> verkuendungService.createVerkuendung(query)).isInstanceOf(
         LdmlDeSchematronException.class
       );
@@ -461,7 +461,7 @@ class VerkuendungServiceTest {
       );
 
       var verkuendung = verkuendungService.createVerkuendung(
-        new CreateVerkuendungUseCase.Query(file, true)
+        new CreateVerkuendungUseCase.Options(file, true)
       );
 
       // Then
@@ -489,7 +489,7 @@ class VerkuendungServiceTest {
 
       // When
       var norms = verkuendungService.loadNormExpressionsAffectedByVerkuendung(
-        new LoadNormExpressionsAffectedByVerkuendungUseCase.Query(
+        new LoadNormExpressionsAffectedByVerkuendungUseCase.Options(
           verkuendungsNorm.getExpressionEli()
         )
       );
@@ -519,7 +519,7 @@ class VerkuendungServiceTest {
 
       // When
       var norms = verkuendungService.loadNormExpressionsAffectedByVerkuendung(
-        new LoadNormExpressionsAffectedByVerkuendungUseCase.Query(
+        new LoadNormExpressionsAffectedByVerkuendungUseCase.Options(
           verkuendungsNorm.getExpressionEli()
         )
       );

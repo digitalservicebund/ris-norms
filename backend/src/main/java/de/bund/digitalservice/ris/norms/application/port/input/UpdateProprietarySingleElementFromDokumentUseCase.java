@@ -13,10 +13,10 @@ public interface UpdateProprietarySingleElementFromDokumentUseCase {
   /**
    * Updates specific metadata for a single element from a {@link Dokument}.
    *
-   * @param query Query used for identifying the {@link Dokument} as well as the eId of the single element and the metadata themselves.
+   * @param options Options used for identifying the {@link Dokument} as well as the eId of the single element and the metadata themselves.
    * @return Proprietary node of the norm with the updated metadata.
    */
-  Proprietary updateProprietarySingleElementFromDokument(Query query);
+  Proprietary updateProprietarySingleElementFromDokument(Options options);
 
   /**
    * Contains the parameters needed for loading proprietary metadata from a norm.
@@ -25,7 +25,11 @@ public interface UpdateProprietarySingleElementFromDokumentUseCase {
    * @param eid the eId of the single element within the {@link Dokument}
    * @param inputMetadata object containing the metadata to update
    */
-  record Query(DokumentExpressionEli dokumentExpressionEli, EId eid, InputMetadata inputMetadata) {}
+  record Options(
+    DokumentExpressionEli dokumentExpressionEli,
+    EId eid,
+    InputMetadata inputMetadata
+  ) {}
 
   /**
    * Record representing the list of metadata to update.

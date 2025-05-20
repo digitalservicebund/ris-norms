@@ -38,7 +38,7 @@ public class TableOfContentsController {
     final DokumentExpressionEli dokumentExpressionEli
   ) {
     var toc = loadTocFromRegelungstextUseCase.loadTocFromRegelungstext(
-      new LoadTocFromRegelungstextUseCase.Query(dokumentExpressionEli)
+      new LoadTocFromRegelungstextUseCase.Options(dokumentExpressionEli)
     );
     return ResponseEntity.ok(TableOfContentsResponseMapper.fromTableOfContents(toc));
   }

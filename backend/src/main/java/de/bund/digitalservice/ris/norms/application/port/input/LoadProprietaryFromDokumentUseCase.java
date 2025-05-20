@@ -9,15 +9,15 @@ public interface LoadProprietaryFromDokumentUseCase {
   /**
    * Retrieves the {@link Proprietary} metadata from a {@link Dokument}.
    *
-   * @param query Query used for identifying the {@link Dokument}.
+   * @param options Options used for identifying the {@link Dokument}.
    * @return Proprietary metadata of the {@link Dokument}, if it has any.
    */
-  Proprietary loadProprietaryFromDokument(Query query);
+  Proprietary loadProprietaryFromDokument(Options options);
 
   /**
-   * Query with the expression eli of the {@link Dokument}
+   * Options with the expression eli of the {@link Dokument}
    *
    * @param dokumentExpressionEli The ELI used to identify the {@link Dokument} at the expression level
    */
-  record Query(DokumentExpressionEli dokumentExpressionEli) {}
+  record Options(DokumentExpressionEli dokumentExpressionEli) {}
 }

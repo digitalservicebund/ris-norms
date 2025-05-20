@@ -38,12 +38,12 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
   }
 
   @Override
-  public List<TableOfContentsItem> loadTocFromRegelungstext(Query query) {
+  public List<TableOfContentsItem> loadTocFromRegelungstext(Options options) {
     return loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.dokumentExpressionEli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Command(options.dokumentExpressionEli()))
       .map(this::loadToc)
       .orElseThrow(() ->
-        new RegelungstextNotFoundException(query.dokumentExpressionEli().toString())
+        new RegelungstextNotFoundException(options.dokumentExpressionEli().toString())
       );
   }
 

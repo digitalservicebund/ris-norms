@@ -163,7 +163,7 @@ class VerkuendungenControllerTest {
       // When
       when(
         loadVerkuendungUseCase.loadVerkuendung(
-          new LoadVerkuendungUseCase.Query(norm.getExpressionEli())
+          new LoadVerkuendungUseCase.Options(norm.getExpressionEli())
         )
       ).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
@@ -190,7 +190,7 @@ class VerkuendungenControllerTest {
       verify(loadVerkuendungUseCase, times(1)).loadVerkuendung(
         argThat(argument -> Objects.equals(argument.eli(), normEli))
       );
-      verify(loadNormUseCase, times(1)).loadNorm(new LoadNormUseCase.EliQuery(normEli));
+      verify(loadNormUseCase, times(1)).loadNorm(new LoadNormUseCase.EliOptions(normEli));
     }
 
     @Test
@@ -202,7 +202,7 @@ class VerkuendungenControllerTest {
       var normEli = norm.getExpressionEli();
       // When
       when(
-        loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Query(normEli))
+        loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Options(normEli))
       ).thenThrow(new VerkuendungNotFoundException(normEli.toString()));
 
       // When
@@ -470,7 +470,7 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[1]").doesNotExist());
 
       verify(loadZielnormenExpressionsUseCase, times(1)).loadZielnormExpressions(
-        new LoadZielnormenExpressionsUseCase.Query(
+        new LoadZielnormenExpressionsUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -569,7 +569,7 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[1]").doesNotExist());
 
       verify(loadZielnormenExpressionsUseCase, times(1)).loadZielnormExpressions(
-        new LoadZielnormenExpressionsUseCase.Query(
+        new LoadZielnormenExpressionsUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );

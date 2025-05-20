@@ -31,54 +31,56 @@ public class ArticleService
   }
 
   @Override
-  public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
+  public String loadArticleHtml(final LoadArticleHtmlUseCase.Options options) {
     var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .orElseThrow(() -> new NormNotFoundException(options.eli()));
 
     return regelungstext
       .getArticles()
       .stream()
-      .filter(article -> article.getEid().equals(query.eid()))
+      .filter(article -> article.getEid().equals(options.eid()))
       .findFirst()
       .map(article -> XmlMapper.toString(article.getElement()))
       .map(xml ->
         xsltTransformationService.transformLegalDocMlToHtml(
-          new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
+          new TransformLegalDocMlToHtmlUseCase.Options(xml, false, false)
         )
       )
       .orElseThrow(() ->
-        new ArticleNotFoundException(query.eli().toString(), query.eid().toString())
+        new ArticleNotFoundException(options.eli().toString(), options.eid().toString())
       );
   }
 
   @Override
-  public List<Article> loadArticlesFromDokument(final LoadArticlesFromDokumentUseCase.Query query) {
+  public List<Article> loadArticlesFromDokument(
+    final LoadArticlesFromDokumentUseCase.Options options
+  ) {
     final var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
+      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     return regelungstext.getArticles();
   }
 
   @Override
   public List<String> loadSpecificArticlesXmlFromDokument(
-    LoadSpecificArticlesXmlFromDokumentUseCase.Query query
+    LoadSpecificArticlesXmlFromDokumentUseCase.Options options
   ) {
     List<Article> articles = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .orElseThrow(() -> new NormNotFoundException(options.eli()))
       .getArticles();
 
-    if (query.refersTo() != null) {
+    if (options.refersTo() != null) {
       articles = articles
         .stream()
-        .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
+        .filter(a -> Objects.equals(a.getRefersTo().orElse(""), options.refersTo()))
         .toList();
     }
 
     if (articles.isEmpty()) {
-      throw new ArticleOfTypeNotFoundException(query.eli().toString(), query.refersTo());
+      throw new ArticleOfTypeNotFoundException(options.eli().toString(), options.refersTo());
     }
 
     return articles.stream().map(a -> XmlMapper.toString(a.getElement())).toList();

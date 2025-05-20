@@ -12,10 +12,10 @@ public interface UpdateZielnormReferencesUseCase {
   /**
    * Updates zielnorm references
    *
-   * @param query Query used for identifying the norm and the updated zielnorm-references
+   * @param options Options used for identifying the norm and the updated zielnorm-references
    * @return All zielnorm references of the norm
    */
-  List<ZielnormReference> updateZielnormReferences(Query query);
+  List<ZielnormReference> updateZielnormReferences(Options options);
 
   /**
    * Contains the parameters needed for loading the zielnorm references from a norm.
@@ -23,7 +23,7 @@ public interface UpdateZielnormReferencesUseCase {
    * @param eli The ELI used to identify the norm
    * @param zielnormReferences a list of zielnorm references. References with the same eId as an existing one overwrite those, references with a new eId are created. All other references remain unchanged.
    */
-  record Query(NormExpressionEli eli, List<ZielnormReferenceUpdateData> zielnormReferences) {}
+  record Options(NormExpressionEli eli, List<ZielnormReferenceUpdateData> zielnormReferences) {}
 
   /**
    * Data for updating a zielnorm reference

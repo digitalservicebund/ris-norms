@@ -50,7 +50,7 @@ public class NormExpressionController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<NormResponseSchema> getNorm(final DokumentExpressionEli eli) {
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(eli.asNormEli()));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 
@@ -65,7 +65,7 @@ public class NormExpressionController {
   @GetMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormXml(final DokumentExpressionEli eli) {
     return ResponseEntity.ok(
-      loadRegelungstextXmlUseCase.loadRegelungstextXml(new LoadRegelungstextXmlUseCase.Query(eli))
+      loadRegelungstextXmlUseCase.loadRegelungstextXml(new LoadRegelungstextXmlUseCase.Options(eli))
     );
   }
 
@@ -84,11 +84,11 @@ public class NormExpressionController {
     @RequestParam(defaultValue = "false") boolean showMetadata
   ) {
     var normXml = loadRegelungstextXmlUseCase.loadRegelungstextXml(
-      new LoadRegelungstextXmlUseCase.Query(eli)
+      new LoadRegelungstextXmlUseCase.Options(eli)
     );
     var legalDocHtml =
       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-          new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false)
+          new TransformLegalDocMlToHtmlUseCase.Options(normXml, showMetadata, false)
         );
 
     return ResponseEntity.ok(legalDocHtml);
@@ -109,7 +109,7 @@ public class NormExpressionController {
     @RequestBody String xml
   ) {
     var updatedRegelungstext = updateRegelungstextXmlUseCase.updateRegelungstextXml(
-      new UpdateRegelungstextXmlUseCase.Query(eli, xml)
+      new UpdateRegelungstextXmlUseCase.Options(eli, xml)
     );
 
     return ResponseEntity.ok(updatedRegelungstext);

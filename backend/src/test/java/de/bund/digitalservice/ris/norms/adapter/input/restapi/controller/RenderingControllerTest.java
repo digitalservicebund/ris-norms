@@ -68,7 +68,7 @@ class RenderingControllerTest {
         .andExpect(content().string("<html></html>"));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
-        new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", true, false)
+        new TransformLegalDocMlToHtmlUseCase.Options("<law>original-law</law>", true, false)
       );
     }
 
@@ -91,7 +91,7 @@ class RenderingControllerTest {
         .andExpect(content().string("<html></html>"));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
-        new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, false)
+        new TransformLegalDocMlToHtmlUseCase.Options("<law>original-law</law>", false, false)
       );
     }
 
@@ -113,7 +113,7 @@ class RenderingControllerTest {
         .andExpect(content().string("<html></html>"));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
-        new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, true)
+        new TransformLegalDocMlToHtmlUseCase.Options("<law>original-law</law>", false, true)
       );
     }
   }

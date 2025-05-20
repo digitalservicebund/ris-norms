@@ -43,7 +43,7 @@ public class ElementController {
     @PathVariable final EId eid
   ) {
     var elementHtml = loadElementHtmlUseCase.loadElementHtml(
-      new LoadElementHtmlUseCase.Query(eli, eid)
+      new LoadElementHtmlUseCase.Options(eli, eid)
     );
 
     return ResponseEntity.ok(elementHtml);
@@ -62,7 +62,7 @@ public class ElementController {
     final DokumentExpressionEli eli,
     @PathVariable final EId eid
   ) {
-    var element = loadElementUseCase.loadElement(new LoadElementUseCase.Query(eli, eid));
+    var element = loadElementUseCase.loadElement(new LoadElementUseCase.Options(eli, eid));
 
     return ResponseEntity.ok(ElementResponseMapper.fromElementNode(element));
   }

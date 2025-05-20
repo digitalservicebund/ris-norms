@@ -11,15 +11,15 @@ public interface LoadNormendokumentationspacketProcessingStatusUseCase {
   /**
    * Loads the status of the import of a Normendokumentationspaket
    *
-   * @param query for loading the status
+   * @param options for loading the status
    * @return the status as {@link VerkuendungImportProcess}
    */
-  VerkuendungImportProcess getStatus(Query query);
+  VerkuendungImportProcess getStatus(Options options);
 
   /**
    * The query forloading the process status of importing a Normendokumentationspaket.
    *
    * @param processingId that is needed to identify the job
    */
-  record Query(UUID processingId) {}
+  record Options(UUID processingId) {}
 }

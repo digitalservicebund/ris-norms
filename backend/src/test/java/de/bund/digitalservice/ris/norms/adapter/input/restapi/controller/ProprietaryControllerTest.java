@@ -52,7 +52,7 @@ class ProprietaryControllerTest {
       );
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenThrow(new DokumentNotFoundException(eli.toString()));
       // when
@@ -77,7 +77,7 @@ class ProprietaryControllerTest {
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenReturn(proprietary);
 
@@ -115,7 +115,7 @@ class ProprietaryControllerTest {
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenReturn(proprietary);
 
@@ -154,7 +154,7 @@ class ProprietaryControllerTest {
       );
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenReturn(proprietary);
 
@@ -326,7 +326,7 @@ class ProprietaryControllerTest {
       var eid = "hauptteil-1_abschnitt-0_art-1";
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenThrow(new DokumentNotFoundException(eli.toString()));
       // when
@@ -355,7 +355,7 @@ class ProprietaryControllerTest {
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenReturn(proprietary);
 
@@ -387,7 +387,7 @@ class ProprietaryControllerTest {
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenReturn(proprietary);
 
@@ -418,7 +418,7 @@ class ProprietaryControllerTest {
         .getOrCreateProprietary();
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Query(eli)
+          new LoadProprietaryFromDokumentUseCase.Options(eli)
         )
       ).thenReturn(proprietary);
 

@@ -29,65 +29,67 @@ public class ProprietaryService
   }
 
   @Override
-  public Proprietary loadProprietaryFromDokument(LoadProprietaryFromDokumentUseCase.Query query) {
+  public Proprietary loadProprietaryFromDokument(
+    LoadProprietaryFromDokumentUseCase.Options options
+  ) {
     return loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Command(query.dokumentExpressionEli()))
+      .loadDokument(new LoadDokumentPort.Command(options.dokumentExpressionEli()))
       .map(m -> m.getMeta().getOrCreateProprietary())
-      .orElseThrow(() -> new DokumentNotFoundException(query.dokumentExpressionEli().toString()));
+      .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
   }
 
   @Override
   public Proprietary updateProprietaryFrameFromDokument(
-    UpdateProprietaryFrameFromDokumentUseCase.Query query
+    UpdateProprietaryFrameFromDokumentUseCase.Options options
   ) {
     final Dokument dokument = loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Command(query.dokumentExpressionEli()))
-      .orElseThrow(() -> new DokumentNotFoundException(query.dokumentExpressionEli().toString()));
+      .loadDokument(new LoadDokumentPort.Command(options.dokumentExpressionEli()))
+      .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
 
     final Proprietary proprietary = dokument.getMeta().getOrCreateProprietary();
-    proprietary.setMetadataValue(Metadata.FNA, query.inputMetadata().fna());
-    proprietary.setMetadataValue(Metadata.ART, query.inputMetadata().art());
-    proprietary.setMetadataValue(Metadata.TYP, query.inputMetadata().typ());
-    proprietary.setMetadataValue(Metadata.SUBTYP, query.inputMetadata().subtyp());
+    proprietary.setMetadataValue(Metadata.FNA, options.inputMetadata().fna());
+    proprietary.setMetadataValue(Metadata.ART, options.inputMetadata().art());
+    proprietary.setMetadataValue(Metadata.TYP, options.inputMetadata().typ());
+    proprietary.setMetadataValue(Metadata.SUBTYP, options.inputMetadata().subtyp());
     proprietary.setMetadataValue(
       Metadata.BEZEICHNUNG_IN_VORLAGE,
-      query.inputMetadata().bezeichnungInVorlage()
+      options.inputMetadata().bezeichnungInVorlage()
     );
-    proprietary.setMetadataValue(Metadata.ART_DER_NORM, query.inputMetadata().artDerNorm());
-    proprietary.setMetadataValue(Metadata.STAAT, query.inputMetadata().staat());
+    proprietary.setMetadataValue(Metadata.ART_DER_NORM, options.inputMetadata().artDerNorm());
+    proprietary.setMetadataValue(Metadata.STAAT, options.inputMetadata().staat());
     proprietary.setMetadataValue(
       Metadata.BESCHLIESSENDES_ORGAN,
-      query.inputMetadata().beschliessendesOrgan()
+      options.inputMetadata().beschliessendesOrgan()
     );
     proprietary.setMetadataValue(
       Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR,
-      query.inputMetadata().qualifizierterMehrheit() != null
-        ? query.inputMetadata().qualifizierterMehrheit().toString()
+      options.inputMetadata().qualifizierterMehrheit() != null
+        ? options.inputMetadata().qualifizierterMehrheit().toString()
         : ""
     );
     proprietary.setRessort(
-      query.inputMetadata().ressort(),
-      query.dokumentExpressionEli().getPointInTime()
+      options.inputMetadata().ressort(),
+      options.dokumentExpressionEli().getPointInTime()
     );
     proprietary.setMetadataValue(
       Metadata.ORGANISATIONS_EINHEIT,
-      query.inputMetadata().organisationsEinheit()
+      options.inputMetadata().organisationsEinheit()
     );
     return updateDokument(dokument);
   }
 
   @Override
   public Proprietary updateProprietarySingleElementFromDokument(
-    UpdateProprietarySingleElementFromDokumentUseCase.Query query
+    UpdateProprietarySingleElementFromDokumentUseCase.Options options
   ) {
     final Dokument dokument = loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Command(query.dokumentExpressionEli()))
-      .orElseThrow(() -> new DokumentNotFoundException(query.dokumentExpressionEli().toString()));
+      .loadDokument(new LoadDokumentPort.Command(options.dokumentExpressionEli()))
+      .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
     final Proprietary proprietary = dokument.getMeta().getOrCreateProprietary();
     proprietary.setMetadataValue(
       Metadata.ART_DER_NORM,
-      query.eid(),
-      query.inputMetadata().artDerNorm()
+      options.eid(),
+      options.inputMetadata().artDerNorm()
     );
     return updateDokument(dokument);
   }

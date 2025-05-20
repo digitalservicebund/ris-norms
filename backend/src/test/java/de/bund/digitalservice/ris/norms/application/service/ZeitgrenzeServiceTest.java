@@ -42,7 +42,7 @@ class ZeitgrenzeServiceTest {
 
       // When / Then
       assertThatThrownBy(() ->
-        service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli))
+        service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Options(eli))
       )
         .isInstanceOf(RegelungstextNotFoundException.class)
         .hasMessageContaining(eli.toString());
@@ -61,7 +61,9 @@ class ZeitgrenzeServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var zeitgrenzen = service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli));
+      var zeitgrenzen = service.loadZeitgrenzenFromDokument(
+        new LoadZeitgrenzenUseCase.Options(eli)
+      );
 
       // Then
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
@@ -83,7 +85,9 @@ class ZeitgrenzeServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var zeitgrenzen = service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli));
+      var zeitgrenzen = service.loadZeitgrenzenFromDokument(
+        new LoadZeitgrenzenUseCase.Options(eli)
+      );
 
       // Then
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
@@ -111,7 +115,9 @@ class ZeitgrenzeServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      var zeitgrenzen = service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli));
+      var zeitgrenzen = service.loadZeitgrenzenFromDokument(
+        new LoadZeitgrenzenUseCase.Options(eli)
+      );
 
       // Then
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
@@ -150,7 +156,7 @@ class ZeitgrenzeServiceTest {
 
       // When / Then
       assertThatThrownBy(() ->
-        service.updateZeitgrenzenOfDokument(new UpdateZeitgrenzenUseCase.Query(eli, any()))
+        service.updateZeitgrenzenOfDokument(new UpdateZeitgrenzenUseCase.Options(eli, any()))
       )
         .isInstanceOf(RegelungstextNotFoundException.class)
         .hasMessageContaining(eli.toString());
@@ -186,7 +192,7 @@ class ZeitgrenzeServiceTest {
       );
       // When
       var updatedZeitgrenze = service.updateZeitgrenzenOfDokument(
-        new UpdateZeitgrenzenUseCase.Query(eli, newZeitgrenzen)
+        new UpdateZeitgrenzenUseCase.Options(eli, newZeitgrenzen)
       );
 
       // Then
@@ -219,7 +225,7 @@ class ZeitgrenzeServiceTest {
       // When / Then
       assertThatThrownBy(() ->
         service.updateZeitgrenzenOfDokument(
-          new UpdateZeitgrenzenUseCase.Query(
+          new UpdateZeitgrenzenUseCase.Options(
             eli,
             List.of(
               new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(

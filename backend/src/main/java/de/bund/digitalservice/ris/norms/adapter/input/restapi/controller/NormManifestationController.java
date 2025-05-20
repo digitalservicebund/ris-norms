@@ -41,7 +41,7 @@ public class NormManifestationController {
   @GetMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormManifestationXml(final DokumentManifestationEli eli) {
     var norm = loadRegelungstextXmlUseCase.loadRegelungstextXml(
-      new LoadRegelungstextXmlUseCase.Query(eli)
+      new LoadRegelungstextXmlUseCase.Options(eli)
     );
     return ResponseEntity.ok(norm);
   }

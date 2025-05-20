@@ -14,20 +14,20 @@ import java.util.Map;
  */
 public interface UpdateZeitgrenzenUseCase {
   /**
-   * Updates a list of time boundaries of a {@link Dokument} based on the provided query.
+   * Updates a list of time boundaries of a {@link Dokument} based on the provided options.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the {@link Dokument}.
+   * @param options The options containing the ELI (European Legislation Identifier) of the {@link Dokument}.
    * @return the list of {@link Zeitgrenze}
    */
-  List<Zeitgrenze> updateZeitgrenzenOfDokument(Query query);
+  List<Zeitgrenze> updateZeitgrenzenOfDokument(Options options);
 
   /**
    * A record representing the parameters needed to query time boundaries related to a {@link Dokument}.
    *
-   * @param eli The ELI used to identify the {@link Dokument} in the query.
+   * @param eli The ELI used to identify the {@link Dokument}
    * @param zeitgrenzen the list of the new {@link Zeitgrenze}n. Existing {@link Zeitgrenze}n that are not listed will be removed.
    */
-  record Query(DokumentExpressionEli eli, List<ZeitgrenzenUpdateData> zeitgrenzen) {}
+  record Options(DokumentExpressionEli eli, List<ZeitgrenzenUpdateData> zeitgrenzen) {}
 
   /**
    * Data for updating a zeitgrenze

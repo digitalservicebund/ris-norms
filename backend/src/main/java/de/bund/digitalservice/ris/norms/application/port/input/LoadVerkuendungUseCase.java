@@ -9,19 +9,18 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
  */
 public interface LoadVerkuendungUseCase {
   /**
-   * Retrieves an Verkuendung based on the provided query.
+   * Retrieves an Verkuendung based on the provided options.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the dokument.
+   * @param options The options containing the ELI (European Legislation Identifier) of the dokument.
    * @return The loaded {@link Verkuendung}
    * @throws VerkuendungNotFoundException if {@link Verkuendung} could not be found
    */
-  Verkuendung loadVerkuendung(Query query);
+  Verkuendung loadVerkuendung(Options options);
 
   /**
-   * A record representing the query for loading an Verkuendung. The query includes the ELI (European
-   * Legislation Identifier) to identify the dokument.
+   * A record representing the query for loading an Verkuendung.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the Verkuendung in the query.
+   * @param eli The ELI (European Legislation Identifier) used to identify the Verkuendung.
    */
-  record Query(NormExpressionEli eli) {}
+  record Options(NormExpressionEli eli) {}
 }

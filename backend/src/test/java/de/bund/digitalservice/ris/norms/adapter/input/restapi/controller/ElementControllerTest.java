@@ -62,7 +62,7 @@ class ElementControllerTest {
       var elementHtml = "<div></div>";
       when(
         loadElementHtmlUseCase.loadElementHtml(
-          new LoadElementHtmlUseCase.Query(
+          new LoadElementHtmlUseCase.Options(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             ),
@@ -106,7 +106,7 @@ class ElementControllerTest {
         """;
       when(
         loadElementUseCase.loadElement(
-          new LoadElementUseCase.Query(
+          new LoadElementUseCase.Options(
             DokumentExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
             ),

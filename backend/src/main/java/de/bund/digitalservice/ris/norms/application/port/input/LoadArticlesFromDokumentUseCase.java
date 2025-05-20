@@ -10,15 +10,15 @@ public interface LoadArticlesFromDokumentUseCase {
   /**
    * Load the list of articles from a dokument.
    *
-   * @param query Query used for identifying the articles
+   * @param options Options used for identifying the articles
    * @return List of articles (can be empty)
    */
-  List<Article> loadArticlesFromDokument(Query query);
+  List<Article> loadArticlesFromDokument(Options options);
 
   /**
    * Contains the parameters needed for loading articles from a dokument.
    *
    * @param eli The ELI used to identify the dokument
    */
-  record Query(DokumentExpressionEli eli) {}
+  record Options(DokumentExpressionEli eli) {}
 }

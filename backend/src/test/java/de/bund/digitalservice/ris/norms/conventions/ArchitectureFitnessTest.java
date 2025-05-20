@@ -321,11 +321,14 @@ class ArchitectureFitnessTest {
   }
 
   @Test
-  void portMethodsHaveASingleCommandOrQueryParameter() {
+  void portMethodsHaveASingleOptionsParameter() {
+    // TODO: (Malte Laukötter, 2025-05-20) remove command as option once commands have been renamed to options
     final HaveAParameterWithTypeName haveACommandParameter = new HaveAParameterWithTypeName(
       "Command"
     );
-    final HaveAParameterWithTypeName haveAQueryParameter = new HaveAParameterWithTypeName("Query");
+    final HaveAParameterWithTypeName haveAOptionsParameter = new HaveAParameterWithTypeName(
+      "Options"
+    );
     final HaveExactNumberOfParameters haveASingleParameter = new HaveExactNumberOfParameters(1);
     final HaveExactNumberOfParameters haveNoParameters = new HaveExactNumberOfParameters(0);
 
@@ -342,7 +345,7 @@ class ArchitectureFitnessTest {
       .and()
       .doNotHaveName("equals")
       .should(
-        ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveAQueryParameter))
+        ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveAOptionsParameter))
       )
       .orShould(
         ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveACommandParameter))

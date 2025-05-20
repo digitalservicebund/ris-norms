@@ -9,17 +9,17 @@ import java.util.Optional;
  */
 public interface LoadRegelungstextXmlUseCase {
   /**
-   * Retrieves the xml representation of a dokument based on the provided query.
+   * Retrieves the xml representation of a dokument based on the provided options.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the dokument.
+   * @param options The options containing the ELI (European Legislation Identifier) of the dokument.
    * @return An {@link Optional} containing the loaded {@link Regelungstext} if found, or empty if not found.
    */
-  String loadRegelungstextXml(Query query);
+  String loadRegelungstextXml(Options options);
 
   /**
-   * A record representing the query for loading the xml representation of a dokument.
+   * A record representing the options for loading the xml representation of a dokument.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the dokument in the query.
+   * @param eli The ELI (European Legislation Identifier) used to identify the dokument.
    */
-  record Query(DokumentEli eli) {}
+  record Options(DokumentEli eli) {}
 }

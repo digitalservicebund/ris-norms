@@ -9,15 +9,15 @@ public interface LoadZielnormReferencesUseCase {
   /**
    * Retrieves a list of all zielnorm references
    *
-   * @param query Query used for identifying the norm
+   * @param options Options used for identifying the norm
    * @return The zielnorm references
    */
-  List<ZielnormReference> loadZielnormReferences(Query query);
+  List<ZielnormReference> loadZielnormReferences(Options options);
 
   /**
    * Contains the parameters needed for loading the zielnorm references from a norm.
    *
    * @param eli The ELI used to identify the norm
    */
-  record Query(NormExpressionEli eli) {}
+  record Options(NormExpressionEli eli) {}
 }

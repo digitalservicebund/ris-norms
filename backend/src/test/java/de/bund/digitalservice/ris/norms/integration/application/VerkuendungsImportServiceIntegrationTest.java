@@ -78,7 +78,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     );
 
     verkuendungsImportService.processNormendokumentationspaket(
-      new ProcessNormendokumentationspaketUseCase.Query(processId)
+      new ProcessNormendokumentationspaketUseCase.Options(processId)
     );
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
@@ -116,7 +116,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     );
 
     verkuendungsImportService.processNormendokumentationspaket(
-      new ProcessNormendokumentationspaketUseCase.Query(processId)
+      new ProcessNormendokumentationspaketUseCase.Options(processId)
     );
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
@@ -154,7 +154,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     );
 
     verkuendungsImportService.processNormendokumentationspaket(
-      new ProcessNormendokumentationspaketUseCase.Query(processId)
+      new ProcessNormendokumentationspaketUseCase.Options(processId)
     );
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
@@ -192,7 +192,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     );
 
     verkuendungsImportService.processNormendokumentationspaket(
-      new ProcessNormendokumentationspaketUseCase.Query(processId)
+      new ProcessNormendokumentationspaketUseCase.Options(processId)
     );
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
@@ -231,7 +231,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     );
 
     verkuendungsImportService.processNormendokumentationspaket(
-      new ProcessNormendokumentationspaketUseCase.Query(processId)
+      new ProcessNormendokumentationspaketUseCase.Options(processId)
     );
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);
@@ -272,7 +272,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     );
 
     verkuendungsImportService.processNormendokumentationspaket(
-      new ProcessNormendokumentationspaketUseCase.Query(processId)
+      new ProcessNormendokumentationspaketUseCase.Options(processId)
     );
 
     var finishedProcess = verkuendungImportProcessesRepository.findById(processId);

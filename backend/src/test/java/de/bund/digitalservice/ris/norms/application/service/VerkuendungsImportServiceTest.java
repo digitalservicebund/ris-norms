@@ -98,7 +98,7 @@ class VerkuendungsImportServiceTest {
 
     //when
     var result = verkuendungsImportService.getStatus(
-      new LoadNormendokumentationspacketProcessingStatusUseCase.Query(uuid)
+      new LoadNormendokumentationspacketProcessingStatusUseCase.Options(uuid)
     );
 
     //then
@@ -119,9 +119,9 @@ class VerkuendungsImportServiceTest {
     );
 
     // when
-    LoadNormendokumentationspacketProcessingStatusUseCase.Query query =
-      new LoadNormendokumentationspacketProcessingStatusUseCase.Query(UUID.randomUUID());
-    assertThatThrownBy(() -> verkuendungsImportService.getStatus(query)).isInstanceOf(
+    LoadNormendokumentationspacketProcessingStatusUseCase.Options options =
+      new LoadNormendokumentationspacketProcessingStatusUseCase.Options(UUID.randomUUID());
+    assertThatThrownBy(() -> verkuendungsImportService.getStatus(options)).isInstanceOf(
       // then
       ImportProcessNotFoundException.class
     );
@@ -154,7 +154,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -207,7 +207,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -248,7 +248,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -303,7 +303,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -347,7 +347,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -392,7 +392,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
