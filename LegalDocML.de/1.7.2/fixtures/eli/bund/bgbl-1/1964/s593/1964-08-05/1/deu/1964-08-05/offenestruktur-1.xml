@@ -69,6 +69,19 @@
                               eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
                               name="nachfolgende-version-id"
                               value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b"/>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                            GUID="b6ee5aa8-8950-4b81-be73-0f468c62c509"
+                            href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
+                              GUID="1bfbd095-93f3-4674-8096-be18041cbc65"
+                              date="1964-08-05"
+                              name="verkuendung"/>
+               <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
+                                 GUID="69cb29f5-3d31-48a4-8b48-14b1f23b64fb"
+                                 language="deu"/>
+               <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"
+                                      GUID="e346f244-30e0-40fa-81d0-ff21c4f34fb3"
+                                      value="1"/>
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="109b6ab7-0de9-3d09-a454-6e9530f90c28"
                                    eId="meta-1_ident-1_frbrmanifestation-1">
@@ -82,6 +95,9 @@
                              date="1964-08-05"
                              eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                              name="generierung"/>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                              GUID="5bbaf2cc-d861-4a57-b019-c4596b816673"
+                              href="recht.bund.de"/>
                <akn:FRBRformat GUID="0c83024a-6c2d-3858-82a6-68b1d7076245"
                                eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
                                value="xml"/>
