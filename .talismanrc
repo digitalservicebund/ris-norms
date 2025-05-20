@@ -28,6 +28,10 @@ fileignoreconfig:
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/schema-extension-fixtures/*/*.xml
     ignore_detectors: [filecontent]
+  - filename: LegalDocML.de/*/fixtures/*.xml
+    ignore_detectors: [filecontent]
+  - filename: LegalDocML.de/*/schema-extension-fixtures/*.xml
+    ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.xml
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/samples/*/*.pdf
