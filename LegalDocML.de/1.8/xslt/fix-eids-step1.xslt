@@ -20,11 +20,9 @@
     </xsl:template>
 
     <xsl:template mode="step1" match="akn:article">
-        <xsl:param name="parentEId" required="no"/>
-
         <xsl:call-template name="updateEIdZaehlbezeichnung">
             <xsl:with-param name="partName">art</xsl:with-param>
-            <xsl:with-param name="parentEId" select="$parentEId"/>
+            <xsl:with-param name="parentEId" />
         </xsl:call-template>
     </xsl:template>
 
@@ -32,7 +30,7 @@
     <xsl:template mode="step1" match="akn:quotedStructure//akn:article">
         <xsl:param name="parentEId" required="no"/>
 
-        <xsl:call-template name="updateEIdOrdinal">
+        <xsl:call-template name="updateEIdZaehlbezeichnung">
             <xsl:with-param name="partName">art</xsl:with-param>
             <xsl:with-param name="parentEId" select="$parentEId"/>
         </xsl:call-template>
@@ -57,14 +55,6 @@
     <xsl:template mode="step1" match="akn:paragraph">
         <xsl:param name="parentEId" required="no"/>
         <xsl:call-template name="updateEIdZaehlbezeichnung">
-            <xsl:with-param name="partName">abs</xsl:with-param>
-            <xsl:with-param name="parentEId" select="$parentEId"/>
-        </xsl:call-template>
-    </xsl:template>
-
-    <xsl:template mode="step1" match="akn:quotedStructure//akn:paragraph">
-        <xsl:param name="parentEId" required="no"/>
-        <xsl:call-template name="updateEIdOrdinal">
             <xsl:with-param name="partName">abs</xsl:with-param>
             <xsl:with-param name="parentEId" select="$parentEId"/>
         </xsl:call-template>
