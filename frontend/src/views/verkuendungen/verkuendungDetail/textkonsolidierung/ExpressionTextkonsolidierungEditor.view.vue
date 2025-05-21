@@ -25,6 +25,9 @@ import type { TreeNode } from "primevue/treenode"
 import { useGetNorm } from "@/services/normService"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useNormXml } from "@/composables/useNormXml"
+import { useErrorToast } from "@/lib/errorToast"
+import { useToast } from "primevue/usetoast"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
@@ -101,16 +104,51 @@ const treeNodes = computed<TreeNode[]>(() =>
 const { tocHeadingId } = useElementId()
 
 // EDITOR
+
+const sentryTraceId = useSentryTraceId()
+const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
+
+function showToast() {
+  if (saveError.value) {
+    addErrorToast(saveError, { traceId: sentryTraceId })
+  } else {
+    addToast({
+      summary: "Gespeichert!",
+      severity: "success",
+    })
+  }
+}
+
+const newExpressionXml = ref()
 const {
   data: xml,
   isFetching: isFetchingXml,
   error: loadXmlError,
-} = useNormXml(expressionEli)
+  update: {
+    execute: save,
+    isFetching: isSaving,
+    isFinished: hasSaved,
+    error: saveError,
+  },
+} = useNormXml(expressionEli, newExpressionXml)
 
 const currentXml = ref("")
 watch(xml, (xml) => {
   if (xml) {
     currentXml.value = xml
+  }
+})
+
+function handleSave(xml: string) {
+  console.log("Saving XML:", xml)
+  newExpressionXml.value = xml
+  save()
+}
+
+watch(hasSaved, (finished) => {
+  if (finished) {
+    showToast()
   }
 })
 
@@ -222,8 +260,8 @@ watch(eIdsToEdit, (val) => {
         />
         <RisCodeEditor
           ref="codeEditorRef"
+          v-model="currentXml"
           class="h-full border-2 border-blue-800"
-          :model-value="currentXml"
         />
       </SplitterPanel>
 
@@ -239,7 +277,12 @@ watch(eIdsToEdit, (val) => {
     </Splitter>
 
     <template #headerAction>
-      <Button label="Speichern" disabled>
+      <Button
+        label="Speichern"
+        :disabled="isSaving || !currentXml"
+        :loading="isSaving"
+        @click="handleSave(currentXml)"
+      >
         <template #icon><IcBaselineCheck /></template>
       </Button>
     </template>
