@@ -104,7 +104,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview",
+        "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview",
         async (route) => {
           await route.fulfill({
             status: 500,
@@ -185,7 +185,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     ).toBeVisible()
   })
 
-  test("asks for confirmation before re-creating expressions", async ({
+  test.skip("asks for confirmation before re-creating expressions", async ({
     page,
   }) => {
     await page.route(

@@ -57,7 +57,7 @@ export function useGetZielnormPreview(
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
-    return `/verkuendungen/${eliVal}/zielnormen-preview`
+    return `/verkuendungen/${eliVal}/zielnormen/expressions/preview`
   })
 
   const { data, ...rest } = useApiFetch(url, {

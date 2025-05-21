@@ -131,7 +131,7 @@ public class VerkuendungenController {
    */
   @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
   @GetMapping(
-    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen-preview",
+    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen/expressions/preview",
     produces = APPLICATION_JSON_VALUE
   )
   public ResponseEntity<List<ZielnormenPreviewResponseSchema>> getZielnormenPreview(
@@ -140,6 +140,32 @@ public class VerkuendungenController {
     return ResponseEntity.ok(
       createZielnormenExpressionsUseCase
         .createZielnormExpressions(new CreateZielnormenExpressionsUseCase.Query(eli))
+        .stream()
+        .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
+        .toList()
+    );
+  }
+
+  /**
+   * Create new expressions for the Zielnormen referenced in the Verkündung according to specified Zeitgrenzen.
+   * <p>
+   *
+   * @param eli the expression eli of the Verkündung
+   * @return A {@link ResponseEntity} containing the list of zielnorm expressions that were set to gegenstandslos or were created
+   *     <p>Returns HTTP 200 (OK) and the list of zielnorm expressions on successful execution.
+   *     <p>Returns HTTP 404 (Not Found) if the Verkündung is not found.
+   */
+  @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
+  @PostMapping(
+    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen/expressions/preview",
+    produces = APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<List<ZielnormenPreviewResponseSchema>> createZielnormenExpressions(
+    NormExpressionEli eli
+  ) {
+    return ResponseEntity.ok(
+      createZielnormenExpressionsUseCase
+        .createZielnormExpressions(new CreateZielnormenExpressionsUseCase.Query(eli, false))
         .stream()
         .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
         .toList()
