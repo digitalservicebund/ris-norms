@@ -54,6 +54,14 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/verkuendungen/Verkuendungen.view.vue"),
       },
       {
+        path: `/verkuendungen/${createDokumentExpressionEliPathParameter("verkuendung")}/textkonsolidierung/${createDokumentExpressionEliPathParameter("expression")}`,
+        name: "VerkuendungExpressionTextkonsolidierungEditor",
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"
+          ),
+      },
+      {
         path: "upload",
         name: "VerkuendungUpload",
         component: () =>
@@ -133,7 +141,6 @@ const routes: readonly RouteRecordRaw[] = [
       },
     ],
   },
-
   {
     path: `/${GUID_ROUTE_PATH}/:any(.*)*`,
     component: () => null,

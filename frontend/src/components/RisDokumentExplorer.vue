@@ -17,12 +17,19 @@ import IcBaselineToc from "~icons/ic/baseline-toc"
 import IcBaselineUnfoldLess from "~icons/ic/baseline-unfold-less"
 import IcBaselineUnfoldMore from "~icons/ic/baseline-unfold-more"
 
-const { eli, eIdClasses = {} } = defineProps<{
+const {
+  eli,
+  eIdClasses = {},
+  disableSelection,
+} = defineProps<{
   /** ELI of the document whose contents should be shown */
   eli: DokumentExpressionEli
 
   /** Highlighting that should be applied to elements in the explorer */
   eIdClasses?: { [eId: string]: string[] }
+
+  /** Disable selection of elements */
+  disableSelection?: boolean
 }>()
 
 /** eId of the selected element */
@@ -65,6 +72,8 @@ const {
 const { values, toggle, clear } = useMultiSelection<string>()
 
 function onSelect({ originalEvent, eid }: AknElementClickEvent) {
+  if (disableSelection) return
+
   if (originalEvent.metaKey || originalEvent.ctrlKey) toggle(eid)
   else {
     clear()

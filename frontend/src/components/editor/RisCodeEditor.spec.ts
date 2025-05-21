@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/vue"
 import { beforeAll, describe, expect, it, vi } from "vitest"
-import { nextTick } from "vue"
+import { nextTick, ref, defineComponent } from "vue"
 import RisCodeEditor from "./RisCodeEditor.vue"
 import type { EditorView } from "codemirror"
 
@@ -113,5 +113,35 @@ describe("risCodeEditor", () => {
         }
       ).cmView.view,
     )
+  })
+
+  it("calls scrollTo when scrollToText is invoked", async () => {
+    const xml = `<akn:article eId="art-1"><akn:paragraph eId="para-1">Hello</akn:paragraph></akn:article>`
+
+    const editorRef = ref<InstanceType<typeof RisCodeEditor> | null>(null)
+
+    const wrapperComponent = defineComponent({
+      components: { RisCodeEditor },
+      setup() {
+        return { editorRef, xml }
+      },
+      template: `<RisCodeEditor ref="editorRef" :model-value="xml" />`,
+    })
+
+    render(wrapperComponent)
+    await nextTick()
+
+    const textbox = screen.getByRole("textbox") as HTMLElement & {
+      cmView: { view: EditorView }
+    }
+
+    const editorView = textbox.cmView.view
+
+    editorView.scrollDOM.scrollTo = vi.fn()
+
+    editorRef.value?.scrollToText(`eId="art-1"`)
+    await nextTick()
+
+    expect(editorView.scrollDOM.scrollTo).toHaveBeenCalled()
   })
 })

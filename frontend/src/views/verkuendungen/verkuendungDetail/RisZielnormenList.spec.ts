@@ -16,6 +16,7 @@ describe("risZielnormenList", () => {
             expressions: [],
           },
         ],
+        verkuendungEli: "eli/verkuendung",
       },
     })
 
@@ -49,6 +50,7 @@ describe("risZielnormenList", () => {
             ],
           },
         ],
+        verkuendungEli: "eli/verkuendung",
       },
     })
 
@@ -87,6 +89,7 @@ describe("risZielnormenList", () => {
             expressions: [],
           },
         ],
+        verkuendungEli: "eli/verkuendung",
       },
     })
 
