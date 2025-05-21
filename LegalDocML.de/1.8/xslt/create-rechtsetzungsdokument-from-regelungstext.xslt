@@ -39,7 +39,16 @@
     </akn:proprietary>
   </xsl:template>
 
-  <xsl:template match="akn:FRBRthis/@value | akn:FRBRManifestation/akn:FRBRuri/@value">
+  <xsl:template match="akn:FRBRWork/akn:FRBRthis/@value | akn:FRBRExpression/akn:FRBRthis/@value ">
+    <xsl:attribute name="value">
+      <xsl:for-each select="tokenize(.,'/')">
+         <xsl:if test="position() eq last()"><xsl:value-of select="'rechtsetzungsdokument-1'"/></xsl:if>
+         <xsl:if test="not(position() eq last())"><xsl:sequence select="."/>/</xsl:if>
+      </xsl:for-each>
+    </xsl:attribute>
+  </xsl:template>
+
+  <xsl:template match="akn:FRBRManifestation/akn:FRBRthis/@value | akn:FRBRManifestation/akn:FRBRuri/@value">
     <xsl:attribute name="value">
       <xsl:for-each select="tokenize(.,'/')">
          <xsl:if test="position() eq last()"><xsl:value-of select="'rechtsetzungsdokument-1.xml'"/></xsl:if>
@@ -49,7 +58,7 @@
   </xsl:template>
 
   <xsl:template match="akn:FRBRsubtype/@value">
-    <xsl:attribute name="value">rechtsetzungsdokument-1.xml</xsl:attribute>
+    <xsl:attribute name="value">rechtsetzungsdokument-1</xsl:attribute>
   </xsl:template>
 
   <xsl:template match="@GUID">
