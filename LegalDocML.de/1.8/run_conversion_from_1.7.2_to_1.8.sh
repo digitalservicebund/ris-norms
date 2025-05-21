@@ -16,14 +16,19 @@ for filepath in $FOLDER_OLD/**/*.xml; do
   create_rechtsetzungsdokument=false
 
   if [[ ${filename%-*} != "rechtsetzungsdokument" ]]; then
-    if [[ ${filename%-*} == "regelungstext" || ${filename%-*} == "offenestruktur"  || ${filename%-*} == "bekanntmachungstext" ]]; then
-      if [[ ! -e "${filepath/$filename/rechtsetzungsdokument-1.xml}" ]]; then
-        create_rechtsetzungsdokument=true
-      fi
+    if [[ ! -e "${filepath/$filename/rechtsetzungsdokument-1.xml}" ]]; then
+      create_rechtsetzungsdokument=true
+    fi
+
+    if [[ ${filename%-*} == "regelungstext" ]]; then
+      new_filepath="${new_filepath/regelungstext/regelungstext-verkuendung}"
+    elif [[ ${filename%-*} == "offenestruktur" ]]; then
+      new_filepath="${new_filepath/offenestruktur/anlage-regelungstext}"
+    elif [[ ${filename%-*} == "bekanntmachungstext" ]]; then
+      new_filepath=$new_filepath
     else
       mkdir -p "${new_filepath/.xml/}"
-      new_filepath="${new_filepath/.xml//regelungstext-1.xml}"
-      create_rechtsetzungsdokument=true
+      new_filepath="${new_filepath/.xml//regelungstext-verkuendung-1.xml}"
     fi
   fi
 
@@ -47,10 +52,10 @@ for filepath in $FOLDER_OLD/**/*.xml; do
   if [[ ${new_filename%-*} = "rechtsetzungsdokument" ]]; then
     schema_file="legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
   fi
-  if [[ ${new_filename%-*} = "regelungstext" ]]; then
+  if [[ ${new_filename%-*} = "regelungstext-verkuendung" ]]; then
     schema_file="legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
   fi
-  if [[ ${new_filename%-*} = "offenestruktur" ]]; then
+  if [[ ${new_filename%-*} = "anlage-regelungstext" ]]; then
     schema_file="legalDocML.de-risnorms-offenestruktur.xsd"
   fi
   if [[ ${new_filename%-*} = "bekanntmachungstext" ]]; then
@@ -81,7 +86,7 @@ for filepath in $FOLDER_OLD/**/*.xml; do
     mv "$new_filepath.tmp" "$new_filepath"
   fi;
 
-  if [[ ${new_filename%-*} != "regelungstext" ]]; then
+  if [[ ${new_filename%-*} != "regelungstext-verkuendung" ]]; then
     cat "$new_filepath" | java -jar $SAXON_HE -s:- -xsl:./xslt/remove-regelungstext-metadata.xslt > "$new_filepath.tmp"
     mv "$new_filepath.tmp" "$new_filepath"
   fi;
