@@ -165,4 +165,31 @@
   <xsl:template match="processing-instruction('xml-model')">
     <xsl:processing-instruction name="xml-model">href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"</xsl:processing-instruction>
   </xsl:template>
+
+  <!-- replace regelungstext-n with regelungstext-verkuendung-n and offenestruktur-n with anlage-regelungstext-n in elis and subtype -->
+
+  <xsl:template match="akn_old:FRBRsubtype/@value">
+    <xsl:attribute name="value">
+      <xsl:for-each select="tokenize(.,'-')">
+        <xsl:if test=". eq 'regelungstext'"><xsl:value-of select="'regelungstext-verkuendung'"/></xsl:if>
+        <xsl:if test=". eq 'offenestruktur'"><xsl:value-of select="'anlage-regelungstext'"/></xsl:if>
+        <xsl:if test="not(. eq 'regelungstext') and not(. eq 'offenestruktur')"><xsl:value-of select="."/></xsl:if>
+        <xsl:if test="not(position() eq last())">-</xsl:if>
+      </xsl:for-each>
+    </xsl:attribute>
+  </xsl:template>
+
+  <xsl:template match="akn_old:FRBRExpression/akn_old:FRBRthis/@value | akn_old:FRBRWork/akn_old:FRBRthis/@value | akn_old:FRBRManifestation/akn_old:FRBRthis/@value | akn_old:FRBRManifestation/akn_old:FRBRuri/@value ">
+    <xsl:attribute name="value">
+      <xsl:for-each select="tokenize(.,'/')">
+        <xsl:for-each select="tokenize(.,'-')">
+          <xsl:if test=". eq 'regelungstext'"><xsl:value-of select="'regelungstext-verkuendung'"/></xsl:if>
+          <xsl:if test=". eq 'offenestruktur'"><xsl:value-of select="'anlage-regelungstext'"/></xsl:if>
+          <xsl:if test="not(. eq 'regelungstext') and not(. eq 'offenestruktur')"><xsl:value-of select="."/></xsl:if>
+          <xsl:if test="not(position() eq last())">-</xsl:if>
+        </xsl:for-each>
+        <xsl:if test="not(position() eq last())">/</xsl:if>
+      </xsl:for-each>
+    </xsl:attribute>
+  </xsl:template>
 </xsl:stylesheet>
