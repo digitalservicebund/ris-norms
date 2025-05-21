@@ -9,7 +9,7 @@
                              eId="meta-n1_ident-n1">
             <akn:FRBRWork GUID="3b24b5e9-a428-410b-9a95-d938db6df585"
                           eId="meta-n1_ident-n1_frbrwork-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s4/regelungstext-1"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s4/regelungstext-verkuendung-1"
                              GUID="a058afac-2e8c-4a29-a980-e3cff86addc0"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
                <akn:FRBRuri value="eli/bund/bgbl-1/1000/s4"
@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="1000-01-04"
-                             GUID="e1e3b873-30b2-4120-bfc1-e2af02e0067c"
+                             GUID="1ddf07dd-c336-4e99-a4aa-b69534093e05"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="ca4cb1e2-16b9-4e2f-adb5-f8516ceed5a2"
@@ -39,13 +39,13 @@
                <akn:FRBRname value="bgbl-1"
                              GUID="cbccc33c-b73f-4c55-b7a8-924bc423ca54"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"/>
-               <akn:FRBRsubtype value="regelungstext-1"
+               <akn:FRBRsubtype value="regelungstext-verkuendung-1"
                                 GUID="a956df59-fea7-4763-9bbd-f9f5ec02c4aa"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
             <akn:FRBRExpression GUID="586d2e74-8154-4b6d-99b0-6170e425262c"
                                 eId="meta-n1_ident-n1_frbrexpression-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s4/1000-01-04/1/deu/regelungstext-1"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s4/1000-01-04/1/deu/regelungstext-verkuendung-1"
                              GUID="e7db613a-4e7a-432a-8465-62ff2bf05051"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
                <akn:FRBRuri value="eli/bund/bgbl-1/1000/s4/1000-01-04/1/deu"
@@ -75,10 +75,10 @@
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="06b1915b-ce5d-401d-a9f9-6b83219cc441"
                                    eId="meta-n1_ident-n1_frbrmanifestation-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s4/1000-01-04/1/deu/1000-01-04/regelungstext-1.xml"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s4/1000-01-04/1/deu/1000-01-04/regelungstext-verkuendung-1.xml"
                              GUID="701c1ff4-cc8c-4c6e-b3ca-0cb5248ebb6d"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"/>
-               <akn:FRBRuri value="eli/bund/bgbl-1/1000/s4/1000-01-04/1/deu/1000-01-04/regelungstext-1.xml"
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/s4/1000-01-04/1/deu/1000-01-04/regelungstext-verkuendung-1.xml"
                             GUID="aa9eeb8d-3aef-4c76-bcea-ba4213f84568"
                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
                <akn:FRBRdate name="generierung"
@@ -128,12 +128,7 @@
                <meta:form>mantelform</meta:form>
             </meta:legalDocML.de_metadaten>
             
-            <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
-          <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
-               <meta-breg:federfuehrung>
-                  <meta-breg:federfuehrend ab="2023-12-29" bis="unbestimmt">Platzhalter</meta-breg:federfuehrend>
-               </meta-breg:federfuehrung>
-            </meta-breg:legalDocML.de_metadaten>
+            
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="2cbf49ad-eb5a-40c5-af07-e01102cf4e81" eId="einleitung-n1">
@@ -148,20 +143,16 @@
       </akn:preface>
       <akn:body GUID="eb4d96db-f2f0-4956-9184-ca5b1400fe62" eId="hauptteil-n1">
          <akn:article GUID="6b648924-74c0-4d6b-8221-fb5db9b00ed6"
-                      eId="hauptteil-n1_art-z"
+                      eId="art-z"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
-            <akn:num GUID="704b592f-0eb2-467a-9065-0f1ac514328e"
-                     eId="hauptteil-n1_art-z_bezeichnung-n1"/>
-            <akn:heading GUID="05d00b53-fb3a-40ad-96ef-79b22cf70c89"
-                         eId="hauptteil-n1_art-z_überschrift-n1">Beispiel</akn:heading>
-            <akn:paragraph GUID="0c3cfd68-3d08-4200-9bef-aa0c2ee62162"
-                           eId="hauptteil-n1_art-z_abs-z">
+            <akn:num GUID="704b592f-0eb2-467a-9065-0f1ac514328e" eId="art-z_bezeichnung-n1"/>
+            <akn:heading GUID="05d00b53-fb3a-40ad-96ef-79b22cf70c89" eId="art-z_überschrift-n1">Beispiel</akn:heading>
+            <akn:paragraph GUID="0c3cfd68-3d08-4200-9bef-aa0c2ee62162" eId="art-z_abs-z">
                <akn:num GUID="fda2763e-7e84-457e-9b84-fe75a11d9599"
-                        eId="hauptteil-n1_art-z_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="15375eb6-936e-4ad4-a27c-36788cd87c04"
-                            eId="hauptteil-n1_art-z_abs-z_inhalt-n1">
+                        eId="art-z_abs-z_bezeichnung-n1"/>
+               <akn:content GUID="15375eb6-936e-4ad4-a27c-36788cd87c04" eId="art-z_abs-z_inhalt-n1">
                   <akn:p GUID="10296686-2162-4f6b-8654-e1c414af35c5"
-                         eId="hauptteil-n1_art-z_abs-z_inhalt-n1_text-n1">Platzhalter</akn:p>
+                         eId="art-z_abs-z_inhalt-n1_text-n1">Platzhalter</akn:p>
                </akn:content>
             </akn:paragraph>
          </akn:article>

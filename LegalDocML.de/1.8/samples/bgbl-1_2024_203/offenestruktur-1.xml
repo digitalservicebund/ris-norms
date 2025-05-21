@@ -13,7 +13,7 @@
                           eId="meta-n1_ident-n1_frbrwork-n1">
                <akn:FRBRthis GUID="b5371c0c-46ee-474e-99a0-1ed6ab4ad324"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
-                             value="eli/bund/bgbl-1/2024/203/offenestruktur-1"/>
+                             value="eli/bund/bgbl-1/2024/203/anlage-regelungstext-1"/>
                <akn:FRBRuri GUID="2f94d104-5abc-4f74-92d4-cbcc42fa5c0e"
                             eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
                             value="eli/bund/bgbl-1/2024/203"/>
@@ -25,7 +25,7 @@
                              date="2024-06-21"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
-               <akn:FRBRdate GUID="4c90ce40-7bd5-47ac-9ec7-f167dd636c78"
+               <akn:FRBRdate GUID="196dbd91-8434-4c86-87b4-b5d93580ae8f"
                              date="2024-06-21"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
                              name="verkuendungsfassung-verkuendungsdatum"/>
@@ -43,13 +43,13 @@
                              value="bgbl-1"/>
                <akn:FRBRsubtype GUID="d454cb29-381e-4d13-8037-ce25709c4d55"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
-                                value="offenestruktur-1"/>
+                                value="anlage-regelungstext-1"/>
             </akn:FRBRWork>
             <akn:FRBRExpression GUID="01557fbd-2ebc-49ae-96e2-0f9a5e00d0ab"
                                 eId="meta-n1_ident-n1_frbrexpression-n1">
                <akn:FRBRthis GUID="bf21714f-3240-4d5b-afc6-aaf9b9acbc4d"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
-                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-1"/>
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-1"/>
                <akn:FRBRuri GUID="0a8c2552-843a-4cf9-b5bb-3a35c4429ba8"
                             eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu"/>
@@ -75,10 +75,10 @@
                                    eId="meta-n1_ident-n1_frbrmanifestation-n1">
                <akn:FRBRthis GUID="93e72983-baa6-4444-9d9b-1a46e7bc268f"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
-                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/offenestruktur-1.xml"/>
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/anlage-regelungstext-1.xml"/>
                <akn:FRBRuri GUID="97a3f3bb-c180-41a9-8a6b-a3d1768f763e"
                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
-                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/offenestruktur-1.xml"/>
+                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/anlage-regelungstext-1.xml"/>
                <akn:FRBRdate GUID="0cec03c0-2f7c-403e-81ff-65fee0b3f7cf"
                              date="2024-06-21"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"

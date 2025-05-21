@@ -19,7 +19,7 @@
                           GUID="1223336c-174a-4ebe-96b6-23b73d74249d">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="8ab599fb-6c27-434a-a769-2f0b15ea3761"
-                             value="eli/bund/bgbl-1/2000/s717/regelungstext-1"/>
+                             value="eli/bund/bgbl-1/2000/s717/regelungstext-verkuendung-1"/>
                <akn:FRBRuri eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
                             GUID="a90733dd-4780-472d-8371-a3690f2e869a"
                             value="eli/bund/bgbl-1/2000/s717"/>
@@ -32,7 +32,7 @@
                              date="2000-05-10"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="27047ac0-2332-42a7-942c-8c834f5aebbc"
+                             GUID="1a5e5a5f-2e5c-4989-90d0-32b4111b7806"
                              date="2000-05-10"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -49,13 +49,13 @@
                              value="bgbl-1"/>
                <akn:FRBRsubtype eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
                                 GUID="af948830-e615-4dd5-8237-b8c830939f78"
-                                value="regelungstext-1"/>
+                                value="regelungstext-verkuendung-1"/>
             </akn:FRBRWork>
             <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
                                 GUID="21777967-2f44-49be-845d-d73c0ffb4d5b">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="85e064f4-f56f-4cef-86a4-6801cc71c712"
-                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1"/>
+                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-verkuendung-1"/>
                <akn:FRBRuri eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
                             GUID="e8f52739-79c1-4e59-9db2-004180c8b29c"
                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu"/>
@@ -85,10 +85,10 @@
                                    GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
                              GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
-                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-verkuendung-1.xml"/>
                <akn:FRBRuri eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
                             GUID="d0491f91-d599-46d4-ba61-c7426b607e4f"
-                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/2021-06-02/regelungstext-verkuendung-1.xml"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
                              GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612"
                              date="2021-06-02"
@@ -166,11 +166,7 @@
                <meta:form>stammform</meta:form>
             </meta:legalDocML.de_metadaten>
             
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
-               <meta:federfuehrung>
-                  <meta:federfuehrend ab="1955-12-21" bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
-               </meta:federfuehrung>
-            </meta:legalDocML.de_metadaten>
+            
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                <ris:subtyp>SN</ris:subtyp>
             </ris:legalDocML.de_metadaten>
@@ -197,159 +193,157 @@
       <!-- Hauptteil -->
       <akn:body eId="hauptteil-n1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
       <!-- Vorherige Paragraphen fehlen-->
-         <akn:article eId="hauptteil-n1_art-z%c2%a782a"
+         <akn:article eId="art-z%c2%a782a"
                       GUID="a726a175-3a70-40e7-852f-9d08d1a26a13"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n3">
-            <akn:num eId="hauptteil-n1_art-z%c2%a782a_bezeichnung-n1"
+            <akn:num eId="art-z%c2%a782a_bezeichnung-n1"
                      GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
                         §82a</akn:num>
             <akn:heading GUID="6b993dcf-84de-48eb-ae6e-035fb985d3d4"
-                         eId="hauptteil-n1_art-z%c2%a782a_überschrift-n1">Erhöhte Absetzungen von Herstellungskosten und Sonderbehandlung von Erhaltungsaufwand für bestimmte Anlagen und Einrichtungen bei Gebäuden</akn:heading>
+                         eId="art-z%c2%a782a_überschrift-n1">Erhöhte Absetzungen von Herstellungskosten und Sonderbehandlung von Erhaltungsaufwand für bestimmte Anlagen und Einrichtungen bei Gebäuden</akn:heading>
             <!--Absatz 1-->
-            <akn:paragraph GUID="eb932754-5119-4fc1-a167-4dfc5381d2ca"
-                           eId="hauptteil-n1_art-z%c2%a782a_abs-z1">
-               <akn:num eId="hauptteil-n1_art-z%c2%a782a_abs-z1_bezeichnung-n1"
+            <akn:paragraph GUID="eb932754-5119-4fc1-a167-4dfc5381d2ca" eId="art-z%c2%a782a_abs-z1">
+               <akn:num eId="art-z%c2%a782a_abs-z1_bezeichnung-n1"
                         GUID="8280d4ef-4a96-44b7-81b9-f30f1006a2fe">
                            (1)</akn:num>
                <akn:list GUID="63517fed-ac02-475f-859a-544321b1775b"
-                         eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1">
+                         eId="art-z%c2%a782a_abs-z1_untergl-n1">
                   <akn:intro GUID="722e877c-13e0-4ed3-afa1-edadf52be1e5"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_intro-n1">
+                             eId="art-z%c2%a782a_abs-z1_untergl-n1_intro-n1">
                      <akn:p GUID="5c0ba5c4-6068-49a2-971e-ae3e2b60f779"
-                            eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_intro-n1_text-n1">Steuerpflichtige kann von den Herstellungskosten</akn:p>
+                            eId="art-z%c2%a782a_abs-z1_untergl-n1_intro-n1_text-n1">Steuerpflichtige kann von den Herstellungskosten</akn:p>
                   </akn:intro>
                   <akn:point GUID="8c9d74df-0d4f-4504-a6d4-e3c6521b999e"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1">
+                             eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1">
                      <akn:num GUID="11aac90b-8885-4356-a03d-70f232d8f15c"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                      <akn:content GUID="5d7bcfe0-03c2-425f-a7e5-013d6c70c7fb"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+                                  eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
                         <akn:p GUID="8490f69b-3091-422a-ba10-4b72745f02dc"
-                               eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                               eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                         Maßnahmen, die für den Anschluss eines im Inland belegenen Gebäudes an eine Fernwärmeversorgung einschließlich der Anbindung an das Heizsystem erforderlich sind, wenn die Fernwärmeversorgung überwiegend aus Anlagen der Kraft-Wärme-Kopplung, zur Verbrennung von Müll oder zur Verwertung von Abwärme gespeist wird,
                                     </akn:p>
                      </akn:content>
                   </akn:point>
                   <akn:point GUID="e9d1a128-4896-40d5-b621-21088d0e413b"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2">
+                             eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2">
                      <akn:num GUID="81cb547b-99df-4e06-98f8-b689fccc0451"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                              eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                      <akn:content GUID="8e3827a8-904d-4dcf-8366-8cf7592e9bbe"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                                  eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
                         <akn:p GUID="74ec0731-3d7a-456f-abc1-a36d4953a2ae"
-                               eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                         für den Einbau von Wärmepumpenanlagen, Solaranlagen und Anlagen zur Wärmerückgewinnung in einem im Inland belegenen Gebäude einschließlich der Anbindung an das Heizsystem,
                                     </akn:p>
                      </akn:content>
                   </akn:point>
                   <akn:point GUID="746f6caf-1744-44d0-b0e6-5ca67224ff3d"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3">
+                             eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3">
                      <akn:num GUID="6e210aee-c173-43aa-801b-84fa187853bc"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                              eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                      <akn:content GUID="a874f37b-a476-40af-b358-8765f6d5f358"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                                  eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
                         <akn:p GUID="98e55646-c544-4d2d-9211-3c84201ae1ff"
-                               eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
+                               eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
                                         für die Errichtung von Windkraftanlagen, wenn die mit diesen Anlagen erzeugte Energie überwiegend entweder unmittelbar oder durch Verrechnung mit Elektrizitätsbezügen des Steuerpflichtigen von einem Elektrizitätsversorgungsunternehmen zur Versorgung eines im Inland belegenen Gebäudes des Steuerpflichtigen verwendet wird, einschließlich der Anbindung an das Versorgungssystem des Gebäudes,
                                     </akn:p>
                      </akn:content>
                   </akn:point>
                   <akn:point GUID="b8a1476d-c28a-4f31-984b-49f3a96dcf34"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4">
+                             eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4">
                      <akn:num GUID="bcf67fa5-e782-4770-b24c-7853f99e8479"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                              eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
                      <akn:content GUID="eb8e0f10-3c9e-4137-bb23-a66a00afca58"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
+                                  eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
                         <akn:p GUID="d74ee3b4-8d69-4430-b7d5-3682b7793f76"
-                               eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
+                               eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
                                         für die Errichtung von Anlagen zur Gewinnung von Gas, das aus pflanzlichen oder tierischen Abfallstoffen durch Gärung unter Sauerstoffabschluss entsteht, wenn dieses Gas zur Beheizung eines im Inland belegenen Gebäudes des Steuerpflichtigen oder zur Warmwasserbereitung in einem solchen Gebäude des Steuerpflichtigen verwendet wird, einschließlich der Anbindung an das Versorgungssystem des Gebäudes,
                                     </akn:p>
                      </akn:content>
                   </akn:point>
                   <akn:point GUID="2b34012d-059c-4341-a0af-755335575bbe"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5">
+                             eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5">
                      <akn:num GUID="bea1b47b-f8de-4f45-83db-4142419fba3b"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
+                              eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
                      <akn:content GUID="9b8a6618-6f29-4786-870f-c0308a35d459"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5_inhalt-n1">
+                                  eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5_inhalt-n1">
                         <akn:p GUID="5f1cb71f-bd2a-4e46-b73c-8899dde85fb7"
-                               eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5_inhalt-n1_text-n1">
+                               eId="art-z%c2%a782a_abs-z1_untergl-n1_listenelem-n5_inhalt-n1_text-n1">
                                         ür den Einbau einer Warmwasseranlage zur Versorgung von mehr als einer Zapfstelle und einer zentralen Heizungsanlage oder bei einer zentralen Heizungs- und Warmwasseranlage für den Einbau eines Heizkessels, eines Brenners, einer zentralen Steuerungseinrichtung, einer Wärmeabgabeeinrichtung und eine Änderung der Abgasanlage in einem im Inland belegenen Gebäude oder in einer im Inland belegenen Eigentumswohnung, wenn mit der Maßnahme nicht vor Ablauf von zehn Jahren seit Fertigstellung dieses Gebäudes begonnen worden ist,
                                     </akn:p>
                      </akn:content>
                   </akn:point>
                   <akn:wrapUp GUID="d5f1e059-e2f6-43e4-94da-9687cb44b74a"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_schlusstext-n1">
+                              eId="art-z%c2%a782a_abs-z1_untergl-n1_schlusstext-n1">
                      <akn:p GUID="6e1ba528-fa7a-4f08-bd65-7ccaeb4883c4"
-                            eId="hauptteil-n1_art-z%c2%a782a_abs-z1_untergl-n1_schlusstext-n1_text-n1">
+                            eId="art-z%c2%a782a_abs-z1_untergl-n1_schlusstext-n1_text-n1">
                                         an Stelle der nach § 7 Absatz 4 oder 5 oder § 7b des Gesetzes zu bemessenden Absetzungen für Abnutzung im Jahr der Herstellung und in den folgenden neun Jahren jeweils bis zu 10 Prozent absetzen. 2Nach Ablauf dieser zehn Jahre ist ein etwa noch vorhandener Restwert den Anschaffungs- oder Herstellungskosten des Gebäudes oder dem an deren Stelle tretenden Wert hinzuzurechnen; die weiteren Absetzungen für Abnutzung sind einheitlich für das gesamte Gebäude nach dem sich hiernach ergebenden Betrag und dem für das Gebäude maßgebenden Hundertsatz zu bemessen. 3Voraussetzung für die Inanspruchnahme der erhöhten Absetzungen ist, dass das Gebäude in den Fällen der Nummer 1 vor dem 1. Juli 1983 fertiggestellt worden ist; die Voraussetzung entfällt, wenn der Anschluss nicht schon im Zusammenhang mit der Errichtung des Gebäudes möglich war.
                                     </akn:p>
                   </akn:wrapUp>
                </akn:list>
             </akn:paragraph>
             <!--Absatz 2-->
-            <akn:paragraph GUID="cd17b333-e7d5-4f0f-9406-5d50eb12f783"
-                           eId="hauptteil-n1_art-z%c2%a782a_abs-z2">
-               <akn:num eId="hauptteil-n1_art-z%c2%a782a_abs-z2_bezeichnung-n1"
+            <akn:paragraph GUID="cd17b333-e7d5-4f0f-9406-5d50eb12f783" eId="art-z%c2%a782a_abs-z2">
+               <akn:num eId="art-z%c2%a782a_abs-z2_bezeichnung-n1"
                         GUID="48d155ca-ec9e-4136-a14a-96d4f7e7a017">
                            (2)</akn:num>
                <akn:list GUID="3035f805-a24d-45c3-9cb6-785fa2cc9812"
-                         eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1">
+                         eId="art-z%c2%a782a_abs-z2_untergl-n1">
                   <akn:intro GUID="244de4e1-4976-4959-b274-22a0e4253bea"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_intro-n1">
+                             eId="art-z%c2%a782a_abs-z2_untergl-n1_intro-n1">
                      <akn:p GUID="9092b8f3-d2b4-4df0-8e7d-3232808365a6"
-                            eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_intro-n1_text-n1">Von Versorgungsbezügen bleiben ein nach einem Prozentsatz ermittelter, auf einen Höchstbetrag begrenzter Betrag (Versorgungsfreibetrag) und ein Zuschlag zum Versorgungsfreibetrag steuerfrei. Versorgungsbezüge sind
+                            eId="art-z%c2%a782a_abs-z2_untergl-n1_intro-n1_text-n1">Von Versorgungsbezügen bleiben ein nach einem Prozentsatz ermittelter, auf einen Höchstbetrag begrenzter Betrag (Versorgungsfreibetrag) und ein Zuschlag zum Versorgungsfreibetrag steuerfrei. Versorgungsbezüge sind
                                  </akn:p>
                   </akn:intro>
                   <akn:point GUID="26764f22-3d0e-47c5-9830-31a8ca6dfa35"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1">
+                             eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1">
                      <akn:num GUID="fa106c10-a7e9-4093-80bb-a061c7bd51e0"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                      <akn:list GUID="c121d47b-788e-4003-9ff0-5581d604b91a"
-                               eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1">
+                               eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1">
                         <akn:intro GUID="a0fe69a4-2a37-4d9e-9de6-237bd313b1fc"
-                                   eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
+                                   eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
                            <akn:p GUID="fa011bbb-c56e-426c-a571-2e3d9e9f2cda"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">das Ruhegehalt, Witwen- oder Waisengeld, der Unterhaltsbeitrag oder ein gleichartiger Bezug
+                                  eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">das Ruhegehalt, Witwen- oder Waisengeld, der Unterhaltsbeitrag oder ein gleichartiger Bezug
                                        </akn:p>
                         </akn:intro>
                         <akn:point GUID="b0d6890a-8224-4fc3-b7c6-9790277b1499"
-                                   eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
+                                   eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
                            <akn:num GUID="ec3231f1-9d02-4d1e-86b5-68e75664e626"
-                                    eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
+                                    eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                            <akn:content GUID="a1802bf9-25cc-465f-bd96-7aceae04c366"
-                                        eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+                                        eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
                               <akn:p GUID="2e5cea34-e8ce-4f7c-8673-0a36f845f38b"
-                                     eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Grund beamtenrechtlicher oder entsprechender gesetzlicher Vorschriften,
+                                     eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Grund beamtenrechtlicher oder entsprechender gesetzlicher Vorschriften,
                                        </akn:p>
                            </akn:content>
                         </akn:point>
                         <akn:point GUID="7cbb02b7-2053-41e2-88aa-a6aa26a72233"
-                                   eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
+                                   eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
                            <akn:num GUID="e1953bdd-0564-4853-8ed0-dac771a181d2"
-                                    eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
+                                    eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                            <akn:content GUID="a2903657-6784-4eef-961b-f3c53bed78c6"
-                                        eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                                        eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
                               <akn:p GUID="c2cd5917-b4ce-449d-8103-9f34fa0d34f7"
-                                     eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">nach beamtenrechtlichen Grundsätzen von Körperschaften, Anstalten oder Stiftungen des öffentlichen Rechts oder öffentlich-rechtlichen Verbänden von Körperschaften
+                                     eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">nach beamtenrechtlichen Grundsätzen von Körperschaften, Anstalten oder Stiftungen des öffentlichen Rechts oder öffentlich-rechtlichen Verbänden von Körperschaften
                                        </akn:p>
                            </akn:content>
                         </akn:point>
                         <akn:wrapUp GUID="0405677d-8718-4564-9dec-b3bf832f04e4"
-                                    eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_schlusstext-n1">
+                                    eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_schlusstext-n1">
                            <akn:p GUID="ad110215-c861-4a60-8987-523952f68e21"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_schlusstext-n1_text-n1">oder</akn:p>
+                                  eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n1_untergl-n1_schlusstext-n1_text-n1">oder</akn:p>
                         </akn:wrapUp>
                      </akn:list>
                   </akn:point>
                   <akn:point GUID="accde094-d21b-4a86-a8cd-f9123606c726"
-                             eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2">
+                             eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2">
                      <akn:num GUID="0521715f-1e31-4e38-b8e4-84c4d23e0f0b"
-                              eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                              eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                      <akn:content GUID="5484bc1b-b351-41f4-93d1-f2256ca61bea"
-                                  eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2_inhalt-n1">
+                                  eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2_inhalt-n1">
                         <akn:p GUID="e0aeb3f1-50a0-4f60-98d9-910a54143dca"
-                               eId="hauptteil-n1_art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z%c2%a782a_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                     in anderen Fällen Bezüge und Vorteile aus früheren Dienstleistungen wegen Erreichens einer Altersgrenze, verminderter Erwerbsfähigkeit oder Hinterbliebenenbezüge; Bezüge wegen Erreichens einer Altersgrenze gelten erst dann als Versorgungsbezüge, wenn der Steuerpflichtige das 63. Lebensjahr oder, wenn er schwerbehindert ist, das 60. Lebensjahr vollendet hat.
                                  </akn:p>
                      </akn:content>
@@ -359,19 +353,18 @@
          </akn:article>
          <akn:article period="#meta-n1_geltzeiten-n1_geltungszeitgr-n3"
                       GUID="6ba535a6-7868-4574-bcff-cfe2d5755480"
-                      eId="hauptteil-n1_art-z%c2%a782a">
+                      eId="art-z%c2%a782a">
             <akn:num GUID="65549134-ee8f-48c8-93ef-87321ebed21b"
-                     eId="hauptteil-n1_art-z%c2%a782a_bezeichnung-n1">§82a</akn:num>
+                     eId="art-z%c2%a782a_bezeichnung-n1">§82a</akn:num>
             <akn:heading GUID="870211a8-0cba-4261-8994-c5be195852ea"
-                         eId="hauptteil-n1_art-z%c2%a782a_überschrift-n1">Erhöhte Absetzungen von Herstellungskosten für bestimmte Baumaßnahmen</akn:heading>
-            <akn:paragraph GUID="d451f4d4-63c3-4038-9a62-0a506a315de4"
-                           eId="hauptteil-n1_art-z%c2%a782a_abs-z">
+                         eId="art-z%c2%a782a_überschrift-n1">Erhöhte Absetzungen von Herstellungskosten für bestimmte Baumaßnahmen</akn:heading>
+            <akn:paragraph GUID="d451f4d4-63c3-4038-9a62-0a506a315de4" eId="art-z%c2%a782a_abs-z">
                <akn:num GUID="38c3dec0-6ca5-45ba-b202-c834e1b23e4e"
-                        eId="hauptteil-n1_art-z%c2%a782a_abs-z_bezeichnung-n1"/>
+                        eId="art-z%c2%a782a_abs-z_bezeichnung-n1"/>
                <akn:content GUID="05113aed-4f8a-4ebd-85f1-cf99ba3a4d09"
-                            eId="hauptteil-n1_art-z%c2%a782a_abs-z_inhalt-n1">
+                            eId="art-z%c2%a782a_abs-z_inhalt-n1">
                   <akn:p GUID="bb7b9939-3b91-4f65-b550-e59bd0088424"
-                         eId="hauptteil-n1_art-z%c2%a782a_abs-z_inhalt-n1_text-n1">
+                         eId="art-z%c2%a782a_abs-z_inhalt-n1_text-n1">
                         Der Steuerpflichtige kann von den durch Zuschüsse aus Sanierungs- oder Entwicklungsförderungsmitteln nicht gedeckten Herstellungskosten für Modernisierungs- und Instandsetzungsmaßnahmen im Sinne des § 177 des Baugesetzbuchs sowie für Maßnahmen, die der Erhaltung, Erneuerung und funktionsgerechten Verwendung eines Gebäudes dienen, das wegen seiner geschichtlichen, künstlerischen oder städtebaulichen Bedeutung erhalten bleiben soll, und zu deren Durchführung sich der Eigentümer neben bestimmten Modernisierungsmaßnahmen gegenüber der Gemeinde verpflichtet hat, die für Gebäude in einem förmlich festgelegten Sanierungsgebiet oder städtebaulichen Entwicklungsbereich aufgewendet worden sind, an Stelle der nach § 7 Absatz 4 oder 5 oder § 7b des Gesetzes zu bemessenden Absetzungen für Abnutzung im Jahr der Herstellung und in den neun folgenden Jahren jeweils bis zu 10 Prozent absetzen. § 82a Abs. 1 Satz 2 gilt entsprechend. Satz 1 ist anzuwenden, wenn der Steuerpflichtige eine Bescheinigung der zuständigen Gemeindebehörde vorlegt, dass er Baumaßnahmen im Sinne des Satzes 1 durchgeführt hat; sind ihm Zuschüsse aus Sanierungs- oder Entwicklungsförderungsmitteln gewährt worden, so hat die Bescheinigung auch deren Höhe zu enthalten.
                     </akn:p>
                </akn:content>

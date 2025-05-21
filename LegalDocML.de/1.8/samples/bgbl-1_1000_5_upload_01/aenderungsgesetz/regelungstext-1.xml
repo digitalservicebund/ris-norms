@@ -10,7 +10,7 @@
                              eId="meta-n1_ident-n1">
             <akn:FRBRWork GUID="ee164e51-23dc-44fc-859b-d3f3bcb44b94"
                           eId="meta-n1_ident-n1_frbrwork-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/regelungstext-1"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/regelungstext-verkuendung-1"
                              GUID="86f95fd4-f0fb-4f70-9bec-c63c3c953e60"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
                <akn:FRBRuri value="eli/bund/bgbl-1/1000/5"
@@ -26,7 +26,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="1000-01-05"
-                             GUID="f5e7ddd3-cb8d-49ce-8996-49fb43e58597"
+                             GUID="e891bcf3-3ac3-4a9a-a89c-6ac619f519ef"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="55ec1cd3-8771-49fa-97f2-582a5867c6de"
@@ -40,13 +40,13 @@
                <akn:FRBRname value="bgbl-1"
                              GUID="20bc15ef-5c1f-4494-95bf-6c8c8cabea9a"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"/>
-               <akn:FRBRsubtype value="regelungstext-1"
+               <akn:FRBRsubtype value="regelungstext-verkuendung-1"
                                 GUID="68484953-b08e-4052-a754-8131a2c9064f"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
             <akn:FRBRExpression GUID="0ecffbc8-2034-4f42-9aee-7359642197ac"
                                 eId="meta-n1_ident-n1_frbrexpression-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-1"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-verkuendung-1"
                              GUID="569d400f-3514-4893-a9e8-8d4f90479d1a"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
                <akn:FRBRuri value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu"
@@ -76,10 +76,10 @@
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="5ba568f3-3afd-4782-b8b3-7e2ed2af9060"
                                    eId="meta-n1_ident-n1_frbrmanifestation-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/1000-01-05/regelungstext-1.xml"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/1000-01-05/regelungstext-verkuendung-1.xml"
                              GUID="9e86c88f-1a9a-4d0b-836e-d6346eae1172"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"/>
-               <akn:FRBRuri value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/1000-01-05/regelungstext-1.xml"
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/1000-01-05/regelungstext-verkuendung-1.xml"
                             GUID="07298f65-6648-4e9e-91dc-0aabd76e0023"
                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
                <akn:FRBRdate name="generierung"
@@ -118,7 +118,7 @@
                <akn:textualMod type="substitution"
                                GUID="672fd8ec-6a34-4c83-adb4-7dd1e29eb6b2"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1">
-                  <akn:source href="#hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                  <akn:source href="#art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="c6429774-4a17-40b3-8786-ff23bd481a47"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
                   <akn:destination href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
@@ -182,44 +182,41 @@
       <akn:body GUID="b5df4017-ad22-41a0-99e8-7bc78880db54" eId="hauptteil-n1">
          <akn:article refersTo="hauptaenderung"
                       GUID="f1b28ef4-846d-4898-adaa-d7b38ae56e67"
-                      eId="hauptteil-n1_art-z"
+                      eId="art-z"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
-            <akn:num GUID="aef086b4-bf5c-4e5f-9dc8-35a9d2f74bec"
-                     eId="hauptteil-n1_art-z_bezeichnung-n1"/>
-            <akn:heading GUID="a046c38e-cf58-4aa8-b809-f61dcd6e0826"
-                         eId="hauptteil-n1_art-z_überschrift-n1">Artikel 1</akn:heading>
-            <akn:paragraph GUID="7b060db4-4582-49b1-8ded-552749153f16"
-                           eId="hauptteil-n1_art-z_abs-z">
+            <akn:num GUID="aef086b4-bf5c-4e5f-9dc8-35a9d2f74bec" eId="art-z_bezeichnung-n1"/>
+            <akn:heading GUID="a046c38e-cf58-4aa8-b809-f61dcd6e0826" eId="art-z_überschrift-n1">Artikel 1</akn:heading>
+            <akn:paragraph GUID="7b060db4-4582-49b1-8ded-552749153f16" eId="art-z_abs-z">
                <akn:num GUID="08c1b885-ec9f-4a7b-a4d0-de69f79a7486"
-                        eId="hauptteil-n1_art-z_abs-z_bezeichnung-n1"/>
+                        eId="art-z_abs-z_bezeichnung-n1"/>
                <akn:list GUID="e10bc729-5fb7-48c8-9ab1-32347baac7d8"
-                         eId="hauptteil-n1_art-z_abs-z_untergl-n1">
+                         eId="art-z_abs-z_untergl-n1">
                   <akn:intro GUID="fb4d6a1f-2f05-46e4-bb4d-ed9d406f6d31"
-                             eId="hauptteil-n1_art-z_abs-z_untergl-n1_intro-n1">
+                             eId="art-z_abs-z_untergl-n1_intro-n1">
                      <akn:p GUID="a975426c-eb0d-4b23-907c-6924243a5539"
-                            eId="hauptteil-n1_art-z_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1"
+                            eId="art-z_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1"
                                               GUID="85a5da0c-c937-43f7-a77f-d7c220fca5e0"
-                                              eId="hauptteil-n1_art-z_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Beispielgesetz</akn:affectedDocument> wird wie folgt geändert:</akn:p>
+                                              eId="art-z_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Beispielgesetz</akn:affectedDocument> wird wie folgt geändert:</akn:p>
                   </akn:intro>
                   <akn:point GUID="0a88840b-6e17-4f99-87ba-a152498de253"
-                             eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1">
+                             eId="art-z_abs-z_untergl-n1_listenelem-n1">
                      <akn:num GUID="55b7e4f7-37c5-4e8f-ab24-5d45d1256abe"
-                              eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              eId="art-z_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                      <akn:content GUID="5706fc3d-f6f1-41d3-b8d4-7b9027ddd72a"
-                                  eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                                  eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
                         <akn:p GUID="6c64223a-480d-4426-b6bf-1491b5bbe450"
-                               eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                               eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="b77a910a-b4fa-4adc-bf75-c37cfccabd3a"
-                                    eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
+                                    eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
                                        GUID="2312e3fa-8e2b-4945-9b01-f8a3209d88a6"
-                                       eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 1 Absatz 1 Satz 1</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
+                                       eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 1 Absatz 1 Satz 1</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="46c8625b-1277-48f4-bd30-00946dfe4d06"
-                                              eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1">1. Fall</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
+                                              eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1">1. Fall</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="038e3ef9-38d9-471b-a1ed-4f64c056b5ea"
-                                              eId="hauptteil-n1_art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2">1. Beispiel</akn:quotedText> ersetzt.</akn:mod>
+                                              eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2">1. Beispiel</akn:quotedText> ersetzt.</akn:mod>
                         </akn:p>
                      </akn:content>
                   </akn:point>
@@ -228,23 +225,20 @@
          </akn:article>
          <akn:article refersTo="geltungszeitregel"
                       GUID="aaf16291-872b-4657-a758-b97f28f69f5a"
-                      eId="hauptteil-n1_art-z2"
+                      eId="art-z2"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
-            <akn:num GUID="9e34376b-6222-40ec-9547-cf0c838ea0f5"
-                     eId="hauptteil-n1_art-z2_bezeichnung-n1">Artikel 2</akn:num>
-            <akn:heading GUID="69c22927-e872-4f9a-a091-dc7ec8455fc7"
-                         eId="hauptteil-n1_art-z2_überschrift-n1">Inkrafttreten</akn:heading>
-            <akn:paragraph GUID="772ede81-0133-4564-9c46-6864713ca7f6"
-                           eId="hauptteil-n1_art-z2_abs-z">
+            <akn:num GUID="9e34376b-6222-40ec-9547-cf0c838ea0f5" eId="art-z2_bezeichnung-n1">Artikel 2</akn:num>
+            <akn:heading GUID="69c22927-e872-4f9a-a091-dc7ec8455fc7" eId="art-z2_überschrift-n1">Inkrafttreten</akn:heading>
+            <akn:paragraph GUID="772ede81-0133-4564-9c46-6864713ca7f6" eId="art-z2_abs-z">
                <akn:num GUID="4c14f45b-6bbc-40a8-b02a-13b212db209e"
-                        eId="hauptteil-n1_art-z2_abs-z_bezeichnung-n1"/>
+                        eId="art-z2_abs-z_bezeichnung-n1"/>
                <akn:content GUID="02f94902-ee5c-4221-845e-e2d41c6f82d4"
-                            eId="hauptteil-n1_art-z2_abs-z_inhalt-n1">
+                            eId="art-z2_abs-z_inhalt-n1">
                   <akn:p GUID="b99752be-a59d-4437-9a26-2e791ff50609"
-                         eId="hauptteil-n1_art-z2_abs-z_inhalt-n1_text-n1">Dieses Gesetz tritt am <akn:date date="1000-03-01"
+                         eId="art-z2_abs-z_inhalt-n1_text-n1">Dieses Gesetz tritt am <akn:date date="1000-03-01"
                                refersTo="inkrafttreten-datum"
                                GUID="b2b54317-8852-46f6-926d-c322a609f875"
-                               eId="hauptteil-n1_art-z2_abs-z_inhalt-n1_text-n1_datum-n1">06.01.1000</akn:date> in Kraft.</akn:p>
+                               eId="art-z2_abs-z_inhalt-n1_text-n1_datum-n1">06.01.1000</akn:date> in Kraft.</akn:p>
                </akn:content>
             </akn:paragraph>
          </akn:article>

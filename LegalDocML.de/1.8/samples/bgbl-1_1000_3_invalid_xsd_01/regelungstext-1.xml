@@ -9,7 +9,7 @@
                              eId="meta-n1_ident-n1">
             <akn:FRBRWork GUID="df61157e-7ca6-46ed-adcb-ad83f1342200"
                           eId="meta-n1_ident-n1_frbrwork-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s3/regelungstext-1"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s3/regelungstext-verkuendung-1"
                              GUID="390b380c-652c-4b28-abb0-3f551ac7a381"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
                <akn:FRBRuri value="eli/bund/bgbl-1/1000/s3"
@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="1000-01-03"
-                             GUID="a9f5cee6-1675-4316-91c9-3a877565e0f0"
+                             GUID="aa165e25-edd4-47ad-971d-b65582ca2264"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="a25bcc40-ccce-411c-b076-c278ce81bca3"
@@ -39,13 +39,13 @@
                <akn:FRBRname value="bgbl-1"
                              GUID="82ce5fc9-ba72-42c0-94bc-b3a9c8328adb"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"/>
-               <akn:FRBRsubtype value="regelungstext-1"
+               <akn:FRBRsubtype value="regelungstext-verkuendung-1"
                                 GUID="9f3c8e18-efbe-4b9f-91e2-00482e51ca68"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
             <akn:FRBRExpression GUID="177d00d3-66f6-4081-98b2-70fa9a10d4de"
                                 eId="meta-n1_ident-n1_frbrexpression-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s3/1000-01-03/1/deu/regelungstext-1"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s3/1000-01-03/1/deu/regelungstext-verkuendung-1"
                              GUID="79fbc4b9-da84-43fb-b78f-55d004fed483"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
                <akn:FRBRuri value="eli/bund/bgbl-1/1000/s3/1000-01-03/1/deu"
@@ -75,10 +75,10 @@
             </akn:FRBRExpression>
             <akn:FRBRManifestation GUID="1bd86958-7eea-413d-abb8-0f434862195d"
                                    eId="meta-n1_ident-n1_frbrmanifestation-n1">
-               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s3/1000-01-03/1/deu/1000-01-03/regelungstext-1.xml"
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/s3/1000-01-03/1/deu/1000-01-03/regelungstext-verkuendung-1.xml"
                              GUID="3cc128de-f6ad-41dd-bbbc-d78393ed5087"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"/>
-               <akn:FRBRuri value="eli/bund/bgbl-1/1000/s3/1000-01-03/1/deu/1000-01-03/regelungstext-1.xml"
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/s3/1000-01-03/1/deu/1000-01-03/regelungstext-verkuendung-1.xml"
                             GUID="7060311c-0eee-480c-905f-dacd5b42619a"
                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
                <akn:FRBRdate name="generierung"
@@ -133,19 +133,15 @@
       </akn:preface>
       <akn:body GUID="584c3719-1776-43ba-8e2a-836ef626a609" eId="hauptteil-n1">
          <akn:article GUID="61d455d3-8366-4e04-bc08-bc75a861c9d7"
-                      eId="hauptteil-n1_art-z"
+                      eId="art-z"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
-            <akn:num GUID="c0af063c-a7a4-4fb2-adfb-7a2e4a6216a5"
-                     eId="hauptteil-n1_art-z_bezeichnung-n1"/>
-            <akn:heading GUID="f92d1d1a-c67d-4173-8f9e-27c6edb8ed99"
-                         eId="hauptteil-n1_art-z_überschrift-n1">Beispiel</akn:heading>
-            <akn:paragraph GUID="4abb2809-5edf-43c5-a7c5-ab28a34bb455"
-                           eId="hauptteil-n1_art-z_abs-z">
+            <akn:num GUID="c0af063c-a7a4-4fb2-adfb-7a2e4a6216a5" eId="art-z_bezeichnung-n1"/>
+            <akn:heading GUID="f92d1d1a-c67d-4173-8f9e-27c6edb8ed99" eId="art-z_überschrift-n1">Beispiel</akn:heading>
+            <akn:paragraph GUID="4abb2809-5edf-43c5-a7c5-ab28a34bb455" eId="art-z_abs-z">
                <akn:num GUID="68fbb6ff-0901-4f45-a6b1-554393c1f709"
-                        eId="hauptteil-n1_art-z_abs-z_bezeichnung-n1"/>
+                        eId="art-z_abs-z_bezeichnung-n1"/>
                <!-- Missing <content>-->
-               <akn:p GUID="061b719f-6eb2-449b-bf38-1ca460e36313"
-                      eId="hauptteil-n1_art-z_abs-z_text-n1"/>
+               <akn:p GUID="061b719f-6eb2-449b-bf38-1ca460e36313" eId="art-z_abs-z_text-n1"/>
             </akn:paragraph>
          </akn:article>
       </akn:body>
