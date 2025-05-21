@@ -130,7 +130,7 @@ paths:
     post:
       tags:
         - Verkuendungen
-      summary: Create expressions of a zielnorm that should be set to gegenstandslos or be created when applying all the currently existing ZielnormReferences of the Verkündung
+      summary: Create new expressions by applying all the currently existing Zielnorm references to the Verkündung
       parameters:
         - name: expressionEli
           in: path
