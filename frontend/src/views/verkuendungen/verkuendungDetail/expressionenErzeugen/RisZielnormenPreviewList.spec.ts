@@ -2,6 +2,7 @@ import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, it } from "vitest"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
+import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
 describe("risZielnormenPreviewList", () => {
   it("renders all entries with infos", () => {
@@ -9,6 +10,7 @@ describe("risZielnormenPreviewList", () => {
       props: {
         items: [
           {
+            normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2020/s1"),
             title: "Luftverkehrsteuergesetz",
             shortTitle: "LuftVStG",
             expressions: [
@@ -23,6 +25,7 @@ describe("risZielnormenPreviewList", () => {
             ],
           },
           {
+            normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2023/s1"),
             title: "Berufsbildungsgesetzes",
             shortTitle: "BBiG",
             expressions: [],
@@ -48,6 +51,7 @@ describe("risZielnormenPreviewList", () => {
       props: {
         items: [
           {
+            normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2020/s1"),
             title: "Luftverkehrsteuergesetz",
             shortTitle: "LuftVStG",
             expressions: [

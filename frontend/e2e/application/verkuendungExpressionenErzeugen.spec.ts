@@ -123,3 +123,112 @@ test.describe(
     })
   },
 )
+
+test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
+  test.beforeAll(async ({ authenticatedRequest: request }) => {
+    await setZielnormReferences(
+      NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+      ),
+      null,
+      request,
+    )
+
+    // Prepare Zeitgrenzen
+    const zeitgrenzenIds = await setZeitgrenzen(
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      ),
+      [
+        { id: "", date: "2017-03-16", art: "INKRAFT" },
+        { id: "", date: "2025-05-30", art: "INKRAFT" },
+        { id: "", date: "2025-06-20", art: "AUSSERKRAFT" },
+      ],
+      request,
+    )
+
+    await setZielnormReferences(
+      NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+      ),
+      [
+        {
+          geltungszeit: zeitgrenzenIds[0],
+          zielnorm: "eli/bund/bgbl-1/1964/s593",
+          typ: "Änderungsvorschrift",
+          eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+        },
+      ],
+      request,
+    )
+  })
+
+  test("asks for confirmation before creating expressions for the first time", async ({
+    page,
+  }) => {
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+    )
+
+    await page
+      .getByRole("button", {
+        name: "Gesetz zur Regelung des öffentlichen Vereinsrechts (Vereinsgesetz)",
+      })
+      .click()
+
+    await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+
+    await expect(
+      page.getByText(
+        "Sind Sie sicher, dass Sie die Expressionen erzeugen möchten?",
+      ),
+    ).toBeVisible()
+  })
+
+  test("asks for confirmation before re-creating expressions", async ({
+    page,
+  }) => {
+    await page.route(
+      "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen-preview",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          json: [
+            {
+              normWorkEli: "eli/bund/bgbl-1/1964/s593",
+              title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+              shortTitle: "Vereinsgesetz",
+              expressions: [
+                {
+                  normExpressionEli:
+                    "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu",
+                  isGegenstandslos: false,
+                  isCreated: true,
+                  createdBy: "diese Verkündung",
+                },
+              ],
+            },
+          ],
+        })
+      },
+    )
+
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+    )
+
+    await page
+      .getByRole("button", {
+        name: "Gesetz zur Regelung des öffentlichen Vereinsrechts (Vereinsgesetz)",
+      })
+      .click()
+
+    await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+
+    await expect(
+      page.getByText(
+        "Sind Sie sicher, dass Sie die Expressionen erneut erzeugen und damit bereits erzeugte Expressionen überschrieben möchten?",
+      ),
+    ).toBeVisible()
+  })
+})

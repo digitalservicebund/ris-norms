@@ -1,23 +1,21 @@
 <script setup lang="ts">
+import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import type { ZielnormPreview } from "@/types/zielnormPreview"
 import Accordion from "primevue/accordion"
 import AccordionContent from "primevue/accordioncontent"
 import AccordionHeader from "primevue/accordionheader"
 import AccordionPanel from "primevue/accordionpanel"
 import Button from "primevue/button"
-import type { RisZielnormExpressionsTableItem } from "./RisZielnormExpressionsTable.vue"
 import RisZielnormExpressionsTable from "./RisZielnormExpressionsTable.vue"
 
 /** Input data to the Zielnormen list. */
-export type RisZielnormenListItem = {
-  /** Name of the Zielnorm */
-  title: string
-  /** Short Title of the Zielnorm */
-  shortTitle: string
-  /** Newly created expressions for this Zielnorm */
-  expressions: RisZielnormExpressionsTableItem[]
-}
+export type RisZielnormenListItem = ZielnormPreview
 
 const { items } = defineProps<{ items: RisZielnormenListItem[] }>()
+
+defineEmits<{
+  createExpression: [eli: NormWorkEli]
+}>()
 </script>
 
 <template>
@@ -43,7 +41,11 @@ const { items } = defineProps<{ items: RisZielnormenListItem[] }>()
             :items="item.expressions"
           ></RisZielnormExpressionsTable>
 
-          <Button class="my-12" label="Expressionen erzeugen" disabled></Button>
+          <Button
+            class="my-12"
+            label="Expressionen erzeugen"
+            @click="$emit('createExpression', item.normWorkEli)"
+          ></Button>
         </div>
 
         <div v-else class="ris-body2-regular px-14 py-12">
