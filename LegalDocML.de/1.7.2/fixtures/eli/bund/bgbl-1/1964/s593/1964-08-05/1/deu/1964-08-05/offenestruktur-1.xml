@@ -34,7 +34,7 @@
                               name="übergreifende-id"
                               value="623e6fb8-9a53-4ff5-9091-70ebb00261a2"/>
                <akn:FRBRdate GUID="dfc51f82-8c68-3e08-9cc5-9e85153b6e75"
-                             date="2020-12-23"
+                             date="1964-08-05"
                              eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
                              name="verkuendungsfassung"/>
                <akn:FRBRauthor GUID="2fb81d98-4b14-3f27-9fd8-c0ef8b9426d4"
@@ -45,7 +45,7 @@
                                 value="de"/>
                <akn:FRBRnumber GUID="3767fe66-0152-3a5c-aab0-b47a907738b8"
                                eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
-                               value="s3092"/>
+                               value="s593"/>
                <akn:FRBRname GUID="d4a3d8c3-fdad-34d6-bcac-a2ec82cb9dff"
                              eId="meta-1_ident-1_frbrwork-1_frbrname-1"
                              value="bgbl-1"/>

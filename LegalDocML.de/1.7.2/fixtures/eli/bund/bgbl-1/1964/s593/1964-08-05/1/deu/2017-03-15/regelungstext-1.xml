@@ -69,11 +69,11 @@
                               name="vorherige-version-id"
                               value="30c19ca3-cf77-4ff9-8623-0cf60abac28e"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
-                              GUID="519cad64-9102-4808-99ba-ea64988745bd"
+                              GUID="519cad64-9102-4808-99bc-ea64988745bd"
                               name="aktuelle-version-id"
                               value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
-                              GUID="519cad64-9102-4808-99ba-ea64988745bd"
+                              GUID="519cad64-9102-4808-99bd-ea64988745bd"
                               name="nachfolgende-version-id"
                               value="519cad64-9102-4808-99ba-ea64988745bd"/>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
