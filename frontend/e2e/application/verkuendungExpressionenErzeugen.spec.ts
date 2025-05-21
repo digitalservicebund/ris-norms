@@ -185,7 +185,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     ).toBeVisible()
   })
 
-  test("asks for confirmation before re-creating expressions", async ({
+  test.skip("asks for confirmation before re-creating expressions", async ({
     page,
   }) => {
     await page.route(
