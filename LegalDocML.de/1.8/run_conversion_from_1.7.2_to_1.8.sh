@@ -1,4 +1,5 @@
 SAXON_HE="$HOME/Downloads/SaxonHE12-7J/saxon-he-12.7.jar"
+SCHEMATRON_XSL_FILE="./legalDocML.de.xsl"
 
 FOLDER_OLD="../1.7.2/fixtures"
 FOLDER_NEW="../1.8/fixtures"
@@ -72,6 +73,7 @@ for filepath in $FOLDER_OLD/**/*.xml; do
     rm "$filepath_rechtsetzungsdokument.tmp"
 
     xmllint --noout --schema legalDocML.de-risnorms-rechtsetzungsdokument.xsd $filepath_rechtsetzungsdokument
+    cat $filepath_rechtsetzungsdokument | java -jar $SAXON_HE -s:- -xsl:$SCHEMATRON_XSL_FILE | xpath -q -e "//svrl:failed-assert"
   fi
 
   if [[ ${new_filename%-*} != "rechtsetzungsdokument" ]]; then
@@ -85,5 +87,6 @@ for filepath in $FOLDER_OLD/**/*.xml; do
   fi;
 
   xmllint --noout --schema $schema_file $new_filepath
+  cat $new_filepath | java -jar $SAXON_HE -s:- -xsl:$SCHEMATRON_XSL_FILE | xpath -q -e "//svrl:failed-assert"
 done
 
