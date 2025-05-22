@@ -12,10 +12,10 @@
                           GUID="65979527-4a22-4c42-8833-d4e1bf61268e">
                <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
                              GUID="f7a087a0-854d-4043-ae55-22d33534491c"
-                             value="eli/bgbl-1/1990/s2954/regelungstext-1"/>
+                             value="eli/bund/bgbl-1/1990/s2954/regelungstext-1"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
                             GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c"
-                            value="eli/bgbl-1/1990/s2954"/>
+                            value="eli/bund/bgbl-1/1990/s2954"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1"
                               GUID="49c35c31-563b-40ae-aec1-6312de584200"
                               name="übergreifende-id"
@@ -44,10 +44,10 @@
                                 GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
                              GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                             value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"/>
+                             value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
                             GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                            value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu"/>
+                            value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
                               GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                               name="vorherige-version-id"
@@ -116,26 +116,6 @@
                           eId="meta-1_lebzykl-1_ereignis-3"
                           GUID="02cf36b3-0ec9-4168-aa06-5c1e88ada720"/>
          </akn:lifecycle>
-         <akn:analysis eId="meta-1_analysis-1"
-                       GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1"
-                       source="attributsemantik-noch-undefiniert">
-            <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1"
-                                      GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
-               <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-1"
-                               GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46"
-                               type="substitution">
-                  <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1"
-                              GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
-                              href="eli/bund/bgbl-1/2023/413/regelungstext-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
-                  <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
-                                   GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                                   href="#art-6_abs-3"/>
-                  <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1"
-                             GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
-                             period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
-               </akn:textualMod>
-            </akn:passiveModifications>
-         </akn:analysis>
          <akn:temporalData source="attributsemantik-noch-undefiniert"
                            GUID="9a82ff0d-bf6d-4631-a9f6-2bf2344ba315"
                            eId="meta-1_geltzeiten-1">
@@ -441,7 +421,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-4_bezeichnung-1"
                         GUID="f61f93c5-19c2-4e40-b7fa-3aba9e0e71e0">
-                         § 3 </akn:num>
+                         § 3b </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-1_art-4_überschrift-1"
                             GUID="c1c54f43-1f4c-46bb-9384-5cf46a85cd62">
                         Aufgaben der Verfassungsschutzbehörden
@@ -604,7 +584,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-5_bezeichnung-1"
                         GUID="872fd7e0-b83c-468e-bfce-33fce5983464">
-                         § 3 </akn:num>
+                         § 3c </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-1_art-5_überschrift-1"
                             GUID="77911241-ea09-472f-a153-a4125699e9f8">
                         Aufgaben der Verfassungsschutzbehörden
@@ -1292,7 +1272,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-8_bezeichnung-1"
                         GUID="3e982c4b-1fca-47a2-beb2-b8ffd1cdce98">
-                         § 5 </akn:num>
+                         § 5b </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-1_art-8_überschrift-1"
                             GUID="f6f499b1-2b61-4f9b-acf8-5e7c37b0b49f">
                         Zuständigkeiten des Bundesamtes für Verfassungsschutz
@@ -1595,7 +1575,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-1_art-9_bezeichnung-1"
                         GUID="91956ae9-bcb9-4bec-8498-b44163d53033">
-                         § 5 </akn:num>
+                         § 5c </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-1_art-9_überschrift-1"
                             GUID="c7fc9f8d-dd51-4a6e-be89-5284b0848a61">
                         Zuständigkeiten des Bundesamtes für Verfassungsschutz
@@ -2423,7 +2403,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-3_bezeichnung-1"
                         GUID="5299fb62-21a1-4cf9-83ac-e19b350b2885">
-                         § 8a </akn:num>
+                         § 8b </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-3_überschrift-1"
                             GUID="6ce3973c-54ef-406e-b950-dc7582921c4a">
                         Besondere Auskunftsverlangen
@@ -2739,7 +2719,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-4_bezeichnung-1"
                         GUID="63e2654c-4df4-4bf6-9d41-c3c2d436838f">
-                         § 8b </akn:num>
+                         § 8c </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-4_überschrift-1"
                             GUID="c97d350c-698c-460d-a5be-fda8dd351103">
                         Verfahrensregelungen zu besonderen Auskunftsverlangen
@@ -3043,7 +3023,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-5_bezeichnung-1"
                         GUID="55d17f65-23f0-4a34-8fb6-053e0c4d9d93">
-                         § 8c </akn:num>
+                         § 8cc </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-5_überschrift-1"
                             GUID="e94988fc-5030-4d9c-8b12-08a80fbefee7">
                         Einschränkungen eines Grundrechts
@@ -3385,7 +3365,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-8_bezeichnung-1"
                         GUID="521435ef-f4cc-416d-86f0-be6d6d53cfce">
-                         § 9 </akn:num>
+                         § 9a </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-8_überschrift-1"
                             GUID="5c8bbc8b-3c8f-4e19-b83a-4262f7ecfc3d">
                         Besondere Formen der Datenerhebung
@@ -3552,7 +3532,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-9_bezeichnung-1"
                         GUID="4bb33b77-14d5-4a47-b3e8-9f20baa62a23">
-                         § 9 </akn:num>
+                         § 9b </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-9_überschrift-1"
                             GUID="5764b771-6c09-4368-9595-6b9f71d74d52">
                         Besondere Formen der Datenerhebung
@@ -3717,7 +3697,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-10_bezeichnung-1"
                         GUID="ec658814-1cf1-4312-83ae-98e6ad22474c">
-                         § 9a </akn:num>
+                         § 9aa </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-10_überschrift-1"
                             GUID="e2f25b5d-6334-4745-9bd1-a384c7b64177">
                         Verdeckte Mitarbeiter
@@ -3859,7 +3839,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-11_bezeichnung-1"
                         GUID="792c38a4-e9d1-49a5-8613-099a70c16f42">
-                         § 9b </akn:num>
+                         § 9bb </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-11_überschrift-1"
                             GUID="f5ad7e44-8b08-4519-8d49-5ae6b4fdfd18">
                         Vertrauensleute
@@ -4209,7 +4189,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-15_bezeichnung-1"
                         GUID="c6fe0075-f025-405b-b7b6-a6f1b8beee9d">
-                         § 12 </akn:num>
+                         § 12a </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-15_überschrift-1"
                             GUID="40262ed1-26cf-4eef-9346-90d226079fe9">
                         Berichtigung, Löschung und Sperrung personenbezogener Daten in Dateien
@@ -4291,7 +4271,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-2_art-16_bezeichnung-1"
                         GUID="7bb4fd2b-3e21-488c-9a4a-a7fd8428793c">
-                         § 12 </akn:num>
+                         § 12b </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-2_art-16_überschrift-1"
                             GUID="f6c814bc-6117-4d64-8368-d2e89efa3985">
                         Berichtigung, Löschung und Verarbeitungseinschränkung personenbezogener Daten in Dateien
@@ -4903,7 +4883,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-2_bezeichnung-1"
                         GUID="a5be20a1-abe9-43f0-8781-791d6074fe6c">
-                         § 17 </akn:num>
+                         § 17a </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-3_art-2_überschrift-1"
                             GUID="350fc002-ab58-4e1d-8dbe-1d573482c500">
                         Zulässigkeit von Ersuchen
@@ -5164,7 +5144,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-4_bezeichnung-1"
                         GUID="569475b8-662a-4ba9-9513-3938356e59b6">
-                         § 18 </akn:num>
+                         § 18a </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-3_art-4_überschrift-1"
                             GUID="64e742b2-c9ea-4250-8ae9-9df9168dc9fc">
                         Übermittlung von Informationen an die Verfassungsschutzbehörden
@@ -5173,13 +5153,13 @@
                               GUID="c34c04fe-2be8-49ed-b642-93f3299dbdd5">
                   <akn:num eId="hauptteil-1_abschnitt-3_art-4_abs-1_bezeichnung-1"
                            GUID="5708cbe5-8db8-4a75-96c7-9f77155468cc">
-
+                    (1a)
                         </akn:num>
                   <akn:content eId="hauptteil-1_abschnitt-3_art-4_abs-1_inhalt-1"
                                GUID="d6aefff1-7001-4ba7-befc-c824f19e9d43">
                      <akn:p eId="hauptteil-1_abschnitt-3_art-4_abs-1_inhalt-1_text-1"
                             GUID="d7087b01-8b32-46cd-b0e6-fb6c3fd2a2b8">
-                                (1a) (weggefallen)
+                                 (weggefallen)
                             </akn:p>
                   </akn:content>
                </akn:paragraph>
@@ -5187,13 +5167,13 @@
                               GUID="d099f67a-1471-41d4-9942-78fb46a59cf3">
                   <akn:num eId="hauptteil-1_abschnitt-3_art-4_abs-2_bezeichnung-1"
                            GUID="1375d55e-cbd5-4672-94dd-3453b0c599ed">
-
+(1b)
                         </akn:num>
                   <akn:content eId="hauptteil-1_abschnitt-3_art-4_abs-2_inhalt-1"
                                GUID="de7603f2-e16f-4ca5-b710-fa9c2799a7ec">
                      <akn:p eId="hauptteil-1_abschnitt-3_art-4_abs-2_inhalt-1_text-1"
                             GUID="3927b576-03f3-4b7d-a1ca-46171f18cb85">
-                                (1b) Die Staatsanwaltschaften und, vorbehaltlich der staatsanwaltschaftlichen Sachleitungsbefugnis, die Polizeien, die
+                                Die Staatsanwaltschaften und, vorbehaltlich der staatsanwaltschaftlichen Sachleitungsbefugnis, die Polizeien, die
                                 Behörden des
                                 Zollfahndungsdienstes sowie andere Zolldienststellen, soweit diese Aufgaben nach dem Bundespolizeigesetz wahrnehmen,
                                 unterrichten von
@@ -5211,13 +5191,13 @@
                               GUID="91ee0513-959c-48a8-9669-81e57aabeddb">
                   <akn:num eId="hauptteil-1_abschnitt-3_art-4_abs-3_bezeichnung-1"
                            GUID="05db00b0-a631-4fcd-a190-6dae86e14f19">
-
+(3a)
                         </akn:num>
                   <akn:content eId="hauptteil-1_abschnitt-3_art-4_abs-3_inhalt-1"
                                GUID="8fdb6e58-cfcb-49c1-92e8-05e989a21ea2">
                      <akn:p eId="hauptteil-1_abschnitt-3_art-4_abs-3_inhalt-1_text-1"
                             GUID="e9730a02-0784-4daa-9829-394dfd816caa">
-                                (3a) Das Bundesamt für Verfassungsschutz und die Verfassungsschutzbehörden der Länder dürfen zur Erfüllung ihrer
+                                Das Bundesamt für Verfassungsschutz und die Verfassungsschutzbehörden der Länder dürfen zur Erfüllung ihrer
                                 Aufgaben die
                                 Finanzbehörden um Auskunft ersuchen, ob eine Körperschaft, Personenvereinigung oder Vermögensmasse die Voraussetzungen
                                 des § 5 Abs. 1
@@ -5381,7 +5361,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-5_bezeichnung-1"
                         GUID="44a59334-7711-43fd-bb4b-3b2efd9b2651">
-                         § 18 </akn:num>
+                         § 18b </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-3_art-5_überschrift-1"
                             GUID="3e93ff50-3e5c-4233-b686-f20fac062c86">
                         Übermittlung von Informationen an die Verfassungsschutzbehörden
@@ -5390,13 +5370,13 @@
                               GUID="619ad9d5-3360-4abb-9687-b4a0ab26abc8">
                   <akn:num eId="hauptteil-1_abschnitt-3_art-5_abs-1_bezeichnung-1"
                            GUID="720a6343-a90a-4e66-a646-c5ba89cbca07">
-
+(1a)
                         </akn:num>
                   <akn:content eId="hauptteil-1_abschnitt-3_art-5_abs-1_inhalt-1"
                                GUID="b2346ddc-d485-40b1-ba39-9d0c6d1d5f45">
                      <akn:p eId="hauptteil-1_abschnitt-3_art-5_abs-1_inhalt-1_text-1"
                             GUID="d6d08994-0264-41ca-a1a2-267110dc0166">
-                                (1a) Das Bundesamt für Migration und Flüchtlinge übermittelt von sich aus dem Bundesamt für Verfassungsschutz, die
+                                Das Bundesamt für Migration und Flüchtlinge übermittelt von sich aus dem Bundesamt für Verfassungsschutz, die
                                 Ausländerbehörden
                                 eines Landes übermitteln von sich aus der Verfassungsschutzbehörde des Landes ihnen bekannt gewordene Informationen
                                 einschließlich
@@ -5420,13 +5400,13 @@
                               GUID="29d86d47-57b7-44c9-8506-2a189721d35e">
                   <akn:num eId="hauptteil-1_abschnitt-3_art-5_abs-2_bezeichnung-1"
                            GUID="067c1df3-ea56-4698-b6e4-269bc2557b48">
-
+(1b)
                         </akn:num>
                   <akn:content eId="hauptteil-1_abschnitt-3_art-5_abs-2_inhalt-1"
                                GUID="c94656d6-1a18-4493-b42c-eba04a4b7c59">
                      <akn:p eId="hauptteil-1_abschnitt-3_art-5_abs-2_inhalt-1_text-1"
                             GUID="5a03c9c8-10f1-408a-88b2-202c33ee64b8">
-                                (1b) Die Staatsanwaltschaften und, vorbehaltlich der staatsanwaltschaftlichen Sachleitungsbefugnis, die Polizeien, die
+                                Die Staatsanwaltschaften und, vorbehaltlich der staatsanwaltschaftlichen Sachleitungsbefugnis, die Polizeien, die
                                 Behörden des
                                 Zollfahndungsdienstes sowie andere Zolldienststellen, soweit diese Aufgaben nach dem Bundespolizeigesetz wahrnehmen,
                                 unterrichten von
@@ -5444,13 +5424,13 @@
                               GUID="41ba97fc-e518-4345-b216-2c7b370c486f">
                   <akn:num eId="hauptteil-1_abschnitt-3_art-5_abs-3_bezeichnung-1"
                            GUID="c92fd002-1cdf-4fd5-a509-bbf9b128787c">
-
+(3a)
                         </akn:num>
                   <akn:content eId="hauptteil-1_abschnitt-3_art-5_abs-3_inhalt-1"
                                GUID="9edc1e6e-336a-442b-9412-18419720fd73">
                      <akn:p eId="hauptteil-1_abschnitt-3_art-5_abs-3_inhalt-1_text-1"
                             GUID="32f1ff8f-5c73-4193-96c9-41e3bd078de1">
-                                (3a) Das Bundesamt für Verfassungsschutz und die Verfassungsschutzbehörden der Länder dürfen zur Erfüllung ihrer
+                                Das Bundesamt für Verfassungsschutz und die Verfassungsschutzbehörden der Länder dürfen zur Erfüllung ihrer
                                 Aufgaben die
                                 Finanzbehörden um Auskunft ersuchen, ob eine Körperschaft, Personenvereinigung oder Vermögensmasse die Voraussetzungen
                                 des § 5 Abs. 1
@@ -5786,7 +5766,7 @@
                          period="#meta-1_geltzeiten-1_geltungszeitgr-1">
                <akn:num eId="hauptteil-1_abschnitt-3_art-7_bezeichnung-1"
                         GUID="9459e292-d185-40fd-b5cd-f905143d1ab9">
-                         § 19 </akn:num>
+                         § 19a </akn:num>
                <akn:heading eId="hauptteil-1_abschnitt-3_art-7_überschrift-1"
                             GUID="a6d00a41-12db-4a7a-b4c6-30219cd7e722">
                         Übermittlung personenbezogener Daten durch das Bundesamt für Verfassungsschutz

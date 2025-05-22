@@ -272,7 +272,7 @@
                     <akn:p GUID="90ebde14-d07a-4310-a349-8dd592ce4d14" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1">
                       <akn:mod GUID="4ccb95e0-a5cb-4137-a6e6-817429f1d004" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-neufassung">Die Überschrift wird wie folgt gefasst: <akn:quotedStructure GUID="85a29ad6-4a8b-4f75-8199-1389b85d8f92" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
                           <akn:article GUID="b1981b13-35fd-4ad3-9da1-e54b8fe4f983" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="stammform">
-                            <akn:num GUID="ba1f4068-cc28-4bf2-8ed1-b3a1b40b9040" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_bezeichnung-1">§ 58</akn:num>
+                            <akn:num GUID="ba1f4068-cc28-4bf2-8ed1-b3a1b40b9040" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_bezeichnung-1">§ 59</akn:num>
                             <akn:heading GUID="44686a7d-e60b-4fc1-bf97-ba47b774f996" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_überschrift-1">Meeresnaturschutz-, Fischerei- und Transformationskomponente</akn:heading>
                             <akn:paragraph GUID="a7044267-cbb1-43f8-99ec-31c09e5d1b7f" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-1">
                               <akn:num GUID="b1ecfdbb-f99d-43cc-8c23-a058a2fa1c9c" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-1_bezeichnung-1">(3)</akn:num>
@@ -281,7 +281,7 @@
                               </akn:content>
                             </akn:paragraph>
                             <akn:paragraph GUID="02c01d71-2b6d-4c9a-99f7-cb980d9114ca" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-2">
-                              <akn:num GUID="a4e85b3e-a6e0-489c-91f5-a9195aeac312" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-2_bezeichnung-1">(3)</akn:num>
+                              <akn:num GUID="a4e85b3e-a6e0-489c-91f5-a9195aeac312" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-2_bezeichnung-1">(4)</akn:num>
                               <akn:content GUID="1e376501-999f-4300-b8e9-0c4f46c77b01" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-2_inhalt-1">
                                 <akn:p GUID="f0ae1942-7040-4ef9-b1f7-88aa6c2753d6" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-2_inhalt-1_text-1">Staatliche Beihilfen im Sinn des Artikels 107 des Vertrags über die Arbeitsweise der Europäischen Union, die der Kommission anzuzeigen oder von ihr zu genehmigen sind, sind in diesem Gesetz die Begünstigungen nach den §§ 3, 3a sowie nach den §§ 47a, 53a, 54, 56 und 57.</akn:p>
                               </akn:content>
@@ -316,7 +316,7 @@
                               </akn:list>
                             </akn:paragraph>
                             <akn:paragraph GUID="7aeff860-ac6e-47d7-b714-62d5a2c29644" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-4">
-                              <akn:num GUID="9dab65b3-778e-4708-b026-74a175deae7a" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-4_bezeichnung-1">(8)</akn:num>
+                              <akn:num GUID="9dab65b3-778e-4708-b026-74a175deae7a" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-4_bezeichnung-1">(8a)</akn:num>
                               <akn:content GUID="61d62647-18bd-4982-92b6-2fb5a9195ff9" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-4_inhalt-1">
                                 <akn:p GUID="8acfcdc6-b3e0-4f2e-a2fe-851c5403aac4" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-4_inhalt-1_text-1">Entlastungsberechtigt ist der Betrieb der Land- und Forstwirtschaft nach Absatz 2 Nummer 1 bis 4, der die Gasöle verwendet hat. Dabei gelten Gasöle, die durch Betriebe nach Absatz 2 Nummer 5 bei der Ausführung von Arbeiten nach Absatz 1 Satz 1 für einen Betrieb der Land- und Forstwirtschaft nach Absatz 2 Nummer 1 bis 4 verwendet wurden, als durch den Betrieb der Land- und Forstwirtschaft verwendet, für den die Arbeiten ausgeführt wurden.</akn:p>
                               </akn:content>
@@ -363,7 +363,7 @@
                               </akn:content>
                             </akn:paragraph>
                             <akn:paragraph GUID="6b37a2a9-7962-45e1-9be6-a5dfe7ab1f42" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-7">
-                              <akn:num GUID="2356be30-b5e2-4405-88ee-127eb6974ffc" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-7_bezeichnung-1">(3)</akn:num>
+                              <akn:num GUID="2356be30-b5e2-4405-88ee-127eb6974ffc" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-7_bezeichnung-1">(8)</akn:num>
                               <akn:content GUID="c4a24f38-ca38-4759-86d3-9adc5f2bf24e" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-7_inhalt-1">
                                 <akn:p GUID="548852ad-28ee-4fbe-be5e-3367fc8daca7" eId="hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_art-1_abs-7_inhalt-1_text-1">In den Fällen des § 31a Absatz 7 wird die Minderung aufgehoben, wenn die Möglichkeit der Arbeitsaufnahme nicht mehr besteht, spätestens aber mit dem Ablauf eines Zeitraums von zwei Monaten. Absatz 1 Satz 1 und 3 sowie Absatz 2 Satz 2 sind entsprechend anzuwenden.</akn:p>
                               </akn:content>
@@ -720,13 +720,13 @@
           </akn:content>
         </akn:paragraph>
         <akn:paragraph GUID="86839b48-267e-4fbc-89f3-d9dd9d618372" eId="hauptteil-1_art-8_abs-8">
-          <akn:num GUID="c2c3f2fe-507a-46bb-839f-af1a9c694334" eId="hauptteil-1_art-8_abs-8_bezeichnung-1">(2)</akn:num>
+          <akn:num GUID="c2c3f2fe-507a-46bb-839f-af1a9c694334" eId="hauptteil-1_art-8_abs-8_bezeichnung-1">(2a)</akn:num>
           <akn:content GUID="14a52a17-520d-4bb4-bb14-b11976588683" eId="hauptteil-1_art-8_abs-8_inhalt-1">
             <akn:p GUID="c0e8c4f6-3410-4a69-ad06-9d0ca647308c" eId="hauptteil-1_art-8_abs-8_inhalt-1_text-1">Das Bundesministerium der Finanzen wird ab dem Jahr 2025 ermächtigt und verpflichtet, durch Rechtsverordnung ohne Zustimmung des Bundesrates die Steuersätze nach Absatz 1 jeweils mit Wirkung für das folgende Kalenderjahr prozentual abzusenken, sofern das Luftverkehrsteueraufkommen in dem Vorjahr den Betrag von 2,33 Milliarden Euro übersteigt. Die prozentuale Absenkung errechnet sich aus dem Verhältnis des 2,33 Milliarden Euro übersteigenden Aufkommensbetrags zum 31. Dezember des jeweiligen Vorjahres zu 2,33 Milliarden Euro. Der abgesenkte Steuersatz wird auf volle Cent gerundet.</akn:p>
           </akn:content>
         </akn:paragraph>
         <akn:paragraph GUID="d65f4506-79d9-420e-9cbe-1ac89ca85179" eId="hauptteil-1_art-8_abs-9">
-          <akn:num GUID="78a5121c-5f33-438d-a443-8c9f41991ab3" eId="hauptteil-1_art-8_abs-9_bezeichnung-1">(3)</akn:num>
+          <akn:num GUID="78a5121c-5f33-438d-a443-8c9f41991ab3" eId="hauptteil-1_art-8_abs-9_bezeichnung-1">(3a)</akn:num>
           <akn:content GUID="7a906ba9-729d-4369-87ea-6ee0b2fc2c08" eId="hauptteil-1_art-8_abs-9_inhalt-1">
             <akn:p GUID="b62b09aa-265b-43ca-8848-8ba1832cc204" eId="hauptteil-1_art-8_abs-9_inhalt-1_text-1">Das zuständige Hauptzollamt kann dem Luftfahrt-Bundesamt anlassbezogen oder auf Anforderung Auskünfte aus dem steuerlichen Verfahren erteilen, die erforderlich sind, um die nach dem Luftverkehrsrecht geforderte Zuverlässigkeit eines Luftverkehrsunternehmens oder die Einhaltung der Vorschriften dieses Gesetzes durch Luftverkehrsunternehmen mit Hauptsitz außerhalb des Geltungsbereichs des Luftrechts der Europäischen Union zu beurteilen.</akn:p>
           </akn:content>

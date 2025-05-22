@@ -32,7 +32,7 @@
                              date="2006-12-07"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="962688b9-469a-4ef6-8cb0-cf2006303aee"
+                             GUID="c2d44582-6d39-49e9-9bb1-254342ab5465"
                              date="2006-12-07"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -72,7 +72,7 @@
                                href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
                              GUID="a6dc32d0-140d-4147-88b2-d64639b91742"
-                             date="2021-06-02"
+                             date="2023-12-23"
                              name="verkuendung"/>
                <akn:FRBRlanguage eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
                                  GUID="b872861e-0add-4bbb-ba90-a5edb3c40038"

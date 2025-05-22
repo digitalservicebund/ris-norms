@@ -19,7 +19,7 @@
                           GUID="1223336c-174a-4ebe-96b6-23b73d74249d">
                <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
                              GUID="8ab599fb-6c27-434a-a769-2f0b15ea3761"
-                             value="eli/bund/bgbl-1/2004/s1673/regelungstext-1"/>
+                             value="eli/bund/bgbl-1/2024/108/regelungstext-1"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
                             GUID="a90733dd-4780-472d-8371-a3690f2e869a"
                             value="eli/bund/bgbl-1/2024/108"/>
@@ -68,7 +68,7 @@
                                href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
                              GUID="a6dc32d0-140d-4147-88b2-d64639b91742"
-                             date="2004-07-16"
+                             date="2024-03-27"
                              name="verkuendung"/>
                <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
                                  GUID="b872861e-0add-4bbb-ba90-a5edb3c40038"

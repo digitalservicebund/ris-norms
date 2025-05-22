@@ -32,7 +32,7 @@
                              date="2009-10-08"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="11716d38-058a-480b-b6f1-9ca54b249fde"
+                             GUID="eef4cdf7-41e0-4453-8131-c5da851534d1"
                              date="2009-10-08"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -197,23 +197,6 @@
       </akn:preface>
       <!-- Hauptteil -->
       <akn:body eId="hauptteil-n1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
-         <akn:article eId="art-z%c2%a71"
-                      GUID="e9a8d5e4-77b8-447f-9227-63f687a31f8f"
-                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n3">
-            <akn:num eId="art-z%c2%a71_bezeichnung-n1"
-                     GUID="049c11bd-5ed2-4423-a7c3-54dce98c414d">
-                     §1</akn:num>
-            <akn:paragraph GUID="abd48a54-ccc6-4cb9-8627-9d7092b5263f" eId="art-z%c2%a71_abs-z1">
-               <akn:num eId="art-z%c2%a71_abs-z1_bezeichnung-n1"
-                        GUID="375c9de0-2d35-447b-b9ce-a6e0243b81a2">
-                        (1)</akn:num>
-               <akn:content GUID="a1609cb8-1045-4e45-a6f9-c7bdf4187249"
-                            eId="art-z%c2%a71_abs-z1_inhalt-n1">
-                  <akn:p GUID="74b7302d-a4fc-4f69-a362-97a3ed8c4e77"
-                         eId="art-z%c2%a71_abs-z1_inhalt-n1_text-n1"/>
-               </akn:content>
-            </akn:paragraph>
-         </akn:article>
          <akn:article eId="art-z%c2%a71"
                       GUID="4b09bb18-3bda-4603-a0a3-b62083262a8a"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n3">

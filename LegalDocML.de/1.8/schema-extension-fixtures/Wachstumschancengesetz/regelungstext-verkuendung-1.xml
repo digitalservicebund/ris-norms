@@ -19,7 +19,7 @@
                           GUID="1223336c-174a-4ebe-96b6-23b73d74249d">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="8ab599fb-6c27-434a-a769-2f0b15ea3761"
-                             value="eli/bund/bgbl-1/2004/s1673/regelungstext-verkuendung-1"/>
+                             value="eli/bund/bgbl-1/2024/108/regelungstext-verkuendung-1"/>
                <akn:FRBRuri eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
                             GUID="a90733dd-4780-472d-8371-a3690f2e869a"
                             value="eli/bund/bgbl-1/2024/108"/>
@@ -32,7 +32,7 @@
                              date="2024-03-27"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="32d2746e-15bc-4f04-a6f7-59f15c1c2c16"
+                             GUID="28107c5c-7481-4e55-9b95-3db5e8771ba1"
                              date="2024-03-27"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -72,7 +72,7 @@
                                href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
                              GUID="a6dc32d0-140d-4147-88b2-d64639b91742"
-                             date="2004-07-16"
+                             date="2024-03-27"
                              name="verkuendung"/>
                <akn:FRBRlanguage eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
                                  GUID="b872861e-0add-4bbb-ba90-a5edb3c40038"

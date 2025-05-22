@@ -1,0 +1,1541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2024 I Nr. 107 vom 27.03.2024. (https://www.recht.bund.de/eli/bund/bgbl-1/2024/107) -->
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
+   <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
+      <akn:meta GUID="86404d9e-bcf3-4e28-8cd8-7855c55f5041" eId="meta-n1">
+         <akn:identification GUID="8014e290-c99c-4095-8e85-7390fcede89d"
+                             eId="meta-n1_ident-n1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="7ae8f1cd-9afe-44ec-b85e-501ce0cca73f"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis GUID="4897c92c-b7bc-4c8b-a14a-bfd2bda2aa7b"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/107/regelungstext-verkuendung-1"/>
+               <akn:FRBRuri GUID="4500208b-8953-4257-ab41-98a212051486"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/107"/>
+               <akn:FRBRalias GUID="c9508c2a-4e4b-4883-a24d-7ee62549036b"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"
+                              name="übergreifende-id"
+                              value="c9508c2a-4e4b-4883-a24d-7ee62549036b"/>
+               <akn:FRBRdate GUID="e8de91ed-79b1-4b79-858b-387d328b0d8f"
+                             date="2024-03-27"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
+                             name="verkuendungsfassung-ausfertigungsdatum"/>
+               <akn:FRBRdate GUID="0c27d6f3-cc52-483e-bb9c-8f4e55242caf"
+                             date="2024-03-27"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
+                             name="verkuendungsfassung-verkuendungsdatum"/>
+               <akn:FRBRauthor GUID="14217858-a20b-49a2-976d-8f8df46169a4"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="437fb833-8bfc-4a7e-a76b-b39470d9944d"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="f023dd56-6324-49c9-a4e2-e9784bd7be3a"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"
+                               value="107"/>
+               <akn:FRBRname GUID="e3973575-425f-4668-903d-a9c943581d10"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="26867dd1-3d3d-44bd-abcf-ae677143defc"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
+                                value="regelungstext-verkuendung-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="af2f516e-8285-4fe3-8a03-bb6daded2aa8"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis GUID="4b9783ee-7dac-4529-a910-072ed32f0338"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/regelungstext-verkuendung-1"/>
+               <akn:FRBRuri GUID="c45ac6b3-b2e4-48b6-bf2a-652e4af34e75"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/107/2024-03-27/1/deu"/>
+               <akn:FRBRalias GUID="a3c97bb0-d572-461e-a692-4846f22c2879"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
+                              name="aktuelle-version-id"
+                              value="a3c97bb0-d572-461e-a692-4846f22c2879"/>
+               <akn:FRBRauthor GUID="981d84aa-0763-4fe4-afb9-0dd6b944433b"
+                               eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate GUID="43d624ce-3ad5-4d8d-9d31-715b3a98bc3f"
+                             date="2024-03-27"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage GUID="9c0601d5-bb7c-4ca1-9d4b-48e2e7ef97aa"
+                                 eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 language="deu"/>
+               <akn:FRBRversionNumber GUID="385901f7-764f-46c5-9d5e-c8dd3e4dff89"
+                                      eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="d30ecc7d-57eb-4c29-abf6-a5c2b6461645"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis GUID="9256aad7-9ebf-4f95-8fa2-4ce381580e34"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27/regelungstext-verkuendung-1.xml"/>
+               <akn:FRBRuri GUID="ceaa79bf-8e3f-41c0-99f8-ad205ed723b7"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27/regelungstext-verkuendung-1.xml"/>
+               <akn:FRBRdate GUID="f2b6436a-3353-4a0e-9077-7e6310abc270"
+                             date="2024-03-27"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
+                             name="generierung"/>
+               <akn:FRBRauthor GUID="3c6aa94a-a49b-4f42-988b-7759ed7c7f9c"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="80b85986-0993-4fb4-975e-ff641a1fd4a7"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle GUID="ab118605-83d7-4cf7-bad0-e70de1ceb205"
+                        eId="meta-n1_lebzykl-n1"
+                        source="attributsemantik-noch-undefiniert">
+            <akn:eventRef GUID="12cc785f-1f5b-4c64-ad28-841eb845ca27"
+                          date="2024-03-27"
+                          eId="meta-n1_lebzykl-n1_ereignis-n1"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+            <akn:eventRef GUID="8cdd0e87-bea0-4c70-8c49-49a54480f6ca"
+                          date="1001-01-01"
+                          eId="meta-n1_lebzykl-n1_ereignis-n2"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+         </akn:lifecycle>
+         <akn:analysis GUID="091b82c7-449d-4114-b25b-7d82581d2584"
+                       eId="meta-n1_analysis-n1"
+                       source="attributsemantik-noch-undefiniert">
+            <akn:activeModifications GUID="664391cb-13e3-4ef2-8e54-fb3ac26953e3"
+                                     eId="meta-n1_analysis-n1_activemod-n1">
+               <akn:textualMod GUID="22b5ae60-44c6-4f6d-9508-a02ec43ba4a3"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1"
+                               type="substitution">
+                  <akn:source GUID="a15de628-59a1-4d56-aa17-1f22d866cb73"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"
+                              href="#art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="c8cf95b3-0a5d-43c7-8200-c37c7105c5de"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="a70c2a81-12fd-4678-8201-452a3bd49657"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="1992a179-685d-4d32-8fa1-5186784df463"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2"
+                               type="substitution">
+                  <akn:source GUID="5ce66027-5695-4b1e-ae46-e85f7b6589d9"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_source-n1"
+                              href="#art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="82e99fba-5325-4083-adb6-816955e078dc"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="401e4518-ff3e-48b8-8099-9948b86edbce"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="fb4fc06e-b292-48c8-b60f-4aa1e376a5bb"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3"
+                               type="substitution">
+                  <akn:source GUID="d9d775f4-858e-4fb1-8054-e3cc97e4d5a3"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3_source-n1"
+                              href="#art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="e20b97bb-b713-4a49-9e2a-69ad79bf9cd0"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="021fd361-eb89-4807-bc83-5a9cc8933b72"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="5827f1c0-a4c2-4bf0-84ca-b5c1e6fd9717"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4"
+                               type="insertion">
+                  <akn:source GUID="fc5a513d-3367-45a9-8891-d7997b7bf3d2"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4_source-n1"
+                              href="#art-z2_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="93bbcef0-4183-4237-9f67-9b04c564d251"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4_destination-n1"
+                                   href="#"
+                                   pos="after"/>
+                  <akn:force GUID="397b199d-ac32-4eaf-ab8e-18ba0343401b"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="e3e3b90a-ee80-44da-9932-26e00ed373f9"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5"
+                               type="substitution">
+                  <akn:source GUID="99354c06-ff15-4cb8-919b-df163d7f8a77"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5_source-n1"
+                              href="#art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="d558f990-9125-4c90-9143-a6a2e1b63b1a"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="f85b24b9-22f0-41a3-b968-ee74c0b1ec6e"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="3d9a3db3-8cb8-473b-b2f3-1f6e17685dcc"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6"
+                               type="insertion">
+                  <akn:source GUID="6027da4d-3bc7-4d10-be34-b1c62ba48eb1"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6_source-n1"
+                              href="#art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="2eaa8b73-8d1f-47e0-947d-60de7eff9799"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6_destination-n1"
+                                   href="#"
+                                   pos="start"/>
+                  <akn:force GUID="73d7b014-b644-40d8-97cd-c7c94218e4b7"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="5e0b8b2f-0199-43e4-ac52-23ed81ab2ddb"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7"
+                               type="substitution">
+                  <akn:source GUID="8347fa5f-3aae-49bd-8ac1-6125846c34ae"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7_source-n1"
+                              href="#art-z3_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="02b283c4-7033-4b01-9b5f-4f6a1503ba3c"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="a7a0db74-7ce1-44c5-9eae-5453823eb4b2"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="9f888e52-4b26-4c0e-bf5b-a0d80d543c3e"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n8"
+                               type="substitution">
+                  <akn:source GUID="f51e577b-6892-45d0-be52-d3ff7831c459"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n8_source-n1"
+                              href="#art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="0af6c0d7-2aa2-4495-b65f-c6b15fe09d32"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n8_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="79d744ea-9de8-4dfe-953d-2aeb7efbea91"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n8_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="58c22ad5-80db-489a-b9e3-aae6732ad3bf"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n9"
+                               type="substitution">
+                  <akn:source GUID="86747e8f-7d21-4ffd-9128-9d2adbb88c49"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n9_source-n1"
+                              href="#art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="90558129-bc6e-4f10-a5d5-499ef82ccb24"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n9_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="282324a4-882b-4d00-8f33-9b12d12de949"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n9_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="980bc588-dd8c-4104-921d-3ac940c5ad35"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n10"
+                               type="substitution">
+                  <akn:source GUID="06cf16cc-2db5-4259-8af5-e251869826db"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n10_source-n1"
+                              href="#art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="46677767-1d5e-43ab-9d8f-1c73172257ad"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n10_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="2bd7a47e-89c1-4308-9332-788f3b3a37b9"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n10_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="f35815a0-d9e7-4843-bd6e-5a9b2a6c5121"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n11"
+                               type="substitution">
+                  <akn:source GUID="a6d8d375-2f6b-4b9e-b281-f63f11c7ef16"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n11_source-n1"
+                              href="#art-z4_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="25f79803-4998-4eca-adde-d209fdddfab0"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n11_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="92d183eb-a6be-46e2-a09b-d837cca135da"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n11_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="8a8a4928-7a67-4305-a967-455330994af9"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n12"
+                               type="substitution">
+                  <akn:source GUID="9dd166e0-a021-4eb9-b011-f8468bea2c70"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n12_source-n1"
+                              href="#art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="cb0e37b1-0fb2-4dfd-b19d-141145d97df2"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n12_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="adb3f3ce-a754-4f13-a8a0-637a1602bfef"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n12_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="6865a2ef-0dc5-489f-9215-01b30d4832ff"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n13"
+                               type="insertion">
+                  <akn:source GUID="d6e38b78-153b-4224-9825-a5c285eadd02"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n13_source-n1"
+                              href="#art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="b7401a78-2a25-437c-85fa-e3119fd2dfd6"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n13_destination-n1"
+                                   href="#"
+                                   pos="start"/>
+                  <akn:force GUID="43031b8f-6560-4b58-8822-3f3dc9850d4c"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n13_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="dec07266-d005-4b76-baf5-a00f53c1f3a7"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n14"
+                               type="insertion">
+                  <akn:source GUID="8be4b162-b4ab-4671-a9a2-412e67547b11"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n14_source-n1"
+                              href="#art-z5_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="37765aee-f227-4ad1-9c2f-ea6880d945d7"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n14_destination-n1"
+                                   href="#"
+                                   pos="start"/>
+                  <akn:force GUID="918a2099-630a-47ae-b7a6-1fb265718c44"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n14_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="b22db499-bdc1-4279-b94c-0b7d2797cb7d"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n15"
+                               type="insertion">
+                  <akn:source GUID="de19cb0d-b8d5-4993-9f4b-c47a850f19aa"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n15_source-n1"
+                              href="#art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="f8290677-8c1a-47eb-9dfb-26a8fd374df8"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n15_destination-n1"
+                                   href="#"
+                                   pos="after"/>
+                  <akn:force GUID="22304cc0-20da-4fdd-838c-afaca61c7e02"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n15_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="bc727abe-1d2a-4e96-99e4-3eefffa952b6"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n16"
+                               type="insertion">
+                  <akn:source GUID="740f8b00-2049-4106-b717-00a5a0bbb913"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n16_source-n1"
+                              href="#art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="6cd4201a-9648-4dc1-83d4-4eb7bf9c81be"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n16_destination-n1"
+                                   href="#"
+                                   pos="start"/>
+                  <akn:force GUID="5d2cfdb8-3962-4c07-8bd2-7de23e357cdd"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n16_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+               <akn:textualMod GUID="e0d18935-4dcd-417a-8d17-76a2e7cecc30"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n17"
+                               type="substitution">
+                  <akn:source GUID="150618d7-53c5-4966-8f89-d283781c06a7"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n17_source-n1"
+                              href="#art-z7_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="55d23811-4df0-49b2-b3ae-bda3d75fc12f"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n17_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="6bc012c8-ee27-4195-a9b7-9819f8eaa70b"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n17_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+            </akn:activeModifications>
+         </akn:analysis>
+         <akn:temporalData GUID="6aa02f72-6ef6-419e-8280-264058c1e23d"
+                           eId="meta-n1_geltzeiten-n1"
+                           source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup GUID="dcef38d5-5b86-4fa2-8954-699856c63a60"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+               <akn:timeInterval GUID="6a969d3e-dbf4-4ac9-9d29-bb606062ccc1"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n2"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+         <akn:proprietary GUID="c23f16c5-66c5-4de4-af56-fedda027e0c5"
+                          eId="meta-n1_proprietary-n1"
+                          source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>mantelform</meta:form>
+            </meta:legalDocML.de_metadaten>
+            
+         </akn:proprietary>
+      </akn:meta>
+      <akn:preface GUID="f2820bfa-8a2a-4eef-ad23-c27fa2f4e7f4" eId="einleitung-n1">
+         <akn:longTitle GUID="6b5c825c-93d9-4475-a4b2-0b476b7ea9c0"
+                        eId="einleitung-n1_doktitel-n1">
+            <akn:p GUID="481ff764-f035-4d9b-a36b-4fbcb5160fc1"
+                   eId="einleitung-n1_doktitel-n1_text-n1">
+               <akn:docTitle GUID="7b220fc9-ac01-4e56-b14f-a9f60797ca14"
+                             eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1">Zweites Haushaltsfinanzierungsgesetz 2024</akn:docTitle>
+            </akn:p>
+         </akn:longTitle>
+         <akn:block GUID="9f3c2c6b-50c8-43c9-a87e-b7ec1cf12074"
+                    eId="einleitung-n1_block-n1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:date GUID="07c4626f-1db8-4844-aca3-52a38e625dba"
+                      date="2024-03-27"
+                      eId="einleitung-n1_block-n1_datum-n1"
+                      refersTo="ausfertigung-datum">Vom 27. März 2024</akn:date>
+         </akn:block>
+      </akn:preface>
+      <akn:preamble GUID="dea2c803-adb2-4fbf-a2e5-aef8b1094c3e" eId="präambel-n1">
+         <akn:formula GUID="85427f90-83fa-432a-b25b-379214dde40e"
+                      eId="präambel-n1_formel-n1"
+                      name="attributsemantik-noch-undefiniert"
+                      refersTo="eingangsformel">
+            <akn:p GUID="281ed7ba-10fb-45cb-bb24-73b2ba226454"
+                   eId="präambel-n1_formel-n1_text-n1">Der Bundestag hat das folgende Gesetz beschlossen:</akn:p>
+         </akn:formula>
+      </akn:preamble>
+      <akn:body GUID="133b77f1-f5aa-4a6a-978f-b203b66e04c4" eId="hauptteil-n1">
+         <akn:article GUID="fb7bb4b5-570e-4166-8ec7-e8c6141c042b"
+                      eId="art-z1"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="f778148c-d287-4770-be9b-1a02ebeef208" eId="art-z1_bezeichnung-n1">Artikel 1</akn:num>
+            <akn:heading GUID="681aa9ed-2c53-4eb1-b228-f0eda1eea2fa" eId="art-z1_überschrift-n1">Änderung des Luftverkehrsteuergesetzes</akn:heading>
+            <akn:paragraph GUID="c63475f9-d1a9-4f53-8481-61982bddd419" eId="art-z1_abs-z">
+               <akn:num GUID="03dfc624-d6ac-47e0-8a9b-718c22554670"
+                        eId="art-z1_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="212840f8-7554-4c6c-8b3e-92295d771cb3"
+                         eId="art-z1_abs-z_untergl-n1">
+                  <akn:intro GUID="509f8d3e-6e46-4314-b059-6d464738d9d0"
+                             eId="art-z1_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="f34b040c-901b-4506-8734-33584008676d"
+                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1">Das Luftverkehrsteuergesetz vom 9. Dezember 2010 (BGBl. I S. 1885; 2013 I S. 81), das zuletzt durch Artikel 198 der Verordnung vom 19. Juni 2020 (BGBl. I S. 1328) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="df997ac4-39b5-40d2-840c-d77bea52a30e"
+                             eId="art-z1_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="79bca0c6-a2e2-46a8-8048-455e79e35fb4"
+                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:list GUID="e5e47d92-50cc-41c1-8c69-d41844d4bd7c"
+                               eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1">
+                        <akn:intro GUID="b80915c3-8c9e-45bb-bf49-dc7202909d02"
+                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
+                           <akn:p GUID="d1a8aa0f-23b8-4e1e-808b-42cd9d71b581"
+                                  eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">§ 11 wird wie folgt geändert:</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="a101b4c5-799b-47e9-8e4e-844bed9f8888"
+                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
+                           <akn:num GUID="5b69657c-2e35-4f5b-91e3-d54a08ddeaa9"
+                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
+                           <akn:list GUID="fa556e1e-3303-4575-b1ef-7a0a9dfcf557"
+                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1">
+                              <akn:intro GUID="284ee59d-412f-4cab-9ee6-6345159884d9"
+                                         eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
+                                 <akn:p GUID="c97f78db-32cb-4478-b388-00794ad3e78b"
+                                        eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">Absatz 1 wird wie folgt geändert:</akn:p>
+                              </akn:intro>
+                              <akn:point GUID="f47b2559-8eed-4af8-9f81-e631a8fcbbf2"
+                                         eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
+                                 <akn:num GUID="0c07f016-7670-4bbe-a0bf-2552449042dd"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">aa)</akn:num>
+                                 <akn:content GUID="54ec26a4-48f1-41b8-ba6c-2e507d9f18c5"
+                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+                                    <akn:p GUID="25b0cc43-d756-4589-b877-e64ab4a545d6"
+                                           eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">In Nummer 1 wird die Angabe „13,03 Euro“ durch die Angabe „15,53 Euro“ ersetzt.</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="84af7fee-b78e-4ef2-82fd-7601186fa2de"
+                                         eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
+                                 <akn:num GUID="f300351c-7b22-40ff-a5e6-7b4ced9849e4"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">bb)</akn:num>
+                                 <akn:content GUID="c9b62feb-4ff4-4498-9e9b-073317a23962"
+                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                                    <akn:p GUID="752c2753-8669-4557-baf6-aa165a775513"
+                                           eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">In Nummer 2 wird die Angabe „33,01 Euro“ durch die Angabe „39,34 Euro“ ersetzt.</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="e59b6206-7535-49f9-8c5b-a0fe3530ed16"
+                                         eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3">
+                                 <akn:num GUID="941683a5-4366-4d48-b33c-2166b0e1e43c"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_bezeichnung-n1">cc)</akn:num>
+                                 <akn:content GUID="6cd08623-4d19-455d-ac45-b76597c10ef3"
+                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1">
+                                    <akn:p GUID="df5194d0-d414-414f-8295-ec9391133d59"
+                                           eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">In Nummer 3 wird die Angabe „59,43 Euro“ durch die Angabe „70,83 Euro“ ersetzt.</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                           </akn:list>
+                        </akn:point>
+                        <akn:point GUID="20d8b56c-bd05-459f-976b-af669a65b116"
+                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
+                           <akn:num GUID="51aec9b9-65dd-4a37-a3fb-51f51cfd6ce1"
+                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
+                           <akn:content GUID="74b8f0ca-b794-43c6-b724-08b17511ad6f"
+                                        eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                              <akn:p GUID="83294e7f-3e98-410e-b135-b3ed34e83203"
+                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                                 <akn:mod GUID="c597c0cd-778c-44ff-b588-75329fc3f01d"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-neufassung">Absatz 2 wird wie folgt gefasst: <akn:quotedStructure GUID="58a38cc3-792b-4c74-9ee6-b7ed2c465e4f"
+                                                         eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„"/>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                     </akn:list>
+                  </akn:point>
+                  <akn:point GUID="0babffb1-55fb-4fdb-a70d-968756a4dc91"
+                             eId="art-z1_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="b5ca60b4-b13c-46bf-b9e4-b4a42b9cb705"
+                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="f391deab-38ae-4887-810b-7e79e097aa1d"
+                                  eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                        <akn:p GUID="aee1cf84-8268-4233-9068-3cd88004f171"
+                               eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                           <akn:mod GUID="3df24624-ee37-4c5a-b0e5-5ce22f6553d5"
+                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-neufassung">§ 17 Absatz 3 wird wie folgt gefasst: <akn:quotedStructure GUID="6aac305d-0030-49bd-9c94-09b430d97a50"
+                                                   eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„"/>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="311efff8-2c56-46c4-b337-3f239dddfb6c"
+                      eId="art-z2"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="532450ec-0fca-48ad-9410-6f25dfb825d8" eId="art-z2_bezeichnung-n1">Artikel 2</akn:num>
+            <akn:heading GUID="e49d2620-8a40-40c9-92a9-fa7ac5049c99" eId="art-z2_überschrift-n1">Änderung des Windenergie-auf-See-Gesetzes</akn:heading>
+            <akn:paragraph GUID="1050a605-8c08-4c9a-93d3-ee564e1c97ef" eId="art-z2_abs-z">
+               <akn:num GUID="0da4c7b7-eeb1-464d-8bf8-c1632bea30e2"
+                        eId="art-z2_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="d5e5fa14-7df2-415c-a726-1604d8ace399"
+                         eId="art-z2_abs-z_untergl-n1">
+                  <akn:intro GUID="55676dc3-a7aa-46c0-8628-16ecc0094d90"
+                             eId="art-z2_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="ae0289ed-24ef-4a24-bb61-85f9b4020c09"
+                            eId="art-z2_abs-z_untergl-n1_intro-n1_text-n1">Das Windenergie-auf-See-Gesetz vom 13. Oktober 2016 (BGBl. I S. 2258, 2310), das zuletzt durch Artikel 14 des Gesetzes vom 22. März 2023 (BGBl. 2023 I Nr. 88) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="2aa11f54-e589-4335-825d-765cb1d4bdee"
+                             eId="art-z2_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="65ec6338-c8b5-42e4-92c7-49c159fa3642"
+                              eId="art-z2_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="72d3737d-f841-490e-950d-24ab31be6325"
+                                  eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                        <akn:p GUID="8258c037-a27a-4edf-be9d-defeda7acffe"
+                               eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                           <akn:mod GUID="528a359c-2d3e-498a-aee4-a025ae968854"
+                                    eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-neufassung">In der Inhaltsübersicht wird die Angabe zu § 58 wie folgt gefasst: <akn:quotedStructure GUID="8645b43c-ecb7-4cbb-ae63-622216824af8"
+                                                   eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„">
+                                 <akn:toc GUID="35315e3f-9e6b-40ef-9c71-172d9774b42e"
+                                          eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_inhuebs-n1"
+                                          refersTo="inhaltsuebersichtsbereich">
+                                    <akn:tocItem GUID="291ff072-ea55-4d13-9cfe-dc7e72444596"
+                                                 eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_inhuebs-n1_eintrag-n1"
+                                                 href="#"
+                                                 level="0">
+                                       <akn:span GUID="9fc8f71b-5feb-4292-a943-0d64f7c7d223"
+                                                 eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_inhuebs-n1_eintrag-n1_span-n1">§ 58</akn:span>
+                                       <akn:span GUID="0a3bf3fd-6300-42b1-854c-60a5bfdecb16"
+                                                 eId="art-z2_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_inhuebs-n1_eintrag-n1_span-n2">Meeresnaturschutz-, Fischerei- und Transformationskomponente</akn:span>
+                                    </akn:tocItem>
+                                 </akn:toc>
+                              </akn:quotedStructure>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="761f0787-4ea8-4724-a007-6c7d693dba8b"
+                             eId="art-z2_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="58ada856-d8ef-401e-b657-44bff934b1ca"
+                              eId="art-z2_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="43307274-ae84-402a-83bb-551eb31b4357"
+                                  eId="art-z2_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                        <akn:p GUID="cf5923bc-b4b8-4d13-82c5-5162366ab60d"
+                               eId="art-z2_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                           <akn:mod GUID="f4f55e34-7de0-4c85-9938-21517f18deb1"
+                                    eId="art-z2_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-einfuegen">Nach § 23 Absatz 1 wird folgender Absatz 1a eingefügt: <akn:quotedStructure GUID="b2ec58cb-5730-4af6-bd86-7ad585264e10"
+                                                   eId="art-z2_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„"/>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="e299f144-9f6e-456c-bb4b-6aa6ad83ae02"
+                             eId="art-z2_abs-z_untergl-n1_listenelem-n3">
+                     <akn:num GUID="c5a7d921-de34-43a5-a56e-eefd937b3f27"
+                              eId="art-z2_abs-z_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                     <akn:content GUID="d1dcf3d2-b302-4faf-aa08-6d531e9108d3"
+                                  eId="art-z2_abs-z_untergl-n1_listenelem-n3_inhalt-n1">
+                        <akn:p GUID="0446e247-4e4e-433b-ba6e-9bfb12b5001e"
+                               eId="art-z2_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Dem § 57 wird folgender Satz angefügt:Die Einnahmen aus den gebotenen Zahlungen nach § 53 Absatz 1 Satz 1 Nummer 1 werden abweichend von Satz 1 für Ausschreibungen im Jahr 2023 anteilig für Maßnahmen des Meeresnaturschutzes, zur umweltschonenden Fischerei einschließlich Fischereistrukturmaßnahmen, als Einnahmen des Bundeshaushalts sowie zur Senkung der Offshore-Netzumlage gemäß § 2 Nummer 11 des Energiefinanzierungsgesetzes verwendet.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="db945dee-1bd3-47b6-9b31-4125b5ef17b9"
+                             eId="art-z2_abs-z_untergl-n1_listenelem-n4">
+                     <akn:num GUID="56aa3e61-2ebe-461b-8c9c-2e40467ae7ec"
+                              eId="art-z2_abs-z_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                     <akn:list GUID="be711b55-e679-433e-a95d-880e4f28ef46"
+                               eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1">
+                        <akn:intro GUID="d473f7a6-62c0-41a1-b8c3-fa1a25d04b21"
+                                   eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_intro-n1">
+                           <akn:p GUID="322d3bfe-bbfb-4bb9-8386-5f5edebe59bd"
+                                  eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_intro-n1_text-n1">§ 58 wird wie folgt geändert:</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="e943afb9-7757-4c13-8d37-306d8c0cd082"
+                                   eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1">
+                           <akn:num GUID="2e1901f6-a759-4564-b710-1813d3ff9970"
+                                    eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
+                           <akn:content GUID="48066733-217d-4a2a-a3d9-3a72a163b2c1"
+                                        eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1">
+                              <akn:p GUID="90ebde14-d07a-4310-a349-8dd592ce4d14"
+                                     eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                                 <akn:mod GUID="4ccb95e0-a5cb-4137-a6e6-817429f1d004"
+                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-neufassung">Die Überschrift wird wie folgt gefasst: <akn:quotedStructure GUID="85a29ad6-4a8b-4f75-8199-1389b85d8f92"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„">
+                                       <akn:article GUID="b1981b13-35fd-4ad3-9da1-e54b8fe4f983"
+                                                    eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59"
+                                                    period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                                                    refersTo="stammform">
+                                          <akn:num GUID="ba1f4068-cc28-4bf2-8ed1-b3a1b40b9040"
+                                                   eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_bezeichnung-n1">§ 59</akn:num>
+                                          <akn:heading GUID="44686a7d-e60b-4fc1-bf97-ba47b774f996"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_überschrift-n1">Meeresnaturschutz-, Fischerei- und Transformationskomponente</akn:heading>
+                                          <akn:paragraph GUID="a7044267-cbb1-43f8-99ec-31c09e5d1b7f"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z3">
+                                             <akn:num GUID="b1ecfdbb-f99d-43cc-8c23-a058a2fa1c9c"
+                                                      eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z3_bezeichnung-n1">(3)</akn:num>
+                                             <akn:content GUID="6b2908c2-6b43-4319-a2ec-0b24d615e8bb"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z3_inhalt-n1">
+                                                <akn:p GUID="18f85810-471a-4c2d-9152-70a72053eaef"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z3_inhalt-n1_text-n1">Für Ausschreibungen im Jahr 2023 leistet der bezuschlagte Bieter innerhalb von zwölf Monaten nach Erteilung des Zuschlags abweichend von Absatz 1 Satz 1 und Absatz 2 Satz 1 eine Zahlung von 3,125 Prozent des Gebots nach § 53 Absatz 1 Satz 1 Nummer 1 als Meeresnaturschutzkomponente, eine Zahlung von 1 Prozent des Gebots nach § 53 Absatz 1 Satz 1 Nummer 1 als Fischereikomponente und eine Zahlung in Höhe von 5,875 Prozent des Gebots nach § 53 Absatz 1 Satz 1 Nummer 1 als Transformationskomponente an den Bundeshaushalt.</akn:p>
+                                             </akn:content>
+                                          </akn:paragraph>
+                                          <akn:paragraph GUID="02c01d71-2b6d-4c9a-99f7-cb980d9114ca"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z4">
+                                             <akn:num GUID="a4e85b3e-a6e0-489c-91f5-a9195aeac312"
+                                                      eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z4_bezeichnung-n1">(4)</akn:num>
+                                             <akn:content GUID="1e376501-999f-4300-b8e9-0c4f46c77b01"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z4_inhalt-n1">
+                                                <akn:p GUID="f0ae1942-7040-4ef9-b1f7-88aa6c2753d6"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z4_inhalt-n1_text-n1">Staatliche Beihilfen im Sinn des Artikels 107 des Vertrags über die Arbeitsweise der Europäischen Union, die der Kommission anzuzeigen oder von ihr zu genehmigen sind, sind in diesem Gesetz die Begünstigungen nach den §§ 3, 3a sowie nach den §§ 47a, 53a, 54, 56 und 57.</akn:p>
+                                             </akn:content>
+                                          </akn:paragraph>
+                                          <akn:paragraph GUID="fc3c17e0-626a-4e85-ad66-222fc0f3ac22"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5">
+                                             <akn:num GUID="7fe51484-511d-4ddc-b7f7-4d54b8bca3bc"
+                                                      eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_bezeichnung-n1">(5)</akn:num>
+                                             <akn:list GUID="32e99372-71cb-49b0-b1da-931c7de376bc"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1">
+                                                <akn:intro GUID="f4539f27-d5ea-446d-ad6b-3dec0607df0b"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_intro-n1">
+                                                   <akn:p GUID="ecaf035a-d21d-45d8-a451-48d21a200a37"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_intro-n1_text-n1">Die Steuerentlastung beträgt für 1 000 Liter Gasöle nach § 2 Absatz 1 Nummer 4</akn:p>
+                                                </akn:intro>
+                                                <akn:point GUID="9c91e7ac-cc13-45e5-8b43-87475cb9369e"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n1">
+                                                   <akn:num GUID="e9802821-2d9d-4d07-93be-52a84e913719"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                                                   <akn:content GUID="1544c876-2442-407a-8a6d-56702aeab345"
+                                                                eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n1_inhalt-n1">
+                                                      <akn:p GUID="844b7175-6804-41ed-88fa-7532269a614e"
+                                                             eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n1_inhalt-n1_text-n1">bis zum 29. Februar 2024 214,80 EUR,</akn:p>
+                                                   </akn:content>
+                                                </akn:point>
+                                                <akn:point GUID="e878ce3e-2f4d-4f07-bb77-7a2ba62bc2a6"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n2">
+                                                   <akn:num GUID="f51e5160-0be9-42b0-8c89-e6098ecc179c"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                                                   <akn:content GUID="39f36d38-a898-499a-8c44-bcbd3beade12"
+                                                                eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n2_inhalt-n1">
+                                                      <akn:p GUID="eb7a5085-eba5-4e47-b48a-4635badb9cdc"
+                                                             eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n2_inhalt-n1_text-n1">vom 1. März 2024 bis zum 31. Dezember 2024 128,88 EUR,</akn:p>
+                                                   </akn:content>
+                                                </akn:point>
+                                                <akn:point GUID="43891fa5-cddc-432f-a602-7e2e437737e5"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n3">
+                                                   <akn:num GUID="e028aeac-ca11-4a88-adc9-0338ac852b5f"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                                                   <akn:content GUID="47e24a9d-56e7-49ee-9c1a-b38678d90494"
+                                                                eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n3_inhalt-n1">
+                                                      <akn:p GUID="92b828ee-a78b-40a0-a5c8-90268b4f77aa"
+                                                             eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_listenelem-n3_inhalt-n1_text-n1">vom 1. Januar 2025 bis zum 31. Dezember 2025 64,44 EUR,</akn:p>
+                                                   </akn:content>
+                                                </akn:point>
+                                                <akn:wrapUp GUID="bc85e6cc-e880-43a2-9aaf-6232e3cc3c34"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_schlusstext-n1">
+                                                   <akn:p GUID="d5d66fa3-e562-43fd-85d2-bf5c208c68ad"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z5_untergl-n1_schlusstext-n1_text-n1">jeweils unvermischt mit anderen Energieerzeugnissen, ausgenommen Biokraftstoffen oder Additiven der Position 3811 der Kombinierten Nomenklatur.</akn:p>
+                                                </akn:wrapUp>
+                                             </akn:list>
+                                          </akn:paragraph>
+                                          <akn:paragraph GUID="7aeff860-ac6e-47d7-b714-62d5a2c29644"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8a">
+                                             <akn:num GUID="9dab65b3-778e-4708-b026-74a175deae7a"
+                                                      eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8a_bezeichnung-n1">(8a)</akn:num>
+                                             <akn:content GUID="61d62647-18bd-4982-92b6-2fb5a9195ff9"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8a_inhalt-n1">
+                                                <akn:p GUID="8acfcdc6-b3e0-4f2e-a2fe-851c5403aac4"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8a_inhalt-n1_text-n1">Entlastungsberechtigt ist der Betrieb der Land- und Forstwirtschaft nach Absatz 2 Nummer 1 bis 4, der die Gasöle verwendet hat. Dabei gelten Gasöle, die durch Betriebe nach Absatz 2 Nummer 5 bei der Ausführung von Arbeiten nach Absatz 1 Satz 1 für einen Betrieb der Land- und Forstwirtschaft nach Absatz 2 Nummer 1 bis 4 verwendet wurden, als durch den Betrieb der Land- und Forstwirtschaft verwendet, für den die Arbeiten ausgeführt wurden.</akn:p>
+                                             </akn:content>
+                                          </akn:paragraph>
+                                          <akn:paragraph GUID="db5c82b9-431d-4d42-af8b-bde9cdf8c98c"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2">
+                                             <akn:num GUID="320fdfc0-b5b4-45ec-a77e-824b39327979"
+                                                      eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_bezeichnung-n1">(2)</akn:num>
+                                             <akn:list GUID="09b7451f-b567-4217-a26b-f79d151b2965"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1">
+                                                <akn:intro GUID="2f726ec0-6b23-4246-a52b-3a49195592af"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_intro-n1">
+                                                   <akn:p GUID="5ffec9d1-1019-42a9-bee2-d00d24f73ad6"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_intro-n1_text-n1">Die Steuerentlastung ist mit einer Anmeldung nach amtlich vorgeschriebenem Datensatz für die innerhalb eines Kalenderjahres (Entlastungsabschnitt) zu begünstigten Zwecken nach § 57 Absatz 1 des Gesetzes verwendeten Gasöle (begünstigter Verbrauch) zu beantragen. Der Antragsteller hat in der Anmeldung alle für die Bemessung der Steuerentlastung erforderlichen Angaben zu machen und die Steuerentlastung selbst zu berechnen. Die Steuerentlastung wird nur gewährt, wenn der Antrag bis zum 31. Dezember des Jahres, das dem Kalenderjahr folgt, in dem die Gasöle verwendet worden sind, beim zuständigen Hauptzollamt gestellt wird. Bei erstmaliger Antragstellung sind dem Antrag beizufügen:</akn:p>
+                                                </akn:intro>
+                                                <akn:point GUID="12dd11d7-3087-4c15-800b-42694ed08bb3"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n1">
+                                                   <akn:num GUID="7e4fd1e2-134f-4b44-b18e-083bbc042e60"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                                                   <akn:content GUID="5bce2082-029c-48ba-aaf9-a0a08bd147cb"
+                                                                eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n1_inhalt-n1">
+                                                      <akn:p GUID="33393b72-76f8-436b-aa34-ee4a2c8262b7"
+                                                             eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Quittungen oder Lieferbescheinigungen nach Absatz 4 über im Entlastungsabschnitt insgesamt bezogenen Gasöle,</akn:p>
+                                                   </akn:content>
+                                                </akn:point>
+                                                <akn:point GUID="56ecd07e-a67e-4ad2-81b7-6c02e7102193"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n2">
+                                                   <akn:num GUID="2f22777a-0235-4b56-9b35-14025a4eb735"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                                                   <akn:content GUID="7e2ede81-d638-4461-a35b-b35fd5f06862"
+                                                                eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n2_inhalt-n1">
+                                                      <akn:p GUID="af720114-dd0f-4955-89d7-084b7843e0bb"
+                                                             eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">die Aufzeichnungen nach Absatz 5, soweit der Antragsteller zu deren Führung verpflichtet ist,</akn:p>
+                                                   </akn:content>
+                                                </akn:point>
+                                                <akn:point GUID="76b4f22b-3ef3-43c4-bc7a-c370ed61d9a4"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n3">
+                                                   <akn:num GUID="e83e7354-aa96-4933-baf4-72439accf30d"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                                                   <akn:content GUID="3c2cf70b-3663-40e7-b244-187a68fcd3bc"
+                                                                eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n3_inhalt-n1">
+                                                      <akn:p GUID="ff7d66de-2690-4bdf-b7e1-b053f0dedc8a"
+                                                             eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n3_inhalt-n1_text-n1">von Betrieben der Imkerei ein Nachweis über die Anzahl der Bienenvölker (Völkermeldung) und</akn:p>
+                                                   </akn:content>
+                                                </akn:point>
+                                                <akn:point GUID="2079d073-851a-48b0-832e-bd61b3f2f4c9"
+                                                           eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n4">
+                                                   <akn:num GUID="3fd96b6e-30e4-4c1e-b701-18f7d2b5ea8e"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                                                   <akn:content GUID="e978aed1-82c1-4c73-adb4-1ac4e8439708"
+                                                                eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n4_inhalt-n1">
+                                                      <akn:p GUID="bb5fd162-a1e8-461e-82a3-90d6b06a93ad"
+                                                             eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Bescheinigungen nach Absatz 6 über die im Entlastungsabschnitt von Betrieben im Sinne des § 57 Absatz 2 Nummer 5 des Gesetzes verbrauchten Gasöle.</akn:p>
+                                                   </akn:content>
+                                                </akn:point>
+                                                <akn:wrapUp GUID="54ab2035-1f91-4c42-9d15-70a0ed935640"
+                                                            eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_schlusstext-n1">
+                                                   <akn:p GUID="12eee615-747f-4cc2-812c-f1d7a9030e87"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z2_untergl-n1_schlusstext-n1_text-n1">Bei Folgeanträgen hat der Antragsteller die in Satz 4 genannten Unterlagen lediglich auf Verlangen des Hauptzollamts vorzulegen.</akn:p>
+                                                </akn:wrapUp>
+                                             </akn:list>
+                                          </akn:paragraph>
+                                          <akn:paragraph GUID="a8f71186-2b60-4781-a3c8-61eed568d814"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z7">
+                                             <akn:num GUID="3496daa0-1e9c-4de0-9e88-84660c251663"
+                                                      eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z7_bezeichnung-n1">(7)</akn:num>
+                                             <akn:content GUID="757d50c0-810a-4fc8-acca-b6fb3cccd6a1"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z7_inhalt-n1">
+                                                <akn:p GUID="ddda35cc-97a2-4665-a04b-193248d84c72"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z7_inhalt-n1_text-n1">Abweichend von Absatz 4 Satz 1 entfällt der Leistungsanspruch in Höhe des Regelbedarfes, wenn erwerbsfähige Leistungsberechtigte, deren Bürgergeld wegen einer Pflichtverletzung nach § 31 Absatz 1 Satz 1 Nummer 2, Absatz 2 Nummer 3 oder Absatz 2 Nummer 4 innerhalb des letzten Jahres gemindert war, eine zumutbare Arbeit nicht aufnehmen. Die Möglichkeit der Arbeitsaufnahme muss tatsächlich und unmittelbar bestehen und willentlich verweigert werden. Absatz 1 Satz 6, die Absätze 2 und 3 sowie § 31 Absatz 1 Satz 2 finden Anwendung.</akn:p>
+                                             </akn:content>
+                                          </akn:paragraph>
+                                          <akn:paragraph GUID="6b37a2a9-7962-45e1-9be6-a5dfe7ab1f42"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8">
+                                             <akn:num GUID="2356be30-b5e2-4405-88ee-127eb6974ffc"
+                                                      eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8_bezeichnung-n1">(8)</akn:num>
+                                             <akn:content GUID="c4a24f38-ca38-4759-86d3-9adc5f2bf24e"
+                                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8_inhalt-n1">
+                                                <akn:p GUID="548852ad-28ee-4fbe-be5e-3367fc8daca7"
+                                                       eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z59_abs-z8_inhalt-n1_text-n1">In den Fällen des § 31a Absatz 7 wird die Minderung aufgehoben, wenn die Möglichkeit der Arbeitsaufnahme nicht mehr besteht, spätestens aber mit dem Ablauf eines Zeitraums von zwei Monaten. Absatz 1 Satz 1 und 3 sowie Absatz 2 Satz 2 sind entsprechend anzuwenden.</akn:p>
+                                             </akn:content>
+                                          </akn:paragraph>
+                                       </akn:article>
+                                    </akn:quotedStructure>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="d83ec1af-59b1-43e7-949e-4ce4a92a54a7"
+                                   eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2">
+                           <akn:num GUID="d5a2cfaa-e0d2-41aa-a369-3f005cd8eafb"
+                                    eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
+                           <akn:content GUID="ac93287c-41eb-4bdc-a65b-f2ab56f34bec"
+                                        eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1">
+                              <akn:p GUID="58f57db9-5321-41de-a2cc-1720383115be"
+                                     eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                                 <akn:mod GUID="157f3552-2a66-4cf3-beda-461655c65048"
+                                          eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-einfuegen">Folgender Absatz 3 wird angefügt: <akn:quotedStructure GUID="bf1014b7-aef5-47d1-b523-b2a5d723040e"
+                                                         eId="art-z2_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„"/>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                     </akn:list>
+                  </akn:point>
+                  <akn:point GUID="8f327c23-6217-4736-a6f2-341cb9aa059a"
+                             eId="art-z2_abs-z_untergl-n1_listenelem-n5">
+                     <akn:num GUID="e169495b-be7c-4d1a-8546-e6353ef13bd2"
+                              eId="art-z2_abs-z_untergl-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
+                     <akn:content GUID="f41d2338-7db7-43da-8c43-fbcb8f56394a"
+                                  eId="art-z2_abs-z_untergl-n1_listenelem-n5_inhalt-n1">
+                        <akn:p GUID="51f084b8-4c37-490e-b70a-f67f06942c2f"
+                               eId="art-z2_abs-z_untergl-n1_listenelem-n5_inhalt-n1_text-n1">In § 59 Absatz 1 werden die Wörter „§ 17f Absatz 1 Satz 2 des Energiewirtschaftsgesetzes“ durch die Wörter „§ 15 des Energiefinanzierungsgesetzes“ und die Wörter „§ 17f Absatz 5 Satz 1 des Energiewirtschaftsgesetzes“ durch die Wörter „§ 12 Absatz 1 des Energiefinanzierungsgesetzes, jeweils bezogen auf die Offshore- Netzumlage nach § 2 Nummer 11 des Energiefinanzierungsgesetzes,“ ersetzt.</akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="0672ef73-88cb-48a5-9f3c-2910affc1c5f"
+                      eId="art-z3"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="eadafd8b-ddd1-43db-8ce0-733ec7d29aee" eId="art-z3_bezeichnung-n1">Artikel 3</akn:num>
+            <akn:heading GUID="ab9c7256-dc88-49e7-83c1-5d8d5db9f95d" eId="art-z3_überschrift-n1">Änderung des Energiesteuergesetzes</akn:heading>
+            <akn:paragraph GUID="dfbf0c17-59cd-4b9c-a18b-33c44d3b89a2" eId="art-z3_abs-z">
+               <akn:num GUID="c9eefcc5-b52f-47ab-9bd9-b767036294b7"
+                        eId="art-z3_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="9f9716c4-267d-41e1-beab-103c42d350d4"
+                         eId="art-z3_abs-z_untergl-n1">
+                  <akn:intro GUID="73c7bfcb-356d-4a88-a3a3-0759009b5fbc"
+                             eId="art-z3_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="179cbd0a-2f4f-457d-8774-0144b018c194"
+                            eId="art-z3_abs-z_untergl-n1_intro-n1_text-n1">Das Energiesteuergesetz vom 15. Juli 2006 (BGBl. I S. 1534; 2008 I S. 660, 1007), das zuletzt durch Artikel 1 des Gesetzes vom 19. Dezember 2022 (BGBl. I S. 2483) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="717edb6c-3044-4747-a420-b1c2d029589c"
+                             eId="art-z3_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="1220fdec-9b22-4539-a778-6d17053853cb"
+                              eId="art-z3_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="fc4e25c1-3e8f-42ef-b885-d7760c5e462a"
+                                  eId="art-z3_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                        <akn:p GUID="2b7679cd-1627-4324-b02b-46575b3a4e17"
+                               eId="art-z3_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                           <akn:mod GUID="8d553849-cf88-4d5e-bf03-2ce8376ea044"
+                                    eId="art-z3_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-neufassung">§ 3b Absatz 3 wird wie folgt gefasst: <akn:quotedStructure GUID="b076f2b7-0bf4-4c39-ac51-92eb74f43504"
+                                                   eId="art-z3_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„"/>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="86434433-2e6f-499d-932e-87bfcfed9dff"
+                             eId="art-z3_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="30896867-eba1-4f1e-b81c-6f1e1d9bb8b3"
+                              eId="art-z3_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:list GUID="57e9f943-bcf6-40ca-bcb6-fd5e0993646a"
+                               eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1">
+                        <akn:intro GUID="3d14f411-1823-4566-b072-db2184d3e43d"
+                                   eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_intro-n1">
+                           <akn:p GUID="3b849a44-0667-467a-a00f-3f9f9bf63f42"
+                                  eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1">§ 57 wird wie folgt geändert:</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="07b40203-9f05-44b2-8fbf-84739a4ccbec"
+                                   eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1">
+                           <akn:num GUID="1f69f4f0-4903-4d5e-8d00-4957d03279cb"
+                                    eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
+                           <akn:list GUID="f5fd1ccf-fc2c-408c-b83f-8444f13b120c"
+                                     eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1">
+                              <akn:intro GUID="cb4b7ad4-b41a-4904-92a7-5cd5499d6b3f"
+                                         eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
+                                 <akn:p GUID="78fcd79b-7bde-4809-b351-e39efa0f15dc"
+                                        eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">Absatz 2 wird wie folgt geändert:</akn:p>
+                              </akn:intro>
+                              <akn:point GUID="e85fef0a-ae51-4c89-86b5-9e9432fb3fdc"
+                                         eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
+                                 <akn:num GUID="53b18cc3-fa65-4d59-91d8-5b5e989c70c6"
+                                          eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">aa)</akn:num>
+                                 <akn:content GUID="b5518040-627a-4fef-a3d9-c9d096396867"
+                                              eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+                                    <akn:p GUID="994fe171-d28b-4a75-9b3d-58333f655902"
+                                           eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                                       <akn:mod GUID="61e21416-7906-4a13-9db7-3fd644e13bc1"
+                                                eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                                refersTo="aenderungsbefehl-neufassung">Nummer 1 Buchstabe b wird wie folgt gefasst: <akn:quotedStructure GUID="442c2c8a-b28d-42f7-b066-6825c4f224c5"
+                                                               eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                               endQuote="“"
+                                                               startQuote="„">
+                                             <akn:point GUID="33f5b7c9-a278-43b2-b459-d6dc84d5623e"
+                                                        eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1">
+                                                <akn:num GUID="30a217d1-4911-47be-954e-910eb8db4bdd"
+                                                         eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_bezeichnung-n1">b)</akn:num>
+                                                <akn:content GUID="1d134e07-aee6-4ed7-9aac-ce73e61c300e"
+                                                             eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1">
+                                                   <akn:p GUID="21a5efb1-03f0-4c28-87e4-22afc9924a5f"
+                                                          eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_text-n1">deren Inhaber eine Personenvereinigung, eine juristische Person des privaten Rechts oder eine Hauberg-, Wald-, Forst- oder Laubgenossenschaft oder eine ähnliche Realgemeinde im Sinne des § 13 Absatz 1 Nummer 4 des Einkommensteuergesetzes ist und bei denen im Falle der Gewinnung tierischer Erzeugnisse die mit der Bodenbewirtschaftung verbundene Tierhaltung die Grenzen des § 241 des Bewertungsgesetzes in der Fassung der Bekanntmachung vom 1. Februar 1991 (BGBl. I S. 230), das zuletzt durch Artikel 31 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist, in der jeweils geltenden Fassung nicht überschreitet oder</akn:p>
+                                                </akn:content>
+                                             </akn:point>
+                                          </akn:quotedStructure>
+                                       </akn:mod>
+                                    </akn:p>
+                                 </akn:content>
+                              </akn:point>
+                              <akn:point GUID="bac017e9-b353-4779-b8d5-26ff90151ff4"
+                                         eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
+                                 <akn:num GUID="e8104eb4-9c4d-40e9-b182-e8f21372776b"
+                                          eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">bb)</akn:num>
+                                 <akn:content GUID="fb0734a8-9070-4ad0-a9d5-d4a47b6eafdf"
+                                              eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                                    <akn:p GUID="52a6b273-9f3c-453f-9b6d-f65de1afc6af"
+                                           eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">In Nummer 2 wird das Wort „nichtrechtsfähige“ gestrichen.</akn:p>
+                                 </akn:content>
+                              </akn:point>
+                           </akn:list>
+                        </akn:point>
+                        <akn:point GUID="beb7e542-4e0a-468b-949b-7d548edaa6c7"
+                                   eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2">
+                           <akn:num GUID="9283d0f5-4dda-42b6-b75b-469a158dee98"
+                                    eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
+                           <akn:content GUID="9af50d00-ff3f-43a5-bde8-bbb2b92f5a1b"
+                                        eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1">
+                              <akn:p GUID="dc0f9915-70d8-4cdd-9796-b7d444683ba8"
+                                     eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                                 <akn:mod GUID="34e2f4ac-063f-48ff-bcec-d233b64b02bf"
+                                          eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-neufassung">Absatz 5 wird wie folgt gefasst: <akn:quotedStructure GUID="98b36681-9366-43eb-aee6-62d3e9703b2e"
+                                                         eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„"/>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="54d0cc04-c68f-4384-949b-3d9e77f35397"
+                                   eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3">
+                           <akn:num GUID="c771bbe1-f583-4392-bd76-f17cb35bd406"
+                                    eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
+                           <akn:content GUID="666e70f3-5ea2-4e89-97fd-de111538b2d0"
+                                        eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1">
+                              <akn:p GUID="a9d67bd7-8931-49c0-ac9a-75470d04e458"
+                                     eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
+                                 <akn:mod GUID="b734fe36-0f14-4eec-af68-78b85cf29ead"
+                                          eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-neufassung">Absatz 8 wird wie folgt gefasst: <akn:quotedStructure GUID="dd801ace-0e33-4c0e-8b7e-cfc9e5ed472a"
+                                                         eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„"/>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="8c4aadaa-1b00-4beb-afa7-bbde6867f846"
+                                   eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4">
+                           <akn:num GUID="44404f13-2a7d-4672-b623-4d246463971d"
+                                    eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_bezeichnung-n1">d)</akn:num>
+                           <akn:content GUID="666c58f8-3c95-4af7-9126-26b8a859e920"
+                                        eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1">
+                              <akn:p GUID="4708efb9-ccd6-4e1e-a45a-1e874b150027"
+                                     eId="art-z3_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Absatz 9 Satz 1 wird wie folgt gefasst:Die Steuerentlastung wird gewährt nach Maßgabe und bis zum Auslaufen der hierfür erforderlichen Freistellungsanzeige bei der Europäischen Kommission nach der Verordnung (EU) Nr. 651/2014.</akn:p>
+                           </akn:content>
+                        </akn:point>
+                     </akn:list>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="b7cac952-e972-40f5-aad8-24d793d75a6d"
+                      eId="art-z4"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="00d083f2-dbe1-4b61-8805-a37550e7424b" eId="art-z4_bezeichnung-n1">Artikel 4</akn:num>
+            <akn:heading GUID="5dd0d92b-39a5-4365-902d-ec4b5e23dce2" eId="art-z4_überschrift-n1">Änderung der Energiesteuer-Durchführungsverordnung</akn:heading>
+            <akn:paragraph GUID="91256ef5-ec31-4d23-b6a0-af668009910c" eId="art-z4_abs-z">
+               <akn:num GUID="b896d7d3-8d42-4ae0-bde8-63a557ca9ead"
+                        eId="art-z4_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="c6555ac3-4870-415d-8e65-af5125c5c24a"
+                         eId="art-z4_abs-z_untergl-n1">
+                  <akn:intro GUID="646f6a82-e64f-477d-8845-495784dcfa61"
+                             eId="art-z4_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="4e7e701b-882d-4d3c-84c3-0cf702f85ee3"
+                            eId="art-z4_abs-z_untergl-n1_intro-n1_text-n1">§ 103 der Energiesteuer-Durchführungsverordnung vom 31. Juli 2006 (BGBl. I S. 1753), die zuletzt durch Artikel 3 der Verordnung vom 14. Dezember 2023 (BGBl. 2023 I Nr. 367) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="8d946b18-99db-458a-8801-13a6710f5a08"
+                             eId="art-z4_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="40dc9fe8-ebb6-4919-9479-61c68d6367b4"
+                              eId="art-z4_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="e60fe5a4-ce08-4747-922a-fa038c70358f"
+                                  eId="art-z4_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                        <akn:p GUID="c18a1ac6-581a-44d2-bc26-16c25833eea0"
+                               eId="art-z4_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                           <akn:mod GUID="011b7df4-e0aa-4a98-a4fb-5b4cd8938625"
+                                    eId="art-z4_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-neufassung">Absatz 2 wird wie folgt gefasst: <akn:quotedStructure GUID="91d6b59f-6368-41ca-b45c-6a94c938bc70"
+                                                   eId="art-z4_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„"/>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="6799c865-c07b-4ca6-aafa-dd26e00b5c36"
+                             eId="art-z4_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="1147688c-d8bb-4250-8ec5-e0cd42a5acf6"
+                              eId="art-z4_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="47ea0e60-7e39-4b83-8e8d-c86dc4f52695"
+                                  eId="art-z4_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                        <akn:p GUID="25cd3fc9-e3dd-48fb-9cc7-ad102a373035"
+                               eId="art-z4_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">In Absatz 3 Satz 1 werden die Wörter „§ 57 Abs. 2 des Gesetzes“ durch die Wörter „§ 57 Absatz 2 Nummer 1 bis 4 des Gesetzes“ ersetzt.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="243b9903-9c4f-4805-8ee8-c009ce543a62"
+                             eId="art-z4_abs-z_untergl-n1_listenelem-n3">
+                     <akn:num GUID="ebb6c465-3572-47db-a6dd-27a8ad22a370"
+                              eId="art-z4_abs-z_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                     <akn:content GUID="97dd0497-b2b2-4d28-a538-1923a9df25e2"
+                                  eId="art-z4_abs-z_untergl-n1_listenelem-n3_inhalt-n1">
+                        <akn:p GUID="e5143ea6-6931-42f9-b79d-7b33ec7dd69e"
+                               eId="art-z4_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1">In Absatz 4 Satz 1 werden die Wörter „und Biokraftstoffe“ gestrichen.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="9c68a1b0-0a10-4a45-8008-048a7a48d825"
+                             eId="art-z4_abs-z_untergl-n1_listenelem-n4">
+                     <akn:num GUID="747ca4fe-38c0-4ecd-8272-04ccb0df50b3"
+                              eId="art-z4_abs-z_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                     <akn:content GUID="308a113f-3518-4f19-af70-a501f8a3a610"
+                                  eId="art-z4_abs-z_untergl-n1_listenelem-n4_inhalt-n1">
+                        <akn:p GUID="b9e93e88-d2de-4363-855d-11882e73f992"
+                               eId="art-z4_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Absatz 8 wird aufgehoben.</akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="bcc1a80f-8974-41ce-9207-faa9ae411653"
+                      eId="art-z5"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="a91c3f8a-c3e2-4885-a617-4dfc7abb3eeb" eId="art-z5_bezeichnung-n1">Artikel 5</akn:num>
+            <akn:heading GUID="c0e6c722-d33d-4fb9-97fe-981078dce874" eId="art-z5_überschrift-n1">Änderung des Zweiten Buches Sozialgesetzbuch</akn:heading>
+            <akn:paragraph GUID="fd3236ee-075e-49d9-a9cf-3d9d0fb086ee" eId="art-z5_abs-z">
+               <akn:num GUID="2560d4c1-0417-460c-9623-ba995de9c9dc"
+                        eId="art-z5_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="5fed79b6-4b72-4f27-a79f-99c6a6cc9b33"
+                         eId="art-z5_abs-z_untergl-n1">
+                  <akn:intro GUID="aa300bc8-34fb-4187-8357-dcff34931f0a"
+                             eId="art-z5_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="127b007b-0aca-4a71-b58f-6ca97d41f9d7"
+                            eId="art-z5_abs-z_untergl-n1_intro-n1_text-n1">Das Zweite Buch Sozialgesetzbuch – Bürgergeld, Grundsicherung für Arbeitsuchende – in der Fassung der Bekanntmachung vom 13. Mai 2011 (BGBl. I S. 850, 2094), das zuletzt durch Artikel 4 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 412) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="6bb5a5d7-ea0e-4b55-92e0-16c54b3a200a"
+                             eId="art-z5_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="07187614-82fd-49d1-a948-5054080c0363"
+                              eId="art-z5_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:list GUID="1e412691-e9c5-4c98-92f2-366750690e34"
+                               eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1">
+                        <akn:intro GUID="c05261fb-b1db-4003-9e7d-133fb9cf702b"
+                                   eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
+                           <akn:p GUID="379cca70-e9af-47d0-87a3-a19e2995337b"
+                                  eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">Die Inhaltsübersicht wird wie folgt geändert:</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="08eb784e-5171-46dc-89fe-7a496628c563"
+                                   eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
+                           <akn:num GUID="3903670f-9cd3-4b3e-b31c-6b27adc9c47d"
+                                    eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
+                           <akn:content GUID="c778c7e2-dc32-4785-9f41-193b2d74669f"
+                                        eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+                              <akn:p GUID="bfead451-d58d-4cf2-b02e-a922469f5ea6"
+                                     eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                                 <akn:mod GUID="80601714-7a2d-400e-ab10-d06525580664"
+                                          eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-neufassung">Die Angabe zu § 16j wird wie folgt gefasst: <akn:quotedStructure GUID="c53df19c-9df3-4629-bf24-eca4fbb8e1ea"
+                                                         eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„">
+                                       <akn:point GUID="02438f84-7f09-43e1-82bd-e8b381fd7585"
+                                                  eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1">
+                                          <akn:num GUID="8dff86d3-0fb4-4150-9f3f-3694cea58ddc"
+                                                   eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_bezeichnung-n1">§ 16j</akn:num>
+                                          <akn:content GUID="3437b225-7ffd-4469-a753-16a1a2906dce"
+                                                       eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1">
+                                             <akn:p GUID="629a55ba-1fd4-41cb-8ba8-27e5ede1df20"
+                                                    eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_text-n1">(weggefallen)</akn:p>
+                                          </akn:content>
+                                       </akn:point>
+                                    </akn:quotedStructure>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="443bc69a-b218-437e-8da9-4f7927914195"
+                                   eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
+                           <akn:num GUID="eead8cd4-a716-46aa-b195-1677f6736fbc"
+                                    eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
+                           <akn:content GUID="a31ca538-b4c8-41a8-9d79-21e2139f55c1"
+                                        eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                              <akn:p GUID="2cc07574-9e74-444c-93eb-70aeac039a6e"
+                                     eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                                 <akn:mod GUID="319bd87a-6b8e-4b1e-8437-d4616014315d"
+                                          eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-einfuegen">Folgende Angabe wird angefügt: <akn:quotedStructure GUID="2e610e62-70f5-4dd9-a582-1e196bbc35a4"
+                                                         eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„">
+                                       <akn:point GUID="acc62044-c014-466c-88aa-21c97ea83ad2"
+                                                  eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1">
+                                          <akn:num GUID="2a3dde54-367d-40b1-93ec-12332d9e0690"
+                                                   eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_bezeichnung-n1">§ 86</akn:num>
+                                          <akn:content GUID="7ecdcd27-4d04-4405-a338-18d61c815530"
+                                                       eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1">
+                                             <akn:p GUID="6ec05cc5-aa9a-4d7c-8861-cbc66c0c35e1"
+                                                    eId="art-z5_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_text-n1">Zweites Haushaltsfinanzierungsgesetz 2024</akn:p>
+                                          </akn:content>
+                                       </akn:point>
+                                    </akn:quotedStructure>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                     </akn:list>
+                  </akn:point>
+                  <akn:point GUID="e0df5bdc-14bb-4137-bd4c-973de24ea9d0"
+                             eId="art-z5_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="99341bd5-d784-4f16-87d4-e9e9a3a536dd"
+                              eId="art-z5_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="c0f40f23-1895-425f-8172-020a1b66d10e"
+                                  eId="art-z5_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                        <akn:p GUID="d88a33a3-1925-4c19-82fb-27bebfa0b834"
+                               eId="art-z5_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">In § 5 Absatz 5 wird die Angabe „16f bis 16k“ durch die Wörter „16f bis 16i und 16k“ ersetzt.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="73fefbb8-3b4c-47b7-9788-caf8e746f347"
+                             eId="art-z5_abs-z_untergl-n1_listenelem-n3">
+                     <akn:num GUID="6b9b22a2-210d-46f8-99ac-1c4a6acafdc8"
+                              eId="art-z5_abs-z_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                     <akn:content GUID="80e09284-b135-4b11-b90e-6ed3bb579e37"
+                                  eId="art-z5_abs-z_untergl-n1_listenelem-n3_inhalt-n1">
+                        <akn:p GUID="0e2c3e58-d060-463a-930e-3527368dce71"
+                               eId="art-z5_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1">§ 16j wird aufgehoben.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="5b615c47-e7c9-4121-95cf-40b3cb9fd9ca"
+                             eId="art-z5_abs-z_untergl-n1_listenelem-n4">
+                     <akn:num GUID="d1966702-9d70-466c-a4dd-24346adb97ba"
+                              eId="art-z5_abs-z_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                     <akn:content GUID="7b94aa0d-99dc-4572-a570-d0aa736ba2ee"
+                                  eId="art-z5_abs-z_untergl-n1_listenelem-n4_inhalt-n1">
+                        <akn:p GUID="4ae90979-42d7-4683-924f-635db881be16"
+                               eId="art-z5_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
+                           <akn:mod GUID="7d503485-2cba-4b32-92d6-fca7afa09314"
+                                    eId="art-z5_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-einfuegen">Dem § 31a wird folgender Absatz 7 angefügt: <akn:quotedStructure GUID="951f4c56-8db5-425f-a0c8-0f7dcbcb4267"
+                                                   eId="art-z5_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„"/>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="7d29d9bd-adfa-4cf5-96ab-d400bbe2055b"
+                             eId="art-z5_abs-z_untergl-n1_listenelem-n5">
+                     <akn:num GUID="e58b4e12-d9de-4f31-9865-5fa7e9f03257"
+                              eId="art-z5_abs-z_untergl-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
+                     <akn:list GUID="54aff25a-58fe-4cf3-bc9f-6e8eab364501"
+                               eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1">
+                        <akn:intro GUID="45ca563a-6921-4c20-a35b-9913186fad40"
+                                   eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_intro-n1">
+                           <akn:p GUID="df3caa1d-bbb1-49d2-a947-2bd2cd06f4bb"
+                                  eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_intro-n1_text-n1">§ 31b wird wie folgt geändert:</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="e6be3f15-f941-43e1-8869-cb38a2faf83f"
+                                   eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1">
+                           <akn:num GUID="7781dd36-3d14-4b92-a332-1482387f65cd"
+                                    eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
+                           <akn:content GUID="fd23b908-9969-4ef0-9598-a3e01ff132d9"
+                                        eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1">
+                              <akn:p GUID="fbebb532-1b4f-4af7-8ddb-4b10be7ad363"
+                                     eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                                 <akn:mod GUID="876aeb1e-6172-4537-93ed-0f04806000ff"
+                                          eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                          refersTo="aenderungsbefehl-einfuegen">Nach Absatz 2 wird folgender Absatz 3 eingefügt: <akn:quotedStructure GUID="a91d3a27-4435-4d05-b96b-34531a3f0731"
+                                                         eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                         endQuote="“"
+                                                         startQuote="„"/>
+                                 </akn:mod>
+                              </akn:p>
+                           </akn:content>
+                        </akn:point>
+                        <akn:point GUID="5092aee1-a05d-47c8-9a6c-506c03046d24"
+                                   eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2">
+                           <akn:num GUID="4aca13a6-761f-4660-836c-93990ed4f2fd"
+                                    eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
+                           <akn:content GUID="18bbb7bf-351b-4a80-b716-c084aeb085d9"
+                                        eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1">
+                              <akn:p GUID="f503a6b0-0a47-401e-ad93-da7b872b5b6c"
+                                     eId="art-z5_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Der bisherige Absatz 3 wird Absatz 4.</akn:p>
+                           </akn:content>
+                        </akn:point>
+                     </akn:list>
+                  </akn:point>
+                  <akn:point GUID="cf685bd8-502a-4be2-a3c7-d3ca2bfbb606"
+                             eId="art-z5_abs-z_untergl-n1_listenelem-n6">
+                     <akn:num GUID="870e6e58-813c-4f22-9b84-031e113770cb"
+                              eId="art-z5_abs-z_untergl-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
+                     <akn:content GUID="0a1afcc4-c63e-4838-b524-56136eebf2a0"
+                                  eId="art-z5_abs-z_untergl-n1_listenelem-n6_inhalt-n1">
+                        <akn:p GUID="faf9d53b-a8fd-4b75-abc0-20655621613d"
+                               eId="art-z5_abs-z_untergl-n1_listenelem-n6_inhalt-n1_text-n1">In § 32 Absatz 2 Satz 1 werden die Wörter „Absatz 1 und 3“ durch die Wörter „Absatz 1 und 4“ ersetzt.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="fe2ed5e0-fefd-413d-a71d-452a6775fc02"
+                             eId="art-z5_abs-z_untergl-n1_listenelem-n7">
+                     <akn:num GUID="9d8b1f9a-73c1-4e0e-97c9-b8d33d74d46f"
+                              eId="art-z5_abs-z_untergl-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
+                     <akn:content GUID="b9f597bc-a0b5-428f-89bd-63cfad80bc65"
+                                  eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1">
+                        <akn:p GUID="cf8b6dbe-7b01-44f9-bf87-15a43f372326"
+                               eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1">
+                           <akn:mod GUID="70fe047f-d435-4977-b4c4-4ecc25216255"
+                                    eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-einfuegen">Folgender § 86 wird angefügt: <akn:quotedStructure GUID="52708f3c-2cd5-4c17-ba62-774da012bd69"
+                                                   eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„">
+                                 <akn:article GUID="c479cd3c-212b-4e57-9b43-23d74386d558"
+                                              eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86"
+                                              period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                                              refersTo="stammform">
+                                    <akn:num GUID="d339dcd0-a4ef-48be-9658-ac4d3cfb1787"
+                                             eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_bezeichnung-n1">§ 86</akn:num>
+                                    <akn:heading GUID="30fc4bdd-27e9-4640-816f-aa3ae98bca24"
+                                                 eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_überschrift-n1">Zweites Haushaltsfinanzierungsgesetz 2024</akn:heading>
+                                    <akn:paragraph GUID="83b3cc21-afa7-4bac-be0f-eb0051b3c38a"
+                                                   eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z">
+                                       <akn:num GUID="7c15abf3-f8e1-4bd5-aefa-cfc9d0e01dd2"
+                                                eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z_bezeichnung-n1"/>
+                                       <akn:content GUID="b4275d83-8f70-4836-ad73-6ecb8bbebc98"
+                                                    eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z_inhalt-n1">
+                                          <akn:p GUID="6817d14b-6144-49af-ad5f-a3f83629a519"
+                                                 eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z_inhalt-n1_text-n1">§ 31a Absatz 7 und § 31b Absatz 3 werden mit Ablauf des 27. März 2026 aufgehoben.</akn:p>
+                                       </akn:content>
+                                    </akn:paragraph>
+                                    <akn:paragraph GUID="96d5b25b-77e2-468d-8d39-bde1e66618eb"
+                                                   eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z6">
+                                       <akn:num GUID="82b02425-8518-46ef-8bcc-3b40965b1674"
+                                                eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z6_bezeichnung-n1">(6)</akn:num>
+                                       <akn:content GUID="ad7f5797-e4ca-4755-adf1-5b494c227258"
+                                                    eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z6_inhalt-n1">
+                                          <akn:p GUID="24f48095-15fb-4625-950d-9b6da0a7880b"
+                                                 eId="art-z5_abs-z_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z86_abs-z6_inhalt-n1_text-n1">Ein gleichzeitiger Bezug von Basiselterngeld beider Elternteile ist nur in einem der ersten zwölf Lebensmonate des Kindes möglich. Bezieht einer der beiden Elternteile Elterngeld Plus, so kann dieser Elternteil das Elterngeld Plus gleichzeitig zum Bezug von Basiselterngeld oder von Elterngeld Plus des anderen Elternteils beziehen. § 4b bleibt unberührt. Abweichend von Satz 1 können bei Mehrlingsgeburten und Frühgeburten im Sinne des Absatzes 5 sowie bei Kindern, bei denen eine Behinderung im Sinne von § 2 Absatz 1 Satz 1 des Neunten Buches Sozialgesetzbuch ärztlich festgestellt wird und bei Kindern, die einen Geschwisterbonus nach § 2a Absatz 1 in Verbindung mit Absatz 2 Satz 3 auslösen, beide Elternteile gleichzeitig Basiselterngeld beziehen.</akn:p>
+                                       </akn:content>
+                                    </akn:paragraph>
+                                 </akn:article>
+                              </akn:quotedStructure>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="6f4d9fe3-fbb7-410a-9f5b-a1013839cdb3"
+                      eId="art-z6"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+            <akn:num GUID="e9e2fc2c-15b4-45d4-a3f4-6d83722d6b48" eId="art-z6_bezeichnung-n1">Artikel 6</akn:num>
+            <akn:heading GUID="4d759573-2b32-4347-abc4-982337aee2b7" eId="art-z6_überschrift-n1">Änderung des Sechsten Buches Sozialgesetzbuch</akn:heading>
+            <akn:paragraph GUID="65e99aab-5be0-43d7-a4db-3afce08b8cd9" eId="art-z6_abs-z">
+               <akn:num GUID="a4679bd2-736e-4156-a60e-87905918672c"
+                        eId="art-z6_abs-z_bezeichnung-n1"/>
+               <akn:content GUID="d8de04b6-57a7-4f14-b4ef-c435c4133e90"
+                            eId="art-z6_abs-z_inhalt-n1">
+                  <akn:p GUID="bc9ec73b-c2dc-4947-a46b-eb1f25f305d0"
+                         eId="art-z6_abs-z_inhalt-n1_text-n1">In § 287g Satz 1 des Sechsten Buches Sozialgesetzbuch – Gesetzliche Rentenversicherung – in der Fassung der Bekanntmachung vom 19. Februar 2002 (BGBl. I S. 754, 1404, 3384), das zuletzt durch Artikel 6 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 408) geändert worden ist, wird die Angabe „600 Millionen“ durch die Angabe „1,2 Milliarden“ ersetzt.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="8ea3ffbd-f982-4135-8a2b-57a045cc6697"
+                      eId="art-z7"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="e0c7bcd5-45f3-4fdf-bb65-4451ef7e3691" eId="art-z7_bezeichnung-n1">Artikel 7</akn:num>
+            <akn:heading GUID="b1f69948-5b2d-43a5-99ad-9ce56ddb9c9a" eId="art-z7_überschrift-n1">Änderung des Bundeselterngeld- und Elternzeitgesetzes</akn:heading>
+            <akn:paragraph GUID="4d276d33-2a66-42f9-a035-d894cb7c6eab" eId="art-z7_abs-z">
+               <akn:num GUID="8c1679e0-fd48-4640-ba30-cbaadc419df7"
+                        eId="art-z7_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="83699f4d-767a-47d0-b0a6-5e664587099f"
+                         eId="art-z7_abs-z_untergl-n1">
+                  <akn:intro GUID="471de311-8997-4e7c-9c34-dd312f9d3cd3"
+                             eId="art-z7_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="1e84c653-d0cd-4fd1-a9f4-96f41ae8d390"
+                            eId="art-z7_abs-z_untergl-n1_intro-n1_text-n1">Das Bundeselterngeld- und Elternzeitgesetz in der Fassung der Bekanntmachung vom 27. Januar 2015 (BGBl. I S. 33), das zuletzt durch Artikel 1 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 412) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="5f55e81b-93a1-47dd-9ec2-d48f3c201c63"
+                             eId="art-z7_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="a73d5083-af22-4b27-845e-fc94e6ac2b09"
+                              eId="art-z7_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="9d002af3-2308-4d32-8b5d-89d809dff9b9"
+                                  eId="art-z7_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                        <akn:p GUID="d6810c31-5328-4475-aa39-68ca05a43529"
+                               eId="art-z7_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">In § 1 Absatz 8 Satz 1 wird die Angabe „150 000“ durch die Angabe „175 000“ ersetzt.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="4fbeec06-d8f2-43cd-9f66-d29dfcc1af86"
+                             eId="art-z7_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="a1e4e411-268d-4a3a-9d69-043be0a98987"
+                              eId="art-z7_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="773d949c-7cc6-486d-8c63-6c38c8718ac1"
+                                  eId="art-z7_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                        <akn:p GUID="6e073d7c-c8b9-4e77-a955-abcb9f9a8e81"
+                               eId="art-z7_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                           <akn:mod GUID="34dcfe96-b155-40c0-9bf3-2ee2125116bf"
+                                    eId="art-z7_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-neufassung">§ 4 Absatz 6 wird wie folgt gefasst: <akn:quotedStructure GUID="20644dae-779f-44fa-b387-20d33b14e79f"
+                                                   eId="art-z7_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„"/>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="e867fa91-322f-4e92-bbc8-be9247188c1c"
+                             eId="art-z7_abs-z_untergl-n1_listenelem-n3">
+                     <akn:num GUID="a457d349-bd64-4a4f-b3a2-07dfe45b5358"
+                              eId="art-z7_abs-z_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                     <akn:content GUID="f2c57d38-a6f7-4735-ab53-1e5b29079414"
+                                  eId="art-z7_abs-z_untergl-n1_listenelem-n3_inhalt-n1">
+                        <akn:p GUID="f6389719-da29-4c6b-b138-be2159941fb6"
+                               eId="art-z7_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1">In § 28 Absatz 5 Satz 2 wird die Angabe „150 000“ durch die Angabe „200 000“ ersetzt.</akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="70424f46-5314-42a3-ba36-3072343f61f0"
+                      eId="art-z8"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="geltungszeitregel">
+            <akn:num GUID="00b8a932-8c0f-4c12-bf22-31d87bf62cab" eId="art-z8_bezeichnung-n1">Artikel 8</akn:num>
+            <akn:heading GUID="4cf015cd-a6d2-435d-8cfb-e46dc60be514" eId="art-z8_überschrift-n1">Inkrafttreten, Außerkrafttreten</akn:heading>
+            <akn:paragraph GUID="a22f3371-9008-4973-848d-824e6de51375" eId="art-z8_abs-z1">
+               <akn:num GUID="fc3e4c13-2188-4cbd-84fe-f13d2c72ffdd"
+                        eId="art-z8_abs-z1_bezeichnung-n1">(1)</akn:num>
+               <akn:content GUID="9d82a1c7-9bff-4852-9cb3-eaf0e0b47f33"
+                            eId="art-z8_abs-z1_inhalt-n1">
+                  <akn:p GUID="230d1e08-19e5-4db1-bcdf-402dbe5a93d3"
+                         eId="art-z8_abs-z1_inhalt-n1_text-n1">Dieses Gesetz tritt vorbehaltlich der Absätze 2 bis 6 am Tag nach der Verkündung in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="493668b6-0df7-4459-8ff1-70a864a73a87" eId="art-z8_abs-z2">
+               <akn:num GUID="03981505-447f-48ab-8394-af2951ac3224"
+                        eId="art-z8_abs-z2_bezeichnung-n1">(2)</akn:num>
+               <akn:content GUID="1ff819d4-4e7c-4a2e-a84a-777d4ae9eebb"
+                            eId="art-z8_abs-z2_inhalt-n1">
+                  <akn:p GUID="60fcb3bf-1da2-4067-9297-69f976e82e73"
+                         eId="art-z8_abs-z2_inhalt-n1_text-n1">Artikel 1 Nummer 1 tritt am 1. Mai 2024 in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="743f09cf-4f65-4557-a7ae-4c24ec44972d" eId="art-z8_abs-z3">
+               <akn:num GUID="68ffa43b-e061-40d6-b783-2dce454aaa37"
+                        eId="art-z8_abs-z3_bezeichnung-n1">(3)</akn:num>
+               <akn:content GUID="22cc82cb-54dd-4d84-82de-17ca9f5aeadf"
+                            eId="art-z8_abs-z3_inhalt-n1">
+                  <akn:p GUID="c13ee5e0-438b-4186-89de-edfda6db9452"
+                         eId="art-z8_abs-z3_inhalt-n1_text-n1">Artikel 2 tritt mit Wirkung vom 1. Januar 2023 in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="140d4406-b4db-4780-abd8-b710cae02eb7" eId="art-z8_abs-z4">
+               <akn:num GUID="78364dea-c062-4f3d-9bc7-49b430303fdc"
+                        eId="art-z8_abs-z4_bezeichnung-n1">(4)</akn:num>
+               <akn:content GUID="b9860aa7-291e-44f6-93e0-72cd3fc04480"
+                            eId="art-z8_abs-z4_inhalt-n1">
+                  <akn:p GUID="ac114cff-cb72-4297-84bb-ceb49d99da7c"
+                         eId="art-z8_abs-z4_inhalt-n1_text-n1">Die Artikel 3 und 4 treten am 1. März 2024 in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="fbe21543-e261-47dd-9d15-ea9a7645e248" eId="art-z8_abs-z5">
+               <akn:num GUID="fc2f0399-8ba1-49c0-872f-121c536105b2"
+                        eId="art-z8_abs-z5_bezeichnung-n1">(5)</akn:num>
+               <akn:content GUID="4e3e3b84-e7fa-4752-a0bd-ae88ef74a9b5"
+                            eId="art-z8_abs-z5_inhalt-n1">
+                  <akn:p GUID="7002ca8b-e47a-4aef-9ed6-1e14ac2a522a"
+                         eId="art-z8_abs-z5_inhalt-n1_text-n1">Artikel 6 tritt mit Wirkung vom 1. Januar 2024 in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="3c6ad2bf-6d1f-414b-9614-7f2103b13637" eId="art-z8_abs-z6">
+               <akn:num GUID="ce4897da-6baa-4286-8266-427e818983ad"
+                        eId="art-z8_abs-z6_bezeichnung-n1">(6)</akn:num>
+               <akn:content GUID="bd2c539c-093f-4587-b154-d6d51d05fb3f"
+                            eId="art-z8_abs-z6_inhalt-n1">
+                  <akn:p GUID="af2327e9-8aa8-4b49-9168-6ba39f4be75e"
+                         eId="art-z8_abs-z6_inhalt-n1_text-n1">Artikel 7 tritt am 1. April 2024 in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="5de7c544-2385-4f9b-9b23-2093bb64b821" eId="art-z8_abs-z7">
+               <akn:num GUID="1622ef74-d63e-450f-8be2-24e70ea0581c"
+                        eId="art-z8_abs-z7_bezeichnung-n1">(7)</akn:num>
+               <akn:content GUID="63643c34-3be0-4bc4-aa79-31075e2bad7b"
+                            eId="art-z8_abs-z7_inhalt-n1">
+                  <akn:p GUID="cffde064-4361-42f3-ad53-b9030eb87849"
+                         eId="art-z8_abs-z7_inhalt-n1_text-n1">Mit Ablauf des 30. April 2024 tritt die Luftverkehrsteuer-Absenkungsverordnung 2024 vom 24. November 2023 (BGBl. 2023 I Nr. 333) außer Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="86839b48-267e-4fbc-89f3-d9dd9d618372" eId="art-z8_abs-z2a">
+               <akn:num GUID="c2c3f2fe-507a-46bb-839f-af1a9c694334"
+                        eId="art-z8_abs-z2a_bezeichnung-n1">(2a)</akn:num>
+               <akn:content GUID="14a52a17-520d-4bb4-bb14-b11976588683"
+                            eId="art-z8_abs-z2a_inhalt-n1">
+                  <akn:p GUID="c0e8c4f6-3410-4a69-ad06-9d0ca647308c"
+                         eId="art-z8_abs-z2a_inhalt-n1_text-n1">Das Bundesministerium der Finanzen wird ab dem Jahr 2025 ermächtigt und verpflichtet, durch Rechtsverordnung ohne Zustimmung des Bundesrates die Steuersätze nach Absatz 1 jeweils mit Wirkung für das folgende Kalenderjahr prozentual abzusenken, sofern das Luftverkehrsteueraufkommen in dem Vorjahr den Betrag von 2,33 Milliarden Euro übersteigt. Die prozentuale Absenkung errechnet sich aus dem Verhältnis des 2,33 Milliarden Euro übersteigenden Aufkommensbetrags zum 31. Dezember des jeweiligen Vorjahres zu 2,33 Milliarden Euro. Der abgesenkte Steuersatz wird auf volle Cent gerundet.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="d65f4506-79d9-420e-9cbe-1ac89ca85179" eId="art-z8_abs-z3a">
+               <akn:num GUID="78a5121c-5f33-438d-a443-8c9f41991ab3"
+                        eId="art-z8_abs-z3a_bezeichnung-n1">(3a)</akn:num>
+               <akn:content GUID="7a906ba9-729d-4369-87ea-6ee0b2fc2c08"
+                            eId="art-z8_abs-z3a_inhalt-n1">
+                  <akn:p GUID="b62b09aa-265b-43ca-8848-8ba1832cc204"
+                         eId="art-z8_abs-z3a_inhalt-n1_text-n1">Das zuständige Hauptzollamt kann dem Luftfahrt-Bundesamt anlassbezogen oder auf Anforderung Auskünfte aus dem steuerlichen Verfahren erteilen, die erforderlich sind, um die nach dem Luftverkehrsrecht geforderte Zuverlässigkeit eines Luftverkehrsunternehmens oder die Einhaltung der Vorschriften dieses Gesetzes durch Luftverkehrsunternehmen mit Hauptsitz außerhalb des Geltungsbereichs des Luftrechts der Europäischen Union zu beurteilen.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <akn:paragraph GUID="de03577a-dd79-4187-af05-be756da36854" eId="art-z8_abs-z1a">
+               <akn:num GUID="bf900f4b-3871-4d13-b6fc-bb48e9de5b19"
+                        eId="art-z8_abs-z1a_bezeichnung-n1">(1a)</akn:num>
+               <akn:list GUID="13096b0d-d504-49b1-96ed-2b4477560bb6"
+                         eId="art-z8_abs-z1a_untergl-n1">
+                  <akn:intro GUID="be54e809-027a-4d63-9eba-8c9328574a95"
+                             eId="art-z8_abs-z1a_untergl-n1_intro-n1">
+                     <akn:p GUID="764612fd-72f9-42eb-8ca0-fd513280bdc6"
+                            eId="art-z8_abs-z1a_untergl-n1_intro-n1_text-n1">Der bezuschlagte Bieter, der im dynamischen Gebotsverfahren nach § 21 den Zuschlag erhalten hat, leistet die zweite Gebotskomponente für Ausschreibungen im Jahr 2023 nach Maßgabe der folgenden Ziffern:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="2a1e8758-48c7-4b73-8910-709da7cd5395"
+                             eId="art-z8_abs-z1a_untergl-n1_listenelem-n1">
+                     <akn:num GUID="9acddc26-f726-4875-99e9-f1681e1729e9"
+                              eId="art-z8_abs-z1a_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="7a31bea0-0d64-4f01-ac88-c83a9ea6b7dd"
+                                  eId="art-z8_abs-z1a_untergl-n1_listenelem-n1_inhalt-n1">
+                        <akn:p GUID="87cc9c05-1d0c-4da5-81cb-6538a7c7a8fd"
+                               eId="art-z8_abs-z1a_untergl-n1_listenelem-n1_inhalt-n1_text-n1">eine Zahlung in Höhe von 90 Prozent des Gesamtbetrags der zweiten Gebotskomponente als Stromkostensenkungskomponente an den anbindungsverpflichteten Übertragungsnetzbetreiber; für Mittelverwendung und Zahlungsweise gelten die Vorgaben des § 59 entsprechend,</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="7bbb0a63-0631-41c7-8cd0-0c6b040d9b5b"
+                             eId="art-z8_abs-z1a_untergl-n1_listenelem-n2">
+                     <akn:num GUID="46de966f-4fa8-4809-bb59-cea21b1ed7b0"
+                              eId="art-z8_abs-z1a_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="3b2f563c-4c12-4b05-9385-c6d7ce23345b"
+                                  eId="art-z8_abs-z1a_untergl-n1_listenelem-n2_inhalt-n1">
+                        <akn:p GUID="4664c983-983f-466f-b0bd-4482fc2d67eb"
+                               eId="art-z8_abs-z1a_untergl-n1_listenelem-n2_inhalt-n1_text-n1">eine Zahlung in Höhe von 3,125 Prozent des Gesamtbetrags der zweiten Gebotskomponente als Meeresnaturschutzkomponente an den Bundeshaushalt; für Mittelverwendung und Zahlungsweise gelten die Vorgaben des § 58 Absatz 1 entsprechend,</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="2d36d8d6-2c9b-4607-805d-62404805b5ac"
+                             eId="art-z8_abs-z1a_untergl-n1_listenelem-n3">
+                     <akn:num GUID="54713b5d-fed1-429c-a7d7-7157f5afe7c1"
+                              eId="art-z8_abs-z1a_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                     <akn:content GUID="c9d4a10f-df50-4515-9176-53b3845ce655"
+                                  eId="art-z8_abs-z1a_untergl-n1_listenelem-n3_inhalt-n1">
+                        <akn:p GUID="c3c60dfd-c03c-45d7-b19c-15d9daf775d3"
+                               eId="art-z8_abs-z1a_untergl-n1_listenelem-n3_inhalt-n1_text-n1">eine Zahlung in Höhe von 1 Prozent des Gesamtbetrags der zweiten Gebotskomponente als Fischereikomponente an den Bundeshaushalt; für Mittelverwendung und Zahlungsweise gelten die Vorgaben des § 58 Absatz 2 entsprechend und</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="a602208f-8f59-4c76-8536-deced9c01c37"
+                             eId="art-z8_abs-z1a_untergl-n1_listenelem-n4">
+                     <akn:num GUID="2e174120-532c-49d1-867a-55f7b0c045c4"
+                              eId="art-z8_abs-z1a_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                     <akn:content GUID="e2e1b87e-7f03-40fe-be19-b99c8a24ba4a"
+                                  eId="art-z8_abs-z1a_untergl-n1_listenelem-n4_inhalt-n1">
+                        <akn:p GUID="eb80c525-a5f4-4b9f-86b6-78173214d058"
+                               eId="art-z8_abs-z1a_untergl-n1_listenelem-n4_inhalt-n1_text-n1">eine Zahlung in Höhe von 5,875 Prozent des Gesamtbetrags der zweiten Gebotskomponente als Transformationskomponente an den Bundeshaushalt; für Mittelverwendung und Zahlungsweise gelten die Vorgaben des § 58 Absatz 3 entsprechend.</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:wrapUp GUID="9ad5b590-4e41-4278-856f-18ec0632dd65"
+                              eId="art-z8_abs-z1a_untergl-n1_schlusstext-n1">
+                     <akn:p GUID="7c7b8f78-d37a-43b3-8065-110da6be2df6"
+                            eId="art-z8_abs-z1a_untergl-n1_schlusstext-n1_text-n1">Die Zweckbindung der Zahlungen nach § 57 gilt entsprechend.</akn:p>
+                  </akn:wrapUp>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+      </akn:body>
+      <akn:conclusions GUID="2b33afcf-0dcf-4e65-8b9d-c0e375e3ec3a" eId="schluss-n1">
+         <akn:formula GUID="8a6e5d3e-2025-4771-8165-9d27093a0b84"
+                      eId="schluss-n1_formel-n1"
+                      name="attributsemantik-noch-undefiniert"
+                      refersTo="schlussformel">
+            <akn:p GUID="6e9fa03e-f6df-4ef2-891d-51d9a7f35619"
+                   eId="schluss-n1_formel-n1_text-n1">Die verfassungsmäßigen Rechte des Bundesrates sind gewahrt.</akn:p>
+            <akn:p GUID="1810e6f1-3c86-4e27-b5dc-b8b09665116a"
+                   eId="schluss-n1_formel-n1_text-n2">Das vorstehende Gesetz wird hiermit ausgefertigt. Es ist im Bundesgesetzblatt zu verkünden.</akn:p>
+         </akn:formula>
+         <akn:blockContainer GUID="f856bbbf-51e2-4fbc-ad83-94dda8fe4646"
+                             eId="schluss-n1_blockcontainer-n1">
+            <akn:p GUID="306fd78f-1bfc-4870-b706-4d5423a04a29"
+                   eId="schluss-n1_blockcontainer-n1_text-n1">
+               <akn:location GUID="f1425f57-f325-425e-8e67-4b2048f44aa8"
+                             eId="schluss-n1_blockcontainer-n1_text-n1_ort-n1"
+                             refersTo="attributsemantik-noch-undefiniert">Berlin, den</akn:location>
+               <akn:date GUID="80c5f90f-47ea-4a22-b577-62fdcdc520f3"
+                         date="2024-03-27"
+                         eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
+                         refersTo="ausfertigung-datum">27. März 2024</akn:date>
+            </akn:p>
+            <akn:p GUID="a4595000-ca6f-43bf-8201-0985fe6659bd"
+                   eId="schluss-n1_blockcontainer-n1_text-n2">
+               <akn:signature GUID="30cdf640-2e1b-448e-b88f-bd863ba96b6f"
+                              eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
+                  <akn:role GUID="65cfae8a-3813-429b-91cc-f32baad95a73"
+                            eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_fktbez-n1"
+                            refersTo="attributsemantik-noch-undefiniert">Für den Bundespräsidenten Die Präsidentin des Bundesrates</akn:role>
+                  <akn:person GUID="107e72dd-8061-438a-9e0d-d6729aebfb5b"
+                              eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1"
+                              refersTo="attributsemantik-noch-undefiniert">Manuela Schwesig</akn:person>
+               </akn:signature>
+            </akn:p>
+            <akn:p GUID="95827e16-00e3-4c9b-a283-c8a38aab815a"
+                   eId="schluss-n1_blockcontainer-n1_text-n3">
+               <akn:signature GUID="5bcc363b-808e-4863-9b38-a95888bea1c7"
+                              eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
+                  <akn:role GUID="fc7e7903-d914-41bc-a6bc-dd29a3904734"
+                            eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_fktbez-n1"
+                            refersTo="attributsemantik-noch-undefiniert">Der Bundeskanzler</akn:role>
+                  <akn:person GUID="48d26510-eb4e-4ad5-b20f-5b307c663d03"
+                              eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1"
+                              refersTo="attributsemantik-noch-undefiniert">Olaf Scholz</akn:person>
+               </akn:signature>
+            </akn:p>
+            <akn:p GUID="b29054a0-9b6a-4eef-8378-07d792db4d69"
+                   eId="schluss-n1_blockcontainer-n1_text-n4">
+               <akn:signature GUID="5a4b554c-aaf9-4df7-b20f-9eb4c7448c15"
+                              eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">
+                  <akn:role GUID="cb98d9c9-c9d0-471c-87de-6e9bbadf4b0d"
+                            eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1_fktbez-n1"
+                            refersTo="attributsemantik-noch-undefiniert">Der Bundesminister der Finanzen</akn:role>
+                  <akn:person GUID="3f0c761d-34a2-4a43-bae6-d19d0daebc80"
+                              eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1_person-n1"
+                              refersTo="attributsemantik-noch-undefiniert">Christian Lindner</akn:person>
+               </akn:signature>
+            </akn:p>
+            <akn:p GUID="7b14d62c-a3e6-4ebe-88bd-a0a9a535d2fe"
+                   eId="schluss-n1_blockcontainer-n1_text-n5">
+               <akn:signature GUID="0bab97ef-6d51-4b72-8c06-5f17857b6440"
+                              eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1">
+                  <akn:role GUID="675f03ff-04a9-446e-b29f-54278ac5431e"
+                            eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1_fktbez-n1"
+                            refersTo="attributsemantik-noch-undefiniert">Der Bundesminister für Wirtschaft und Klimaschutz</akn:role>
+                  <akn:person GUID="47c2d434-0350-41a5-be92-347b26b75b46"
+                              eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1_person-n1"
+                              refersTo="attributsemantik-noch-undefiniert">Robert Habeck</akn:person>
+               </akn:signature>
+            </akn:p>
+         </akn:blockContainer>
+      </akn:conclusions>
+   </akn:act>
+</akn:akomaNtoso>

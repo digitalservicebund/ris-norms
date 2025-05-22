@@ -25,7 +25,7 @@
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
                <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
                              date="2024-01-18"
-                             GUID="807bd84f-3eb2-48f0-97d4-13f5bcce8dd0"
+                             GUID="f92e8f90-301f-42ba-81c5-49c8fc8218f4"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="6090dee2-33c2-4fc5-965d-457cbb7aa03f"
@@ -2780,7 +2780,7 @@
                          GUID="1a8f914f-b823-4bf1-bfa2-7d1dc68d375b"
                          eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1">15. Januar 2024</akn:date>
             </akn:p>
-            <akn:p GUID="9598469e-09dc-4951-8758-93755b0e9234"
+            <akn:p GUID="7e364895-7c26-4447-b56f-a909ba16412c"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature GUID="77bfaece-3a84-4d46-a782-ac70e41b0ca4"
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
@@ -2792,7 +2792,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1">Steinmeier</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="aaaca731-05f2-4ec3-969d-16cdda86fd69"
+            <akn:p GUID="fe541e99-7869-4c0d-9e5d-4f35b54284d6"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature GUID="036681a5-c983-4e84-af48-5fb0c64548fc"
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1">
@@ -2804,7 +2804,7 @@
                               eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1_person-n1">Olaf Scholz</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="bd30de56-4218-4c25-8937-c49c8229697a"
+            <akn:p GUID="65358cc7-2838-4575-b6b5-87fc16aa2322"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature GUID="61751c33-6912-4410-8f97-fff3c936fd0b"
                               eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1">

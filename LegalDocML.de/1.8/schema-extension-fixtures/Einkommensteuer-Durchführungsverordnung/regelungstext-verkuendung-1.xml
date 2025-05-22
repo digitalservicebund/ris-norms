@@ -32,7 +32,7 @@
                              date="2000-05-10"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="e9271bc7-9e67-43a9-a2e1-49d2e71f28e0"
+                             GUID="17f4fa68-b7a4-41fd-b9ad-e87249e57995"
                              date="2000-05-10"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -353,18 +353,18 @@
          </akn:article>
          <akn:article period="#meta-n1_geltzeiten-n1_geltungszeitgr-n3"
                       GUID="6ba535a6-7868-4574-bcff-cfe2d5755480"
-                      eId="art-z%c2%a782a">
+                      eId="art-z%c2%a782b">
             <akn:num GUID="65549134-ee8f-48c8-93ef-87321ebed21b"
-                     eId="art-z%c2%a782a_bezeichnung-n1">§82a</akn:num>
+                     eId="art-z%c2%a782b_bezeichnung-n1">§82b</akn:num>
             <akn:heading GUID="870211a8-0cba-4261-8994-c5be195852ea"
-                         eId="art-z%c2%a782a_überschrift-n1">Erhöhte Absetzungen von Herstellungskosten für bestimmte Baumaßnahmen</akn:heading>
-            <akn:paragraph GUID="d451f4d4-63c3-4038-9a62-0a506a315de4" eId="art-z%c2%a782a_abs-z">
+                         eId="art-z%c2%a782b_überschrift-n1">Erhöhte Absetzungen von Herstellungskosten für bestimmte Baumaßnahmen</akn:heading>
+            <akn:paragraph GUID="d451f4d4-63c3-4038-9a62-0a506a315de4" eId="art-z%c2%a782b_abs-z">
                <akn:num GUID="38c3dec0-6ca5-45ba-b202-c834e1b23e4e"
-                        eId="art-z%c2%a782a_abs-z_bezeichnung-n1"/>
+                        eId="art-z%c2%a782b_abs-z_bezeichnung-n1"/>
                <akn:content GUID="05113aed-4f8a-4ebd-85f1-cf99ba3a4d09"
-                            eId="art-z%c2%a782a_abs-z_inhalt-n1">
+                            eId="art-z%c2%a782b_abs-z_inhalt-n1">
                   <akn:p GUID="bb7b9939-3b91-4f65-b550-e59bd0088424"
-                         eId="art-z%c2%a782a_abs-z_inhalt-n1_text-n1">
+                         eId="art-z%c2%a782b_abs-z_inhalt-n1_text-n1">
                         Der Steuerpflichtige kann von den durch Zuschüsse aus Sanierungs- oder Entwicklungsförderungsmitteln nicht gedeckten Herstellungskosten für Modernisierungs- und Instandsetzungsmaßnahmen im Sinne des § 177 des Baugesetzbuchs sowie für Maßnahmen, die der Erhaltung, Erneuerung und funktionsgerechten Verwendung eines Gebäudes dienen, das wegen seiner geschichtlichen, künstlerischen oder städtebaulichen Bedeutung erhalten bleiben soll, und zu deren Durchführung sich der Eigentümer neben bestimmten Modernisierungsmaßnahmen gegenüber der Gemeinde verpflichtet hat, die für Gebäude in einem förmlich festgelegten Sanierungsgebiet oder städtebaulichen Entwicklungsbereich aufgewendet worden sind, an Stelle der nach § 7 Absatz 4 oder 5 oder § 7b des Gesetzes zu bemessenden Absetzungen für Abnutzung im Jahr der Herstellung und in den neun folgenden Jahren jeweils bis zu 10 Prozent absetzen. § 82a Abs. 1 Satz 2 gilt entsprechend. Satz 1 ist anzuwenden, wenn der Steuerpflichtige eine Bescheinigung der zuständigen Gemeindebehörde vorlegt, dass er Baumaßnahmen im Sinne des Satzes 1 durchgeführt hat; sind ihm Zuschüsse aus Sanierungs- oder Entwicklungsförderungsmitteln gewährt worden, so hat die Bescheinigung auch deren Höhe zu enthalten.
                     </akn:p>
                </akn:content>
