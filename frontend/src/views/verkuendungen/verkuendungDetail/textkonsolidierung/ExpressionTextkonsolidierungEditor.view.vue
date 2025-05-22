@@ -25,6 +25,9 @@ import type { TreeNode } from "primevue/treenode"
 import { useGetNorm } from "@/services/normService"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useNormXml } from "@/composables/useNormXml"
+import { useErrorToast } from "@/lib/errorToast"
+import { useToast } from "primevue/usetoast"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
@@ -101,16 +104,50 @@ const treeNodes = computed<TreeNode[]>(() =>
 const { tocHeadingId } = useElementId()
 
 // EDITOR
+
+const sentryTraceId = useSentryTraceId()
+const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
+
+function showToast() {
+  if (saveError.value) {
+    addErrorToast(saveError, { traceId: sentryTraceId })
+  } else {
+    addToast({
+      summary: "Gespeichert!",
+      severity: "success",
+    })
+  }
+}
+
+const newExpressionXml = ref()
 const {
   data: xml,
   isFetching: isFetchingXml,
   error: loadXmlError,
-} = useNormXml(expressionEli)
+  update: {
+    execute: save,
+    isFetching: isSaving,
+    isFinished: hasSaved,
+    error: saveError,
+  },
+} = useNormXml(expressionEli, newExpressionXml)
 
 const currentXml = ref("")
 watch(xml, (xml) => {
   if (xml) {
     currentXml.value = xml
+  }
+})
+
+function handleSave(xml: string) {
+  newExpressionXml.value = xml
+  save()
+}
+
+watch(hasSaved, (finished) => {
+  if (finished) {
+    showToast()
   }
 })
 
@@ -145,7 +182,13 @@ watch(eIdsToEdit, (val) => {
 <template>
   <RisViewLayout
     :breadcrumbs
-    :errors="[verkuendungError, zeitgrenzenError, normExpressionError]"
+    :errors="[
+      loadXmlError,
+      tocError,
+      verkuendungError,
+      normExpressionError,
+      zeitgrenzenError,
+    ]"
     :loading="!verkuendungHasFinished || !normExpressionLoaded"
   >
     <Splitter class="h-full" layout="horizontal">
@@ -154,47 +197,51 @@ watch(eIdsToEdit, (val) => {
         :min-size="20"
         class="h-full overflow-auto bg-white"
       >
-        <div
-          v-if="tocIsFetching"
-          class="mt-24 flex items-center justify-center"
-        >
-          <RisLoadingSpinner />
-        </div>
-
-        <RisErrorCallout
-          v-else-if="tocError"
-          :error="tocError"
-          class="m-16 mt-8"
-        />
-
-        <RisEmptyState
-          v-else-if="!toc || !toc.length"
-          text-content="Keine Artikel gefunden."
-          class="m-16 mt-8"
-        />
-        <div v-else class="flex-1 overflow-auto p-10">
-          <h2 :id="tocHeadingId" class="ris-body1-bold mb-10 pt-10 pl-20">
-            Inhaltsübersicht
-          </h2>
-          <Tree
-            v-model:expanded-keys="expandedKeys"
-            v-model:selection-keys="selectionKeys"
-            :aria-labelledby="tocHeadingId"
-            :value="treeNodes"
-            selection-mode="single"
-            @node-select="handleNodeSelect"
+        <aside :aria-labelledby="tocHeadingId">
+          <div
+            v-if="tocIsFetching"
+            class="mt-24 flex items-center justify-center"
           >
-            <template #default="{ node }">
-              <button
-                class="cursor-pointer pl-4 text-left group-hover:underline!"
-                @click="() => toggleNode(node)"
-              >
-                <span class="block">{{ node.label }}</span>
-                <span class="block font-normal">{{ node.data.sublabel }}</span>
-              </button>
-            </template>
-          </Tree>
-        </div>
+            <RisLoadingSpinner />
+          </div>
+
+          <RisErrorCallout
+            v-else-if="tocError"
+            :error="tocError"
+            class="m-16 mt-8"
+          />
+
+          <RisEmptyState
+            v-else-if="!toc || !toc.length"
+            text-content="Keine Artikel gefunden."
+            class="m-16 mt-8"
+          />
+          <div v-else class="flex-1 overflow-auto p-10">
+            <h2 :id="tocHeadingId" class="ris-body1-bold mb-10 pt-10 pl-20">
+              Inhaltsübersicht
+            </h2>
+            <Tree
+              v-model:expanded-keys="expandedKeys"
+              v-model:selection-keys="selectionKeys"
+              :aria-labelledby="tocHeadingId"
+              :value="treeNodes"
+              selection-mode="single"
+              @node-select="handleNodeSelect"
+            >
+              <template #default="{ node }">
+                <button
+                  class="cursor-pointer pl-4 text-left group-hover:underline!"
+                  @click="() => toggleNode(node)"
+                >
+                  <span class="block">{{ node.label }}</span>
+                  <span class="block font-normal">{{
+                    node.data.sublabel
+                  }}</span>
+                </button>
+              </template>
+            </Tree>
+          </div>
+        </aside>
       </SplitterPanel>
 
       <SplitterPanel
@@ -209,12 +256,6 @@ watch(eIdsToEdit, (val) => {
           <RisLoadingSpinner />
         </div>
 
-        <RisErrorCallout
-          v-else-if="loadXmlError"
-          :error="loadXmlError"
-          class="m-16 mt-8"
-        />
-
         <RisEmptyState
           v-else-if="!currentXml"
           text-content="Keine Artikel gefunden."
@@ -222,8 +263,8 @@ watch(eIdsToEdit, (val) => {
         />
         <RisCodeEditor
           ref="codeEditorRef"
+          v-model="currentXml"
           class="h-full border-2 border-blue-800"
-          :model-value="currentXml"
         />
       </SplitterPanel>
 
@@ -239,7 +280,12 @@ watch(eIdsToEdit, (val) => {
     </Splitter>
 
     <template #headerAction>
-      <Button label="Speichern" disabled>
+      <Button
+        label="Speichern"
+        :disabled="isSaving || !currentXml"
+        :loading="isSaving"
+        @click="handleSave(currentXml)"
+      >
         <template #icon><IcBaselineCheck /></template>
       </Button>
     </template>
