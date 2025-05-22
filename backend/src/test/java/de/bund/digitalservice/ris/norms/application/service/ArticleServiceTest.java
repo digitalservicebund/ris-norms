@@ -47,7 +47,7 @@ class ArticleServiceTest {
       );
       var eid = new EId("hauptteil-1_art-1");
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
@@ -67,7 +67,7 @@ class ArticleServiceTest {
       var eid = new EId("meta-1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.empty());
 
       // when
@@ -89,10 +89,10 @@ class ArticleServiceTest {
       var eid = new EId("eid-1_not-1_in-1_norm-1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
 
       // when

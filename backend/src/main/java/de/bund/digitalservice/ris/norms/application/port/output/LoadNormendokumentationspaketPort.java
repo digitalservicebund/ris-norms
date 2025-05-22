@@ -12,17 +12,17 @@ public interface LoadNormendokumentationspaketPort {
   /**
    * Loads a Normendokumentationspaket
    *
-   * @param command with the processId for the Normendokumentationspaket
+   * @param options with the processId for the Normendokumentationspaket
    * @return the data about the Normendokumentationspaket
    */
-  Result loadNormendokumentationspaket(final Command command) throws IOException;
+  Result loadNormendokumentationspaket(final Options options) throws IOException;
 
   /**
    * A record representing the command for loading of a Normendokumentationspaket.
    *
    * @param processId identifier for the Normendokumentationspaket
    */
-  record Command(UUID processId) {}
+  record Options(UUID processId) {}
 
   /**
    * A record representing the files of the Normendokumentationspaket.

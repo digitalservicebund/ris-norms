@@ -319,7 +319,7 @@ class VerkuendungsImportServiceTest {
       );
       verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
       verify(loadNormPort).loadNorm(
-        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107"))
+        new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107"))
       );
     }
 

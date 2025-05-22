@@ -33,7 +33,7 @@ public class ArticleService
   @Override
   public String loadArticleHtml(final LoadArticleHtmlUseCase.Options options) {
     var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new NormNotFoundException(options.eli()));
 
     return regelungstext
@@ -57,7 +57,7 @@ public class ArticleService
     final LoadArticlesFromDokumentUseCase.Options options
   ) {
     final var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     return regelungstext.getArticles();
@@ -68,7 +68,7 @@ public class ArticleService
     LoadSpecificArticlesXmlFromDokumentUseCase.Options options
   ) {
     List<Article> articles = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new NormNotFoundException(options.eli()))
       .getArticles();
 

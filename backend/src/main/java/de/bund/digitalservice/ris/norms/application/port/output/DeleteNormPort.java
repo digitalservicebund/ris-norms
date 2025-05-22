@@ -10,18 +10,17 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
  */
 public interface DeleteNormPort {
   /**
-   * Delete a {@link Norm} based on the provided ELI specified in the command.
+   * Delete a {@link Norm} based on the provided ELI specified in the options.
    *
-   * @param command The command specifying the ELI to identify the norm to be deleted.
+   * @param options The options specifying the ELI to identify the norm to be deleted.
    */
-  void deleteNorm(final Command command);
+  void deleteNorm(final Options options);
 
   /**
-   * A record representing the command for loading a norm. The command includes the ELI (European
-   * Legislation Identifier) to identify the norm.
+   * A record representing the options for loading a norm.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the norm in the command.
+   * @param eli The ELI (European Legislation Identifier) used to identify the norm.
    * @param publishState The publish-state that the norm that should be deleted must currently have. If it differs from the current state no norms are deleted.
    */
-  record Command(NormManifestationEli eli, NormPublishState publishState) {}
+  record Options(NormManifestationEli eli, NormPublishState publishState) {}
 }

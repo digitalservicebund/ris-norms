@@ -64,7 +64,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
 
     var queuedNormElis =
       loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(
-        new LoadNormManifestationElisByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+        new LoadNormManifestationElisByPublishStatePort.Options(NormPublishState.QUEUED_FOR_PUBLISH)
       );
     log.info("Currently {} norms are in state QUEUED_FOR_PUBLISHED", queuedNormElis.size());
 
@@ -72,7 +72,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
       .stream()
       .map(eli -> {
         log.info("Processing norm with manifestation eli {}", eli);
-        Optional<Norm> optionalNorm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
+        Optional<Norm> optionalNorm = loadNormPort.loadNorm(new LoadNormPort.Options(eli));
 
         if (optionalNorm.isEmpty()) {
           log.error("Norm with manifestation eli {} not found", eli);
@@ -110,7 +110,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
         }
 
         try {
-          publishNormPort.publishNorm(new PublishNormPort.Command(norm));
+          publishNormPort.publishNorm(new PublishNormPort.Options(norm));
         } catch (final Exception e) {
           log.error(
             "Norm {} could not be published to portal-prototype (publishing failed)",
@@ -130,11 +130,11 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
 
     log.info("Deleting all old dokumente from portal-prototype bucket");
     deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
-      new DeleteAllPublishedDokumentePort.Command(startOfProcessing)
+      new DeleteAllPublishedDokumentePort.Options(startOfProcessing)
     );
     log.info("Deleted all old dokumente from portal-prototype bucket");
 
-    publishChangelogPort.publishChangelogs(new PublishChangelogPort.Command(false));
+    publishChangelogPort.publishChangelogs(new PublishChangelogPort.Options(false));
 
     log.info("Publish job for portal prototype successfully completed.");
   }

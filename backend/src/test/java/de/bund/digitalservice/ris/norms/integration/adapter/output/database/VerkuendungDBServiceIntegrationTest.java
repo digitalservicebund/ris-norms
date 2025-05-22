@@ -52,7 +52,7 @@ class VerkuendungDBServiceIntegrationTest extends BaseIntegrationTest {
 
     // When
     final Optional<Verkuendung> verkuendungOptional = verkuendungDBService.loadVerkuendungByNormEli(
-      new LoadVerkuendungByNormEliPort.Command(
+      new LoadVerkuendungByNormEliPort.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       )
     );
@@ -122,7 +122,7 @@ class VerkuendungDBServiceIntegrationTest extends BaseIntegrationTest {
 
     // When
     var verkuendungFromDatabase = verkuendungDBService.updateOrSaveVerkuendung(
-      new UpdateOrSaveVerkuendungPort.Command(verkuendung)
+      new UpdateOrSaveVerkuendungPort.Options(verkuendung)
     );
 
     // Then

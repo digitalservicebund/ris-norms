@@ -50,7 +50,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
 
       // When
       var resultOptional = verkuedungImportProcessDBService.loadVerkuendungImportProcess(
-        new LoadVerkuendungImportProcessPort.Command(saved.getId())
+        new LoadVerkuendungImportProcessPort.Options(saved.getId())
       );
 
       // Then
@@ -86,7 +86,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
 
       // When
       var resultOptional = verkuedungImportProcessDBService.loadVerkuendungImportProcess(
-        new LoadVerkuendungImportProcessPort.Command(saved.getId())
+        new LoadVerkuendungImportProcessPort.Options(saved.getId())
       );
 
       // Then
@@ -105,7 +105,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
 
       // When
       var resultOptional = verkuedungImportProcessDBService.loadVerkuendungImportProcess(
-        new LoadVerkuendungImportProcessPort.Command(UUID.randomUUID())
+        new LoadVerkuendungImportProcessPort.Options(UUID.randomUUID())
       );
 
       // Then
@@ -119,15 +119,15 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
     @Test
     void itSavesAnInitialProcessStart() {
       // Given
-      SaveVerkuendungImportProcessPort.Command command =
-        new SaveVerkuendungImportProcessPort.Command(
+      SaveVerkuendungImportProcessPort.Options options =
+        new SaveVerkuendungImportProcessPort.Options(
           UUID.randomUUID(),
           VerkuendungImportProcess.Status.CREATED
         );
       // When
 
       var resultProcess = verkuedungImportProcessDBService.saveOrUpdateVerkuendungImportProcess(
-        command
+        options
       );
 
       // Then
@@ -158,8 +158,8 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
       var savedProcess = verkuendungImportProcessesRepository.save(initialDto);
 
       // Update information with new details
-      SaveVerkuendungImportProcessPort.Command command =
-        new SaveVerkuendungImportProcessPort.Command(
+      SaveVerkuendungImportProcessPort.Options options =
+        new SaveVerkuendungImportProcessPort.Options(
           savedProcess.getId(),
           VerkuendungImportProcess.Status.ERROR,
           new ProcessNormendokumentationspaketUseCase.NotAZipFileException()
@@ -167,7 +167,7 @@ class VerkuendungImportProcessDBServiceIntegrationTest extends BaseIntegrationTe
 
       // When
       var resultProcess = verkuedungImportProcessDBService.saveOrUpdateVerkuendungImportProcess(
-        command
+        options
       );
 
       var reloadedFromDb = verkuendungImportProcessesRepository

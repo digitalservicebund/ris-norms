@@ -25,7 +25,7 @@ public class JobrunrExceptionFilter implements JobServerFilter {
   @Override
   public void onFailedAfterRetries(Job job) {
     saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
-      new SaveVerkuendungImportProcessPort.Command(
+      new SaveVerkuendungImportProcessPort.Options(
         job.getId(),
         VerkuendungImportProcess.Status.ERROR,
         new NormendokumentationspaketImportJobRunFailedException()

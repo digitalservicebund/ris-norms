@@ -93,20 +93,20 @@ class ReleaseServiceTest {
       LocalDate.now().plusDays(1)
     );
     verify(deleteQueuedReleasesPort, times(1)).deleteQueuedReleases(
-      new DeleteQueuedReleasesPort.Command(norm.getExpressionEli())
+      new DeleteQueuedReleasesPort.Options(norm.getExpressionEli())
     );
     verify(ldmlDeValidator, times(1)).parseAndValidateRegelungstext(
       XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
     );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(updateOrSaveNormPort, times(1)).updateOrSave(
-      new UpdateOrSaveNormPort.Command(manifestationOfNormToQueue)
+      new UpdateOrSaveNormPort.Options(manifestationOfNormToQueue)
     );
     verify(updateOrSaveNormPort, times(1)).updateOrSave(
-      new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfNorm)
+      new UpdateOrSaveNormPort.Options(newNewestUnpublishedManifestationOfNorm)
     );
     verify(deleteNormPort, times(1)).deleteNorm(
-      new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+      new DeleteNormPort.Options(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
     );
     verify(saveReleasePort, times(1)).saveRelease(
       assertArg(command -> {

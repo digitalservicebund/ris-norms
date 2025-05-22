@@ -335,7 +335,7 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
-      when(updateNormPort.updateNorm(new UpdateNormPort.Command(norm))).thenReturn(
+      when(updateNormPort.updateNorm(new UpdateNormPort.Options(norm))).thenReturn(
         Optional.of(norm)
       );
 
@@ -344,7 +344,7 @@ class NormServiceTest {
 
       // then
       verify(updateNormPort, times(1)).updateNorm(
-        argThat(argument -> Objects.equals(argument, new UpdateNormPort.Command(norm)))
+        argThat(argument -> Objects.equals(argument, new UpdateNormPort.Options(norm)))
       );
     }
   }
@@ -356,7 +356,7 @@ class NormServiceTest {
       "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
     );
 
-    when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
+    when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
 
     // when
     var zielnormReferences = service.loadZielnormReferences(
@@ -387,8 +387,8 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
         Optional.of(norm)
       );
 
@@ -440,8 +440,8 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
       );
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Command(any()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
+      when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
         Optional.of(norm)
       );
 
@@ -488,8 +488,8 @@ class NormServiceTest {
       "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
     );
 
-    when(loadNormPort.loadNorm(new LoadNormPort.Command(any()))).thenReturn(Optional.of(norm));
-    when(updateNormPort.updateNorm(new UpdateNormPort.Command(any()))).thenReturn(
+    when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
+    when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
       Optional.of(norm)
     );
 
@@ -516,14 +516,14 @@ class NormServiceTest {
       );
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+          new LoadNormPort.Options(
             NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           )
         )
       ).thenReturn(Optional.of(norm));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+          new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
         )
       ).thenReturn(
         Optional.of(
@@ -534,7 +534,7 @@ class NormServiceTest {
       );
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+          new LoadNormPort.Options(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
           )
         )
@@ -579,15 +579,15 @@ class NormServiceTest {
         "deu"
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
       verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
-        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
     }
 
@@ -598,14 +598,14 @@ class NormServiceTest {
       );
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+          new LoadNormPort.Options(
             NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           )
         )
       ).thenReturn(Optional.of(norm));
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+          new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
         )
       ).thenReturn(
         Optional.of(
@@ -614,7 +614,7 @@ class NormServiceTest {
       );
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+          new LoadNormPort.Options(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
           )
         )
@@ -625,7 +625,7 @@ class NormServiceTest {
       );
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+          new LoadNormPort.Options(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
           )
         )
@@ -636,7 +636,7 @@ class NormServiceTest {
       );
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+          new LoadNormPort.Options(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu")
           )
         )
@@ -650,7 +650,7 @@ class NormServiceTest {
       );
       when(
         loadNormPort.loadNorm(
-          new LoadNormPort.Command(
+          new LoadNormPort.Options(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
           )
         )
@@ -726,35 +726,35 @@ class NormServiceTest {
         "deu"
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
         )
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu")
         )
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu")
         )
       );
       verify(loadNormPort, times(1)).loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu")
         )
       );
       verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
-        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
     }
   }

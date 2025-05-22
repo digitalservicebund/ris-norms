@@ -45,7 +45,7 @@ class DokumentDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       var loadedRegelungstext = dokumentDBService.loadRegelungstext(
-        new LoadRegelungstextPort.Command(
+        new LoadRegelungstextPort.Options(
           DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
           )
@@ -66,7 +66,7 @@ class DokumentDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       var loadedRegelungstext = dokumentDBService.loadRegelungstext(
-        new LoadRegelungstextPort.Command(
+        new LoadRegelungstextPort.Options(
           DokumentManifestationEli.fromString(
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
           )

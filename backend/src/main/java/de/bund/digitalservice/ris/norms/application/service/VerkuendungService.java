@@ -68,7 +68,7 @@ public class VerkuendungService
   @Override
   public Verkuendung loadVerkuendung(LoadVerkuendungUseCase.Options options) {
     return loadVerkuendungByNormEliPort
-      .loadVerkuendungByNormEli(new LoadVerkuendungByNormEliPort.Command(options.eli()))
+      .loadVerkuendungByNormEli(new LoadVerkuendungByNormEliPort.Options(options.eli()))
       .orElseThrow(() -> new VerkuendungNotFoundException(options.eli().toString()));
   }
 
@@ -99,7 +99,7 @@ public class VerkuendungService
     if (normFound && options.force()) {
       deleteVerkuendung(norm.getExpressionEli());
     } else if (
-      loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
+      loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Options(norm.getGuid())).isPresent()
     ) {
       throw new NormWithGuidAlreadyExistsException(norm.getGuid());
     }
@@ -118,7 +118,7 @@ public class VerkuendungService
 
   private boolean isNormRetrievableByEli(boolean forceOverwrite, Norm norm) {
     final boolean normExists = loadNormPort
-      .loadNorm(new LoadNormPort.Command(norm.getExpressionEli()))
+      .loadNorm(new LoadNormPort.Options(norm.getExpressionEli()))
       .isPresent();
 
     if (normExists && !forceOverwrite) {
@@ -129,21 +129,21 @@ public class VerkuendungService
 
   private void deleteVerkuendung(NormExpressionEli expressionEli) {
     var verkuendung = loadVerkuendungByNormEliPort.loadVerkuendungByNormEli(
-      new LoadVerkuendungByNormEliPort.Command(expressionEli)
+      new LoadVerkuendungByNormEliPort.Options(expressionEli)
     );
 
     if (verkuendung.isPresent()) {
       deleteVerkuendungByNormEliPort.deleteVerkuendungByNormEli(
-        new DeleteVerkuendungByNormEliPort.Command(expressionEli)
+        new DeleteVerkuendungByNormEliPort.Options(expressionEli)
       );
     }
   }
 
   private Verkuendung saveNewVerkuendung(Norm norm) {
     var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
     return updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
-      new UpdateOrSaveVerkuendungPort.Command(verkuendung)
+      new UpdateOrSaveVerkuendungPort.Options(verkuendung)
     );
   }
 
@@ -158,7 +158,7 @@ public class VerkuendungService
     LoadNormExpressionsAffectedByVerkuendungUseCase.Options options
   ) {
     var verkuendungNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(options.eli()))
+      .loadNorm(new LoadNormPort.Options(options.eli()))
       .orElseThrow(() -> new VerkuendungNotFoundException(options.eli().toString()));
 
     var affectedExpressionElis = verkuendungNorm
@@ -176,7 +176,7 @@ public class VerkuendungService
       .get()
       .stream()
       .map(eli -> {
-        var norm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
+        var norm = loadNormPort.loadNorm(new LoadNormPort.Options(eli));
         if (norm.isEmpty()) {
           log.warn(
             "Norm with ELI {} could not be loaded when collecting expressions affected by Verkuendung with ELI {}",

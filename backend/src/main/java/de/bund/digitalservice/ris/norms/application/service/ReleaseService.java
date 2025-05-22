@@ -73,14 +73,14 @@ public class ReleaseService
 
     // Delete the files from a previous release of the same norm if they are still queued for publishing.
     var deletedReleases = deleteQueuedReleasesPort.deleteQueuedReleases(
-      new DeleteQueuedReleasesPort.Command(options.eli())
+      new DeleteQueuedReleasesPort.Options(options.eli())
     );
     deletedReleases
       .stream()
       .flatMap(release -> release.getPublishedNorms().stream())
       .forEach(queuedNorm ->
         deleteNormPort.deleteNorm(
-          new DeleteNormPort.Command(
+          new DeleteNormPort.Options(
             queuedNorm.getManifestationEli(),
             NormPublishState.QUEUED_FOR_PUBLISH
           )
@@ -104,7 +104,7 @@ public class ReleaseService
     ldmlDeValidator.validateSchematron(manifestationToPublish);
 
     manifestationToPublish.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(manifestationToPublish));
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(manifestationToPublish));
 
     // We need the new manifestations to use tomorrow's date so they do have a different eli to the once just
     // published. When they are published the manifestation eli will be updated again anyway so the date is not really
@@ -115,16 +115,16 @@ public class ReleaseService
     );
     // delete the old unpublished manifestation so no residual data remains in the database
     deleteNormPort.deleteNorm(
-      new DeleteNormPort.Command(normToPublish.getManifestationEli(), NormPublishState.UNPUBLISHED)
+      new DeleteNormPort.Options(normToPublish.getManifestationEli(), NormPublishState.UNPUBLISHED)
     );
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(nextManifestationOfNorm));
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(nextManifestationOfNorm));
 
     var release = Release.builder()
       .publishedNorms(List.of(manifestationToPublish))
       .releasedAt(Instant.now())
       .build();
 
-    return saveReleasePort.saveRelease(new SaveReleasePort.Command(release));
+    return saveReleasePort.saveRelease(new SaveReleasePort.Options(release));
   }
 
   @Override
@@ -132,7 +132,7 @@ public class ReleaseService
     LoadReleasesByNormExpressionEliUseCase.Options options
   ) {
     return loadReleasesByNormExpressionEliPort.loadReleasesByNormExpressionEli(
-      new LoadReleasesByNormExpressionEliPort.Command(options.eli())
+      new LoadReleasesByNormExpressionEliPort.Options(options.eli())
     );
   }
 }

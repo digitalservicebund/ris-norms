@@ -62,7 +62,7 @@ public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCas
     final var xPath = getXPathForEid(options.eid());
 
     final var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     return NodeParser.getNodeFromExpression(xPath, regelungstext.getDocument()).orElseThrow(() ->

@@ -86,7 +86,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
 
@@ -101,9 +101,9 @@ class PublishServiceTest {
         argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
       );
       verify(confidentialDataCleanupService, times(1)).clean(norm);
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -129,7 +129,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog));
@@ -145,12 +145,12 @@ class PublishServiceTest {
         argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
       );
       verify(confidentialDataCleanupService, times(1)).clean(norm);
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
       verify(updateMigrationLogPort).completeMigrationLog(
-        new CompleteMigrationLogPort.Command(migrationLog.getId())
+        new CompleteMigrationLogPort.Options(migrationLog.getId())
       );
     }
 
@@ -163,7 +163,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
       doThrow(BucketException.class).when(publishPrivateNormPort).publishNorm(any());
@@ -178,15 +178,15 @@ class PublishServiceTest {
       ).loadNormManifestationElisByPublishState(
         argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
       );
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
       verify(deletePublishedNormPort, times(1)).deletePublishedNorm(
-        new DeletePublishedNormPort.Command(norm)
+        new DeletePublishedNormPort.Options(norm)
       );
       verify(deletePrivateNormPort, never()).deletePublishedNorm(
-        new DeletePublishedNormPort.Command(norm)
+        new DeletePublishedNormPort.Options(norm)
       );
-      verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Command.class));
+      verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Options.class));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -199,7 +199,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
       doThrow(BucketException.class).when(publishNormPort).publishNorm(any());
@@ -214,15 +214,15 @@ class PublishServiceTest {
       ).loadNormManifestationElisByPublishState(
         argThat(command -> command.publishState() == NormPublishState.QUEUED_FOR_PUBLISH)
       );
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, never()).publishNorm(new PublishNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, never()).publishNorm(new PublishNormPort.Options(norm));
       verify(deletePublishedNormPort, never()).deletePublishedNorm(
-        new DeletePublishedNormPort.Command(norm)
+        new DeletePublishedNormPort.Options(norm)
       );
       verify(deletePrivateNormPort, never()).deletePublishedNorm(
-        new DeletePublishedNormPort.Command(norm)
+        new DeletePublishedNormPort.Options(norm)
       );
-      verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Command.class));
+      verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Options.class));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -241,7 +241,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
@@ -266,9 +266,9 @@ class PublishServiceTest {
       );
 
       // Verify norm publishing actions
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -309,7 +309,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.empty()); // No migration log found
@@ -330,9 +330,9 @@ class PublishServiceTest {
       verify(deleteAllPrivateDokumentePort, never()).deleteAllPublishedDokumente(any());
 
       // Verify norm publishing actions
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -351,7 +351,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
@@ -372,9 +372,9 @@ class PublishServiceTest {
       verify(deleteAllPrivateDokumentePort, never()).deleteAllPublishedDokumente(any());
 
       // Verify norm publishing actions
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -393,7 +393,7 @@ class PublishServiceTest {
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
       ).thenReturn(List.of(norm.getManifestationEli()));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getManifestationEli()))).thenReturn(
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getManifestationEli()))).thenReturn(
         Optional.of(norm)
       );
       when(loadLastMigrationLogPort.loadLastMigrationLog()).thenReturn(Optional.of(migrationLog)); // Migration log found
@@ -418,9 +418,9 @@ class PublishServiceTest {
       );
 
       // Verify norm publishing actions
-      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Command(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
   }

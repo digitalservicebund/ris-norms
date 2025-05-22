@@ -322,10 +322,6 @@ class ArchitectureFitnessTest {
 
   @Test
   void portMethodsHaveASingleOptionsParameter() {
-    // TODO: (Malte Laukötter, 2025-05-20) remove command as option once commands have been renamed to options
-    final HaveAParameterWithTypeName haveACommandParameter = new HaveAParameterWithTypeName(
-      "Command"
-    );
     final HaveAParameterWithTypeName haveAOptionsParameter = new HaveAParameterWithTypeName(
       "Options"
     );
@@ -346,9 +342,6 @@ class ArchitectureFitnessTest {
       .doNotHaveName("equals")
       .should(
         ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveAOptionsParameter))
-      )
-      .orShould(
-        ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveACommandParameter))
       )
       .orShould(ArchCondition.from(haveNoParameters));
     rule.check(classes);

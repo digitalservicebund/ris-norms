@@ -31,7 +31,7 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
   @Override
   public List<Zeitgrenze> loadZeitgrenzenFromDokument(LoadZeitgrenzenUseCase.Options options) {
     return loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()))
       .getZeitgrenzen();
   }
@@ -39,7 +39,7 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
   @Override
   public List<Zeitgrenze> updateZeitgrenzenOfDokument(UpdateZeitgrenzenUseCase.Options options) {
     final Regelungstext regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     var geltungszeiten = regelungstext
@@ -78,7 +78,7 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
       geltungszeiten.add(zeitgrenzenUpdate.art(), zeitgrenzenUpdate.date())
     );
 
-    updateDokumentPort.updateDokument(new UpdateDokumentPort.Command(regelungstext));
+    updateDokumentPort.updateDokument(new UpdateDokumentPort.Options(regelungstext));
     return geltungszeiten.stream().toList();
   }
 }

@@ -35,14 +35,14 @@ class NormenDokumentationsPaketBucketServiceIntegrationTest extends BaseS3MockIn
     );
 
     // When
-    final SaveNormendokumentationspaketPort.Command command =
-      new SaveNormendokumentationspaketPort.Command(
+    final SaveNormendokumentationspaketPort.Options options =
+      new SaveNormendokumentationspaketPort.Options(
         UUID.fromString("b6a825ce-e065-4e24-918a-6f9e6c7fafdf"),
         file,
         signature
       );
 
-    bucketService.saveNormendokumentationspaket(command);
+    bucketService.saveNormendokumentationspaket(options);
 
     // Then
     assertThat(

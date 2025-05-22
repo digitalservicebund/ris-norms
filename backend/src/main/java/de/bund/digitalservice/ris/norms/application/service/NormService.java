@@ -65,10 +65,10 @@ public class NormService
   public Norm loadNorm(final LoadNormUseCase.Options options) {
     return switch (options) {
       case EliOptions(NormEli eli) -> loadNormPort
-        .loadNorm(new LoadNormPort.Command(eli))
+        .loadNorm(new LoadNormPort.Options(eli))
         .orElseThrow(() -> new NormNotFoundException(eli));
       case GuidOptions(UUID guid) -> loadNormByGuidPort
-        .loadNormByGuid(new LoadNormByGuidPort.Command(guid))
+        .loadNormByGuid(new LoadNormByGuidPort.Options(guid))
         .orElseThrow(() -> new NormNotFoundException(guid));
     };
   }
@@ -76,14 +76,14 @@ public class NormService
   @Override
   public Regelungstext loadRegelungstext(final LoadRegelungstextUseCase.Options options) {
     return loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
   }
 
   @Override
   public String loadRegelungstextXml(final LoadRegelungstextXmlUseCase.Options options) {
     final Regelungstext regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(options.eli()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
       .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     return XmlMapper.toString(regelungstext.getDocument());
@@ -94,7 +94,7 @@ public class NormService
     var regelungstextToBeUpdated = new Regelungstext(XmlMapper.toDocument(options.xml()));
 
     var existingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(options.eli().asNormEli()))
+      .loadNorm(new LoadNormPort.Options(options.eli().asNormEli()))
       .orElseThrow(() -> new NormNotFoundException(options.eli().asNormEli()));
     var existingRegelungstext = existingNorm
       .getRegelungstextByEli(options.eli())
@@ -137,7 +137,7 @@ public class NormService
       });
 
     Norm savedNorm = updateNormPort
-      .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
+      .updateNorm(new UpdateNormPort.Options(normToBeUpdated))
       .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
 
     return Map.of(normToBeUpdated.getExpressionEli(), savedNorm);
@@ -405,13 +405,13 @@ public class NormService
     LocalDate earliestGeltungszeit
   ) {
     return loadNormExpressionElisPort
-      .loadNormExpressionElis(new LoadNormExpressionElisPort.Command(zielnormWorkEli))
+      .loadNormExpressionElis(new LoadNormExpressionElisPort.Options(zielnormWorkEli))
       .stream()
       .filter(normExpressionEli ->
         normExpressionEli.getPointInTime().isAfter(earliestGeltungszeit.minusDays(1))
       )
       .flatMap(normExpressionEli ->
-        loadNormPort.loadNorm(new LoadNormPort.Command(normExpressionEli)).stream()
+        loadNormPort.loadNorm(new LoadNormPort.Options(normExpressionEli)).stream()
       )
       .filter(Predicate.not(Norm::isGegenstandlos))
       .map(Norm::getExpressionEli)

@@ -11,15 +11,15 @@ public interface LoadNormExpressionElisPort {
   /**
    * Loads the {@link NormExpressionEli}s of all expressions of a norm.
    *
-   * @param command The command specifying the ELI to identify the norm whose expression should be loaded.
+   * @param options The options specifying the ELI to identify the norm whose expression should be loaded.
    * @return A {@link List} containing the {@link NormExpressionEli}s.
    */
-  List<NormExpressionEli> loadNormExpressionElis(final Command command);
+  List<NormExpressionEli> loadNormExpressionElis(final Options options);
 
   /**
-   * A record representing the command for loading the {@link NormExpressionEli}s of all expressions of a norm.
+   * A record representing the options for loading the {@link NormExpressionEli}s of all expressions of a norm.
    *
-   * @param eli The work-level ELI (European Legislation Identifier) used to identify the norm in the command.
+   * @param eli The work-level ELI (European Legislation Identifier) used to identify the norm.
    */
-  record Command(NormWorkEli eli) {}
+  record Options(NormWorkEli eli) {}
 }

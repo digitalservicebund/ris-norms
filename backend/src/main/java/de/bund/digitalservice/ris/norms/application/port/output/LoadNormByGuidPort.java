@@ -5,23 +5,21 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Interface representing a port for loading a {@link Norm} based on the GUID. Implementations of
- * this interface should provide functionality to load a norm using the specified command.
+ * Interface representing a port for loading a {@link Norm} based on the GUID.
  */
 public interface LoadNormByGuidPort {
   /**
-   * Loads a {@link Norm} based on the provided GUID specified in the command.
+   * Loads a {@link Norm} based on the provided GUID specified in the options.
    *
-   * @param command The command specifying the GUID to identify the norm to be loaded.
+   * @param options The options specifying the GUID to identify the norm to be loaded.
    * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
    */
-  Optional<Norm> loadNormByGuid(final Command command);
+  Optional<Norm> loadNormByGuid(final Options options);
 
   /**
-   * A record representing the command for loading a norm. The command includes the GUID to identify
-   * the norm.
+   * A record representing the options for loading a norm.
    *
-   * @param guid The GUID used to identify the norm in the command.
+   * @param guid The GUID used to identify the norm.
    */
-  record Command(UUID guid) {}
+  record Options(UUID guid) {}
 }

@@ -663,7 +663,7 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("expressions[4]").doesNotExist());
 
       verify(createZielnormenExpressionsUseCase, times(1)).createZielnormExpressions(
-        new CreateZielnormenExpressionsUseCase.Query(
+        new CreateZielnormenExpressionsUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
           NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
         )

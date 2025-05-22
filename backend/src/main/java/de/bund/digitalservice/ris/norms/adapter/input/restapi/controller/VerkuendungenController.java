@@ -172,7 +172,7 @@ public class VerkuendungenController {
     @PathVariable("workNaturalId") String workNaturalId
   ) {
     final Zielnorm zielnorm = createZielnormenExpressionsUseCase.createZielnormExpressions(
-      new CreateZielnormenExpressionsUseCase.Query(
+      new CreateZielnormenExpressionsUseCase.Options(
         verkuendungEli,
         new NormWorkEli(workAgent, workYear, workNaturalId)
       )

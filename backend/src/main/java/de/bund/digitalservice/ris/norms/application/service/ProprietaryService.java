@@ -33,7 +33,7 @@ public class ProprietaryService
     LoadProprietaryFromDokumentUseCase.Options options
   ) {
     return loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Command(options.dokumentExpressionEli()))
+      .loadDokument(new LoadDokumentPort.Options(options.dokumentExpressionEli()))
       .map(m -> m.getMeta().getOrCreateProprietary())
       .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
   }
@@ -43,7 +43,7 @@ public class ProprietaryService
     UpdateProprietaryFrameFromDokumentUseCase.Options options
   ) {
     final Dokument dokument = loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Command(options.dokumentExpressionEli()))
+      .loadDokument(new LoadDokumentPort.Options(options.dokumentExpressionEli()))
       .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
 
     final Proprietary proprietary = dokument.getMeta().getOrCreateProprietary();
@@ -83,7 +83,7 @@ public class ProprietaryService
     UpdateProprietarySingleElementFromDokumentUseCase.Options options
   ) {
     final Dokument dokument = loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Command(options.dokumentExpressionEli()))
+      .loadDokument(new LoadDokumentPort.Options(options.dokumentExpressionEli()))
       .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
     final Proprietary proprietary = dokument.getMeta().getOrCreateProprietary();
     proprietary.setMetadataValue(
@@ -98,7 +98,7 @@ public class ProprietaryService
     EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
     EidConsistencyGuardian.correctEids(dokument.getDocument());
     return updateDokumentPort
-      .updateDokument(new UpdateDokumentPort.Command(dokument))
+      .updateDokument(new UpdateDokumentPort.Options(dokument))
       .map(updated -> updated.getMeta().getOrCreateProprietary())
       .orElse(null);
   }

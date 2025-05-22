@@ -62,7 +62,7 @@ class ProprietaryServiceTest {
         ProprietaryServiceTest.class,
         "vereinsgesetz-without-proprietary.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsTextWithoutProprietary)
       );
 
@@ -84,7 +84,7 @@ class ProprietaryServiceTest {
       var regelungsText = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsText)
       );
       // when
@@ -137,7 +137,7 @@ class ProprietaryServiceTest {
       var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsTextWithoutProprietary)
       );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
@@ -145,7 +145,7 @@ class ProprietaryServiceTest {
       );
       when(
         updateDokumentPort.updateDokument(
-          new UpdateDokumentPort.Command(regelungsTextWithoutProprietary)
+          new UpdateDokumentPort.Options(regelungsTextWithoutProprietary)
         )
       ).thenReturn(Optional.of(regelungsTextWithProprietary));
 
@@ -224,14 +224,14 @@ class ProprietaryServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungstext)
       );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       when(
-        updateDokumentPort.updateDokument(new UpdateDokumentPort.Command(regelungstext))
+        updateDokumentPort.updateDokument(new UpdateDokumentPort.Options(regelungstext))
       ).thenReturn(Optional.of(regelungsTextWithProprietary));
 
       // when

@@ -12,15 +12,15 @@ public interface LoadNormManifestationElisByPublishStatePort {
   /**
    * Loads all {@link Norm} manifestation elis based on its publish state.
    *
-   * @param command The command specifying the publish state
+   * @param options The options specifying the publish state
    * @return An list of all manifestation elis of norms with that publish state
    */
-  List<NormManifestationEli> loadNormManifestationElisByPublishState(final Command command);
+  List<NormManifestationEli> loadNormManifestationElisByPublishState(final Options options);
 
   /**
    * A record representing the command for loading a norm manifestation elis by its publish state in a paginated way
    *
    * @param publishState the state of the publish, indicating whether the norm is queued for publishing, published, etc.
    */
-  record Command(NormPublishState publishState) {}
+  record Options(NormPublishState publishState) {}
 }
