@@ -114,3 +114,115 @@ describe("useGetZielnormPreview", () => {
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
 })
+
+describe("useCreateZielnormExpressions", () => {
+  beforeEach(() => {
+    vi.resetAllMocks()
+    vi.resetModules()
+  })
+
+  it("provides the data from the API", async () => {
+    const fixture = [
+      {
+        title: "Beispielnorm",
+        shortTitle: "Beispielnorm",
+        normWorkEli: "eli/bund/bgbl-1/2025/1",
+        expressions: [],
+      },
+      {
+        title: "Beispielnorm 2",
+        shortTitle: "Beispielnorm 2",
+        normWorkEli: "eli/bund/bgbl-1/2025/2",
+        expressions: [
+          {
+            createdBy: "diese Verkündung",
+            isCreated: true,
+            isGegenstandslos: false,
+            normExpressionEli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+          },
+        ],
+      },
+    ]
+
+    const useApiFetch = vi.fn().mockReturnValue({
+      data: ref(fixture),
+      post: vi.fn().mockReturnValue({
+        json: vi.fn().mockReturnValue({ data: ref(fixture) }),
+      }),
+      execute: vi.fn(),
+    })
+
+    vi.doMock("@/services/apiService", () => ({ useApiFetch }))
+
+    const { useCreateZielnormExpressions } = await import(
+      "./zielnormPreviewService"
+    )
+
+    const result = useCreateZielnormExpressions(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+      NormWorkEli.fromString("eli/bund/bgbl-1/2025/1"),
+    )
+
+    expect(result.data.value).toEqual([
+      {
+        title: "Beispielnorm",
+        shortTitle: "Beispielnorm",
+        normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2025/1"),
+        expressions: [],
+      },
+      {
+        title: "Beispielnorm 2",
+        shortTitle: "Beispielnorm 2",
+        normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2025/2"),
+        expressions: [
+          {
+            createdBy: "diese Verkündung",
+            isCreated: true,
+            isGegenstandslos: false,
+            normExpressionEli: NormExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+            ),
+          },
+        ],
+      },
+    ])
+
+    vi.doUnmock("@/services/apiService")
+  })
+
+  it("does not load if the expression ELI has no value", async () => {
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockResolvedValue(new Response("[]"))
+
+    const { useCreateZielnormExpressions } = await import(
+      "./zielnormPreviewService"
+    )
+
+    const expressionEli = ref(undefined)
+    const zielnormWorkEli = ref(
+      NormWorkEli.fromString("eli/bund/bgbl-1/2025/1"),
+    )
+    useCreateZielnormExpressions(expressionEli, zielnormWorkEli)
+    await flushPromises()
+    expect(fetchSpy).not.toHaveBeenCalled()
+  })
+
+  it("does not load if the zielnormWork ELI has no value", async () => {
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockResolvedValue(new Response("[]"))
+
+    const { useCreateZielnormExpressions } = await import(
+      "./zielnormPreviewService"
+    )
+
+    const expressionEli = ref(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+    )
+    const zielnormWorkEli = ref(undefined)
+    useCreateZielnormExpressions(expressionEli, zielnormWorkEli)
+    await flushPromises()
+    expect(fetchSpy).not.toHaveBeenCalled()
+  })
+})

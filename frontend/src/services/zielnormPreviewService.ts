@@ -77,3 +77,45 @@ export function useGetZielnormPreview(
 
   return { ...rest, data: mappedData }
 }
+
+/**
+ * Creates the new expressions of a Zielnorm for a Verkündung based on the
+ * Zeitgrenzen and affected documents configured in that Verkündung.
+ *
+ * @param expressionEli ELI of the Verkündung
+ * @param zielnormWorkEli ELI of the Zielnorm for which the new expressions
+ *  should be created
+ * @param [fetchOptions={}] Additional options for the fetching
+ * @returns Reactive fetch wrapper for the created expressions
+ */
+export function useCreateZielnormExpressions(
+  expressionEli: MaybeRefOrGetter<NormExpressionEli | undefined>,
+  zielnormWorkEli: MaybeRefOrGetter<NormWorkEli | undefined>,
+  fetchOptions: UseFetchOptions = {},
+) {
+  const url = computed(() => {
+    const expressionEliVal = toValue(expressionEli)
+    const zielnormWorkEliVal = toValue(zielnormWorkEli)
+    if (!(expressionEliVal && zielnormWorkEliVal)) return INVALID_URL
+    return `/verkuendungen/${expressionEliVal}/zielnormen/${zielnormWorkEliVal}/expressions/create`
+  })
+
+  const { data, ...rest } = useApiFetch(url, {
+    refetch: true,
+    ...fetchOptions,
+  })
+    .post()
+    .json<ZielnormPreviewResponse[]>()
+
+  const mappedData = ref<ZielnormPreview[] | null>(null)
+  watch(
+    data,
+    (newData) => {
+      if (newData === null) mappedData.value = null
+      else mappedData.value = newData.map(mapResponseToDomain)
+    },
+    { immediate: true },
+  )
+
+  return { ...rest, data: mappedData }
+}
