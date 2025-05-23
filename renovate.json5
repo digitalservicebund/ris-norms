@@ -14,6 +14,11 @@
   "ignoreDeps": [],
   "packageRules": [
     {
+      // version incompatibility with Spring Cloud (spring-cloud-starter-kubernetes-client-config), once version 3.3.0 is released this incompatibility should be fixed, see: https://github.com/spring-cloud/spring-cloud-release/wiki/Supported-Versions#supported-releases
+      "matchPackageNames": ["org.springframework.boot:*"],
+      "allowedVersions": "<3.5"
+    },
+    {
       "matchDepNames": [
         "software.amazon.awssdk:bom",
         "software.amazon.awssdk:s3"
