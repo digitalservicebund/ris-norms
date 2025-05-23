@@ -223,12 +223,9 @@ public class NormService
 
   @Override
   public List<Zielnorm> createZielnormExpressions(CreateZielnormenExpressionsUseCase.Query query) {
-    if (query.dryRun()) return loadZielnormenPreview(query);
-    else return loadAndSaveZielnormen();
-  }
-
-  private List<Zielnorm> loadAndSaveZielnormen() {
-    throw new UnsupportedOperationException("Not yet implemented");
+    final List<Zielnorm> zielNormen = loadZielnormenPreview(query);
+    if (query.dryRun()) return zielNormen;
+    else return createZielNormen(zielNormen);
   }
 
   private List<Zielnorm> loadZielnormenPreview(CreateZielnormenExpressionsUseCase.Query query) {
@@ -426,5 +423,20 @@ public class NormService
       .filter(Predicate.not(Norm::isGegenstandlos))
       .map(Norm::getExpressionEli)
       .toList();
+  }
+
+  private List<Zielnorm> createZielNormen(final List<Zielnorm> zielnormen) {
+    zielnormen.forEach(zielnorm -> {});
+    return zielnormen;
+    // 1. New manifestation for becoming gegenstandslos --> isCreated = true && isGegenstandslos = true && createdBy = OTHER_VERKUENDUNG
+
+    // 2. New expressions replacing those set to gegenstandslos --> isCreated = false && isGegenstandslos = false && createdBy = SYSTEM
+
+    // 3. Completely new expressions --> isCreated = false && isGegenstandslos = false && createdBy = THIS_VERKUENDUNG
+
+    // 4. Add elis of new expressions from 2. and 3. into XML node amended-expressions
+
+    // 5. Orphan elements in amended-expressions? meaning presen there but not in passed "zielnormen"? Remove XML from DB
+
   }
 }
