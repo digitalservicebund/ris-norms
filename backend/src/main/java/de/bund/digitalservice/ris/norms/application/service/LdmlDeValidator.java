@@ -82,13 +82,31 @@ public class LdmlDeValidator {
   public void validateXSDSchema(Dokument dokument) {
     var xmlContent = XmlMapper.toString(dokument.getDocument());
 
-    switch (dokument) {
-      case Regelungstext regelungstext -> this.parseAndValidateRegelungstext(xmlContent);
-      case Bekanntmachung bekanntmachung -> this.parseAndValidateBekanntmachung(xmlContent);
-      case OffeneStruktur offeneStruktur -> this.parseAndValidateOffeneStruktur(xmlContent);
-      case Rechtsetzungsdokument rechtsetzungsdokument -> this.parseAndValidateRechtsetzungsdokument(
-          xmlContent
-        );
+    try {
+      switch (dokument) {
+        case Regelungstext regelungstext -> this.parseAndValidateRegelungstext(xmlContent);
+        case Bekanntmachung bekanntmachung -> this.parseAndValidateBekanntmachung(xmlContent);
+        case OffeneStruktur offeneStruktur -> this.parseAndValidateOffeneStruktur(xmlContent);
+        case Rechtsetzungsdokument rechtsetzungsdokument -> this.parseAndValidateRechtsetzungsdokument(
+            xmlContent
+          );
+      }
+    } catch (LdmlDeNotValidException exception) {
+      throw new LdmlDeNotValidException(
+        exception
+          .getErrors()
+          .stream()
+          .map(error ->
+            new LdmlDeNotValidException.ValidationError(
+              error.type(),
+              error.lineNumber(),
+              error.columnNumber(),
+              error.detail(),
+              dokument.getManifestationEli().toString()
+            )
+          )
+          .toList()
+      );
     }
   }
 

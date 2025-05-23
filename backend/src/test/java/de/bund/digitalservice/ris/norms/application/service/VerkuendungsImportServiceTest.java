@@ -288,9 +288,7 @@ class VerkuendungsImportServiceTest {
 
       when(loadNormPort.loadNorm(any())).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
 

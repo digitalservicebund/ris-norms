@@ -19,9 +19,7 @@ class NormTest {
   @Test
   void getExpressionEli() {
     // given
-    Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    Norm norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     NormExpressionEli expectedEli = NormExpressionEli.fromString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
     );
@@ -36,9 +34,7 @@ class NormTest {
   @Test
   void getWorkEli() {
     // given
-    Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    Norm norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // when
     var actualEli = norm.getWorkEli();
@@ -50,9 +46,7 @@ class NormTest {
   @Test
   void getManifestationEli() {
     // given
-    Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    Norm norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     NormManifestationEli expectedEli = NormManifestationEli.fromString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
@@ -67,9 +61,15 @@ class NormTest {
   @Test
   void getManifestationEliNoRegelungsText() {
     // given
-    Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
-    );
+    Norm norm = Norm.builder()
+      .dokumente(
+        Set.of(
+          Fixtures.loadOffeneStrukturFromDisk(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+          )
+        )
+      )
+      .build();
     NormManifestationEli expectedEli = NormManifestationEli.fromString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
@@ -84,9 +84,7 @@ class NormTest {
   @Test
   void getGuid() {
     // given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // when
     UUID actualGuid = norm.getGuid();
@@ -98,9 +96,7 @@ class NormTest {
   @Test
   void getTitle() {
     // given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
     // when
@@ -113,9 +109,7 @@ class NormTest {
   @Test
   void getShortTitle() {
     // given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // when
     var shortTitle = norm.getShortTitle();
@@ -127,12 +121,8 @@ class NormTest {
   @Test
   void equalsShouldEqualWithSameXml() {
     // given
-    var norm1 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
-    var norm2 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // then
     assertThat(norm1).isEqualTo(norm2);
@@ -141,12 +131,8 @@ class NormTest {
   @Test
   void equalsShouldNotEqualWithDifferentXml() {
     // given
-    var norm1 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
-    var norm2 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
-    );
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15");
 
     // then
     assertThat(norm1).isNotEqualTo(norm2);
@@ -155,12 +141,8 @@ class NormTest {
   @Test
   void hashCodeShouldBeTheSameWithSameXml() {
     // given
-    var norm1 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
-    var norm2 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // then
     assertThat(norm1.hashCode()).hasSameHashCodeAs(norm2.hashCode());
@@ -190,12 +172,8 @@ class NormTest {
   @Test
   void hashCodeShouldBeDifferentWithDifferentXml() {
     // given
-    var norm1 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
-    var norm2 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
-    );
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15");
 
     // then
     assertThat(norm1.hashCode()).isNotEqualTo(norm2.hashCode());
@@ -294,7 +272,7 @@ class NormTest {
     )
     void itEvaluatesCorrectlyBasedOnDate(String inputDate, boolean expectedResult) {
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
 
       assertThat(norm.isInkraftAt(LocalDate.parse(inputDate))).isEqualTo(expectedResult);
@@ -329,7 +307,7 @@ class NormTest {
     @Test
     void itReturnsFalseForNonGegenstandsloseNorm() {
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
 
       assertThat(norm.isGegenstandlos()).isFalse();
@@ -337,7 +315,7 @@ class NormTest {
 
     @Test
     void itReturnsTrueForGegenstandsloseNorm() {
-      Norm norm = Fixtures.loadNormFromDisk(NormTest.class, "vereinsgesetz-gegenstandlos.xml");
+      Norm norm = Fixtures.loadNormFromDisk(NormTest.class, "vereinsgesetz-gegenstandlos");
 
       assertThat(norm.isGegenstandlos()).isTrue();
     }

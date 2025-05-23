@@ -27,9 +27,7 @@ class CreateNewVersionOfNormServiceTest {
   @Test
   void createNewExpressionWithSameDate() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
@@ -37,9 +35,7 @@ class CreateNewVersionOfNormServiceTest {
     );
     when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(
       Optional.of(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
       )
     );
 
@@ -53,7 +49,7 @@ class CreateNewVersionOfNormServiceTest {
     assertThat(result.newExpression().getExpressionEli()).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu"
     );
-    assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
+    assertThat(result.newExpression().getRegelungstexte()).hasSize(2);
     assertThat(result.newExpression().getRegelungstext1().getExpressionEli()).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/regelungstext-1"
     );
@@ -124,9 +120,7 @@ class CreateNewVersionOfNormServiceTest {
     when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
       NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu")
     );
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     // When
@@ -137,7 +131,7 @@ class CreateNewVersionOfNormServiceTest {
 
     // Then
 
-    assertThat(result.newExpression().getRegelungstexte()).hasSize(1);
+    assertThat(result.newExpression().getRegelungstexte()).hasSize(2);
     assertThat(result.newExpression().getExpressionEli()).hasToString(
       "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu"
     );
@@ -175,7 +169,7 @@ class CreateNewVersionOfNormServiceTest {
     );
     assertThat(manifestation.getFBRDate()).isEqualTo(currentDate);
 
-    assertThat(result.newManifestationOfOldExpression().getRegelungstexte()).hasSize(1);
+    assertThat(result.newManifestationOfOldExpression().getRegelungstexte()).hasSize(2);
     assertThat(result.newManifestationOfOldExpression().getManifestationEli()).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s".formatted(currentDate)
     );
@@ -206,9 +200,7 @@ class CreateNewVersionOfNormServiceTest {
   @Test
   void createNewManifestation() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // When
     var result = createNewVersionOfNormService.createNewManifestation(

@@ -34,9 +34,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldValidateAValidNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
       // When // Then
       ldmlDeValidator.validateXSDSchema(norm); // Check that it doesn't throw
@@ -45,10 +43,7 @@ class LdmlDeValidatorTest {
     @Test
     void itShouldNotValidateAInvalidNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        LdmlDeValidatorTest.class,
-        "vereinsgesetz-xsd-invalid.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk(LdmlDeValidatorTest.class, "vereinsgesetz-xsd-invalid");
 
       // When // Then
       assertThatThrownBy(() -> ldmlDeValidator.validateXSDSchema(norm)).isInstanceOf(
@@ -85,7 +80,7 @@ class LdmlDeValidatorTest {
       // Given
       String xml = Fixtures.loadTextFromDisk(
         LdmlDeValidatorTest.class,
-        "vereinsgesetz-xsd-invalid.xml"
+        "vereinsgesetz-xsd-invalid/regelungstext-1.xml"
       );
 
       // When // Then
@@ -191,7 +186,7 @@ class LdmlDeValidatorTest {
     void itShouldSuccessfullyValidateNorm() {
       // Given
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
         true
       );
 
@@ -204,7 +199,7 @@ class LdmlDeValidatorTest {
       // Given
       Norm norm = Fixtures.loadNormFromDisk(
         LdmlDeValidatorTest.class,
-        "vereinsgesetz-schematron-invalid.xml",
+        "vereinsgesetz-schematron-invalid",
         true
       );
 
@@ -261,7 +256,7 @@ class LdmlDeValidatorTest {
       // Given
       Norm norm = Fixtures.loadNormFromDisk(
         LdmlDeValidatorTest.class,
-        "vereinsgesetz-schematron-warning.xml",
+        "vereinsgesetz-schematron-warning",
         true
       );
 

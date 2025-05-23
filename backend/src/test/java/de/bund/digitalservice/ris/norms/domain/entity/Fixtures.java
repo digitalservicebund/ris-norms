@@ -1,12 +1,21 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.application.service.LdmlDeValidator;
 import de.bund.digitalservice.ris.norms.application.service.XsdSchemaService;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -91,28 +100,83 @@ public class Fixtures {
     return ldmlDeValidator;
   }
 
-  public static Norm loadNormFromDisk(final String fileName) {
-    return loadNormFromDisk(fileName, false);
+  public static Norm loadNormFromDisk(final String folderName) {
+    return loadNormFromDisk(folderName, false);
   }
 
-  public static Norm loadNormFromDisk(final Class<?> clazz, final String fileName) {
-    return loadNormFromDisk(clazz, fileName, false);
+  public static Norm loadNormFromDisk(final Class<?> clazz, final String folderName) {
+    return loadNormFromDisk(clazz, folderName, false);
   }
 
-  public static Norm loadNormFromDisk(final String fileName, boolean validated) {
-    return loadNormFromDisk(getResource(fileName), validated);
+  public static Norm loadNormFromDisk(final String folderName, boolean validated) {
+    return loadNormFromDisk(getResource(folderName), validated);
   }
 
   public static Norm loadNormFromDisk(
     final Class<?> clazz,
-    final String fileName,
+    final String folderName,
     boolean validated
   ) {
-    return loadNormFromDisk(getResource(clazz, fileName), validated);
+    return loadNormFromDisk(getResource(clazz, folderName), validated);
   }
 
-  private static Norm loadNormFromDisk(final URL fileName, boolean validated) {
-    return Norm.builder().dokumente(Set.of(loadRegelungstextFromDisk(fileName, validated))).build();
+  private static Norm loadNormFromDisk(final URL folderName, boolean validated) {
+    File folder = new File(folderName.getPath());
+
+    Set<Dokument> dokumente = new HashSet<>();
+    Set<BinaryFile> binaryFiles = new HashSet<>();
+    NormManifestationEli normManifestationEli = null;
+
+    for (File file : Objects.requireNonNull(folder.listFiles())) {
+      var dokType = file.getName().substring(0, file.getName().lastIndexOf("-"));
+      switch (dokType) {
+        case "regelungstext":
+          try {
+            dokumente.add(loadRegelungstextFromDisk(file.toURI().toURL(), validated));
+          } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+          }
+          break;
+        case "offenestruktur":
+          try {
+            dokumente.add(loadOffeneStrukturFromDisk(file.toURI().toURL(), validated));
+          } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+          }
+          break;
+        case "rechtsetzungsdokument":
+          try {
+            var rechtsetzungsdokument = loadRechtsetzungsdokumentFromDisk(
+              file.toURI().toURL(),
+              validated
+            );
+            dokumente.add(rechtsetzungsdokument);
+            normManifestationEli = rechtsetzungsdokument.getManifestationEli().asNormEli();
+          } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+          }
+          break;
+        default:
+          try {
+            assert normManifestationEli != null;
+            binaryFiles.add(
+              loadBinaryFileFromDisk(
+                file.toURI().toURL(),
+                DokumentManifestationEli.fromNormEli(
+                  normManifestationEli,
+                  file.getName().split("\\.")[0],
+                  file.getName().split("\\.")[1]
+                )
+              )
+            );
+          } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+          }
+          break;
+      }
+    }
+
+    return Norm.builder().dokumente(dokumente).binaryFiles(binaryFiles).build();
   }
 
   public static Regelungstext loadRegelungstextFromDisk(final String fileName) {
@@ -189,6 +253,17 @@ public class Fixtures {
     return new OffeneStruktur(XmlMapper.toDocument(loadTextFromDisk(fileName)));
   }
 
+  private static Rechtsetzungsdokument loadRechtsetzungsdokumentFromDisk(
+    final URL fileName,
+    final boolean validated
+  ) {
+    if (validated) {
+      return ldmlDeValidator.parseAndValidateRechtsetzungsdokument(loadTextFromDisk(fileName));
+    }
+
+    return new Rechtsetzungsdokument(XmlMapper.toDocument(loadTextFromDisk(fileName)));
+  }
+
   public static BinaryFile loadBinaryFileFromDisk(
     final String fileName,
     DokumentManifestationEli dokumentManifestationEli
@@ -251,5 +326,64 @@ public class Fixtures {
         "Could not find fixture " + fileName + " in test resources for class " + clazz.getName()
       )
     );
+  }
+
+  public static void loadAndSaveNormFixture(
+    DokumentRepository dokumentRepository,
+    BinaryFileRepository binaryFileRepository,
+    NormManifestationRepository normManifestationRepository,
+    String folderName,
+    NormPublishState publishState
+  ) {
+    final Norm norm = Fixtures.loadNormFromDisk(folderName);
+    saveNormFixture(
+      dokumentRepository,
+      binaryFileRepository,
+      normManifestationRepository,
+      norm,
+      publishState
+    );
+  }
+
+  public static void loadAndSaveNormFixture(
+    DokumentRepository dokumentRepository,
+    BinaryFileRepository binaryFileRepository,
+    NormManifestationRepository normManifestationRepository,
+    Class<?> clazz,
+    String folderName,
+    NormPublishState publishState
+  ) {
+    final Norm norm = Fixtures.loadNormFromDisk(clazz, folderName);
+    saveNormFixture(
+      dokumentRepository,
+      binaryFileRepository,
+      normManifestationRepository,
+      norm,
+      publishState
+    );
+  }
+
+  private static void saveNormFixture(
+    DokumentRepository dokumentRepository,
+    BinaryFileRepository binaryFileRepository,
+    NormManifestationRepository normManifestationRepository,
+    Norm norm,
+    NormPublishState publishState
+  ) {
+    norm
+      .getDokumente()
+      .forEach(dokument -> {
+        dokumentRepository.save(DokumentMapper.mapToDto(dokument));
+      });
+    norm
+      .getBinaryFiles()
+      .forEach(binaryFile -> {
+        binaryFileRepository.save(BinaryFileMapper.mapToDto(binaryFile));
+      });
+    var normDto = normManifestationRepository
+      .findByManifestationEli(norm.getManifestationEli().toString())
+      .orElseThrow();
+    normDto.setPublishState(publishState);
+    normManifestationRepository.save(normDto);
   }
 }

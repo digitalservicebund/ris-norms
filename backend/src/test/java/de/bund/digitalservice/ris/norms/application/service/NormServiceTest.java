@@ -56,9 +56,7 @@ class NormServiceTest {
     void itCallsLoadNormAndReturnsNorm() {
       // Given
       var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
@@ -74,9 +72,7 @@ class NormServiceTest {
     @Test
     void itCallsLoadNormByGuidAndReturnsNorm() {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(norm));
 
       // When
@@ -210,12 +206,18 @@ class NormServiceTest {
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-title.xml"
+        "vereinsgesetz-with-different-title/regelungstext-1.xml"
       );
 
-      var oldNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var oldNorm = Norm.builder()
+        .dokumente(
+          Set.of(
+            Fixtures.loadRegelungstextFromDisk(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            )
+          )
+        )
+        .build();
       var newNorm = Norm.builder()
         .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(newXml))))
         .build();
@@ -247,7 +249,7 @@ class NormServiceTest {
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-title.xml"
+        "vereinsgesetz-with-different-title/regelungstext-1.xml"
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -276,7 +278,7 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
       );
       var oldNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
@@ -303,10 +305,10 @@ class NormServiceTest {
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-guid.xml"
+        "vereinsgesetz-with-different-guid/regelungstext-1.xml"
       );
       var oldNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
@@ -332,7 +334,7 @@ class NormServiceTest {
     void itSavesANorm() {
       // given
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
 
       when(updateNormPort.updateNorm(new UpdateNormPort.Options(norm))).thenReturn(
@@ -352,9 +354,7 @@ class NormServiceTest {
   @Test
   void loadZielnormReferences() {
     // given
-    Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-    );
+    Norm norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
 
     when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
 
@@ -384,7 +384,7 @@ class NormServiceTest {
     void updateOneAndCreateOne() {
       // given
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
@@ -437,7 +437,7 @@ class NormServiceTest {
     void addOne() {
       // given
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
@@ -484,9 +484,7 @@ class NormServiceTest {
   @Test
   void deleteZielnormReferences() {
     // given
-    Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-    );
+    Norm norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
 
     when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
     when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
@@ -512,7 +510,7 @@ class NormServiceTest {
     @Test
     void itShouldGenerateCorrectElisForNoExistingExpressions() {
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
       when(
         loadNormPort.loadNorm(
@@ -527,9 +525,7 @@ class NormServiceTest {
         )
       ).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
       when(
@@ -540,9 +536,7 @@ class NormServiceTest {
         )
       ).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
       when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(List.of());
@@ -594,7 +588,7 @@ class NormServiceTest {
     @Test
     void itShouldGenerateCorrectElisForExistingExpressions() {
       Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
       when(
         loadNormPort.loadNorm(
@@ -608,9 +602,7 @@ class NormServiceTest {
           new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
         )
       ).thenReturn(
-        Optional.of(
-          Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
-        )
+        Optional.of(Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2"))
       );
       when(
         loadNormPort.loadNorm(
@@ -619,9 +611,7 @@ class NormServiceTest {
           )
         )
       ).thenReturn(
-        Optional.of(
-          Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2.xml")
-        )
+        Optional.of(Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-04-16-2"))
       );
       when(
         loadNormPort.loadNorm(
@@ -630,9 +620,7 @@ class NormServiceTest {
           )
         )
       ).thenReturn(
-        Optional.of(
-          Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-03-16-1.xml")
-        )
+        Optional.of(Fixtures.loadNormFromDisk(NormServiceTest.class, "vereinsgesetz-2017-03-16-1"))
       );
       when(
         loadNormPort.loadNorm(
@@ -644,7 +632,7 @@ class NormServiceTest {
         Optional.of(
           Fixtures.loadNormFromDisk(
             NormServiceTest.class,
-            "vereinsgesetz-2017-03-21-1-gegenstandlos.xml"
+            "vereinsgesetz-2017-03-21-1-gegenstandlos"
           )
         )
       );
@@ -658,7 +646,7 @@ class NormServiceTest {
         Optional.of(
           Fixtures.loadNormFromDisk(
             NormServiceTest.class,
-            "vereinsgesetz-2017-04-16-1-gegenstandlos.xml"
+            "vereinsgesetz-2017-04-16-1-gegenstandlos"
           )
         )
       );
