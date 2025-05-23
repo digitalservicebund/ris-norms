@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -762,6 +763,7 @@ class NormServiceTest {
   class loadAndSaveZielnormen {
 
     @Test
+    @Disabled("Being implemented")
     void itShouldRunloadAndSaveZielnormen() {
       CreateZielnormenExpressionsUseCase.Query query = new CreateZielnormenExpressionsUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),

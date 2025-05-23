@@ -223,10 +223,18 @@ public class NormService
   }
 
   @Override
-  @SuppressWarnings("java:S125") // for the commented-out code
   public Zielnorm createZielnormExpressions(CreateZielnormenExpressionsUseCase.Query query) {
-    // final List<Zielnorm> zielNormenPreview = loadZielnormenPreview(query.verkuendungEli());
-    throw new UnsupportedOperationException("Not yet implemented");
+    final List<Zielnorm> zielNormenPreview = loadZielnormenPreview(query.verkuendungEli());
+    final Zielnorm affectedNorm = zielNormenPreview
+      .stream()
+      .filter(f -> f.normWorkEli().equals(query.affectedWorkEli()))
+      .findFirst()
+      .orElseThrow(() ->
+        new IllegalStateException(
+          String.format("Affected norm with %s not found", query.affectedWorkEli())
+        )
+      );
+    return createZielNormen(affectedNorm);
   }
 
   @Override
@@ -406,5 +414,37 @@ public class NormService
       .filter(Predicate.not(Norm::isGegenstandlos))
       .map(Norm::getExpressionEli)
       .toList();
+  }
+
+  @SuppressWarnings("java:S125") // for the commented-out lines
+  private Zielnorm createZielNormen(final Zielnorm zielnorm) {
+    // For now just returning the same list but manually setting all to created
+    return new Zielnorm(
+      zielnorm.normWorkEli(),
+      zielnorm.title(),
+      zielnorm.shortTitle(),
+      zielnorm
+        .expressions()
+        .stream()
+        .map(expr ->
+          new Zielnorm.Expression(
+            expr.normExpressionEli(),
+            expr.isGegenstandslos(),
+            true,
+            expr.createdBy()
+          )
+        )
+        .toList()
+    );
+    // 1. New manifestation for becoming gegenstandslos --> isCreated = true && isGegenstandslos = true && createdBy = OTHER_VERKUENDUNG
+
+    // 2. New expressions replacing those set to gegenstandslos --> isCreated = false && isGegenstandslos = false && createdBy = SYSTEM
+
+    // 3. Completely new expressions --> isCreated = false && isGegenstandslos = false && createdBy = THIS_VERKUENDUNG
+
+    // 4. Add elis of new expressions from 2. and 3. into XML node amended-expressions
+
+    // 5. Orphan elements in amended-expressions? meaning present there but not in passed "zielnormen"? Remove XML from DB
+
   }
 }
