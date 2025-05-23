@@ -49,9 +49,7 @@ class NormExpressionControllerTest {
     @Test
     void itReturnsNorm() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);

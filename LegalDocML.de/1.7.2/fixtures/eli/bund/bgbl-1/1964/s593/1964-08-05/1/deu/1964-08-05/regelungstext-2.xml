@@ -168,7 +168,7 @@
                <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
                <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
                <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-              <ris:einzelelement href="#hauptteil-1_art-1">
+               <ris:einzelelement href="#hauptteil-1_art-1">
                   <ris:artDerNorm>SN</ris:artDerNorm>
                </ris:einzelelement>
                <ris:inkraft date="1964-08-05" />

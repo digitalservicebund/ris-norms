@@ -43,9 +43,7 @@ class VerkuendungDBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsVerkuendungOnDB() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     dokumentRepository.save(DokumentMapper.mapToDto(norm.getRegelungstext1()));
     var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
     verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));

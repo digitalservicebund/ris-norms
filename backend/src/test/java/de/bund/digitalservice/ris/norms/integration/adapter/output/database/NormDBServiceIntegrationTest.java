@@ -57,12 +57,12 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFindsNormOnDB() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When
@@ -77,9 +77,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
         .isPresent()
         .satisfies(normDb ->
           assertThat(normDb).contains(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         );
     }
@@ -132,12 +130,12 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When
@@ -149,21 +147,19 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
       );
     }
 
     @Test
     void itFindsNormByManifestationEli() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When
@@ -175,9 +171,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
       );
     }
 
@@ -208,21 +202,19 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15")
       );
     }
 
     @Test
     void itFindsNormByWorkEli() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.PUBLISHED
       );
 
       // When
@@ -232,9 +224,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
       );
     }
   }
@@ -242,12 +232,12 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNormByGuidOnDB() {
     // When
-    dokumentRepository.save(
-      DokumentMapper.mapToDto(
-        Fixtures.loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
-      )
+    Fixtures.loadAndSaveNormFixture(
+      dokumentRepository,
+      binaryFileRepository,
+      normManifestationRepository,
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+      NormPublishState.UNPUBLISHED
     );
 
     // When
@@ -258,11 +248,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(normOptional)
       .isPresent()
-      .contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
-      );
+      .contains(Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"));
   }
 
   @Nested
@@ -280,7 +266,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       var newNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
       );
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 

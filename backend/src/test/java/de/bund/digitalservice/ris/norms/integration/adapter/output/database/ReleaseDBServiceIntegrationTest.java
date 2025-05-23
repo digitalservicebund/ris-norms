@@ -59,9 +59,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
       // When
@@ -99,9 +97,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();
@@ -152,9 +148,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();
@@ -200,9 +194,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();
@@ -223,9 +215,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release2 = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();

@@ -59,9 +59,7 @@ class VerkuendungServiceTest {
     @Test
     void itReturnsVerkuendungen() {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
       when(loadAllVerkuendungenPort.loadAllVerkuendungen()).thenReturn(List.of(verkuendung));
 
@@ -80,9 +78,7 @@ class VerkuendungServiceTest {
     @Test
     void itThrowsVerkuendungNotFoundException() {
       // given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       final var query = new LoadVerkuendungUseCase.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       );
@@ -118,9 +114,7 @@ class VerkuendungServiceTest {
     @Test
     void itReturnsVerkuendung() {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -165,9 +159,7 @@ class VerkuendungServiceTest {
         )
       ).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
       when(
@@ -256,9 +248,7 @@ class VerkuendungServiceTest {
 
       doReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       )
         .when(loadNormPort)
@@ -271,9 +261,7 @@ class VerkuendungServiceTest {
         );
       doReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
         )
       )
         .when(loadNormPort)
@@ -295,9 +283,7 @@ class VerkuendungServiceTest {
     @Test
     void itThrowsWhenANormWithSameGuidExists() throws IOException {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -314,9 +300,7 @@ class VerkuendungServiceTest {
         )
       ).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
       when(
@@ -385,9 +369,7 @@ class VerkuendungServiceTest {
         )
       ).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
       when(
@@ -431,9 +413,7 @@ class VerkuendungServiceTest {
         )
       ).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
       when(
@@ -444,9 +424,7 @@ class VerkuendungServiceTest {
         )
       ).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
         )
       );
 
@@ -477,10 +455,10 @@ class VerkuendungServiceTest {
     void itReturnsListOfNorms() {
       // Given
       var verkuendungsNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
       var affectedNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
       );
 
       when(loadNormPort.loadNorm(any()))
@@ -510,7 +488,7 @@ class VerkuendungServiceTest {
     void itDoesntReturnNonExistingNorms() {
       // Given
       var verkuendungsNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
 
       when(loadNormPort.loadNorm(any()))

@@ -158,7 +158,7 @@ class PublishServiceTest {
     void publishNormToPublicButPrivateFails() {
       // Given
       final Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
@@ -194,7 +194,7 @@ class PublishServiceTest {
     void publishNormToPublicFails() {
       // Given
       final Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       when(
         loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
@@ -230,7 +230,7 @@ class PublishServiceTest {
     void deleteAllNormsIfUnpublishedMigrationLogExists() {
       // Given
       final Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       final MigrationLog migrationLog = MigrationLog.builder()
         .size(5)
@@ -303,7 +303,7 @@ class PublishServiceTest {
     void doNotDeleteNormsIfNoMigrationLogExists() {
       // Given
       final Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
 
       when(
@@ -340,7 +340,7 @@ class PublishServiceTest {
     void doNotDeleteNormsIfMigrationLogIsAlreadyPublished() {
       // Given
       final Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       final MigrationLog migrationLog = MigrationLog.builder()
         .size(5)
@@ -382,7 +382,7 @@ class PublishServiceTest {
     void deleteAllNormsIfMigrationLogExistsAndIsOldButNotCompleted() {
       // Given
       final Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       final MigrationLog migrationLog = MigrationLog.builder()
         .size(5)
