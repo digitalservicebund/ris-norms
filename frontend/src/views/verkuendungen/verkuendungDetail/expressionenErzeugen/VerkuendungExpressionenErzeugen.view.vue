@@ -12,8 +12,9 @@ import {
   useCreateZielnormExpressions,
   useGetZielnormPreview,
 } from "@/services/zielnormExpressionsService"
+import { cloneDeep, isEqual } from "lodash"
 import { ConfirmDialog, useConfirm, useToast } from "primevue"
-import { ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
@@ -41,8 +42,16 @@ const {
 const {
   data: previewData,
   error: previewError,
+  execute: fetchPreviewData,
   isFinished: previewIsFinished,
 } = useGetZielnormPreview(() => eli.value.asNormEli())
+
+// Loading state for the view that is only true for the initial load.
+// Prevents flickering when syncing data before submitting the create
+// request.
+const previewDataInitialLoad = computed(
+  () => !previewIsFinished && !previewData,
+)
 
 const zielnormWorkEli = ref<NormWorkEli>()
 
@@ -56,12 +65,34 @@ const {
   isFinished: finishedCreatingExpressions,
 } = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
 
-function beginCreateExpression(eli: NormWorkEli) {
-  const previewDataForEli = previewData.value?.find((i) =>
-    i.normWorkEli.equals(eli),
-  )
+async function beginCreateExpression(eli: NormWorkEli) {
+  // TODO: Loading
+  if (!previewData.value) return
 
-  if (!previewDataForEli) return
+  const dataIndex =
+    previewData.value.findIndex((i) => i.normWorkEli.equals(eli)) ?? -1
+
+  if (dataIndex < 0) return
+
+  const previewDataForEli = cloneDeep(previewData.value[dataIndex])
+  try {
+    await fetchPreviewData(true)
+  } catch {
+    // TODO: Handle error
+    return
+  }
+
+  console.log({ previewData: previewData.value[dataIndex], previewDataForEli })
+  if (!isEqual(previewData.value[dataIndex], previewDataForEli)) {
+    addToast({
+      summary: "Die Daten haben sich geändert",
+      detail:
+        "Bitte prüfen Sie die neuen Daten auf Korrektheit und versuchen Sie es dann erneut.",
+      severity: "warn",
+    })
+
+    return
+  }
 
   const needsConfirmOverride = previewDataForEli.expressions.some(
     (i) => i.isCreated && !i.isGegenstandslos,
@@ -125,7 +156,7 @@ watch(finishedCreatingExpressions, (newVal) => {
   <RisViewLayout
     :breadcrumbs
     :errors="[verkuendungError, previewError]"
-    :loading="!verkuendungHasFinished || !previewIsFinished"
+    :loading="!verkuendungHasFinished || previewDataInitialLoad"
   >
     <h1 class="sr-only">Expressionen erzeugen</h1>
 
