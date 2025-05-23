@@ -6,7 +6,7 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import { useGetZielnormPreview } from "@/services/zielnormPreviewService"
+import { useGetZielnormPreview } from "@/services/zielnormExpressionsService"
 import { ConfirmDialog, useConfirm } from "primevue"
 import { ref } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
