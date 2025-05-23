@@ -38,7 +38,7 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.2.1"
-spring-security-test = "org.springframework.security:spring-security-test:6.5.0"
+spring-security-test = { module = "org.springframework.security:spring-security-test"}
 # CVE-2023-3635
 squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.11.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
