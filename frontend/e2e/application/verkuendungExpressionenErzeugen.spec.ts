@@ -163,9 +163,54 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     )
   })
 
-  test("asks for confirmation before creating expressions for the first time", async ({
-    page,
-  }) => {
+  test("creates expressions for the first time", async ({ page }) => {
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+    )
+
+    await page
+      .getByRole("button", {
+        name: "Gesetz zur Regelung des öffentlichen Vereinsrechts (Vereinsgesetz)",
+      })
+      .click()
+
+    const row = page.getByRole("row")
+
+    // Assert that the expression has not been created yet. Note that this will
+    // only work with a clean DB since creating expressions can not easily be
+    // reversed.
+    await expect(row.getByText("Expression erzeugt")).toBeHidden()
+
+    await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+
+    await expect(
+      page.getByText(
+        "Sind Sie sicher, dass Sie die Expressionen erzeugen möchten?",
+      ),
+    ).toBeVisible()
+
+    await page.getByRole("button", { name: "Erzeugen", exact: true }).click()
+
+    await expect(page.getByText("Gespeichert!")).toBeVisible()
+
+    await expect(
+      row.getByText("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+    ).toBeVisible()
+
+    await expect(row.getByText("Expression erzeugt")).toBeVisible()
+  })
+
+  test("shows an error if creating expressions fails", async ({ page }) => {
+    await page.route(
+      "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/eli/bund/bgbl-1/1964/s593/expressions/create",
+      async (route) => {
+        await route.fulfill({
+          status: 500,
+          json: {},
+        })
+      },
+    )
+
     await page.goto(
       "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
     )
@@ -183,11 +228,16 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
         "Sind Sie sicher, dass Sie die Expressionen erzeugen möchten?",
       ),
     ).toBeVisible()
+
+    await page.getByRole("button", { name: "Erzeugen", exact: true }).click()
+
+    await expect(
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
+    ).toBeVisible()
   })
 
-  test("asks for confirmation before re-creating expressions", async ({
-    page,
-  }) => {
+  test("re-creates expressions", async ({ page }) => {
+    // TODO: Remove once the API has been implemented
     await page.route(
       "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview",
       async (route) => {
@@ -223,6 +273,11 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
       })
       .click()
 
+    const row = page.getByRole("row")
+
+    // Assert that the expression has already been created
+    await expect(row.getByText("Expression erzeugt")).toBeVisible()
+
     await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
 
     await expect(
@@ -230,5 +285,17 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
         "Sind Sie sicher, dass Sie die Expressionen erneut erzeugen und damit bereits erzeugte Expressionen überschrieben möchten?",
       ),
     ).toBeVisible()
+
+    await page
+      .getByRole("button", { name: "Erneut erzeugen", exact: true })
+      .click()
+
+    await expect(page.getByText("Gespeichert!")).toBeVisible()
+
+    await expect(
+      row.getByText("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+    ).toBeVisible()
+
+    await expect(row.getByText("Expression erzeugt")).toBeVisible()
   })
 })
