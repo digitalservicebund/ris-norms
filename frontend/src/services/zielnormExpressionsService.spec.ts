@@ -128,27 +128,19 @@ describe("useCreateZielnormExpressions", () => {
   })
 
   it("provides the data from the API", async () => {
-    const fixture = [
-      {
-        title: "Beispielnorm",
-        shortTitle: "Beispielnorm",
-        normWorkEli: "eli/bund/bgbl-1/2025/1",
-        expressions: [],
-      },
-      {
-        title: "Beispielnorm 2",
-        shortTitle: "Beispielnorm 2",
-        normWorkEli: "eli/bund/bgbl-1/2025/2",
-        expressions: [
-          {
-            createdBy: "diese Verkündung",
-            isCreated: true,
-            isGegenstandslos: false,
-            normExpressionEli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
-          },
-        ],
-      },
-    ]
+    const fixture = {
+      title: "Beispielnorm 2",
+      shortTitle: "Beispielnorm 2",
+      normWorkEli: "eli/bund/bgbl-1/2025/2",
+      expressions: [
+        {
+          createdBy: "diese Verkündung",
+          isCreated: true,
+          isGegenstandslos: false,
+          normExpressionEli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        },
+      ],
+    }
 
     const useApiFetch = vi.fn().mockReturnValue({
       data: ref(fixture),
@@ -164,34 +156,26 @@ describe("useCreateZielnormExpressions", () => {
       "./zielnormExpressionsService"
     )
 
-    const result = useCreateZielnormExpressions(
+    const { data } = useCreateZielnormExpressions(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
       NormWorkEli.fromString("eli/bund/bgbl-1/2025/1"),
     )
 
-    expect(result.data.value).toEqual([
-      {
-        title: "Beispielnorm",
-        shortTitle: "Beispielnorm",
-        normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2025/1"),
-        expressions: [],
-      },
-      {
-        title: "Beispielnorm 2",
-        shortTitle: "Beispielnorm 2",
-        normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2025/2"),
-        expressions: [
-          {
-            createdBy: "diese Verkündung",
-            isCreated: true,
-            isGegenstandslos: false,
-            normExpressionEli: NormExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
-            ),
-          },
-        ],
-      },
-    ])
+    expect(data.value).toEqual({
+      title: "Beispielnorm 2",
+      shortTitle: "Beispielnorm 2",
+      normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2025/2"),
+      expressions: [
+        {
+          createdBy: "diese Verkündung",
+          isCreated: true,
+          isGegenstandslos: false,
+          normExpressionEli: NormExpressionEli.fromString(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+          ),
+        },
+      ],
+    })
 
     vi.doUnmock("@/services/apiService")
   })

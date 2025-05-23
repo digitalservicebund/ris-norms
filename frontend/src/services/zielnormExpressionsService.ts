@@ -43,6 +43,11 @@ type UseGetZielnormPreviewReturn = Omit<
   "get" | "post" | "put" | "delete" | "patch" | "head" | "options"
 >
 
+type useCreateZielnormExpressionsReturn = Omit<
+  UseFetchReturn<ZielnormPreview>,
+  "get" | "post" | "put" | "delete" | "patch" | "head" | "options"
+>
+
 /**
  * Fetches the list of Zielnorm previews from the API.
  *
@@ -92,7 +97,7 @@ export function useCreateZielnormExpressions(
   expressionEli: MaybeRefOrGetter<NormExpressionEli | undefined>,
   zielnormWorkEli: MaybeRefOrGetter<NormWorkEli | undefined>,
   fetchOptions: UseFetchOptions = {},
-) {
+): useCreateZielnormExpressionsReturn {
   const url = computed(() => {
     const expressionEliVal = toValue(expressionEli)
     const zielnormWorkEliVal = toValue(zielnormWorkEli)
@@ -105,14 +110,14 @@ export function useCreateZielnormExpressions(
     immediate: false,
   })
     .post()
-    .json<ZielnormPreviewResponse[]>()
+    .json<ZielnormPreviewResponse>()
 
-  const mappedData = ref<ZielnormPreview[] | null>(null)
+  const mappedData = ref<ZielnormPreview | null>(null)
   watch(
     data,
     (newData) => {
       if (newData === null) mappedData.value = null
-      else mappedData.value = newData.map(mapResponseToDomain)
+      else mappedData.value = mapResponseToDomain(newData)
     },
     { immediate: true },
   )
