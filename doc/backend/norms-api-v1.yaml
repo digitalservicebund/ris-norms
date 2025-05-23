@@ -126,7 +126,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /verkuendungen/{expressionEli}/zielnormen/expressions/create:
+  /verkuendungen/{expressionEli}/zielnormen/{zielWorkEli}/expressions/create:
     post:
       tags:
         - Verkuendungen
@@ -137,15 +137,18 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/NormExpressionEli"
+        - name: zielWorkEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormWorkEli"
       responses:
         "200":
           description: List of Zielnormen with all changed expressions
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Zielnormen"
+                $ref: "#/components/schemas/Zielnormen"
         "404":
           $ref: "#/components/responses/NotFound"
         "500":

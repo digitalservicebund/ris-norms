@@ -10,16 +10,13 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormRespons
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.VerkuendungResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormenPreviewResponseSchema;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.CreateZielnormenExpressionsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAllVerkuendungenUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsAffectedByVerkuendungUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadVerkuendungUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
+import de.bund.digitalservice.ris.norms.domain.entity.Zielnorm;
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +33,7 @@ public class VerkuendungenController {
   private final LoadNormUseCase loadNormUseCase;
   private final LoadVerkuendungUseCase loadVerkuendungUseCase;
   private final LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
+  private final LoadZielnormenExpressionsUseCase loadZielnormenExpressionsUseCase;
   private final CreateZielnormenExpressionsUseCase createZielnormenExpressionsUseCase;
 
   public VerkuendungenController(
@@ -44,6 +42,7 @@ public class VerkuendungenController {
     LoadNormUseCase loadNormUseCase,
     LoadVerkuendungUseCase loadVerkuendungUseCase,
     LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase,
+    LoadZielnormenExpressionsUseCase loadZielnormenExpressionsUseCase,
     CreateZielnormenExpressionsUseCase createZielnormenExpressionsUseCase
   ) {
     this.loadAllVerkuendungenUseCase = loadAllVerkuendungenUseCase;
@@ -52,6 +51,7 @@ public class VerkuendungenController {
     this.loadVerkuendungUseCase = loadVerkuendungUseCase;
     this.loadNormExpressionsAffectedByVerkuendungUseCase =
       loadNormExpressionsAffectedByVerkuendungUseCase;
+    this.loadZielnormenExpressionsUseCase = loadZielnormenExpressionsUseCase;
     this.createZielnormenExpressionsUseCase = createZielnormenExpressionsUseCase;
   }
 
@@ -138,8 +138,8 @@ public class VerkuendungenController {
     NormExpressionEli eli
   ) {
     return ResponseEntity.ok(
-      createZielnormenExpressionsUseCase
-        .createZielnormExpressions(new CreateZielnormenExpressionsUseCase.Query(eli))
+      loadZielnormenExpressionsUseCase
+        .loadZielnormExpressions(new LoadZielnormenExpressionsUseCase.Query(eli))
         .stream()
         .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
         .toList()
@@ -147,29 +147,35 @@ public class VerkuendungenController {
   }
 
   /**
-   * Create new expressions for the Zielnormen referenced in the Verkündung according to specified Zeitgrenzen.
+   * Create new expressions for one specific Zielnorm referenced in the Verkündung according to specified Zeitgrenzen.
    * <p>
    *
-   * @param eli the expression eli of the Verkündung
+   * @param verkuendungEli the expression eli of the Verkündung
+   * @param workAgent the agent of the work eli of the affected document
+   * @param workYear the year of the work eli of the affected document
+   * @param workNaturalId the natural identifier of the work eli of the affected document
    * @return A {@link ResponseEntity} containing the list of zielnorm expressions that were set to gegenstandslos or were created
    *     <p>Returns HTTP 200 (OK) and the list of zielnorm expressions on successful execution.
    *     <p>Returns HTTP 404 (Not Found) if the Verkündung is not found.
    */
   @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
   @PostMapping(
-    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen/expressions/preview",
+    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen/eli/bund/{workAgent}/{workYear}/{workNaturalId}/expressions/create",
     produces = APPLICATION_JSON_VALUE
   )
-  public ResponseEntity<List<ZielnormenPreviewResponseSchema>> createZielnormenExpressions(
-    NormExpressionEli eli
+  public ResponseEntity<ZielnormenPreviewResponseSchema> createZielnormenExpressions(
+    NormExpressionEli verkuendungEli,
+    @PathVariable("workAgent") String workAgent,
+    @PathVariable("workYear") String workYear,
+    @PathVariable("workNaturalId") String workNaturalId
   ) {
-    return ResponseEntity.ok(
-      createZielnormenExpressionsUseCase
-        .createZielnormExpressions(new CreateZielnormenExpressionsUseCase.Query(eli, false))
-        .stream()
-        .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
-        .toList()
+    final Zielnorm zielnorm = createZielnormenExpressionsUseCase.createZielnormExpressions(
+      new CreateZielnormenExpressionsUseCase.Query(
+        verkuendungEli,
+        new NormWorkEli(workAgent, workYear, workNaturalId)
+      )
     );
+    return ResponseEntity.ok(ZielnormenPreviewResponseMapper.fromUseCaseData(zielnorm));
   }
 
   /**

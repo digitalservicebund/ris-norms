@@ -1,24 +1,22 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormenPreviewResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.CreateZielnormenExpressionsUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Zielnorm;
 
 /**
- * Mapper between {@link CreateZielnormenExpressionsUseCase.Zielnorm} and {@link ZielnormenPreviewResponseSchema}
+ * Mapper between {@link Zielnorm} and {@link ZielnormenPreviewResponseSchema}
  */
 public class ZielnormenPreviewResponseMapper {
 
   private ZielnormenPreviewResponseMapper() {}
 
   /**
-   * Creates a {@link ZielnormenPreviewResponseSchema} instance from a {@link CreateZielnormenExpressionsUseCase.Zielnorm} entity.
+   * Creates a {@link ZielnormenPreviewResponseSchema} instance from a {@link Zielnorm} entity.
    *
-   * @param zielnorm The input {@link CreateZielnormenExpressionsUseCase.Zielnorm} entity to be converted.
+   * @param zielnorm The input {@link Zielnorm} entity to be converted.
    * @return A new {@link ZielnormenPreviewResponseSchema}.
    */
-  public static ZielnormenPreviewResponseSchema fromUseCaseData(
-    final CreateZielnormenExpressionsUseCase.Zielnorm zielnorm
-  ) {
+  public static ZielnormenPreviewResponseSchema fromUseCaseData(final Zielnorm zielnorm) {
     return new ZielnormenPreviewResponseSchema(
       zielnorm.normWorkEli().toString(),
       zielnorm.title(),
@@ -28,7 +26,7 @@ public class ZielnormenPreviewResponseMapper {
   }
 
   private static ZielnormenPreviewResponseSchema.Expression fromUseCaseData(
-    final CreateZielnormenExpressionsUseCase.Zielnorm.Expression zielnormPreviewExpression
+    final Zielnorm.Expression zielnormPreviewExpression
   ) {
     return new ZielnormenPreviewResponseSchema.Expression(
       zielnormPreviewExpression.normExpressionEli().toString(),
@@ -38,9 +36,7 @@ public class ZielnormenPreviewResponseMapper {
     );
   }
 
-  private static String fromUseCaseData(
-    final CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy createdBy
-  ) {
+  private static String fromUseCaseData(final Zielnorm.CreatedBy createdBy) {
     return switch (createdBy) {
       case SYSTEM -> "System";
       case THIS_VERKUENDUNG -> "diese Verkündung";

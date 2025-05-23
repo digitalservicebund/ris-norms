@@ -33,6 +33,7 @@ public class NormService
     UpdateRegelungstextXmlUseCase,
     LoadRegelungstextUseCase,
     LoadZielnormReferencesUseCase,
+    LoadZielnormenExpressionsUseCase,
     CreateZielnormenExpressionsUseCase,
     UpdateZielnormReferencesUseCase,
     DeleteZielnormReferencesUseCase {
@@ -222,17 +223,19 @@ public class NormService
   }
 
   @Override
-  public List<Zielnorm> createZielnormExpressions(CreateZielnormenExpressionsUseCase.Query query) {
-    if (query.dryRun()) return loadZielnormenPreview(query);
-    else return loadAndSaveZielnormen();
-  }
-
-  private List<Zielnorm> loadAndSaveZielnormen() {
+  @SuppressWarnings("java:S125") // for the commented-out code
+  public Zielnorm createZielnormExpressions(CreateZielnormenExpressionsUseCase.Query query) {
+    // final List<Zielnorm> zielNormenPreview = loadZielnormenPreview(query.verkuendungEli());
     throw new UnsupportedOperationException("Not yet implemented");
   }
 
-  private List<Zielnorm> loadZielnormenPreview(CreateZielnormenExpressionsUseCase.Query query) {
-    var verkuendungNorm = loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
+  @Override
+  public List<Zielnorm> loadZielnormExpressions(LoadZielnormenExpressionsUseCase.Query query) {
+    return loadZielnormenPreview(query.verkuendungEli());
+  }
+
+  private List<Zielnorm> loadZielnormenPreview(final NormExpressionEli eli) {
+    var verkuendungNorm = loadNorm(new LoadNormUseCase.EliQuery(eli));
 
     List<NormWorkEli> zielnormWorkElis = verkuendungNorm
       .getRegelungstext1()

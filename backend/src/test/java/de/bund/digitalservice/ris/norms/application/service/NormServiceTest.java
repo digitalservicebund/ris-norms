@@ -549,8 +549,8 @@ class NormServiceTest {
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
       );
 
-      var preview = service.createZielnormExpressions(
-        new CreateZielnormenExpressionsUseCase.Query(
+      var preview = service.loadZielnormExpressions(
+        new LoadZielnormenExpressionsUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -564,11 +564,11 @@ class NormServiceTest {
       assertThat(preview.getFirst().expressions())
         .hasSize(1)
         .containsExactly(
-          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
+          new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             false,
             false,
-            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.THIS_VERKUENDUNG
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
           )
         );
 
@@ -673,8 +673,8 @@ class NormServiceTest {
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"))
         .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"));
 
-      var preview = service.createZielnormExpressions(
-        new CreateZielnormenExpressionsUseCase.Query(
+      var preview = service.loadZielnormExpressions(
+        new LoadZielnormenExpressionsUseCase.Query(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -688,29 +688,29 @@ class NormServiceTest {
       assertThat(preview.getFirst().expressions())
         .hasSize(4)
         .containsExactly(
-          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
+          new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             true,
             true,
-            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.OTHER_VERKUENDUNG
+            Zielnorm.CreatedBy.OTHER_VERKUENDUNG
           ),
-          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
+          new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
             false,
             false,
-            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.THIS_VERKUENDUNG
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
           ),
-          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
+          new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
             true,
             true,
-            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.OTHER_VERKUENDUNG
+            Zielnorm.CreatedBy.OTHER_VERKUENDUNG
           ),
-          new CreateZielnormenExpressionsUseCase.Zielnorm.Expression(
+          new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
             false,
             false,
-            CreateZielnormenExpressionsUseCase.Zielnorm.CreatedBy.SYSTEM
+            Zielnorm.CreatedBy.SYSTEM
           )
         );
 
@@ -765,7 +765,7 @@ class NormServiceTest {
     void itShouldRunloadAndSaveZielnormen() {
       CreateZielnormenExpressionsUseCase.Query query = new CreateZielnormenExpressionsUseCase.Query(
         NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
-        false
+        NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
       );
 
       assertThatThrownBy(() -> service.createZielnormExpressions(query))

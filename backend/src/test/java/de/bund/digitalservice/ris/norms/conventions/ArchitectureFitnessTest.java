@@ -63,6 +63,7 @@ class ArchitectureFitnessTest {
     "org.w3c.dom..",
     "org.apache.commons.lang3..",
     "com.fasterxml.jackson.annotation..",
+    "javax.annotation..",
   };
   static final String[] UTILITY_LAYER_ALLOWED_PACKAGES = new String[] {
     UTILS_LAYER_PACKAGES,
