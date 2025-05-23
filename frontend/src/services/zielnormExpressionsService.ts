@@ -101,8 +101,8 @@ export function useCreateZielnormExpressions(
   })
 
   const { data, ...rest } = useApiFetch(url, {
-    refetch: true,
     ...fetchOptions,
+    immediate: false,
   })
     .post()
     .json<ZielnormPreviewResponse[]>()
