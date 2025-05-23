@@ -69,7 +69,7 @@
     </akn:preface>
     <akn:body GUID="7841f98b-118f-4e43-81e1-518d996769f9" eId="hauptteil-1">
       <akn:article GUID="625630db-6d2b-4832-bece-5ddfebb47c47" eId="hauptteil-1_art-1" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
-        <akn:num GUID="335cf281-5363-491a-b15c-eee983e1c2fd" eId="hauptteil-1_art-1_bezeichnung-1"/>
+        <akn:num GUID="335cf281-5363-491a-b15c-eee983e1c2fd" eId="hauptteil-1_art-1_bezeichnung-1">§ 1</akn:num>
         <akn:heading GUID="4a243dbf-fd25-4ca1-b3ee-6ca3cfe56db9" eId="hauptteil-1_art-1_überschrift-1">Basic HTML Elements</akn:heading>
         <akn:paragraph GUID="440a9563-7173-45f7-8841-85bd00e61afd" eId="hauptteil-1_art-1_abs-1">
           <akn:num GUID="006095b2-7766-43ed-bb8f-d5ac06eaf363" eId="hauptteil-1_art-1_abs-1_bezeichnung-1"/>
@@ -95,7 +95,7 @@
         </akn:paragraph>
       </akn:article>
       <akn:article GUID="f52b7366-7e99-4c15-b408-563606c2f329" eId="hauptteil-1_art-2" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
-        <akn:num GUID="50f68296-b627-4024-9df0-c984325535b0" eId="hauptteil-1_art-2_bezeichnung-1"/>
+        <akn:num GUID="50f68296-b627-4024-9df0-c984325535b0" eId="hauptteil-1_art-2_bezeichnung-1">§ 2</akn:num>
         <akn:heading GUID="f5527f96-6190-4a75-9b15-7143c8063412" eId="hauptteil-1_art-2_überschrift-1"> Lists </akn:heading>
         <akn:paragraph GUID="95a96e0c-bb6c-4898-8dd3-2721054cc2cd" eId="hauptteil-1_art-2_abs-1">
           <akn:num GUID="4343d003-ade6-4259-87a8-3eb7c41597a9" eId="hauptteil-1_art-2_abs-1_bezeichnung-1"/>
@@ -154,7 +154,7 @@
         </akn:paragraph>
       </akn:article>
       <akn:article GUID="4c978896-bb89-4e95-8fe0-cc338f56c293" eId="hauptteil-1_art-3" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
-        <akn:num GUID="496c869d-b0fc-4a40-ab0d-6711c12dcf9e" eId="hauptteil-1_art-3_bezeichnung-1"/>
+        <akn:num GUID="496c869d-b0fc-4a40-ab0d-6711c12dcf9e" eId="hauptteil-1_art-3_bezeichnung-1">§ 3</akn:num>
         <akn:heading GUID="7c3bf734-7d72-40b0-ace2-29c47fa14c11" eId="hauptteil-1_art-3_überschrift-1"> Tables </akn:heading>
         <akn:paragraph GUID="0bbac1b2-b1ac-4e14-90c2-b7aa33fee553" eId="hauptteil-1_art-3_abs-1">
           <akn:num GUID="2f5d0efc-a9a0-4574-a962-2a4e4759257a" eId="hauptteil-1_art-3_abs-1_bezeichnung-1"/>
@@ -199,16 +199,16 @@
         </akn:paragraph>
       </akn:article>
       <akn:article GUID="a2d6af44-89f3-4b52-aee4-1631f629b6e2" eId="hauptteil-1_art-4" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
-        <akn:num GUID="8d2d56f8-ab9e-4d24-9955-9af4474dce38" eId="hauptteil-1_art-4_bezeichnung-1"/>
+        <akn:num GUID="8d2d56f8-ab9e-4d24-9955-9af4474dce38" eId="hauptteil-1_art-4_bezeichnung-1">§ 4</akn:num>
         <akn:heading GUID="5dea9cdc-c518-4e8d-9257-8823390a95a9" eId="hauptteil-1_art-4_überschrift-1">Modifications</akn:heading>
         <akn:paragraph GUID="57e9bb8b-61ed-40fa-97ed-2916a18b91aa" eId="hauptteil-1_art-4_abs-1">
-          <akn:num GUID="1b4a63fa-0920-4669-84c3-96173ca4a391" eId="hauptteil-1_art-4_abs-1_bezeichnung-1"/>
+          <akn:num GUID="1b4a63fa-0920-4669-84c3-96173ca4a391" eId="hauptteil-1_art-4_abs-1_bezeichnung-1">(1)</akn:num>
           <akn:content GUID="023436db-0568-4462-b24f-b534b9ccdba2" eId="hauptteil-1_art-4_abs-1_inhalt-1">
             <akn:p GUID="c113feaf-be68-41ae-9ee8-562b73a54f91" eId="hauptteil-1_art-4_abs-1_inhalt-1_text-1"> This paragraph references an <akn:affectedDocument href="eli-noch-undefiniert" GUID="ba4c9479-27b3-4129-b1c4-60d5b010ee3a" eId="hauptteil-1_art-4_abs-1_inhalt-1_text-1_bezugsdoc-1">affected document</akn:affectedDocument>.</akn:p>
           </akn:content>
         </akn:paragraph>
         <akn:paragraph GUID="869612fe-3f16-4bb4-9366-959e2d0a6259" eId="hauptteil-1_art-4_abs-2">
-          <akn:num GUID="7d1beb9d-4086-438d-971a-36ac2344cc3f" eId="hauptteil-1_art-4_abs-2_bezeichnung-1"/>
+          <akn:num GUID="7d1beb9d-4086-438d-971a-36ac2344cc3f" eId="hauptteil-1_art-4_abs-2_bezeichnung-1">(2)</akn:num>
           <akn:content GUID="ac1b7f17-5122-46de-a3b0-b35f13c17315" eId="hauptteil-1_art-4_abs-2_inhalt-1">
             <akn:p GUID="ad4ad1ec-08d7-494a-be96-14403d94decf" eId="hauptteil-1_art-4_abs-2_inhalt-1_text-1">
               This paragraph contains a "aenderungsbefehl-neufassung" mod that indicates that
@@ -223,7 +223,7 @@
           </akn:content>
         </akn:paragraph>
         <akn:paragraph GUID="4e4f5b9f-1050-48eb-9605-f83a426122dc" eId="hauptteil-1_art-4_abs-3">
-          <akn:num GUID="f0f29c32-8725-4fb4-93a2-50436aa32bc6" eId="hauptteil-1_art-4_abs-3_bezeichnung-1"/>
+          <akn:num GUID="f0f29c32-8725-4fb4-93a2-50436aa32bc6" eId="hauptteil-1_art-4_abs-3_bezeichnung-1">(3)</akn:num>
           <akn:content GUID="5e847a45-b06c-435a-8808-0a123709cb5d" eId="hauptteil-1_art-4_abs-3_inhalt-1">
             <akn:p GUID="ec60856c-c553-45f0-96e9-69bfa6c6cab0" eId="hauptteil-1_art-4_abs-3_inhalt-1_text-1">
               This paragraph contains a "aenderungsbefehl-ersetzen" mod that indicates that
@@ -232,7 +232,7 @@
           </akn:content>
         </akn:paragraph>
         <akn:paragraph GUID="d2f8b1de-4ecb-4ba9-8cb3-b9d645f40781" eId="hauptteil-1_art-4_abs-4">
-          <akn:num GUID="726283af-b24c-4da9-8fa6-a99df3989ac1" eId="hauptteil-1_art-4_abs-4_bezeichnung-1"/>
+          <akn:num GUID="726283af-b24c-4da9-8fa6-a99df3989ac1" eId="hauptteil-1_art-4_abs-4_bezeichnung-1">(4)</akn:num>
           <akn:content GUID="cc31c733-0a18-49d6-9704-8dcbbd3f6814" eId="hauptteil-1_art-4_abs-4_inhalt-1">
             <akn:p GUID="9e48dbf3-ee37-4743-9d1a-ce2d85193ff4" eId="hauptteil-1_art-4_abs-4_inhalt-1_text-1">
               This paragraph contains a "aenderungsbefehl-streichen" mod that indicates that

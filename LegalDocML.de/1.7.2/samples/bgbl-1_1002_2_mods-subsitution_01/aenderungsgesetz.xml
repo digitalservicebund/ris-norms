@@ -143,7 +143,7 @@
     </akn:preamble>
     <akn:body GUID="920d4746-3dcd-4863-854e-ee5a66ee03cb" eId="hauptteil-1">
       <akn:article refersTo="eingebundene-stammform" GUID="9c11d0e5-e4f0-43b7-baa0-374e7888bf32" eId="hauptteil-1_art-1" period="#meta-1_geltzeiten-1_geltungszeitgr-2">
-        <akn:num GUID="b9916d34-f8b4-48db-9b8a-2257ed559691" eId="hauptteil-1_art-1_bezeichnung-1"/>
+        <akn:num GUID="b9916d34-f8b4-48db-9b8a-2257ed559691" eId="hauptteil-1_art-1_bezeichnung-1">>§ 1</akn:num>
         <akn:heading GUID="7afeed62-03f1-4e9b-b489-a0b360ca7688" eId="hauptteil-1_art-1_überschrift-1">Artikel 1</akn:heading>
         <akn:paragraph GUID="522d0a61-2f9d-47e0-ad08-4d8c7130525d" eId="hauptteil-1_art-1_abs-1">
           <akn:num GUID="6b4fa757-0113-46e1-9fe4-c03c3a8fc44e" eId="hauptteil-1_art-1_abs-1_bezeichnung-1"/>
@@ -560,7 +560,7 @@
         </akn:paragraph>
       </akn:article>
       <akn:article refersTo="geltungszeitregel" GUID="4c4df64f-97ad-4672-9579-405a41d10002" eId="hauptteil-1_art-2" period="#meta-1_geltzeiten-1_geltungszeitgr-2">
-        <akn:num GUID="c3311499-332e-494d-9d03-db01614967ed" eId="hauptteil-1_art-2_bezeichnung-1"/>
+        <akn:num GUID="c3311499-332e-494d-9d03-db01614967ed" eId="hauptteil-1_art-2_bezeichnung-1">§ 2</akn:num>
         <akn:heading GUID="b28eb1ef-f0cf-4b08-ad2f-ad396ee2739a" eId="hauptteil-1_art-2_überschrift-1">Inkrafttreten</akn:heading>
         <akn:paragraph GUID="6c4ab487-7566-40cd-acb5-352f7591c31c" eId="hauptteil-1_art-2_abs-1">
           <akn:num GUID="6b7319f4-a33e-4c93-a973-575014145415" eId="hauptteil-1_art-2_abs-1_bezeichnung-1"/>

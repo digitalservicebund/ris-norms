@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2024 I Nr. 203 vom 21.06.2024. (https://www.recht.bund.de/eli/bund/bgbl-1/2024/203) -->
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-offenestruktur.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
+   <akn:doc name="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext">
+      <akn:meta GUID="3ab2ac0b-a015-41cd-aa11-4d51370361e4" eId="meta-n1">
+         <akn:identification GUID="c4a0b427-e61a-4146-b0d6-66c4c5a78201"
+                             eId="meta-n1_ident-n1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="83ecb1c8-9248-4ab4-9562-9c3756bb668f"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis GUID="9b121df3-16fd-4bb4-ba17-6379f054142a"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/anlage-regelungstext-7"/>
+               <akn:FRBRuri GUID="c322d5ca-8df1-422d-a3de-7ece318f3214"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203"/>
+               <akn:FRBRalias GUID="adf13631-68a0-4d66-8335-31e0fde72979"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"
+                              name="übergreifende-id"
+                              value="adf13631-68a0-4d66-8335-31e0fde72979"/>
+               <akn:FRBRdate GUID="608f832c-78fb-462a-9421-76b164626e7e"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
+                             name="verkuendungsfassung-ausfertigungsdatum"/>
+               <akn:FRBRdate GUID="26bc42a6-cfb0-474c-ad31-4fd89fc46a51"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
+                             name="verkuendungsfassung-verkuendungsdatum"/>
+               <akn:FRBRauthor GUID="eb2eb223-1eb5-4ed5-be11-1ea3bb65b1d2"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="fe1ff28d-c292-467b-acd0-5cc9cf9f0c5b"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="66de1571-afb8-4f9e-a70b-401e822d8bb4"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"
+                               value="203"/>
+               <akn:FRBRname GUID="1eeeefc4-9c8d-4c05-b09e-188f84d9488e"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="d5567ba3-3368-42bf-bade-edca5f9c3736"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
+                                value="anlage-regelungstext-7"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="14b69e27-bcb7-4a95-9d66-81c292f8addf"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis GUID="775a9978-00d4-439d-bcae-10ecfe281259"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-7"/>
+               <akn:FRBRuri GUID="a1e61620-bab2-462f-815d-9412fad7ae9c"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu"/>
+               <akn:FRBRalias GUID="354e6be2-9981-488f-9155-2176ab01bd8d"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
+                              name="aktuelle-version-id"
+                              value="354e6be2-9981-488f-9155-2176ab01bd8d"/>
+               <akn:FRBRauthor GUID="b2a1876f-4ca2-412a-8c1a-abd7080250da"
+                               eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate GUID="c819446f-0313-4df0-a9b7-ed2957caf961"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage GUID="12e31c42-d7fb-4e95-98fa-0b69ba5579fe"
+                                 eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 language="deu"/>
+               <akn:FRBRversionNumber GUID="31d089a4-9ca0-4b78-89d1-6b2d237a9183"
+                                      eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="4770e2ac-0f79-4824-bfaa-f6c094e89f8f"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis GUID="91a28d90-e727-40e7-b9a6-f23aece2846b"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/anlage-regelungstext-7.xml"/>
+               <akn:FRBRuri GUID="8e559b9e-7051-4739-8287-7e3d0df9c723"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/anlage-regelungstext-7.xml"/>
+               <akn:FRBRdate GUID="c0bcafe9-06d2-44a9-b23b-dc16c65da731"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
+                             name="generierung"/>
+               <akn:FRBRauthor GUID="608f817d-5c95-4266-9415-66acf825e227"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="a612de92-1e4f-4d62-875e-9d692ca7d55f"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+      </akn:meta>
+      <akn:preface GUID="a403560e-38bc-4556-911d-2a363c2e0a12" eId="einleitung-n1">
+         <akn:block GUID="06a7f0db-16c5-4aa8-9e33-cfadafa55e67"
+                    eId="einleitung-n1_block-n1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:docTitle GUID="dc0eded4-6a03-47de-ae50-7a64144b8561"
+                          eId="einleitung-n1_block-n1_doctitel-n1">Anlage 7 (zu § 1 Absatz 4 Nummer 2 Buchstabe a)Aufstellung von Forderungen, die keine gesetzlichen Unterhaltsansprüche <akn:br GUID="be762233-fb5c-4620-8088-bff990317155"
+                       eId="einleitung-n1_block-n1_doctitel-n1_br-n1"/>sind, für den Antrag auf Erlass eines Pfändungsbeschlusses und eines <akn:br GUID="62c44097-f515-4f92-aa53-41a43cea54b7"
+                       eId="einleitung-n1_block-n1_doctitel-n1_br-n2"/>Pfändungs- und Überweisungsbeschlusses</akn:docTitle>
+         </akn:block>
+      </akn:preface>
+      <akn:mainBody GUID="9e4d91c2-feb6-48d5-9877-b3ff8a00d1c2" eId="hauptteil-n1">
+         <akn:componentRef GUID="9dca3806-072d-46e3-8f6b-78bd79bd2930"
+                           eId="hauptteil-n1_stfmverweis-n1"
+                           showAs="/akn/ontology/de/concept/documenttype/bund/sonstiges-dokument"
+                           src="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-6.pdf"/>
+      </akn:mainBody>
+   </akn:doc>
+</akn:akomaNtoso>
