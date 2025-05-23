@@ -49,7 +49,7 @@ public class ZeitgrenzenController {
   ) {
     return ResponseEntity.ok(
       loadZeitgrenzenUseCase
-        .loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Query(eli))
+        .loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Options(eli))
         .stream()
         .sorted(Comparator.comparing(Zeitgrenze::getDate))
         .map(ZeitgrenzeMapper::fromUseCaseData)
@@ -76,7 +76,7 @@ public class ZeitgrenzenController {
     return ResponseEntity.ok(
       updateZeitgrenzenUseCase
         .updateZeitgrenzenOfDokument(
-          new UpdateZeitgrenzenUseCase.Query(eli, ZeitgrenzeMapper.fromRequestSchema(zeitgrenzen))
+          new UpdateZeitgrenzenUseCase.Options(eli, ZeitgrenzeMapper.fromRequestSchema(zeitgrenzen))
         )
         .stream()
         .sorted(Comparator.comparing(Zeitgrenze::getDate))

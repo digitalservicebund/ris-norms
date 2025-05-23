@@ -114,7 +114,7 @@ class MigrationLogDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       migrationLogDBService.completeMigrationLog(
-        new CompleteMigrationLogPort.Command(savedMigrationLog.getId())
+        new CompleteMigrationLogPort.Options(savedMigrationLog.getId())
       );
       var updatedMigrationLog = migrationLogRepository.findAll().getFirst();
 

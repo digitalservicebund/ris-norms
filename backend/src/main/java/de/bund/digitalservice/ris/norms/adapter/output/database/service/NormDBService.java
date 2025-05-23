@@ -54,8 +54,8 @@ public class NormDBService
   }
 
   @Override
-  public Optional<Norm> loadNorm(LoadNormPort.Command command) {
-    return switch (command.eli()) {
+  public Optional<Norm> loadNorm(LoadNormPort.Options options) {
+    return switch (options.eli()) {
       case NormExpressionEli expressionEli -> normManifestationRepository
         .findFirstByExpressionEliOrderByManifestationEliDesc(expressionEli.toString())
         .map(NormManifestationMapper::mapToDomain);
@@ -63,7 +63,7 @@ public class NormDBService
         if (!manifestationEli.hasPointInTimeManifestation()) {
           // we can find the norm based on the expression eli as the point in time
           // manifestation is the only additional identifying part of the eli
-          yield this.loadNorm(new LoadNormPort.Command(manifestationEli.asExpressionEli()));
+          yield this.loadNorm(new LoadNormPort.Options(manifestationEli.asExpressionEli()));
         }
 
         yield normManifestationRepository
@@ -77,17 +77,17 @@ public class NormDBService
   }
 
   @Override
-  public Optional<Norm> loadNormByGuid(LoadNormByGuidPort.Command command) {
+  public Optional<Norm> loadNormByGuid(LoadNormByGuidPort.Options options) {
     return normManifestationRepository
-      .findFirstByExpressionAktuelleVersionIdOrderByManifestationEli(command.guid())
+      .findFirstByExpressionAktuelleVersionIdOrderByManifestationEli(options.guid())
       .map(NormManifestationMapper::mapToDomain);
   }
 
   @Override
-  public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
+  public Optional<Norm> updateNorm(UpdateNormPort.Options options) {
     Optional<NormManifestationDto> normManifestationDto =
       normManifestationRepository.findByManifestationEli(
-        command.norm().getManifestationEli().toString()
+        options.norm().getManifestationEli().toString()
       );
 
     if (normManifestationDto.isEmpty()) {
@@ -95,7 +95,7 @@ public class NormDBService
     }
 
     var dokumentDtos = dokumentRepository.saveAll(
-      command
+      options
         .norm()
         .getDokumente()
         .stream()
@@ -112,7 +112,7 @@ public class NormDBService
     );
 
     var binaryFileDtos = binaryFileRepository.saveAll(
-      command
+      options
         .norm()
         .getBinaryFiles()
         .stream()
@@ -130,7 +130,7 @@ public class NormDBService
 
     normManifestationDto.get().setDokumente(dokumentDtos);
     normManifestationDto.get().setBinaryFiles(binaryFileDtos);
-    normManifestationDto.get().setPublishState(command.norm().getPublishState());
+    normManifestationDto.get().setPublishState(options.norm().getPublishState());
 
     return Optional.of(
       NormManifestationMapper.mapToDomain(
@@ -140,11 +140,11 @@ public class NormDBService
   }
 
   @Override
-  public Norm updateOrSave(UpdateOrSaveNormPort.Command command) {
-    final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Command(command.norm()));
+  public Norm updateOrSave(UpdateOrSaveNormPort.Options options) {
+    final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Options(options.norm()));
     if (updatedNorm.isEmpty()) {
       dokumentRepository.saveAllAndFlush(
-        command
+        options
           .norm()
           .getDokumente()
           .stream()
@@ -153,7 +153,7 @@ public class NormDBService
       );
 
       binaryFileRepository.saveAllAndFlush(
-        command
+        options
           .norm()
           .getBinaryFiles()
           .stream()
@@ -162,10 +162,10 @@ public class NormDBService
       );
 
       NormManifestationDto normManifestationDto = normManifestationRepository
-        .findByManifestationEli(command.norm().getManifestationEli().toString())
+        .findByManifestationEli(options.norm().getManifestationEli().toString())
         .orElseThrow();
 
-      normManifestationDto.setPublishState(command.norm().getPublishState());
+      normManifestationDto.setPublishState(options.norm().getPublishState());
 
       return NormManifestationMapper.mapToDomain(
         normManifestationRepository.save(normManifestationDto)
@@ -176,14 +176,14 @@ public class NormDBService
   }
 
   @Override
-  public void deleteNorm(DeleteNormPort.Command command) {
-    var normDto = normManifestationRepository.findByManifestationEli(command.eli().toString());
+  public void deleteNorm(DeleteNormPort.Options options) {
+    var normDto = normManifestationRepository.findByManifestationEli(options.eli().toString());
 
     if (normDto.isEmpty()) {
       return;
     }
 
-    if (!normDto.get().getPublishState().equals(command.publishState())) {
+    if (!normDto.get().getPublishState().equals(options.publishState())) {
       return;
     }
 
@@ -193,10 +193,10 @@ public class NormDBService
 
   @Override
   public List<NormManifestationEli> loadNormManifestationElisByPublishState(
-    LoadNormManifestationElisByPublishStatePort.Command command
+    LoadNormManifestationElisByPublishStatePort.Options options
   ) {
     return normManifestationRepository
-      .findManifestationElisByPublishState(command.publishState())
+      .findManifestationElisByPublishState(options.publishState())
       .stream()
       .map(NormManifestationEli::fromString)
       .toList();
@@ -204,10 +204,10 @@ public class NormDBService
 
   @Override
   public List<NormExpressionEli> loadNormExpressionElis(
-    LoadNormExpressionElisPort.Command command
+    LoadNormExpressionElisPort.Options options
   ) {
     return normManifestationRepository
-      .findExpressionElisByWorkEli(command.eli().toString())
+      .findExpressionElisByWorkEli(options.eli().toString())
       .stream()
       .map(NormExpressionEli::fromString)
       .toList();

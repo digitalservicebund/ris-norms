@@ -9,10 +9,10 @@ public interface UpdateProprietaryFrameFromDokumentUseCase {
   /**
    * Updates specific metadata from a {@link Dokument}.
    *
-   * @param query Query used for identifying the {@link Dokument} as well as the metadata themselves.
+   * @param options Options used for identifying the {@link Dokument} as well as the metadata themselves.
    * @return Proprietary node of the {@link Dokument} with the updated metadata.
    */
-  Proprietary updateProprietaryFrameFromDokument(Query query);
+  Proprietary updateProprietaryFrameFromDokument(Options options);
 
   /**
    * Contains the parameters needed for loading proprietary metadata from a {@link Dokument}.
@@ -20,7 +20,7 @@ public interface UpdateProprietaryFrameFromDokumentUseCase {
    * @param dokumentExpressionEli The ELI used to identify the {@link Dokument} at the expression level
    * @param inputMetadata object containing the metadata to update
    */
-  record Query(DokumentExpressionEli dokumentExpressionEli, InputMetadata inputMetadata) {}
+  record Options(DokumentExpressionEli dokumentExpressionEli, InputMetadata inputMetadata) {}
 
   /**
    * Record representing the list of metadata to update.

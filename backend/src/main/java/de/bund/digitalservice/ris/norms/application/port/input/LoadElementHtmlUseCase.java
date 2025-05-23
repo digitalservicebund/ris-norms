@@ -8,10 +8,10 @@ public interface LoadElementHtmlUseCase {
   /**
    * Retrieves an element inside a dokument and renders its HTML preview.
    *
-   * @param query Query used for identifying the element
+   * @param options Options used for identifying the element
    * @return The HTML string
    */
-  String loadElementHtml(Query query);
+  String loadElementHtml(Options options);
 
   /**
    * Contains the parameters needed for loading an element from a dokument.
@@ -19,5 +19,5 @@ public interface LoadElementHtmlUseCase {
    * @param eli The ELI used to identify the dokument
    * @param eid The eId of the element inside the dokument
    */
-  record Query(DokumentExpressionEli eli, EId eid) {}
+  record Options(DokumentExpressionEli eli, EId eid) {}
 }

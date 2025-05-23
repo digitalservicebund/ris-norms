@@ -70,7 +70,7 @@ public class VerkuendungenController {
       .stream()
       .map(verkuendung -> {
         try {
-          var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(verkuendung.getEli()));
+          var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(verkuendung.getEli()));
           return VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm);
         } catch (NormNotFoundException e) {
           throw new VerkuendungWithoutNormException(verkuendung.getEli().toString());
@@ -95,8 +95,10 @@ public class VerkuendungenController {
     produces = APPLICATION_JSON_VALUE
   )
   public ResponseEntity<VerkuendungResponseSchema> getVerkuendung(NormExpressionEli eli) {
-    var verkuendung = loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Query(eli));
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(verkuendung.getEli()));
+    var verkuendung = loadVerkuendungUseCase.loadVerkuendung(
+      new LoadVerkuendungUseCase.Options(eli)
+    );
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(verkuendung.getEli()));
     return ResponseEntity.ok(VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm));
   }
 
@@ -116,7 +118,7 @@ public class VerkuendungenController {
   public ResponseEntity<List<NormResponseSchema>> getVerkuendungsZielnormen(NormExpressionEli eli) {
     var zielnormen =
       loadNormExpressionsAffectedByVerkuendungUseCase.loadNormExpressionsAffectedByVerkuendung(
-        new LoadNormExpressionsAffectedByVerkuendungUseCase.Query(eli)
+        new LoadNormExpressionsAffectedByVerkuendungUseCase.Options(eli)
       );
 
     return ResponseEntity.ok(zielnormen.stream().map(NormResponseMapper::fromUseCaseData).toList());
@@ -139,7 +141,7 @@ public class VerkuendungenController {
   ) {
     return ResponseEntity.ok(
       loadZielnormenExpressionsUseCase
-        .loadZielnormExpressions(new LoadZielnormenExpressionsUseCase.Query(eli))
+        .loadZielnormExpressions(new LoadZielnormenExpressionsUseCase.Options(eli))
         .stream()
         .map(ZielnormenPreviewResponseMapper::fromUseCaseData)
         .toList()
@@ -170,7 +172,7 @@ public class VerkuendungenController {
     @PathVariable("workNaturalId") String workNaturalId
   ) {
     final Zielnorm zielnorm = createZielnormenExpressionsUseCase.createZielnormExpressions(
-      new CreateZielnormenExpressionsUseCase.Query(
+      new CreateZielnormenExpressionsUseCase.Options(
         verkuendungEli,
         new NormWorkEli(workAgent, workYear, workNaturalId)
       )
@@ -191,9 +193,9 @@ public class VerkuendungenController {
     @RequestParam(defaultValue = "false") final Boolean force
   ) throws IOException {
     var verkuendung = createVerkuendungUseCase.createVerkuendung(
-      new CreateVerkuendungUseCase.Query(file, force)
+      new CreateVerkuendungUseCase.Options(file, force)
     );
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliQuery(verkuendung.getEli()));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(verkuendung.getEli()));
     return ResponseEntity.ok(VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm));
   }
 }

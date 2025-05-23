@@ -16,17 +16,16 @@ public interface ProcessNormendokumentationspaketUseCase {
    * Process a Normendokumentationspaket. This includes validating it, adding it into our database and creating a new
    * {@link Verkuendung}
    *
-   * @param query The query containing the processId for the Normendokumentationspaket
+   * @param options The options containing the processId for the Normendokumentationspaket
    */
-  void processNormendokumentationspaket(ProcessNormendokumentationspaketUseCase.Query query)
-    throws IOException;
+  void processNormendokumentationspaket(Options options) throws IOException;
 
   /**
-   * A record representing the query for processing a Normendokumentationspaket.
+   * A record representing the options for processing a Normendokumentationspaket.
    *
    * @param processId the processId for the Normendokumentationspaket that should be processed
    */
-  record Query(UUID processId) {}
+  record Options(UUID processId) {}
 
   /**
    * The import of a Normendokumentationspaket failed

@@ -9,20 +9,18 @@ import java.util.List;
  */
 public interface LoadNormExpressionsAffectedByVerkuendungUseCase {
   /**
-   * Retrieves a list of norms that are affected by the Verkündung identified by the provided query.
+   * Retrieves a list of norms that are affected by the Verkündung identified by the provided options.
    * This list includes the latest manifestations of all expressions that are changed due to the Verkündung.
    *
-   * @param query Query used for identifying the Verkündung
+   * @param options Options used for identifying the Verkündung
    * @return The list of norms
    */
-  List<Norm> loadNormExpressionsAffectedByVerkuendung(
-    LoadNormExpressionsAffectedByVerkuendungUseCase.Query query
-  );
+  List<Norm> loadNormExpressionsAffectedByVerkuendung(Options options);
 
   /**
    * The query for loading a list of norms that are affected by the Verkündung.
    *
    * @param eli The ELI used to identify the Verkündung
    */
-  record Query(NormExpressionEli eli) {}
+  record Options(NormExpressionEli eli) {}
 }

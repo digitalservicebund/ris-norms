@@ -91,7 +91,7 @@ class ZeitgrenzeControllerTest {
         .andExpect(jsonPath("$[3].inUse", is(false)));
 
       verify(loadZeitgrenzenUseCase, times(1)).loadZeitgrenzenFromDokument(
-        any(LoadZeitgrenzenUseCase.Query.class)
+        any(LoadZeitgrenzenUseCase.Options.class)
       );
     }
 
@@ -111,7 +111,7 @@ class ZeitgrenzeControllerTest {
         .andExpect(jsonPath("$", empty()));
 
       verify(loadZeitgrenzenUseCase, times(1)).loadZeitgrenzenFromDokument(
-        any(LoadZeitgrenzenUseCase.Query.class)
+        any(LoadZeitgrenzenUseCase.Options.class)
       );
     }
   }
@@ -164,7 +164,7 @@ class ZeitgrenzeControllerTest {
         .andExpect(jsonPath("$[1].inUse", is(false)));
 
       verify(updateZeitgrenzenUseCase, times(1)).updateZeitgrenzenOfDokument(
-        any(UpdateZeitgrenzenUseCase.Query.class)
+        any(UpdateZeitgrenzenUseCase.Options.class)
       );
     }
 
@@ -190,7 +190,7 @@ class ZeitgrenzeControllerTest {
         .andExpect(jsonPath("$", empty()));
 
       verify(updateZeitgrenzenUseCase, times(1)).updateZeitgrenzenOfDokument(
-        any(UpdateZeitgrenzenUseCase.Query.class)
+        any(UpdateZeitgrenzenUseCase.Options.class)
       );
     }
   }

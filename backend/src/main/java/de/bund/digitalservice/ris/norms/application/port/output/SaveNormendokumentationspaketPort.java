@@ -11,16 +11,16 @@ public interface SaveNormendokumentationspaketPort {
   /**
    * Saves a Normendokumentationspaket
    *
-   * @param command with the Normendokumentationspaket files
+   * @param options with the Normendokumentationspaket files
    */
-  void saveNormendokumentationspaket(final Command command) throws IOException;
+  void saveNormendokumentationspaket(final Options options) throws IOException;
 
   /**
-   * A record representing the command for saving a Normendokumentationspaket.
+   * A record representing the options for saving a Normendokumentationspaket.
    *
    * @param processId identifier for the upload process
    * @param file as zip
    * @param signature as sig
    */
-  record Command(UUID processId, Resource file, Resource signature) {}
+  record Options(UUID processId, Resource file, Resource signature) {}
 }

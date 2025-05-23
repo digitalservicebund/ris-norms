@@ -67,7 +67,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -116,7 +116,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -142,7 +142,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -168,7 +168,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
@@ -201,7 +201,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -227,7 +227,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
 
       // Then
@@ -252,7 +252,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
     // When
     final Optional<Norm> normOptional = normDBService.loadNormByGuid(
-      new LoadNormByGuidPort.Command(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"))
+      new LoadNormByGuidPort.Options(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"))
     );
 
     // Then
@@ -285,7 +285,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       // When
-      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Command(newNorm));
+      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Options(newNorm));
 
       // Then
       assertThat(dokumentRepository.findAll()).hasSize(1);
@@ -311,7 +311,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       // When
-      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Command(newNorm));
+      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Options(newNorm));
 
       // Then
       assertThat(dokumentRepository.findAll()).hasSize(2);
@@ -355,7 +355,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       // When
       final List<NormManifestationEli> publishedNorms =
         normDBService.loadNormManifestationElisByPublishState(
-          new LoadNormManifestationElisByPublishStatePort.Command(
+          new LoadNormManifestationElisByPublishStatePort.Options(
             NormPublishState.QUEUED_FOR_PUBLISH
           )
         );
@@ -400,7 +400,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final List<NormExpressionEli> publishedNorms = normDBService.loadNormExpressionElis(
-        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
 
       // Then

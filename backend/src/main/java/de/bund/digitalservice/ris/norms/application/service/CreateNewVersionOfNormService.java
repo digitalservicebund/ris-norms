@@ -178,7 +178,7 @@ public class CreateNewVersionOfNormService {
       .orElseThrow();
 
     var previousExpression = loadNormByGuidPort.loadNormByGuid(
-      new LoadNormByGuidPort.Command(previousVersionId)
+      new LoadNormByGuidPort.Options(previousVersionId)
     );
 
     if (previousExpression.isEmpty()) {

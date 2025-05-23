@@ -52,7 +52,7 @@ public class ZielnormReferencesController {
   public ResponseEntity<List<ZielnormReferenceSchema>> getReferences(final NormExpressionEli eli) {
     return ResponseEntity.ok(
       loadZielnormReferencesUseCase
-        .loadZielnormReferences(new LoadZielnormReferencesUseCase.Query(eli))
+        .loadZielnormReferences(new LoadZielnormReferencesUseCase.Options(eli))
         .stream()
         .map(ZielnormReferenceMapper::fromUseCaseData)
         .toList()
@@ -74,7 +74,7 @@ public class ZielnormReferencesController {
     return ResponseEntity.ok(
       updateZielnormReferencesUseCase
         .updateZielnormReferences(
-          new UpdateZielnormReferencesUseCase.Query(
+          new UpdateZielnormReferencesUseCase.Options(
             eli,
             references.stream().map(ZielnormReferenceMapper::toUseCaseData).toList()
           )
@@ -100,7 +100,7 @@ public class ZielnormReferencesController {
     return ResponseEntity.ok(
       deleteZielnormReferencesUseCase
         .deleteZielnormReferences(
-          new DeleteZielnormReferencesUseCase.Query(
+          new DeleteZielnormReferencesUseCase.Options(
             eli,
             referenceEIds.stream().map(EId::new).toList()
           )

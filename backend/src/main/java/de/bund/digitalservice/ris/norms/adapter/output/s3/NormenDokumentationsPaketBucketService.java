@@ -36,26 +36,26 @@ public class NormenDokumentationsPaketBucketService
   private static final String SIGNATURE_FILE_NAME = "signature.sig";
 
   @Override
-  public void saveNormendokumentationspaket(SaveNormendokumentationspaketPort.Command command)
+  public void saveNormendokumentationspaket(SaveNormendokumentationspaketPort.Options options)
     throws IOException {
     uploadToBucket(
-      command.processId() + "/" + ZIP_FILE_NAME,
-      RequestBody.fromInputStream(command.file().getInputStream(), command.file().contentLength())
+      options.processId() + "/" + ZIP_FILE_NAME,
+      RequestBody.fromInputStream(options.file().getInputStream(), options.file().contentLength())
     );
 
     uploadToBucket(
-      command.processId() + "/" + SIGNATURE_FILE_NAME,
+      options.processId() + "/" + SIGNATURE_FILE_NAME,
       RequestBody.fromInputStream(
-        command.signature().getInputStream(),
-        command.signature().contentLength()
+        options.signature().getInputStream(),
+        options.signature().contentLength()
       )
     );
   }
 
   @Override
-  public Result loadNormendokumentationspaket(LoadNormendokumentationspaketPort.Command command) {
-    byte[] file = loadFromBucket(command.processId() + "/" + ZIP_FILE_NAME);
-    byte[] signature = loadFromBucket(command.processId() + "/" + SIGNATURE_FILE_NAME);
+  public Result loadNormendokumentationspaket(LoadNormendokumentationspaketPort.Options options) {
+    byte[] file = loadFromBucket(options.processId() + "/" + ZIP_FILE_NAME);
+    byte[] signature = loadFromBucket(options.processId() + "/" + SIGNATURE_FILE_NAME);
     return new Result(file, signature);
   }
 

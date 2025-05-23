@@ -35,7 +35,7 @@ public class NormGuidController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<NormResponseSchema> getNorm(@PathVariable final UUID guid) {
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.GuidQuery(guid));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.GuidOptions(guid));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 }

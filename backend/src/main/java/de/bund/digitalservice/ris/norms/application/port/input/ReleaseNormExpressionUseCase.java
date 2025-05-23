@@ -9,18 +9,17 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
  */
 public interface ReleaseNormExpressionUseCase {
   /**
-   * Releases a new expression of a {@link Norm} based on the provided query.
+   * Releases a new expression of a {@link Norm} based on the provided options.
    *
-   * @param query The query specifying the {@link Norm} to be released.
+   * @param options The options specifying the {@link Norm} to be released.
    * @return The created {@link Release}.
    */
-  Release releaseNormExpression(Query query);
+  Release releaseNormExpression(Options options);
 
   /**
-   * A record representing the query for releasing a new expression of a {@link Norm}. The query includes the
-   * ELI (European Legislation Identifier) to identify the {@link Norm}.
+   * A record representing the options for releasing a new expression of a {@link Norm}.
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the {@link Norm}.
    */
-  record Query(NormExpressionEli eli) {}
+  record Options(NormExpressionEli eli) {}
 }

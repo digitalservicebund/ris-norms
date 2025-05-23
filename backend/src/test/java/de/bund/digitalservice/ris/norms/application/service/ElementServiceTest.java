@@ -42,16 +42,16 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
 
       // When
-      var element = service.loadElement(new LoadElementUseCase.Query(eli, eid));
+      var element = service.loadElement(new LoadElementUseCase.Options(eli, eid));
 
       // Then
       assertThat(NodeParser.getValueFromExpression("./@eId", element)).contains(eid.toString());
 
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Options(eli));
     }
 
     @Test
@@ -61,10 +61,10 @@ class ElementServiceTest {
         "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1");
-      var query = new LoadElementUseCase.Query(eli, eid);
+      var query = new LoadElementUseCase.Options(eli, eid);
 
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.empty());
 
       // When / Then
@@ -72,7 +72,7 @@ class ElementServiceTest {
         RegelungstextNotFoundException.class
       );
 
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Options(eli));
     }
 
     @Test
@@ -82,13 +82,13 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1000");
-      var query = new LoadElementUseCase.Query(eli, eid);
+      var query = new LoadElementUseCase.Options(eli, eid);
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
 
       // When / Then
@@ -96,7 +96,7 @@ class ElementServiceTest {
         ElementNotFoundException.class
       );
 
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Options(eli));
     }
   }
 
@@ -115,17 +115,17 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html = service.loadElementHtml(new LoadElementHtmlUseCase.Query(eli, eid));
+      var html = service.loadElementHtml(new LoadElementHtmlUseCase.Options(eli, eid));
 
       // Then
       assertThat(html).contains("<div></div>");
 
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Options(eli));
       verify(xsltTransformationService, times(1)).transformLegalDocMlToHtml(any());
     }
 
@@ -136,10 +136,10 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1");
-      var query = new LoadElementHtmlUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlUseCase.Options(eli, eid);
 
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.empty());
 
       // When / Then
@@ -147,7 +147,7 @@ class ElementServiceTest {
         RegelungstextNotFoundException.class
       );
 
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Options(eli));
     }
 
     @Test
@@ -157,13 +157,13 @@ class ElementServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1000");
-      var query = new LoadElementHtmlUseCase.Query(eli, eid);
+      var query = new LoadElementHtmlUseCase.Options(eli, eid);
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
@@ -172,7 +172,7 @@ class ElementServiceTest {
         ElementNotFoundException.class
       );
 
-      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Command(eli));
+      verify(loadRegelungstextPort).loadRegelungstext(new LoadRegelungstextPort.Options(eli));
     }
   }
 }

@@ -10,15 +10,15 @@ public interface LoadTocFromRegelungstextUseCase {
   /**
    * Retrieves the table of contents from a {@link Regelungstext}.
    *
-   * @param query Query used for identifying the {@link Regelungstext}.
+   * @param options Options used for identifying the {@link Regelungstext}.
    * @return the list of {@link TableOfContentsItem} from the {@link Regelungstext}.
    */
-  List<TableOfContentsItem> loadTocFromRegelungstext(Query query);
+  List<TableOfContentsItem> loadTocFromRegelungstext(Options options);
 
   /**
-   * Query with the expression eli of the {@link Regelungstext}
+   * Options with the expression eli of the {@link Regelungstext}
    *
    * @param dokumentExpressionEli The ELI used to identify the {@link Regelungstext} at the expression level
    */
-  record Query(DokumentExpressionEli dokumentExpressionEli) {}
+  record Options(DokumentExpressionEli dokumentExpressionEli) {}
 }

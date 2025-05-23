@@ -10,10 +10,10 @@ public interface DeleteZielnormReferencesUseCase {
   /**
    * Deletes zielnorm references
    *
-   * @param query Query used for identifying the norm and the zielnorm-references to be deleted
+   * @param options Options used for identifying the norm and the zielnorm-references to be deleted
    * @return All (remaining) zielnorm references of the norm
    */
-  List<ZielnormReference> deleteZielnormReferences(Query query);
+  List<ZielnormReference> deleteZielnormReferences(Options options);
 
   /**
    * Contains the parameters needed for deleting zielnorm references from a norm.
@@ -21,5 +21,5 @@ public interface DeleteZielnormReferencesUseCase {
    * @param eli The ELI used to identify the norm
    * @param zielnormReferenceEIds List of eIds of Änderungsbefehle whose references should be deleted
    */
-  record Query(NormExpressionEli eli, List<EId> zielnormReferenceEIds) {}
+  record Options(NormExpressionEli eli, List<EId> zielnormReferenceEIds) {}
 }

@@ -8,16 +8,16 @@ public interface LoadArticleHtmlUseCase {
   /**
    * Loads the HTML of an article from a norm.
    *
-   * @param query The article to load
+   * @param options The article to load
    * @return HTML string of the article
    */
-  String loadArticleHtml(Query query);
+  String loadArticleHtml(Options options);
 
   /**
-   * Query for loading a norm's article via the use case
+   * Options for loading a norm's article via the use case
    *
    * @param eli ELI of the norm to load the article from
    * @param eid EID of the article to load from the norm
    */
-  record Query(DokumentExpressionEli eli, EId eid) {}
+  record Options(DokumentExpressionEli eli, EId eid) {}
 }

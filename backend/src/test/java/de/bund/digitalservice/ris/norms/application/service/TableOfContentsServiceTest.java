@@ -24,13 +24,16 @@ class TableOfContentsServiceTest {
 
   @Test
   void itThrowsRegelungstextNotFoundException() {
-    final LoadTocFromRegelungstextUseCase.Query query = new LoadTocFromRegelungstextUseCase.Query(
-      DokumentExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
-    );
+    final LoadTocFromRegelungstextUseCase.Options options =
+      new LoadTocFromRegelungstextUseCase.Options(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        )
+      );
 
     when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> tableOfContentsService.loadTocFromRegelungstext(query)).isInstanceOf(
+    assertThatThrownBy(() -> tableOfContentsService.loadTocFromRegelungstext(options)).isInstanceOf(
       // then
       RegelungstextNotFoundException.class
     );
@@ -49,7 +52,7 @@ class TableOfContentsServiceTest {
 
     // When
     final List<TableOfContentsItem> toc = tableOfContentsService.loadTocFromRegelungstext(
-      new LoadTocFromRegelungstextUseCase.Query(regelungstext.getExpressionEli())
+      new LoadTocFromRegelungstextUseCase.Options(regelungstext.getExpressionEli())
     );
 
     // Then

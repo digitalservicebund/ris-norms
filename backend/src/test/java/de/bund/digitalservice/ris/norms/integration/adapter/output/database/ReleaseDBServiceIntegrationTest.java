@@ -65,7 +65,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
       // When
-      releaseDBService.saveRelease(new SaveReleasePort.Command(release));
+      releaseDBService.saveRelease(new SaveReleasePort.Options(release));
 
       var releases = releaseRepository.findAll();
 
@@ -112,7 +112,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       releaseDBService.deleteQueuedReleases(
-        new DeleteQueuedReleasesPort.Command(
+        new DeleteQueuedReleasesPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -168,7 +168,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       var releases = releaseDBService.loadReleasesByNormExpressionEli(
-        new LoadReleasesByNormExpressionEliPort.Command(
+        new LoadReleasesByNormExpressionEliPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -239,7 +239,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       var releases = releaseDBService.loadReleasesByNormExpressionEli(
-        new LoadReleasesByNormExpressionEliPort.Command(
+        new LoadReleasesByNormExpressionEliPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );

@@ -47,7 +47,7 @@ public class EverkuendungApiController {
         new VerkuendungsProcessIdResponseSchema(
           storeNormendokumentationspaketUseCase
             .storeNormendokumentationspaket(
-              new StoreNormendokumentationspaketUseCase.Query(
+              new StoreNormendokumentationspaketUseCase.Options(
                 file.getResource(),
                 signature.getResource()
               )
@@ -65,7 +65,7 @@ public class EverkuendungApiController {
   @GetMapping("/status/{processId}")
   public ResponseEntity<VerkuendungStatusResponseSchema> getStatus(@PathVariable UUID processId) {
     VerkuendungImportProcess status = statusService.getStatus(
-      new LoadNormendokumentationspacketProcessingStatusUseCase.Query(processId)
+      new LoadNormendokumentationspacketProcessingStatusUseCase.Options(processId)
     );
     return ResponseEntity.ok(VerkuendungStatusMapper.fromVerkuendungImportProcess(status));
   }

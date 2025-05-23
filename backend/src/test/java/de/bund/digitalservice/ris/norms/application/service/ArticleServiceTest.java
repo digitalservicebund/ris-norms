@@ -47,12 +47,12 @@ class ArticleServiceTest {
       );
       var eid = new EId("hauptteil-1_art-1");
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // when
-      var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid));
+      var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Options(eli, eid));
 
       // then
       assertThat(result).isNotNull();
@@ -65,9 +65,9 @@ class ArticleServiceTest {
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = new EId("meta-1");
-      var query = new LoadArticleHtmlUseCase.Query(eli, eid);
+      var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.empty());
 
       // when
@@ -87,12 +87,12 @@ class ArticleServiceTest {
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
       );
       var eid = new EId("eid-1_not-1_in-1_norm-1");
-      var query = new LoadArticleHtmlUseCase.Query(eli, eid);
+      var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
       when(
-        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Command(eli))
+        loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
 
       // when
@@ -115,7 +115,7 @@ class ArticleServiceTest {
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
+      final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -134,7 +134,7 @@ class ArticleServiceTest {
       final var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
       );
-      final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
+      final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
@@ -154,7 +154,7 @@ class ArticleServiceTest {
         ArticleServiceTest.class,
         "vereinsgesetz-without-articles.xml"
       );
-      final var query = new LoadArticlesFromDokumentUseCase.Query(eli);
+      final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -183,7 +183,7 @@ class ArticleServiceTest {
 
       // When
       var xmls = articleService.loadSpecificArticlesXmlFromDokument(
-        new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, null)
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, null)
       );
 
       // Then
@@ -201,7 +201,7 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When
@@ -227,7 +227,7 @@ class ArticleServiceTest {
 
       // When
       var xmls = articleService.loadSpecificArticlesXmlFromDokument(
-        new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel")
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel")
       );
 
       // Then
@@ -244,7 +244,7 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
@@ -270,7 +270,7 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Query(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
         "vereinsgesetz-without-articles.xml"

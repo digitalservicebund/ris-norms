@@ -35,29 +35,29 @@ public class VerkuedungImportProcessDBService
 
   @Override
   public Optional<VerkuendungImportProcess> loadVerkuendungImportProcess(
-    LoadVerkuendungImportProcessPort.Command command
+    LoadVerkuendungImportProcessPort.Options options
   ) {
     return verkuendungImportProcessesRepository
-      .findById(command.id())
+      .findById(options.id())
       .map(VerkuendungImportProcessMapper::mapToDomain);
   }
 
   @Override
   public VerkuendungImportProcess saveOrUpdateVerkuendungImportProcess(
-    SaveVerkuendungImportProcessPort.Command command
+    SaveVerkuendungImportProcessPort.Options options
   ) {
     final Optional<VerkuendungImportProcessDto> optionalExistingVerkuendungImportProcessDto =
-      verkuendungImportProcessesRepository.findById(command.id());
+      verkuendungImportProcessesRepository.findById(options.id());
 
     if (optionalExistingVerkuendungImportProcessDto.isPresent()) {
       var existingVerkuendungImportProcessDto = optionalExistingVerkuendungImportProcessDto.get();
-      updateProcessDto(command, existingVerkuendungImportProcessDto);
+      updateProcessDto(options, existingVerkuendungImportProcessDto);
       return VerkuendungImportProcessMapper.mapToDomain(existingVerkuendungImportProcessDto);
     } else {
       VerkuendungImportProcessDto createdVerkuendungImportProcessDto =
         new VerkuendungImportProcessDto();
-      createdVerkuendungImportProcessDto.setId(command.id());
-      updateProcessDto(command, createdVerkuendungImportProcessDto);
+      createdVerkuendungImportProcessDto.setId(options.id());
+      updateProcessDto(options, createdVerkuendungImportProcessDto);
       return VerkuendungImportProcessMapper.mapToDomain(
         verkuendungImportProcessesRepository.save(createdVerkuendungImportProcessDto)
       );
@@ -65,11 +65,11 @@ public class VerkuedungImportProcessDBService
   }
 
   private void updateProcessDto(
-    SaveVerkuendungImportProcessPort.Command command,
+    SaveVerkuendungImportProcessPort.Options options,
     VerkuendungImportProcessDto verkuendungImportProcessDto
   ) {
     final VerkuendungImportProcessDto.Status status = VerkuendungImportProcessMapper.mapStatusToDto(
-      command.status()
+      options.status()
     );
     verkuendungImportProcessDto.setStatus(status);
 
@@ -80,7 +80,7 @@ public class VerkuedungImportProcessDBService
       case ERROR -> {
         verkuendungImportProcessDto.setFinishedAt(Instant.now());
         try {
-          var details = objectMapper.writeValueAsString(command.details());
+          var details = objectMapper.writeValueAsString(options.details());
           verkuendungImportProcessDto.setDetails(details);
         } catch (JsonProcessingException e) {
           log.error("Could not serialize verkuendungImportProcessDto details", e);

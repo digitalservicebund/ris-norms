@@ -10,17 +10,17 @@ import java.util.Optional;
  */
 public interface LoadDokumentPort {
   /**
-   * Loads a {@link Dokument} based on the provided ELI specified in the command.
+   * Loads a {@link Dokument} based on the provided ELI specified in the options.
    *
-   * @param command The command specifying the ELI to identify the {@link Dokument} to be loaded.
+   * @param options The options specifying the ELI to identify the {@link Dokument} to be loaded.
    * @return An {@link Optional} containing the loaded {@link Dokument} if found, or empty if not found.
    */
-  Optional<Dokument> loadDokument(final Command command);
+  Optional<Dokument> loadDokument(final Options options);
 
   /**
-   * A record representing the command for loading a {@link Dokument} including the ELI
+   * A record representing the options for loading a {@link Dokument} including the ELI
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the regelungstext in the command.
+   * @param eli The ELI (European Legislation Identifier) used to identify the regelungstext.
    */
-  record Command(DokumentEli eli) {}
+  record Options(DokumentEli eli) {}
 }

@@ -102,15 +102,15 @@ public class VerkuendungsImportService
   }
 
   @Override
-  public UUID storeNormendokumentationspaket(StoreNormendokumentationspaketUseCase.Query query)
+  public UUID storeNormendokumentationspaket(StoreNormendokumentationspaketUseCase.Options options)
     throws IOException {
     final UUID processId = UUID.randomUUID();
     saveNormendokumentationspaketPort.saveNormendokumentationspaket(
-      new SaveNormendokumentationspaketPort.Command(processId, query.file(), query.signature())
+      new SaveNormendokumentationspaketPort.Options(processId, options.file(), options.signature())
     );
 
     saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
-      new SaveVerkuendungImportProcessPort.Command(
+      new SaveVerkuendungImportProcessPort.Options(
         processId,
         VerkuendungImportProcess.Status.CREATED
       )
@@ -122,7 +122,7 @@ public class VerkuendungsImportService
         .withName("Process Normendokumentationspaket")
         .<ProcessNormendokumentationspaketUseCase>withDetails(service ->
           service.processNormendokumentationspaket(
-            new ProcessNormendokumentationspaketUseCase.Query(processId)
+            new ProcessNormendokumentationspaketUseCase.Options(processId)
           )
         )
     );
@@ -131,26 +131,29 @@ public class VerkuendungsImportService
 
   @Override
   public VerkuendungImportProcess getStatus(
-    LoadNormendokumentationspacketProcessingStatusUseCase.Query query
+    LoadNormendokumentationspacketProcessingStatusUseCase.Options options
   ) {
     return loadVerkuendungImportProcessPort
       .loadVerkuendungImportProcess(
-        new LoadVerkuendungImportProcessPort.Command(query.processingId())
+        new LoadVerkuendungImportProcessPort.Options(options.processingId())
       )
-      .orElseThrow(() -> new ImportProcessNotFoundException(query.processingId()));
+      .orElseThrow(() -> new ImportProcessNotFoundException(options.processingId()));
   }
 
   @Override
-  public void processNormendokumentationspaket(ProcessNormendokumentationspaketUseCase.Query query)
-    throws IOException {
-    log.info("Start processing Normendokumentationspaket: {}", query.processId());
+  public void processNormendokumentationspaket(
+    ProcessNormendokumentationspaketUseCase.Options options
+  ) throws IOException {
+    log.info("Start processing Normendokumentationspaket: {}", options.processId());
 
     var process = loadVerkuendungImportProcessPort
-      .loadVerkuendungImportProcess(new LoadVerkuendungImportProcessPort.Command(query.processId()))
+      .loadVerkuendungImportProcess(
+        new LoadVerkuendungImportProcessPort.Options(options.processId())
+      )
       .orElseThrow(() -> new RuntimeException("Could not load verkuendung import process"));
 
     process = saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
-      new SaveVerkuendungImportProcessPort.Command(
+      new SaveVerkuendungImportProcessPort.Options(
         process.getId(),
         VerkuendungImportProcess.Status.PROCESSING
       )
@@ -158,7 +161,7 @@ public class VerkuendungsImportService
 
     try {
       var files = loadNormendokumentationspaketPort.loadNormendokumentationspaket(
-        new LoadNormendokumentationspaketPort.Command(query.processId())
+        new LoadNormendokumentationspaketPort.Options(options.processId())
       );
       var zipFile = files.file();
       var signatureFile = files.signature();
@@ -166,15 +169,15 @@ public class VerkuendungsImportService
       signatureValidator.validate(zipFile, signatureFile);
 
       Norm norm = parseAndValidate(zipFile);
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
 
       Verkuendung verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
       updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
-        new UpdateOrSaveVerkuendungPort.Command(verkuendung)
+        new UpdateOrSaveVerkuendungPort.Options(verkuendung)
       );
 
       saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
-        new SaveVerkuendungImportProcessPort.Command(
+        new SaveVerkuendungImportProcessPort.Options(
           process.getId(),
           VerkuendungImportProcess.Status.SUCCESS
         )
@@ -183,11 +186,11 @@ public class VerkuendungsImportService
       if (e instanceof NormsAppException normsAppException) {
         log.warn(
           "Exception during processing of Normendokumentationspaket: {}",
-          query.processId(),
+          options.processId(),
           e
         );
         saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
-          new SaveVerkuendungImportProcessPort.Command(
+          new SaveVerkuendungImportProcessPort.Options(
             process.getId(),
             VerkuendungImportProcess.Status.ERROR,
             normsAppException
@@ -196,11 +199,11 @@ public class VerkuendungsImportService
       } else {
         log.error(
           "Unexpected exception during processing of Normendokumentationspaket: {}",
-          query.processId(),
+          options.processId(),
           e
         );
         saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(
-          new SaveVerkuendungImportProcessPort.Command(
+          new SaveVerkuendungImportProcessPort.Options(
             process.getId(),
             VerkuendungImportProcess.Status.ERROR,
             new InternalErrorException()
@@ -209,7 +212,7 @@ public class VerkuendungsImportService
       }
     }
 
-    log.info("Finished processing Normendokumentationspaket: {}", query.processId());
+    log.info("Finished processing Normendokumentationspaket: {}", options.processId());
   }
 
   private Norm parseAndValidate(byte[] zipFile)
@@ -239,7 +242,7 @@ public class VerkuendungsImportService
         throw new NoRegelungstextOrBekanntmachungstextException();
       }
 
-      if (loadNormPort.loadNorm(new LoadNormPort.Command(norm.getWorkEli())).isPresent()) {
+      if (loadNormPort.loadNorm(new LoadNormPort.Options(norm.getWorkEli())).isPresent()) {
         throw new NormExistsAlreadyException(norm.getWorkEli().toString());
       }
 

@@ -10,17 +10,17 @@ import java.util.UUID;
  */
 public interface LoadVerkuendungImportProcessPort {
   /**
-   * Loads the progress information identified by the command.
+   * Loads the progress information identified by the options.
    *
-   * @param command Information identifying the requested data
+   * @param options Information identifying the requested data
    * @return The requested progress information
    */
-  Optional<VerkuendungImportProcess> loadVerkuendungImportProcess(final Command command);
+  Optional<VerkuendungImportProcess> loadVerkuendungImportProcess(final Options options);
 
   /**
    * Parameters for loading the progress information.
    *
    * @param id ID of the process for which information should be loaded
    */
-  record Command(UUID id) {}
+  record Options(UUID id) {}
 }

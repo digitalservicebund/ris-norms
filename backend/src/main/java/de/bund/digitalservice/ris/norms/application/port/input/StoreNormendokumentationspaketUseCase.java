@@ -9,17 +9,16 @@ public interface StoreNormendokumentationspaketUseCase {
   /**
    * Storing a newly uploaded Normendokumentationspaket for processing
    *
-   * @param query The query containing the Normendokumentationspaket and signature
+   * @param options The options containing the Normendokumentationspaket and signature
    * @return the process id for getting the processing status
    */
-  UUID storeNormendokumentationspaket(StoreNormendokumentationspaketUseCase.Query query)
-    throws IOException;
+  UUID storeNormendokumentationspaket(Options options) throws IOException;
 
   /**
-   * A record representing the query for storing a Normendokumentationspaket.
+   * A record representing the options for storing a Normendokumentationspaket.
    *
    * @param file the Normendokumentationspaket
    * @param signature the signature for verifying the Normendokumentationspaket
    */
-  record Query(Resource file, Resource signature) {}
+  record Options(Resource file, Resource signature) {}
 }

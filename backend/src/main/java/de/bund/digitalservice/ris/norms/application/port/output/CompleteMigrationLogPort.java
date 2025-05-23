@@ -10,14 +10,14 @@ public interface CompleteMigrationLogPort {
   /**
    * Sets an existing {@link MigrationLog} entry to "completed".
    *
-   * @param command Specifies the entry to update
+   * @param options Specifies the entry to update
    */
-  void completeMigrationLog(final Command command);
+  void completeMigrationLog(final Options options);
 
   /**
-   * Command for setting a {@link MigrationLog} entry to "completed".
+   * Options for setting a {@link MigrationLog} entry to "completed".
    *
    * @param id The ID of the migration log entry to be updated
    */
-  record Command(UUID id) {}
+  record Options(UUID id) {}
 }

@@ -10,17 +10,17 @@ import java.util.List;
  */
 public interface LoadZeitgrenzenUseCase {
   /**
-   * Retrieves a list of time boundaries from a {@link Dokument} based on the provided query.
+   * Retrieves a list of time boundaries from a {@link Dokument} based on the provided options.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the {@link Dokument}.
+   * @param options The options containing the ELI (European Legislation Identifier) of the {@link Dokument}.
    * @return the list of {@link Zeitgrenze}
    */
-  List<Zeitgrenze> loadZeitgrenzenFromDokument(Query query);
+  List<Zeitgrenze> loadZeitgrenzenFromDokument(Options options);
 
   /**
    * A record representing the parameters needed to query time boundaries related to a {@link Dokument}.
    *
    * @param eli The ELI used to identify the {@link Dokument} in the query.
    */
-  record Query(DokumentExpressionEli eli) {}
+  record Options(DokumentExpressionEli eli) {}
 }

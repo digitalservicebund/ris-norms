@@ -56,38 +56,38 @@ public class BucketService
   }
 
   @Override
-  public void publishNorm(PublishNormPort.Command command) throws BucketException {
+  public void publishNorm(PublishNormPort.Options options) throws BucketException {
     if (changelog == null) {
       changelog = loadChangelog(s3Client, bucketName);
     }
 
-    uploadNormToBucket(changelog, s3Client, bucketName, command.norm());
+    uploadNormToBucket(changelog, s3Client, bucketName, options.norm());
   }
 
   @Override
-  public void deletePublishedNorm(DeletePublishedNormPort.Command command) throws BucketException {
-    deleteFromBucket(changelog, s3Client, bucketName, command.norm());
+  public void deletePublishedNorm(DeletePublishedNormPort.Options options) throws BucketException {
+    deleteFromBucket(changelog, s3Client, bucketName, options.norm());
   }
 
   @Override
-  public void deleteAllPublishedDokumente(DeleteAllPublishedDokumentePort.Command command) {
+  public void deleteAllPublishedDokumente(DeleteAllPublishedDokumentePort.Options options) {
     deleteAllDokumenteLastModifiedBefore(
       s3Client,
       bucketName,
       changelog,
-      command.lastChangeBefore()
+      options.lastChangeBefore()
     );
   }
 
   @Override
-  public void publishChangelogs(PublishChangelogPort.Command command) {
+  public void publishChangelogs(PublishChangelogPort.Options options) {
     if (changelog != null) {
       try {
         uploadToBucket(
           s3Client,
           bucketName,
           changelog.getFileName(),
-          changelog.getContent(command.allChanged())
+          changelog.getContent(options.allChanged())
         );
         changelog = null;
         log.info("Successfully uploaded changelog to bucket %s.".formatted(bucketName));

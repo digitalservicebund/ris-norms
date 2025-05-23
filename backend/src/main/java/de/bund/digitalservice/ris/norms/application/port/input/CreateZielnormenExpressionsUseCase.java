@@ -16,10 +16,10 @@ public interface CreateZielnormenExpressionsUseCase {
   /**
    * Creates or sets to gegenstandslos the expressions of a Zielnorm according to the Verkündung that changes them.
    *
-   * @param query Query used for identifying the Verkündung and the affected document,
+   * @param options Options used for identifying the Verkündung and the affected document,
    * @return a shortened form of the affected Zielnorms with the expressions that were created or set to gegenstandslos.
    */
-  Zielnorm createZielnormExpressions(Query query);
+  Zielnorm createZielnormExpressions(Options options);
 
   /**
    * Contains the parameters needed for identifying the Verkündung and the affected work.
@@ -27,5 +27,5 @@ public interface CreateZielnormenExpressionsUseCase {
    * @param verkuendungEli The expression ELI used to identify the Verkündung
    * @param affectedWorkEli The work ELI of the affected norm
    */
-  record Query(NormExpressionEli verkuendungEli, NormWorkEli affectedWorkEli) {}
+  record Options(NormExpressionEli verkuendungEli, NormWorkEli affectedWorkEli) {}
 }

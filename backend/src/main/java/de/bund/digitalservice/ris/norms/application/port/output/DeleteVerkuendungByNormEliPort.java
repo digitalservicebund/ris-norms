@@ -11,14 +11,14 @@ public interface DeleteVerkuendungByNormEliPort {
   /**
    * Deletes an {@link Verkuendung} with its corresponding {@link Norm}
    *
-   * @param command The command specifying the Verkuendung to be deleted.
+   * @param options The options specifying the Verkuendung to be deleted.
    */
-  void deleteVerkuendungByNormEli(final Command command);
+  void deleteVerkuendungByNormEli(final Options options);
 
   /**
-   * A record representing the command for deleting an Verkuendung.
+   * A record representing the options for deleting a Verkuendung.
    *
    * @param eli of the corresponding norm.
    */
-  record Command(NormExpressionEli eli) {}
+  record Options(NormExpressionEli eli) {}
 }

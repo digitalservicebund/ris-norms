@@ -11,16 +11,16 @@ public interface LoadReleasesByNormExpressionEliUseCase {
   /**
    * Loads all {@link Release}s associated with the norm expression.
    *
-   * @param query Query for loading the releases
+   * @param options Options for loading the releases
    * @return A {@link List} of {@link Release} objects, which may be empty if no {@link
    *     Release}s are found.
    */
-  List<Release> loadReleasesByNormExpressionEli(Query query);
+  List<Release> loadReleasesByNormExpressionEli(Options options);
 
   /**
-   * A record representing the query for loading {@link Release}s of a specific norm expression.
+   * A record representing the options for loading {@link Release}s of a specific norm expression.
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the norm expression.
    */
-  record Query(NormExpressionEli eli) {}
+  record Options(NormExpressionEli eli) {}
 }

@@ -35,7 +35,7 @@ public class EliService {
     var expressionEli = NormExpressionEli.fromWorkEli(workEli, pointInTime, 1, language);
 
     for (int i = 0; i < 1000; i++) {
-      if (loadNormPort.loadNorm(new LoadNormPort.Command(expressionEli)).isEmpty()) {
+      if (loadNormPort.loadNorm(new LoadNormPort.Options(expressionEli)).isEmpty()) {
         return expressionEli;
       } else {
         expressionEli.setVersion(expressionEli.getVersion() + 1);

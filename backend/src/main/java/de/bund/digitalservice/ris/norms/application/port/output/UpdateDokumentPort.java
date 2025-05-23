@@ -8,17 +8,17 @@ import java.util.Optional;
  */
 public interface UpdateDokumentPort {
   /**
-   * Updates a {@link Dokument} based on the provided data in the command.
+   * Updates a {@link Dokument} based on the provided data in the options.
    *
-   * @param command The command specifying the {@link Dokument} to be updated.
+   * @param options The options specifying the {@link Dokument} to be updated.
    * @return An {@link Optional} containing the {@link Dokument} if found, or empty if not found.
    */
-  Optional<Dokument> updateDokument(final Command command);
+  Optional<Dokument> updateDokument(final Options options);
 
   /**
-   * A record representing the command for updating a {@link Dokument}.
+   * A record representing the options for updating a {@link Dokument}.
    *
    * @param dokument The updated {@link Dokument}.
    */
-  record Command(Dokument dokument) {}
+  record Options(Dokument dokument) {}
 }

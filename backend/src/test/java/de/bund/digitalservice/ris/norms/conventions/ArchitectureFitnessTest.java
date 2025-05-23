@@ -321,11 +321,10 @@ class ArchitectureFitnessTest {
   }
 
   @Test
-  void portMethodsHaveASingleCommandOrQueryParameter() {
-    final HaveAParameterWithTypeName haveACommandParameter = new HaveAParameterWithTypeName(
-      "Command"
+  void portMethodsHaveASingleOptionsParameter() {
+    final HaveAParameterWithTypeName haveAOptionsParameter = new HaveAParameterWithTypeName(
+      "Options"
     );
-    final HaveAParameterWithTypeName haveAQueryParameter = new HaveAParameterWithTypeName("Query");
     final HaveExactNumberOfParameters haveASingleParameter = new HaveExactNumberOfParameters(1);
     final HaveExactNumberOfParameters haveNoParameters = new HaveExactNumberOfParameters(0);
 
@@ -342,10 +341,7 @@ class ArchitectureFitnessTest {
       .and()
       .doNotHaveName("equals")
       .should(
-        ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveAQueryParameter))
-      )
-      .orShould(
-        ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveACommandParameter))
+        ArchCondition.from((haveASingleParameter)).and(ArchCondition.from(haveAOptionsParameter))
       )
       .orShould(ArchCondition.from(haveNoParameters));
     rule.check(classes);

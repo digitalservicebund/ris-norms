@@ -53,7 +53,7 @@ public class ProprietaryController {
     final DokumentExpressionEli dokumentExpressionEli
   ) {
     var proprietary = loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-      new LoadProprietaryFromDokumentUseCase.Query(dokumentExpressionEli)
+      new LoadProprietaryFromDokumentUseCase.Options(dokumentExpressionEli)
     );
 
     return ResponseEntity.ok(
@@ -76,7 +76,7 @@ public class ProprietaryController {
     @RequestBody ProprietaryFrameSchema proprietaryFrameSchema
   ) {
     var proprietary = updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(
-      new UpdateProprietaryFrameFromDokumentUseCase.Query(
+      new UpdateProprietaryFrameFromDokumentUseCase.Options(
         dokumentExpressionEli,
         new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
           proprietaryFrameSchema.getFna(),
@@ -113,7 +113,7 @@ public class ProprietaryController {
     @PathVariable final EId eid
   ) {
     var proprietary = loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-      new LoadProprietaryFromDokumentUseCase.Query(dokumentExpressionEli)
+      new LoadProprietaryFromDokumentUseCase.Options(dokumentExpressionEli)
     );
 
     return ResponseEntity.ok(
@@ -143,7 +143,7 @@ public class ProprietaryController {
   ) {
     var proprietary =
       updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(
-        new UpdateProprietarySingleElementFromDokumentUseCase.Query(
+        new UpdateProprietarySingleElementFromDokumentUseCase.Options(
           dokumentExpressionEli,
           eid,
           new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata(
