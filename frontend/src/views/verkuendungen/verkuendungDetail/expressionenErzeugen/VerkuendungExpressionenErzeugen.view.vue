@@ -3,12 +3,17 @@ import RisEmptyState from "@/components/RisEmptyState.vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import { useGetZielnormPreview } from "@/services/zielnormExpressionsService"
-import { ConfirmDialog, useConfirm } from "primevue"
-import { ref } from "vue"
+import {
+  useCreateZielnormExpressions,
+  useGetZielnormPreview,
+} from "@/services/zielnormExpressionsService"
+import { ConfirmDialog, useConfirm, useToast } from "primevue"
+import { ref, watch } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
@@ -56,6 +61,10 @@ function beginCreateExpression(eli: NormWorkEli) {
       acceptProps: { text: true },
       rejectLabel: "Abbrechen",
       defaultFocus: "reject",
+      accept: () => {
+        zielnormWorkEli.value = eli
+        createExpressions()
+      },
     })
   } else {
     confirm.require({
@@ -65,9 +74,50 @@ function beginCreateExpression(eli: NormWorkEli) {
       rejectLabel: "Abbrechen",
       rejectProps: { text: true },
       defaultFocus: "accept",
+      accept: () => {
+        zielnormWorkEli.value = eli
+        createExpressions()
+      },
     })
   }
 }
+
+const zielnormWorkEli = ref<NormWorkEli>()
+
+const {
+  data: createdExpressions,
+  error: createExpressionsError,
+  execute: createExpressions,
+  isFetching: isCreatingExpressions,
+  isFinished: finishedCreatingExpressions,
+} = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
+
+watch(createdExpressions, (newVal) => {
+  if (!zielnormWorkEli.value || !previewData.value?.length || !newVal) return
+  const eli = zielnormWorkEli.value
+
+  const createdExpressionsIndex = previewData.value?.findIndex((i) =>
+    i.normWorkEli.equals(eli),
+  )
+
+  if (createdExpressionsIndex >= 0) {
+    previewData.value = previewData.value.with(createdExpressionsIndex, newVal)
+  }
+})
+
+const traceId = useSentryTraceId()
+const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
+
+watch(createExpressionsError, (newVal) => {
+  if (newVal) addErrorToast(createExpressionsError, { traceId })
+})
+
+watch(finishedCreatingExpressions, (newVal) => {
+  if (newVal && !createExpressionsError.value) {
+    addToast({ summary: "Gespeichert!", severity: "success" })
+  }
+})
 </script>
 
 <template>
@@ -81,6 +131,7 @@ function beginCreateExpression(eli: NormWorkEli) {
     <RisZielnormenPreviewList
       v-if="previewData?.length"
       :items="previewData"
+      :loading="isCreatingExpressions"
       @create-expression="beginCreateExpression"
     ></RisZielnormenPreviewList>
 
