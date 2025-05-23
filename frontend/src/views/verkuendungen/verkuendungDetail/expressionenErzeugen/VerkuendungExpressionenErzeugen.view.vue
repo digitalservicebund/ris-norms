@@ -19,12 +19,9 @@ import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 const eli = useDokumentExpressionEliPathParameter()
 
 const confirm = useConfirm()
-
-const {
-  data: verkuendung,
-  error: verkuendungError,
-  isFinished: verkuendungHasFinished,
-} = useGetVerkuendungService(() => eli.value.asNormEli())
+const traceId = useSentryTraceId()
+const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -36,10 +33,28 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 ])
 
 const {
+  data: verkuendung,
+  error: verkuendungError,
+  isFinished: verkuendungHasFinished,
+} = useGetVerkuendungService(() => eli.value.asNormEli())
+
+const {
   data: previewData,
   error: previewError,
   isFinished: previewIsFinished,
 } = useGetZielnormPreview(() => eli.value.asNormEli())
+
+const zielnormWorkEli = ref<NormWorkEli>()
+
+// Creating expressions -----------------------------------
+
+const {
+  data: createdExpressions,
+  error: createExpressionsError,
+  execute: createExpressions,
+  isFetching: isCreatingExpressions,
+  isFinished: finishedCreatingExpressions,
+} = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
 
 function beginCreateExpression(eli: NormWorkEli) {
   const previewDataForEli = previewData.value?.find((i) =>
@@ -82,16 +97,6 @@ function beginCreateExpression(eli: NormWorkEli) {
   }
 }
 
-const zielnormWorkEli = ref<NormWorkEli>()
-
-const {
-  data: createdExpressions,
-  error: createExpressionsError,
-  execute: createExpressions,
-  isFetching: isCreatingExpressions,
-  isFinished: finishedCreatingExpressions,
-} = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
-
 watch(createdExpressions, (newVal) => {
   if (!zielnormWorkEli.value || !previewData.value?.length || !newVal) return
   const eli = zielnormWorkEli.value
@@ -104,10 +109,6 @@ watch(createdExpressions, (newVal) => {
     previewData.value = previewData.value.with(createdExpressionsIndex, newVal)
   }
 })
-
-const traceId = useSentryTraceId()
-const { add: addToast } = useToast()
-const { addErrorToast } = useErrorToast()
 
 watch(createExpressionsError, (newVal) => {
   if (newVal) addErrorToast(createExpressionsError, { traceId })
