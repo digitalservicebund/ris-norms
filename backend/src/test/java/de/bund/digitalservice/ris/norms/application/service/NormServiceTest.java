@@ -505,7 +505,7 @@ class NormServiceTest {
   }
 
   @Nested
-  class loadZielnorm {
+  class loadZielnormen {
 
     @Test
     void itShouldGenerateCorrectElisForNoExistingExpressions() {
@@ -745,10 +745,94 @@ class NormServiceTest {
         new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
     }
+
+    @Test
+    void itShouldGenerateCorrectElisForAlreadyCreatedExpressions() {
+      Norm norm = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "NormWithAmendedExpressions.xml"
+      );
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(norm.getExpressionEli()))).thenReturn(
+        Optional.of(norm)
+      );
+
+      Norm amendedExpression = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "vereinsgesetz-2017-03-16-1.xml"
+      );
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Command(amendedExpression.getWorkEli()))
+      ).thenReturn(Optional.of(amendedExpression));
+
+      when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(
+        List.of(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"))
+      );
+
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Command(amendedExpression.getExpressionEli()))
+      ).thenReturn(Optional.of(amendedExpression));
+
+      when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2018-04-17/1/deu")
+      );
+
+      var preview = service.loadZielnormExpressions(
+        new LoadZielnormenExpressionsUseCase.Query(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+
+      assertThat(preview).hasSize(1);
+      assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/1964/s593");
+      assertThat(preview.getFirst().title()).hasToString(
+        "Gesetz zur Regelung des öffentlichen Vereinsrechts"
+      );
+      assertThat(preview.getFirst().shortTitle()).hasToString("Vereinsgesetz");
+      assertThat(preview.getFirst().expressions())
+        .hasSize(2)
+        .containsExactly(
+          new Zielnorm.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+            false,
+            true,
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          ),
+          new Zielnorm.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2018-04-17/1/deu"),
+            false,
+            false,
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          )
+        );
+
+      verify(eliService, times(1)).findNextExpressionEli(
+        NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+        LocalDate.parse("2018-04-17"),
+        "deu"
+      );
+
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Command(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+        )
+      );
+
+      verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
+        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
+    }
   }
 
   @Nested
-  class loadAndSaveZielnormen {
+  class createZielnormen {
 
     @Test
     @Disabled("Being implemented")

@@ -302,23 +302,35 @@ public class NormService
 
     List<Zielnorm.Expression> expressions = new ArrayList<>();
 
-    relevantExistingExpressions.forEach(expression -> {
-      expressions.add(
-        new Zielnorm.Expression(expression, true, true, Zielnorm.CreatedBy.OTHER_VERKUENDUNG)
-      );
+    final Optional<AmendedNormExpressions> affectedExpressionElis = verkuendungNorm
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getAmendedNormExpressions);
 
-      expressions.add(
-        new Zielnorm.Expression(
-          eliService.findNextExpressionEli(
-            expression.asWorkEli(),
-            expression.getPointInTime(),
-            expression.getLanguage()
-          ),
-          false,
-          false,
-          Zielnorm.CreatedBy.SYSTEM
-        )
-      );
+    relevantExistingExpressions.forEach(expression -> {
+      if (affectedExpressionElis.isPresent() && affectedExpressionElis.get().contains(expression)) {
+        expressions.add(
+          new Zielnorm.Expression(expression, false, true, Zielnorm.CreatedBy.THIS_VERKUENDUNG)
+        );
+      } else {
+        expressions.add(
+          new Zielnorm.Expression(expression, true, true, Zielnorm.CreatedBy.OTHER_VERKUENDUNG)
+        );
+        expressions.add(
+          new Zielnorm.Expression(
+            eliService.findNextExpressionEli(
+              expression.asWorkEli(),
+              expression.getPointInTime(),
+              expression.getLanguage()
+            ),
+            false,
+            false,
+            Zielnorm.CreatedBy.SYSTEM
+          )
+        );
+      }
     });
 
     geltungszeiten
@@ -349,17 +361,28 @@ public class NormService
             )
           );
         } else {
-          expressions.add(
-            new Zielnorm.Expression(
-              eliService.findNextExpressionEli(zielnormWorkEli, date, "deu"),
-              false,
-              false,
-              Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          // Only add new not-yet-created expressions if they are really not yet created
+          var alreadyCreated = expressions
+            .stream()
+            .filter(
+              expression ->
+                expression.normExpressionEli().getPointInTime().equals(date) &&
+                expression.normExpressionEli().getLanguage().equals("deu") &&
+                expression.createdBy().equals(Zielnorm.CreatedBy.THIS_VERKUENDUNG)
             )
-          );
+            .findFirst();
+          if (alreadyCreated.isEmpty()) {
+            expressions.add(
+              new Zielnorm.Expression(
+                eliService.findNextExpressionEli(zielnormWorkEli, date, "deu"),
+                false,
+                false,
+                Zielnorm.CreatedBy.THIS_VERKUENDUNG
+              )
+            );
+          }
         }
       });
-
     return expressions
       .stream()
       .sorted(Comparator.comparing(Zielnorm.Expression::normExpressionEli))
@@ -446,7 +469,7 @@ public class NormService
 
     // 4. Add elis of new expressions from 2. and 3. into XML node amended-expressions
 
-    // 5. Orphan elements in amended-expressions? meaning present there but not in passed "zielnormen"? Remove XML from DB
+    // 5. Orphan elements in amended-expressions? meaning presen there but not in passed "zielnormen"? Remove XML from DB
 
   }
 }
