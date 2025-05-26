@@ -24,19 +24,19 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Configuration
 public class BucketServiceConfiguration {
 
-  @Value("${otc.obs.private.bucket-name}")
-  private String privateBucketName;
-
-  @Value("${otc.obs.public.bucket-name}")
-  private String publicBucketName;
-
+  private final String privateBucketName;
+  private final String publicBucketName;
   private final S3Client privateS3Client;
   private final S3Client publicS3Client;
 
   public BucketServiceConfiguration(
+    @Value("${otc.obs.private.bucket-name}") String privateBucketName,
+    @Value("${otc.obs.public.bucket-name}") String publicBucketName,
     @Qualifier("privateS3Client") S3Client privateS3Client,
     @Qualifier("publicS3Client") S3Client publicS3Client
   ) {
+    this.privateBucketName = privateBucketName;
+    this.publicBucketName = publicBucketName;
     this.privateS3Client = privateS3Client;
     this.publicS3Client = publicS3Client;
   }
