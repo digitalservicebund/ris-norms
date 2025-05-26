@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.util.List;

@@ -8,8 +8,8 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormRef
 import de.bund.digitalservice.ris.norms.application.port.input.DeleteZielnormReferencesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZielnormReferencesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZielnormReferencesUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import jakarta.validation.Valid;
 import java.util.List;

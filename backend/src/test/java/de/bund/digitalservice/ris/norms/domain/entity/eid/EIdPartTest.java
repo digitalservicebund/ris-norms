@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.domain.entity;
+package de.bund.digitalservice.ris.norms.domain.entity.eid;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

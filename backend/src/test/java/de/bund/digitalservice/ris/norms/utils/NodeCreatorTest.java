@@ -2,8 +2,8 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EIdPart;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;

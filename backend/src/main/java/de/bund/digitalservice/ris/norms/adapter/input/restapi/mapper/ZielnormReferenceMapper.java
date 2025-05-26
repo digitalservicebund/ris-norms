@@ -2,9 +2,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReferenceSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZielnormReferencesUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 
 /**

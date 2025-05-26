@@ -2,9 +2,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryFrameSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import java.time.LocalDate;
 
 /**

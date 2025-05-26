@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.util.Arrays;
 import java.util.Optional;
