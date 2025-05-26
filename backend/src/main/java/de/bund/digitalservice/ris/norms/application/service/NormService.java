@@ -43,6 +43,7 @@ public class NormService
   private final EliService eliService;
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
+  private final DeleteNormPort deleteNormPort;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -52,7 +53,8 @@ public class NormService
     LoadNormExpressionElisPort loadNormExpressionElisPort,
     EliService eliService,
     CreateNewVersionOfNormService createNewVersionOfNormService,
-    UpdateOrSaveNormPort updateOrSaveNormPort
+    UpdateOrSaveNormPort updateOrSaveNormPort,
+    DeleteNormPort deleteNormPort
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
@@ -62,6 +64,7 @@ public class NormService
     this.eliService = eliService;
     this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
+    this.deleteNormPort = deleteNormPort;
   }
 
   @Override
@@ -470,10 +473,30 @@ public class NormService
             final Norm newManifestation = createNewVersionOfNormService.createNewManifestation(
               norm
             );
-            newManifestation.setGegenstandlos(verkuendungNorm.getExpressionEli().getPointInTime());
+            // Use announcement date of amending law (part of the work eli)
+            newManifestation.setGegenstandlos(
+              verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
+            );
             updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newManifestation));
           }
-          if (expression.createdBy().equals(Zielnorm.CreatedBy.THIS_VERKUENDUNG)) {}
+          if (amendedNormExpressions.contains(expression.normExpressionEli())) {
+            // Override by creating new expression from closest previous and replacing the already created one
+            final Norm previousClosestExpression = findPreviousClosestExistingExpression(
+              zielnorm.normWorkEli(),
+              expression.normExpressionEli().getPointInTime()
+            ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
+            final CreateNewVersionOfNormService.CreateNewExpressionResult result =
+              createNewVersionOfNormService.createNewOverridenExpression(
+                previousClosestExpression,
+                norm
+              );
+            updateOrSaveNormPort.updateOrSave(
+              new UpdateOrSaveNormPort.Options(result.newExpression())
+            );
+            updateOrSaveNormPort.updateOrSave(
+              new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
+            );
+          }
         } else {
           // Take previous closest already-created expression (there must be at least 1)
           final Norm previousClosestExpression = findPreviousClosestExistingExpression(
@@ -488,11 +511,11 @@ public class NormService
           updateOrSaveNormPort.updateOrSave(
             new UpdateOrSaveNormPort.Options(result.newExpression())
           );
-          // Add expression eli of new expression into amended-expressions
-          amendedNormExpressions.add(result.newExpression().getExpressionEli());
           updateOrSaveNormPort.updateOrSave(
             new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
           );
+          // Add expression eli of new expression into amended-expressions
+          amendedNormExpressions.add(result.newExpression().getExpressionEli());
         }
       });
     // remove orphan entries of amended-expressions
@@ -506,7 +529,20 @@ public class NormService
           .toList()
           .contains(f)
       )
-      .forEach(amendedNormExpressions::remove);
+      .forEach(normExpressionEli -> {
+        loadNormPort
+          .loadNorm(new LoadNormPort.Options(normExpressionEli))
+          .ifPresent(normLoaded ->
+            deleteNormPort.deleteNorm(
+              new DeleteNormPort.Options(
+                normLoaded.getManifestationEli(),
+                NormPublishState.UNPUBLISHED
+              )
+            )
+          );
+        amendedNormExpressions.remove(normExpressionEli);
+      });
+
     // Save Verkündung because of updated amended-expressions
     updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(verkuendungNorm));
 

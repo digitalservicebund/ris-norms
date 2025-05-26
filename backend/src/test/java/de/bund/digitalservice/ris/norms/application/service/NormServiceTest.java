@@ -39,6 +39,7 @@ class NormServiceTest {
     CreateNewVersionOfNormService.class
   );
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
 
   final NormService service = new NormService(
     loadNormPort,
@@ -48,7 +49,8 @@ class NormServiceTest {
     loadNormExpressionElisPort,
     eliService,
     createNewVersionOfNormService,
-    updateOrSaveNormPort
+    updateOrSaveNormPort,
+    deleteNormPort
   );
 
   @Nested
@@ -750,17 +752,14 @@ class NormServiceTest {
 
     @Test
     void itShouldGenerateCorrectElisForAlreadyCreatedExpressions() {
-      Norm norm = Fixtures.loadNormFromDisk(
-        NormServiceTest.class,
-        "NormWithAmendedExpressions.xml"
-      );
+      Norm norm = Fixtures.loadNormFromDisk(NormServiceTest.class, "norm-with-amended-expressions");
       when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getExpressionEli()))).thenReturn(
         Optional.of(norm)
       );
 
       Norm amendedExpression = Fixtures.loadNormFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-2017-03-16-1.xml"
+        "vereinsgesetz-2017-03-16-1"
       );
       when(
         loadNormPort.loadNorm(new LoadNormPort.Options(amendedExpression.getWorkEli()))

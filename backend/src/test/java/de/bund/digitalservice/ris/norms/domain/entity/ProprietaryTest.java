@@ -1221,7 +1221,7 @@ class ProprietaryTest {
       );
       assertThat(proprietary.getGegenstandlos()).isEmpty();
 
-      proprietary.setGegenstandlos(LocalDate.now());
+      proprietary.setGegenstandlos(LocalDate.now().toString());
 
       assertThat(proprietary.getGegenstandlos()).isPresent();
 
@@ -1247,7 +1247,7 @@ class ProprietaryTest {
         LocalDate.parse("2020-01-01")
       );
 
-      proprietary.setGegenstandlos(LocalDate.now());
+      proprietary.setGegenstandlos(LocalDate.now().toString());
 
       assertThat(proprietary.getGegenstandlos()).isPresent();
 

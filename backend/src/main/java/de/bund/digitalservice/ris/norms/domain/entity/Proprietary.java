@@ -229,7 +229,7 @@ public class Proprietary {
    * Set the gegenstandlos metadata element (if it does not exist, it will create it).
    * @param date - date to set as gegenstandslos with
    */
-  public void setGegenstandlos(final LocalDate date) {
+  public void setGegenstandlos(final String date) {
     final Gegenstandlos gegenstandslos = getGegenstandlos()
       .orElseGet(() -> {
         final Element metadataParent = getOrCreateMetadataParent(Gegenstandlos.NAMESPACE);

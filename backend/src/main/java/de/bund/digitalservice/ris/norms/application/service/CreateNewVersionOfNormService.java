@@ -89,6 +89,57 @@ public class CreateNewVersionOfNormService {
   }
 
   /**
+   * Creates a new expression based on the passed norm but uses the ELIs and GUIDs of the already existing expression. Meaning an
+   * overriding is happening. Also creates new manifestation of old expression (using the duplicated new expression)
+   *
+   * @param norm the norm for which a new expression should be created.
+   * @param toDuplicateExpression the already existing expression
+   * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
+   */
+  public CreateNewExpressionResult createNewOverridenExpression(
+    Norm norm,
+    Norm toDuplicateExpression
+  ) {
+    var newExpression = new Norm(norm);
+    var newManifestationEli = NormManifestationEli.fromExpressionEli(
+      toDuplicateExpression.getExpressionEli(),
+      LocalDate.now()
+    );
+    newExpression
+      .getDokumente()
+      .forEach(dokument -> {
+        setNewExpressionMetadataWithCurrentAndNextGuid(
+          dokument,
+          DokumentExpressionEli.fromNormEli(
+            toDuplicateExpression.getExpressionEli(),
+            dokument.getExpressionEli().getSubtype()
+          ),
+          toDuplicateExpression.getGuid(),
+          toDuplicateExpression
+            .getRegelungstext1()
+            .getMeta()
+            .getFRBRExpression()
+            .getFRBRaliasNextVersionId()
+            .orElse(null)
+        );
+        setNewManifestationMetadata(
+          dokument,
+          DokumentManifestationEli.fromNormEli(
+            newManifestationEli,
+            dokument.getManifestationEli().getSubtype(),
+            dokument.getManifestationEli().getFormat()
+          )
+        );
+      });
+    Norm newManifestationOfOldExpression = createNewManifestationOfOldExpression(
+      norm,
+      newExpression
+    );
+
+    return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
+  }
+
+  /**
    * Creates a new manifestation of the given norm. Uses the current date for the point-in-time-manifestation.
    * @param norm the norm for which a new manifestation should be created.
    * @return the newly created manifestation.
@@ -209,6 +260,27 @@ public class CreateNewVersionOfNormService {
       expression.setFRBRaliasPreviousVersionId(oldVersionId);
     }
     expression.deleteAliasNextVersionId();
+  }
+
+  /**
+   * Set metadata for expression but keeps the passed current and next GUIDs (when doing a cloning of the expression)
+   * @param dokument - the new expression
+   * @param expressionEli - the eli for the new expression
+   * @param currentGuid - the current GUID of the expression that is being overriden
+   * @param nextGuid - the next GUID of the expression that is being overriden
+   */
+  private void setNewExpressionMetadataWithCurrentAndNextGuid(
+    Dokument dokument,
+    DokumentExpressionEli expressionEli,
+    UUID currentGuid,
+    UUID nextGuid
+  ) {
+    setNewExpressionMetadata(dokument, expressionEli);
+    var expression = dokument.getMeta().getFRBRExpression();
+    expression.setFRBRaliasCurrentVersionId(currentGuid);
+    if (nextGuid != null) {
+      expression.setFRBRaliasNextVersionId(nextGuid);
+    }
   }
 
   /**

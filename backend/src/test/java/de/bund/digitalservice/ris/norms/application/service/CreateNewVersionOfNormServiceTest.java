@@ -198,6 +198,101 @@ class CreateNewVersionOfNormServiceTest {
   }
 
   @Test
+  void createNewOverridenExpression() {
+    // Given
+    when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu")
+    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+    var currentDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+
+    // When
+    var resultWithExpressionToOverride = createNewVersionOfNormService.createNewExpression(
+      norm,
+      LocalDate.parse("2024-01-01")
+    );
+    var expressionToOverride = resultWithExpressionToOverride.newExpression();
+    var result = createNewVersionOfNormService.createNewOverridenExpression(
+      norm,
+      expressionToOverride
+    );
+
+    // Then
+
+    assertThat(result.newExpression().getRegelungstexte()).hasSize(2);
+    assertThat(result.newExpression().getExpressionEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu"
+    );
+    assertThat(result.newExpression().getRegelungstext1().getExpressionEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/regelungstext-1"
+    );
+    FRBRExpression expression = result
+      .newExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression();
+    assertThat(expression.getURI()).hasToString("eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu");
+    assertThat(expression.getFBRDate()).isEqualTo("2024-01-01");
+    assertThat(expression.getFRBRVersionNumber()).contains(1);
+    assertThat(expression.getFRBRaliasCurrentVersionId()).isNotEqualTo(
+      norm.getRegelungstext1().getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId()
+    );
+    assertThat(expression.getFRBRaliasCurrentVersionId()).isEqualTo(
+      expressionToOverride
+        .getRegelungstext1()
+        .getMeta()
+        .getFRBRExpression()
+        .getFRBRaliasCurrentVersionId()
+    );
+    assertThat(expression.getFRBRaliasPreviousVersionId()).contains(
+      norm.getRegelungstext1().getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId()
+    );
+    assertThat(expression.getFRBRaliasNextVersionId()).isEmpty();
+    assertThat(result.newExpression().getManifestationEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s".formatted(currentDate)
+    );
+    assertThat(result.newExpression().getRegelungstext1().getManifestationEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
+    );
+    FRBRManifestation manifestation = result
+      .newExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRManifestation();
+    assertThat(manifestation.getURI()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
+    );
+    assertThat(manifestation.getFBRDate()).isEqualTo(currentDate);
+
+    assertThat(result.newManifestationOfOldExpression().getRegelungstexte()).hasSize(2);
+    assertThat(result.newManifestationOfOldExpression().getManifestationEli()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s".formatted(currentDate)
+    );
+    assertThat(
+      result.newManifestationOfOldExpression().getRegelungstext1().getManifestationEli()
+    ).hasToString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
+    );
+    FRBRExpression expressionOldExpression = result
+      .newManifestationOfOldExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression();
+    assertThat(expressionOldExpression.getFRBRaliasNextVersionId()).contains(
+      expression.getFRBRaliasCurrentVersionId()
+    );
+    FRBRManifestation manifestationOldExpression = result
+      .newManifestationOfOldExpression()
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRManifestation();
+    assertThat(manifestationOldExpression.getURI()).hasToString(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-1.xml".formatted(currentDate)
+    );
+    assertThat(manifestationOldExpression.getFBRDate()).isEqualTo(currentDate);
+  }
+
+  @Test
   void createNewManifestation() {
     // Given
     var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
