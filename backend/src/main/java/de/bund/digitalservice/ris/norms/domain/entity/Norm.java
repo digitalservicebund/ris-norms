@@ -261,7 +261,8 @@ public class Norm {
   public void setGegenstandlos(final String date) {
     // TODO: (Victor del Campo, 2025-05-23) ldml_de 1.8 -> this will be stored exclusively in the rechtsetzungsdokument
     final Proprietary proprietary = getRegelungstext1().getMeta().getOrCreateProprietary();
-    proprietary.setGegenstandlos(date);
+    final Gegenstandlos gegenstandlos = proprietary.getOrCreateGegenstandlos();
+    gegenstandlos.setSinceDate(date);
   }
 
   @Override

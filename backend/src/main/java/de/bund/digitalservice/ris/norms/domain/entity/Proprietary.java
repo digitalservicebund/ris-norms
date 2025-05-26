@@ -226,18 +226,19 @@ public class Proprietary {
   }
 
   /**
-   * Set the gegenstandlos metadata element (if it does not exist, it will create it).
-   * @param date - date to set as gegenstandslos with
+   * Get the gegenstandlos metadata element (if it exists). If it does not exist it creates a new one.
+   * @return the {@link Gegenstandlos} element
    */
-  public void setGegenstandlos(final String date) {
-    final Gegenstandlos gegenstandslos = getGegenstandlos()
+  public Gegenstandlos getOrCreateGegenstandlos() {
+    return getGegenstandlos()
       .orElseGet(() -> {
         final Element metadataParent = getOrCreateMetadataParent(Gegenstandlos.NAMESPACE);
-        return new Gegenstandlos(
+        final Gegenstandlos gegenstandlos = new Gegenstandlos(
           NodeCreator.createElement(Gegenstandlos.NAMESPACE, Gegenstandlos.TAG_NAME, metadataParent)
         );
+        gegenstandlos.setSinceDate(LocalDate.now().toString());
+        return gegenstandlos;
       });
-    gegenstandslos.updateSinceDate(date);
   }
 
   /**

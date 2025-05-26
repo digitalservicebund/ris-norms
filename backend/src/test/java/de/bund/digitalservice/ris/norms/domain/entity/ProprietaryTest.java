@@ -1210,48 +1210,24 @@ class ProprietaryTest {
     }
 
     @Test
-    void setGegenstandlosCreate() {
-      final Proprietary proprietary = new Proprietary(
-        XmlMapper.toElement(
-          """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
-          </akn:proprietary>
-          """
-        )
-      );
-      assertThat(proprietary.getGegenstandlos()).isEmpty();
-
-      proprietary.setGegenstandlos(LocalDate.now().toString());
-
-      assertThat(proprietary.getGegenstandlos()).isPresent();
-
-      assertThat(proprietary.getGegenstandlos().get().getSinceDate()).isEqualTo(LocalDate.now());
-    }
-
-    @Test
-    void getGegenstandlosModify() {
+    void getOrCreateGegenstandlos() {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-              <meta:gegenstandlos seit="2020-01-01" />
+
             </meta:legalDocML.de_metadaten>
           </akn:proprietary>
           """
         )
       );
 
+      proprietary.getOrCreateGegenstandlos();
       assertThat(proprietary.getGegenstandlos()).isPresent();
       assertThat(proprietary.getGegenstandlos().get().getSinceDate()).isEqualTo(
-        LocalDate.parse("2020-01-01")
+        LocalDate.now().toString()
       );
-
-      proprietary.setGegenstandlos(LocalDate.now().toString());
-
-      assertThat(proprietary.getGegenstandlos()).isPresent();
-
-      assertThat(proprietary.getGegenstandlos().get().getSinceDate()).isEqualTo(LocalDate.now());
     }
   }
 }

@@ -280,6 +280,8 @@ public class CreateNewVersionOfNormService {
     expression.setFRBRaliasCurrentVersionId(currentGuid);
     if (nextGuid != null) {
       expression.setFRBRaliasNextVersionId(nextGuid);
+    } else {
+      expression.deleteAliasNextVersionId();
     }
   }
 

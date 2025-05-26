@@ -582,11 +582,7 @@ public class NormService
       .filter(entry -> entry.getValue().isPresent()) // keep only existing Norms
       .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().get()))
       .filter(entry -> !entry.getValue().isGegenstandlos())
-      .max(
-        Comparator.comparing((Map.Entry<NormExpressionEli, Norm> entry) ->
-          entry.getKey().getPointInTime()
-        ).thenComparing(entry -> entry.getKey().getVersion())
-      )
+      .max(Map.Entry.comparingByKey())
       .map(Map.Entry::getValue);
   }
 }
