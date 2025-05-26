@@ -14,7 +14,7 @@ import {
 } from "@/services/zielnormExpressionsService"
 import { cloneDeep, isEqual } from "lodash"
 import { ConfirmDialog, useConfirm, useToast } from "primevue"
-import { computed, ref, watch } from "vue"
+import { ref, watch, watchEffect } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
@@ -36,7 +36,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 const {
   data: verkuendung,
   error: verkuendungError,
-  isFinished: verkuendungHasFinished,
+  isFinished: verkuendungIsFinished,
 } = useGetVerkuendungService(() => eli.value.asNormEli())
 
 const {
@@ -44,18 +44,23 @@ const {
   error: previewError,
   execute: fetchPreviewData,
   isFinished: previewIsFinished,
+  isFetching: previewIsFetching,
 } = useGetZielnormPreview(() => eli.value.asNormEli())
 
 // Loading state for the view that is only true for the initial load.
 // Prevents flickering when syncing data before submitting the create
 // request.
-const previewDataInitialLoad = computed(
-  () => !previewIsFinished && !previewData,
-)
+const initialLoad = ref(true)
 
-const zielnormWorkEli = ref<NormWorkEli>()
+watchEffect(() => {
+  if (verkuendungIsFinished.value && previewIsFinished.value) {
+    initialLoad.value = false
+  }
+})
 
 // Creating expressions -----------------------------------
+
+const zielnormWorkEli = ref<NormWorkEli>()
 
 const {
   data: createdExpressions,
@@ -66,7 +71,6 @@ const {
 } = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
 
 async function beginCreateExpression(eli: NormWorkEli) {
-  // TODO: Loading
   if (!previewData.value) return
 
   const dataIndex =
@@ -78,11 +82,11 @@ async function beginCreateExpression(eli: NormWorkEli) {
   try {
     await fetchPreviewData(true)
   } catch {
-    // TODO: Handle error
+    // Error handling will be managed automatically by the existing previewError
+    // handling
     return
   }
 
-  console.log({ previewData: previewData.value[dataIndex], previewDataForEli })
   if (!isEqual(previewData.value[dataIndex], previewDataForEli)) {
     addToast({
       summary: "Die Daten haben sich geändert",
@@ -147,7 +151,12 @@ watch(createExpressionsError, (newVal) => {
 
 watch(finishedCreatingExpressions, (newVal) => {
   if (newVal && !createExpressionsError.value) {
-    addToast({ summary: "Gespeichert!", severity: "success" })
+    addToast({
+      summary: "Expressionen erfolgreich erzeugt",
+      detail:
+        "Die neuen Expressionen für diese Zielnorm wurden erfolgreich erzeugt.",
+      severity: "success",
+    })
   }
 })
 </script>
@@ -156,14 +165,14 @@ watch(finishedCreatingExpressions, (newVal) => {
   <RisViewLayout
     :breadcrumbs
     :errors="[verkuendungError, previewError]"
-    :loading="!verkuendungHasFinished || previewDataInitialLoad"
+    :loading="initialLoad"
   >
     <h1 class="sr-only">Expressionen erzeugen</h1>
 
     <RisZielnormenPreviewList
       v-if="previewData?.length"
       :items="previewData"
-      :loading="isCreatingExpressions"
+      :loading="isCreatingExpressions || previewIsFetching"
       @create-expression="beginCreateExpression"
     ></RisZielnormenPreviewList>
 

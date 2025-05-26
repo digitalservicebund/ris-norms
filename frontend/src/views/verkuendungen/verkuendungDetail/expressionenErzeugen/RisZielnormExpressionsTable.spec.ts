@@ -71,7 +71,9 @@ describe("risZielnormExpressionsTable", () => {
     expect(within(row2).getAllByRole("cell")[2]).toHaveTextContent(
       "andere Verkündung",
     )
-    expect(within(row2).getAllByRole("cell")[3]).toHaveTextContent("")
+    expect(within(row2).getAllByRole("cell")[3]).toHaveTextContent(
+      "Gegenstandslos",
+    )
 
     const row3 = screen.getAllByRole("row")[3]
     expect(within(row3).getAllByRole("cell")[0]).toHaveTextContent(
@@ -81,7 +83,9 @@ describe("risZielnormExpressionsTable", () => {
       "01.01.2024 - 30.04.2024",
     )
     expect(within(row3).getAllByRole("cell")[2]).toHaveTextContent("System")
-    expect(within(row3).getAllByRole("cell")[3]).toHaveTextContent("")
+    expect(within(row3).getAllByRole("cell")[3]).toHaveTextContent(
+      "Noch nicht erzeugt",
+    )
 
     const row4 = screen.getAllByRole("row")[4]
     expect(within(row4).getAllByRole("cell")[0]).toHaveTextContent(
@@ -91,6 +95,8 @@ describe("risZielnormExpressionsTable", () => {
     expect(within(row4).getAllByRole("cell")[2]).toHaveTextContent(
       "diese Verkündung",
     )
-    expect(within(row4).getAllByRole("cell")[3]).toHaveTextContent("")
+    expect(within(row4).getAllByRole("cell")[3]).toHaveTextContent(
+      "Noch nicht erzeugt",
+    )
   })
 })
