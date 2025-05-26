@@ -200,6 +200,113 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     await expect(row.getByText("Expression erzeugt")).toBeVisible()
   })
 
+  test("shows a warning if the local data has become outdated before creating expressions", async ({
+    page,
+  }) => {
+    // TODO: Remove once the API has been implemented
+    await page.route(
+      "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          json: [
+            {
+              normWorkEli: "eli/bund/bgbl-1/1964/s593",
+              title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+              shortTitle: "Vereinsgesetz",
+              expressions: [
+                {
+                  normExpressionEli:
+                    "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu",
+                  isGegenstandslos: false,
+                  isCreated: false,
+                  createdBy: "diese Verkündung",
+                },
+              ],
+            },
+          ],
+        })
+      },
+    )
+
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+    )
+
+    await page
+      .getByRole("button", {
+        name: "Gesetz zur Regelung des öffentlichen Vereinsrechts (Vereinsgesetz)",
+      })
+      .click()
+
+    const row = page.getByRole("row")
+
+    // Assert that the expression has not been created yet. Note that this will
+    // only work with a clean DB since creating expressions can not easily be
+    // reversed.
+    await expect(row.getByText("Expression erzeugt")).toBeHidden()
+
+    // TODO: Remove once the API has been implemented
+    await page.route(
+      "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          json: [
+            {
+              normWorkEli: "eli/bund/bgbl-1/1964/s593",
+              title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+              shortTitle: "Vereinsgesetz",
+              expressions: [
+                {
+                  normExpressionEli:
+                    "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu",
+                  isGegenstandslos: false,
+                  isCreated: true,
+                  createdBy: "diese Verkündung",
+                },
+              ],
+            },
+          ],
+        })
+      },
+    )
+
+    await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+
+    await expect(page.getByText("Die Daten haben sich geändert")).toBeVisible()
+  })
+
+  test("shows an error if the local data couldn't be refreshed before creating expressions", async ({
+    page,
+  }) => {
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+    )
+
+    await page
+      .getByRole("button", {
+        name: "Gesetz zur Regelung des öffentlichen Vereinsrechts (Vereinsgesetz)",
+      })
+      .click()
+
+    await page.route(
+      "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview",
+      async (route) => {
+        await route.fulfill({
+          status: 500,
+          json: [],
+        })
+      },
+    )
+
+    await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+
+    await expect(
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
+    ).toBeVisible()
+  })
+
   test("shows an error if creating expressions fails", async ({ page }) => {
     await page.route(
       "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/eli/bund/bgbl-1/1964/s593/expressions/create",

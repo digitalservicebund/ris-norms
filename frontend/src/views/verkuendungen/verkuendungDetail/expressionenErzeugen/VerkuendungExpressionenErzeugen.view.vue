@@ -78,11 +78,11 @@ async function beginCreateExpression(eli: NormWorkEli) {
   try {
     await fetchPreviewData(true)
   } catch {
-    // TODO: Handle error
+    // Error handling will be managed automatically by the existing previewError
+    // handling
     return
   }
 
-  console.log({ previewData: previewData.value[dataIndex], previewDataForEli })
   if (!isEqual(previewData.value[dataIndex], previewDataForEli)) {
     addToast({
       summary: "Die Daten haben sich geändert",
