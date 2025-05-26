@@ -13,6 +13,7 @@ aws-bom = "software.amazon.awssdk:bom:2.29.52"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
+errorprone = "com.google.errorprone:error_prone_core:2.37.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
@@ -20,8 +21,10 @@ google-protobuf-java = "com.google.protobuf:protobuf-java:4.31.0"
 jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.1"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
+jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.38"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
+nullaway = "com.uber.nullaway:nullaway:0.12.7"
 postgresql = "org.postgresql:postgresql:42.7.5"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.0"
 saxon-he = "net.sf.saxon:Saxon-HE:12.7"
@@ -50,6 +53,7 @@ tika-core = "org.apache.tika:tika-core:3.1.0"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
+errorprone = "net.ltgt.errorprone:4.2.0"
 sentry = "io.sentry.jvm.gradle:5.6.0"
 sonarqube = "org.sonarqube:6.2.0.5505"
 spotless = "com.diffplug.spotless:7.0.3"

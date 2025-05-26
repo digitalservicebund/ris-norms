@@ -4,10 +4,14 @@ import com.github.jk1.license.filter.DependencyFilter
 import com.github.jk1.license.filter.LicenseBundleNormalizer
 import com.github.jk1.license.render.CsvReportRenderer
 import com.github.jk1.license.render.ReportRenderer
+import net.ltgt.gradle.errorprone.CheckSeverity
+import net.ltgt.gradle.errorprone.errorprone
+
 
 buildscript { repositories { mavenCentral() } }
 
 plugins {
+    id("net.ltgt.errorprone") version "4.2.0"
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     id("java")
@@ -72,6 +76,9 @@ dependencies {
     implementation(libs.aws.s3)
     implementation(libs.squareup.okio.jvm)
     implementation(libs.tika.core)
+    implementation(libs.jspecify)
+    errorprone(libs.nullaway)
+    errorprone(libs.errorprone)
 
     compileOnly(libs.lombok)
 
@@ -90,6 +97,15 @@ dependencies {
 
     schematronToXsltCompileOnly(libs.schxslt)
     schematronToXsltCompileOnly(libs.saxon.he)
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.errorprone {
+        disableAllChecks.set(true) // Disables all Error Prone checks except those you explicitly enable
+        option("NullAway:OnlyNullMarked", "true") // Enable null tests only for null-marked code
+        // option("NullAway:AnnotatedPackages", "de.bund.digitalservice.ris.norms") // Enable null check for all files in our package
+        check("NullAway", CheckSeverity.ERROR) // Bump NullAway to error so the build fails on nullaway errors
+    }
 }
 
 interface InjectedExecOps {
