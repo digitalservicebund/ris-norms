@@ -14,7 +14,7 @@ import {
 } from "@/services/zielnormExpressionsService"
 import { cloneDeep, isEqual } from "lodash"
 import { ConfirmDialog, useConfirm, useToast } from "primevue"
-import { computed, ref, watch } from "vue"
+import { ref, watch, watchEffect } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
@@ -49,13 +49,16 @@ const {
 // Loading state for the view that is only true for the initial load.
 // Prevents flickering when syncing data before submitting the create
 // request.
-const previewDataInitialLoad = computed(
-  () => !previewIsFinished && !previewData,
-)
+const initialLoad = ref(true)
 
-const zielnormWorkEli = ref<NormWorkEli>()
+watchEffect(() => {
+  if (verkuendungHasFinished.value && previewIsFinished.value)
+    initialLoad.value = false
+})
 
 // Creating expressions -----------------------------------
+
+const zielnormWorkEli = ref<NormWorkEli>()
 
 const {
   data: createdExpressions,
@@ -156,7 +159,7 @@ watch(finishedCreatingExpressions, (newVal) => {
   <RisViewLayout
     :breadcrumbs
     :errors="[verkuendungError, previewError]"
-    :loading="!verkuendungHasFinished || previewDataInitialLoad"
+    :loading="initialLoad"
   >
     <h1 class="sr-only">Expressionen erzeugen</h1>
 
