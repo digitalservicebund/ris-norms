@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.config;
 
 import de.bund.digitalservice.ris.norms.adapter.output.s3.BucketService;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import software.amazon.awssdk.services.s3.S3Client;
  * </ul>
  */
 @Configuration
+@NullMarked
 public class BucketServiceConfiguration {
 
   private final String privateBucketName;
