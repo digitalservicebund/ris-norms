@@ -100,6 +100,13 @@ const routes: readonly RouteRecordRaw[] = [
           ),
       },
       {
+        path:
+          `${createDokumentExpressionEliPathParameter("verkuendung")}` +
+          `/textkonsolidierung/${GUID_ROUTE_PATH}`,
+        component: () => null,
+        beforeEnter: beforeRouteEnterGuidToEliRedirect,
+      },
+      {
         path: `${GUID_ROUTE_PATH}/:any(.*)*`,
         component: () => null,
         beforeEnter: beforeRouteEnterGuidToEliRedirect,
