@@ -823,6 +823,10 @@ components:
           format: date
         status:
           type: string
+        vorherigeVersionId:
+          type: string
+        nachfolgendeVersionId:
+          type: string
 
     Verkuendung:
       type: object
