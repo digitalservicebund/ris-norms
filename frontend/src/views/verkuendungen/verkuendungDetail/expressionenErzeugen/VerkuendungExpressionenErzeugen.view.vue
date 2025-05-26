@@ -151,7 +151,12 @@ watch(createExpressionsError, (newVal) => {
 
 watch(finishedCreatingExpressions, (newVal) => {
   if (newVal && !createExpressionsError.value) {
-    addToast({ summary: "Gespeichert!", severity: "success" })
+    addToast({
+      summary: "Expressionen erfolgreich erzeugt",
+      detail:
+        "Die neuen Expressionen für diese Zielnorm wurden erfolgreich erzeugt.",
+      severity: "success",
+    })
   }
 })
 </script>

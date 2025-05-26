@@ -191,7 +191,9 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
 
     await page.getByRole("button", { name: "Erzeugen", exact: true }).click()
 
-    await expect(page.getByText("Gespeichert!")).toBeVisible()
+    await expect(
+      page.getByText("Expressionen erfolgreich erzeugt"),
+    ).toBeVisible()
 
     await expect(
       row.getByText("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
@@ -397,7 +399,9 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
       .getByRole("button", { name: "Erneut erzeugen", exact: true })
       .click()
 
-    await expect(page.getByText("Gespeichert!")).toBeVisible()
+    await expect(
+      page.getByText("Expressionen erfolgreich erzeugt"),
+    ).toBeVisible()
 
     await expect(
       row.getByText("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
