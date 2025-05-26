@@ -36,7 +36,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 const {
   data: verkuendung,
   error: verkuendungError,
-  isFinished: verkuendungHasFinished,
+  isFinished: verkuendungIsFinished,
 } = useGetVerkuendungService(() => eli.value.asNormEli())
 
 const {
@@ -44,6 +44,7 @@ const {
   error: previewError,
   execute: fetchPreviewData,
   isFinished: previewIsFinished,
+  isFetching: previewIsFetching,
 } = useGetZielnormPreview(() => eli.value.asNormEli())
 
 // Loading state for the view that is only true for the initial load.
@@ -52,8 +53,9 @@ const {
 const initialLoad = ref(true)
 
 watchEffect(() => {
-  if (verkuendungHasFinished.value && previewIsFinished.value)
+  if (verkuendungIsFinished.value && previewIsFinished.value) {
     initialLoad.value = false
+  }
 })
 
 // Creating expressions -----------------------------------
@@ -69,7 +71,6 @@ const {
 } = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
 
 async function beginCreateExpression(eli: NormWorkEli) {
-  // TODO: Loading
   if (!previewData.value) return
 
   const dataIndex =
@@ -166,7 +167,7 @@ watch(finishedCreatingExpressions, (newVal) => {
     <RisZielnormenPreviewList
       v-if="previewData?.length"
       :items="previewData"
-      :loading="isCreatingExpressions"
+      :loading="isCreatingExpressions || previewIsFetching"
       @create-expression="beginCreateExpression"
     ></RisZielnormenPreviewList>
 
