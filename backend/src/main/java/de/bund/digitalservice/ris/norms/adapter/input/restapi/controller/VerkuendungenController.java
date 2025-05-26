@@ -151,28 +151,28 @@ public class VerkuendungenController {
    * <p>
    *
    * @param verkuendungEli the expression eli of the Verkündung
-   * @param workAgent the agent of the work eli of the affected document
-   * @param workYear the year of the work eli of the affected document
-   * @param workNaturalId the natural identifier of the work eli of the affected document
+   * @param affectedAgent the agent of the work eli of the affected document
+   * @param affectedYear the year of the work eli of the affected document
+   * @param affectedNaturalId the natural identifier of the work eli of the affected document
    * @return A {@link ResponseEntity} containing the list of zielnorm expressions that were set to gegenstandslos or were created
    *     <p>Returns HTTP 200 (OK) and the list of zielnorm expressions on successful execution.
    *     <p>Returns HTTP 404 (Not Found) if the Verkündung is not found.
    */
   @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
   @PostMapping(
-    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen/eli/bund/{workAgent}/{workYear}/{workNaturalId}/expressions/create",
+    value = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zielnormen/eli/bund/{affectedAgent}/{affectedYear}/{affectedNaturalId}/expressions/create",
     produces = APPLICATION_JSON_VALUE
   )
   public ResponseEntity<ZielnormenPreviewResponseSchema> createZielnormenExpressions(
     NormExpressionEli verkuendungEli,
-    @PathVariable("workAgent") String workAgent,
-    @PathVariable("workYear") String workYear,
-    @PathVariable("workNaturalId") String workNaturalId
+    @PathVariable("affectedAgent") String affectedAgent,
+    @PathVariable("affectedYear") String affectedYear,
+    @PathVariable("affectedNaturalId") String affectedNaturalId
   ) {
     final Zielnorm zielnorm = createZielnormenExpressionsUseCase.createZielnormExpressions(
       new CreateZielnormenExpressionsUseCase.Query(
         verkuendungEli,
-        new NormWorkEli(workAgent, workYear, workNaturalId)
+        new NormWorkEli(affectedAgent, affectedYear, affectedNaturalId)
       )
     );
     return ResponseEntity.ok(ZielnormenPreviewResponseMapper.fromUseCaseData(zielnorm));

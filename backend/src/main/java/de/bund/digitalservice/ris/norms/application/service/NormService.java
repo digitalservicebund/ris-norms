@@ -4,11 +4,7 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
@@ -19,6 +15,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -44,6 +41,8 @@ public class NormService
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
   private final EliService eliService;
+  private final CreateNewVersionOfNormService createNewVersionOfNormService;
+  private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -51,7 +50,9 @@ public class NormService
     UpdateNormPort updateNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     LoadNormExpressionElisPort loadNormExpressionElisPort,
-    EliService eliService
+    EliService eliService,
+    CreateNewVersionOfNormService createNewVersionOfNormService,
+    UpdateOrSaveNormPort updateOrSaveNormPort
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
@@ -59,6 +60,8 @@ public class NormService
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.loadNormExpressionElisPort = loadNormExpressionElisPort;
     this.eliService = eliService;
+    this.createNewVersionOfNormService = createNewVersionOfNormService;
+    this.updateOrSaveNormPort = updateOrSaveNormPort;
   }
 
   @Override
@@ -223,7 +226,9 @@ public class NormService
   }
 
   @Override
+  @Transactional
   public Zielnorm createZielnormExpressions(CreateZielnormenExpressionsUseCase.Query query) {
+    final Norm verkuendungNorm = loadNorm(new LoadNormUseCase.EliQuery(query.verkuendungEli()));
     final List<Zielnorm> zielNormenPreview = loadZielnormenPreview(query.verkuendungEli());
     final Zielnorm affectedNorm = zielNormenPreview
       .stream()
@@ -234,7 +239,7 @@ public class NormService
           String.format("Affected norm with %s not found", query.affectedWorkEli())
         )
       );
-    return createZielNormen(affectedNorm);
+    return createZielNormen(verkuendungNorm, affectedNorm);
   }
 
   @Override
@@ -439,9 +444,70 @@ public class NormService
       .toList();
   }
 
-  @SuppressWarnings("java:S125") // for the commented-out lines
-  private Zielnorm createZielNormen(final Zielnorm zielnorm) {
-    // For now just returning the same list but manually setting all to created
+  private Zielnorm createZielNormen(final Norm verkuendungNorm, final Zielnorm zielnorm) {
+    final AmendedNormExpressions amendedNormExpressions = verkuendungNorm
+      .getRegelungstext1()
+      .getMeta()
+      .getOrCreateProprietary()
+      .getOrCreateCustomModsMetadata()
+      .getOrCreateAmendedNormExpressions();
+
+    zielnorm
+      .expressions()
+      .forEach(expression -> {
+        if (expression.isCreated()) {
+          final Norm norm = loadNormPort
+            .loadNorm(new LoadNormPort.Command(expression.normExpressionEli()))
+            .orElseThrow(() ->
+              new IllegalStateException(
+                String.format("Norm %s must exist", expression.normExpressionEli())
+              )
+            );
+          if (expression.isGegenstandslos()) {
+            // Create new manifestation and set metadatum to gegenstandslos (date of announcement)
+            final Norm newManifestation = createNewVersionOfNormService.createNewManifestation(
+              norm
+            );
+            newManifestation.setGegenstandlos(verkuendungNorm.getExpressionEli().getPointInTime());
+            updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(newManifestation));
+          }
+          if (expression.createdBy().equals(Zielnorm.CreatedBy.THIS_VERKUENDUNG)) {}
+        } else {
+          // Take previous closest already-created expression (there must be at least 1)
+          final Norm previousClosestExpression = findPreviousClosestExistingExpression(
+            zielnorm.normWorkEli(),
+            expression.normExpressionEli().getPointInTime()
+          ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
+          final CreateNewVersionOfNormService.CreateNewExpressionResult result =
+            createNewVersionOfNormService.createNewExpression(
+              previousClosestExpression,
+              expression.normExpressionEli().getPointInTime()
+            );
+          updateOrSaveNormPort.updateOrSave(
+            new UpdateOrSaveNormPort.Command(result.newExpression())
+          );
+          // Add expression eli of new expression into amended-expressions
+          amendedNormExpressions.add(result.newExpression().getExpressionEli());
+          updateOrSaveNormPort.updateOrSave(
+            new UpdateOrSaveNormPort.Command(result.newManifestationOfOldExpression())
+          );
+        }
+      });
+    // remove orphan entries of amended-expressions
+    amendedNormExpressions
+      .stream()
+      .filter(f ->
+        !zielnorm
+          .expressions()
+          .stream()
+          .map(Zielnorm.Expression::normExpressionEli)
+          .toList()
+          .contains(f)
+      )
+      .forEach(amendedNormExpressions::remove);
+    // Save Verkündung because of updated amended-expressions
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(verkuendungNorm));
+
     return new Zielnorm(
       zielnorm.normWorkEli(),
       zielnorm.title(),
@@ -459,15 +525,30 @@ public class NormService
         )
         .toList()
     );
-    // 1. New manifestation for becoming gegenstandslos --> isCreated = true && isGegenstandslos = true && createdBy = OTHER_VERKUENDUNG
+  }
 
-    // 2. New expressions replacing those set to gegenstandslos --> isCreated = false && isGegenstandslos = false && createdBy = SYSTEM
-
-    // 3. Completely new expressions --> isCreated = false && isGegenstandslos = false && createdBy = THIS_VERKUENDUNG
-
-    // 4. Add elis of new expressions from 2. and 3. into XML node amended-expressions
-
-    // 5. Orphan elements in amended-expressions? meaning presen there but not in passed "zielnormen"? Remove XML from DB
-
+  /**
+   * Get the previous closest non-gegenstandslos norm to the passed date.
+   */
+  private Optional<Norm> findPreviousClosestExistingExpression(
+    NormWorkEli zielnormWorkEli,
+    LocalDate dateForNewExpression
+  ) {
+    return loadNormExpressionElisPort
+      .loadNormExpressionElis(new LoadNormExpressionElisPort.Command(zielnormWorkEli))
+      .stream()
+      .filter(eli -> eli.getPointInTime().isBefore(dateForNewExpression))
+      .map(eli ->
+        new AbstractMap.SimpleEntry<>(eli, loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+      )
+      .filter(entry -> entry.getValue().isPresent()) // keep only existing Norms
+      .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().get()))
+      .filter(entry -> !entry.getValue().isGegenstandlos())
+      .max(
+        Comparator.comparing((Map.Entry<NormExpressionEli, Norm> entry) ->
+          entry.getKey().getPointInTime()
+        ).thenComparing(entry -> entry.getKey().getVersion())
+      )
+      .map(Map.Entry::getValue);
   }
 }

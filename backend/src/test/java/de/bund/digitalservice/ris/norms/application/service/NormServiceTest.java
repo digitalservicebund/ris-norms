@@ -9,11 +9,7 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
@@ -39,6 +35,10 @@ class NormServiceTest {
     LoadNormExpressionElisPort.class
   );
   final EliService eliService = mock(EliService.class);
+  final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
+    CreateNewVersionOfNormService.class
+  );
+  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
   final NormService service = new NormService(
     loadNormPort,
@@ -46,7 +46,9 @@ class NormServiceTest {
     updateNormPort,
     loadRegelungstextPort,
     loadNormExpressionElisPort,
-    eliService
+    eliService,
+    createNewVersionOfNormService,
+    updateOrSaveNormPort
   );
 
   @Nested
