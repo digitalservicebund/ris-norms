@@ -30,8 +30,8 @@ public class DokumentDBService
   }
 
   @Override
-  public Optional<Dokument> loadDokument(LoadDokumentPort.Command command) {
-    return switch (command.eli()) {
+  public Optional<Dokument> loadDokument(LoadDokumentPort.Options options) {
+    return switch (options.eli()) {
       case DokumentExpressionEli expressionEli -> dokumentRepository
         .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
           expressionEli.toString()
@@ -41,7 +41,7 @@ public class DokumentDBService
         if (!manifestationEli.hasPointInTimeManifestation()) {
           // we can find the regelungstext based on the expression eli as the point in
           // time manifestation is the only additional identifying part of the eli
-          yield this.loadDokument(new LoadDokumentPort.Command(manifestationEli.asExpressionEli()));
+          yield this.loadDokument(new LoadDokumentPort.Options(manifestationEli.asExpressionEli()));
         }
         yield dokumentRepository
           .findByEliDokumentManifestation(manifestationEli.toString())
@@ -54,27 +54,27 @@ public class DokumentDBService
   }
 
   @Override
-  public Optional<Dokument> updateDokument(UpdateDokumentPort.Command command) {
+  public Optional<Dokument> updateDokument(UpdateDokumentPort.Options options) {
     Optional<DokumentDto> optionalDokumentDto =
       dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
-        command.dokument().getExpressionEli().toString()
+        options.dokument().getExpressionEli().toString()
       );
     if (optionalDokumentDto.isEmpty()) {
       return Optional.of(
         DokumentMapper.mapToDomain(
-          dokumentRepository.saveAndFlush(DokumentMapper.mapToDto(command.dokument()))
+          dokumentRepository.saveAndFlush(DokumentMapper.mapToDto(options.dokument()))
         )
       );
     } else {
       final DokumentDto dokumentDto = optionalDokumentDto.get();
-      dokumentDto.setXml(XmlMapper.toString(command.dokument().getDocument()));
+      dokumentDto.setXml(XmlMapper.toString(options.dokument().getDocument()));
       return Optional.of(DokumentMapper.mapToDomain(dokumentRepository.saveAndFlush(dokumentDto)));
     }
   }
 
   @Override
-  public Optional<Regelungstext> loadRegelungstext(LoadRegelungstextPort.Command command) {
-    return this.loadDokument(new LoadDokumentPort.Command(command.eli())).map(
+  public Optional<Regelungstext> loadRegelungstext(LoadRegelungstextPort.Options options) {
+    return this.loadDokument(new LoadDokumentPort.Options(options.eli())).map(
         Regelungstext.class::cast
       );
   }

@@ -135,7 +135,7 @@ public class Norm {
       .stream()
       .filter(Regelungstext.class::isInstance)
       .map(Regelungstext.class::cast)
-      .findFirst()
+      .min(Comparator.comparing(Dokument::getManifestationEli))
       .orElseThrow();
   }
 

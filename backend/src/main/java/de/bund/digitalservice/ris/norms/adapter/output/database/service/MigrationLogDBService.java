@@ -31,7 +31,7 @@ public class MigrationLogDBService
   }
 
   @Override
-  public void completeMigrationLog(CompleteMigrationLogPort.Command command) {
-    migrationLogRepository.updateCompletedById(command.id(), true);
+  public void completeMigrationLog(Options options) {
+    migrationLogRepository.updateCompletedById(options.id(), true);
   }
 }

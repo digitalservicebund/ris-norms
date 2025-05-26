@@ -2,8 +2,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
@@ -61,21 +61,21 @@ public class CreateNewVersionOfNormService {
     );
 
     newExpression
-      .getRegelungstexte()
-      .forEach(regelungstext -> {
+      .getDokumente()
+      .forEach(dokument -> {
         setNewExpressionMetadata(
-          regelungstext,
+          dokument,
           DokumentExpressionEli.fromNormEli(
             newExpressionEli,
-            regelungstext.getExpressionEli().getSubtype()
+            dokument.getExpressionEli().getSubtype()
           )
         );
         setNewManifestationMetadata(
-          regelungstext,
+          dokument,
           DokumentManifestationEli.fromNormEli(
             newManifestationEli,
-            regelungstext.getManifestationEli().getSubtype(),
-            regelungstext.getManifestationEli().getFormat()
+            dokument.getManifestationEli().getSubtype(),
+            dokument.getManifestationEli().getFormat()
           )
         );
       });
@@ -112,14 +112,14 @@ public class CreateNewVersionOfNormService {
     );
 
     newManifestation
-      .getRegelungstexte()
-      .forEach(regelungstext ->
+      .getDokumente()
+      .forEach(dokument ->
         setNewManifestationMetadata(
-          regelungstext,
+          dokument,
           DokumentManifestationEli.fromNormEli(
             newManifestationEli,
-            regelungstext.getManifestationEli().getSubtype(),
-            regelungstext.getManifestationEli().getFormat()
+            dokument.getManifestationEli().getSubtype(),
+            dokument.getManifestationEli().getFormat()
           )
         )
       );
@@ -178,7 +178,7 @@ public class CreateNewVersionOfNormService {
       .orElseThrow();
 
     var previousExpression = loadNormByGuidPort.loadNormByGuid(
-      new LoadNormByGuidPort.Command(previousVersionId)
+      new LoadNormByGuidPort.Options(previousVersionId)
     );
 
     if (previousExpression.isEmpty()) {
@@ -190,16 +190,13 @@ public class CreateNewVersionOfNormService {
 
   /**
    * Sets the metadata for a new expression based on the eli.
-   * @param regelungstext the new expression
+   * @param dokument the new expression
    * @param expressionEli the new eli for the expression
    */
-  private void setNewExpressionMetadata(
-    Regelungstext regelungstext,
-    DokumentExpressionEli expressionEli
-  ) {
-    var oldEli = regelungstext.getExpressionEli();
-    var oldVersionId = regelungstext.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId();
-    var expression = regelungstext.getMeta().getFRBRExpression();
+  private void setNewExpressionMetadata(Dokument dokument, DokumentExpressionEli expressionEli) {
+    var oldEli = dokument.getExpressionEli();
+    var oldVersionId = dokument.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId();
+    var expression = dokument.getMeta().getFRBRExpression();
     expression.setEli(expressionEli);
     expression.setFBRDate(
       expressionEli.getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
@@ -216,14 +213,14 @@ public class CreateNewVersionOfNormService {
 
   /**
    * Sets the metadata for a new manifestation based on the eli.
-   * @param regelungstext the new manifestation
+   * @param dokument a dokument of the new manifestation
    * @param manifestationEli the new eli for the manifestation
    */
   private void setNewManifestationMetadata(
-    Regelungstext regelungstext,
+    Dokument dokument,
     DokumentManifestationEli manifestationEli
   ) {
-    var manifestation = regelungstext.getMeta().getFRBRManifestation();
+    var manifestation = dokument.getMeta().getFRBRManifestation();
     manifestation.setEli(manifestationEli);
     manifestation.setURI(manifestationEli.toUri());
     manifestation.setFBRDate(

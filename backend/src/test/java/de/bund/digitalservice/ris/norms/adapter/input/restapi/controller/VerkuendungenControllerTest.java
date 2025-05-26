@@ -61,16 +61,14 @@ class VerkuendungenControllerTest {
     void itReturnsVerkuendungen() throws Exception {
       // Given
       var norm1 = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
       var verkuendung1 = Verkuendung.builder()
         .eli(norm1.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
 
-      var norm2 = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
-      );
+      var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18");
       var verkuendung2 = Verkuendung.builder()
         .eli(norm2.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
@@ -116,16 +114,14 @@ class VerkuendungenControllerTest {
     void itThrowsVerkuendungWithoutNorm() throws Exception {
       // Given
       var norm1 = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
       var verkuendung1 = Verkuendung.builder()
         .eli(norm1.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
 
-      var norm2 = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
-      );
+      var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18");
       var verkuendung2 = Verkuendung.builder()
         .eli(norm2.getExpressionEli())
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
@@ -152,9 +148,7 @@ class VerkuendungenControllerTest {
     @Test
     void itReturnsVerkuendung() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       var normEli = norm.getExpressionEli();
       var verkuendung = Verkuendung.builder()
         .eli(normEli)
@@ -163,7 +157,7 @@ class VerkuendungenControllerTest {
       // When
       when(
         loadVerkuendungUseCase.loadVerkuendung(
-          new LoadVerkuendungUseCase.Query(norm.getExpressionEli())
+          new LoadVerkuendungUseCase.Options(norm.getExpressionEli())
         )
       ).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
@@ -190,19 +184,17 @@ class VerkuendungenControllerTest {
       verify(loadVerkuendungUseCase, times(1)).loadVerkuendung(
         argThat(argument -> Objects.equals(argument.eli(), normEli))
       );
-      verify(loadNormUseCase, times(1)).loadNorm(new LoadNormUseCase.EliQuery(normEli));
+      verify(loadNormUseCase, times(1)).loadNorm(new LoadNormUseCase.EliOptions(normEli));
     }
 
     @Test
     void itReturns404() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       var normEli = norm.getExpressionEli();
       // When
       when(
-        loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Query(normEli))
+        loadVerkuendungUseCase.loadVerkuendung(new LoadVerkuendungUseCase.Options(normEli))
       ).thenThrow(new VerkuendungNotFoundException(normEli.toString()));
 
       // When
@@ -227,7 +219,7 @@ class VerkuendungenControllerTest {
     void itReturnsZielnormen() throws Exception {
       // Given
       var zielnorm1 = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       when(
         loadNormExpressionsAffectedByVerkuendungUseCase.loadNormExpressionsAffectedByVerkuendung(
@@ -274,9 +266,7 @@ class VerkuendungenControllerTest {
     @Test
     void itCreatesAnVerkuendung() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -310,9 +300,7 @@ class VerkuendungenControllerTest {
     @Test
     void itCreatesAnVerkuendungWithForce() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -346,9 +334,7 @@ class VerkuendungenControllerTest {
     @Test
     void itShouldNotExposeInternalInformationOnUnexpectedErrors() throws Exception {
       // Given
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
       var xmlContent = XmlMapper.toString(norm.getRegelungstext1().getDocument());
       final MockMultipartFile file = new MockMultipartFile(
         "file",
@@ -470,7 +456,7 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[1]").doesNotExist());
 
       verify(loadZielnormenExpressionsUseCase, times(1)).loadZielnormExpressions(
-        new LoadZielnormenExpressionsUseCase.Query(
+        new LoadZielnormenExpressionsUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -569,7 +555,7 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[1]").doesNotExist());
 
       verify(loadZielnormenExpressionsUseCase, times(1)).loadZielnormExpressions(
-        new LoadZielnormenExpressionsUseCase.Query(
+        new LoadZielnormenExpressionsUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
         )
       );
@@ -663,7 +649,7 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("expressions[4]").doesNotExist());
 
       verify(createZielnormenExpressionsUseCase, times(1)).createZielnormExpressions(
-        new CreateZielnormenExpressionsUseCase.Query(
+        new CreateZielnormenExpressionsUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
           NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
         )

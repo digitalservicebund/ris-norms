@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
-import java.util.Set;
 import org.springframework.stereotype.Service;
 
 /** Mapper class for converting to a {@link ReleaseResponseSchema}. */
@@ -29,8 +28,7 @@ public class ReleaseResponseMapper {
         release
           .getPublishedNorms()
           .stream()
-          .map(Norm::getRegelungstexte)
-          .flatMap(Set::stream)
+          .map(Norm::getRegelungstext1)
           .map(Regelungstext::getManifestationEli)
           .map(DokumentManifestationEli::toString)
           .toList()

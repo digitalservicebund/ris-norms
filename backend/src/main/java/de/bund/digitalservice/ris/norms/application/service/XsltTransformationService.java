@@ -28,20 +28,20 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
   /**
    * Transform LegalDocMl.de to HTML
    *
-   * @param query The query specifying the XML of the law to be transformed to HTML.
+   * @param options The options specifying the XML of the law to be transformed to HTML.
    * @return A html version of the law
    */
-  public String transformLegalDocMlToHtml(TransformLegalDocMlToHtmlUseCase.Query query) {
+  public String transformLegalDocMlToHtml(Options options) {
     try {
       Source xsltSource = new StreamSource(xslt.getInputStream());
       // Fix the location of the source so xsl:import works
       xsltSource.setSystemId(xslt.getURL().toString());
       Transformer transformer = new TransformerFactoryImpl().newTransformer(xsltSource);
       transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-      transformer.setParameter(SHOW_METADATA, query.showMetadata());
+      transformer.setParameter(SHOW_METADATA, options.showMetadata());
       transformer.setParameter("outputMode", "html");
-      String inputXml = query.xml();
-      if (query.snippet()) {
+      String inputXml = options.xml();
+      if (options.snippet()) {
         inputXml =
           "<akn:akomaNtoso xmlns:akn=\"" +
           Namespace.INHALTSDATEN.getNamespaceUri() +

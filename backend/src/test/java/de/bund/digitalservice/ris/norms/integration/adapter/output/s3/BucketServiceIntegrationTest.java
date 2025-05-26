@@ -64,12 +64,12 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
     );
 
     // When
-    final PublishNormPort.Command command = new PublishNormPort.Command(norm);
-    final PublishChangelogPort.Command commandPublishChangelogs = new PublishChangelogPort.Command(
+    final PublishNormPort.Options options = new PublishNormPort.Options(norm);
+    final PublishChangelogPort.Options optionsPublishChangelogs = new PublishChangelogPort.Options(
       false
     );
-    bucketService.publishNorm(command);
-    bucketService.publishChangelogs(commandPublishChangelogs);
+    bucketService.publishNorm(options);
+    bucketService.publishChangelogs(optionsPublishChangelogs);
 
     // Then
     assertThat(Files.exists(getPublicPath(regelungstext1.getManifestationEli()))).isTrue();
@@ -102,16 +102,16 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
       Set.of(regelungstext1, offenestruktur1, regelungstext2),
       Set.of(binaryFile1)
     );
-    final PublishNormPort.Command commandPublish = new PublishNormPort.Command(norm);
-    bucketService.publishNorm(commandPublish);
+    final PublishNormPort.Options optionsPublish = new PublishNormPort.Options(norm);
+    bucketService.publishNorm(optionsPublish);
 
     // When
-    final DeletePublishedNormPort.Command commandDelete = new DeletePublishedNormPort.Command(norm);
-    bucketService.deletePublishedNorm(commandDelete);
-    final PublishChangelogPort.Command commandPublishChangelogs = new PublishChangelogPort.Command(
+    final DeletePublishedNormPort.Options optionsDelete = new DeletePublishedNormPort.Options(norm);
+    bucketService.deletePublishedNorm(optionsDelete);
+    final PublishChangelogPort.Options optionsPublishChangelogs = new PublishChangelogPort.Options(
       false
     );
-    bucketService.publishChangelogs(commandPublishChangelogs);
+    bucketService.publishChangelogs(optionsPublishChangelogs);
 
     // Then
     assertThat(Files.exists(getPublicPath(regelungstext1.getManifestationEli()))).isFalse();
@@ -126,24 +126,24 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   void itDeletesAllNormsFromPublicBucket() {
     // Given
     final Norm norm1 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
     final Norm norm2 = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16"
     );
-    final PublishNormPort.Command commandPublish1 = new PublishNormPort.Command(norm1);
-    final PublishNormPort.Command commandPublish2 = new PublishNormPort.Command(norm2);
-    bucketService.publishNorm(commandPublish1);
-    bucketService.publishNorm(commandPublish2);
+    final PublishNormPort.Options optionsPublish1 = new PublishNormPort.Options(norm1);
+    final PublishNormPort.Options optionsPublish2 = new PublishNormPort.Options(norm2);
+    bucketService.publishNorm(optionsPublish1);
+    bucketService.publishNorm(optionsPublish2);
 
     // When
     bucketService.deleteAllPublishedDokumente(
-      new DeleteAllPublishedDokumentePort.Command(Instant.now())
+      new DeleteAllPublishedDokumentePort.Options(Instant.now())
     );
-    final PublishChangelogPort.Command commandPublishChangelogs = new PublishChangelogPort.Command(
+    final PublishChangelogPort.Options optionsPublishChangelogs = new PublishChangelogPort.Options(
       false
     );
-    bucketService.publishChangelogs(commandPublishChangelogs);
+    bucketService.publishChangelogs(optionsPublishChangelogs);
 
     // Then
     final Path filePath1 = getPublicPath(norm1.getRegelungstext1().getManifestationEli());

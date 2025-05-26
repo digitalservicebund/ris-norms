@@ -10,18 +10,17 @@ import java.util.Optional;
  */
 public interface LoadRegelungstextPort {
   /**
-   * Loads a {@link Regelungstext} based on the provided ELI specified in the command.
+   * Loads a {@link Regelungstext} based on the provided ELI specified in the options.
    *
-   * @param command The command specifying the ELI to identify the regelungstext to be loaded.
+   * @param options The options specifying the ELI to identify the regelungstext to be loaded.
    * @return An {@link Optional} containing the loaded {@link Regelungstext} if found, or empty if not found.
    */
-  Optional<Regelungstext> loadRegelungstext(final Command command);
+  Optional<Regelungstext> loadRegelungstext(final Options options);
 
   /**
-   * A record representing the command for loading a regelungstext. The command includes the ELI (European
-   * Legislation Identifier) to identify the norm.
+   * A record representing the options for loading a regelungstext.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the regelungstext in the command.
+   * @param eli The ELI (European Legislation Identifier) used to identify the regelungstext.
    */
-  record Command(DokumentEli eli) {}
+  record Options(DokumentEli eli) {}
 }

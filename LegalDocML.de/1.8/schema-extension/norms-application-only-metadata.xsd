@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://MetadatenMods.LegalDocML.de/1.8/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://MetadatenMods.LegalDocML.de/1.8/"
+           version="LegalDocML.de 1.8">
+    <!-- ********************************* Hinweis zur Lizensierung ********************************* -->
+    <xs:annotation>
+        <xs:appinfo>
+            <copyright-hinweis>2024 DigitalService GmbH des Bundes</copyright-hinweis>
+            <lizenz url="https://opensource.org/license/mit/"
+                    kurzbezeichnung="MIT"
+                    langbezeichnung=""/>
+            <autor organisation="DigitalService GmbH des Bundes"
+                   referat=""
+                   organisatorischer-rahmen=""/>
+        </xs:appinfo>
+    </xs:annotation>
+  <xs:element name="legalDocML.de_metadaten">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="geltungszeiten" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="geltungszeit" maxOccurs="unbounded">
+                <xs:complexType mixed="true">
+                  <xs:attribute name="id" type="xs:ID" use="required"/>
+                  <xs:attribute name="art" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="inkraft"/>
+                        <xs:enumeration value="ausserkraft"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="zielnorm-references" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="zielnorm-reference" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="typ" type="xs:string"/>
+                    <xs:element name="geltungszeit" type="xs:IDREF"/>
+                    <xs:element name="eid" type="xs:string"/>
+                    <xs:element name="zielnorm" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="amended-norm-expressions" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="norm-expression" type="xs:string" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

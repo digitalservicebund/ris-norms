@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTE: This amending law references the target law from BGBl. 1 1000 Nr. 2 -->
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
+   <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
+      <akn:meta GUID="52971bb2-7551-4f08-ac70-8c3145212cd8" eId="meta-n1">
+         <akn:identification source="attributsemantik-noch-undefiniert"
+                             GUID="32fe8bea-d883-48b2-a150-9f7b05f9f50b"
+                             eId="meta-n1_ident-n1">
+            <akn:FRBRWork GUID="2d9213c7-7c5f-4156-aca4-a139c818b5ab"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/6/regelungstext-verkuendung-1"
+                             GUID="fabe1e89-3889-4902-9c46-f76862d522b0"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/6"
+                            GUID="e6deac65-f3b6-4bcb-874c-8740a588e6f2"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"/>
+               <akn:FRBRalias name="übergreifende-id"
+                              value="c8bfc29c-e371-4749-83c3-ceac7f4a3d8f"
+                              GUID="2245e29b-7bf4-4466-860b-d36d500e2ffb"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"/>
+               <akn:FRBRdate name="verkuendungsfassung-ausfertigungsdatum"
+                             date="1000-01-06"
+                             GUID="a25a3f10-a425-4011-8cd8-f314fcbb4d9c"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"/>
+               <akn:FRBRdate name="verkuendungsfassung-verkuendungsdatum"
+                             date="1000-01-06"
+                             GUID="c1476ff8-da9e-4f9c-979e-be9cd4ab16fd"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
+               <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
+                               GUID="d83d8358-ab23-45e1-9b7c-df11ad5aba63"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"/>
+               <akn:FRBRcountry value="de"
+                                GUID="79b182af-61e2-4f30-8edb-ca243bc58437"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"/>
+               <akn:FRBRnumber value="6"
+                               GUID="a03d2f16-3fae-43db-8ec2-aaf5ae8f8f45"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"/>
+               <akn:FRBRname value="bgbl-1"
+                             GUID="3bb8db4e-6496-4106-b886-99ad13d34087"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"/>
+               <akn:FRBRsubtype value="regelungstext-verkuendung-1"
+                                GUID="7aba3ff3-f9a9-4238-b230-67be98e3451b"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="93b7e831-69bd-4c88-959d-4ee905c62e9a"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/6/1000-01-06/1/deu/regelungstext-verkuendung-1"
+                             GUID="607f884a-acee-4a00-97e4-afae9b08c974"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/6/1000-01-06/1/deu"
+                            GUID="829c3d28-7f03-478e-a34a-3002b9d24ed4"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"/>
+               <akn:FRBRalias name="aktuelle-version-id"
+                              value="34e1af12-4ebb-4831-af53-2cb545b11173"
+                              GUID="e8724d06-f524-4ba8-9698-60e71765c23b"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"/>
+               <akn:FRBRalias name="nachfolgende-version-id"
+                              value="ec09f42f-6fce-4b5c-b4f7-46b52d1d14ee"
+                              GUID="c0f25ee8-411e-4d18-b35b-5da134ac1e6a"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"/>
+               <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
+                               GUID="9c1ba98c-c711-4a2a-bf9e-5d4e94a8cb0c"
+                               eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"/>
+               <akn:FRBRdate name="verkuendung"
+                             date="1000-01-06"
+                             GUID="eaf38b85-9b41-4fd4-8209-d0f5fdfee236"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"/>
+               <akn:FRBRlanguage language="deu"
+                                 GUID="4ce8f01d-5e3b-45c1-b85a-36ef9687d8fa"
+                                 eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"/>
+               <akn:FRBRversionNumber value="1"
+                                      GUID="41b50da6-405d-4bf5-bb5d-6b1226b0eb7c"
+                                      eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="cbbb5ff5-41b1-4ecf-a624-3b6be2575cef"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis value="eli/bund/bgbl-1/1000/6/1000-01-06/1/deu/1000-01-06/regelungstext-verkuendung-1.xml"
+                             GUID="5aa6e31a-a24b-4f01-a9f3-3716b8e2f63b"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/1000/6/1000-01-06/1/deu/1000-01-06/regelungstext-verkuendung-1.xml"
+                            GUID="837c5e9b-d76e-4f36-a33d-f05b5064140f"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
+               <akn:FRBRdate name="generierung"
+                             date="1000-01-06"
+                             GUID="76a85617-4ba3-4075-bef3-c04df0a02374"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"/>
+               <akn:FRBRauthor href="recht.bund.de"
+                               GUID="e81ddd70-93f5-4add-bf6f-d5da7bc11042"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"/>
+               <akn:FRBRformat value="xml"
+                               GUID="df984f81-21db-48f6-8bc7-eb194b4f1c1c"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle source="attributsemantik-noch-undefiniert"
+                        GUID="5f04d357-8716-4834-9fb3-9c26a9c0918d"
+                        eId="meta-n1_lebzykl-n1">
+            <akn:eventRef date="1000-01-06"
+                          refersTo="ausfertigung"
+                          type="generation"
+                          source="attributsemantik-noch-undefiniert"
+                          GUID="7093ceca-6f78-4b0c-b3b8-2b237d01ef5d"
+                          eId="meta-n1_lebzykl-n1_ereignis-n1"/>
+            <akn:eventRef date="1000-01-06"
+                          refersTo="inkrafttreten"
+                          type="generation"
+                          source="attributsemantik-noch-undefiniert"
+                          GUID="e3fbceef-3f92-4466-b6e8-f354524b477d"
+                          eId="meta-n1_lebzykl-n1_ereignis-n2"/>
+         </akn:lifecycle>
+         <akn:analysis source="attributsemantik-noch-undefiniert"
+                       GUID="4a3d8879-b9fd-4521-8441-45cbdc92f606"
+                       eId="meta-n1_analysis-n1">
+            <akn:activeModifications GUID="520c3550-1ada-47c6-b2b1-c3b18863ed4e"
+                                     eId="meta-n1_analysis-n1_activemod-n1">
+               <akn:textualMod type="substitution"
+                               GUID="db90dc28-84d7-4815-9abf-bec074f9a6df"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1">
+                  <akn:source href="#art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                              GUID="7689b65e-b03c-4a5f-baef-3397d70757d1"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
+                  <akn:destination href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
+                                   GUID="512e0ca1-65e7-4ee0-9c68-8f76eb5c730e"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"/>
+                  <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                             GUID="576435be-b26d-4ed6-a92d-85cc7ed24792"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"/>
+               </akn:textualMod>
+            </akn:activeModifications>
+         </akn:analysis>
+         <akn:temporalData source="attributsemantik-noch-undefiniert"
+                           GUID="13628170-6f0f-45ee-b704-1202298a8745"
+                           eId="meta-n1_geltzeiten-n1">
+            <akn:temporalGroup GUID="578adb6b-938d-40ab-889a-a7c4f3135a06"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+               <akn:timeInterval refersTo="geltungszeit"
+                                 GUID="04469fee-c864-42a6-8ec7-fe8562267e8d"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n1"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="0585bb19-3657-4a73-8c53-4cf83fb7409b"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n2">
+               <akn:timeInterval refersTo="geltungszeit"
+                                 GUID="00c04943-83da-428a-9ff5-a09b1217bb05"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n2_gelzeitintervall-n1"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n2"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+      </akn:meta>
+      <akn:preface GUID="380c0d0a-6854-4a24-96b9-caa0da6e6868" eId="einleitung-n1">
+         <akn:longTitle GUID="7c1d4fe9-01ec-4e4a-9aa8-d77e06d2aec9"
+                        eId="einleitung-n1_doktitel-n1">
+            <akn:p GUID="f6e5f89c-4cff-402d-b87d-844adacac24f"
+                   eId="einleitung-n1_doktitel-n1_text-n1">
+               <akn:docTitle GUID="1485debf-a558-4eed-ba97-66693cc5927e"
+                             eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1">Upload Test 2/1</akn:docTitle>
+            </akn:p>
+         </akn:longTitle>
+         <akn:block name="attributsemantik-noch-undefiniert"
+                    GUID="edd9cf46-0891-4a10-88c2-47fb4fe7d585"
+                    eId="einleitung-n1_block-n1">
+            <akn:date refersTo="ausfertigung-datum"
+                      date="1000-01-06"
+                      GUID="9e75818a-d620-430d-8879-555f74613f46"
+                      eId="einleitung-n1_block-n1_datum-n1">Vom 06.01.1000</akn:date>
+         </akn:block>
+      </akn:preface>
+      <akn:preamble GUID="ead6a389-9c7d-4572-beff-5d4bad663b05" eId="präambel-n1">
+         <akn:formula refersTo="eingangsformel"
+                      name="attributsemantik-noch-undefiniert"
+                      GUID="2a09f589-9a18-42ab-8222-dd608346be34"
+                      eId="präambel-n1_formel-n1">
+            <akn:p GUID="2582fd17-2904-4eb1-900a-7cd53c23aa51"
+                   eId="präambel-n1_formel-n1_text-n1">Der <akn:organization title="Bundestag"
+                                 refersTo="attributsemantik-noch-undefiniert"
+                                 GUID="b614a9aa-7a24-4ce1-9b1d-2a0b820a7d02"
+                                 eId="präambel-n1_formel-n1_text-n1_org-n1">Bundestag</akn:organization> hat das folgende Gesetz beschlossen:</akn:p>
+         </akn:formula>
+      </akn:preamble>
+      <akn:body GUID="925445f5-efcc-4f66-a944-830a39146602" eId="hauptteil-n1">
+         <akn:article refersTo="hauptaenderung"
+                      GUID="fa0824a1-f1fc-468e-a8a3-de1d7732a9fc"
+                      eId="art-z"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
+            <akn:num GUID="f12d5d30-4354-4aee-9d3a-8d47a93f2542" eId="art-z_bezeichnung-n1"/>
+            <akn:heading GUID="078c9b53-192a-4f8c-9bc8-cb520210db78" eId="art-z_überschrift-n1">Artikel 1</akn:heading>
+            <akn:paragraph GUID="f567756c-f125-4399-a6d3-e3b1da8e13a4" eId="art-z_abs-z">
+               <akn:num GUID="12439711-1f13-46a1-b5e4-9494b8e4ea68"
+                        eId="art-z_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="b5233f08-0fd4-4b46-9288-349228d58222"
+                         eId="art-z_abs-z_untergl-n1">
+                  <akn:intro GUID="3be8225f-9716-4f80-a9ca-5f108c1500d2"
+                             eId="art-z_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="cba86b14-fb9b-4f14-b919-6a43d67d6fa1"
+                            eId="art-z_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1"
+                                              GUID="f565717a-2c62-49d6-a30c-0f93ec236645"
+                                              eId="art-z_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Beispielgesetz</akn:affectedDocument> wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="ab7b0ba9-c53c-4767-8661-511b3ae40ab8"
+                             eId="art-z_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="58bbdf81-7d76-41f0-a4c9-3573d4232268"
+                              eId="art-z_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="39b76e70-5a20-46af-89ff-035c9f34d657"
+                                  eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                        <akn:p GUID="06d5bbe9-8034-4bc2-a007-fa6642f6eff6"
+                               eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                           <akn:mod refersTo="aenderungsbefehl-ersetzen"
+                                    GUID="5bfb6101-c201-460d-b294-2f2c70d1a913"
+                                    eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
+                                       GUID="426e9628-ae42-40d5-bf7e-d02f06300a20"
+                                       eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 1 Absatz 1 Satz 1</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
+                                              endQuote="“"
+                                              GUID="a0682148-e54d-44ef-83f8-c088848aa450"
+                                              eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1">1. Fall</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
+                                              endQuote="“"
+                                              GUID="d0b00531-44bc-4a73-9f02-e6f9a81a2ca7"
+                                              eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2">1. Beispiel</akn:quotedText> ersetzt.</akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article refersTo="geltungszeitregel"
+                      GUID="8c2da21b-5c1a-4b75-a085-89b63314b8fe"
+                      eId="art-z2"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
+            <akn:num GUID="4e630c56-4c51-4051-8105-58ea134384e5" eId="art-z2_bezeichnung-n1">Artikel 2</akn:num>
+            <akn:heading GUID="61ee1817-b8c2-4210-96a4-a6b90f32c35c" eId="art-z2_überschrift-n1">Inkrafttreten</akn:heading>
+            <akn:paragraph GUID="f6576a7a-241c-4b40-8289-f9dfd116870b" eId="art-z2_abs-z">
+               <akn:num GUID="5b19faf5-2d09-4b3c-a0a7-17f9650746dc"
+                        eId="art-z2_abs-z_bezeichnung-n1"/>
+               <akn:content GUID="f5662038-ead2-4497-805c-245881ae4a69"
+                            eId="art-z2_abs-z_inhalt-n1">
+                  <akn:p GUID="909f4962-5953-47b9-baac-915224e71853"
+                         eId="art-z2_abs-z_inhalt-n1_text-n1">Dieses Gesetz tritt am <akn:date date="1000-03-01"
+                               refersTo="inkrafttreten-datum"
+                               GUID="b428bdfd-82aa-42b8-a439-a9551b4ec548"
+                               eId="art-z2_abs-z_inhalt-n1_text-n1_datum-n1">06.01.1000</akn:date> in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+      </akn:body>
+   </akn:act>
+</akn:akomaNtoso>

@@ -29,18 +29,18 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
   }
 
   @Override
-  public List<Zeitgrenze> loadZeitgrenzenFromDokument(LoadZeitgrenzenUseCase.Query query) {
+  public List<Zeitgrenze> loadZeitgrenzenFromDokument(LoadZeitgrenzenUseCase.Options options) {
     return loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()))
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()))
       .getZeitgrenzen();
   }
 
   @Override
-  public List<Zeitgrenze> updateZeitgrenzenOfDokument(UpdateZeitgrenzenUseCase.Query query) {
+  public List<Zeitgrenze> updateZeitgrenzenOfDokument(UpdateZeitgrenzenUseCase.Options options) {
     final Regelungstext regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     var geltungszeiten = regelungstext
       .getMeta()
@@ -48,7 +48,7 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
       .getOrCreateCustomModsMetadata()
       .getOrCreateGeltungszeiten();
 
-    var zeitgrenzenUpdatesToProcess = query
+    var zeitgrenzenUpdatesToProcess = options
       .zeitgrenzen()
       .stream()
       .sorted(Comparator.comparing(ZeitgrenzenUpdateData::date))
@@ -78,7 +78,7 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
       geltungszeiten.add(zeitgrenzenUpdate.art(), zeitgrenzenUpdate.date())
     );
 
-    updateDokumentPort.updateDokument(new UpdateDokumentPort.Command(regelungstext));
+    updateDokumentPort.updateDokument(new UpdateDokumentPort.Options(regelungstext));
     return geltungszeiten.stream().toList();
   }
 }

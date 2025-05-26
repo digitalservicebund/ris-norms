@@ -11,7 +11,12 @@ import RisZielnormExpressionsTable from "./RisZielnormExpressionsTable.vue"
 /** Input data to the Zielnormen list. */
 export type RisZielnormenListItem = ZielnormPreview
 
-const { items } = defineProps<{ items: RisZielnormenListItem[] }>()
+const { items } = defineProps<{
+  /** List of Zielnormen items to display */
+  items: RisZielnormenListItem[]
+  /** Show a loading state on the creation button */
+  loading?: boolean
+}>()
 
 defineEmits<{
   createExpression: [eli: NormWorkEli]
@@ -44,6 +49,7 @@ defineEmits<{
           <Button
             class="my-12"
             label="Expressionen erzeugen"
+            :loading
             @click="$emit('createExpression', item.normWorkEli)"
           ></Button>
         </div>

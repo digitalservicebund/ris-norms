@@ -98,7 +98,7 @@ class VerkuendungsImportServiceTest {
 
     //when
     var result = verkuendungsImportService.getStatus(
-      new LoadNormendokumentationspacketProcessingStatusUseCase.Query(uuid)
+      new LoadNormendokumentationspacketProcessingStatusUseCase.Options(uuid)
     );
 
     //then
@@ -119,9 +119,9 @@ class VerkuendungsImportServiceTest {
     );
 
     // when
-    LoadNormendokumentationspacketProcessingStatusUseCase.Query query =
-      new LoadNormendokumentationspacketProcessingStatusUseCase.Query(UUID.randomUUID());
-    assertThatThrownBy(() -> verkuendungsImportService.getStatus(query)).isInstanceOf(
+    LoadNormendokumentationspacketProcessingStatusUseCase.Options options =
+      new LoadNormendokumentationspacketProcessingStatusUseCase.Options(UUID.randomUUID());
+    assertThatThrownBy(() -> verkuendungsImportService.getStatus(options)).isInstanceOf(
       // then
       ImportProcessNotFoundException.class
     );
@@ -154,7 +154,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -207,7 +207,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -248,7 +248,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -288,9 +288,7 @@ class VerkuendungsImportServiceTest {
 
       when(loadNormPort.loadNorm(any())).thenReturn(
         Optional.of(
-          Fixtures.loadNormFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
 
@@ -303,7 +301,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -319,7 +317,7 @@ class VerkuendungsImportServiceTest {
       );
       verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
       verify(loadNormPort).loadNorm(
-        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107"))
+        new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107"))
       );
     }
 
@@ -347,7 +345,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then
@@ -392,7 +390,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Query(processId)
+        new ProcessNormendokumentationspaketUseCase.Options(processId)
       );
 
       // Then

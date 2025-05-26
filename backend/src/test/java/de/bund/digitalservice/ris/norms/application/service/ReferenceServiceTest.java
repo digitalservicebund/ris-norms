@@ -20,7 +20,7 @@ class ReferenceServiceTest {
     // Given
     final Norm norm = Fixtures.loadNormFromDisk(
       ReferenceServiceTest.class,
-      "NormWithReferencesToFind.xml"
+      "NormWithReferencesToFind"
     );
 
     // When
@@ -29,7 +29,7 @@ class ReferenceServiceTest {
     // Then
     final Regelungstext expectedUpdatedRegelungstext = Fixtures.loadRegelungstextFromDisk(
       ReferenceServiceTest.class,
-      "NormWithReferencesFound.xml"
+      "NormWithReferencesFound/regelungstext-1.xml"
     );
     final Diff diff = DiffBuilder.compare(
       Input.from(XmlMapper.toDocument(XmlMapper.toString(norm.getRegelungstext1().getDocument())))
@@ -46,7 +46,7 @@ class ReferenceServiceTest {
     // Given
     final Norm norm = Fixtures.loadNormFromDisk(
       ReferenceServiceTest.class,
-      "NormWithReferencesInNumToSkip.xml"
+      "NormWithReferencesInNumToSkip"
     );
     // When
     service.findAndCreateReferences(norm);
@@ -54,7 +54,7 @@ class ReferenceServiceTest {
     // Then
     final Regelungstext sameNormReload = Fixtures.loadRegelungstextFromDisk(
       ReferenceServiceTest.class,
-      "NormWithReferencesInNumToSkip.xml"
+      "NormWithReferencesInNumToSkip/regelungstext-1.xml"
     );
     final Diff diff = DiffBuilder.compare(Input.from(norm.getRegelungstext1().getDocument()))
       .withTest(Input.from(sameNormReload.getDocument()))

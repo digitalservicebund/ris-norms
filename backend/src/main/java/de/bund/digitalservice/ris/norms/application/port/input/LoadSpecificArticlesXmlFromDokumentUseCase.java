@@ -12,22 +12,21 @@ import lombok.Getter;
  */
 public interface LoadSpecificArticlesXmlFromDokumentUseCase {
   /**
-   * Retrieves articles of a specific type based on the provided query.
+   * Retrieves articles of a specific type based on the provided options.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the dokument.
+   * @param options The options containing the ELI (European Legislation Identifier) of the dokument.
    * @return An {@link List} containing the loaded Xml-{@link String}s if found, or empty if not
    *     found.
    */
-  List<String> loadSpecificArticlesXmlFromDokument(Query query);
+  List<String> loadSpecificArticlesXmlFromDokument(Options options);
 
   /**
-   * A record representing the query for loading a dokument. The query includes the ELI (European
-   * Legislation Identifier) to identify the dokument.
+   * A record representing the options for loading a dokument.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the dokument in the query.
+   * @param eli The ELI (European Legislation Identifier) used to identify the dokument.
    * @param refersTo Specifies the type of article.
    */
-  record Query(DokumentExpressionEli eli, String refersTo) {}
+  record Options(DokumentExpressionEli eli, String refersTo) {}
 
   /** Indicates that the Dokument was found but does not include articles of that type. */
   @Getter

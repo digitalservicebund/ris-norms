@@ -11,19 +11,19 @@ public interface PublishPrivateNormPort {
   /**
    * Publishes the specified {@link Norm} entity to a designated private storage location.
    * This method initiates the process of storing the norm in a secure private location,
-   * utilizing the {@link Command} object to encapsulate the specific norm to be published.
+   * utilizing the {@link Options} object to encapsulate the specific norm to be published.
    *
-   * @param command a {@link Command} object containing the {@link Norm} entity to be stored
+   * @param options a {@link Options} object containing the {@link Norm} entity to be stored
    *                in the private storage location.
    */
-  void publishPrivateNorm(final Command command);
+  void publishPrivateNorm(final Options options);
 
   /**
-   * A record representing the command used for publishing a {@link Norm} to the private storage location.
-   * This {@link Command} record encapsulates the norm data required for publication, enabling clients
+   * A record representing the options used for publishing a {@link Norm} to the private storage location.
+   * This {@link Options} record encapsulates the norm data required for publication, enabling clients
    * to specify the {@link Norm} entity intended for private storage.
    *
    * @param norm the {@link Norm} entity to be published to the private storage location.
    */
-  record Command(Norm norm) {}
+  record Options(Norm norm) {}
 }

@@ -13,9 +13,7 @@ class VerkuendungResponseMapperTest {
   @Test
   void canMapPrintAnnouncedNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     var verkuendung = Verkuendung.builder()
       .eli(norm.getExpressionEli())
       .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
@@ -44,9 +42,7 @@ class VerkuendungResponseMapperTest {
   @Test
   void canMapDigitallyAnnouncedNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18");
     var verkuendung = Verkuendung.builder()
       .eli(norm.getExpressionEli())
       .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))

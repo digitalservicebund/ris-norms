@@ -40,13 +40,13 @@ class ProprietaryServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
       );
-      LoadProprietaryFromDokumentUseCase.Query query = new LoadProprietaryFromDokumentUseCase.Query(
-        eli
-      );
+      LoadProprietaryFromDokumentUseCase.Options options =
+        new LoadProprietaryFromDokumentUseCase.Options(eli);
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
       // then
-      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromDokument(query)).isInstanceOf(
+      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromDokument(options)
+      ).isInstanceOf(
         // then
         DokumentNotFoundException.class
       );
@@ -62,13 +62,13 @@ class ProprietaryServiceTest {
         ProprietaryServiceTest.class,
         "vereinsgesetz-without-proprietary.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsTextWithoutProprietary)
       );
 
       // when
       var result = proprietaryService.loadProprietaryFromDokument(
-        new LoadProprietaryFromDokumentUseCase.Query(eli)
+        new LoadProprietaryFromDokumentUseCase.Options(eli)
       );
 
       // then
@@ -84,12 +84,12 @@ class ProprietaryServiceTest {
       var regelungsText = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsText)
       );
       // when
       var result = proprietaryService.loadProprietaryFromDokument(
-        new LoadProprietaryFromDokumentUseCase.Query(eli)
+        new LoadProprietaryFromDokumentUseCase.Options(eli)
       );
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -105,8 +105,8 @@ class ProprietaryServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
       );
-      UpdateProprietaryFrameFromDokumentUseCase.Query query =
-        new UpdateProprietaryFrameFromDokumentUseCase.Query(
+      UpdateProprietaryFrameFromDokumentUseCase.Options options =
+        new UpdateProprietaryFrameFromDokumentUseCase.Options(
           eli,
           new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
             "fna",
@@ -124,7 +124,7 @@ class ProprietaryServiceTest {
         );
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromDokument(query)
+      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromDokument(options)
       ).isInstanceOf(DokumentNotFoundException.class); // then
     }
 
@@ -137,7 +137,7 @@ class ProprietaryServiceTest {
       var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsTextWithoutProprietary)
       );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
@@ -145,13 +145,13 @@ class ProprietaryServiceTest {
       );
       when(
         updateDokumentPort.updateDokument(
-          new UpdateDokumentPort.Command(regelungsTextWithoutProprietary)
+          new UpdateDokumentPort.Options(regelungsTextWithoutProprietary)
         )
       ).thenReturn(Optional.of(regelungsTextWithProprietary));
 
       // when
       var result = proprietaryService.updateProprietaryFrameFromDokument(
-        new UpdateProprietaryFrameFromDokumentUseCase.Query(
+        new UpdateProprietaryFrameFromDokumentUseCase.Options(
           eli,
           new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
             "dummyFna",
@@ -201,15 +201,16 @@ class ProprietaryServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
       );
-      UpdateProprietarySingleElementFromDokumentUseCase.Query query =
-        new UpdateProprietarySingleElementFromDokumentUseCase.Query(
+      UpdateProprietarySingleElementFromDokumentUseCase.Options options =
+        new UpdateProprietarySingleElementFromDokumentUseCase.Options(
           eli,
           eid,
           new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata("SN")
         );
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietarySingleElementFromDokument(query)
+      assertThatThrownBy(() ->
+        proprietaryService.updateProprietarySingleElementFromDokument(options)
       ).isInstanceOf(DokumentNotFoundException.class); // then
     }
 
@@ -223,19 +224,19 @@ class ProprietaryServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Command(eli))).thenReturn(
+      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungstext)
       );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
       );
       when(
-        updateDokumentPort.updateDokument(new UpdateDokumentPort.Command(regelungstext))
+        updateDokumentPort.updateDokument(new UpdateDokumentPort.Options(regelungstext))
       ).thenReturn(Optional.of(regelungsTextWithProprietary));
 
       // when
       var result = proprietaryService.updateProprietarySingleElementFromDokument(
-        new UpdateProprietarySingleElementFromDokumentUseCase.Query(
+        new UpdateProprietarySingleElementFromDokumentUseCase.Options(
           eli,
           eid,
           new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata("SN")

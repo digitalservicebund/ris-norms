@@ -19,7 +19,7 @@ class PrototypeCleanupServiceTest {
   @Test
   void cleanRisMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
 
     prototypeCleanupService.clean(norm);
@@ -102,7 +102,7 @@ class PrototypeCleanupServiceTest {
   @Test
   void cleanRegularAndBundesregierungMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
 
     prototypeCleanupService.clean(norm);
@@ -122,7 +122,7 @@ class PrototypeCleanupServiceTest {
   @Test
   void cleanNotesMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
 
     prototypeCleanupService.clean(norm);
@@ -142,7 +142,7 @@ class PrototypeCleanupServiceTest {
   @Test
   void cleanNotesMetadataDeleteNotes() {
     final Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
     norm.getRegelungstext1().deleteByEId("meta-1_editfnote-1");
 
@@ -163,7 +163,7 @@ class PrototypeCleanupServiceTest {
   @Test
   void cleanZeitgrenzenMetadata() {
     final Norm norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
 
     prototypeCleanupService.clean(norm);

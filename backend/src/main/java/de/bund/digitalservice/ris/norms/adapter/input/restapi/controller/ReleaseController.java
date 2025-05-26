@@ -45,7 +45,7 @@ public class ReleaseController {
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final NormExpressionEli eli) {
     var releases = loadReleasesByNormExpressionEliUseCase.loadReleasesByNormExpressionEli(
-      new LoadReleasesByNormExpressionEliUseCase.Query(eli)
+      new LoadReleasesByNormExpressionEliUseCase.Options(eli)
     );
 
     return ResponseEntity.ok(releases.stream().map(ReleaseResponseMapper::fromRelease).toList());
@@ -62,7 +62,7 @@ public class ReleaseController {
   @PostMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ReleaseResponseSchema> postReleases(final NormExpressionEli eli) {
     var release = releaseNormExpressionUseCase.releaseNormExpression(
-      new ReleaseNormExpressionUseCase.Query(eli)
+      new ReleaseNormExpressionUseCase.Options(eli)
     );
     return ResponseEntity.ok(ReleaseResponseMapper.fromRelease(release));
   }

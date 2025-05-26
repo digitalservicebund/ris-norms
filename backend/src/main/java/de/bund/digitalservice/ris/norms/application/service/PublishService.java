@@ -87,14 +87,14 @@ public class PublishService implements PublishNormUseCase {
     });
     List<NormManifestationEli> manifestationElis =
       loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(
-        new LoadNormManifestationElisByPublishStatePort.Command(NormPublishState.QUEUED_FOR_PUBLISH)
+        new LoadNormManifestationElisByPublishStatePort.Options(NormPublishState.QUEUED_FOR_PUBLISH)
       );
 
     log.info("Found {} norms that are queued for publishing", manifestationElis.size());
 
     manifestationElis.forEach(manifestationEli -> {
       log.info("Processing norm with manifestation eli {}", manifestationEli);
-      Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(manifestationEli));
+      Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Options(manifestationEli));
       norm.ifPresent(this::processNorm);
       if (norm.isEmpty()) {
         log.error("Norm with manifestation eli {} not found", manifestationEli);
@@ -110,14 +110,14 @@ public class PublishService implements PublishNormUseCase {
         );
         log.info("Deleting all old dokumente in both buckets");
         deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
-          new DeleteAllPublishedDokumentePort.Command(migrationLog.getCreatedAt())
+          new DeleteAllPublishedDokumentePort.Options(migrationLog.getCreatedAt())
         );
         deleteAllPrivateDokumentePort.deleteAllPublishedDokumente(
-          new DeleteAllPublishedDokumentePort.Command(migrationLog.getCreatedAt())
+          new DeleteAllPublishedDokumentePort.Options(migrationLog.getCreatedAt())
         );
         log.info("Deleted all dokumente in both buckets");
         updateMigrationLogPort.completeMigrationLog(
-          new CompleteMigrationLogPort.Command(migrationLog.getId())
+          new CompleteMigrationLogPort.Options(migrationLog.getId())
         );
         log.info(
           "Marked migration log with timestamp {} (UTC) as completed.",
@@ -125,8 +125,8 @@ public class PublishService implements PublishNormUseCase {
         );
       }
     });
-    publishPublicChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
-    publishPrivateChangelogsPort.publishChangelogs(new PublishChangelogPort.Command(false));
+    publishPublicChangelogsPort.publishChangelogs(new PublishChangelogPort.Options(false));
+    publishPrivateChangelogsPort.publishChangelogs(new PublishChangelogPort.Options(false));
     log.info("Publish job successfully completed.");
   }
 
@@ -148,14 +148,14 @@ public class PublishService implements PublishNormUseCase {
     boolean isPrivatePublished = false;
     try {
       // Try to publish publicly
-      publishNormPort.publishNorm(new PublishNormPort.Command(norm));
+      publishNormPort.publishNorm(new PublishNormPort.Options(norm));
       isPublicPublished = true;
       // Only if public publish succeeds, try private publish
-      publishPrivateNormPort.publishNorm(new PublishNormPort.Command(norm));
+      publishPrivateNormPort.publishNorm(new PublishNormPort.Options(norm));
       isPrivatePublished = true;
       // If both succeed, update the publish state
       norm.setPublishState(NormPublishState.PUBLISHED);
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       log.info("Published norm: {}", norm.getManifestationEli().toString());
     } catch (final Exception e) {
       log.error("Norm {} could not be published", norm.getManifestationEli().toString());
@@ -181,7 +181,7 @@ public class PublishService implements PublishNormUseCase {
 
   private void rollbackPublicPublish(Norm norm) {
     try {
-      deletePublishedNormPort.deletePublishedNorm(new DeletePublishedNormPort.Command(norm));
+      deletePublishedNormPort.deletePublishedNorm(new DeletePublishedNormPort.Options(norm));
       log.info(
         "Deleted public norm on rollback strategy: {}",
         norm.getManifestationEli().toString()
@@ -193,7 +193,7 @@ public class PublishService implements PublishNormUseCase {
 
   private void rollbackPrivatePublish(Norm norm) {
     try {
-      deletePrivateNormPort.deletePublishedNorm(new DeletePublishedNormPort.Command(norm));
+      deletePrivateNormPort.deletePublishedNorm(new DeletePublishedNormPort.Options(norm));
       log.info(
         "Deleted private norm on rollback strategy: {}",
         norm.getManifestationEli().toString()

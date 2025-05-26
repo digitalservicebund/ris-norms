@@ -15,15 +15,15 @@ public interface LoadZielnormenExpressionsUseCase {
   /**
    * Creates or sets to gegenstandslos the expressions of a Zielnorm according to the Verkündung that changes them.
    *
-   * @param query Query used for identifying the Verkündung
+   * @param options Options used for identifying the Verkündung
    * @return a shortened form of the affected Zielnorms with the expressions that would be created or set to gegenstandslos.
    */
-  List<Zielnorm> loadZielnormExpressions(Query query);
+  List<Zielnorm> loadZielnormExpressions(Options options);
 
   /**
    * Contains the parameters needed for identifying the Verkündung
    *
    * @param verkuendungEli The expression ELI used to identify the Verkündung
    */
-  record Query(NormExpressionEli verkuendungEli) {}
+  record Options(NormExpressionEli verkuendungEli) {}
 }

@@ -59,13 +59,11 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      );
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
       var release = Release.builder().publishedNorms(List.of(norm)).build();
 
       // When
-      releaseDBService.saveRelease(new SaveReleasePort.Command(release));
+      releaseDBService.saveRelease(new SaveReleasePort.Options(release));
 
       var releases = releaseRepository.findAll();
 
@@ -99,9 +97,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();
@@ -112,7 +108,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       releaseDBService.deleteQueuedReleases(
-        new DeleteQueuedReleasesPort.Command(
+        new DeleteQueuedReleasesPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -152,9 +148,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();
@@ -168,7 +162,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       var releases = releaseDBService.loadReleasesByNormExpressionEli(
-        new LoadReleasesByNormExpressionEliPort.Command(
+        new LoadReleasesByNormExpressionEliPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -200,9 +194,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();
@@ -223,9 +215,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
       var release2 = Release.builder()
         .publishedNorms(
           List.of(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         )
         .build();
@@ -239,7 +229,7 @@ class ReleaseDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       var releases = releaseDBService.loadReleasesByNormExpressionEli(
-        new LoadReleasesByNormExpressionEliPort.Command(
+        new LoadReleasesByNormExpressionEliPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );

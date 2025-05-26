@@ -57,17 +57,17 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFindsNormOnDB() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -77,9 +77,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
         .isPresent()
         .satisfies(normDb ->
           assertThat(normDb).contains(
-            Fixtures.loadNormFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-            )
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           )
         );
     }
@@ -116,7 +114,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
@@ -132,52 +130,48 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFindsNormByManifestationEliWithoutPointInTimeManifestationOnDB() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
       );
     }
 
     @Test
     void itFindsNormByManifestationEli() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
         )
       );
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
       );
     }
 
@@ -201,40 +195,36 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(
+        new LoadNormPort.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15")
       );
     }
 
     @Test
     void itFindsNormByWorkEli() {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.PUBLISHED
       );
 
       // When
       final Optional<Norm> normOptional = normDBService.loadNorm(
-        new LoadNormPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
 
       // Then
       assertThat(normOptional).contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
       );
     }
   }
@@ -242,27 +232,23 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsNormByGuidOnDB() {
     // When
-    dokumentRepository.save(
-      DokumentMapper.mapToDto(
-        Fixtures.loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
-      )
+    Fixtures.loadAndSaveNormFixture(
+      dokumentRepository,
+      binaryFileRepository,
+      normManifestationRepository,
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+      NormPublishState.UNPUBLISHED
     );
 
     // When
     final Optional<Norm> normOptional = normDBService.loadNormByGuid(
-      new LoadNormByGuidPort.Command(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"))
+      new LoadNormByGuidPort.Options(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"))
     );
 
     // Then
     assertThat(normOptional)
       .isPresent()
-      .contains(
-        Fixtures.loadNormFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-        )
-      );
+      .contains(Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"));
   }
 
   @Nested
@@ -280,12 +266,12 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       );
 
       var newNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
       );
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       // When
-      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Command(newNorm));
+      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Options(newNorm));
 
       // Then
       assertThat(dokumentRepository.findAll()).hasSize(1);
@@ -311,7 +297,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
       // When
-      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Command(newNorm));
+      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Options(newNorm));
 
       // Then
       assertThat(dokumentRepository.findAll()).hasSize(2);
@@ -355,7 +341,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       // When
       final List<NormManifestationEli> publishedNorms =
         normDBService.loadNormManifestationElisByPublishState(
-          new LoadNormManifestationElisByPublishStatePort.Command(
+          new LoadNormManifestationElisByPublishStatePort.Options(
             NormPublishState.QUEUED_FOR_PUBLISH
           )
         );
@@ -400,7 +386,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
 
       // When
       final List<NormExpressionEli> publishedNorms = normDBService.loadNormExpressionElis(
-        new LoadNormExpressionElisPort.Command(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
 
       // Then

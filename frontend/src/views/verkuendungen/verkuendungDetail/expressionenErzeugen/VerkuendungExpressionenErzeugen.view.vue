@@ -3,23 +3,26 @@ import RisEmptyState from "@/components/RisEmptyState.vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import { useGetZielnormPreview } from "@/services/zielnormPreviewService"
-import { ConfirmDialog, useConfirm } from "primevue"
-import { ref } from "vue"
+import {
+  useCreateZielnormExpressions,
+  useGetZielnormPreview,
+} from "@/services/zielnormExpressionsService"
+import { cloneDeep, isEqual } from "lodash"
+import { ConfirmDialog, useConfirm, useToast } from "primevue"
+import { computed, ref, watch } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
 const eli = useDokumentExpressionEliPathParameter()
 
 const confirm = useConfirm()
-
-const {
-  data: verkuendung,
-  error: verkuendungError,
-  isFinished: verkuendungHasFinished,
-} = useGetVerkuendungService(() => eli.value.asNormEli())
+const traceId = useSentryTraceId()
+const { add: addToast } = useToast()
+const { addErrorToast } = useErrorToast()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -31,17 +34,65 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 ])
 
 const {
+  data: verkuendung,
+  error: verkuendungError,
+  isFinished: verkuendungHasFinished,
+} = useGetVerkuendungService(() => eli.value.asNormEli())
+
+const {
   data: previewData,
   error: previewError,
+  execute: fetchPreviewData,
   isFinished: previewIsFinished,
 } = useGetZielnormPreview(() => eli.value.asNormEli())
 
-function beginCreateExpression(eli: NormWorkEli) {
-  const previewDataForEli = previewData.value?.find((i) =>
-    i.normWorkEli.equals(eli),
-  )
+// Loading state for the view that is only true for the initial load.
+// Prevents flickering when syncing data before submitting the create
+// request.
+const previewDataInitialLoad = computed(
+  () => !previewIsFinished && !previewData,
+)
 
-  if (!previewDataForEli) return
+const zielnormWorkEli = ref<NormWorkEli>()
+
+// Creating expressions -----------------------------------
+
+const {
+  data: createdExpressions,
+  error: createExpressionsError,
+  execute: createExpressions,
+  isFetching: isCreatingExpressions,
+  isFinished: finishedCreatingExpressions,
+} = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
+
+async function beginCreateExpression(eli: NormWorkEli) {
+  // TODO: Loading
+  if (!previewData.value) return
+
+  const dataIndex =
+    previewData.value.findIndex((i) => i.normWorkEli.equals(eli)) ?? -1
+
+  if (dataIndex < 0) return
+
+  const previewDataForEli = cloneDeep(previewData.value[dataIndex])
+  try {
+    await fetchPreviewData(true)
+  } catch {
+    // TODO: Handle error
+    return
+  }
+
+  console.log({ previewData: previewData.value[dataIndex], previewDataForEli })
+  if (!isEqual(previewData.value[dataIndex], previewDataForEli)) {
+    addToast({
+      summary: "Die Daten haben sich geändert",
+      detail:
+        "Bitte prüfen Sie die neuen Daten auf Korrektheit und versuchen Sie es dann erneut.",
+      severity: "warn",
+    })
+
+    return
+  }
 
   const needsConfirmOverride = previewDataForEli.expressions.some(
     (i) => i.isCreated && !i.isGegenstandslos,
@@ -56,6 +107,10 @@ function beginCreateExpression(eli: NormWorkEli) {
       acceptProps: { text: true },
       rejectLabel: "Abbrechen",
       defaultFocus: "reject",
+      accept: () => {
+        zielnormWorkEli.value = eli
+        createExpressions()
+      },
     })
   } else {
     confirm.require({
@@ -65,22 +120,50 @@ function beginCreateExpression(eli: NormWorkEli) {
       rejectLabel: "Abbrechen",
       rejectProps: { text: true },
       defaultFocus: "accept",
+      accept: () => {
+        zielnormWorkEli.value = eli
+        createExpressions()
+      },
     })
   }
 }
+
+watch(createdExpressions, (newVal) => {
+  if (!zielnormWorkEli.value || !previewData.value?.length || !newVal) return
+  const eli = zielnormWorkEli.value
+
+  const createdExpressionsIndex = previewData.value?.findIndex((i) =>
+    i.normWorkEli.equals(eli),
+  )
+
+  if (createdExpressionsIndex >= 0) {
+    previewData.value = previewData.value.with(createdExpressionsIndex, newVal)
+  }
+})
+
+watch(createExpressionsError, (newVal) => {
+  if (newVal) addErrorToast(createExpressionsError, { traceId })
+})
+
+watch(finishedCreatingExpressions, (newVal) => {
+  if (newVal && !createExpressionsError.value) {
+    addToast({ summary: "Gespeichert!", severity: "success" })
+  }
+})
 </script>
 
 <template>
   <RisViewLayout
     :breadcrumbs
     :errors="[verkuendungError, previewError]"
-    :loading="!verkuendungHasFinished || !previewIsFinished"
+    :loading="!verkuendungHasFinished || previewDataInitialLoad"
   >
     <h1 class="sr-only">Expressionen erzeugen</h1>
 
     <RisZielnormenPreviewList
       v-if="previewData?.length"
       :items="previewData"
+      :loading="isCreatingExpressions"
       @create-expression="beginCreateExpression"
     ></RisZielnormenPreviewList>
 

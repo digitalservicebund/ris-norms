@@ -9,7 +9,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungB
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveVerkuendungPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateVerkuendungPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
-import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -38,10 +37,10 @@ public class VerkuendungDBService
 
   @Override
   public Optional<Verkuendung> loadVerkuendungByNormEli(
-    LoadVerkuendungByNormEliPort.Command command
+    LoadVerkuendungByNormEliPort.Options options
   ) {
     return verkuendungRepository
-      .findByEliNormExpression(command.eli().toString())
+      .findByEliNormExpression(options.eli().toString())
       .map(VerkuendungMapper::mapToDomain);
   }
 
@@ -59,21 +58,21 @@ public class VerkuendungDBService
   }
 
   @Override
-  public Optional<Verkuendung> updateVerkuendung(UpdateVerkuendungPort.Command command) {
+  public Optional<Verkuendung> updateVerkuendung(UpdateVerkuendungPort.Options options) {
     return verkuendungRepository
-      .findByEliNormExpression(command.verkuendung().getEli().toString())
+      .findByEliNormExpression(options.verkuendung().getEli().toString())
       // There is no field in an Verkuendung that can change, so we do nothing here
       .map(VerkuendungMapper::mapToDomain);
   }
 
   @Override
   @Transactional(propagation = Propagation.NOT_SUPPORTED)
-  public Verkuendung updateOrSaveVerkuendung(UpdateOrSaveVerkuendungPort.Command command) {
+  public Verkuendung updateOrSaveVerkuendung(UpdateOrSaveVerkuendungPort.Options options) {
     final Optional<Verkuendung> updatedVerkuendung = updateVerkuendung(
-      new UpdateVerkuendungPort.Command(command.verkuendung())
+      new UpdateVerkuendungPort.Options(options.verkuendung())
     );
     if (updatedVerkuendung.isEmpty()) {
-      final VerkuendungDto verkuendungDto = VerkuendungMapper.mapToDto(command.verkuendung());
+      final VerkuendungDto verkuendungDto = VerkuendungMapper.mapToDto(options.verkuendung());
       return VerkuendungMapper.mapToDomain(verkuendungRepository.save(verkuendungDto));
     } else {
       return updatedVerkuendung.get();
@@ -81,7 +80,7 @@ public class VerkuendungDBService
   }
 
   @Override
-  public void deleteVerkuendungByNormEli(DeleteVerkuendungByNormEliPort.Command command) {
-    verkuendungRepository.deleteByEliNormExpression(command.eli().toString());
+  public void deleteVerkuendungByNormEli(DeleteVerkuendungByNormEliPort.Options options) {
+    verkuendungRepository.deleteByEliNormExpression(options.eli().toString());
   }
 }

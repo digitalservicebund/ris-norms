@@ -66,23 +66,24 @@ public class VerkuendungService
   }
 
   @Override
-  public Verkuendung loadVerkuendung(LoadVerkuendungUseCase.Query query) {
+  public Verkuendung loadVerkuendung(LoadVerkuendungUseCase.Options options) {
     return loadVerkuendungByNormEliPort
-      .loadVerkuendungByNormEli(new LoadVerkuendungByNormEliPort.Command(query.eli()))
-      .orElseThrow(() -> new VerkuendungNotFoundException(query.eli().toString()));
+      .loadVerkuendungByNormEli(new LoadVerkuendungByNormEliPort.Options(options.eli()))
+      .orElseThrow(() -> new VerkuendungNotFoundException(options.eli().toString()));
   }
 
   @Override
-  public Verkuendung createVerkuendung(CreateVerkuendungUseCase.Query query) throws IOException {
-    validateFileIsXml(query.file());
+  public Verkuendung createVerkuendung(CreateVerkuendungUseCase.Options options)
+    throws IOException {
+    validateFileIsXml(options.file());
     var regelungstextString = IOUtils.toString(
-      query.file().getInputStream(),
+      options.file().getInputStream(),
       Charset.defaultCharset()
     );
     var regelungstextDocument = XmlMapper.toDocument(regelungstextString);
 
     if (!regelungstextDocument.getDocumentElement().getTagName().equals("akn:akomaNtoso")) {
-      throw new NotLdmlDeXmlFileException(query.file().getOriginalFilename());
+      throw new NotLdmlDeXmlFileException(options.file().getOriginalFilename());
     }
 
     // it throws an exception if the validation fails or the LDML.de Version is not 1.7.2
@@ -93,12 +94,12 @@ public class VerkuendungService
 
     var norm = Norm.builder().dokumente(Set.of(new Regelungstext(regelungstextDocument))).build();
 
-    final boolean normFound = isNormRetrievableByEli(query.force(), norm);
+    final boolean normFound = isNormRetrievableByEli(options.force(), norm);
 
-    if (normFound && query.force()) {
+    if (normFound && options.force()) {
       deleteVerkuendung(norm.getExpressionEli());
     } else if (
-      loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(norm.getGuid())).isPresent()
+      loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Options(norm.getGuid())).isPresent()
     ) {
       throw new NormWithGuidAlreadyExistsException(norm.getGuid());
     }
@@ -117,7 +118,7 @@ public class VerkuendungService
 
   private boolean isNormRetrievableByEli(boolean forceOverwrite, Norm norm) {
     final boolean normExists = loadNormPort
-      .loadNorm(new LoadNormPort.Command(norm.getExpressionEli()))
+      .loadNorm(new LoadNormPort.Options(norm.getExpressionEli()))
       .isPresent();
 
     if (normExists && !forceOverwrite) {
@@ -128,21 +129,21 @@ public class VerkuendungService
 
   private void deleteVerkuendung(NormExpressionEli expressionEli) {
     var verkuendung = loadVerkuendungByNormEliPort.loadVerkuendungByNormEli(
-      new LoadVerkuendungByNormEliPort.Command(expressionEli)
+      new LoadVerkuendungByNormEliPort.Options(expressionEli)
     );
 
     if (verkuendung.isPresent()) {
       deleteVerkuendungByNormEliPort.deleteVerkuendungByNormEli(
-        new DeleteVerkuendungByNormEliPort.Command(expressionEli)
+        new DeleteVerkuendungByNormEliPort.Options(expressionEli)
       );
     }
   }
 
   private Verkuendung saveNewVerkuendung(Norm norm) {
     var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(norm));
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
     return updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
-      new UpdateOrSaveVerkuendungPort.Command(verkuendung)
+      new UpdateOrSaveVerkuendungPort.Options(verkuendung)
     );
   }
 
@@ -154,11 +155,11 @@ public class VerkuendungService
 
   @Override
   public List<Norm> loadNormExpressionsAffectedByVerkuendung(
-    LoadNormExpressionsAffectedByVerkuendungUseCase.Query query
+    LoadNormExpressionsAffectedByVerkuendungUseCase.Options options
   ) {
     var verkuendungNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli()))
-      .orElseThrow(() -> new VerkuendungNotFoundException(query.eli().toString()));
+      .loadNorm(new LoadNormPort.Options(options.eli()))
+      .orElseThrow(() -> new VerkuendungNotFoundException(options.eli().toString()));
 
     var affectedExpressionElis = verkuendungNorm
       .getRegelungstext1()
@@ -175,12 +176,12 @@ public class VerkuendungService
       .get()
       .stream()
       .map(eli -> {
-        var norm = loadNormPort.loadNorm(new LoadNormPort.Command(eli));
+        var norm = loadNormPort.loadNorm(new LoadNormPort.Options(eli));
         if (norm.isEmpty()) {
           log.warn(
             "Norm with ELI {} could not be loaded when collecting expressions affected by Verkuendung with ELI {}",
             eli,
-            query.eli()
+            options.eli()
           );
         }
         return norm;

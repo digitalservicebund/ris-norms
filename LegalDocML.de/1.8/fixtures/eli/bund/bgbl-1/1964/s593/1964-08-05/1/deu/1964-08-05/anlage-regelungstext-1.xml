@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	##################################################################################
+	Projekt E-Gesetzgebung
+	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.7.2 (16.01.2025)
+
+	2025 Copyright (C) 2021-2025 Bundesministerium des Innern und für Heimat,
+	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
+	Verwaltungsarbeit
+
+	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
+	##################################################################################
+-->
+<?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-offenestruktur.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRIS.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8/ /LegalDocML.de/1.8/schema-extension/norms-application-only-metadata.xsd">
+   <akn:doc name="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext">
+<!-- Metadaten -->
+      <akn:meta GUID="2564ceb2-dc74-3c1b-9c93-2dbf9a3cc718" eId="meta-n1">
+         <akn:identification GUID="f9da011e-fa03-38a5-8c82-8bf4706490c3"
+                             eId="meta-n1_ident-n1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="341ecc41-254c-34bf-9700-f6aebda1e9ab"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis GUID="c269702d-e2e4-30fc-9d1a-63abf128a43c"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/1964/s593/anlage-regelungstext-1"/>
+               <akn:FRBRuri GUID="5122b4d3-986e-39d8-83d8-e3a7fe03b5f9"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/1964/s593"/>
+               <akn:FRBRalias GUID="ac6b8195-a21d-3760-b3a2-397ca8c0e5d0"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"
+                              name="übergreifende-id"
+                              value="623e6fb8-9a53-4ff5-9091-70ebb00261a2"/>
+               <akn:FRBRdate GUID="dfc51f82-8c68-3e08-9cc5-9e85153b6e75"
+                             date="1964-08-05"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
+                             name="verkuendungsfassung-ausfertigungsdatum"/>
+               <akn:FRBRdate GUID="7d71741b-99f8-433f-b68f-f180756a7fc3"
+                             date="1964-08-05"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
+                             name="verkuendungsfassung-verkuendungsdatum"/>
+               <akn:FRBRauthor GUID="2fb81d98-4b14-3f27-9fd8-c0ef8b9426d4"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="c7f52e73-1d7c-3a46-97fa-4dff9aecde91"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="3767fe66-0152-3a5c-aab0-b47a907738b8"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"
+                               value="s593"/>
+               <akn:FRBRname GUID="d4a3d8c3-fdad-34d6-bcac-a2ec82cb9dff"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="b9a919d2-b171-33ea-a816-2a9ca70c3cc6"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
+                                value="anlage-regelungstext-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="c6855ed7-24dc-3902-890e-1ccf791812bb"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis GUID="975ee2de-992b-3c2f-80ff-646311e0ea77"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/anlage-regelungstext-1"/>
+               <akn:FRBRuri GUID="3e8b9d69-ae65-3959-a158-78d461decedd"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"/>
+               <akn:FRBRalias GUID="f78f1676-292d-3d66-8b18-a1a50d38a672"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
+                              name="aktuelle-version-id"
+                              value="77167d15-511d-4927-adf3-3c8b0464423c"/>
+               <akn:FRBRalias GUID="53e1e61b-7978-3e2b-a8a6-e3afb578732d"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"
+                              name="nachfolgende-version-id"
+                              value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b"/>
+               <akn:FRBRauthor eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               GUID="b6ee5aa8-8950-4b81-be73-0f468c62c509"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             GUID="1bfbd095-93f3-4674-8096-be18041cbc65"
+                             date="1964-08-05"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 GUID="69cb29f5-3d31-48a4-8b48-14b1f23b64fb"
+                                 language="deu"/>
+               <akn:FRBRversionNumber eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      GUID="e346f244-30e0-40fa-81d0-ff21c4f34fb3"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="109b6ab7-0de9-3d09-a454-6e9530f90c28"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis GUID="76e9d2b7-a1a6-3347-80e3-f3aede2a2027"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"/>
+               <akn:FRBRuri GUID="7c5d9180-3eb6-3abb-b2e7-52467afb2ade"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"/>
+               <akn:FRBRdate GUID="33e4c972-f023-35d7-b011-2e22bb40fb68"
+                             date="1964-08-05"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
+                             name="generierung"/>
+               <akn:FRBRauthor eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               GUID="5bbaf2cc-d861-4a57-b019-c4596b816673"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="0c83024a-6c2d-3858-82a6-68b1d7076245"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+      </akn:meta>
+      <akn:preface GUID="67f805b3-36ef-3774-bee1-327d1def3d54" eId="einleitung-n1">
+         <akn:block GUID="295a6de8-c62e-3fb4-b1e0-d691dbf66078"
+                    eId="einleitung-n1_block-n1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:docTitle GUID="4977b638-ed34-3e5e-b842-26480f08eff2"
+                          eId="einleitung-n1_block-n1_doctitel-n1">Hinweis auf Rechtsvorschriften der Europäischen Union,<akn:br GUID="e3b53cb2-ac98-3876-b058-68b1ed5e1309"
+                       eId="einleitung-n1_block-n1_doctitel-n1_br-n1"/>die mit ihrer Veröffentlichung im Amtsblatt der Europäischen Union unmittelbare Rechtswirksamkeit in der Bundesrepublik Deutschland erlangt haben.<akn:br GUID="926ff1a5-333a-321f-900d-fb77ce0910d8"
+                       eId="einleitung-n1_block-n1_doctitel-n1_br-n2"/>Aufgeführt werden nur die Verordnungen, die im Inhaltsverzeichnis des Amtblattes durch Fettdruck hervorgehoben sind.</akn:docTitle>
+         </akn:block>
+      </akn:preface>
+      <akn:mainBody GUID="83b3278a-5696-3948-97a0-4257b0e0e17c" eId="hauptteil-n1">
+         <akn:p GUID="48f43fcd-a307-3cbd-964c-3b7a4d653bb2" eId="hauptteil-n1_text-n1">
+            <akn:b GUID="e865a4a2-f886-385a-8f1c-feb8fd862122"
+                   eId="hauptteil-n1_text-n1_fettschrift-n1">Hinweis auf Rechtsvorschriften der Europäischen Union,</akn:b>
+            <akn:br GUID="1ffa23d6-5d6f-35c1-9f41-6754f5028d99"
+                    eId="hauptteil-n1_text-n1_br-n1"/>die mit ihrer Veröffentlichung im Amtsblatt der Europäischen Union unmittelbare Rechtswirksamkeit in der Bundesrepublik Deutschland erlangt haben.<akn:br GUID="d110fd92-ca4d-3470-ab4a-0ae452321eea"
+                    eId="hauptteil-n1_text-n1_br-n2"/>Aufgeführt werden nur die Verordnungen, die im Inhaltsverzeichnis des Amtblattes durch Fettdruck hervorgehoben sind.</akn:p>
+         <akn:table GUID="5cf8f2ca-6c3f-38c8-ac9d-574619be6b06"
+                    eId="hauptteil-n1_tabelle-n1">
+<!-- Tabellenkopf -->
+            <akn:tr GUID="336b8d11-5638-3c4a-bfac-265d97f7c630"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n1">
+               <akn:th GUID="424fe916-1398-3e19-8024-71b3a2aa7f7d"
+                       colspan="2"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n1"
+                       rowspan="2">
+                  <akn:p GUID="1bc7c26c-0ee3-3614-b00d-11e982da483b"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n1_text-n1">Datum und Bezeichnung der Rechtsvorschrift</akn:p>
+               </akn:th>
+               <akn:th GUID="a1ed23f5-e0b4-3855-8dc8-5d7b8be802a3"
+                       colspan="2"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n2">
+                  <akn:p GUID="528ee3d0-6819-3d07-9261-27ee34b4b950"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n2_text-n1">ABl. EU<akn:br GUID="6ab61913-36e2-3739-8c1b-12492964be73"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n2_text-n1_br-n1"/>-Ausgabe in deutscher Sprache-</akn:p>
+               </akn:th>
+            </akn:tr>
+            <akn:tr GUID="434ed6e3-107d-3e55-a236-fccad7b5ae60"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n2">
+               <akn:th GUID="48a407ac-c222-3955-9a1e-f7a56c190e9e"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n1">
+                  <akn:p GUID="56222ff0-fe51-3fa4-ae6d-e17bedb87adb"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n1_text-n1">Nr./Seite</akn:p>
+               </akn:th>
+               <akn:th GUID="a3454f20-d392-3c61-aedf-131cbd09d33d"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n2">
+                  <akn:p GUID="69339e9e-c63b-3681-93e7-ef0bcafe7886"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n2_text-n1">vom</akn:p>
+               </akn:th>
+            </akn:tr>
+            <!-- Tabelle Hauptteil -->
+            <!-- Zeile 1 -->
+            <akn:tr GUID="42869c0d-4dd3-3c89-9e22-7acae6f8b265"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n3">
+               <akn:td GUID="4bce12c8-f3c0-3b0b-819d-56dc7a8bf1fd"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n1">
+                  <akn:block GUID="8a509d1c-5e9c-3629-abae-52a5e474b67d"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n1_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="8ae64d3c-e082-36fc-a170-14eb00a062f6"
+                               date="2020-06-04"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n1_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">4.6.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+               <akn:td GUID="9240f45d-9df2-3db2-b5f2-4a74c7aa725a"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2">
+                  <akn:p GUID="5b8aa5a8-f3db-3437-98ca-92ee0694653f"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1">Delegierte Verordnung (EU) 2020/1272 der Kommission zur Änderung und Berichtigung der Delegierten Verordnung (EU) 2019/979 zur Ergänzung der Verordnung (EU) 2017/1129 des Europäischen Parlaments und des Rates durch technische Regulierungsstandards für wesentliche Finanzinformationen in der Zusammenfassung des Prospekts, die Veröffentlichung und Klassifizierung von Prospekten, die Werbung für Wertpapiere, Nachträge zum prospekt und das Notifizierungsportal<akn:authorialNote GUID="6e996713-dd2d-33af-bc42-edb14ed36bcd"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1_amtlfnote-n1"
+                                        marker="(1)"
+                                        placement="bottom"
+                                        placementBase="">
+                        <akn:p GUID="273a5bbf-a158-325e-a853-554966a65c49"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                     </akn:authorialNote>
+                  </akn:p>
+               </akn:td>
+               <akn:td GUID="814cceb3-060c-3521-a6bc-371cd035c32c"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n3">
+                  <akn:p GUID="415fa37a-0dc9-349b-b0ba-a88c8a8d2f3d"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n3_text-n1">L 300/1</akn:p>
+               </akn:td>
+               <akn:td GUID="11bc1044-4c30-37fd-80b0-b77d6a1a67fa"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n4">
+                  <akn:block GUID="362df972-3e60-398a-8517-06c99bc23033"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n4_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="4d952ec6-fda9-3f39-808d-e831584476bc"
+                               date="2020-09-14"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n4_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">14.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+            </akn:tr>
+            <!-- Zeile 2 -->
+            <akn:tr GUID="9961c5cb-402d-3a4f-8f23-376c7c5670aa"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n4">
+               <akn:td GUID="f1b076c8-95cf-3140-a9aa-0f083e6674a5"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n1">
+                  <akn:block GUID="c09182b2-562b-3c98-a1aa-172c3480812f"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n1_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="37a987e7-388d-35a5-a85c-d53ae4a8602f"
+                               date="2020-06-04"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n1_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">4.6.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+               <akn:td GUID="c47ad896-5f4c-3598-93c7-31761b7399b7"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2">
+                  <akn:p GUID="cb63da37-954c-3a26-95a9-7c7b211ee85b"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1">Delegierte Verordnung (EU) 2020/1273 der Kommission zur Änderung und Berichtigung der Delegierten Verordnung (EU) 2019/980 zur Ergänzung der Verordnung (EU) 2017/1129 des Europäischen Parlaments und des Rates hinsichtlich der Aufmachung, des Inhalts, der Prüfung und der Billigung des Prospekts, der beim öffentlichen Angebot von Wertpapieren oder bei deren Zulassung zum Handel an einem geregelten Markt zu veröffentlichen ist<akn:authorialNote GUID="ce5a0690-cc5d-328a-892b-f18061582dab"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1_amtlfnote-n1"
+                                        marker="(1)"
+                                        placement="bottom"
+                                        placementBase="">
+                        <akn:p GUID="8c1293bb-e491-3515-9df7-9121f4a3ef07"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                     </akn:authorialNote>
+                  </akn:p>
+               </akn:td>
+               <akn:td GUID="9cf47d06-f1e3-39b0-a41c-99a1a15ad98f"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n3">
+                  <akn:p GUID="5a55b17f-bd7e-387a-a49f-641587205c58"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n3_text-n1">L 300/6</akn:p>
+               </akn:td>
+               <akn:td GUID="ba335f0e-0963-3840-babf-51cda849ae46"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n4">
+                  <akn:block GUID="fd68509d-fcc3-34dd-8350-5f5efdc23a0d"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n4_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="e64ee27c-066b-3d7f-9cb7-592c882173dc"
+                               date="2020-09-14"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n4_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">14.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+            </akn:tr>
+            <!-- Zeile 3 -->
+            <akn:tr GUID="41a6ec99-d8cc-3263-8176-2297a727d591"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n5">
+               <akn:td GUID="8fbb3192-0674-32c5-88b4-6f22140630b4"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n1">
+                  <akn:block GUID="ad46fb2f-2a17-3dbe-82b2-fa745488bd7b"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n1_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="b7d7666f-e990-3a46-90ab-b3e99319738d"
+                               date="2020-07-01"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n1_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">1.7.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+               <akn:td GUID="08d9b408-1e0b-3faa-9757-117110f9912f"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n2">
+                  <akn:p GUID="3a56bb6f-cb56-3c5f-9ea1-9e19df40f329"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n2_text-n1">Delegierte Verordnung (EU) 2020/1274 der Kommission zur Festsetzung einer pauschalen Zollermäßigung bei der Einfuhr von Sorghum aus Drittländern nach Spanien</akn:p>
+               </akn:td>
+               <akn:td GUID="4a7d80be-02e3-3fde-b1a9-5d2b13fe76ab"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n3">
+                  <akn:p GUID="7d1cb40b-df20-3589-b2d8-9c9f0430da6e"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n3_text-n1">L 300/24</akn:p>
+               </akn:td>
+               <akn:td GUID="ad7a0ad1-5f8d-3dbe-b1b5-526c24692a42"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n4">
+                  <akn:block GUID="5d432d9f-c7d1-3e4f-9850-1101e628085f"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n4_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="78a3ed4a-abce-3150-90b5-d76aa0620c9f"
+                               date="2020-09-14"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n4_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">14.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+            </akn:tr>
+            <!-- Zeile 4 -->
+            <akn:tr GUID="156cd4c3-31c3-3766-bf97-60f2e6b1573e"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n6">
+               <akn:td GUID="b993b8ac-9352-31ad-8251-2bbeb9223e6d"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n1">
+                  <akn:block GUID="ee59bbc1-2ee1-35d5-bb44-4296cb9e42e0"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n1_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="ffde7d92-ddae-3696-b974-cf2a1da87e06"
+                               date="2020-07-01"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n1_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">1.7.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+               <akn:td GUID="84f218e7-628e-33d7-966c-2e77fa0a09b3"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n2">
+                  <akn:p GUID="1941679a-ca85-32a3-afea-e4f4b729a844"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n2_text-n1">Delegierte Verordnung (EU) 2020/1275 der Kommission zur Änderung der Delegierten Verordnung (EU) 2020/592 über befristete außergewöhmliche Maßnahmen zur Abweichung von bestimmten Vorschriften der Verordnung (EU) Nr. 1308/2013 des Europäischen Parlaments und des Rates zur Behebung der druch die COVID-19-Pandemie und die damit verbundenen Maßnahmen verursachten Marktstörungen um Obst- und Gemüsesektor und im Weinsektor</akn:p>
+               </akn:td>
+               <akn:td GUID="2a2ece1f-93ae-3729-8594-348b03e1e6a2"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n3">
+                  <akn:p GUID="086f1350-6264-3073-8c5f-a4281d6ad767"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n3_text-n1">L 300/26</akn:p>
+               </akn:td>
+               <akn:td GUID="28d650bc-c04f-3de4-a250-9953554af3e5"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n4">
+                  <akn:block GUID="3d2cd6ff-0af7-3aca-9874-ae8c9f37b8f4"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n4_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="1562ab7c-093e-3cef-8911-65d277d26125"
+                               date="2020-09-14"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n4_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">14.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+            </akn:tr>
+            <!-- Zeile 5 -->
+            <akn:tr GUID="790333ed-6f15-32f5-ba53-4956f93fcb34"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n7">
+               <akn:td GUID="1d5e10b7-2742-3808-b5cc-a5e08ed723b2"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n1">
+                  <akn:block GUID="dfc50ca8-bf89-3e29-a118-33ba18a1b64b"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n1_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="a17ab8db-095b-3043-983d-e4562c3986af"
+                               date="2020-09-11"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n1_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">11.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+               <akn:td GUID="5e3c6961-4201-332e-9f93-63b85314116d"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2">
+                  <akn:p GUID="28d1fdc6-1021-3b04-b458-13c3facccba3"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1">Durchführungsverordnung (EU) 2020/1276 der Kommission zur Nichterneuerung der Genehmigung für den Wirkstoff Bromoxynil gemäß der Verordnung (EG) Nr. 1107/2009 des Europäischen Parlaments und des Rates über das Inverkehrbringen von Pflanzenschutzmitteln und zur Änderung des Anhangs der Durchführungsverordnung (EU) Nr. 540/2011 der Kommission<akn:authorialNote GUID="555cf5d0-771d-32a5-b20b-c0099b05e603"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1_amtlfnote-n1"
+                                        marker="(1)"
+                                        placement="bottom"
+                                        placementBase="">
+                        <akn:p GUID="80b8c399-2c5e-33f1-b491-5b599ba8f5db"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                     </akn:authorialNote>
+                  </akn:p>
+               </akn:td>
+               <akn:td GUID="6a965b69-dadc-3c12-8d7f-1b7e3f25f110"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n3">
+                  <akn:p GUID="800cfeb1-e074-361b-a24c-040a6b9a95e1"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n3_text-n1">L 300/32</akn:p>
+               </akn:td>
+               <akn:td GUID="eb616a3c-b24c-3387-a010-f91e4a655975"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n4">
+                  <akn:block GUID="a7faa1f0-957c-3f13-8f3b-c0c2f4e123be"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n4_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="d8594da2-bc01-3f63-972e-21147db74f8b"
+                               date="2020-09-14"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n7_tabelleinh-n4_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">14.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+            </akn:tr>
+            <!-- Zeile 6 -->
+            <akn:tr GUID="60ce22d1-76ba-3bba-8167-ee03ae87f78d"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n8">
+               <akn:td GUID="feb7dad8-fbe8-3cec-90e6-3479073625b5"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n1">
+                  <akn:block GUID="e46f1c45-fd0a-3d58-8672-adab6353c0ce"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n1_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="26b312d0-4dee-3e91-824c-b991643cab01"
+                               date="2020-09-09"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n1_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">9.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+               <akn:td GUID="bdc8f80b-c301-3537-99ab-590dbf885500"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n2">
+                  <akn:p GUID="1879eb79-8324-3f57-af33-95d475a46df0"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n2_text-n1">Durchführungsverordnung (EU) 2020/1279 der Kommission zur Einreihung bestimmter Waren in die Kombinierte Nomenklatur</akn:p>
+               </akn:td>
+               <akn:td GUID="32c9bf9c-2f58-35f3-93bf-00eb93d7d626"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n3">
+                  <akn:p GUID="fe7f22c6-6781-393f-8254-2b365bcb22c0"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n3_text-n1">L 301/1</akn:p>
+               </akn:td>
+               <akn:td GUID="a6584629-a5bb-39c4-933a-4b28e41b336f"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n4">
+                  <akn:block GUID="03043c04-dc9b-3e7c-9c83-fcc4cc86ff75"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n4_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="a8eca003-91fb-31a2-90db-f1ca890d79e5"
+                               date="2020-09-15"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n8_tabelleinh-n4_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">15.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+            </akn:tr>
+            <!-- Zeile 7 -->
+            <akn:tr GUID="21d20e24-eeb6-3b8f-a744-21ef1fc658cd"
+                    eId="hauptteil-n1_tabelle-n1_tabellereihe-n9">
+               <akn:td GUID="1a98fc8c-47d6-320d-bb0e-38a22eafeb8f"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n1">
+                  <akn:block GUID="ce0e6d31-f3e2-3c1d-a63c-91cf9986714d"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n1_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="4bb21f61-551d-3dbf-a65e-7a316616c11a"
+                               date="2020-09-14"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n1_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">14.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+               <akn:td GUID="f4b93d51-806a-3787-ac6c-b140c6c4d9dd"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2">
+                  <akn:p GUID="32750326-81f8-332f-acaa-9f302d3f6061"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1">Durchführungsverordnung (EU) 2020/1280 der Kommission zur Nichterneuerung der Genehmigung für den Wirkstoff Benalaxyl gemäß der Verordnung (EG) Nr. 1107/2009 des Europäischen Parlaments und des Rates über das Inverkehrbringen von Pflanzenschutzmitteln und zur Änderung des Anhangs der Durchführungsverordnung (EU) Nr. 540/2011 der Kommission<akn:authorialNote GUID="241a8b2b-1623-3ba2-9ff6-95d066ea6b87"
+                                        eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1_amtlfnote-n1"
+                                        marker="(1)"
+                                        placement="bottom"
+                                        placementBase="">
+                        <akn:p GUID="f38796ca-ab7f-351f-a5d4-fc29003b3d64"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n2_text-n1_amtlfnote-n1_text-n1">Text von Bedeutung für den EWR.</akn:p>
+                     </akn:authorialNote>
+                  </akn:p>
+               </akn:td>
+               <akn:td GUID="b6d73793-b0bc-329f-af10-c005b0a23c0a"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n3">
+                  <akn:p GUID="e87aa98c-78d3-3866-9823-4c20d687652a"
+                         eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n3_text-n1">L 301/4</akn:p>
+               </akn:td>
+               <akn:td GUID="83aea363-7bae-376f-959f-cd81868a3056"
+                       eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n4">
+                  <akn:block GUID="75b77159-2794-3bc6-9c7d-0cf0e735aa6d"
+                             eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n4_block-n1"
+                             name="attributsemantik-noch-undefiniert">
+                     <akn:date GUID="b85d159b-33e1-347d-bb43-00be398e819e"
+                               date="2020-09-15"
+                               eId="hauptteil-n1_tabelle-n1_tabellereihe-n9_tabelleinh-n4_block-n1_datum-n1"
+                               refersTo="datum-ohne-lebenszyklusbezug">15.9.2020</akn:date>
+                  </akn:block>
+               </akn:td>
+            </akn:tr>
+         </akn:table>
+      </akn:mainBody>
+   </akn:doc>
+</akn:akomaNtoso>

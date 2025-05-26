@@ -7,25 +7,23 @@ import java.util.Optional;
 
 /**
  * Interface representing a port for loading a {@link Norm} based on the ELI (European Legislation
- * Identifier). Implementations of this interface should provide functionality to load a norm using
- * the specified command.
+ * Identifier).
  */
 public interface LoadNormPort {
   /**
-   * Loads a {@link Norm} based on the provided ELI specified in the command.
+   * Loads a {@link Norm} based on the provided ELI specified in the options.
    * Loading using a {@link NormWorkEli} returns the latest expression and not necessarily the expression that is
    * currently in force.
    *
-   * @param command The command specifying the ELI to identify the norm to be loaded.
+   * @param options The options specifying the ELI to identify the norm to be loaded.
    * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
    */
-  Optional<Norm> loadNorm(final Command command);
+  Optional<Norm> loadNorm(final Options options);
 
   /**
-   * A record representing the command for loading a norm. The command includes the ELI (European
-   * Legislation Identifier) to identify the norm.
+   * A record representing the options for loading a norm.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the norm in the command.
+   * @param eli The ELI (European Legislation Identifier) used to identify the norm.
    */
-  record Command(NormEli eli) {}
+  record Options(NormEli eli) {}
 }

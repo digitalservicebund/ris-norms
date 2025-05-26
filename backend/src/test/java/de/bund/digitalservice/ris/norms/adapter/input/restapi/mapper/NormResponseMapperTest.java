@@ -11,9 +11,7 @@ class NormResponseMapperTest {
   @Test
   void canMapPrintAnnouncedNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // When
     final NormResponseSchema result = NormResponseMapper.fromUseCaseData(norm);
@@ -35,9 +33,7 @@ class NormResponseMapperTest {
   @Test
   void canMapDigitallyAnnouncedNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18");
 
     // When
     final NormResponseSchema result = NormResponseMapper.fromUseCaseData(norm);

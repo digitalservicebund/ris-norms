@@ -57,20 +57,18 @@ class ReleaseServiceTest {
   @Test
   void itShouldReleaseAnVerkuendung() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
     var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
     );
     var savedRelease = new Release(Instant.now(), List.of(manifestationOfNormToQueue));
 
     when(deleteQueuedReleasesPort.deleteQueuedReleases(any())).thenReturn(List.of());
-    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+    when(normService.loadNorm(new LoadNormUseCase.EliOptions(norm.getExpressionEli()))).thenReturn(
       norm
     );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
@@ -83,7 +81,7 @@ class ReleaseServiceTest {
 
     // When
     var returnedRelease = releaseService.releaseNormExpression(
-      new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli())
+      new ReleaseNormExpressionUseCase.Options(norm.getExpressionEli())
     );
 
     // Then
@@ -93,20 +91,20 @@ class ReleaseServiceTest {
       LocalDate.now().plusDays(1)
     );
     verify(deleteQueuedReleasesPort, times(1)).deleteQueuedReleases(
-      new DeleteQueuedReleasesPort.Command(norm.getExpressionEli())
+      new DeleteQueuedReleasesPort.Options(norm.getExpressionEli())
     );
     verify(ldmlDeValidator, times(1)).parseAndValidateRegelungstext(
       XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
     );
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(updateOrSaveNormPort, times(1)).updateOrSave(
-      new UpdateOrSaveNormPort.Command(manifestationOfNormToQueue)
+      new UpdateOrSaveNormPort.Options(manifestationOfNormToQueue)
     );
     verify(updateOrSaveNormPort, times(1)).updateOrSave(
-      new UpdateOrSaveNormPort.Command(newNewestUnpublishedManifestationOfNorm)
+      new UpdateOrSaveNormPort.Options(newNewestUnpublishedManifestationOfNorm)
     );
     verify(deleteNormPort, times(1)).deleteNorm(
-      new DeleteNormPort.Command(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+      new DeleteNormPort.Options(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
     );
     verify(saveReleasePort, times(1)).saveRelease(
       assertArg(command -> {
@@ -128,9 +126,7 @@ class ReleaseServiceTest {
   @Test
   void itShouldUpdateTheReleasedByDocumentalistAtDate() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     when(normService.loadNorm(any())).thenReturn(norm);
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(norm);
@@ -138,7 +134,7 @@ class ReleaseServiceTest {
     // When
     var instantBeforeRelease = Instant.now();
     releaseService.releaseNormExpression(
-      new ReleaseNormExpressionUseCase.Query(
+      new ReleaseNormExpressionUseCase.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
       )
     );
@@ -154,19 +150,17 @@ class ReleaseServiceTest {
   @Test
   void itShouldThrowWhenTryingToReleaseXsdInvalidNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
     var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
     );
 
-    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+    when(normService.loadNorm(new LoadNormUseCase.EliOptions(norm.getExpressionEli()))).thenReturn(
       norm
     );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
@@ -179,7 +173,7 @@ class ReleaseServiceTest {
       new LdmlDeNotValidException(List.of())
     );
 
-    var query = new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseNormExpressionUseCase.Options(norm.getExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseNormExpression(query)).isInstanceOf(
@@ -208,19 +202,17 @@ class ReleaseServiceTest {
   @Test
   void itShouldThrowWhenTryingToReleaseSchematronInvalidNorm() {
     // Given
-    var norm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-    );
+    var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // these are just arbitrary norm files, it's not important what is in them just that they are all different.
     var manifestationOfNormToQueue = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
     var newNewestUnpublishedManifestationOfNorm = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
     );
 
-    when(normService.loadNorm(new LoadNormUseCase.EliQuery(norm.getExpressionEli()))).thenReturn(
+    when(normService.loadNorm(new LoadNormUseCase.EliOptions(norm.getExpressionEli()))).thenReturn(
       norm
     );
     when(createNewVersionOfNormService.createNewManifestation(any())).thenReturn(
@@ -233,7 +225,7 @@ class ReleaseServiceTest {
       .when(ldmlDeValidator)
       .validateSchematron(any(Norm.class));
 
-    var query = new ReleaseNormExpressionUseCase.Query(norm.getExpressionEli());
+    var query = new ReleaseNormExpressionUseCase.Options(norm.getExpressionEli());
 
     // When
     assertThatThrownBy(() -> releaseService.releaseNormExpression(query)).isInstanceOf(
@@ -274,7 +266,7 @@ class ReleaseServiceTest {
 
       // When
       var releases = releaseService.loadReleasesByNormExpressionEli(
-        new LoadReleasesByNormExpressionEliUseCase.Query(
+        new LoadReleasesByNormExpressionEliUseCase.Options(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         )
       );

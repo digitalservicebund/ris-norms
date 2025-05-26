@@ -58,26 +58,26 @@ public class ElementService implements LoadElementUseCase, LoadElementHtmlUseCas
   }
 
   @Override
-  public Node loadElement(final LoadElementUseCase.Query query) {
-    final var xPath = getXPathForEid(query.eid());
+  public Node loadElement(final LoadElementUseCase.Options options) {
+    final var xPath = getXPathForEid(options.eid());
 
     final var regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     return NodeParser.getNodeFromExpression(xPath, regelungstext.getDocument()).orElseThrow(() ->
-      new ElementNotFoundException(query.eli().toString(), query.eid().toString())
+      new ElementNotFoundException(options.eli().toString(), options.eid().toString())
     );
   }
 
   @Override
-  public String loadElementHtml(final LoadElementHtmlUseCase.Query query) {
+  public String loadElementHtml(final LoadElementHtmlUseCase.Options options) {
     final var elementXml = XmlMapper.toString(
-      loadElement(new LoadElementUseCase.Query(query.eli(), query.eid()))
+      loadElement(new LoadElementUseCase.Options(options.eli(), options.eid()))
     );
 
     return xsltTransformationService.transformLegalDocMlToHtml(
-      new TransformLegalDocMlToHtmlUseCase.Query(elementXml, false, false)
+      new TransformLegalDocMlToHtmlUseCase.Options(elementXml, false, false)
     );
   }
 

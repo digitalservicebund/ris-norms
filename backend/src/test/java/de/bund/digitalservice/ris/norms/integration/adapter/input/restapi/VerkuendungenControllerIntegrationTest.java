@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.VerkuendungMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungRepository;
@@ -44,12 +45,16 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
   private DokumentRepository dokumentRepository;
 
   @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
   private NormManifestationRepository normManifestationRepository;
 
   @AfterEach
   void cleanUp() {
     verkuendungRepository.deleteAll();
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
@@ -403,7 +408,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
       var xmlContent = Fixtures.loadTextFromDisk(
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-xsd-invalid.xml"
+        "vereinsgesetz-xsd-invalid/regelungstext-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -435,7 +440,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
       var xmlContent = Fixtures.loadTextFromDisk(
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-schematron-invalid.xml"
+        "vereinsgesetz-schematron-invalid/regelungstext-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -605,24 +610,36 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
       );
-      loadAndSaveNormFixture(
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1.xml",
+        "vereinsgesetz-2017-03-16-1",
         NormPublishState.PUBLISHED
       );
-      loadAndSaveNormFixture(
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-21-1-gegenstandlos.xml",
+        "vereinsgesetz-2017-03-21-1-gegenstandlos",
         NormPublishState.PUBLISHED
       );
-      loadAndSaveNormFixture(
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-04-16-1-gegenstandlos.xml",
+        "vereinsgesetz-2017-04-16-1-gegenstandlos",
         NormPublishState.PUBLISHED
       );
-      loadAndSaveNormFixture(
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-04-16-2.xml",
+        "vereinsgesetz-2017-04-16-2",
         NormPublishState.PUBLISHED
       );
 
@@ -672,20 +689,6 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$[0].expressions[3].createdBy").value("System"))
         .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
-    }
-
-    private void loadAndSaveNormFixture(
-      Class<?> clazz,
-      String fileName,
-      NormPublishState publishState
-    ) {
-      final Norm norm = Fixtures.loadNormFromDisk(clazz, fileName);
-      dokumentRepository.save(DokumentMapper.mapToDto(norm.getRegelungstext1()));
-      var normDto = normManifestationRepository
-        .findByManifestationEli(norm.getManifestationEli().toString())
-        .orElseThrow();
-      normDto.setPublishState(publishState);
-      normManifestationRepository.save(normDto);
     }
   }
 }

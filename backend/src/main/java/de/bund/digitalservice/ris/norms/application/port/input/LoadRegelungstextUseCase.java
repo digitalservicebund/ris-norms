@@ -9,19 +9,19 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
  */
 public interface LoadRegelungstextUseCase {
   /**
-   * Retrieves a regelungstext based on the provided query.
+   * Retrieves a regelungstext based on the provided options.
    *
-   * @param query The query containing the ELI (European Legislation Identifier) of the dokument.
+   * @param options The options containing the ELI (European Legislation Identifier) of the dokument.
    * @return The loaded {@link Regelungstext}
    * @throws RegelungstextNotFoundException if {@link Regelungstext} could not be found
    */
-  Regelungstext loadRegelungstext(Query query);
+  Regelungstext loadRegelungstext(Options options);
 
   /**
-   * A record representing the query for loading a regelungstext. The query includes the ELI (European
+   * A record representing the options for loading a regelungstext. The options include the ELI (European
    * Legislation Identifier) to identify the dokument.
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the regelungstext in the query.
    */
-  record Query(DokumentEli eli) {}
+  record Options(DokumentEli eli) {}
 }

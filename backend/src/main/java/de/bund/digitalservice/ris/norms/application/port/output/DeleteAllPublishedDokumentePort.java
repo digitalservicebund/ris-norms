@@ -11,14 +11,14 @@ public interface DeleteAllPublishedDokumentePort {
    * Deletes all {@link Dokument} entities that have not been edited since the given date from a designated
    * storage location.
    *
-   * @param command command for deleting Dokumente
+   * @param options options for deleting Dokumente
    */
-  void deleteAllPublishedDokumente(DeleteAllPublishedDokumentePort.Command command);
+  void deleteAllPublishedDokumente(Options options);
 
   /**
-   * Command for deleting dokumente
+   * Options for deleting dokumente
    *
    * @param lastChangeBefore Dokumente last edited after the given date are not deleted.
    */
-  record Command(Instant lastChangeBefore) {}
+  record Options(Instant lastChangeBefore) {}
 }

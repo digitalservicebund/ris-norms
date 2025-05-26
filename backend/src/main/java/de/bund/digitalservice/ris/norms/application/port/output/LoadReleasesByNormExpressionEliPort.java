@@ -11,15 +11,15 @@ public interface LoadReleasesByNormExpressionEliPort {
   /**
    * Loads {@link Release}s of a specific norm expression.
    *
-   * @param command The command specifying the ELI to identify the norm.
+   * @param options The options specifying the ELI to identify the norm.
    * @return A {@link List} of {@link Release}s, which may be empty if no {@link Release} is found.
    */
-  List<Release> loadReleasesByNormExpressionEli(final Command command);
+  List<Release> loadReleasesByNormExpressionEli(final Options options);
 
   /**
-   * A record representing the command for loading releases of a norm.
+   * A record representing the options for loading releases of a norm.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the norm in the command.
+   * @param eli The ELI (European Legislation Identifier) used to identify the norm.
    */
-  record Command(NormExpressionEli eli) {}
+  record Options(NormExpressionEli eli) {}
 }

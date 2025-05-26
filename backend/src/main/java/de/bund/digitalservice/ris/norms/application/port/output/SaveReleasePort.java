@@ -9,15 +9,15 @@ public interface SaveReleasePort {
   /**
    * Saves a {@link Release}.
    *
-   * @param command The command specifying the release.
+   * @param options The options specifying the release.
    * @return the {@link Release}.
    */
-  Release saveRelease(final Command command);
+  Release saveRelease(final Options options);
 
   /**
-   * A record representing the command for saving a release.
+   * A record representing the options for saving a release.
    *
    * @param release The release to be saved to the verkuendung
    */
-  record Command(Release release) {}
+  record Options(Release release) {}
 }

@@ -81,7 +81,7 @@
                                    GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
-                             value="eli/bund/bgbl-1/2009/s3366/1/deu/regelungstext-1.xml/2024-03-27"/>
+                             value="eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/2024-03-27/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="d0491f91-d599-46d4-ba61-c7426b607e4f"
                             value="eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/2024-03-27/regelungstext-1.xml"/>
@@ -134,39 +134,6 @@
                           type="amendment"
                           refersTo="inkrafttreten"/>
          </akn:lifecycle>
-         <akn:analysis source="attributsemantik-noch-undefiniert"
-                       eId="meta-1_analysis-1"
-                       GUID="4cc2a228-5c5e-44bb-b19d-e6b145efe69b">
-            <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1"
-                                      GUID="127e593d-6ce7-4ee1-8c1d-8ab537593a25">
-               <akn:textualMod type="substitution"
-                               GUID="de2d69cd-691b-4b61-b1fb-db471d9f52aa"
-                               eId="meta-1_analysis-1_pasmod-1_textualmod-1">
-                  <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1"
-                              href="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
-                              GUID="c42641b3-e987-4013-b713-52017ca0ca78"/>
-                  <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
-                                   href="#hauptteil-1_art-26_bezeichnung-1_zaehlbez-1/284-449.xml"
-                                   GUID="e99747be-63b9-4729-adf3-b4b4299e188b"/>
-                  <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
-                             eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1"
-                             GUID="362f30ad-343c-4b8e-8bb4-993c8a0f5256"/>
-               </akn:textualMod>
-               <akn:textualMod type="substitution"
-                               GUID="a9447c63-fd78-44b9-9426-48ea9e86cf68"
-                               eId="meta-1_analysis-1_pasmod-1_textualmod-2">
-                  <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1"
-                              href="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"
-                              GUID="c509c75e-4813-491a-a973-9b23e2b8be03"/>
-                  <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
-                                   href="#hauptteil-1_art-71_abs-2"
-                                   GUID="e1d7e59f-5c59-4834-847d-3dc1dbc26259"/>
-                  <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
-                             eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1"
-                             GUID="5d66169e-3af1-453b-8009-b5d62ad16aee"/>
-               </akn:textualMod>
-            </akn:passiveModifications>
-         </akn:analysis>
          <akn:temporalData eId="meta-1_geltzeiten-1"
                            GUID="58a31120-e277-4a33-a093-6a3637fd603d"
                            source="attributsemantik-noch-undefiniert">
@@ -253,26 +220,6 @@
       </akn:preface>
        <!-- Hauptteil -->
        <akn:body eId="hauptteil-1" GUID="7b7416d7-35a0-41cf-902f-583b9cf51a26">
-         <akn:article eId="hauptteil-1_art-1"
-                      GUID="e9a8d5e4-77b8-447f-9227-63f687a31f8f"
-                      period="#meta-1_geltzeiten-1_geltungszeitgr-3">
-            <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
-                     GUID="049c11bd-5ed2-4423-a7c3-54dce98c414d">
-                    §1
-                </akn:num>
-            <akn:paragraph GUID="abd48a54-ccc6-4cb9-8627-9d7092b5263f"
-                           eId="hauptteil-1_art-1_abs-1">
-               <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
-                        GUID="375c9de0-2d35-447b-b9ce-a6e0243b81a2">
-                        (1)
-                    </akn:num>
-               <akn:content GUID="a1609cb8-1045-4e45-a6f9-c7bdf4187249"
-                            eId="hauptteil-1_art-1_abs-1_inhalt-1">
-                  <akn:p GUID="74b7302d-a4fc-4f69-a362-97a3ed8c4e77"
-                         eId="hauptteil-1_art-1_abs-1_inhalt-1_text-1"/>
-               </akn:content>
-            </akn:paragraph>
-         </akn:article>
          <akn:article eId="hauptteil-1_art-2"
                       GUID="4b09bb18-3bda-4603-a0a3-b62083262a8a"
                       period="#meta-1_geltzeiten-1_geltungszeitgr-3">

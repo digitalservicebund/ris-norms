@@ -19,7 +19,7 @@
                           GUID="1223336c-174a-4ebe-96b6-23b73d74249d">
                <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
                              GUID="8ab599fb-6c27-434a-a769-2f0b15ea3761"
-                             value="eli/bund/bgbl-1/2004/s1673/regelungstext-1"/>
+                             value="eli/bund/bgbl-1/2024/108/regelungstext-1"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
                             GUID="a90733dd-4780-472d-8371-a3690f2e869a"
                             value="eli/bund/bgbl-1/2024/108"/>
@@ -68,7 +68,7 @@
                                href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
                              GUID="a6dc32d0-140d-4147-88b2-d64639b91742"
-                             date="2004-07-16"
+                             date="2024-03-27"
                              name="verkuendung"/>
                <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
                                  GUID="b872861e-0add-4bbb-ba90-a5edb3c40038"
@@ -81,10 +81,10 @@
                                    GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
                <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                              GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
-                             value="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/2024-03-24/regelungstext-1.xml"/>
+                             value="eli/bund/bgbl-1/2024/108/2024-03-27/2/deu/2024-03-24/regelungstext-1.xml"/>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                             GUID="d0491f91-d599-46d4-ba61-c7426b607e4f"
-                            value="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/2024-03-24/regelungstext-1.xml"/>
+                            value="eli/bund/bgbl-1/2024/108/2024-03-27/2/deu/2024-03-24/regelungstext-1.xml"/>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                              GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612"
                              date="2024-03-24"
@@ -117,6 +117,12 @@
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3"
                           GUID="85e92fc8-b381-47bb-a476-c35fa2794336"
                           date="2023-01-01"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"
+                          refersTo="inkrafttreten"/>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
+                          GUID="85e92fc8-b381-47bb-a476-c45fa2794336"
+                          date="2023-02-01"
                           source="attributsemantik-noch-undefiniert"
                           type="amendment"
                           refersTo="inkrafttreten"/>
@@ -159,6 +165,13 @@
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
                                  GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac75f"
                                  start="#meta-1_lebzykl-1_ereignis-3"
+                                 refersTo="geltungszeit"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3"
+                               GUID="0477223f-0f4e-4f79-9656-5ff7d2afd9c5">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
+                                 GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac76f"
+                                 start="#meta-1_lebzykl-1_ereignis-4"
                                  refersTo="geltungszeit"/>
             </akn:temporalGroup>
          </akn:temporalData>

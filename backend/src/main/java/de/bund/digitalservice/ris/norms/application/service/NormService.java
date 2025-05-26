@@ -65,43 +65,43 @@ public class NormService
   }
 
   @Override
-  public Norm loadNorm(final LoadNormUseCase.Query query) {
-    return switch (query) {
-      case EliQuery(NormEli eli) -> loadNormPort
-        .loadNorm(new LoadNormPort.Command(eli))
+  public Norm loadNorm(final LoadNormUseCase.Options options) {
+    return switch (options) {
+      case EliOptions(NormEli eli) -> loadNormPort
+        .loadNorm(new LoadNormPort.Options(eli))
         .orElseThrow(() -> new NormNotFoundException(eli));
-      case GuidQuery(UUID guid) -> loadNormByGuidPort
-        .loadNormByGuid(new LoadNormByGuidPort.Command(guid))
+      case GuidOptions(UUID guid) -> loadNormByGuidPort
+        .loadNormByGuid(new LoadNormByGuidPort.Options(guid))
         .orElseThrow(() -> new NormNotFoundException(guid));
     };
   }
 
   @Override
-  public Regelungstext loadRegelungstext(final LoadRegelungstextUseCase.Query query) {
+  public Regelungstext loadRegelungstext(final LoadRegelungstextUseCase.Options options) {
     return loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
   }
 
   @Override
-  public String loadRegelungstextXml(final LoadRegelungstextXmlUseCase.Query query) {
+  public String loadRegelungstextXml(final LoadRegelungstextXmlUseCase.Options options) {
     final Regelungstext regelungstext = loadRegelungstextPort
-      .loadRegelungstext(new LoadRegelungstextPort.Command(query.eli()))
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
+      .loadRegelungstext(new LoadRegelungstextPort.Options(options.eli()))
+      .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     return XmlMapper.toString(regelungstext.getDocument());
   }
 
   @Override
-  public String updateRegelungstextXml(UpdateRegelungstextXmlUseCase.Query query) {
-    var regelungstextToBeUpdated = new Regelungstext(XmlMapper.toDocument(query.xml()));
+  public String updateRegelungstextXml(UpdateRegelungstextXmlUseCase.Options options) {
+    var regelungstextToBeUpdated = new Regelungstext(XmlMapper.toDocument(options.xml()));
 
     var existingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Command(query.eli().asNormEli()))
-      .orElseThrow(() -> new NormNotFoundException(query.eli().asNormEli()));
+      .loadNorm(new LoadNormPort.Options(options.eli().asNormEli()))
+      .orElseThrow(() -> new NormNotFoundException(options.eli().asNormEli()));
     var existingRegelungstext = existingNorm
-      .getRegelungstextByEli(query.eli())
-      .orElseThrow(() -> new RegelungstextNotFoundException(query.eli().toString()));
+      .getRegelungstextByEli(options.eli())
+      .orElseThrow(() -> new RegelungstextNotFoundException(options.eli().toString()));
 
     if (
       !existingRegelungstext.getExpressionEli().equals(regelungstextToBeUpdated.getExpressionEli())
@@ -118,8 +118,8 @@ public class NormService
     regelungstexte.add(regelungstextToBeUpdated);
     existingNorm.setRegelungstexte(regelungstexte);
 
-    var updatedNorm = updateNorm(existingNorm).get(query.eli().asNormEli());
-    var updatedRegelungstext = updatedNorm.getRegelungstextByEli(query.eli()).orElseThrow();
+    var updatedNorm = updateNorm(existingNorm).get(options.eli().asNormEli());
+    var updatedRegelungstext = updatedNorm.getRegelungstextByEli(options.eli()).orElseThrow();
 
     return XmlMapper.toString(updatedRegelungstext.getDocument());
   }
@@ -140,15 +140,17 @@ public class NormService
       });
 
     Norm savedNorm = updateNormPort
-      .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
+      .updateNorm(new UpdateNormPort.Options(normToBeUpdated))
       .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
 
     return Map.of(normToBeUpdated.getExpressionEli(), savedNorm);
   }
 
   @Override
-  public List<ZielnormReference> loadZielnormReferences(LoadZielnormReferencesUseCase.Query query) {
-    return loadNorm(new LoadNormUseCase.EliQuery(query.eli()))
+  public List<ZielnormReference> loadZielnormReferences(
+    LoadZielnormReferencesUseCase.Options options
+  ) {
+    return loadNorm(new EliOptions(options.eli()))
       .getRegelungstext1()
       .getMeta()
       .getProprietary()
@@ -161,9 +163,9 @@ public class NormService
 
   @Override
   public List<ZielnormReference> updateZielnormReferences(
-    UpdateZielnormReferencesUseCase.Query query
+    UpdateZielnormReferencesUseCase.Options options
   ) {
-    var norm = loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
+    var norm = loadNorm(new EliOptions(options.eli()));
     var zielnormReferences = norm
       .getRegelungstext1()
       .getMeta()
@@ -171,7 +173,7 @@ public class NormService
       .getOrCreateCustomModsMetadata()
       .getOrCreateZielnormenReferences();
 
-    query
+    options
       .zielnormReferences()
       .forEach(zielnormReferenceUpdateData -> {
         var zielnormReference = zielnormReferences
@@ -199,14 +201,14 @@ public class NormService
 
   @Override
   public List<ZielnormReference> deleteZielnormReferences(
-    DeleteZielnormReferencesUseCase.Query query
+    DeleteZielnormReferencesUseCase.Options options
   ) {
-    var norm = loadNorm(new LoadNormUseCase.EliQuery(query.eli()));
+    var norm = loadNorm(new EliOptions(options.eli()));
     var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
     var customModsMetadata = proprietary.getOrCreateCustomModsMetadata();
     var zielnormReferences = customModsMetadata.getOrCreateZielnormenReferences();
 
-    query
+    options
       .zielnormReferenceEIds()
       .forEach(eId ->
         zielnormReferences
@@ -227,28 +229,28 @@ public class NormService
 
   @Override
   @Transactional
-  public Zielnorm createZielnormExpressions(CreateZielnormenExpressionsUseCase.Query query) {
-    final Norm verkuendungNorm = loadNorm(new LoadNormUseCase.EliQuery(query.verkuendungEli()));
-    final List<Zielnorm> zielNormenPreview = loadZielnormenPreview(query.verkuendungEli());
+  public Zielnorm createZielnormExpressions(CreateZielnormenExpressionsUseCase.Options options) {
+    final Norm verkuendungNorm = loadNorm(new LoadNormUseCase.EliOptions(options.verkuendungEli()));
+    final List<Zielnorm> zielNormenPreview = loadZielnormenPreview(options.verkuendungEli());
     final Zielnorm affectedNorm = zielNormenPreview
       .stream()
-      .filter(f -> f.normWorkEli().equals(query.affectedWorkEli()))
+      .filter(f -> f.normWorkEli().equals(options.affectedWorkEli()))
       .findFirst()
       .orElseThrow(() ->
         new IllegalStateException(
-          String.format("Affected norm with %s not found", query.affectedWorkEli())
+          String.format("Affected norm with %s not found", options.affectedWorkEli())
         )
       );
     return createZielNormen(verkuendungNorm, affectedNorm);
   }
 
   @Override
-  public List<Zielnorm> loadZielnormExpressions(LoadZielnormenExpressionsUseCase.Query query) {
-    return loadZielnormenPreview(query.verkuendungEli());
+  public List<Zielnorm> loadZielnormExpressions(LoadZielnormenExpressionsUseCase.Options options) {
+    return loadZielnormenPreview(options.verkuendungEli());
   }
 
   private List<Zielnorm> loadZielnormenPreview(final NormExpressionEli eli) {
-    var verkuendungNorm = loadNorm(new LoadNormUseCase.EliQuery(eli));
+    var verkuendungNorm = loadNorm(new LoadNormUseCase.EliOptions(eli));
 
     List<NormWorkEli> zielnormWorkElis = verkuendungNorm
       .getRegelungstext1()
@@ -265,7 +267,7 @@ public class NormService
     return zielnormWorkElis
       .stream()
       .map(zielnormWorkEli -> {
-        var latestZielnormExpression = loadNorm(new LoadNormUseCase.EliQuery(zielnormWorkEli));
+        var latestZielnormExpression = loadNorm(new EliOptions(zielnormWorkEli));
         return new Zielnorm(
           zielnormWorkEli,
           latestZielnormExpression.getTitle().orElse(null),
@@ -431,13 +433,13 @@ public class NormService
     LocalDate earliestGeltungszeit
   ) {
     return loadNormExpressionElisPort
-      .loadNormExpressionElis(new LoadNormExpressionElisPort.Command(zielnormWorkEli))
+      .loadNormExpressionElis(new LoadNormExpressionElisPort.Options(zielnormWorkEli))
       .stream()
       .filter(normExpressionEli ->
         normExpressionEli.getPointInTime().isAfter(earliestGeltungszeit.minusDays(1))
       )
       .flatMap(normExpressionEli ->
-        loadNormPort.loadNorm(new LoadNormPort.Command(normExpressionEli)).stream()
+        loadNormPort.loadNorm(new LoadNormPort.Options(normExpressionEli)).stream()
       )
       .filter(Predicate.not(Norm::isGegenstandlos))
       .map(Norm::getExpressionEli)
@@ -457,7 +459,7 @@ public class NormService
       .forEach(expression -> {
         if (expression.isCreated()) {
           final Norm norm = loadNormPort
-            .loadNorm(new LoadNormPort.Command(expression.normExpressionEli()))
+            .loadNorm(new LoadNormPort.Options(expression.normExpressionEli()))
             .orElseThrow(() ->
               new IllegalStateException(
                 String.format("Norm %s must exist", expression.normExpressionEli())
@@ -469,7 +471,7 @@ public class NormService
               norm
             );
             newManifestation.setGegenstandlos(verkuendungNorm.getExpressionEli().getPointInTime());
-            updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(newManifestation));
+            updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newManifestation));
           }
           if (expression.createdBy().equals(Zielnorm.CreatedBy.THIS_VERKUENDUNG)) {}
         } else {
@@ -484,12 +486,12 @@ public class NormService
               expression.normExpressionEli().getPointInTime()
             );
           updateOrSaveNormPort.updateOrSave(
-            new UpdateOrSaveNormPort.Command(result.newExpression())
+            new UpdateOrSaveNormPort.Options(result.newExpression())
           );
           // Add expression eli of new expression into amended-expressions
           amendedNormExpressions.add(result.newExpression().getExpressionEli());
           updateOrSaveNormPort.updateOrSave(
-            new UpdateOrSaveNormPort.Command(result.newManifestationOfOldExpression())
+            new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
           );
         }
       });
@@ -506,7 +508,7 @@ public class NormService
       )
       .forEach(amendedNormExpressions::remove);
     // Save Verkündung because of updated amended-expressions
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(verkuendungNorm));
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(verkuendungNorm));
 
     return new Zielnorm(
       zielnorm.normWorkEli(),
@@ -535,11 +537,11 @@ public class NormService
     LocalDate dateForNewExpression
   ) {
     return loadNormExpressionElisPort
-      .loadNormExpressionElis(new LoadNormExpressionElisPort.Command(zielnormWorkEli))
+      .loadNormExpressionElis(new LoadNormExpressionElisPort.Options(zielnormWorkEli))
       .stream()
       .filter(eli -> eli.getPointInTime().isBefore(dateForNewExpression))
       .map(eli ->
-        new AbstractMap.SimpleEntry<>(eli, loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+        new AbstractMap.SimpleEntry<>(eli, loadNormPort.loadNorm(new LoadNormPort.Options(eli)))
       )
       .filter(entry -> entry.getValue().isPresent()) // keep only existing Norms
       .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().get()))

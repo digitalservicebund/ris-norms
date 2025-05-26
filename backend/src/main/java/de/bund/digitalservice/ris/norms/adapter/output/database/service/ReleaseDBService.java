@@ -33,10 +33,10 @@ public class ReleaseDBService
   }
 
   @Override
-  public Release saveRelease(SaveReleasePort.Command command) {
-    final ReleaseDto releaseDto = ReleaseMapper.mapToDto(command.release());
+  public Release saveRelease(SaveReleasePort.Options options) {
+    final ReleaseDto releaseDto = ReleaseMapper.mapToDto(options.release());
 
-    command
+    options
       .release()
       .getPublishedNorms()
       .forEach(norm ->
@@ -50,8 +50,8 @@ public class ReleaseDBService
   }
 
   @Override
-  public List<Release> deleteQueuedReleases(DeleteQueuedReleasesPort.Command command) {
-    var releases = releaseRepository.findAllByNormExpressionEli(command.eli().toString());
+  public List<Release> deleteQueuedReleases(DeleteQueuedReleasesPort.Options options) {
+    var releases = releaseRepository.findAllByNormExpressionEli(options.eli().toString());
 
     var queuedReleaseDtos = releases
       .stream()
@@ -71,10 +71,10 @@ public class ReleaseDBService
 
   @Override
   public List<Release> loadReleasesByNormExpressionEli(
-    LoadReleasesByNormExpressionEliPort.Command command
+    LoadReleasesByNormExpressionEliPort.Options options
   ) {
     return releaseRepository
-      .findAllByNormExpressionEli(command.eli().toString())
+      .findAllByNormExpressionEli(options.eli().toString())
       .stream()
       .map(ReleaseMapper::mapToDomain)
       .toList();

@@ -12,16 +12,15 @@ public interface DeleteQueuedReleasesPort {
   /**
    * Deleting all queued {@link Release}s of an {@link Verkuendung}.
    *
-   * @param command The command specifying the ELI to identify the {@link Verkuendung} whose queued {@link Release}s should be deleted.
+   * @param options The options specifying the ELI to identify the {@link Verkuendung} whose queued {@link Release}s should be deleted.
    * @return A list of the deleted releases.
    */
-  List<Release> deleteQueuedReleases(final Command command);
+  List<Release> deleteQueuedReleases(final Options options);
 
   /**
-   * A record representing the command for deleting all queued {@link Release}s of an {@link Verkuendung}. The command includes the ELI (European
-   * Legislation Identifier) to identify the {@link Verkuendung}.
+   * A record representing the options for deleting all queued {@link Release}s of an {@link Verkuendung}.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the {@link Verkuendung} in the command.
+   * @param eli The ELI (European Legislation Identifier) used to identify the {@link Verkuendung}.
    */
-  record Command(NormEli eli) {}
+  record Options(NormEli eli) {}
 }
