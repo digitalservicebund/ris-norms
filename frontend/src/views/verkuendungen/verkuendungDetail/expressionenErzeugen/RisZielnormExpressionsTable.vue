@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
-import Column from "primevue/column"
-import DataTable from "primevue/datatable"
-import Chip from "primevue/chip"
-import IconCheckCircle from "~icons/ic/baseline-check-circle"
-import IconReadMore from "~icons/ic/baseline-read-more"
-import { computed } from "vue"
 import dayjs from "dayjs"
+import { Badge, Column, DataTable } from "primevue"
+import { computed } from "vue"
+import IcBaselineCheckCircle from "~icons/ic/baseline-check-circle"
+import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"
+import IcBaselinePanoramaFishEye from "~icons/ic/baseline-panorama-fish-eye"
+import IcBaselineReadMore from "~icons/ic/baseline-read-more"
 
 /** Input data to the table. */
 export type RisZielnormExpressionsTableItem = {
@@ -86,7 +86,7 @@ function formatDate(date: Date | undefined): string {
     >
       <template #body="{ data }">
         <div class="flex items-center gap-8">
-          <IconReadMore
+          <IcBaselineReadMore
             v-if="data.isReplacingGegenstandslos"
             class="text-gray-600"
           />
@@ -139,15 +139,21 @@ function formatDate(date: Date | undefined): string {
     </Column>
     <Column field="isCreated">
       <template #body="{ data }">
-        <div
-          v-if="data.isCreated && !data.isGegenstandslos"
-          class="flex justify-end"
-        >
-          <Chip label="Expression erzeugt" class="bg-green-100">
-            <template #icon>
-              <IconCheckCircle class="text-green-900" />
-            </template>
-          </Chip>
+        <div class="flex justify-end">
+          <Badge v-if="data.isGegenstandslos">
+            <IcBaselineErrorOutline />
+            Gegenstandslos
+          </Badge>
+
+          <Badge v-else-if="data.isCreated" severity="success">
+            <IcBaselineCheckCircle />
+            Expression erzeugt
+          </Badge>
+
+          <Badge v-else-if="!data.isCreated" severity="info">
+            <IcBaselinePanoramaFishEye />
+            Noch nicht erzeugt
+          </Badge>
         </div>
       </template>
     </Column>

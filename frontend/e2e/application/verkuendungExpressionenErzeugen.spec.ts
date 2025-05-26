@@ -179,7 +179,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     // Assert that the expression has not been created yet. Note that this will
     // only work with a clean DB since creating expressions can not easily be
     // reversed.
-    await expect(row.getByText("Expression erzeugt")).toBeHidden()
+    await expect(row.getByText("Noch nicht erzeugt")).toBeVisible()
 
     await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
 
@@ -246,7 +246,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     // Assert that the expression has not been created yet. Note that this will
     // only work with a clean DB since creating expressions can not easily be
     // reversed.
-    await expect(row.getByText("Expression erzeugt")).toBeHidden()
+    await expect(row.getByText("Noch nicht erzeugt")).toBeVisible()
 
     // TODO: Remove once the API has been implemented
     await page.route(

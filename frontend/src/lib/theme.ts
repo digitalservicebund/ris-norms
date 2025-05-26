@@ -3,7 +3,7 @@
 // to RIS UI eventually.
 
 import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
-import type { ChipPassThroughOptions, TreePassThroughOptions } from "primevue"
+import type { BadgePassThroughOptions, TreePassThroughOptions } from "primevue"
 import type { AccordionPassThroughOptions } from "primevue/accordion"
 import type { AccordionContentPassThroughOptions } from "primevue/accordioncontent"
 import type { AccordionHeaderPassThroughOptions } from "primevue/accordionheader"
@@ -37,9 +37,24 @@ const tree: TreePassThroughOptions = {
   },
 }
 
-const chip: ChipPassThroughOptions = {
-  root: {
-    class: tw`rounded-full flex bg-gray-100 py-2 pl-4 pr-8 gap-4 items-center text-center`,
+const badge: BadgePassThroughOptions = {
+  root: ({ props }) => {
+    // Severities
+    const noSeverity = tw`bg-gray-100`
+    const success = tw`bg-green-100 text-green-800`
+    const info = tw`bg-blue-300 text-blue-800`
+    const warn = tw`bg-yellow-300`
+
+    return {
+      class: {
+        [tw`rounded-full flex py-2 pl-4 pr-8 gap-4 items-center text-center`]:
+          true,
+        [noSeverity]: !props.severity,
+        [success]: props.severity === "success",
+        [info]: props.severity === "info",
+        [warn]: props.severity === "warn",
+      },
+    }
   },
 }
 
@@ -49,8 +64,8 @@ export default usePassThrough(
     accordion,
     accordionHeader,
     accordionContent,
+    badge,
     tree,
-    chip,
   },
   { mergeProps: false, mergeSections: true },
 )
