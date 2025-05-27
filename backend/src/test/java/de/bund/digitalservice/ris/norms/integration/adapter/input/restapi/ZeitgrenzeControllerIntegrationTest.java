@@ -10,9 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
@@ -38,9 +41,17 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private DokumentRepository dokumentRepository;
 
+  @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
+  private NormManifestationRepository normManifestationRepository;
+
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
+    normManifestationRepository.deleteAll();
   }
 
   @Nested
@@ -391,17 +402,20 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      var norm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         ZeitgrenzeControllerIntegrationTest.class,
-        "norm-with-only-unused-geltungszeit.xml"
+        "norm-with-only-unused-geltungszeit",
+        NormPublishState.UNPUBLISHED
       );
-      assertThat(regelungstext.getZeitgrenzen())
+      assertThat(norm.getRegelungstext1().getZeitgrenzen())
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
           tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
         );
-      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
 
       // When
       // Then
@@ -431,13 +445,15 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      var norm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         ZeitgrenzeControllerIntegrationTest.class,
-        "norm-without-mods-metadata.xml"
+        "norm-without-mods-metadata",
+        NormPublishState.UNPUBLISHED
       );
-
-      assertThat(regelungstext.getZeitgrenzen()).isEmpty();
-      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
+      assertThat(norm.getRegelungstext1().getZeitgrenzen()).isEmpty();
 
       // When
       // Then
@@ -475,13 +491,15 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
       );
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      var norm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         ZeitgrenzeControllerIntegrationTest.class,
-        "norm-without-ris-metadata.xml"
+        "norm-without-ris-metadata",
+        NormPublishState.UNPUBLISHED
       );
-
-      assertThat(regelungstext.getZeitgrenzen()).isEmpty();
-      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
+      assertThat(norm.getRegelungstext1().getZeitgrenzen()).isEmpty();
 
       // When
       // Then

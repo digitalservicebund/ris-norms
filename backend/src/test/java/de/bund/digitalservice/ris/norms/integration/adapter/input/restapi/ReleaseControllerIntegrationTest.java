@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
@@ -38,6 +39,9 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
   private DokumentRepository dokumentRepository;
 
   @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
   private NormManifestationRepository normManifestationRepository;
 
   @Autowired
@@ -47,6 +51,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
   void cleanUp() {
     releaseRepository.deleteAll();
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
@@ -273,13 +278,13 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void failsWhenTryingToReleaseAnXsdInvalidNorm() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ReleaseControllerIntegrationTest.class,
-            "vereinsgesetz-xsd-invalid.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ReleaseControllerIntegrationTest.class,
+        "vereinsgesetz-xsd-invalid",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -294,7 +299,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")));
 
       // Content of the DB should be unchanged & unpublished
-      assertThat(dokumentRepository.findAll()).hasSize(1);
+      assertThat(dokumentRepository.findAll()).hasSize(2);
       assertThat(
         dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
@@ -314,13 +319,13 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void failsWhenTryingToReleaseASchematronInvalidNorm() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ReleaseControllerIntegrationTest.class,
-            "vereinsgesetz-schematron-invalid.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ReleaseControllerIntegrationTest.class,
+        "vereinsgesetz-schematron-invalid",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -335,7 +340,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-schematron-valid")));
 
       // Content of the DB should be unchanged = 1 sample norms, unpublished
-      assertThat(dokumentRepository.findAll()).hasSize(1);
+      assertThat(dokumentRepository.findAll()).hasSize(2);
       assertThat(
         dokumentRepository.findByEliDokumentManifestation(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
