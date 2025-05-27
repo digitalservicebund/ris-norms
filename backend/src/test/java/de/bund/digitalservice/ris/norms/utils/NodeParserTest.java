@@ -256,7 +256,7 @@ class NodeParserTest {
   )
   void xPathsWorkWithoutNamespaceAwareness(String xPath) {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml",
       false
     );
     Node node = regelungstext.getDocument();
@@ -270,7 +270,7 @@ class NodeParserTest {
   )
   void xPathsWorkWithNamespaceAwareness(String xPath) {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml",
       true
     );
     Node node = regelungstext.getDocument();
@@ -281,7 +281,7 @@ class NodeParserTest {
   @Test
   void xPathsWorkWithNamespaceDoesNotMatchInDocumentWithDifferentNamespace() {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml",
       true
     );
     Node node = regelungstext.getDocument();

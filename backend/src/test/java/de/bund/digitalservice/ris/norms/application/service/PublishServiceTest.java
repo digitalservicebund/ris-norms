@@ -73,10 +73,10 @@ class PublishServiceTest {
     void publishNormToPublicAndPrivateStorage() {
       // Given
       final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
       );
       final Norm norm = new Norm(
         NormPublishState.QUEUED_FOR_PUBLISH,
@@ -111,10 +111,10 @@ class PublishServiceTest {
     void publishNormToPublicAndPrivateStorageWhenMigrationLogExists() {
       // Given
       final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
       );
       final Norm norm = new Norm(
         NormPublishState.QUEUED_FOR_PUBLISH,

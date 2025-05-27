@@ -27,7 +27,7 @@ class VerkuendungResponseMapperTest {
 
     // Then
     assertThat(result.getEli()).isEqualTo(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
     );
     assertThat(result.getTitle()).isEqualTo("Gesetz zur Regelung des öffentlichen Vereinsrechts");
     assertThat(result.getShortTitle()).isEqualTo("Vereinsgesetz");
@@ -56,7 +56,7 @@ class VerkuendungResponseMapperTest {
 
     // Then
     assertThat(result.getEli()).isEqualTo(
-      "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1"
     );
     assertThat(result.getTitle()).isEqualTo("Gesetz zur Änderung des Lobbyregistergesetzes");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");

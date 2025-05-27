@@ -88,11 +88,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsGetZeitgrenzeAndReturnsJson() throws Exception {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
 
@@ -148,11 +148,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenDateNull() throws Exception {
       // When
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -172,7 +172,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Date must not be null"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
           )
         );
     }
@@ -180,11 +180,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenArtNull() throws Exception {
       // When
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -204,14 +204,14 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Art must not be null"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
           )
         );
     }
 
     @Test
     void itCallsUpdateZeitgrenzenDateMalformed() throws Exception {
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       // When
       // Then
@@ -228,14 +228,14 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
           )
         );
     }
 
     @Test
     void itCallsUpdateZeitgrenzenArtMalformed() throws Exception {
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       // When
       // Then
@@ -252,14 +252,14 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
           )
         );
     }
 
     @Test
     void itCallsUpdateZeitgrenzenMultipleSameDateArtCombinations() throws Exception {
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       // When
       // Then
@@ -283,7 +283,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Not all combinations of date + art are unique."))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
           )
         );
     }
@@ -291,7 +291,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenWithMoreThanTheAllowedNumberOfItems() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       LocalDate currentDate = LocalDate.parse("2023-12-30");
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -322,7 +322,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("A maximum of 100 time boundaries is supported"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
           )
         );
     }
@@ -331,11 +331,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsUpdateZeitgrenzenAdd() throws Exception {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       assertThat(regelungstext.getZeitgrenzen())
         .hasSize(1)
@@ -399,7 +399,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsUpdateZeitgrenzenWithEmptyList() throws Exception {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var norm = Fixtures.loadAndSaveNormFixture(
@@ -442,7 +442,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsUpdateZeitgrenzenOnXMLWithoutModsMetadata() throws Exception {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var norm = Fixtures.loadAndSaveNormFixture(
@@ -488,7 +488,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     void itCallsUpdateZeitgrenzenOnXMLWithoutRisMetadata() throws Exception {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var norm = Fixtures.loadAndSaveNormFixture(

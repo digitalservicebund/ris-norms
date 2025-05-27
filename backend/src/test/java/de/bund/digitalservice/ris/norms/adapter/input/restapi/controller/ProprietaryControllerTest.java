@@ -54,7 +54,7 @@ class ProprietaryControllerTest {
     void returns404IfNormNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenThrow(
         new NormNotFoundException(eli)
@@ -72,7 +72,7 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenReturn(
         Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
@@ -102,7 +102,7 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenReturn(
         Fixtures.loadNormFromDisk(
@@ -135,7 +135,7 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfProprietaryIsEmpty() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenReturn(
         Fixtures.loadNormFromDisk(
@@ -171,7 +171,7 @@ class ProprietaryControllerTest {
     @Test
     void updatesProprietarySuccess() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(
         updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
@@ -224,7 +224,7 @@ class ProprietaryControllerTest {
             query
               .dokumentExpressionEli()
               .toString()
-              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
+              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1") &&
             query.inputMetadata().fna().equals("new-fna") &&
             query.inputMetadata().art().equals("new-art") &&
             query.inputMetadata().typ().equals("new-typ") &&
@@ -243,7 +243,7 @@ class ProprietaryControllerTest {
     @Test
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(
         updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
@@ -285,7 +285,7 @@ class ProprietaryControllerTest {
     void returns404IfNormNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
       when(
@@ -308,12 +308,12 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       )
         .getMeta()
         .getOrCreateProprietary();
@@ -339,7 +339,7 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_art-1";
 
@@ -372,12 +372,12 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_art-1";
 
       var proprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
       )
         .getMeta()
         .getOrCreateProprietary();
@@ -406,7 +406,7 @@ class ProprietaryControllerTest {
     @Test
     void updatesProprietarySuccess() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       var eid = new EId("hauptteil-1_abschnitt-0_art-1");
 
       final Proprietary proprietary = new Proprietary(
@@ -451,7 +451,7 @@ class ProprietaryControllerTest {
             query
               .dokumentExpressionEli()
               .toString()
-              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
+              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1") &&
             query.eid().equals(eid) &&
             query.inputMetadata().artDerNorm().equals("SN")
         )
@@ -462,7 +462,7 @@ class ProprietaryControllerTest {
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
       // given
       var eid = "hauptteil-1_abschnitt-0_art-1";
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(
         updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(

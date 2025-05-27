@@ -59,7 +59,7 @@ class LdmlDeValidatorTest {
     void itShouldParseAValidNorm() {
       // Given
       String xml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
 
       // When
@@ -72,7 +72,9 @@ class LdmlDeValidatorTest {
           "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
           regelungstext.getDocument()
         )
-      ).isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml");
+      ).isEqualTo(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
+      );
     }
 
     @Test
@@ -216,7 +218,7 @@ class LdmlDeValidatorTest {
                   "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]",
                   "Für ein Gesetz muss eine Eingangsformel verwendet werden.",
                   "",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )
               )
               .contains(
@@ -225,7 +227,7 @@ class LdmlDeValidatorTest {
                   "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalData[1]/@Q{}GUID",
                   "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
                   "meta-1_geltzeiten-1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )
               )
               .contains(
@@ -234,7 +236,7 @@ class LdmlDeValidatorTest {
                   "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalData[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalGroup[1]/@Q{}GUID",
                   "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
                   "meta-1_geltzeiten-1_geltungszeitgr-1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )
               )
               .contains(
@@ -244,7 +246,7 @@ class LdmlDeValidatorTest {
                   "In der Verkündungsfassung ist das Literal \"recht.bund.de/institution/bundestag\" an dieser Stelle nicht\n" +
                   "                                    zulässig. Erlaubt sind ausschließlich \"recht.bund.de/institution/bundesregierung\", \"recht.bund.de/institution/bundeskanzler\" sowie \"recht.bund.de/institution/bundespraesident\".",
                   "meta-1_ident-1_frbrexpression-1_frbrauthor-1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )
               );
           }

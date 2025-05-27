@@ -9,37 +9,37 @@ class OffeneStrukturTest {
   @Test
   void getWorkEliShouldReturnExpectedValue() {
     final var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     assertThat(offeneStruktur.getWorkEli()).hasToString(
-      "eli/bund/bgbl-1/1964/s593/offenestruktur-1"
+      "eli/bund/bgbl-1/1964/s593/anlage-regelungstext-1"
     );
   }
 
   @Test
   void getExpressionEliShouldReturnExpectedValue() {
     final var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     assertThat(offeneStruktur.getExpressionEli()).hasToString(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/offenestruktur-1"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/anlage-regelungstext-1"
     );
   }
 
   @Test
   void getManifestationEliShouldReturnExpectedValue() {
     final var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     assertThat(offeneStruktur.getManifestationEli()).hasToString(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
   }
 
   @Test
   void copyShouldReturnEqualButDistinctInstance() {
     final var original = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     final var copy = (OffeneStruktur) original.copy();
 
@@ -52,10 +52,10 @@ class OffeneStrukturTest {
   @Test
   void equalsShouldReturnTrueForInstancesWithSameXml() {
     final var offeneStruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     final var offeneStruktur2 = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     assertThat(offeneStruktur1).isEqualTo(offeneStruktur2);
   }
@@ -63,10 +63,10 @@ class OffeneStrukturTest {
   @Test
   void hashCodeShouldBeConsistentForSameXml() {
     final var offeneStruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     final var offeneStruktur2 = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     assertThat(offeneStruktur1).hasSameHashCodeAs(offeneStruktur2);
   }

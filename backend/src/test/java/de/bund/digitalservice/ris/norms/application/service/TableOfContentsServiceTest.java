@@ -27,7 +27,7 @@ class TableOfContentsServiceTest {
     final LoadTocFromRegelungstextUseCase.Options options =
       new LoadTocFromRegelungstextUseCase.Options(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
         )
       );
 
@@ -60,7 +60,7 @@ class TableOfContentsServiceTest {
       argThat(command ->
         Objects.equals(
           command.eli().toString(),
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
         )
       )
     );

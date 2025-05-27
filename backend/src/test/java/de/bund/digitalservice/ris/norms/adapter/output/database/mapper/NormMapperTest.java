@@ -23,7 +23,7 @@ class NormMapperTest {
   void itShouldMapToDomain() {
     // Given
     var regelungstext1Xml = Fixtures.loadTextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     var dokumentDto1 = DokumentDto.builder()
       .xml(regelungstext1Xml)
@@ -31,7 +31,7 @@ class NormMapperTest {
       .build();
 
     var regelungstext2Xml = Fixtures.loadTextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
     );
     var dokumentDto2 = DokumentDto.builder()
       .xml(regelungstext2Xml)
@@ -39,7 +39,7 @@ class NormMapperTest {
       .build();
 
     var offenestrukturXml = Fixtures.loadTextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     var offenestrukturDto = DokumentDto.builder()
       .xml(offenestrukturXml)
@@ -88,13 +88,13 @@ class NormMapperTest {
   void itShouldMapToDtos() {
     // Given
     var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
     );
     var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     var binaryFile = Fixtures.loadBinaryFileFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
