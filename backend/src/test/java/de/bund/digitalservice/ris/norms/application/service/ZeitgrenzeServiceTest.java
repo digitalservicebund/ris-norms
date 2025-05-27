@@ -36,7 +36,7 @@ class ZeitgrenzeServiceTest {
     void itThrowsRegelungstextNotFoundExceptionWhenRegelungstextNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu/regelungstext-2"
+        "eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu/regelungstext-verkuendung-2"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
@@ -52,11 +52,11 @@ class ZeitgrenzeServiceTest {
     void itCallsLoadZeitgrenzenOfNormAndReturnsEmpty() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -76,11 +76,11 @@ class ZeitgrenzeServiceTest {
     void itCallsLoadZeitgrenzenAndReturnsSingleZeitgrenze() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -109,7 +109,7 @@ class ZeitgrenzeServiceTest {
     void itCallsLoadZeitgrenzenAndReturnsMultipleZeitgrenzen() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
@@ -154,7 +154,7 @@ class ZeitgrenzeServiceTest {
     void itThrowsRegelungstextNotFoundExceptionWhenRegelungstextNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu/regelungstext-2"
+        "eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu/regelungstext-verkuendung-2"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
@@ -171,7 +171,7 @@ class ZeitgrenzeServiceTest {
     void itUpdatesZeitgrenzen() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
@@ -218,11 +218,11 @@ class ZeitgrenzeServiceTest {
     void itThrowsWhenUpdatingZeitgrenzeThatIsInUse() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 

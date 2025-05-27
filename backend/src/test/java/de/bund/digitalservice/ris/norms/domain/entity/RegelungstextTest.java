@@ -24,7 +24,7 @@ class RegelungstextTest {
   void getWorkEli() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -32,7 +32,7 @@ class RegelungstextTest {
 
     // then
     assertThat(actualEli).isEqualTo(
-      DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1")
+      DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-verkuendung-1")
     );
   }
 
@@ -40,10 +40,10 @@ class RegelungstextTest {
   void getExpressionEli() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     DokumentExpressionEli expectedEli = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
     );
 
     // when
@@ -57,10 +57,10 @@ class RegelungstextTest {
   void getManifestationEli() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     DokumentManifestationEli expectedEli = DokumentManifestationEli.fromString(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -95,7 +95,7 @@ class RegelungstextTest {
   void getGuid() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -109,7 +109,7 @@ class RegelungstextTest {
   void getTitle() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
@@ -124,7 +124,7 @@ class RegelungstextTest {
   void getShortTitle() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -138,7 +138,7 @@ class RegelungstextTest {
   void getDateAusfertigung() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -152,7 +152,7 @@ class RegelungstextTest {
   void getFRBRname() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final String expectedFRBRname = "BGBl. I";
 
@@ -167,7 +167,7 @@ class RegelungstextTest {
   void getFRBRnumber() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final String expectedFRBRname = "s593";
 
@@ -186,7 +186,7 @@ class RegelungstextTest {
   void getPublishingDate() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -200,7 +200,7 @@ class RegelungstextTest {
   void getMeta() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -233,7 +233,7 @@ class RegelungstextTest {
   void getArticles() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
     );
     final var expectedNumberOfArticles = 2;
     final var firstExpectedHeading = "Änderung des Vereinsgesetzes";
@@ -248,7 +248,9 @@ class RegelungstextTest {
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
     assertThat(actualArticles.get(0).getEid()).hasToString("hauptteil-1_art-1");
     assertThat(actualArticles.get(0).getAffectedDocumentEli()).contains(
-      DokumentExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+      )
     );
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
@@ -286,10 +288,10 @@ class RegelungstextTest {
   void equalsShouldEqualWithSameXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -300,10 +302,10 @@ class RegelungstextTest {
   void equalsShouldNotEqualWithDifferentXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -314,10 +316,10 @@ class RegelungstextTest {
   void hashCodeShouldBeTheSameWithSameXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -328,10 +330,10 @@ class RegelungstextTest {
   void hashCodeShouldBeDifferentWithDifferentXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -345,7 +347,7 @@ class RegelungstextTest {
     void itShouldCreatesANewElement() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       final Node parentNode = NodeParser.getNodeFromExpression(
         "//act/meta",
@@ -372,7 +374,7 @@ class RegelungstextTest {
     void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // when
@@ -389,7 +391,7 @@ class RegelungstextTest {
     void itShouldFindTheTemporalDataNodeIfItExist() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // when
@@ -410,7 +412,7 @@ class RegelungstextTest {
     void itShouldDeleteTheNodeOfTheEId() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // when
@@ -428,7 +430,7 @@ class RegelungstextTest {
   void getElementByEId() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when

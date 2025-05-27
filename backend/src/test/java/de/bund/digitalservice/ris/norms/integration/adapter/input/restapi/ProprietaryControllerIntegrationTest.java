@@ -50,7 +50,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void return404IfNormNotFound() throws Exception {
       // given no norm
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       // when
@@ -70,7 +70,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary"
           )
         )
         .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
@@ -115,7 +115,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
@@ -150,12 +150,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnProprietary() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -187,7 +187,8 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void return404IfNormNotFound() throws Exception {
       // given
-      final String eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli =
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
       // when
       mockMvc
         .perform(
@@ -219,7 +220,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary"
           )
         )
         .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
@@ -228,12 +229,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void updatesAll() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -300,12 +301,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void doesResetAllFieldsBySendingNull() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -367,12 +368,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void doesResetAllFieldsBySendingEmptyString() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -434,12 +435,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void doesRemoveQualifizierteMehrheitFromBeschliessendesOrganWhenNull() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -581,7 +582,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void return404IfNormNotFound() throws Exception {
       // given no norm
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
@@ -599,17 +600,17 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary/hauptteil-1_abschnitt-0_art-1"
           )
         )
         .andExpect(
           jsonPath("eli").value(
-            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         );
     }
@@ -647,7 +648,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
@@ -676,14 +677,14 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnProprietarySingleElement() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_art-1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -708,7 +709,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void return404IfNormNotFound() throws Exception {
       // given no norm
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
@@ -727,17 +728,17 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_art-1"
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary/hauptteil-1_abschnitt-0_art-1"
           )
         )
         .andExpect(
           jsonPath("eli").value(
-            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         );
     }

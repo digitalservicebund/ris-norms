@@ -98,7 +98,7 @@ class VerkuendungenControllerTest {
         .andExpect(
           jsonPath(
             "$[0].eli",
-            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1")
           )
         )
         .andExpect(jsonPath("$[0].frbrDateVerkuendung", equalTo("2017-03-15")))
@@ -106,7 +106,10 @@ class VerkuendungenControllerTest {
         .andExpect(jsonPath("$[0].importedAt", equalTo("2025-03-13T15:00:00Z")))
         .andExpect(jsonPath("$[1].title", equalTo("Gesetz zur Änderung des Lobbyregistergesetzes")))
         .andExpect(
-          jsonPath("$[1].eli", equalTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-1"))
+          jsonPath(
+            "$[1].eli",
+            equalTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1")
+          )
         )
         .andExpect(jsonPath("$[1].frbrDateVerkuendung", equalTo("2024-01-18")))
         .andExpect(jsonPath("$[1].dateAusfertigung", equalTo("2024-01-15")))
@@ -173,7 +176,9 @@ class VerkuendungenControllerTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
         )
         .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
         .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
@@ -240,7 +245,9 @@ class VerkuendungenControllerTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("$[0].eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("$[0].eli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
         )
         .andExpect(
           jsonPath("$[0].title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts")
@@ -297,7 +304,10 @@ class VerkuendungenControllerTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          jsonPath(
+            "eli",
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1")
+          )
         )
         .andExpect(jsonPath("importedAt", equalTo("2025-03-13T16:00:00Z")));
     }
@@ -333,7 +343,10 @@ class VerkuendungenControllerTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          jsonPath(
+            "eli",
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1")
+          )
         )
         .andExpect(jsonPath("importedAt", equalTo("2025-03-13T16:00:00Z")));
     }

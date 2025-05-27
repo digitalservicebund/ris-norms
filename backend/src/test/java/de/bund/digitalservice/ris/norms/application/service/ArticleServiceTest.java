@@ -40,10 +40,10 @@ class ArticleServiceTest {
     void returnResult() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       var eid = new EId("hauptteil-1_art-1");
       when(
@@ -62,7 +62,7 @@ class ArticleServiceTest {
     void throwsIfNormNotFound() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
+        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
       var eid = new EId("meta-1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
@@ -81,10 +81,10 @@ class ArticleServiceTest {
     void throwsIfArticleNotFound() {
       // given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
+        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
       var eid = new EId("eid-1_not-1_in-1_norm-1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
@@ -110,10 +110,10 @@ class ArticleServiceTest {
     void itReturnsArticlesFromNorm() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
@@ -132,7 +132,7 @@ class ArticleServiceTest {
     void itThrowsWhenTheDokumentIsNotFound() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
       );
       final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
@@ -148,7 +148,7 @@ class ArticleServiceTest {
     void itReturnsEmptyListWhenTheNormHasNoArticles() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
@@ -173,10 +173,10 @@ class ArticleServiceTest {
     void loadAllArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
@@ -199,7 +199,7 @@ class ArticleServiceTest {
     void itCallsLoadDokumentAndThrowsIfNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
@@ -218,10 +218,10 @@ class ArticleServiceTest {
     void loadSpecificArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
@@ -243,7 +243,7 @@ class ArticleServiceTest {
     void itThrowsWhenNoArticlesOfTypeAreFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
 
@@ -270,7 +270,7 @@ class ArticleServiceTest {
     void itThrowsWhenTheDokumentHasNoArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
