@@ -233,8 +233,10 @@ public class NormService
   @Override
   @Transactional
   public Zielnorm createZielnormExpressions(CreateZielnormenExpressionsUseCase.Options options) {
+    final List<Zielnorm> zielNormenPreview = loadZielnormExpressions(
+      new LoadZielnormenExpressionsUseCase.Options(options.verkuendungEli())
+    );
     final Norm verkuendungNorm = loadNorm(new LoadNormUseCase.EliOptions(options.verkuendungEli()));
-    final List<Zielnorm> zielNormenPreview = loadZielnormenPreview(options.verkuendungEli());
     final Zielnorm affectedNorm = zielNormenPreview
       .stream()
       .filter(f -> f.normWorkEli().equals(options.affectedWorkEli()))
@@ -503,6 +505,7 @@ public class NormService
             zielnorm.normWorkEli(),
             expression.normExpressionEli().getPointInTime()
           ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
+          // TODO check if the previous one is the one set to gegenstandslos because of keeping same previous GUID and next GUID
           final CreateNewVersionOfNormService.CreateNewExpressionResult result =
             createNewVersionOfNormService.createNewExpression(
               previousClosestExpression,
