@@ -8,7 +8,6 @@ import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
-import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import {
@@ -16,7 +15,7 @@ import {
   useGetZeitgrenzen,
   usePutZeitgrenzen,
 } from "@/services/zeitgrenzenService"
-import { useToast } from "primevue"
+import { useToast } from "@/composables/useToast"
 import Button from "primevue/button"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
@@ -29,8 +28,6 @@ const eli = useDokumentExpressionEliPathParameter()
 const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
 
 const toast = useToast()
-
-const { addErrorToast } = useErrorToast()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -80,7 +77,7 @@ async function onSaveZeitgrenzen() {
   await saveZeitgrenzen()
   if (!saveZeitgrenzenError.value) {
     toast.add({ summary: "Gespeichert!", severity: "success" })
-  } else addErrorToast(saveZeitgrenzenError)
+  } else toast.addError(saveZeitgrenzenError)
 }
 </script>
 

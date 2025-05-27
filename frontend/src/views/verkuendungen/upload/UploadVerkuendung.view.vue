@@ -19,7 +19,7 @@ import type {
 import FileUpload from "primevue/fileupload"
 import Message from "primevue/message"
 import { useConfirm } from "primevue/useconfirm"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "@/composables/useToast"
 import { computed, ref, useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"

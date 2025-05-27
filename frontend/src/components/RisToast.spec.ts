@@ -1,11 +1,11 @@
-import type { ErrorToastPayload } from "@/lib/errorToast"
+import type { ErrorToastPayload } from "@/composables/useToast"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, it, vi } from "vitest"
-import RisErrorToast from "./RisErrorToast.vue"
+import RisToast from "./RisToast.vue"
 
 function renderWithError(message: Partial<ErrorToastPayload>) {
-  return render(RisErrorToast, {
+  return render(RisToast, {
     global: {
       stubs: {
         Toast: {
@@ -19,7 +19,7 @@ function renderWithError(message: Partial<ErrorToastPayload>) {
   })
 }
 
-describe("risErrorToast", () => {
+describe("risToast", () => {
   it("renders the title", () => {
     renderWithError({ summary: "test title" })
     expect(screen.getByText("test title")).toBeInTheDocument()

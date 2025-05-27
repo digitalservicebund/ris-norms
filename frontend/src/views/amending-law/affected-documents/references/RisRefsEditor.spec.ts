@@ -16,7 +16,7 @@ vi.mock("@/composables/useNormRender", () => ({
   }),
 }))
 
-vi.mock("primevue/usetoast", () => {
+vi.mock("primevue", () => {
   return {
     useToast: () => ({
       add: vi.fn(),

@@ -28,8 +28,7 @@ import type { TreeNode } from "primevue/treenode"
 import { useGetNorm } from "@/services/normService"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useNormXml } from "@/composables/useNormXml"
-import { useErrorToast } from "@/lib/errorToast"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "@/composables/useToast"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
@@ -149,8 +148,7 @@ const nextGuid = computed(() => normExpression.value?.nachfolgendeVersionId)
 // EDITOR
 const codeEditorRef = ref<InstanceType<typeof RisCodeEditor> | null>(null)
 const sentryTraceId = useSentryTraceId()
-const { add: addToast } = useToast()
-const { addErrorToast } = useErrorToast()
+const { add: addToast, addError: addErrorToast } = useToast()
 
 const gotoEid = (eid: string) => {
   codeEditorRef.value?.scrollToText(`eId="${eid}"`)
