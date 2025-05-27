@@ -170,6 +170,7 @@
                <ris:ausserkraft date="2030-01-01"/>
                <ris:vollzitat>Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)</ris:vollzitat>
                <ris:standangabe type="stand">zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351</ris:standangabe>
+               <ris:stand>praetext</ris:stand>
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

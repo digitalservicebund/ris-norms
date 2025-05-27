@@ -107,6 +107,22 @@
                                value="xml"/>
             </akn:FRBRManifestation>
          </akn:identification>
+        <akn:proprietary eId="meta-n1_proprietary-n1"
+                         GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
+                         source="attributsemantik-noch-undefiniert">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+               <redok:initiant>bundesregierung</redok:initiant>
+               <redok:bearbeitendeInstitution>bundesregierung</redok:bearbeitendeInstitution>
+               <redok:fna>754-28-1</redok:fna>
+               <redok:gesta>nicht-vorhanden</redok:gesta>
+            </redok:legalDocML.de_metadaten>
+            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
+                <meta:federfuehrung>
+                  <meta:federfuehrend ab="1964-08-05" bis="2019-11-22">Bundesministerium der Justiz</meta:federfuehrend>
+                  <meta:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+               </meta:federfuehrung>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="a37a1c6d-8525-3c40-9819-fbe4482000c7" eId="rdokhauptteil-n1">
          <akn:component GUID="7f33c652-b9c1-3480-9dea-cb885dfc83a3"
