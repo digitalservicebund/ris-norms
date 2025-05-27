@@ -59,4 +59,31 @@ class AmendedNormExpressionsTest {
       .contains(NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2024-01-11/2/deu"))
       .contains(NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2024-02-12/1/deu"));
   }
+
+  @Test
+  void itShouldRemoveANormExpressionEli() {
+    var amendedNormExpressions = new AmendedNormExpressions(
+      toElement(
+        """
+         <norms:amended-norm-expressions  xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+              <norms:norm-expression>eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
+              <norms:norm-expression>eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>
+         </norms:amended-norm-expressions>
+        """
+      )
+    );
+
+    assertThat(amendedNormExpressions)
+      .hasSize(2)
+      .contains(NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"))
+      .contains(NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2024-01-11/2/deu"));
+
+    amendedNormExpressions.remove(
+      NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2024-01-11/2/deu")
+    );
+
+    assertThat(amendedNormExpressions)
+      .hasSize(1)
+      .contains(NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu"));
+  }
 }
