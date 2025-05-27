@@ -16,14 +16,14 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-           <akn:p eId="meta-1_text-1">
-               <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-               <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+           <akn:p eId="meta-n1_text-n1">
+               <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
+               <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
            </akn:p>
-           <akn:p eId="meta-1_text-2">
-               <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
-               <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
+           <akn:p eId="meta-n1_text-n2">
+               <akn:ref eId="meta-n1_text-n2_ref-n1"></akn:ref>
+               <akn:ref eId="meta-n1_text-n2_ref-n2"></akn:ref>
            </akn:p>
         </akn:meta>
       </root>
@@ -47,14 +47,14 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-           <akn:p eId="meta-1_text-1">
-               <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-               <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+           <akn:p eId="meta-n1_text-n1">
+               <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
+               <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
            </akn:p>
-           <akn:p eId="meta-1_text-3">
-               <akn:ref eId="meta-1_text-3_ref-1"></akn:ref>
-               <akn:ref eId="meta-1_text-3_ref-4"></akn:ref>
+           <akn:p eId="meta-n1_text-n3">
+               <akn:ref eId="meta-n1_text-n3_ref-n1"></akn:ref>
+               <akn:ref eId="meta-n1_text-n3_ref-n4"></akn:ref>
            </akn:p>
         </akn:meta>
       </root>
@@ -68,14 +68,14 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-           <akn:p eId="meta-1_text-1">
-               <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-               <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+           <akn:p eId="meta-n1_text-n1">
+               <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
+               <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
            </akn:p>
-           <akn:p eId="meta-1_text-2">
-               <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
-               <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
+           <akn:p eId="meta-n1_text-n2">
+               <akn:ref eId="meta-n1_text-n2_ref-n1"></akn:ref>
+               <akn:ref eId="meta-n1_text-n2_ref-n2"></akn:ref>
            </akn:p>
         </akn:meta>
       </root>
@@ -93,14 +93,14 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-               <akn:p eId="meta-1_text-2">
-                   <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+               <akn:p eId="meta-n1_text-n2">
+                   <akn:ref eId="meta-n1_text-n2_ref-n1"></akn:ref>
+                   <akn:ref eId="meta-n1_text-n2_ref-n2"></akn:ref>
                </akn:p>
-               <akn:p eId="meta-1_text-1">
-                 <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                 <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+               <akn:p eId="meta-n1_text-n1">
+                 <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
+                 <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
                </akn:p>
             </akn:meta>
           </root>
@@ -114,14 +114,14 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-               <akn:p eId="meta-1_text-1">
-                   <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+               <akn:p eId="meta-n1_text-n1">
+                   <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
+                   <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
                </akn:p>
-               <akn:p eId="meta-1_text-2">
-                   <akn:ref eId="meta-1_text-2_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-2_ref-2"></akn:ref>
+               <akn:p eId="meta-n1_text-n2">
+                   <akn:ref eId="meta-n1_text-n2_ref-n1"></akn:ref>
+                   <akn:ref eId="meta-n1_text-n2_ref-n2"></akn:ref>
                </akn:p>
             </akn:meta>
           </root>
@@ -140,10 +140,10 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-               <akn:p eId="meta-1_text-1">
-                   <akn:ref eId="meta-1_text-1_text-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-1_text-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+               <akn:p eId="meta-n1_text-n1">
+                   <akn:ref eId="meta-n1_text-n1_text-n1"></akn:ref>
+                   <akn:ref eId="meta-n1_text-n1_text-n2"></akn:ref>
                </akn:p>
             </akn:meta>
           </root>
@@ -157,10 +157,10 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-               <akn:p eId="meta-1_text-1">
-                   <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+               <akn:p eId="meta-n1_text-n1">
+                   <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
+                   <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
                </akn:p>
             </akn:meta>
           </root>
@@ -179,7 +179,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
                <akn:p>
                    <akn:ref></akn:ref>
                    <akn:ref></akn:ref>
@@ -196,10 +196,10 @@ class EidConsistencyGuardianTest {
     var expectedXml =
       """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1">
-               <akn:p eId="meta-1_text-1">
-                   <akn:ref eId="meta-1_text-1_ref-1"></akn:ref>
-                   <akn:ref eId="meta-1_text-1_ref-2"></akn:ref>
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1">
+               <akn:p eId="meta-n1_text-n1">
+                   <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
+                   <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
                </akn:p>
             </akn:meta>
           </root>
