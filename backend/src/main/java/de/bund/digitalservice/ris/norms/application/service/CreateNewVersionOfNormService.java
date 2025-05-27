@@ -145,9 +145,9 @@ public class CreateNewVersionOfNormService {
       .ifPresent(nextGuid ->
         newExpression
           .getDokumente()
-          .forEach(dokument -> {
-            dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(nextGuid);
-          })
+          .forEach(dokument ->
+            dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(nextGuid)
+          )
       );
 
     // Set new manifestation of previous expression to gegenstandslos
