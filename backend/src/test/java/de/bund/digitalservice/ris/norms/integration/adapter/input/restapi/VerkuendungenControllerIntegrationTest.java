@@ -573,19 +573,19 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldReturnZielnormenPreviewForNoExistingExpressions() throws Exception {
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.PUBLISHED
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.PUBLISHED
       );
 
       mockMvc
@@ -702,32 +702,42 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldReturnZielnormenPreviewContainingOrphans() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      // amendingLaw
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-with-two-orphans.xml"
+        "amending-law-for-vereinsgesetz-with-two-orphans",
+        NormPublishState.PUBLISHED
       );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+      // targetLaw
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "vereinsgesetz-original-expression",
+        NormPublishState.PUBLISHED
       );
-
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext orphanBeforeFirstGeltungszeitregel = Fixtures.loadNormFromDisk(
+      // orphanBeforeFirstGeltungszeitregel
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1"
-      ).getRegelungstext1();
-
-      dokumentRepository.save(DokumentMapper.mapToDto(orphanBeforeFirstGeltungszeitregel));
-
-      final Regelungstext orphanAfterFirstGeltungszeitregel = Fixtures.loadNormFromDisk(
+        "vereinsgesetz-2017-03-16-1",
+        NormPublishState.PUBLISHED
+      );
+      // orphanAfterFirstGeltungszeitregel
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2024-05-30"
-      ).getRegelungstext1();
-
-      dokumentRepository.save(DokumentMapper.mapToDto(orphanAfterFirstGeltungszeitregel));
+        "vereinsgesetz-2024-05-30",
+        NormPublishState.PUBLISHED
+      );
 
       mockMvc
         .perform(
