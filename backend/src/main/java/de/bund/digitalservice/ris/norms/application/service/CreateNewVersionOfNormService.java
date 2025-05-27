@@ -49,26 +49,48 @@ public class CreateNewVersionOfNormService {
    * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
    */
   public CreateNewExpressionResult createNewExpression(Norm norm, LocalDate date) {
-    var newExpression = new Norm(norm);
-    var newExpressionEli = eliService.findNextExpressionEli(
-      newExpression.getWorkEli(),
-      date,
-      newExpression.getExpressionEli().getLanguage()
+    var newExpression = createOnlyNewExpression(norm, date);
+
+    Norm newManifestationOfOldExpression = createNewManifestationOfOldExpression(
+      norm,
+      newExpression
     );
+    return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
+  }
+
+  /**
+   * Creates a new expression based on the passed norm but uses the ELIs and GUIDs of the already existing expression. Meaning an
+   * overriding is happening. Also creates new manifestation of old expression (using the duplicated new expression)
+   *
+   * @param norm the norm for which a new expression should be created.
+   * @param toDuplicateExpression the already existing expression
+   * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
+   */
+  public CreateNewExpressionResult createNewOverridenExpression(
+    Norm norm,
+    Norm toDuplicateExpression
+  ) {
+    var newExpression = new Norm(norm);
     var newManifestationEli = NormManifestationEli.fromExpressionEli(
-      newExpressionEli,
+      toDuplicateExpression.getExpressionEli(),
       LocalDate.now()
     );
-
     newExpression
       .getDokumente()
       .forEach(dokument -> {
-        setNewExpressionMetadata(
+        setNewExpressionMetadataWithCurrentAndNextGuid(
           dokument,
           DokumentExpressionEli.fromNormEli(
-            newExpressionEli,
+            toDuplicateExpression.getExpressionEli(),
             dokument.getExpressionEli().getSubtype()
-          )
+          ),
+          toDuplicateExpression.getGuid(),
+          toDuplicateExpression
+            .getRegelungstext1()
+            .getMeta()
+            .getFRBRExpression()
+            .getFRBRaliasNextVersionId()
+            .orElse(null)
         );
         setNewManifestationMetadata(
           dokument,
@@ -79,11 +101,58 @@ public class CreateNewVersionOfNormService {
           )
         );
       });
-
     Norm newManifestationOfOldExpression = createNewManifestationOfOldExpression(
       norm,
       newExpression
     );
+
+    return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
+  }
+
+  /**
+   * Creates a new expression of the given norm for the given date. Also creates a new manifestation of the old
+   * expression which is set to gegenstandslos
+   *
+   * @param norm the norm for which a new expression should be created.
+   * @param date the date of the change that creates this expression.
+   * @param verkuendungDate the announcement date of the amending law producing a gegenstandslos version
+   * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
+   */
+  public CreateNewExpressionResult createNewExpression(
+    Norm norm,
+    LocalDate date,
+    String verkuendungDate
+  ) {
+    var newExpression = createOnlyNewExpression(norm, date);
+    // Keep same previous GUID and next GUID for the new created expression
+    norm
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression()
+      .getFRBRaliasPreviousVersionId()
+      .ifPresent(previousGuid ->
+        newExpression
+          .getDokumente()
+          .forEach(dokument ->
+            dokument.getMeta().getFRBRExpression().setFRBRaliasPreviousVersionId(previousGuid)
+          )
+      );
+    norm
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression()
+      .getFRBRaliasNextVersionId()
+      .ifPresent(nextGuid ->
+        newExpression
+          .getDokumente()
+          .forEach(dokument ->
+            dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(nextGuid)
+          )
+      );
+
+    // Set new manifestation of previous expression to gegenstandslos
+    final Norm newManifestationOfOldExpression = createNewManifestation(norm);
+    newManifestationOfOldExpression.setGegenstandlos(verkuendungDate);
 
     return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
   }
@@ -152,6 +221,39 @@ public class CreateNewVersionOfNormService {
     return newManifestationOfOldExpression;
   }
 
+  private Norm createOnlyNewExpression(Norm norm, LocalDate date) {
+    var newExpression = new Norm(norm);
+    var newExpressionEli = eliService.findNextExpressionEli(
+      newExpression.getWorkEli(),
+      date,
+      newExpression.getExpressionEli().getLanguage()
+    );
+    var newManifestationEli = NormManifestationEli.fromExpressionEli(
+      newExpressionEli,
+      LocalDate.now()
+    );
+    newExpression
+      .getDokumente()
+      .forEach(dokument -> {
+        setNewExpressionMetadata(
+          dokument,
+          DokumentExpressionEli.fromNormEli(
+            newExpressionEli,
+            dokument.getExpressionEli().getSubtype()
+          )
+        );
+        setNewManifestationMetadata(
+          dokument,
+          DokumentManifestationEli.fromNormEli(
+            newManifestationEli,
+            dokument.getManifestationEli().getSubtype(),
+            dokument.getManifestationEli().getFormat()
+          )
+        );
+      });
+    return newExpression;
+  }
+
   /**
    * Find the expression of the updated norm in which the "nachfolgende-version-id" needs to be updated. This is not the
    * oldExpression if the new expression is not for a new date but only the versionNumber was increased. In this case
@@ -209,6 +311,29 @@ public class CreateNewVersionOfNormService {
       expression.setFRBRaliasPreviousVersionId(oldVersionId);
     }
     expression.deleteAliasNextVersionId();
+  }
+
+  /**
+   * Set metadata for expression but keeps the passed current and next GUIDs (when doing a cloning of the expression)
+   * @param dokument - the new expression
+   * @param expressionEli - the eli for the new expression
+   * @param currentGuid - the current GUID of the expression that is being overriden
+   * @param nextGuid - the next GUID of the expression that is being overriden
+   */
+  private void setNewExpressionMetadataWithCurrentAndNextGuid(
+    Dokument dokument,
+    DokumentExpressionEli expressionEli,
+    UUID currentGuid,
+    UUID nextGuid
+  ) {
+    setNewExpressionMetadata(dokument, expressionEli);
+    var expression = dokument.getMeta().getFRBRExpression();
+    expression.setFRBRaliasCurrentVersionId(currentGuid);
+    if (nextGuid != null) {
+      expression.setFRBRaliasNextVersionId(nextGuid);
+    } else {
+      expression.deleteAliasNextVersionId();
+    }
   }
 
   /**

@@ -226,6 +226,22 @@ public class Proprietary {
   }
 
   /**
+   * Get the gegenstandlos metadata element (if it exists). If it does not exist it creates a new one.
+   * @return the {@link Gegenstandlos} element
+   */
+  public Gegenstandlos getOrCreateGegenstandlos() {
+    return getGegenstandlos()
+      .orElseGet(() -> {
+        final Element metadataParent = getOrCreateMetadataParent(Gegenstandlos.NAMESPACE);
+        final Gegenstandlos gegenstandlos = new Gegenstandlos(
+          NodeCreator.createElement(Gegenstandlos.NAMESPACE, Gegenstandlos.TAG_NAME, metadataParent)
+        );
+        gegenstandlos.setSinceDate(LocalDate.now().toString());
+        return gegenstandlos;
+      });
+  }
+
+  /**
    * Gets the custom norms-application-only mods metadata.
    * @return {@link Optional} with the {@link CustomModsMetadata}
    */

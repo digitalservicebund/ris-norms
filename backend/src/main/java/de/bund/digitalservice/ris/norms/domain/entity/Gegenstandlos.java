@@ -19,4 +19,8 @@ public class Gegenstandlos {
   LocalDate getSinceDate() {
     return LocalDate.parse(element.getAttribute("seit"));
   }
+
+  void setSinceDate(final String date) {
+    element.setAttribute("seit", date);
+  }
 }

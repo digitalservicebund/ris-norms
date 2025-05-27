@@ -70,6 +70,22 @@ public class AmendedNormExpressions extends AbstractSet<NormExpressionEli> {
   }
 
   @Override
+  public boolean remove(Object o) {
+    if (!(o instanceof NormExpressionEli normExpressionEli)) {
+      return false;
+    }
+    return NodeParser.getNodeFromExpression(
+      "./%s[text()='%s']".formatted(NORM_EXPRESSION_TAG_NAME, normExpressionEli.toString()),
+      getElement()
+    )
+      .map(node -> {
+        node.getParentNode().removeChild(node);
+        return true;
+      })
+      .orElse(false);
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
     // ignoring element. We only care about the content of it and that is checked by the implementation in AbstractSet

@@ -254,6 +254,17 @@ public class Norm {
       .isPresent();
   }
 
+  /**
+   * Set the norm as gegenstandslos
+   * @param date - date to set as gegenstandslos with
+   */
+  public void setGegenstandlos(final String date) {
+    // TODO: (Victor del Campo, 2025-05-23) ldml_de 1.8 -> this will be stored exclusively in the rechtsetzungsdokument
+    final Proprietary proprietary = getRegelungstext1().getMeta().getOrCreateProprietary();
+    final Gegenstandlos gegenstandlos = proprietary.getOrCreateGegenstandlos();
+    gegenstandlos.setSinceDate(date);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

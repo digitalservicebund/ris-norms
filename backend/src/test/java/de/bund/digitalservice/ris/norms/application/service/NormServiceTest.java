@@ -9,23 +9,14 @@ import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateExcep
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import org.junit.jupiter.api.Disabled;
+import java.util.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -39,6 +30,11 @@ class NormServiceTest {
     LoadNormExpressionElisPort.class
   );
   final EliService eliService = mock(EliService.class);
+  final CreateNewVersionOfNormService createNewVersionOfNormService = mock(
+    CreateNewVersionOfNormService.class
+  );
+  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
 
   final NormService service = new NormService(
     loadNormPort,
@@ -46,7 +42,10 @@ class NormServiceTest {
     updateNormPort,
     loadRegelungstextPort,
     loadNormExpressionElisPort,
-    eliService
+    eliService,
+    createNewVersionOfNormService,
+    updateOrSaveNormPort,
+    deleteNormPort
   );
 
   @Nested
@@ -505,7 +504,7 @@ class NormServiceTest {
   }
 
   @Nested
-  class loadZielnorm {
+  class loadZielnormen {
 
     @Test
     void itShouldGenerateCorrectElisForNoExistingExpressions() {
@@ -745,23 +744,173 @@ class NormServiceTest {
         new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
     }
+
+    @Test
+    void itShouldGenerateCorrectElisForAlreadyCreatedExpressions() {
+      Norm norm = Fixtures.loadNormFromDisk(NormServiceTest.class, "norm-with-amended-expressions");
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(norm.getExpressionEli()))).thenReturn(
+        Optional.of(norm)
+      );
+
+      Norm amendedExpression = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "vereinsgesetz-2017-03-16-1"
+      );
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Options(amendedExpression.getWorkEli()))
+      ).thenReturn(Optional.of(amendedExpression));
+
+      when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(
+        List.of(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"))
+      );
+
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Options(amendedExpression.getExpressionEli()))
+      ).thenReturn(Optional.of(amendedExpression));
+
+      when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2018-04-17/1/deu")
+      );
+
+      var preview = service.loadZielnormExpressions(
+        new LoadZielnormenExpressionsUseCase.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+
+      assertThat(preview).hasSize(1);
+      assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/1964/s593");
+      assertThat(preview.getFirst().title()).hasToString(
+        "Gesetz zur Regelung des öffentlichen Vereinsrechts"
+      );
+      assertThat(preview.getFirst().shortTitle()).hasToString("Vereinsgesetz");
+      assertThat(preview.getFirst().expressions())
+        .hasSize(2)
+        .containsExactly(
+          new Zielnorm.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+            false,
+            true,
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          ),
+          new Zielnorm.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2018-04-17/1/deu"),
+            false,
+            false,
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          )
+        );
+
+      verify(eliService, times(1)).findNextExpressionEli(
+        NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+        LocalDate.parse("2018-04-17"),
+        "deu"
+      );
+
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+        )
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
+        )
+      );
+
+      verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
+        new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+      );
+    }
   }
 
   @Nested
-  class loadAndSaveZielnormen {
+  class createZielnormen {
 
     @Test
-    @Disabled("Being implemented")
-    void itShouldRunloadAndSaveZielnormen() {
-      CreateZielnormenExpressionsUseCase.Options options =
-        new CreateZielnormenExpressionsUseCase.Options(
-          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
-          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
-        );
+    void itCreatesZielNorm() {
+      final Norm amendingLaw = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "norm-with-amended-expressions"
+      );
+      final Norm targetLaw = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "vereinsgesetz-original-expression"
+      );
+      final Norm amendedExpression = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "vereinsgesetz-2017-03-16-1"
+      );
 
-      assertThatThrownBy(() -> service.createZielnormExpressions(options))
-        .isInstanceOf(UnsupportedOperationException.class)
-        .hasMessage("Not yet implemented");
+      final List<Zielnorm.Expression> expressionen = new ArrayList<>();
+      expressionen.add(
+        new Zielnorm.Expression(
+          amendedExpression.getExpressionEli(),
+          false,
+          false,
+          Zielnorm.CreatedBy.THIS_VERKUENDUNG
+        )
+      );
+      final List<Zielnorm> zielNormen = new ArrayList<>();
+      final NormWorkEli zielWorkEli = NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593");
+      final Zielnorm zielnorm = new Zielnorm(
+        zielWorkEli,
+        "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+        "Vereinsgesetz",
+        expressionen
+      );
+      zielNormen.add(zielnorm);
+      NormService spiedService = spy(service);
+      doReturn(zielNormen).when(spiedService).loadZielnormExpressions(any());
+
+      // Mock load amending law
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Options(amendingLaw.getExpressionEli()))
+      ).thenReturn(Optional.of(amendingLaw));
+
+      // Mock get closest previous expression
+      when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(
+        List.of(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+      );
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Options(targetLaw.getExpressionEli()))
+      ).thenReturn(Optional.of(targetLaw));
+
+      // Mock creating new expression (and new previous manifestation)
+      var result = new CreateNewVersionOfNormService.CreateNewExpressionResult(
+        amendedExpression,
+        mock(Norm.class)
+      );
+      when(
+        createNewVersionOfNormService.createNewExpression(
+          targetLaw,
+          amendedExpression.getExpressionEli().getPointInTime()
+        )
+      ).thenReturn(result);
+
+      // Mock saving new expression (and new previous manifestation)
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
+
+      // Mock saving updated amending law
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
+
+      var createdExpressions = spiedService.createZielnormExpressions(
+        new CreateZielnormenExpressionsUseCase.Options(amendingLaw.getExpressionEli(), zielWorkEli)
+      );
+
+      assertThat(createdExpressions.expressions()).hasSize(1);
+      assertThat(createdExpressions.expressions().getFirst().normExpressionEli()).isEqualTo(
+        amendedExpression.getExpressionEli()
+      );
+      assertThat(createdExpressions.expressions().getFirst().isGegenstandslos()).isFalse();
+      assertThat(createdExpressions.expressions().getFirst().isCreated()).isTrue();
+      assertThat(createdExpressions.expressions().getFirst().createdBy()).isEqualTo(
+        Zielnorm.CreatedBy.THIS_VERKUENDUNG
+      );
     }
   }
 }

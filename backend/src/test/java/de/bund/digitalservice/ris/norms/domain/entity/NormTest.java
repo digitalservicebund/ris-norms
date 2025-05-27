@@ -320,4 +320,57 @@ class NormTest {
       assertThat(norm.isGegenstandlos()).isTrue();
     }
   }
+
+  @Nested
+  class setGegenstandlos {
+
+    @Test
+    void setGegenstandlosCreate() {
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
+      );
+
+      assertThat(norm.isGegenstandlos()).isFalse();
+
+      norm.setGegenstandlos("2010-01-01");
+
+      assertThat(norm.isGegenstandlos()).isTrue();
+
+      final Optional<Gegenstandlos> gegenstandlos = norm
+        .getRegelungstext1()
+        .getMeta()
+        .getOrCreateProprietary()
+        .getGegenstandlos();
+      assertThat(gegenstandlos)
+        .isPresent()
+        .get()
+        .extracting(Gegenstandlos::getSinceDate)
+        .isEqualTo(LocalDate.parse("2010-01-01"));
+    }
+
+    @Test
+    void getGegenstandlosModify() {
+      Norm norm = Fixtures.loadNormFromDisk(NormTest.class, "vereinsgesetz-gegenstandlos");
+      final Optional<Gegenstandlos> gegenstandlos = norm
+        .getRegelungstext1()
+        .getMeta()
+        .getOrCreateProprietary()
+        .getGegenstandlos();
+      assertThat(gegenstandlos)
+        .isPresent()
+        .get()
+        .extracting(Gegenstandlos::getSinceDate)
+        .isNotEqualTo(LocalDate.parse("2010-01-01"));
+
+      assertThat(norm.isGegenstandlos()).isTrue();
+
+      norm.setGegenstandlos("2010-01-01");
+
+      assertThat(gegenstandlos)
+        .isPresent()
+        .get()
+        .extracting(Gegenstandlos::getSinceDate)
+        .isEqualTo(LocalDate.parse("2010-01-01"));
+    }
+  }
 }
