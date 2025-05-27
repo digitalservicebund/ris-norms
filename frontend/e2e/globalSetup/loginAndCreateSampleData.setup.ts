@@ -29,7 +29,6 @@ setup("create sample data", async ({ authenticatedRequest: request }) => {
     "bgbl-1_2017_s419/aenderungsgesetz.xml",
     "bgbl-1_2017_s593/regelungstext-1.xml",
     "bgbl-1_2023_413/aenderungsgesetz.xml",
-    "bgbl-1_2017_s593/2017-03-15/1/deu/2025-05-26/regelungstext-1.xml",
   ]
 
   for (const file of files) {

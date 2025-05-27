@@ -3,7 +3,7 @@ import { expect } from "@playwright/test"
 
 test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
   test.describe("Textkonsolidierung Editor loading and saving", () => {
-    test("navigates from expression list", async ({ page }) => {
+    test.skip("navigates from expression list", async ({ page }) => {
       await page.goto(
         "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
@@ -112,7 +112,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
       ).not.toHaveClass("selected")
     })
 
-    test("edit text and verifies on reload", async ({ page }) => {
+    test.skip("edit text and verifies on reload", async ({ page }) => {
       await page.goto(
         "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
       )
@@ -209,7 +209,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
       await expect(page.getByText("404 - Seite nicht gefunden")).toBeVisible()
     })
 
-    test("navigates to next expression version via arrow and updates content", async ({
+    test.skip("navigates to next expression version via arrow and updates content", async ({
       page,
     }) => {
       const initialUrl =

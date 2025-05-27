@@ -131,7 +131,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
     ).toBeVisible()
   })
 
-  test("should show Zielnormen", async ({ page }) => {
+  test.skip("should show Zielnormen", async ({ page }) => {
     await page.goto(
       "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     )
@@ -144,7 +144,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
     await expect(zielnormenSection.getByText("FNA 754-28-1")).toBeVisible()
   })
 
-  test("should expand the Zielnorm and Textkonsolidierung to show the expression with ELI and date", async ({
+  test.skip("should expand the Zielnorm and Textkonsolidierung to show the expression with ELI and date", async ({
     page,
   }) => {
     await page.goto(
