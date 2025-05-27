@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EIdPart;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.OrdinalEIdPosition;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.ArrayList;
@@ -145,7 +146,7 @@ public class ReferenceService {
       final String matchedText = originalText.substring(match.start(), match.end() + 1);
       final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
         "akn:ref",
-        new EIdPart("ref", String.valueOf(refCounter)),
+        new EIdPart("ref", new OrdinalEIdPosition(refCounter)),
         parent
       );
       newElement.setAttribute("href", "");
