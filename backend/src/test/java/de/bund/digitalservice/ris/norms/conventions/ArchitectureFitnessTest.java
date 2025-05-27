@@ -64,6 +64,7 @@ class ArchitectureFitnessTest {
     "org.apache.commons.lang3..",
     "com.fasterxml.jackson.annotation..",
     "javax.annotation..",
+    "org.springframework.web.util..",
   };
   static final String[] UTILITY_LAYER_ALLOWED_PACKAGES = new String[] {
     UTILS_LAYER_PACKAGES,
