@@ -153,11 +153,35 @@ public class CreateNewVersionOfNormService {
     LocalDate date,
     String verkuendungDate
   ) {
-    final CreateNewVersionOfNormService.CreateNewExpressionResult result = createNewExpression(
-      norm,
-      date
+    var newExpression = new Norm(norm);
+    var newExpressionEli = eliService.findNextExpressionEli(
+      newExpression.getWorkEli(),
+      date,
+      newExpression.getExpressionEli().getLanguage()
     );
-
+    var newManifestationEli = NormManifestationEli.fromExpressionEli(
+      newExpressionEli,
+      LocalDate.now()
+    );
+    newExpression
+      .getDokumente()
+      .forEach(dokument -> {
+        setNewExpressionMetadata(
+          dokument,
+          DokumentExpressionEli.fromNormEli(
+            newExpressionEli,
+            dokument.getExpressionEli().getSubtype()
+          )
+        );
+        setNewManifestationMetadata(
+          dokument,
+          DokumentManifestationEli.fromNormEli(
+            newManifestationEli,
+            dokument.getManifestationEli().getSubtype(),
+            dokument.getManifestationEli().getFormat()
+          )
+        );
+      });
     // Keep same previous GUID and next GUID for the new created expression
     norm
       .getRegelungstext1()
@@ -165,12 +189,11 @@ public class CreateNewVersionOfNormService {
       .getFRBRExpression()
       .getFRBRaliasPreviousVersionId()
       .ifPresent(previousGuid ->
-        result
-          .newExpression()
+        newExpression
           .getDokumente()
-          .forEach(dokument -> {
-            dokument.getMeta().getFRBRExpression().setFRBRaliasPreviousVersionId(previousGuid);
-          })
+          .forEach(dokument ->
+            dokument.getMeta().getFRBRExpression().setFRBRaliasPreviousVersionId(previousGuid)
+          )
       );
     norm
       .getRegelungstext1()
@@ -178,24 +201,18 @@ public class CreateNewVersionOfNormService {
       .getFRBRExpression()
       .getFRBRaliasNextVersionId()
       .ifPresent(nextGuid ->
-        result
-          .newExpression()
+        newExpression
           .getDokumente()
           .forEach(dokument -> {
             dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(nextGuid);
           })
       );
 
-    // Set new manifestation of previous expression to gegenstandslos + remove next version GUID, if present
-    result.newManifestationOfOldExpression().setGegenstandlos(verkuendungDate);
-    result
-      .newManifestationOfOldExpression()
-      .getDokumente()
-      .forEach(dokument -> {
-        dokument.getMeta().getFRBRExpression().deleteAliasNextVersionId();
-      });
+    // Set new manifestation of previous expression to gegenstandslos
+    final Norm newManifestationOfOldExpression = createNewManifestation(norm);
+    newManifestationOfOldExpression.setGegenstandlos(verkuendungDate);
 
-    return result;
+    return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
   }
 
   /**

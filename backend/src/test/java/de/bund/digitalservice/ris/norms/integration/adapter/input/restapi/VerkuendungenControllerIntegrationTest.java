@@ -5,7 +5,9 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManifestationMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.VerkuendungMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
@@ -19,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.junit.jupiter.api.AfterEach;
@@ -697,7 +700,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
   class createZielnormen {
 
     @Test
-    void itShouldCreateZielnormen() throws Exception {
+    void itShouldCreateNewZielnormen() throws Exception {
       final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
         VerkuendungenControllerIntegrationTest.class,
         "amending-law-for-vereinsgesetz-several-zielnormen-references.xml"
@@ -771,6 +774,108 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           )
         ).isPresent()
       );
+    }
+
+    @Test
+    void itShouldCreateNewZielnormenAndSetGegenstandslos() throws Exception {
+      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-for-vereinsgesetz-several-zielnormen-references.xml"
+      );
+      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
+
+      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-original-expression.xml"
+      );
+
+      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
+
+      final Regelungstext alreadyExistingFutureExpression = Fixtures.loadNormFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-16-1"
+      ).getRegelungstext1();
+
+      dokumentRepository.save(DokumentMapper.mapToDto(alreadyExistingFutureExpression));
+
+      // Expressions to be created not yet existent
+      final List<String> futureExpressionElis = List.of(
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu",
+        "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu",
+        "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+      );
+      futureExpressionElis.forEach(expressionEli ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+            expressionEli
+          )
+        ).isEmpty()
+      );
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingLaw.getExpressionEli().asNormEli(),
+              targetLaw.getWorkEli().asNormEli()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos").value(true))
+        .andExpect(jsonPath("expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("expressions[0].createdBy").value("andere Verkündung"))
+        .andExpect(
+          jsonPath("expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[1].isCreated").value(true))
+        .andExpect(jsonPath("expressions[1].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[2].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[2].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[2].isCreated").value(true))
+        .andExpect(jsonPath("expressions[2].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[3].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[3].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[3].isCreated").value(true))
+        .andExpect(jsonPath("expressions[3].createdBy").value("diese Verkündung"));
+
+      futureExpressionElis.forEach(expressionEli ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+            expressionEli
+          )
+        ).isPresent()
+      );
+
+      final Optional<NormManifestationDto> gegendstandlosNormDto =
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+        );
+      assertThat(gegendstandlosNormDto).isPresent();
+      final Norm gegenstandslosNorm = NormManifestationMapper.mapToDomain(
+        gegendstandlosNormDto.get()
+      );
+      assertThat(gegenstandslosNorm.isGegenstandlos()).isTrue();
     }
   }
 }

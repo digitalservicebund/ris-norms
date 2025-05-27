@@ -461,6 +461,9 @@ public class NormService
 
     zielnorm
       .expressions()
+      .stream()
+      // Don't include those that should become gegenstandslos because they will me mark as gegenstandslos when the replacing new expression is created
+      .filter(f -> !f.isGegenstandslos())
       .forEach(expression -> {
         if (
           expression.isCreated() && amendedNormExpressions.contains(expression.normExpressionEli())
@@ -496,7 +499,7 @@ public class NormService
           ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
 
           // Check if the previous closest is actually one that should be set to gegenstandslos
-          boolean isGegenstandslos = zielnorm
+          boolean previousShouldBecomeGegenstandslos = zielnorm
             .expressions()
             .stream()
             .anyMatch(
@@ -504,16 +507,17 @@ public class NormService
                 f.normExpressionEli().equals(previousClosestExpression.getExpressionEli()) &&
                 f.isGegenstandslos()
             );
-          final CreateNewVersionOfNormService.CreateNewExpressionResult result = isGegenstandslos
-            ? createNewVersionOfNormService.createNewExpression(
-              previousClosestExpression,
-              expression.normExpressionEli().getPointInTime(),
-              verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
-            )
-            : createNewVersionOfNormService.createNewExpression(
-              previousClosestExpression,
-              expression.normExpressionEli().getPointInTime()
-            );
+          final CreateNewVersionOfNormService.CreateNewExpressionResult result =
+            previousShouldBecomeGegenstandslos
+              ? createNewVersionOfNormService.createNewExpression(
+                previousClosestExpression,
+                expression.normExpressionEli().getPointInTime(),
+                verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
+              )
+              : createNewVersionOfNormService.createNewExpression(
+                previousClosestExpression,
+                expression.normExpressionEli().getPointInTime()
+              );
           updateOrSaveNormPort.updateOrSave(
             new UpdateOrSaveNormPort.Options(result.newExpression())
           );
@@ -581,7 +585,7 @@ public class NormService
     return loadNormExpressionElisPort
       .loadNormExpressionElis(new LoadNormExpressionElisPort.Options(zielnormWorkEli))
       .stream()
-      .filter(eli -> eli.getPointInTime().isBefore(dateForNewExpression))
+      .filter(eli -> !eli.getPointInTime().isAfter(dateForNewExpression))
       .map(eli ->
         new AbstractMap.SimpleEntry<>(eli, loadNormPort.loadNorm(new LoadNormPort.Options(eli)))
       )
