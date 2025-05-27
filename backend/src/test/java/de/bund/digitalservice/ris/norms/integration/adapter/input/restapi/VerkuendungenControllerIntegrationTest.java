@@ -18,6 +18,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.junit.jupiter.api.AfterEach;
@@ -689,6 +690,87 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$[0].expressions[3].createdBy").value("System"))
         .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
+    }
+  }
+
+  @Nested
+  class createZielnormen {
+
+    @Test
+    void itShouldCreateZielnormen() throws Exception {
+      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-for-vereinsgesetz-several-zielnormen-references.xml"
+      );
+      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
+
+      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-original-expression.xml"
+      );
+
+      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
+
+      // Expressions to be created not yet existent
+      final List<String> futureExpressionElis = List.of(
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu",
+        "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu",
+        "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+      );
+      futureExpressionElis.forEach(expressionEli ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+            expressionEli
+          )
+        ).isEmpty()
+      );
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingLaw.getExpressionEli().asNormEli(),
+              targetLaw.getWorkEli().asNormEli()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("expressions[0].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[1].isCreated").value(true))
+        .andExpect(jsonPath("expressions[1].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[2].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[2].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[2].isCreated").value(true))
+        .andExpect(jsonPath("expressions[2].createdBy").value("diese Verkündung"));
+
+      futureExpressionElis.forEach(expressionEli ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+            expressionEli
+          )
+        ).isPresent()
+      );
     }
   }
 }
