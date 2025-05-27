@@ -6,7 +6,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
@@ -28,9 +30,17 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private DokumentRepository dokumentRepository;
 
+  @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
+  private NormManifestationRepository normManifestationRepository;
+
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
+    normManifestationRepository.deleteAll();
   }
 
   @Nested
@@ -612,13 +622,13 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ProprietaryControllerIntegrationTest.class,
-            "regelungstext-without-proprietary.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ProprietaryControllerIntegrationTest.class,
+        "regelungstext-without-proprietary",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -641,13 +651,13 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       );
       var eid = "hauptteil-1_abschnitt-0_art-1";
 
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ProprietaryControllerIntegrationTest.class,
-            "vereinsgesetz-with-invalid-proprietary-metadata.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ProprietaryControllerIntegrationTest.class,
+        "vereinsgesetz-with-invalid-proprietary-metadata",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -744,7 +754,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
             ProprietaryControllerIntegrationTest.class,
-            "regelungstext-without-proprietary.xml"
+            "regelungstext-without-proprietary/regelungstext-verkuendung-1.xml"
           )
         )
       );

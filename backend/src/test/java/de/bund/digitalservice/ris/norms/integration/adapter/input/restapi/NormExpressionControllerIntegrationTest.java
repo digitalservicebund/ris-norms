@@ -6,9 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -31,9 +33,13 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private NormManifestationRepository normManifestationRepository;
 
+  @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
@@ -45,12 +51,12 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormsServiceAndReturnsNorm() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -254,7 +260,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       );
       var newXml = Fixtures.loadTextFromDisk(
         NormExpressionControllerIntegrationTest.class,
-        "vereinsgesetz-with-different-guid.xml"
+        "vereinsgesetz-with-different-guid/regelungstext-verkuendung-1.xml"
       );
 
       // When // Then
@@ -289,7 +295,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       );
       var newXml = Fixtures.loadTextFromDisk(
         NormExpressionControllerIntegrationTest.class,
-        "vereinsgesetz-with-different-title.xml"
+        "vereinsgesetz-with-different-title/regelungstext-verkuendung-1.xml"
       );
 
       // When // Then

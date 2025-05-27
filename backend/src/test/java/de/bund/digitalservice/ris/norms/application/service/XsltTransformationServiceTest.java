@@ -265,25 +265,25 @@ class XsltTransformationServiceTest {
   static Stream<Arguments> shouldTransformXmlArgumentsProvider() {
     return Stream.of(
       Arguments.arguments(
-        "Bundesverfassungsschutzgesetz.xml",
+        "Bundesverfassungsschutzgesetz/regelungstext-verkuendung-1.xml",
         false,
         "Bundesverfassungsschutzgesetz.html",
         false
       ),
       Arguments.arguments(
-        "Bundesverfassungsschutzgesetz.xml",
+        "Bundesverfassungsschutzgesetz/regelungstext-verkuendung-1.xml",
         true,
         "Bundesverfassungsschutzgesetz-with-metadata.html",
         false
       ),
       Arguments.arguments(
-        "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.xml",
+        "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts/regelungstext-verkuendung-1.xml",
         false,
         "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.html",
         false
       ),
       Arguments.arguments(
-        "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes.xml",
+        "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes/regelungstext-verkuendung-1.xml",
         false,
         "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes.html",
         false

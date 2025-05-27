@@ -80,7 +80,7 @@ class LdmlDeValidatorTest {
       // Given
       String xml = Fixtures.loadTextFromDisk(
         LdmlDeValidatorTest.class,
-        "vereinsgesetz-xsd-invalid/regelungstext-1.xml"
+        "vereinsgesetz-xsd-invalid/regelungstext-verkuendung-1.xml"
       );
 
       // When // Then

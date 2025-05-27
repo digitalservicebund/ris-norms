@@ -218,7 +218,7 @@ class EidConsistencyGuardianTest {
     // Given
     var text = Fixtures.loadTextFromDisk(
       EidConsistencyGuardianTest.class,
-      "complex-ldml-with-incorrect-eids.xml"
+      "complex-ldml-with-incorrect-eids/regelungstext-verkuendung-1.xml"
     );
 
     // When
@@ -229,7 +229,7 @@ class EidConsistencyGuardianTest {
     // Then
     var exectedResult = Fixtures.loadTextFromDisk(
       EidConsistencyGuardianTest.class,
-      "complex-ldml-with-corrected-eids.xml"
+      "complex-ldml-with-corrected-eids/regelungstext-verkuendung-1.xml"
     );
 
     final Diff diff = DiffBuilder.compare(Input.from(correctedDocument))
