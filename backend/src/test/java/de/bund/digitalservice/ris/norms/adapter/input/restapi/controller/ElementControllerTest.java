@@ -40,7 +40,7 @@ class ElementControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1"
           ).accept(MediaType.TEXT_HTML)
         )
         // then
@@ -51,7 +51,7 @@ class ElementControllerTest {
         .andExpect(jsonPath("detail").value("Error message"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1"
           )
         );
     }
@@ -64,7 +64,7 @@ class ElementControllerTest {
         loadElementHtmlUseCase.loadElementHtml(
           new LoadElementHtmlUseCase.Options(
             DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
             ),
             new EId("hauptteil-1_art-1")
           )
@@ -75,7 +75,7 @@ class ElementControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1"
           ).accept(MediaType.TEXT_HTML)
         )
         // then
@@ -108,7 +108,7 @@ class ElementControllerTest {
         loadElementUseCase.loadElement(
           new LoadElementUseCase.Options(
             DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
             ),
             new EId("hauptteil-1_art-1")
           )
@@ -119,7 +119,7 @@ class ElementControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // then

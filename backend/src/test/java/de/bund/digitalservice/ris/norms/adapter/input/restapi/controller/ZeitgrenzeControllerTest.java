@@ -39,7 +39,7 @@ class ZeitgrenzeControllerTest {
     @Test
     void getZeitgrenzenReturnsCorrectDataInOrder() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       var customModsMetadata = new CustomModsMetadata(
         toElement(
@@ -98,7 +98,7 @@ class ZeitgrenzeControllerTest {
     @Test
     void getZeitgrenzenReturnsEmpty() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(loadZeitgrenzenUseCase.loadZeitgrenzenFromDokument(any())).thenReturn(
         Collections.emptyList()
@@ -122,7 +122,7 @@ class ZeitgrenzeControllerTest {
     @Test
     void updateZeitgrenzeReturnsSuccess() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       var customModsMetadata = new CustomModsMetadata(
         toElement(
@@ -171,7 +171,7 @@ class ZeitgrenzeControllerTest {
     @Test
     void updateZeitgrenzenWithEmptyList() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(updateZeitgrenzenUseCase.updateZeitgrenzenOfDokument(any())).thenReturn(
         Collections.emptyList()

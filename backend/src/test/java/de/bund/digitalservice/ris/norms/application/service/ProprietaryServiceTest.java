@@ -38,7 +38,7 @@ class ProprietaryServiceTest {
     void throwsDokumentNotFoundExceptionIfNormNotFound() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       LoadProprietaryFromDokumentUseCase.Options options =
         new LoadProprietaryFromDokumentUseCase.Options(eli);
@@ -56,7 +56,7 @@ class ProprietaryServiceTest {
     void returnNewProprietaryNodeIfProprietaryNotFound() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
         ProprietaryServiceTest.class,
@@ -79,10 +79,10 @@ class ProprietaryServiceTest {
     void returnsProprietary() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       var regelungsText = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsText)
@@ -103,7 +103,7 @@ class ProprietaryServiceTest {
     void throwsDokumentNotFoundExceptionIfNormNotFound() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       UpdateProprietaryFrameFromDokumentUseCase.Options options =
         new UpdateProprietaryFrameFromDokumentUseCase.Options(
@@ -132,16 +132,16 @@ class ProprietaryServiceTest {
     void returnsUpdatedProprietaryNode() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsTextWithoutProprietary)
       );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(
         updateDokumentPort.updateDokument(
@@ -199,7 +199,7 @@ class ProprietaryServiceTest {
       // given
       var eid = new EId("hauptteil-1_abschnitt-0_art-1");
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       UpdateProprietarySingleElementFromDokumentUseCase.Options options =
         new UpdateProprietarySingleElementFromDokumentUseCase.Options(
@@ -219,16 +219,16 @@ class ProprietaryServiceTest {
       // given
       var eid = new EId("hauptteil-1_art-1");
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
+        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungstext)
       );
       var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(
         updateDokumentPort.updateDokument(new UpdateDokumentPort.Options(regelungstext))
