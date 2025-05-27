@@ -49,42 +49,12 @@ public class CreateNewVersionOfNormService {
    * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
    */
   public CreateNewExpressionResult createNewExpression(Norm norm, LocalDate date) {
-    var newExpression = new Norm(norm);
-    var newExpressionEli = eliService.findNextExpressionEli(
-      newExpression.getWorkEli(),
-      date,
-      newExpression.getExpressionEli().getLanguage()
-    );
-    var newManifestationEli = NormManifestationEli.fromExpressionEli(
-      newExpressionEli,
-      LocalDate.now()
-    );
-
-    newExpression
-      .getDokumente()
-      .forEach(dokument -> {
-        setNewExpressionMetadata(
-          dokument,
-          DokumentExpressionEli.fromNormEli(
-            newExpressionEli,
-            dokument.getExpressionEli().getSubtype()
-          )
-        );
-        setNewManifestationMetadata(
-          dokument,
-          DokumentManifestationEli.fromNormEli(
-            newManifestationEli,
-            dokument.getManifestationEli().getSubtype(),
-            dokument.getManifestationEli().getFormat()
-          )
-        );
-      });
+    var newExpression = createOnlyNewExpression(norm, date);
 
     Norm newManifestationOfOldExpression = createNewManifestationOfOldExpression(
       norm,
       newExpression
     );
-
     return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
   }
 
@@ -153,35 +123,7 @@ public class CreateNewVersionOfNormService {
     LocalDate date,
     String verkuendungDate
   ) {
-    var newExpression = new Norm(norm);
-    var newExpressionEli = eliService.findNextExpressionEli(
-      newExpression.getWorkEli(),
-      date,
-      newExpression.getExpressionEli().getLanguage()
-    );
-    var newManifestationEli = NormManifestationEli.fromExpressionEli(
-      newExpressionEli,
-      LocalDate.now()
-    );
-    newExpression
-      .getDokumente()
-      .forEach(dokument -> {
-        setNewExpressionMetadata(
-          dokument,
-          DokumentExpressionEli.fromNormEli(
-            newExpressionEli,
-            dokument.getExpressionEli().getSubtype()
-          )
-        );
-        setNewManifestationMetadata(
-          dokument,
-          DokumentManifestationEli.fromNormEli(
-            newManifestationEli,
-            dokument.getManifestationEli().getSubtype(),
-            dokument.getManifestationEli().getFormat()
-          )
-        );
-      });
+    var newExpression = createOnlyNewExpression(norm, date);
     // Keep same previous GUID and next GUID for the new created expression
     norm
       .getRegelungstext1()
@@ -277,6 +219,39 @@ public class CreateNewVersionOfNormService {
       );
 
     return newManifestationOfOldExpression;
+  }
+
+  private Norm createOnlyNewExpression(Norm norm, LocalDate date) {
+    var newExpression = new Norm(norm);
+    var newExpressionEli = eliService.findNextExpressionEli(
+      newExpression.getWorkEli(),
+      date,
+      newExpression.getExpressionEli().getLanguage()
+    );
+    var newManifestationEli = NormManifestationEli.fromExpressionEli(
+      newExpressionEli,
+      LocalDate.now()
+    );
+    newExpression
+      .getDokumente()
+      .forEach(dokument -> {
+        setNewExpressionMetadata(
+          dokument,
+          DokumentExpressionEli.fromNormEli(
+            newExpressionEli,
+            dokument.getExpressionEli().getSubtype()
+          )
+        );
+        setNewManifestationMetadata(
+          dokument,
+          DokumentManifestationEli.fromNormEli(
+            newManifestationEli,
+            dokument.getManifestationEli().getSubtype(),
+            dokument.getManifestationEli().getFormat()
+          )
+        );
+      });
+    return newExpression;
   }
 
   /**
