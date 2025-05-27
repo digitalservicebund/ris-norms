@@ -140,6 +140,65 @@ public class CreateNewVersionOfNormService {
   }
 
   /**
+   * Creates a new expression of the given norm for the given date. Also creates a new manifestation of the old
+   * expression which is set to gegenstandslos
+   *
+   * @param norm the norm for which a new expression should be created.
+   * @param date the date of the change that creates this expression.
+   * @param verkuendungDate the announcement date of the amending law producing a gegenstandslos version
+   * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
+   */
+  public CreateNewExpressionResult createNewExpression(
+    Norm norm,
+    LocalDate date,
+    String verkuendungDate
+  ) {
+    final CreateNewVersionOfNormService.CreateNewExpressionResult result = createNewExpression(
+      norm,
+      date
+    );
+
+    // Keep same previous GUID and next GUID for the new created expression
+    norm
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression()
+      .getFRBRaliasPreviousVersionId()
+      .ifPresent(previousGuid ->
+        result
+          .newExpression()
+          .getDokumente()
+          .forEach(dokument -> {
+            dokument.getMeta().getFRBRExpression().setFRBRaliasPreviousVersionId(previousGuid);
+          })
+      );
+    norm
+      .getRegelungstext1()
+      .getMeta()
+      .getFRBRExpression()
+      .getFRBRaliasNextVersionId()
+      .ifPresent(nextGuid ->
+        result
+          .newExpression()
+          .getDokumente()
+          .forEach(dokument -> {
+            dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(nextGuid);
+          })
+      );
+
+    // Set new manifestation of previous expression to gegenstandslos + remove next version GUID, if present
+    result.newManifestationOfOldExpression().setGegenstandlos(verkuendungDate);
+    result
+      .newManifestationOfOldExpression()
+      .getDokumente()
+      .forEach(dokument -> {
+        dokument.getMeta().getFRBRExpression().deleteAliasNextVersionId();
+      });
+
+    return result;
+  }
+
+  /**
    * Creates a new manifestation of the given norm. Uses the current date for the point-in-time-manifestation.
    * @param norm the norm for which a new manifestation should be created.
    * @return the newly created manifestation.

@@ -462,7 +462,9 @@ public class NormService
     zielnorm
       .expressions()
       .forEach(expression -> {
-        if (expression.isCreated()) {
+        if (
+          expression.isCreated() && amendedNormExpressions.contains(expression.normExpressionEli())
+        ) {
           final Norm norm = loadNormPort
             .loadNorm(new LoadNormPort.Options(expression.normExpressionEli()))
             .orElseThrow(() ->
@@ -470,44 +472,45 @@ public class NormService
                 String.format("Norm %s must exist", expression.normExpressionEli())
               )
             );
-          if (expression.isGegenstandslos()) {
-            // Create new manifestation and set metadatum to gegenstandslos (date of announcement)
-            final Norm newManifestation = createNewVersionOfNormService.createNewManifestation(
+          // Override by creating new expression from closest previous and replacing the already created one
+          final Norm previousClosestExpression = findPreviousClosestExistingExpression(
+            zielnorm.normWorkEli(),
+            expression.normExpressionEli().getPointInTime()
+          ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
+          final CreateNewVersionOfNormService.CreateNewExpressionResult result =
+            createNewVersionOfNormService.createNewOverridenExpression(
+              previousClosestExpression,
               norm
             );
-            // Use announcement date of amending law (part of the work eli)
-            newManifestation.setGegenstandlos(
-              verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
-            );
-            updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newManifestation));
-          }
-          if (amendedNormExpressions.contains(expression.normExpressionEli())) {
-            // Override by creating new expression from closest previous and replacing the already created one
-            final Norm previousClosestExpression = findPreviousClosestExistingExpression(
-              zielnorm.normWorkEli(),
-              expression.normExpressionEli().getPointInTime()
-            ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
-            final CreateNewVersionOfNormService.CreateNewExpressionResult result =
-              createNewVersionOfNormService.createNewOverridenExpression(
-                previousClosestExpression,
-                norm
-              );
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newExpression())
-            );
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
-            );
-          }
+          updateOrSaveNormPort.updateOrSave(
+            new UpdateOrSaveNormPort.Options(result.newExpression())
+          );
+          updateOrSaveNormPort.updateOrSave(
+            new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
+          );
         } else {
           // Take previous closest already-created expression (there must be at least 1)
           final Norm previousClosestExpression = findPreviousClosestExistingExpression(
             zielnorm.normWorkEli(),
             expression.normExpressionEli().getPointInTime()
           ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
-          // TODO check if the previous one is the one set to gegenstandslos because of keeping same previous GUID and next GUID
-          final CreateNewVersionOfNormService.CreateNewExpressionResult result =
-            createNewVersionOfNormService.createNewExpression(
+
+          // Check if the previous closest is actually one that should be set to gegenstandslos
+          boolean isGegenstandslos = zielnorm
+            .expressions()
+            .stream()
+            .anyMatch(
+              f ->
+                f.normExpressionEli().equals(previousClosestExpression.getExpressionEli()) &&
+                f.isGegenstandslos()
+            );
+          final CreateNewVersionOfNormService.CreateNewExpressionResult result = isGegenstandslos
+            ? createNewVersionOfNormService.createNewExpression(
+              previousClosestExpression,
+              expression.normExpressionEli().getPointInTime(),
+              verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
+            )
+            : createNewVersionOfNormService.createNewExpression(
               previousClosestExpression,
               expression.normExpressionEli().getPointInTime()
             );
