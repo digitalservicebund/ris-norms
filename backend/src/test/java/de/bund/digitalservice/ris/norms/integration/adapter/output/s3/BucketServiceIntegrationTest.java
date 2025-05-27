@@ -43,13 +43,13 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   void itPublishesNormToBucket() {
     // Given
     final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
     );
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
@@ -83,13 +83,13 @@ class BucketServiceIntegrationTest extends BaseS3MockIntegrationTest {
   void itDeletesNormFromPublicBucket() {
     // Given
     final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
     );
     final OffeneStruktur offenestruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
     );
     final BinaryFile binaryFile1 = Fixtures.loadBinaryFileFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",

@@ -142,7 +142,7 @@ class VerkuendungServiceTest {
     void itCreatesANewVerkuendung() throws IOException {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -194,7 +194,7 @@ class VerkuendungServiceTest {
     void itThrowsWhenTheFileIsNotXML() throws IOException {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -237,7 +237,7 @@ class VerkuendungServiceTest {
     void itThrowsWhenAnEliOfTheSameEliExists() throws IOException {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -327,7 +327,7 @@ class VerkuendungServiceTest {
     void itThrowsWhenTheNormIsNotXsdValid() throws IOException {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       final MultipartFile file = new MockMultipartFile(
         "file",
@@ -351,7 +351,7 @@ class VerkuendungServiceTest {
     void itThrowsWhenTheNormIsNotSchematronValid() throws IOException {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       var xmlContent = XmlMapper.toString(regelungstext.getDocument());
       final MultipartFile file = new MockMultipartFile(
@@ -395,7 +395,7 @@ class VerkuendungServiceTest {
     void itCreatesANewVerkuendungWithForce() throws IOException {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       final MultipartFile file = new MockMultipartFile(
         "file",

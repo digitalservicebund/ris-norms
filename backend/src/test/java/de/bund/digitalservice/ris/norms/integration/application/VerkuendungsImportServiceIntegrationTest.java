@@ -243,7 +243,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
       "/errors/normendokumentationspaket-import-failed/missing-referenced-dokument"
     );
     assertThat(finishedProcess.get().getDetails()).contains(
-      "\"Referenced Dokument regelungstext-1.xml not found.\""
+      "\"Referenced Dokument regelungstext-verkuendung-1.xml not found.\""
     );
 
     assertThat(dokumentRepository.findAll()).isEmpty();

@@ -112,11 +112,11 @@ class NormServiceTest {
     void itReturnsRegelungstext() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -136,7 +136,7 @@ class NormServiceTest {
     void itThrowsWhenNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var query = new LoadRegelungstextUseCase.Options(eli);
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
@@ -160,10 +160,10 @@ class NormServiceTest {
     void itCallsLoadRegelungstextAndReturnsXml() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -181,7 +181,7 @@ class NormServiceTest {
     void itCallsLoadRegelungstextAndThrowsNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
       var query = new LoadRegelungstextXmlUseCase.Options(eli);
@@ -201,7 +201,7 @@ class NormServiceTest {
     void itUpdatesXml() throws InvalidUpdateException {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
@@ -213,7 +213,7 @@ class NormServiceTest {
         .dokumente(
           Set.of(
             Fixtures.loadRegelungstextFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
             )
           )
         )
@@ -244,7 +244,7 @@ class NormServiceTest {
     void itThrowsNormNotFoundIfNormDoesNotExist() throws InvalidUpdateException {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
@@ -271,11 +271,11 @@ class NormServiceTest {
     void itThrowsIfEliChanges() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
       );
       var oldNorm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
@@ -300,7 +300,7 @@ class NormServiceTest {
     void itThrowsIfGuidChanges() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
