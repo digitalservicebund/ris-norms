@@ -35,11 +35,8 @@ import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
 import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
 import { useGroupedZielnormen } from "@/views/verkuendungen/verkuendungDetail/useGroupedZielnormen"
-import { RouterLink, useRoute } from "vue-router"
+import { RouterLink } from "vue-router"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
-
-const route = useRoute()
-const remountKey = computed(() => route.fullPath)
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
@@ -65,7 +62,7 @@ const {
   isFinished: normExpressionLoaded,
 } = useGetNorm(expressionEli)
 
-const breadcrumbs = ref<HeaderBreadcrumb[]>([
+const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
     key: "verkuendung",
     title: () => getFrbrDisplayText(verkuendung.value) ?? "...",
@@ -249,7 +246,6 @@ watch(eIdsToEdit, (val) => {
 
 <template>
   <RisViewLayout
-    :key="remountKey"
     :breadcrumbs
     :errors="[
       loadXmlError,
@@ -302,8 +298,13 @@ watch(eIdsToEdit, (val) => {
                 <IcBaselineArrowBack />
                 <span class="sr-only">Vorherige Version</span>
               </RouterLink>
-
-              <div class="flex items-center gap-6">
+              <span id="expression-point-in-time-label" class="sr-only">
+                Zeitpunkt der Gültigkeit dieser Fassung
+              </span>
+              <div
+                class="flex items-center gap-6"
+                aria-labelledby="expression-point-in-time-label"
+              >
                 <span
                   >Gültig ab:
                   <span class="ris-body2-bold">{{ formattedDate }}</span></span

@@ -45,17 +45,17 @@ export function createDokumentExpressionEliPathParameter(prefix?: string) {
 export function useDokumentExpressionEliPathParameter(
   prefix?: string,
 ): ComputedRef<DokumentExpressionEli> {
-  const { params } = useRoute()
+  const route = useRoute()
   const name = prefix ? `${prefix}Eli` : "eli"
 
   return computed(() => {
-    const agent = params[`${name}Agent`]
-    const year = params[`${name}Year`]
-    const naturalIdentifier = params[`${name}NaturalIdentifier`]
-    const pointInTime = params[`${name}PointInTime`]
-    const version = params[`${name}Version`]
-    const language = params[`${name}Language`]
-    const subtype = params[`${name}Subtype`]
+    const agent = route.params[`${name}Agent`]
+    const year = route.params[`${name}Year`]
+    const naturalIdentifier = route.params[`${name}NaturalIdentifier`]
+    const pointInTime = route.params[`${name}PointInTime`]
+    const version = route.params[`${name}Version`]
+    const language = route.params[`${name}Language`]
+    const subtype = route.params[`${name}Subtype`]
 
     if (
       typeof agent != "string" ||
