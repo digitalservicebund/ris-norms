@@ -5,7 +5,7 @@ import type {
   ToastMessageOptions as BaseToastMessageOptions,
   ToastServiceMethods as BaseToastServiceMethods,
 } from "primevue"
-import { useToast as baseUseToast } from "primevue"
+import { useToast as baseUseToast } from "primevue" /* eslint-disable-line no-restricted-imports*/
 import type { MaybeRefOrGetter } from "vue"
 import { toValue } from "vue"
 
