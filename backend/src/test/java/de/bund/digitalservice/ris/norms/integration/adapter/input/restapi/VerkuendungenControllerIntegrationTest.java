@@ -788,18 +788,22 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldCreateNewZielnormen() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references",
+        NormPublishState.UNPUBLISHED
       );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+      var targetNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
       );
-
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
 
       // Expressions to be created not yet existent
       final List<String> futureExpressionElis = List.of(
@@ -820,8 +824,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingNorm.getExpressionEli(),
+              targetNorm.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
@@ -865,26 +869,29 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldCreateNewZielnormenByRecreatingOne() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-created.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-created",
+        NormPublishState.UNPUBLISHED
       );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+      var targetNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
       );
-
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpressionToBeOverriden = Fixtures.loadNormFromDisk(
+      var alreadyExistingFutureExpressionToBeOverwritten = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1"
-      ).getRegelungstext1();
-
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeOverriden)
+        "vereinsgesetz-2017-03-16-1",
+        NormPublishState.UNPUBLISHED
       );
 
       // Expressions to be created not yet existent
@@ -919,8 +926,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingNorm.getExpressionEli(),
+              targetNorm.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
@@ -972,12 +979,12 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           recreated.get().getManifestationEli()
         ).getPointInTimeManifestation()
       ).isAfter(
-        alreadyExistingFutureExpressionToBeOverriden
+        alreadyExistingFutureExpressionToBeOverwritten
           .getManifestationEli()
           .getPointInTimeManifestation()
       );
       assertThat(recreated.get().getExpressionAktuelleVersionId()).isEqualTo(
-        alreadyExistingFutureExpressionToBeOverriden.getGuid()
+        alreadyExistingFutureExpressionToBeOverwritten.getGuid()
       );
 
       final List<String> expressionsEliAfter =
@@ -987,25 +994,30 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldCreateNewZielnormenAndSetGegenstandslos() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references",
+        NormPublishState.UNPUBLISHED
       );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+      var targetNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
       );
-
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpression = Fixtures.loadNormFromDisk(
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1"
-      ).getRegelungstext1();
-
-      dokumentRepository.save(DokumentMapper.mapToDto(alreadyExistingFutureExpression));
+        "vereinsgesetz-2017-03-16-1",
+        NormPublishState.UNPUBLISHED
+      );
 
       // Expressions to be created not yet existent
       final List<String> futureExpressionElis = List.of(
@@ -1026,8 +1038,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingNorm.getExpressionEli(),
+              targetNorm.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )

@@ -206,7 +206,7 @@ class NormServiceTest {
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-title/regelungstext-1.xml"
+        "vereinsgesetz-with-different-title/regelungstext-verkuendung-1.xml"
       );
 
       var oldNorm = Norm.builder()
@@ -249,7 +249,7 @@ class NormServiceTest {
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-title/regelungstext-1.xml"
+        "vereinsgesetz-with-different-title/regelungstext-verkuendung-1.xml"
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -305,7 +305,7 @@ class NormServiceTest {
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-guid/regelungstext-1.xml"
+        "vereinsgesetz-with-different-guid/regelungstext-verkuendung-1.xml"
       );
       var oldNorm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"

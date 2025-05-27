@@ -66,7 +66,7 @@ class ProprietaryServiceTest {
       );
       var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
         ProprietaryServiceTest.class,
-        "vereinsgesetz-without-proprietary.xml"
+        "vereinsgesetz-without-proprietary/regelungstext-verkuendung-1.xml"
       );
       when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
         Optional.of(regelungsTextWithoutProprietary)

@@ -5,10 +5,11 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.hamcrest.core.IsNot;
@@ -30,11 +31,15 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
   private DokumentRepository dokumentRepository;
 
   @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
   private NormManifestationRepository normManifestationRepository;
 
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
@@ -43,13 +48,13 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itReturnsArticles() throws Exception {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      // Give
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -70,13 +75,13 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsEmptyListWhenTheNormHasNoArticles() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ArticleControllerIntegrationTest.class,
-            "vereinsgesetz-without-articles.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ArticleControllerIntegrationTest.class,
+        "vereinsgesetz-without-articles",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -129,12 +134,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsTheXmlOfArticles() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -173,12 +178,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsTheXmlOfTheArticleInkrafttreten() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -252,13 +257,13 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNotFoundIfNoArticleOfTypeExist() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ArticleControllerIntegrationTest.class,
-            "vereinsgestz-without-geltungszeit-article.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ArticleControllerIntegrationTest.class,
+        "vereinsgestz-without-geltungszeit-article",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -291,13 +296,13 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNotFoundIfTheNormHasNoArticles() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ArticleControllerIntegrationTest.class,
-            "vereinsgesetz-without-articles.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ArticleControllerIntegrationTest.class,
+        "vereinsgesetz-without-articles",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -334,12 +339,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticle() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -387,12 +392,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNothingIfArticleDoesNotExist() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -429,12 +434,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticleRender() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
@@ -456,12 +461,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNotFoundIfArticleDoesntExist() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When / Then
