@@ -18,4 +18,8 @@ export interface Norm {
   frbrDateVerkuendung?: string
   /** Status of the norm (e.g. 'inForce', 'repealed', etc.) */
   status?: string
+  /** ID of the next version, if available */
+  nachfolgendeVersionId?: string
+  /** ID of the previous version, if available */
+  vorherigeVersionId?: string
 }

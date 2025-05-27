@@ -12,7 +12,10 @@ import {
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
 import { getFrbrDisplayText } from "@/lib/frbr"
-import { useGetVerkuendungService } from "@/services/verkuendungService"
+import {
+  useGetVerkuendungService,
+  useGetZielnormReferences,
+} from "@/services/verkuendungService"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useGetZeitgrenzen } from "@/services/zeitgrenzenService"
 import { ConfirmDialog, Splitter, SplitterPanel } from "primevue"
@@ -28,28 +31,19 @@ import { useNormXml } from "@/composables/useNormXml"
 import { useErrorToast } from "@/lib/errorToast"
 import { useToast } from "primevue/usetoast"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
+import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
+import { useGroupedZielnormen } from "@/views/verkuendungen/verkuendungDetail/useGroupedZielnormen"
+import { RouterLink } from "vue-router"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
 
-const expandedKeys = ref<Record<string, boolean>>({})
-const selectionKeys = ref<Record<string, boolean>>({})
-
-const handleNodeSelect = (node: TreeNode) => {
-  selectionKeys.value = { [node.key]: true }
-  toggleNode(node)
-  gotoEid(node.key)
-}
-
-function toggleNode(node: TreeNode) {
-  expandedKeys.value[node.key] = !expandedKeys.value[node.key]
-}
-
-const codeEditorRef = ref<InstanceType<typeof RisCodeEditor> | null>(null)
-
-const gotoEid = (eid: string) => {
-  codeEditorRef.value?.scrollToText(`eId="${eid}"`)
-}
+const announcementNormExpressionEli = computed(() =>
+  verkuendungEli.value.asNormEli(),
+)
 
 // BREADCRUMBS
 const sourceVerkuendungNormEli = computed(() => {
@@ -68,7 +62,7 @@ const {
   isFinished: normExpressionLoaded,
 } = useGetNorm(expressionEli)
 
-const breadcrumbs = ref<HeaderBreadcrumb[]>([
+const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
     key: "verkuendung",
     title: () => getFrbrDisplayText(verkuendung.value) ?? "...",
@@ -103,12 +97,64 @@ const treeNodes = computed<TreeNode[]>(() =>
 )
 const { tocHeadingId } = useElementId()
 
-// EDITOR
+const expandedKeys = ref<Record<string, boolean>>({})
+const selectionKeys = ref<Record<string, boolean>>({})
+const handleNodeSelect = (node: TreeNode) => {
+  selectionKeys.value = { [node.key]: true }
+  toggleNode(node)
+  gotoEid(node.key)
+}
+function toggleNode(node: TreeNode) {
+  expandedKeys.value[node.key] = !expandedKeys.value[node.key]
+}
 
+const pointInTime = computed(() => {
+  return NormExpressionEli.fromString(expressionEli.value.toString())
+    .pointInTime
+})
+
+function formatDate(dateString: string | undefined): string {
+  return dateString
+    ? new Date(dateString).toLocaleDateString("de-DE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+    : ""
+}
+
+const formattedDate = computed(() => formatDate(pointInTime.value))
+
+// NAVIGATION
+const currentEli = computed(() => expressionEli.value.toString())
+const currentZielnormGroup = computed(() => {
+  return groupedZielnormen.value?.find((group) =>
+    group.expressions.some((expr) => expr.eli === currentEli.value),
+  )
+})
+const sequence = computed(() =>
+  currentZielnormGroup.value
+    ? currentZielnormGroup.value.expressions.map((expr) => expr.eli)
+    : [],
+)
+const currentIndex = computed(() => sequence.value.indexOf(currentEli.value))
+const hasPrev = computed(() => currentIndex.value > 0)
+const hasNext = computed(
+  () =>
+    currentIndex.value >= 0 && currentIndex.value < sequence.value.length - 1,
+)
+const previousGuid = computed(() => normExpression.value?.vorherigeVersionId)
+const nextGuid = computed(() => normExpression.value?.nachfolgendeVersionId)
+
+// EDITOR
+const codeEditorRef = ref<InstanceType<typeof RisCodeEditor> | null>(null)
 const sentryTraceId = useSentryTraceId()
 const { add: addToast } = useToast()
 const { addErrorToast } = useErrorToast()
 
+const gotoEid = (eid: string) => {
+  codeEditorRef.value?.scrollToText(`eId="${eid}"`)
+}
 function showToast() {
   if (saveError.value) {
     addErrorToast(saveError, { traceId: sentryTraceId })
@@ -162,6 +208,25 @@ const editedZielnormReference = ref<EditableZielnormReference>()
 const { zielnormReferences, zielnormReferencesForEid } = useZielnormReferences(
   () => verkuendungEli.value.asNormEli(),
 )
+
+const { data: zielnormen } = useGetZielnormReferences(
+  announcementNormExpressionEli,
+)
+
+const groupedZielnormen = useGroupedZielnormen(zielnormen)
+
+const colorIndex = computed(() => {
+  const expressionEliStr = expressionEli.value.toString()
+
+  for (const zielnorm of groupedZielnormen.value) {
+    const index = zielnorm.expressions.findIndex(
+      (expr) => expr.eli === expressionEliStr,
+    )
+    if (index !== -1) return index
+  }
+
+  return undefined
+})
 
 const isSelected = (eid: string) => {
   return eIdsToEdit.value.includes(eid)
@@ -217,6 +282,50 @@ watch(eIdsToEdit, (val) => {
             class="m-16 mt-8"
           />
           <div v-else class="flex-1 overflow-auto p-10">
+            <div
+              class="sticky top-0 z-10 flex justify-between border-b border-gray-400 px-10 pt-10 pb-20"
+            >
+              <RouterLink
+                :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${previousGuid}`"
+                :class="[
+                  'focus:outline-none',
+                  hasPrev
+                    ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
+                    : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
+                ]"
+                :aria-disabled="!hasPrev"
+              >
+                <IcBaselineArrowBack />
+                <span class="sr-only">Vorherige Version</span>
+              </RouterLink>
+              <span id="expression-point-in-time-label" class="sr-only">
+                Zeitpunkt der Gültigkeit dieser Fassung
+              </span>
+              <div
+                class="flex items-center gap-6"
+                aria-labelledby="expression-point-in-time-label"
+              >
+                <span
+                  >Gültig ab:
+                  <span class="ris-body2-bold">{{ formattedDate }}</span></span
+                >
+                <RisHighlightColorSwatch :color-index="colorIndex" />
+              </div>
+
+              <RouterLink
+                :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${nextGuid}`"
+                :class="[
+                  'focus:outline-none',
+                  hasNext
+                    ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
+                    : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
+                ]"
+                :aria-disabled="!hasNext"
+              >
+                <IcBaselineArrowForward />
+                <span class="sr-only">Nächste Version</span>
+              </RouterLink>
+            </div>
             <h2 :id="tocHeadingId" class="ris-body1-bold mb-10 pt-10 pl-20">
               Inhaltsübersicht
             </h2>

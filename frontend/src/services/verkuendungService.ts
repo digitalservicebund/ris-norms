@@ -23,7 +23,7 @@ export function useGetVerkuendungService(
 ): UseFetchReturn<Verkuendung> {
   const url = computed(() => `/verkuendungen/${toValue(eli)}`)
 
-  return useApiFetch(url).json()
+  return useApiFetch(url, { refetch: true }).json()
 }
 
 /**
@@ -35,5 +35,5 @@ export function useGetZielnormReferences(
   eli: MaybeRefOrGetter<NormExpressionEli>,
 ): UseFetchReturn<Norm[]> {
   const url = computed(() => `/verkuendungen/${toValue(eli)}/zielnormen`)
-  return useApiFetch(url).json()
+  return useApiFetch(url, { refetch: true }).json()
 }
