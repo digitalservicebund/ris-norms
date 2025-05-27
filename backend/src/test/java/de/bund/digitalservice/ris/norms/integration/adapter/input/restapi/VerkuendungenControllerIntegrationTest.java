@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormM
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.VerkuendungRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
@@ -777,6 +778,128 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void itShouldCreateNewZielnormenByRecreatingOne() throws Exception {
+      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-created.xml"
+      );
+      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
+
+      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-original-expression.xml"
+      );
+
+      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
+
+      final Regelungstext alreadyExistingFutureExpressionToBeOverriden = Fixtures.loadNormFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-16-1"
+      ).getRegelungstext1();
+
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeOverriden)
+      );
+
+      // Expressions to be created not yet existent
+      final List<String> futureExpressionElis = List.of(
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu",
+        "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu",
+        "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+      );
+      assertThat(
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          futureExpressionElis.get(0)
+        )
+      ).isPresent();
+      assertThat(
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          futureExpressionElis.get(1)
+        )
+      ).isEmpty();
+      assertThat(
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          futureExpressionElis.get(2)
+        )
+      ).isEmpty();
+
+      final List<String> expressionElis = normManifestationRepository.findExpressionElisByWorkEli(
+        "eli/bund/bgbl-1/1964/s593"
+      );
+      assertThat(expressionElis).hasSize(2);
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingLaw.getExpressionEli().asNormEli(),
+              targetLaw.getWorkEli().asNormEli()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("expressions[0].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[1].isCreated").value(true))
+        .andExpect(jsonPath("expressions[1].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[2].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[2].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[2].isCreated").value(true))
+        .andExpect(jsonPath("expressions[2].createdBy").value("diese Verkündung"));
+
+      futureExpressionElis.forEach(expressionEli ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+            expressionEli
+          )
+        ).isPresent()
+      );
+
+      // Recreated should have same current GUID but different point-in-time-manifestation
+      final Optional<NormManifestationDto> recreated =
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+        );
+      assertThat(recreated).isPresent();
+      assertThat(
+        NormManifestationEli.fromString(
+          recreated.get().getManifestationEli()
+        ).getPointInTimeManifestation()
+      ).isAfter(
+        alreadyExistingFutureExpressionToBeOverriden
+          .getManifestationEli()
+          .getPointInTimeManifestation()
+      );
+      assertThat(recreated.get().getExpressionAktuelleVersionId()).isEqualTo(
+        alreadyExistingFutureExpressionToBeOverriden.getGuid()
+      );
+
+      final List<String> expressionsEliAfter =
+        normManifestationRepository.findExpressionElisByWorkEli("eli/bund/bgbl-1/1964/s593");
+      assertThat(expressionsEliAfter).hasSize(4);
+    }
+
+    @Test
     void itShouldCreateNewZielnormenAndSetGegenstandslos() throws Exception {
       final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
         VerkuendungenControllerIntegrationTest.class,
@@ -876,6 +999,31 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         gegendstandlosNormDto.get()
       );
       assertThat(gegenstandslosNorm.isGegenstandlos()).isTrue();
+
+      // Gegenstandlos and new replacing expressiond should have different current GUID but same previous GUID
+      final Optional<NormManifestationDto> replacingNewExpressionDto =
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          "eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"
+        );
+      assertThat(replacingNewExpressionDto).isPresent();
+      final Norm replacingNewExpression = NormManifestationMapper.mapToDomain(
+        replacingNewExpressionDto.get()
+      );
+      assertThat(replacingNewExpression.isGegenstandlos()).isFalse();
+      assertThat(replacingNewExpression.getGuid()).isNotEqualTo(gegenstandslosNorm.getGuid());
+      assertThat(
+        replacingNewExpression
+          .getRegelungstext1()
+          .getMeta()
+          .getFRBRExpression()
+          .getFRBRaliasPreviousVersionId()
+      ).isEqualTo(
+        gegenstandslosNorm
+          .getRegelungstext1()
+          .getMeta()
+          .getFRBRExpression()
+          .getFRBRaliasPreviousVersionId()
+      );
     }
   }
 }

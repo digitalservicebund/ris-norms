@@ -476,10 +476,11 @@ public class NormService
               )
             );
           // Override by creating new expression from closest previous and replacing the already created one
-          final Norm previousClosestExpression = findPreviousClosestExistingExpression(
-            zielnorm.normWorkEli(),
-            expression.normExpressionEli().getPointInTime()
-          ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
+          final Norm previousClosestExpression =
+            findPreviousNotSameDayThanClosestExistingExpression(
+              zielnorm.normWorkEli(),
+              expression.normExpressionEli().getPointInTime()
+            ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
           final CreateNewVersionOfNormService.CreateNewExpressionResult result =
             createNewVersionOfNormService.createNewOverridenExpression(
               previousClosestExpression,
@@ -493,7 +494,7 @@ public class NormService
           );
         } else {
           // Take previous closest already-created expression (there must be at least 1)
-          final Norm previousClosestExpression = findPreviousClosestExistingExpression(
+          final Norm previousClosestExpression = findPreviousAndSameDayClosestExistingExpression(
             zielnorm.normWorkEli(),
             expression.normExpressionEli().getPointInTime()
           ).orElseThrow(() -> new IllegalStateException("Previous closest expression not found"));
@@ -576,20 +577,43 @@ public class NormService
   }
 
   /**
-   * Get the previous closest non-gegenstandslos norm to the passed date.
+   * Get the previous closest non-gegenstandslos norm to the passed date (including same date)
    */
-  private Optional<Norm> findPreviousClosestExistingExpression(
+  private Optional<Norm> findPreviousAndSameDayClosestExistingExpression(
     NormWorkEli zielnormWorkEli,
     LocalDate dateForNewExpression
+  ) {
+    return findClosestExistingExpressionMatching(
+      zielnormWorkEli,
+      eli -> !eli.getPointInTime().isAfter(dateForNewExpression) // eli <= date
+    );
+  }
+
+  /**
+   * Get the previous closest non-gegenstandslos norm to the passed date (not same date)
+   */
+  private Optional<Norm> findPreviousNotSameDayThanClosestExistingExpression(
+    NormWorkEli zielnormWorkEli,
+    LocalDate dateForNewExpression
+  ) {
+    return findClosestExistingExpressionMatching(
+      zielnormWorkEli,
+      eli -> eli.getPointInTime().isBefore(dateForNewExpression) // eli < date
+    );
+  }
+
+  private Optional<Norm> findClosestExistingExpressionMatching(
+    NormWorkEli zielnormWorkEli,
+    Predicate<NormExpressionEli> filter
   ) {
     return loadNormExpressionElisPort
       .loadNormExpressionElis(new LoadNormExpressionElisPort.Options(zielnormWorkEli))
       .stream()
-      .filter(eli -> !eli.getPointInTime().isAfter(dateForNewExpression))
+      .filter(filter)
       .map(eli ->
         new AbstractMap.SimpleEntry<>(eli, loadNormPort.loadNorm(new LoadNormPort.Options(eli)))
       )
-      .filter(entry -> entry.getValue().isPresent()) // keep only existing Norms
+      .filter(entry -> entry.getValue().isPresent())
       .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().get()))
       .filter(entry -> !entry.getValue().isGegenstandlos())
       .max(Map.Entry.comparingByKey())
