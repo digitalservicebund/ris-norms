@@ -152,7 +152,7 @@ class ArticleServiceTest {
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
-        "vereinsgesetz-without-articles.xml"
+        "vereinsgesetz-without-articles/regelungstext-verkuendung-1.xml"
       );
       final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
@@ -248,7 +248,7 @@ class ArticleServiceTest {
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
-        "regelungstext-without-geltungszeitregel.xml"
+        "regelungstext-without-geltungszeitregel/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -273,7 +273,7 @@ class ArticleServiceTest {
       var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
-        "vereinsgesetz-without-articles.xml"
+        "vereinsgesetz-without-articles/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));

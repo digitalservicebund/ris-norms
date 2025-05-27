@@ -114,7 +114,7 @@ class ZeitgrenzeServiceTest {
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ZeitgrenzeServiceTest.class,
-        "norm-with-several-zeitgrenzen.xml"
+        "norm-with-several-zeitgrenzen/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -176,7 +176,7 @@ class ZeitgrenzeServiceTest {
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ZeitgrenzeServiceTest.class,
-        "norm-with-several-zeitgrenzen.xml"
+        "norm-with-several-zeitgrenzen/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 

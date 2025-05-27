@@ -107,10 +107,11 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var proprietary = Fixtures.loadRegelungstextFromDisk(
+      var proprietary = Fixtures.loadNormFromDisk(
         ProprietaryControllerTest.class,
-        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+        "vereinsgesetz-with-invalid-proprietary-metadata"
       )
+        .getRegelungstext1()
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -379,10 +380,11 @@ class ProprietaryControllerTest {
       );
       var eid = "hauptteil-1_art-1";
 
-      var proprietary = Fixtures.loadRegelungstextFromDisk(
+      var proprietary = Fixtures.loadNormFromDisk(
         ProprietaryControllerTest.class,
-        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+        "vereinsgesetz-with-invalid-proprietary-metadata"
       )
+        .getRegelungstext1()
         .getMeta()
         .getOrCreateProprietary();
       when(
