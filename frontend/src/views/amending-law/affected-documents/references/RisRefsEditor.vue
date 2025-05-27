@@ -6,7 +6,7 @@ import { computed, ref, triggerRef, watch } from "vue"
 import { xmlNodeToString, xmlStringToDocument } from "@/lib/xml"
 import { getNodeByEid } from "@/lib/ldmlde"
 import { useRoute, useRouter } from "vue-router"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "@/composables/useToast"
 
 const props = defineProps<{
   /**

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useErrorToast } from "@/lib/errorToast"
 import Button from "primevue/button"
 import InputText from "primevue/inputtext"
 import Select from "primevue/select"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "@/composables/useToast"
 import { computed, watch } from "vue"
 import IconCheck from "~icons/ic/baseline-check"
 import { useElementId } from "@/composables/useElementId"
@@ -69,8 +68,7 @@ const destinationHrefEli = computed(() => {
 })
 
 const sentryTraceId = useSentryTraceId()
-const { add: addToast } = useToast()
-const { addErrorToast } = useErrorToast()
+const { add: addToast, addError: addErrorToast } = useToast()
 
 function showToast() {
   if (props.updateError) {

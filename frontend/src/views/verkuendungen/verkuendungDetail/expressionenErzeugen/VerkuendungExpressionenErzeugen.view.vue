@@ -4,8 +4,8 @@ import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import { useToast } from "@/composables/useToast"
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
-import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import {
@@ -13,7 +13,7 @@ import {
   useGetZielnormPreview,
 } from "@/services/zielnormExpressionsService"
 import { cloneDeep, isEqual } from "lodash"
-import { ConfirmDialog, useConfirm, useToast } from "primevue"
+import { ConfirmDialog, useConfirm } from "primevue"
 import { ref, watch, watchEffect } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 
@@ -21,8 +21,7 @@ const eli = useDokumentExpressionEliPathParameter()
 
 const confirm = useConfirm()
 const traceId = useSentryTraceId()
-const { add: addToast } = useToast()
-const { addErrorToast } = useErrorToast()
+const { add: addToast, addError: addErrorToast } = useToast()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {

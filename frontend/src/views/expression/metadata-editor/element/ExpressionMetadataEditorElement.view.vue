@@ -7,7 +7,6 @@ import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useErrorToast } from "@/lib/errorToast"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
 import {
   useGetElementProprietary,
@@ -16,7 +15,7 @@ import {
 import type { ElementProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import Button from "primevue/button"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "@/composables/useToast"
 import RadioButton from "primevue/radiobutton"
 import { computed, ref, watch } from "vue"
 
@@ -87,8 +86,7 @@ const {
 } = useGetElementHtml(dokumentExpressionEli, elementEid)
 
 const sentryTraceId = useSentryTraceId()
-const { add: addToast } = useToast()
-const { addErrorToast } = useErrorToast()
+const { add: addToast, addError: addErrorToast } = useToast()
 
 function showToast() {
   if (saveError.value) {
