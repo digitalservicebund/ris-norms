@@ -36,12 +36,13 @@ public class XsdSchemaService {
   Resource risNormsMetadataSchema;
   Resource risNormsApplicationOnlyMetadataSchema;
 
+  // TODO: (Malte Laukötter, 2025-05-27) include the missing once (bundesregierung & rechtestzungsdokument metadata)
   public XsdSchemaService(
     @Value(
       "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-baukasten.xsd"
     ) Resource baukastenXsdSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-metadaten.xsd"
+      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-metadaten-regelungstext.xsd"
     ) Resource metadatenXsdSchema,
     @Value(
       "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
