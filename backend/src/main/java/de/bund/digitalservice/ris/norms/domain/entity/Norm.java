@@ -100,12 +100,14 @@ public class Norm {
    *
    * @return the {@link Rechtsetzungsdokument}, or an empty set if none exist
    */
-  public Optional<Rechtsetzungsdokument> getRechtsetzungsdokument() {
+  public Rechtsetzungsdokument getRechtsetzungsdokument() {
     return dokumente
       .stream()
       .filter(Rechtsetzungsdokument.class::isInstance)
       .map(Rechtsetzungsdokument.class::cast)
-      .findFirst();
+      .findFirst()
+      // TODO: (Malte Laukötter, 2025-05-27) create proper exception
+      .orElseThrow(() -> new RuntimeException("Missing Rechtsetzungsdokument"));
   }
 
   /**
