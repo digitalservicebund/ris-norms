@@ -27,7 +27,7 @@ class XmlMapperTest {
         .getAttributes()
         .getNamedItem("name")
         .getNodeValue()
-    ).isEqualTo("regelungstext");
+    ).isEqualTo("/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung");
   }
 
   @Test
