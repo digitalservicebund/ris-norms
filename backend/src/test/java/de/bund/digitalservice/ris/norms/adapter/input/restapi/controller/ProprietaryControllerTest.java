@@ -149,7 +149,7 @@ class ProprietaryControllerTest {
       var proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert"></akn:proprietary>
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert"></akn:proprietary>
           """
         )
       );
@@ -192,7 +192,7 @@ class ProprietaryControllerTest {
         XmlMapper.toElement(
           """
            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-               eId="meta-1_proprietary-1"
+               eId="meta-n1_proprietary-n1"
                GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                source="attributsemantik-noch-undefiniert">
                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
@@ -324,7 +324,7 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Options(eli)
@@ -347,7 +347,7 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_art-1";
+      var eid = "art-z1";
 
       var proprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
@@ -378,7 +378,7 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_art-1";
+      var eid = "art-z1";
 
       var proprietary = Fixtures.loadNormFromDisk(
         ProprietaryControllerTest.class,
@@ -411,7 +411,7 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_art-1";
+      var eid = "art-z1";
 
       var proprietary = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
@@ -444,15 +444,15 @@ class ProprietaryControllerTest {
     void updatesProprietarySuccess() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
-      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
+      var eid = new EId("hauptteil-n1_abschnitt-n0_art-n1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
                                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
                                    <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-                                           <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                                           <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                                        <ris:artDerNorm>SN</ris:artDerNorm>
                                    </ris:einzelelement>
                                </ris:legalDocML.de_metadaten>
@@ -498,7 +498,7 @@ class ProprietaryControllerTest {
     @Test
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
       // given
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(

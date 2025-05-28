@@ -61,9 +61,9 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
+        .andExpect(jsonPath("$[0].eid").value("art-z1"))
         .andExpect(jsonPath("$[1]").exists())
-        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
+        .andExpect(jsonPath("$[1].eid").value("art-z2"))
         .andExpect(jsonPath("$[2]").doesNotExist());
     }
 
@@ -151,7 +151,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           content()
             .node(
               hasXPath(
-                "//span[@data-eId=\"hauptteil-1_art-1_überschrift-1\"]",
+                "//span[@data-eId=\"art-z1_überschrift-n1\"]",
                 equalTo("Änderung des Vereinsgesetzes")
               )
             ),
@@ -196,7 +196,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             .node(
               IsNot.not(
                 hasXPath(
-                  "//span[@data-eId=\"hauptteil-1_art-1_überschrift-1\"]",
+                  "//span[@data-eId=\"art-z1_überschrift-n1\"]",
                   equalTo("Änderung des Vereinsgesetzes")
                 )
               )
@@ -354,11 +354,11 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"));
+        .andExpect(jsonPath("eid").value("art-z1"));
     }
 
     @Test
@@ -370,7 +370,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
@@ -384,7 +384,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           )
         )
         .andExpect(
@@ -431,7 +431,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
           )
         )
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
+        .andExpect(jsonPath("eid").value("art-z9999"));
     }
   }
 
@@ -453,12 +453,12 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.TEXT_HTML)
         )
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//span[@data-eId=\"hauptteil-1_art-1_überschrift-1\"]").string(
+          xpath("//span[@data-eId=\"art-z1_überschrift-n1\"]").string(
             equalToCompressingWhiteSpace("Änderung des Vereinsgesetzes")
           )
         )
@@ -502,7 +502,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         )
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
+        .andExpect(jsonPath("eid").value("art-z9999"));
     }
   }
 }

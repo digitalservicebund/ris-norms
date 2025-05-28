@@ -246,7 +246,7 @@ class RegelungstextTest {
     assertThat(actualArticles).hasSize(expectedNumberOfArticles);
     assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
-    assertThat(actualArticles.get(0).getEid()).hasToString("hauptteil-1_art-1");
+    assertThat(actualArticles.get(0).getEid()).hasToString("art-z1");
     assertThat(actualArticles.get(0).getAffectedDocumentEli()).contains(
       DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
@@ -255,7 +255,7 @@ class RegelungstextTest {
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
     assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
-    assertThat(actualArticles.get(1).getEid()).hasToString("hauptteil-1_art-2");
+    assertThat(actualArticles.get(1).getEid()).hasToString("art-z3");
     assertThat(actualArticles.get(1).getAffectedDocumentEli()).isNotPresent();
   }
 
@@ -269,7 +269,7 @@ class RegelungstextTest {
                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
                                    http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
            <akn:act name="regelungstext">
-              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+              <akn:body eId="hauptteil-n1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
               </akn:body>
            </akn:act>
         </akn:akomaNtoso>
@@ -362,7 +362,7 @@ class RegelungstextTest {
         NodeParser.getNodeFromExpression("//act/meta/analysis", regelungstext.getDocument())
       ).contains(createdNode);
       assertThat(NodeParser.getValueFromExpression("@eId", createdNode)).contains(
-        "meta-1_analysis-1"
+        "meta-n1_analysis-n1"
       );
     }
   }
@@ -416,8 +416,8 @@ class RegelungstextTest {
       );
 
       // when
-      regelungstext.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
-      regelungstext.deleteByEId("meta-1_ident-1_frbrmanifestation-1_frbrthis-1");
+      regelungstext.deleteByEId("meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1");
+      regelungstext.deleteByEId("meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1");
 
       // then
       assertThatThrownBy(regelungstext::getExpressionEli).isInstanceOf(
@@ -434,7 +434,9 @@ class RegelungstextTest {
     );
 
     // when
-    final Optional<Element> element = regelungstext.getElementByEId("einleitung-1_block-1_datum-1");
+    final Optional<Element> element = regelungstext.getElementByEId(
+      "einleitung-n1_block-n1_datum-n1"
+    );
 
     // then
     assertThat(element).isPresent();

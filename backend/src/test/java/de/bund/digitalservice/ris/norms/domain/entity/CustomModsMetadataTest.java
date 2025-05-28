@@ -50,13 +50,13 @@ class CustomModsMetadataTest {
                  <norms:zielnorm-reference>
                      <norms:typ>Änderungsvorschrift</norms:typ>
                      <norms:geltungszeit>gz-1</norms:geltungszeit>
-                     <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                     <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
                      <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
                  </norms:zielnorm-reference>
                  <norms:zielnorm-reference>
                      <norms:typ>Aufhebung</norms:typ>
                      <norms:geltungszeit>gz-2</norms:geltungszeit>
-                     <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2</norms:eid>
+                     <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n2</norms:eid>
                      <norms:zielnorm>eli/bund/bgbl-1/2019/789</norms:zielnorm>
                  </norms:zielnorm-reference>
              </norms:zielnorm-references>
@@ -70,10 +70,10 @@ class CustomModsMetadataTest {
 
     assertThat(zielnormenReferences.get()).hasSize(2);
     assertThat(zielnormenReferences.get().stream().toList().getFirst().getEId()).hasToString(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+      "art-z1_abs-n1_untergl-n1_listenelem-n1"
     );
     assertThat(zielnormenReferences.get().stream().toList().get(1).getEId()).hasToString(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+      "art-z1_abs-n1_untergl-n1_listenelem-n2"
     );
   }
 
@@ -104,13 +104,13 @@ class CustomModsMetadataTest {
                    <norms:zielnorm-reference>
                        <norms:typ>Änderungsvorschrift</norms:typ>
                        <norms:geltungszeit>gz-1</norms:geltungszeit>
-                       <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                       <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
                        <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
                    </norms:zielnorm-reference>
                    <norms:zielnorm-reference>
                        <norms:typ>Aufhebung</norms:typ>
                        <norms:geltungszeit>gz-2</norms:geltungszeit>
-                       <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2</norms:eid>
+                       <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n2</norms:eid>
                        <norms:zielnorm>eli/bund/bgbl-1/2019/789</norms:zielnorm>
                    </norms:zielnorm-reference>
                </norms:zielnorm-references>
@@ -124,10 +124,10 @@ class CustomModsMetadataTest {
 
       assertThat(zielnormenReferences.get()).hasSize(2);
       assertThat(zielnormenReferences.get().stream().toList().getFirst().getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+        "art-z1_abs-n1_untergl-n1_listenelem-n1"
       );
       assertThat(zielnormenReferences.get().stream().toList().get(1).getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+        "art-z1_abs-n1_untergl-n1_listenelem-n2"
       );
     }
   }
@@ -148,7 +148,7 @@ class CustomModsMetadataTest {
                    <norms:zielnorm-reference>
                        <norms:typ>Änderungsvorschrift</norms:typ>
                        <norms:geltungszeit>gz-1</norms:geltungszeit>
-                       <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                       <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
                        <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
                    </norms:zielnorm-reference>
                </norms:zielnorm-references>
@@ -175,7 +175,7 @@ class CustomModsMetadataTest {
                    <norms:zielnorm-reference>
                        <norms:typ>Änderungsvorschrift</norms:typ>
                        <norms:geltungszeit>gz-2</norms:geltungszeit>
-                       <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                       <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
                        <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
                    </norms:zielnorm-reference>
                </norms:zielnorm-references>

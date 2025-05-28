@@ -592,7 +592,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 
       // when
       mockMvc
@@ -629,7 +629,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 
       Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
@@ -658,7 +658,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 
       Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
@@ -687,7 +687,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_art-1";
+      var eid = "art-z1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(
@@ -719,7 +719,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 
       // when
       mockMvc
@@ -741,7 +741,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary/hauptteil-1_abschnitt-0_art-1"
+            "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary/hauptteil-n1_abschnitt-n0_art-n1"
           )
         )
         .andExpect(
@@ -757,7 +757,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 
       dokumentRepository.save(
         DokumentMapper.mapToDto(

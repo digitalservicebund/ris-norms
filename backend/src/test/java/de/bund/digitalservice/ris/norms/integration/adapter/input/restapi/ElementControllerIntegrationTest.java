@@ -124,7 +124,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1"
           ).accept(MediaType.TEXT_HTML)
         )
         // Then
@@ -226,12 +226,12 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
+        .andExpect(jsonPath("eid").value("art-z1"))
         .andExpect(jsonPath("type").value("article"))
         .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
     }
