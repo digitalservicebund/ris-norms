@@ -205,6 +205,31 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
   test.skip("shows a warning if the local data has become outdated before creating expressions", async ({
     page,
   }) => {
+    // TODO double check the mock
+    await page.route(
+      "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          json: [
+            {
+              normWorkEli: "eli/bund/bgbl-1/1964/s593",
+              title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+              shortTitle: "Vereinsgesetz",
+              expressions: [
+                {
+                  normExpressionEli:
+                    "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu",
+                  isGegenstandslos: false,
+                  isCreated: false,
+                  createdBy: "diese Verkündung",
+                },
+              ],
+            },
+          ],
+        })
+      },
+    )
     await page.goto(
       "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
     )
@@ -260,6 +285,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
   test.skip("shows an error if creating expressions fails", async ({
     page,
   }) => {
+    // TODO work only if run separately
     await page.route(
       "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/eli/bund/bgbl-1/1964/s593/expressions/create",
       async (route) => {
