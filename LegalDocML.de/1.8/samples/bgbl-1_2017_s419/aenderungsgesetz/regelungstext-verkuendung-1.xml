@@ -159,12 +159,10 @@
          <akn:proprietary source="attributsemantik-noch-undefiniert"
                           GUID="cd95811a-63ac-4710-b8aa-fdae33131368"
                           eId="meta-n1_proprietary-n1">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>mantelform</meta:form>
-            </meta:legalDocML.de_metadaten>
-            
-            
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>mantelform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
                   <norms:geltungszeiten>

@@ -124,12 +124,10 @@
          <akn:proprietary source="attributsemantik-noch-undefiniert"
                           GUID="2a01e95a-f73a-4999-aa87-6997f5c18589"
                           eId="meta-n1_proprietary-n1">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>stammform</meta:form>
-            </meta:legalDocML.de_metadaten>
-            
-            
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>stammform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="031f77e8-9b26-43f8-88e9-6e202c73c214" eId="einleitung-n1">

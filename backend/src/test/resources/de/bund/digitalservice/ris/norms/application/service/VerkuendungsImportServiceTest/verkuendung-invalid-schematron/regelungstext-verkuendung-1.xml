@@ -432,11 +432,10 @@
          <akn:proprietary GUID="bc7b8473-540d-4948-94fe-d1ea83a384aa"
                           eId="meta-n1_proprietary-n1"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>mantelform</meta:form>
-            </meta:legalDocML.de_metadaten>
-            
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>mantelform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="4b6b1f2a-b771-44e9-9c10-3aa795359b4c" eId="einleitung-n1">

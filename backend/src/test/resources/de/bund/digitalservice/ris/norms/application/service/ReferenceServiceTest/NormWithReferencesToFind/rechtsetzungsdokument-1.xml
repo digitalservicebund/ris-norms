@@ -8,7 +8,8 @@
          <akn:identification GUID="c7f7010e-c814-4ae3-b84d-bbbdbe1a8a98"
                              eId="meta-n1_ident-n1"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork GUID="66b2cc2a-17a2-45e8-b1bd-1656765aed3b" eId="meta-n1_ident-n1_frbrwork-n1">
+            <akn:FRBRWork GUID="66b2cc2a-17a2-45e8-b1bd-1656765aed3b"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
                <akn:FRBRthis GUID="e75bdd53-9720-48ad-8aee-5cd2000d3f99"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              value="eli/bund/bgbl-1/1001/2/rechtsetzungsdokument-1"/>
@@ -43,7 +44,8 @@
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression GUID="02a3d510-2ed4-4db7-92c7-be611ebe7fd9" eId="meta-n1_ident-n1_frbrexpression-n1">
+            <akn:FRBRExpression GUID="02a3d510-2ed4-4db7-92c7-be611ebe7fd9"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
                <akn:FRBRthis GUID="c05f1aed-0f02-4f86-bf42-82a95e799aae"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              value="eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/rechtsetzungsdokument-1"/>
@@ -94,7 +96,8 @@
          </akn:identification>
       </akn:meta>
       <akn:collectionBody GUID="c75ffd58-a239-4e12-90f4-bbf5a62ca4ac" eId="rdokhauptteil-n1">
-         <akn:component GUID="b6cab3dd-b5c7-4b76-aeff-9ed27b4a39c3" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="b6cab3dd-b5c7-4b76-aeff-9ed27b4a39c3"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="2d0ee931-d96a-431f-a992-5f741258599a"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

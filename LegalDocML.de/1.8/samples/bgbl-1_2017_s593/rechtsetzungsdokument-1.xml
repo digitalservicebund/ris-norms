@@ -23,7 +23,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="d9f80cfd-01f8-46c6-9850-6c1e4c609491"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="70e164ff-f049-4cce-87de-1b44eed6e1e6">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="70e164ff-f049-4cce-87de-1b44eed6e1e6">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="9f7a4a18-7c22-42e9-8833-eaf70413ea59"
                              value="eli/bund/bgbl-1/2017/s593/rechtsetzungsdokument-1"/>
@@ -58,7 +59,8 @@
                                 GUID="1692be01-78e3-49b9-b3d3-37caeb9bb0af"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="a6e0696d-c748-4b3c-8c3b-468b16d25948">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="a6e0696d-c748-4b3c-8c3b-468b16d25948">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="af367a03-7aa6-45ed-bd06-951594892944"
                              value="eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/rechtsetzungsdokument-1"/>
@@ -110,16 +112,17 @@
          <akn:proprietary GUID="c7cdf547-7c03-4ac6-8562-16d930011797"
                           source="attributsemantik-noch-undefiniert"
                           eId="meta-n1_proprietary-n1">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>nicht-vorhanden</meta:initiant>
-               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
-               <meta:fna>754-28-1</meta:fna>
-               <meta:gesta>nicht-vorhanden</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+               <redok:initiant>nicht-vorhanden</redok:initiant>
+               <redok:bearbeitendeInstitution>nicht-vorhanden</redok:bearbeitendeInstitution>
+               <redok:fna>754-28-1</redok:fna>
+               <redok:gesta>nicht-vorhanden</redok:gesta>
+            </redok:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="ff54eab0-d709-4420-b8fc-795760501d40" eId="rdokhauptteil-n1">
-         <akn:component GUID="e662c50f-5282-4ebd-bafc-38de4927c82b" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="e662c50f-5282-4ebd-bafc-38de4927c82b"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="62c1b1ec-5df2-48d3-962c-10a943beabd8"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

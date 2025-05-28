@@ -34,13 +34,13 @@
 
   <!-- Split old metadata into two elements -->
   <xsl:template match="meta_old:legalDocML.de_metadaten">
-    <xsl:element name="meta:legalDocML.de_metadaten" namespace="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+    <xsl:element name="regtxt:legalDocML.de_metadaten" namespace="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
        <xsl:apply-templates select="./meta_old:typ" />
        <xsl:apply-templates select="./meta_old:form" />
        <xsl:apply-templates select="./meta_old:vomHdrAbweichendeGliederung" />
     </xsl:element>
 
-    <xsl:element name="meta:legalDocML.de_metadaten" namespace="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+    <xsl:element name="redok:legalDocML.de_metadaten" namespace="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
        <xsl:apply-templates select="./meta_old:initiant" />
        <xsl:apply-templates select="./meta_old:bearbeitendeInstitution" />
        <xsl:apply-templates select="./meta_old:fna" />
@@ -51,13 +51,13 @@
   </xsl:template>
 
   <xsl:template match="meta_old:typ | meta_old:form | meta_old:vomHdrAbweichendeGliederung">
-       <xsl:element namespace="http://MetadatenRegelungstext.LegalDocML.de/1.8/" name="{name()}">
+       <xsl:element namespace="http://MetadatenRegelungstext.LegalDocML.de/1.8/" name="{concat('regtxt:', local-name())}">
          <xsl:apply-templates select='@* | node()'/>
       </xsl:element>
   </xsl:template>
 
   <xsl:template match="meta_old:migrationsstatusNeuRIS | meta_old:gegenstandlos | meta_old:gesta | meta_old:fna | meta_old:bearbeitendeInstitution | meta_old:initiant">
-       <xsl:element namespace="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/" name="{name()}">
+       <xsl:element namespace="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/" name="{concat('redok:', local-name())}">
          <xsl:apply-templates select='@* | node()'/>
       </xsl:element>
   </xsl:template>

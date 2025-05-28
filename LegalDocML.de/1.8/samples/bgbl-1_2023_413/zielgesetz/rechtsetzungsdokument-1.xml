@@ -8,7 +8,8 @@
          <akn:identification source="attributsemantik-noch-undefiniert"
                              GUID="8b04d091-8519-49d2-a9cb-a5566549406f"
                              eId="meta-n1_ident-n1">
-            <akn:FRBRWork GUID="37183ca4-3d00-4d8b-bbc6-3355566620de" eId="meta-n1_ident-n1_frbrwork-n1">
+            <akn:FRBRWork GUID="37183ca4-3d00-4d8b-bbc6-3355566620de"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1990/s2954/rechtsetzungsdokument-1"
                              GUID="d9debfcc-2c82-4851-8a10-7737dd00db7c"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
@@ -43,7 +44,8 @@
                                 GUID="9dc80819-63ec-437c-8b49-4c736302cd1f"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression GUID="43c2faa0-116f-47bc-9c14-be52d5635000" eId="meta-n1_ident-n1_frbrexpression-n1">
+            <akn:FRBRExpression GUID="43c2faa0-116f-47bc-9c14-be52d5635000"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/rechtsetzungsdokument-1"
                              GUID="00b2922e-5949-4f2c-b36c-efad6f63962e"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
@@ -95,16 +97,17 @@
          <akn:proprietary GUID="06411b21-8147-4fbd-a787-7bb136e0b50c"
                           source="attributsemantik-noch-undefiniert"
                           eId="meta-n1_proprietary-n1">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>bundesregierung</meta:initiant>
-               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
-               <meta:fna>210-5</meta:fna>
-               <meta:gesta>nicht-vorhanden</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+               <redok:initiant>bundesregierung</redok:initiant>
+               <redok:bearbeitendeInstitution>bundesregierung</redok:bearbeitendeInstitution>
+               <redok:fna>210-5</redok:fna>
+               <redok:gesta>nicht-vorhanden</redok:gesta>
+            </redok:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="0ce61b4e-0de7-4af3-a3c9-6d69f53a335f" eId="rdokhauptteil-n1">
-         <akn:component GUID="8f2fa764-b672-4bdf-ae97-7cc64f667639" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="8f2fa764-b672-4bdf-ae97-7cc64f667639"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="3c8da15c-4d71-42fb-a350-f142057c4f2f"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

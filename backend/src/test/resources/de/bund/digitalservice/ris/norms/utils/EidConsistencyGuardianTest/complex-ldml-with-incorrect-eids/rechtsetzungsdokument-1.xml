@@ -6,7 +6,8 @@
    <akn:documentCollection name="/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument">
       <akn:meta GUID="5a0deec5-b63a-405b-96bb-eb488afd6c47" eId="meta-n1"/>
       <akn:collectionBody GUID="df1569f5-6639-4185-a346-fba84d91e71f" eId="rdokhauptteil-n1">
-         <akn:component GUID="5c0ecd0f-4a88-4e4c-bc5a-51861f5e41cd" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="5c0ecd0f-4a88-4e4c-bc5a-51861f5e41cd"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="05a7922c-4c0a-4115-a54a-2789a35b7127"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

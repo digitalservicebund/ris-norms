@@ -94,13 +94,12 @@
          <akn:proprietary GUID="0491c95d-de17-4e38-bc97-a6a58a394297"
                           eId="meta-n1_proprietary-n1"
                           source="attributsemantik-noch-undefiniert">
-            
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>nicht-vorhanden</meta:initiant>
-               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
-               <meta:fna>611-19, 754-29, 612-20, 612-20-1, 860-2, 860-6, 85-5, 611-19-1-10</meta:fna>
-               <meta:gesta>D056</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+               <redok:initiant>nicht-vorhanden</redok:initiant>
+               <redok:bearbeitendeInstitution>nicht-vorhanden</redok:bearbeitendeInstitution>
+               <redok:fna>611-19, 754-29, 612-20, 612-20-1, 860-2, 860-6, 85-5, 611-19-1-10</redok:fna>
+               <redok:gesta>D056</redok:gesta>
+            </redok:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="cfe5ae88-b70c-4297-8b90-23b135120c67" eId="rdokhauptteil-n1">

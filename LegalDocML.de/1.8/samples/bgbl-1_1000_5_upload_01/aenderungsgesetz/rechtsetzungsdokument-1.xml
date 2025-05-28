@@ -8,7 +8,8 @@
          <akn:identification source="attributsemantik-noch-undefiniert"
                              GUID="897b4adb-0b37-4e71-b6af-7129dd1abc6e"
                              eId="meta-n1_ident-n1">
-            <akn:FRBRWork GUID="2ccf00e3-b74b-4775-bc88-981b48de3702" eId="meta-n1_ident-n1_frbrwork-n1">
+            <akn:FRBRWork GUID="2ccf00e3-b74b-4775-bc88-981b48de3702"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/rechtsetzungsdokument-1"
                              GUID="971c97ea-0f7f-4046-a4e6-54aff1111d86"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
@@ -43,7 +44,8 @@
                                 GUID="8885f1a9-9011-4664-82f3-c99062d16e3b"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression GUID="49cc402e-c957-4914-afb4-8059ab8d159d" eId="meta-n1_ident-n1_frbrexpression-n1">
+            <akn:FRBRExpression GUID="49cc402e-c957-4914-afb4-8059ab8d159d"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/rechtsetzungsdokument-1"
                              GUID="d1f0a0ae-2921-477f-971f-6ba3edcfc69e"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
@@ -94,7 +96,8 @@
          </akn:identification>
       </akn:meta>
       <akn:collectionBody GUID="007ad500-94f3-42e1-866b-45fd7a31a784" eId="rdokhauptteil-n1">
-         <akn:component GUID="18d2d548-737c-4b1f-ba5c-09f39503472f" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="18d2d548-737c-4b1f-ba5c-09f39503472f"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="29b50a2b-7134-43a3-a5db-cdec6c966373"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
