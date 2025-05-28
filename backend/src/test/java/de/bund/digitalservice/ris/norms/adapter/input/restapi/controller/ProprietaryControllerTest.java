@@ -200,12 +200,12 @@ class ProprietaryControllerTest {
                    <meta:fna>new-fna</meta:fna>
                    <meta:art>new-art</meta:art>
                </meta:legalDocML.de_metadaten>
-               <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+               <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                    <meta:federfuehrung>
                        <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">new ressort</meta:federfuehrend>
                    </meta:federfuehrung>
                </meta:legalDocML.de_metadaten>
-               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                    <ris:subtyp>new-subtyp</ris:subtyp>
                    <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
                    <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -450,7 +450,7 @@ class ProprietaryControllerTest {
         XmlMapper.toElement(
           """
            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+                               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                                    <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
                                            <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                                        <ris:artDerNorm>SN</ris:artDerNorm>

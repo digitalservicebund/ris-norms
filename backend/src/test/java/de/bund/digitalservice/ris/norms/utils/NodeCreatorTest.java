@@ -55,7 +55,7 @@ class NodeCreatorTest {
 
     // Then
     final Node childTestNode = NodeParser.getMandatoryNodeFromExpression(
-      "//test/Q{http://MetadatenRIS.LegalDocML.de/1.7.2/}childTest",
+      "//test/Q{http://MetadatenRIS.LegalDocML.de/1.8/}childTest",
       document
     );
     assertThat(childTestNode).isEqualTo(newElement);
