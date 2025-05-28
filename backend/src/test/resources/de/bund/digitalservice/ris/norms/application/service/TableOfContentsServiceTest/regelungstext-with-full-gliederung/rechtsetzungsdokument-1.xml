@@ -20,7 +20,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="9cff545b-15a1-475f-8ff5-6981bf93d1c9"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="9d83502d-1612-40d0-8ff7-f40c526caa1d">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="9d83502d-1612-40d0-8ff7-f40c526caa1d">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="aeb071b3-61ff-41ae-a438-a7609d76cb4f"
                              value="eli/bund/bgbl-1/2017/s419/rechtsetzungsdokument-1"/>
@@ -55,7 +56,8 @@
                                 GUID="c0000c6e-6db4-4508-aec7-0eae9b698345"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="aa01a145-3176-4e99-9d62-e035f007246e">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="aa01a145-3176-4e99-9d62-e035f007246e">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="d5788389-c9df-4de7-b08a-dff898932b77"
                              value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/rechtsetzungsdokument-1"/>
@@ -107,16 +109,17 @@
          <akn:proprietary GUID="5f6bdf67-aa51-4ae4-910b-0ddfa15a24ff"
                           source="attributsemantik-noch-undefiniert"
                           eId="meta-n1_proprietary-n1">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
-               <meta:initiant>bundesregierung</meta:initiant>
-               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
-               <meta:fna>nicht-vorhanden</meta:fna>
-               <meta:gesta>nicht-vorhanden</meta:gesta>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+               <redok:initiant>bundesregierung</redok:initiant>
+               <redok:bearbeitendeInstitution>bundesregierung</redok:bearbeitendeInstitution>
+               <redok:fna>nicht-vorhanden</redok:fna>
+               <redok:gesta>nicht-vorhanden</redok:gesta>
+            </redok:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="c4b3b36c-556b-44dc-9e89-2ec4f60c6902" eId="rdokhauptteil-n1">
-         <akn:component GUID="2a4caadd-c102-4598-a84e-0641e18f3bf1" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="2a4caadd-c102-4598-a84e-0641e18f3bf1"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="eb562105-a9c5-4cad-b68a-841a5e9319e2"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

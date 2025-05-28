@@ -7,7 +7,8 @@
          <akn:identification source="attributsemantik-noch-undefiniert"
                              GUID="84333920-54a9-4c33-b2a5-f173834891f3"
                              eId="meta-n1_ident-n1">
-            <akn:FRBRWork GUID="c7673981-01c8-45a9-8477-a6e905262f91" eId="meta-n1_ident-n1_frbrwork-n1">
+            <akn:FRBRWork GUID="c7673981-01c8-45a9-8477-a6e905262f91"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1000/s1/rechtsetzungsdokument-1"
                              GUID="4ccb1859-40d2-4cd0-87f2-7b43b000dd4f"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
@@ -42,7 +43,8 @@
                                 GUID="980cb589-665e-4594-90b4-38fefc2750fc"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression GUID="6e1c6533-03b6-44ed-8296-56419c37d039" eId="meta-n1_ident-n1_frbrexpression-n1">
+            <akn:FRBRExpression GUID="6e1c6533-03b6-44ed-8296-56419c37d039"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/rechtsetzungsdokument-1"
                              GUID="7553b818-6587-435d-88ec-2748adaebdea"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
@@ -93,7 +95,8 @@
          </akn:identification>
       </akn:meta>
       <akn:collectionBody GUID="ac416845-6b0c-4eb4-8bb5-9c084c96d9df" eId="rdokhauptteil-n1">
-         <akn:component GUID="6ef2d9c7-11a2-463f-88b0-970b27e37eb5" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="6ef2d9c7-11a2-463f-88b0-970b27e37eb5"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="35aa8e78-eaf6-4687-b119-3c8050fdaffb"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
