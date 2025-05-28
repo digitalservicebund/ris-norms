@@ -11,7 +11,7 @@ import net.ltgt.gradle.errorprone.errorprone
 buildscript { repositories { mavenCentral() } }
 
 plugins {
-    id("net.ltgt.errorprone") version "4.2.0"
+    alias(libs.plugins.errorprone)
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     id("java")
