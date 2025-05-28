@@ -143,10 +143,10 @@
                               href="#art-z%c2%a77_abs-z_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="46928a7e-8665-41bd-923c-9617211239d5"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
-                                   href="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1/hauptteil-1_art-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1.xml"
+                                   href="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1.xml"
                                    GUID="1e15b64a-c408-4146-936f-faaf4d5fb36e"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n2"
-                                   href="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_inhalt-1_text-1.xml"
+                                   href="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_inhalt-1_text-1.xml"
                                    GUID="cc8f0bd3-9c76-4542-b53f-b9da420faa16"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2"
                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"
@@ -351,9 +351,9 @@
                      <akn:mod refersTo="aenderungsbefehl-ersetzen"
                               eId="art-z%c2%a77_abs-z_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="92790492-5ffa-4e42-9740-867322778cac"> In
-                           <akn:ref href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_art-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1"
+                           <akn:ref href="eli/bund/bgbl-1/2000/s717/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1"
                                  GUID="cdb61a75-8b6a-4981-92da-2cd1017a2323"
-                                 eId="art-z%c2%a77_abs-z_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 82a Absatz 1 Satz 1</akn:ref> und <akn:ref href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_art-2_abs-1_inhalt-1_text-1"
+                                 eId="art-z%c2%a77_abs-z_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 82a Absatz 1 Satz 1</akn:ref> und <akn:ref href="eli/bund/bgbl-1/2000/s717/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_inhalt-1_text-1"
                                  GUID="1be4eca0-6f20-4264-a410-ec0c81335fef"
                                  eId="art-z%c2%a77_abs-z_inhalt-n1_text-n1_ändbefehl-n1_ref-n2">§ 82g Satz 1</akn:ref> der
                            <akn:affectedDocument href=""

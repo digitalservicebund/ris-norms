@@ -31,7 +31,7 @@ describe("zeitgrenzenService", () => {
 
       const { data, isFinished } = useGeltungszeitenHtml(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
 
@@ -40,7 +40,7 @@ describe("zeitgrenzenService", () => {
       expect(data.value).toBe("<div></div>")
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
         expect.objectContaining({
           headers: expect.objectContaining({ Accept: "text/html" }),
         }),
@@ -59,7 +59,7 @@ describe("zeitgrenzenService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const { data, isFinished } = useGeltungszeitenHtml(eli)
@@ -67,7 +67,7 @@ describe("zeitgrenzenService", () => {
       expect(data.value).toBe("<div>1</div>")
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1",
       )
       await nextTick()
       await vi.waitUntil(() => isFinished.value)
@@ -75,12 +75,12 @@ describe("zeitgrenzenService", () => {
       expect(data.value).toBe("<div>2</div>")
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
         expect.anything(),
       )
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+        "/api/v1/norms/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
         expect.anything(),
       )
     })
@@ -103,7 +103,7 @@ describe("zeitgrenzenService", () => {
 
       const { isFinished, data } = useGetZeitgrenzen(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
 
@@ -112,7 +112,7 @@ describe("zeitgrenzenService", () => {
       expect(data.value).toEqual(response)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
         expect.anything(),
       )
     })
@@ -147,7 +147,7 @@ describe("zeitgrenzenService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
 
@@ -155,18 +155,18 @@ describe("zeitgrenzenService", () => {
       await vi.waitUntil(() => isFinished.value)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
         expect.anything(),
       )
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-verkuendung-1",
       )
       await nextTick()
       await flushPromises()
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
         expect.anything(),
       )
     })
@@ -184,7 +184,7 @@ describe("zeitgrenzenService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const payload = ref<Zeitgrenze[]>([
@@ -197,7 +197,7 @@ describe("zeitgrenzenService", () => {
       await flushPromises()
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
         expect.objectContaining({
           body: JSON.stringify(payload.value),
           headers: {
@@ -220,7 +220,7 @@ describe("zeitgrenzenService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const payload = ref(null)
@@ -230,7 +230,7 @@ describe("zeitgrenzenService", () => {
       await flushPromises()
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
         expect.objectContaining({
           body: JSON.stringify([]),
           headers: {
@@ -253,7 +253,7 @@ describe("zeitgrenzenService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const payload = ref<Zeitgrenze[]>([
@@ -279,7 +279,7 @@ describe("zeitgrenzenService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const payload = ref([])
@@ -289,7 +289,7 @@ describe("zeitgrenzenService", () => {
       expect(fetchSpy).not.toHaveBeenCalled()
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-verkuendung-1",
       )
 
       await flushPromises()

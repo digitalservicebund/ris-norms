@@ -2,7 +2,7 @@ import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
 
 test.describe("redirect and show page content", () => {
-  test("redirect to Verkuendungen list and test content for eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1", async ({
+  test("redirect to Verkuendungen list and test content for eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1", async ({
     page,
   }) => {
     await page.goto("./")
@@ -14,7 +14,7 @@ test.describe("redirect and show page content", () => {
     await expect(link.getByText("15.03.2017")).toBeVisible()
   })
 
-  test("redirect to Verkuendungen list and test content for eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1", async ({
+  test("redirect to Verkuendungen list and test content for eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1", async ({
     page,
   }) => {
     await page.goto("./")

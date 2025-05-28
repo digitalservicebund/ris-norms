@@ -249,7 +249,7 @@ class NormTest {
 
       // When
       var loadedRegelungstext = norm.getRegelungstextByEli(
-        DokumentWorkEli.fromString("eli/bund/bgbl-1/2022/23/regelungstext-3")
+        DokumentWorkEli.fromString("eli/bund/bgbl-1/2022/23/regelungstext-verkuendung-3")
       );
 
       // Then

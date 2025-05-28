@@ -143,7 +143,7 @@
                               href="#art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="46928a7e-8665-41bd-923c-9617211239d5"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
-                                   href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-15_abs-2/221-998.xml"
+                                   href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2/221-998.xml"
                                    GUID="1e15b64a-c408-4146-936f-faaf4d5fb36e"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2"
                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"
@@ -419,7 +419,7 @@
                              eId="art-z%c2%a711_abs-z_untergl-n1_intro-n1">
                      <akn:p GUID="05fa855b-e83f-4ac1-8d35-7d24173083a2"
                             eId="art-z%c2%a711_abs-z_untergl-n1_intro-n1_text-n1">
-                            Das <akn:affectedDocument href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1"
+                            Das <akn:affectedDocument href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1"
                                               GUID="a198b868-0ede-4b0d-a759-eb5a829aae81"
                                               eId="art-z%c2%a711_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1"> vom 7. Dezember 2006 (BGBl. I S. 2782, 2791), das zuletzt durch Artikel 34 Absatz 8 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:
                         </akn:p>
@@ -434,7 +434,7 @@
                                    eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
                            <akn:p GUID="c7966d1f-9aa1-4fe3-9bea-331d0cae07db"
                                   eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">
-                              <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-15_abs-2.xml"
+                              <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2.xml"
                                        GUID="0d8cdcbb-29fc-4e94-a697-57422f664f95"
                                        eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1_ref-n1">§ 15 Absatz 2 wird wie folgt geändert:</akn:ref>
                            </akn:p>
@@ -450,7 +450,7 @@
                                  <akn:mod GUID="fc56ab94-6f00-435a-8b02-69dcd180828f"
                                           eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                                           refersTo="aenderungsbefehl-einfuegen">
-                                            In <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-15_abs-2/302-443.xml"
+                                            In <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2/302-443.xml"
                                              GUID="6ab6c29c-88ba-415a-ae13-4e05acba1d5a"
                                              eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"> Satz 2</akn:ref>  werden nach dem Wort <akn:quotedText eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1"
                                                     GUID="25234249-339a-49ad-911c-2b1783917dc8"
@@ -474,7 +474,7 @@
                                  <akn:mod GUID="45352185-9cda-4cef-867b-2df508ace8a4"
                                           eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                                           refersTo="aenderungsbefehl-ersetzen">
-                                    <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-15_abs-2/221-998.xml"
+                                    <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2/221-998.xml"
                                              GUID="79ea3bd6-a074-4903-bf87-6caa1d205330"
                                              eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"> Sätze 3 und 4</akn:ref> werden durch die folgenden Sätze ersetzt:
                                             Die Sätze <akn:quotedText eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1"

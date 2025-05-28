@@ -842,13 +842,13 @@ components:
     DokumentExpressionEli:
       type: string
       format: DokumentExpressionEli
-      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1
+      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1
       description: ELI identifying a specific Dokument of a specific expression of a norm
 
     DokumentManifestationEli:
       type: string
       format: DokumentManifestationEli
-      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2024-02-01/regelungstext-1.xml
+      example: eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2024-02-01/regelungstext-verkuendung-1.xml
       description: ELI identifying a specific Dokument of a specific manifestation of a norm
 
     NormExpressionEli:

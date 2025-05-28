@@ -124,7 +124,7 @@
                               href="#art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
                                    GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                                   href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/art-6_abs-3/100-126.xml"/>
+                                   href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/art-6_abs-3/100-126.xml"/>
                   <!-- To check-->
                   <akn:force eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"
                              GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
@@ -219,7 +219,7 @@
                      <akn:p eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1"
                             GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5">Das <akn:affectedDocument eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1"
                                               GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                              href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1">
+                                              href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1">
                                 Bundesverfassungsschutzgesetz vom 20. Dezember 1990
                                 (BGBl. I S. 2954, 2970), das zuletzt durch
                                 Artikel 1 des Gesetzes vom 19. Dezember 2022 (BGBl. I S. 2632) geändert worden
@@ -243,7 +243,7 @@
                                     refersTo="aenderungsbefehl-ersetzen">In
                                         <akn:ref eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"
                                        GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-                                       href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">
+                                       href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-3_text-1/100-126.xml">
                                             §
                                             6 Absatz 3 Satz 5
                                         </akn:ref>

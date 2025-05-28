@@ -36,7 +36,7 @@ describe("useNormService", () => {
 
     const result = useNormService(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     expect(result.data.value).toBeTruthy()
@@ -66,7 +66,7 @@ describe("useNormService", () => {
 
     const eli = ref<DokumentExpressionEli | undefined>(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     useNormService(eli, undefined, { immediate: true, refetch: true })
@@ -86,14 +86,14 @@ describe("useNormService", () => {
 
     const eli = ref(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     useNormService(eli, undefined, { immediate: true, refetch: true })
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
     eli.value = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
     )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
@@ -107,14 +107,14 @@ describe("useNormService", () => {
 
     const eli = ref(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     useNormService(eli, { showMetadata: true })
 
     await vi.waitFor(() =>
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?showMetadata=true",
+        "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?showMetadata=true",
         expect.any(Object),
       ),
     )
@@ -129,14 +129,14 @@ describe("useNormService", () => {
 
     const eli = ref(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     useNormService(eli, { showMetadata: false })
 
     await vi.waitFor(() =>
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?",
+        "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?",
         expect.any(Object),
       ),
     )
@@ -157,13 +157,13 @@ describe("useNormService", () => {
 
       useGetNorm(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?",
           expect.objectContaining({
             headers: {
               Accept: "application/json",
@@ -183,14 +183,14 @@ describe("useNormService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
       useGetNorm(eli)
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?",
           expect.objectContaining({
             headers: {
               Accept: "application/json",
@@ -201,11 +201,11 @@ describe("useNormService", () => {
       })
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1?",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1?",
           expect.any(Object),
         )
       })
@@ -227,7 +227,7 @@ describe("useNormService", () => {
 
       useGetNormHtml(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
         {
           showMetadata: true,
@@ -236,7 +236,7 @@ describe("useNormService", () => {
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?showMetadata=true",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?showMetadata=true",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "text/html",
@@ -255,7 +255,7 @@ describe("useNormService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
       useGetNormHtml(eli, {
@@ -264,7 +264,7 @@ describe("useNormService", () => {
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?showMetadata=true",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?showMetadata=true",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "text/html",
@@ -274,11 +274,11 @@ describe("useNormService", () => {
       })
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1?showMetadata=true",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1?showMetadata=true",
           expect.any(Object),
         )
       })
@@ -300,13 +300,13 @@ describe("useNormService", () => {
 
       useGetNormXml(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/xml",
@@ -325,14 +325,14 @@ describe("useNormService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
       useGetNormXml(eli)
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/xml",
@@ -342,11 +342,11 @@ describe("useNormService", () => {
       )
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1?",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1?",
           expect.any(Object),
         )
       })
@@ -370,7 +370,7 @@ describe("useNormService", () => {
       const { execute } = usePutNormXml(
         xml,
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
 
@@ -382,7 +382,7 @@ describe("useNormService", () => {
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1?",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1?",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/xml",

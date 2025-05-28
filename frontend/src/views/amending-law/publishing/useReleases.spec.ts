@@ -14,8 +14,8 @@ describe("useReleases", () => {
     const mockReleaseStatus = {
       releaseAt: "2024-03-25T10:37:29.658954Z",
       norms: [
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2024-01-01/regelungstext-1.xml",
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/2024-01-01/regelungstext-1.xml",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/2024-01-01/regelungstext-verkuendung-1.xml",
+        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/2024-01-01/regelungstext-verkuendung-1.xml",
       ],
     }
     const dataRef = ref<Release[]>([])
@@ -34,7 +34,7 @@ describe("useReleases", () => {
 
     const eli = ref(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
     )
     const { data } = useReleases(eli)
@@ -48,7 +48,7 @@ describe("useReleases", () => {
     const newRelease = {
       releaseAt: "2024-03-25T11:00:00.000Z",
       norms: [
-        "eli/bund/bgbl-1/1991/s2955/2023-12-30/1/deu/2024-01-01/regelungstext-2.xml",
+        "eli/bund/bgbl-1/1991/s2955/2023-12-30/1/deu/2024-01-01/regelungstext-verkuendung-2.xml",
       ],
     }
 
@@ -74,7 +74,7 @@ describe("useReleases", () => {
 
     const eli = ref(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
     )
     const {

@@ -77,7 +77,7 @@
                                type="substitution">
                   <akn:source GUID="5384f580-110b-4f8a-8794-8b85c29aabdf"
                               eId="meta-n1_analysis-n1_pasmod-n1_textualmod-n1_source-n1"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination GUID="2c26512f-fb04-45f2-8283-660274e52fdb"
                                    eId="meta-n1_analysis-n1_pasmod-n1_textualmod-n1_destination-n1"
                                    href="#art-9_abs-3"/>
@@ -90,7 +90,7 @@
                                type="substitution">
                   <akn:source GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"
                               eId="meta-n1_analysis-n1_pasmod-n1_textualmod-n2_source-n1"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
                                    eId="meta-n1_analysis-n1_pasmod-n1_textualmod-n2_destination-n1"
                                    href="#art-20_abs-1/100-126"/>

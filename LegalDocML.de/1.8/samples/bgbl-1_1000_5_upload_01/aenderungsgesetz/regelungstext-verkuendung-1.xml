@@ -121,7 +121,7 @@
                   <akn:source href="#art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="c6429774-4a17-40b3-8786-ff23bd481a47"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
+                  <akn:destination href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
                                    GUID="34ef237b-0ae2-43a2-88a9-86ca023c7d1f"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -194,7 +194,7 @@
                   <akn:intro GUID="fb4d6a1f-2f05-46e4-bb4d-ed9d406f6d31"
                              eId="art-z_abs-z_untergl-n1_intro-n1">
                      <akn:p GUID="a975426c-eb0d-4b23-907c-6924243a5539"
-                            eId="art-z_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1"
+                            eId="art-z_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1"
                                               GUID="85a5da0c-c937-43f7-a77f-d7c220fca5e0"
                                               eId="art-z_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Beispielgesetz</akn:affectedDocument> wird wie folgt geändert:</akn:p>
                   </akn:intro>
@@ -208,7 +208,7 @@
                                eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="b77a910a-b4fa-4adc-bf75-c37cfccabd3a"
-                                    eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
+                                    eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
                                        GUID="2312e3fa-8e2b-4945-9b01-f8a3209d88a6"
                                        eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 1 Absatz 1 Satz 1</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"

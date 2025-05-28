@@ -357,49 +357,49 @@
          <akn:attachment GUID="5362c36c-7894-4700-ad88-629af141e3df" eId="anlagen-n1_anlage-n1">
             <akn:documentRef GUID="9fa19e66-d778-4634-896d-90251ba94280"
                              eId="anlagen-n1_anlage-n1_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-1.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
          <akn:attachment GUID="a15f6c16-3ce9-4c92-91e6-d024be07596a" eId="anlagen-n1_anlage-n2">
             <akn:documentRef GUID="7818373d-2ff3-416d-b956-8d1554dcae81"
                              eId="anlagen-n1_anlage-n2_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-2.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-2.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
          <akn:attachment GUID="09bc36e1-bbd7-48a3-a4d7-531aa8bbe91c" eId="anlagen-n1_anlage-n3">
             <akn:documentRef GUID="0b0bbc4d-40a4-40f4-aea7-76a71385e488"
                              eId="anlagen-n1_anlage-n3_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-3.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-3.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
          <akn:attachment GUID="edb20bff-f118-4a0f-a841-0449bc37ffbc" eId="anlagen-n1_anlage-n4">
             <akn:documentRef GUID="4f5d5d7f-23bf-4a8b-8c24-9ae4553fed98"
                              eId="anlagen-n1_anlage-n4_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-4.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-4.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
          <akn:attachment GUID="7bae9a6e-573e-49a0-b9a9-15ca4198022b" eId="anlagen-n1_anlage-n5">
             <akn:documentRef GUID="edcb51c9-3ff2-4031-8cad-41040a8b42e6"
                              eId="anlagen-n1_anlage-n5_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-5.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-5.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
          <akn:attachment GUID="8c2fcdc6-c13a-4aff-b80a-383e04df790e" eId="anlagen-n1_anlage-n6">
             <akn:documentRef GUID="7385771b-d85d-4a5f-8112-17957d5e7b04"
                              eId="anlagen-n1_anlage-n6_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-6.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-6.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
          <akn:attachment GUID="e0fc84cf-65a7-4fcf-b745-d2386c6a2ac0" eId="anlagen-n1_anlage-n7">
             <akn:documentRef GUID="1c65b650-de68-47f6-9f50-e5d3c2017847"
                              eId="anlagen-n1_anlage-n7_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-7.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-7.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
          <akn:attachment GUID="39b1b18c-f532-4374-9ad2-40544f0c0550" eId="anlagen-n1_anlage-n8">
             <akn:documentRef GUID="bf314ae9-83f2-4d7a-bb18-713c9c20103b"
                              eId="anlagen-n1_anlage-n8_verweis-n1"
-                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/offenestruktur-8.xml"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-8.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
          </akn:attachment>
       </akn:attachments>

@@ -139,7 +139,7 @@
                               href="#art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
                                    GUID="83a4e169-ec57-4981-b191-84afe42130c8"
-                                   href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"/>
+                                   href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"/>
                   <akn:force eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"
                              GUID="9180eb9f-9da2-4fa4-b57f-803d4ddcdbc9"
                              period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
@@ -239,7 +239,7 @@
                      <akn:p eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1"
                             GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"> Das <akn:affectedDocument eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1"
                                               GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                              href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
+                                              href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
                   </akn:intro>
                   <!-- Nummer 1 wurde entfernt -->
                   <!-- Nummer 2 -->
@@ -256,7 +256,7 @@
                                     GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"
                                        GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-                                       href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird die Angabe <akn:quotedText eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1"
+                                       href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird die Angabe <akn:quotedText eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1"
                                               GUID="694459c4-ef66-4f87-bb78-a332054a2216"
                                               startQuote="„"
                                               endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die Wörter <akn:quotedText eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2"
