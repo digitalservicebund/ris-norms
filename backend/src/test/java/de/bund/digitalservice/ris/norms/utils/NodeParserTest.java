@@ -259,7 +259,9 @@ class NodeParserTest {
     );
     Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
-    assertThat(result).contains("regelungstext");
+    assertThat(result).contains(
+      "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
+    );
   }
 
   @ParameterizedTest
@@ -273,7 +275,9 @@ class NodeParserTest {
     );
     Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
-    assertThat(result).contains("regelungstext");
+    assertThat(result).contains(
+      "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
+    );
   }
 
   @Test
