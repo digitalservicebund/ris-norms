@@ -13,7 +13,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-         <norms:amended-norm-expressions  xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+         <norms:amended-norm-expressions  xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
               <norms:norm-expression>eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
               <norms:norm-expression>eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>
               <norms:norm-expression>eli/bund/bgbl-1/2023/413/2024-02-12/1/deu</norms:norm-expression>
@@ -38,7 +38,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-         <norms:amended-norm-expressions  xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+         <norms:amended-norm-expressions  xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
               <norms:norm-expression>eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
               <norms:norm-expression>eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>
          </norms:amended-norm-expressions>
@@ -65,7 +65,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-         <norms:amended-norm-expressions  xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+         <norms:amended-norm-expressions  xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
               <norms:norm-expression>eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
               <norms:norm-expression>eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>
          </norms:amended-norm-expressions>

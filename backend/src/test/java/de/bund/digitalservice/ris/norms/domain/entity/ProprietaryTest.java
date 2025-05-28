@@ -1080,7 +1080,7 @@ class ProprietaryTest {
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-              <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+              <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
                 <norms:geltungszeiten>
                   <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
                 </norms:geltungszeiten>
