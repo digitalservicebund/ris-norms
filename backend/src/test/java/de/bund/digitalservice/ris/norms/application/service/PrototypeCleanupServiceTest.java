@@ -144,7 +144,7 @@ class PrototypeCleanupServiceTest {
     final Norm norm = Fixtures.loadNormFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
-    norm.getRegelungstext1().deleteByEId("meta-1_editfnote-1");
+    norm.getRegelungstext1().deleteByEId("meta-n1_editfnote-n1");
 
     prototypeCleanupService.clean(norm);
     List<Node> notes = NodeParser.nodeListToList(

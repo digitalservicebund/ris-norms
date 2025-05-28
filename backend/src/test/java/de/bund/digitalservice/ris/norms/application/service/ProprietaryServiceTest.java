@@ -193,7 +193,7 @@ class ProprietaryServiceTest {
     @Test
     void throwsDokumentNotFoundExceptionIfNormNotFound() {
       // given
-      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
+      var eid = new EId("hauptteil-n1_abschnitt-n0_art-n1");
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
@@ -213,7 +213,7 @@ class ProprietaryServiceTest {
     @Test
     void returnsUpdatedProprietaryNode() {
       // given
-      var eid = new EId("hauptteil-1_art-1");
+      var eid = new EId("art-z20");
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );

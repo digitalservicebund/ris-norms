@@ -50,7 +50,7 @@ class ZielnormReferencesControllerTest {
               <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
                  <norms:typ>Änderungsvorschrift</norms:typ>
                  <norms:geltungszeit>gz-1</norms:geltungszeit>
-                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                 <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
                  <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
               </norms:zielnorm-reference>
               """
@@ -69,9 +69,7 @@ class ZielnormReferencesControllerTest {
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-1")))
-        .andExpect(
-          jsonPath("$[0].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
-        )
+        .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-n1_untergl-n1_listenelem-n1")))
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
 
       verify(loadZielnormReferencesUseCase, times(1)).loadZielnormReferences(
@@ -95,7 +93,7 @@ class ZielnormReferencesControllerTest {
               <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
                  <norms:typ>Änderungsvorschrift</norms:typ>
                  <norms:geltungszeit>gz-1</norms:geltungszeit>
-                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                 <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
                  <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
               </norms:zielnorm-reference>
               """
@@ -111,7 +109,7 @@ class ZielnormReferencesControllerTest {
               """
               [
                 {
-                  "eId": "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+                  "eId": "art-z1_abs-n1_untergl-n1_listenelem-n1",
                   "zielnorm": "eli/bund/bgbl-1/2021/123",
                   "geltungszeit": "gz-1",
                   "typ": "Änderungsvorschrift"
@@ -126,9 +124,7 @@ class ZielnormReferencesControllerTest {
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-1")))
-        .andExpect(
-          jsonPath("$[0].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
-        )
+        .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-n1_untergl-n1_listenelem-n1")))
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
 
       verify(updateZielnormReferencesUseCase, times(1)).updateZielnormReferences(
@@ -140,7 +136,7 @@ class ZielnormReferencesControllerTest {
             "eli/bund/bgbl-1/2021/123"
           );
           assertThat(arg.zielnormReferences().getFirst().eId()).hasToString(
-            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+            "art-z1_abs-n1_untergl-n1_listenelem-n1"
           );
           assertThat(arg.zielnormReferences().getFirst().typ()).isEqualTo("Änderungsvorschrift");
           assertThat(arg.zielnormReferences().getFirst().geltungszeit()).hasToString("gz-1");
@@ -162,7 +158,7 @@ class ZielnormReferencesControllerTest {
               <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
                  <norms:typ>Änderungsvorschrift</norms:typ>
                  <norms:geltungszeit>gz-1</norms:geltungszeit>
-                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-3</norms:eid>
+                 <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n3</norms:eid>
                  <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
               </norms:zielnorm-reference>
               """
@@ -177,8 +173,8 @@ class ZielnormReferencesControllerTest {
             .content(
               """
               [
-                "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
-                "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+                "art-z1_abs-n1_untergl-n1_listenelem-n1",
+                "art-z1_abs-n1_untergl-n1_listenelem-n2"
               ]
               """
             )
@@ -189,9 +185,7 @@ class ZielnormReferencesControllerTest {
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-1")))
-        .andExpect(
-          jsonPath("$[0].eId").value(equalTo("hauptteil-1_art-1_abs-1_untergl-1_listenelem-3"))
-        )
+        .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-n1_untergl-n1_listenelem-n3")))
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
 
       verify(deleteZielnormReferencesUseCase, times(1)).deleteZielnormReferences(
@@ -200,10 +194,10 @@ class ZielnormReferencesControllerTest {
 
           assertThat(arg.zielnormReferenceEIds()).hasSize(2);
           assertThat(arg.zielnormReferenceEIds().getFirst()).hasToString(
-            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+            "art-z1_abs-n1_untergl-n1_listenelem-n1"
           );
           assertThat(arg.zielnormReferenceEIds().get(1)).hasToString(
-            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+            "art-z1_abs-n1_untergl-n1_listenelem-n2"
           );
         })
       );

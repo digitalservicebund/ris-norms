@@ -49,7 +49,7 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(
           xpath(
-            "//*[@data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1']"
+            "//*[@data-eId='art-z20_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1']"
           ).string(containsString("§ 9 Abs. 1 Satz 2, Abs. 2"))
         );
     }
