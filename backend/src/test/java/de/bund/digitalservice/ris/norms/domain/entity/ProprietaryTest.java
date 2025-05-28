@@ -34,7 +34,7 @@ class ProprietaryTest {
               <meta:fassung>verkuendungsfassung</meta:fassung>
               <meta:art>rechtsetzungsdokument</meta:art>
             </meta:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -78,7 +78,7 @@ class ProprietaryTest {
                 source="attributsemantik-noch-undefiniert">
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                 </meta:legalDocML.de_metadaten>
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                  </ris:legalDocML.de_metadaten>
               </akn:proprietary>
           """
@@ -140,7 +140,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                   </ris:einzelelement>
@@ -167,7 +167,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                   </ris:einzelelement>
                </ris:legalDocML.de_metadaten>
@@ -192,7 +192,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                </ris:legalDocML.de_metadaten>
           </akn:proprietary>
           """
@@ -240,7 +240,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                 <meta:federfuehrung>
                     <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                     <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
@@ -272,7 +272,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                   <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
               </meta:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -291,7 +291,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
               </meta:legalDocML.de_metadaten>
            </akn:proprietary>
           """
@@ -336,7 +336,7 @@ class ProprietaryTest {
               <meta:fassung>verkuendungsfassung</meta:fassung>
               <meta:art>rechtsetzungsdokument</meta:art>
             </meta:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -423,7 +423,7 @@ class ProprietaryTest {
             source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
             </meta:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
              </ris:legalDocML.de_metadaten>
           </akn:proprietary>
           """
@@ -574,7 +574,7 @@ class ProprietaryTest {
               <meta:fassung>verkuendungsfassung</meta:fassung>
               <meta:art>rechtsetzungsdokument</meta:art>
             </meta:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -649,7 +649,7 @@ class ProprietaryTest {
               <meta:fassung>verkuendungsfassung</meta:fassung>
               <meta:art>rechtsetzungsdokument</meta:art>
             </meta:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -722,7 +722,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -751,7 +751,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
                    </ris:einzelelement>
               </ris:legalDocML.de_metadaten>
@@ -773,7 +773,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               </ris:legalDocML.de_metadaten>
           """
         )
@@ -820,7 +820,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -848,7 +848,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -876,7 +876,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -910,7 +910,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                       <ris:typ>Typ</ris:typ>
@@ -949,7 +949,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                 <meta:federfuehrung>
                     <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                     <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
@@ -987,7 +987,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                 <meta:federfuehrung>
                     <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                     <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
@@ -1037,7 +1037,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                <ris:inkraft date="1985-12-25" />
              </ris:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -1056,7 +1056,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                <ris:ausserkraft date="1985-12-31" />
              </ris:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -1079,7 +1079,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
                 <norms:geltungszeiten>
                   <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
@@ -1110,7 +1110,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
 
             </ris:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -1155,7 +1155,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/"/>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/"/>
            </akn:proprietary>
           """
         )
@@ -1174,7 +1174,7 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                 <ris:inkraft>2020-01-01</ris:inkraft>
             </ris:legalDocML.de_metadaten>
            </akn:proprietary>
