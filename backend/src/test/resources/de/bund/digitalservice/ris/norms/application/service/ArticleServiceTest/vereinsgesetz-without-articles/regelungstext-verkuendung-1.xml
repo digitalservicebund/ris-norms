@@ -167,7 +167,7 @@
                <ris:ausserkraft date="2030-01-01"/>
                <ris:standangabe type="stand">zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351</ris:standangabe>
                <ris:vollzitat>Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)</ris:vollzitat>
-               <ris:einzelelement href="#hauptteil-1_art-1">
+               <ris:einzelelement href="#art-z1">
                   <ris:artDerNorm>SN</ris:artDerNorm>
                </ris:einzelelement>
             </ris:legalDocML.de_metadaten>

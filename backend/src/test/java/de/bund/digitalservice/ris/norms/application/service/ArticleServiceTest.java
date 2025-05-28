@@ -45,7 +45,7 @@ class ArticleServiceTest {
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
-      var eid = new EId("hauptteil-1_art-1");
+      var eid = new EId("art-z1");
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
@@ -64,7 +64,7 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1");
+      var eid = new EId("meta-n1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
@@ -86,7 +86,7 @@ class ArticleServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("eid-1_not-1_in-1_norm-1");
+      var eid = new EId("eid-n1_not-n1_in-n1_norm-n1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
@@ -124,8 +124,8 @@ class ArticleServiceTest {
 
       // Then
       assertThat(articles).hasSize(2);
-      assertThat(articles.get(0).getEid()).hasToString("hauptteil-1_art-1");
-      assertThat(articles.get(1).getEid()).hasToString("hauptteil-1_art-2");
+      assertThat(articles.get(0).getEid()).hasToString("art-z20");
+      assertThat(articles.get(1).getEid()).hasToString("art-z34");
     }
 
     @Test
@@ -191,8 +191,8 @@ class ArticleServiceTest {
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
       assertThat(xmls).isNotEmpty();
-      assertThat(xmls.getFirst()).contains("hauptteil-1_art-1");
-      assertThat(xmls.get(1)).contains("hauptteil-1_art-2");
+      assertThat(xmls.getFirst()).contains("art-z1");
+      assertThat(xmls.get(1)).contains("art-z3");
     }
 
     @Test
@@ -236,7 +236,7 @@ class ArticleServiceTest {
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
       assertThat(xmls).isNotEmpty();
-      assertThat(xmls.getFirst()).contains("hauptteil-1_art-2");
+      assertThat(xmls.getFirst()).contains("art-z3");
     }
 
     @Test

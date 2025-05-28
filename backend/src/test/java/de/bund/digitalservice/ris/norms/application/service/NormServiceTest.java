@@ -174,7 +174,7 @@ class NormServiceTest {
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
-      assertThat(xml).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
+      assertThat(xml).contains("eId=\"meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1\"");
     }
 
     @Test
@@ -371,7 +371,7 @@ class NormServiceTest {
       "eli/bund/bgbl-1/1964/s593"
     );
     assertThat(zielnormReferences.getFirst().getEId()).hasToString(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+      "art-z1_abs-z_untergl-n1_listenelem-n1"
     );
     assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString(
       "5e2f4f78-a0a1-4c55-9ef7-ad2821161915"
@@ -402,13 +402,13 @@ class NormServiceTest {
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
               new Zeitgrenze.Id("gz-2"),
-              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"),
+              new EId("art-z1_abs-z_untergl-n1_listenelem-n1"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2024/12")
             ),
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
               new Zeitgrenze.Id("gz-1"),
-              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
+              new EId("art-z1_abs-z_untergl-n1_listenelem-n2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
           )
@@ -421,13 +421,13 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2024/12"
       );
       assertThat(zielnormReferences.getFirst().getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+        "art-z1_abs-z_untergl-n1_listenelem-n1"
       );
       assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-2");
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+        "art-z1_abs-z_untergl-n1_listenelem-n2"
       );
       assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
@@ -455,7 +455,7 @@ class NormServiceTest {
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
               new Zeitgrenze.Id("07fdc138-1509-4165-9ec7-f26f9d5c8cb8"),
-              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
+              new EId("art-z1_abs-z_untergl-n1_listenelem-n2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
           )
@@ -468,7 +468,7 @@ class NormServiceTest {
         "eli/bund/bgbl-1/1964/s593"
       );
       assertThat(zielnormReferences.getFirst().getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+        "art-z1_abs-z_untergl-n1_listenelem-n1"
       );
       assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString(
         "5e2f4f78-a0a1-4c55-9ef7-ad2821161915"
@@ -476,7 +476,7 @@ class NormServiceTest {
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+        "art-z1_abs-z_untergl-n1_listenelem-n2"
       );
       assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString(
         "07fdc138-1509-4165-9ec7-f26f9d5c8cb8"
@@ -501,7 +501,7 @@ class NormServiceTest {
     var zielnormReferences = service.deleteZielnormReferences(
       new DeleteZielnormReferencesUseCase.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
-        List.of(new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
+        List.of(new EId("art-z1_abs-z_untergl-n1_listenelem-n1"))
       )
     );
 
