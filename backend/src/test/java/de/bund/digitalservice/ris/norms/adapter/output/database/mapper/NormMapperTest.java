@@ -27,7 +27,7 @@ class NormMapperTest {
     );
     var dokumentDto1 = DokumentDto.builder()
       .xml(regelungstext1Xml)
-      .subtype("regelungstext")
+      .subtype("/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung")
       .build();
 
     var regelungstext2Xml = Fixtures.loadTextFromDisk(
@@ -35,7 +35,7 @@ class NormMapperTest {
     );
     var dokumentDto2 = DokumentDto.builder()
       .xml(regelungstext2Xml)
-      .subtype("regelungstext")
+      .subtype("/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung")
       .build();
 
     var offenestrukturXml = Fixtures.loadTextFromDisk(
@@ -43,7 +43,7 @@ class NormMapperTest {
     );
     var offenestrukturDto = DokumentDto.builder()
       .xml(offenestrukturXml)
-      .subtype("offene-struktur")
+      .subtype("/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext")
       .build();
 
     var binaryFileFixture = Fixtures.loadBinaryFileFromDisk(

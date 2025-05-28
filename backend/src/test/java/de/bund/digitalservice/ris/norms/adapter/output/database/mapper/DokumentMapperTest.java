@@ -17,7 +17,10 @@ class DokumentMapperTest {
     var regelungstextXml = Fixtures.loadTextFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
-    var dokumentDto = DokumentDto.builder().xml(regelungstextXml).subtype("regelungstext").build();
+    var dokumentDto = DokumentDto.builder()
+      .xml(regelungstextXml)
+      .subtype("/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung")
+      .build();
 
     // When
     final Dokument dokument = DokumentMapper.mapToDomain(dokumentDto);
